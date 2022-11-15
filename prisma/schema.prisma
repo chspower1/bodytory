@@ -11,3 +11,7 @@ datasource db {
   url                  = env("DATABASE_URL")
   referentialIntegrity = "prisma"
 }
+
+model User {
+  id Int @id
+}
