@@ -63,17 +63,22 @@ model MedicalDepartment {
   hospitalId     Int?
 }
 
+model Area {
+  id        Int        @id
+  area      String
+  areaCode  String
+  hospitals Hospital[]
+}
+
 model Hospital {
   id          Int                 @id
   createAt    DateTime            @default(now())
   updateAt    DateTime            @updatedAt
   password    String              @default("123456")
   name        String
-  area        String
-  areaCode    BigInt
+  area        Area                @relation(fields: [areaId], references: [id])
+  areaId      Int
   departments MedicalDepartment[]
-  x           Float?
-  y           Float?
   user        User?               @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      Int
   phone       String
