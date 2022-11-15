@@ -56,31 +56,21 @@ model Record {
 }
 
 model MedicalDepartment {
-  id             Int       @id
-  department     String
-  departmentCode Int
-  Hospital       Hospital? @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
-  hospitalId     Int?
-}
-
-model Area {
-  id        Int        @id
-  area      String
-  areaCode  String
-  hospitals Hospital[]
+  id         Int        @id
+  department String
+  hospitals  Hospital[]
 }
 
 model Hospital {
-  id          Int                 @id
-  createAt    DateTime            @default(now())
-  updateAt    DateTime            @updatedAt
-  password    String              @default("123456")
-  name        String
-  area        Area                @relation(fields: [areaId], references: [id])
-  areaId      Int
-  departments MedicalDepartment[]
-  user        User?               @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId      Int
-  phone       String
-  address     String
+  id                 Int                 @id
+  createAt           DateTime            @default(now())
+  updateAt           DateTime            @updatedAt
+  password           String              @default("123456")
+  name               String
+  area               String
+  user               User?               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId             Int?
+  phone              String?
+  address            String
+  medicalDepartments MedicalDepartment[]
 }
