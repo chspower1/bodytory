@@ -4,6 +4,7 @@ import areaCode from "../data/hospital/area_code.json";
 import medicalCode from "../data/hospital/진료과목코드_수정02.json";
 import hospitals from "../data/hospital/hospital_수정05.json";
 import hospitals2 from "../data/hospital/hospital_수정06.json";
+import hospitals3 from "../data/hospital/hospital_수정07.json";
 import { PrismaClient } from "@prisma/client";
 const client = new PrismaClient();
 interface Hospital {
@@ -84,24 +85,30 @@ interface AreaCode {
 
 // 병원 데이터 심기
 // async function SeedHospital() {
-//   hospitals.forEach(async hospital => {
-//     await client.hospital.create({
-//       data: {
-//         id: hospital.id,
-//         area: hospital.area,
-//         phone: String(hospital.phone),
-//         address: hospital.address,
-//         name: hospital.name,
-//       },
-//     });
+//   await client.hospital.createMany({
+//     data: hospitals3.map(hospital => ({
+//       id: hospital.id,
+//       area: hospital.area,
+//       phone: hospital.phone,
+//       address: hospital.address,
+//       name: hospital.name,
+//     })),
+//     skipDuplicates: true,
 //   });
 // }
 // SeedHospital();
 
-function ConvertHospitalPhone() {
-  const result = hospitals2.map((hospital: any) => {
-    return { ...hospital, phone: String(hospital.phone) };
-  });
-  fs.writeFileSync("hospital_수정07.json", JSON.stringify(result));
-}
-ConvertHospitalPhone();
+// 전화번호 타입 수정 Number => String
+// function ConvertHospitalPhone() {
+//   const result = hospitals2.map((hospital: any) => {
+//     return { ...hospital, phone: String(hospital.phone) };
+//   });
+//   fs.writeFileSync("hospital_수정07.json", JSON.stringify(result));
+// }
+// ConvertHospitalPhone();
+
+// 병원 데이터 지우기
+// async function Deletehospitals() {
+//   await client.hospital.deleteMany({});
+// }
+// Deletehospitals();
