@@ -12,6 +12,60 @@ datasource db {
   referentialIntegrity = "prisma"
 }
 
+enum Gender {
+  male
+  female
+}
+
 model User {
-  id Int @id
+  id        Int        @id
+  createAt  DateTime   @default(now())
+  updateAt  DateTime   @updatedAt
+  LoginId   String     @unique
+  password  String
+  email     String
+  phone     String?
+  name      String
+  age       Int
+  gender    Gender
+  records   Record[]
+  hospitals Hospital[]
+}
+
+enum Position {
+  head
+  arm
+  leg
+}
+
+enum RecordType {
+  user
+  hospital
+}
+
+model Record {
+  id          Int        @id
+  createAt    DateTime   @default(now())
+  updateAt    DateTime   @updatedAt
+  type        RecordType
+  position    Position
+  disease     String
+  description String
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      Int
+}
+
+model Hospital {
+  id         Int      @id
+  createAt   DateTime @default(now())
+  updateAt   DateTime @updatedAt
+  password   String   @default("123456")
+  name       String
+  area       String
+  department String
+  user       User?    @relation(fields: [userId], references: [id])
+  userId     Int
+  phone      String
+  address    String
+  
 }
