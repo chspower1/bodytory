@@ -5,7 +5,7 @@ import { withApiSession } from "@libs/server/withSession";
 import { LoginForm } from "pages/users/login";
 
 async function handler(req: NextApiRequest, res: NextApiResponse<ResponseType>) {
-  const { email, password }: LoginForm = req.body;
+  const { email, password, autoLogin }: LoginForm = req.body;
   const user = await client.user.findFirst({
     where: {
       email,

@@ -22,15 +22,17 @@ const LoginPage: NextPage = () => {
     formState: { errors },
   } = useForm<HelpForm>();
 
-  const onValid = (loginForm: HelpForm) => {
+  const onValid = (helpForm: HelpForm) => {
     if (loading) return;
-    mutation(loginForm);
+    console.log(helpForm);
+    mutation(helpForm);
     // reset();
   };
   useEffect(() => {
     // console.log(data?.ok);
     if (data?.ok) {
       if (isToken) {
+        console.log("인증번호 인증 완료");
         // router.push("") 비밀번호 수정페이지(=비밀번호 재설정)으로 이동
       }
 

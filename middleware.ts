@@ -9,7 +9,7 @@ export async function middleware(req: NextRequest) {
   });
   if (!session.user && !req.url.includes("users/login") && !req.url.includes("users/help")) {
     return NextResponse.redirect(new URL("users/login", req.url));
-  } else if (session.user && req.url.includes("users/login")) {
+  } else if (session.user && (req.url.includes("users/login") || req.url.includes("users/help"))) {
     return NextResponse.redirect(new URL("/", req.url));
   }
 }

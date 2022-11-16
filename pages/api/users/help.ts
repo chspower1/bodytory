@@ -8,6 +8,7 @@ import { HelpForm } from "pages/users/help";
 
 async function handler(req: NextApiRequest, res: NextApiResponse<ResponseType>) {
   const { email, token }: HelpForm = req.body;
+  const { user } = req.session;
   console.log(email, token);
   if (email && !token) {
     const user = await client.user.findFirst({
@@ -43,25 +44,18 @@ async function handler(req: NextApiRequest, res: NextApiResponse<ResponseType>) 
           },
         },
       });
-      console.log(result);
+      console.log(result, payload);
       return res.json({
         ok: true,
       });
     } else return res.json({ ok: false });
   }
   if (email && token) {
-    const user = await client.user.findFirst({
-      where: {
-        email,
-        Certification: {
-          every: {
-            number: token,
-          },
-        },
-      },
+    const FindToken = await client.certification.deleteMany({
+      where: { number: token },
     });
-    console.log(user);
-    if (user) {
+    console.log(FindToken);
+    if (FindToken.count > 0) {
       return res.json({ ok: true });
     } else return res.json({ ok: false });
   }

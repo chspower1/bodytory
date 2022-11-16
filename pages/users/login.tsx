@@ -9,6 +9,7 @@ import Link from "next/link";
 export interface LoginForm {
   email: string;
   password: string;
+  autoLogin?: boolean;
 }
 
 const LoginPage: NextPage = () => {
@@ -22,12 +23,17 @@ const LoginPage: NextPage = () => {
 
   const onValid = (loginForm: LoginForm) => {
     if (loading) return;
-    console.log("로그인");
+    console.log(loginForm);
     mutation(loginForm);
   };
+
   useEffect(() => {
     console.log(data?.ok);
-    if (data?.ok) router.push("/");
+    if (data?.ok) {
+      router.push("/");
+    } else if (data?.ok === false) {
+      alert("회원정보를 확인해주세요");
+    }
   }, [data, router]);
   return (
     <div>
@@ -55,6 +61,13 @@ const LoginPage: NextPage = () => {
           placeholder="비밀번호를 입력해주세요."
           errorMessage={errors.password?.message}
         />
+        {/* <Input
+          name="autoLogin"
+          label="자동로그인"
+          type="checkbox"
+          register={register("autoLogin")}
+          errorMessage={errors.password?.message}
+        /> */}
         <button>로그인</button>
       </form>
       <Link href="/users/help">
