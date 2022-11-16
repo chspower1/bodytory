@@ -8,7 +8,7 @@ import client from "@libs/server/client";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { email, password, newPassword } = req.body;
-  console.log(email)
+  console.log(email);
   const { user } = req.session;
   if (req.method === "PUT") {
     const findUserPW = await client.user.findFirst({

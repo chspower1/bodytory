@@ -14,6 +14,7 @@ interface PWType {
 export default function Edit() {
   const router = useRouter();
   const { user } = useUser();
+  console.log(user);
   const changePwMutate = useMutation(["changePasswordKey"], changePasswordApi, {
     onError(error, variables, context) {
       setError("oldPW", { message: `${error}` });
