@@ -33,6 +33,7 @@ const LoginPage: NextPage = () => {
       if (isToken) {
         // router.push("") 비밀번호 수정페이지(=비밀번호 재설정)으로 이동
       }
+
       setIsToken(true);
     }
   }, [data, router]);
