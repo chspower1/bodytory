@@ -33,7 +33,7 @@ export default function change() {
     }else if(oldPW === newPW){
       setError("newPW", {message:"새로운 비밀번호를 입력해주세요"})
     }else{
-      changePwMutate.mutate({email: "12345", password: oldPW, newPassword: newPW})
+      changePwMutate.mutate({password: oldPW, newPassword: newPW})
     }
     
   };

@@ -6,12 +6,13 @@ import { Prisma, PrismaClient } from "@prisma/client";
 import client from "@libs/server/client";
 // const client = new PrismaClient();
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { email, password, newPassword } = req.body;
+async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const { password, newPassword } = req.body;
+  const { user } = req.session;
   if(req.method === "PUT"){
     const findUserPW = await client.user.findUnique({
       where:{
-        email
+        id : user?.id
       }
     });
     console.log(findUserPW?.password);
@@ -19,7 +20,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if(password === findUserPW?.password){
       const data = await client.user.update({
         where:{
-          email
+          id : user?.id
         },
         data:{
           password : newPassword
@@ -31,3 +32,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
   }
 }
+export default withApiSession(
+  withHandler({
+    methods: ["PUT"],
+    handler,
+  })
+);

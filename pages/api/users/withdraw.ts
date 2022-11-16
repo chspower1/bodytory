@@ -6,19 +6,20 @@ import { Prisma, PrismaClient } from "@prisma/client";
 import client from "@libs/server/client";
 // const client = new PrismaClient();
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { email, password } = req.body;
+async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const {  password } = req.body;
+  const { user } = req.session;
   if(req.method === "DELETE"){
     const findUserPW = await client.user.findUnique({
       where:{
-        email
+        id : user?.id
       }
     });
     // const hashedPassword = await bcrypt.compare(password , findUserPW?.password);
     if(password === findUserPW?.password){
       const data = await client.user.delete({
         where:{
-          email
+          id : user?.id
         }
       });
       return res.json({ok:true})
@@ -27,3 +28,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
   }
 }
+export default withApiSession(
+  withHandler({
+    methods: ["PUT"],
+    handler,
+  })
+);

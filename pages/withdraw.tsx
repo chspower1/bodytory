@@ -27,7 +27,7 @@ export default function withdraw() {
     setError,
     formState: { errors } } = useForm<PWType>();
   const onSubmit: SubmitHandler<PWType> = ({password}) => {
-    withdrawMutate.mutate({email: "test@test.com", password: password})
+    withdrawMutate.mutate({password: password})
   };
   return (
     <div>
