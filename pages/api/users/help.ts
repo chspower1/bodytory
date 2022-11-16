@@ -3,6 +3,7 @@ import client from "@libs/server/client";
 import withHandler, { ResponseType } from "@libs/server/withHandler";
 import { withApiSession } from "@libs/server/withSession";
 import { LoginForm } from "pages/users/login";
+import smtpTransport from "@libs/server/email";
 
 async function handler(req: NextApiRequest, res: NextApiResponse<ResponseType>) {
   const { email }: LoginForm = req.body;
@@ -11,12 +12,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse<ResponseType>) 
       email,
     },
   });
+  const payload = Math.floor(10000 + Math.random() * 1000000) + "";
   if (user) {
-    const payload = Math.floor(10000 + Math.random() * 1000000) + "";
     const mailOptions = {
       from: process.env.MAIL_ID,
       to: email,
-      subject: "핼린이 ㅎㅇ",
+      subject: "비밀번호 찾기",
       text: `인증코드 : ${payload}`,
     };
     const result = await smtpTransport.sendMail(mailOptions, (error, responses) => {
@@ -30,8 +31,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse<ResponseType>) 
     });
     smtpTransport.close();
     console.log(result);
-  }
-    return res.json({ ok: true });
+    return res.json({
+      ok: true,
+    });
   } else return res.json({ ok: false });
 }
 

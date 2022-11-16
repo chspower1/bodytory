@@ -12,7 +12,7 @@ export interface HelpForm {
 
 const LoginPage: NextPage = () => {
   const router = useRouter();
-  const [mutation, { data, loading, error }] = useMutation<ResponseType>("/api/help");
+  const [mutation, { data, loading, error }] = useMutation<ResponseType>("/api/users/help");
   const {
     register,
     handleSubmit,
