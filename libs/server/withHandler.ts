@@ -14,11 +14,9 @@ interface Config {
 }
 export default function withHandler({ methods, handler, isPrivate = true }: Config) {
   return async function (req: NextApiRequest, res: NextApiResponse) {
-    // method가 일치하는지
     if (req.method && !methods.includes(req.method as Method)) {
       return res.status(405).end();
     }
-    // 로그인했는지
     if (isPrivate && !req.session?.user) {
       console.log(req.session?.user);
       return res.status(401).json({ ok: false, message: "로그인이 필요합니다!" });
