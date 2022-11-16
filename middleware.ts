@@ -7,9 +7,9 @@ export async function middleware(req: NextRequest) {
     cookieName: "userSession",
     password: process.env.COOKIE_PASSWORD!,
   });
-  if (!session.user && !req.url.includes("/login")) {
-    return NextResponse.redirect(new URL("/login", req.url));
-  } else if (session.user && req.url.includes("/login")) {
+  if (!session.user && !req.url.includes("users/login") && !req.url.includes("users/help")) {
+    return NextResponse.redirect(new URL("users/login", req.url));
+  } else if (session.user && req.url.includes("users/login")) {
     return NextResponse.redirect(new URL("/", req.url));
   }
 }

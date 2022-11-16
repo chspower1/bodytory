@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { ResponseType } from "@libs/server/withHandler";
+import Link from "next/link";
 export interface LoginForm {
   email: string;
   password: string;
@@ -12,7 +13,7 @@ export interface LoginForm {
 
 const LoginPage: NextPage = () => {
   const router = useRouter();
-  const [mutation, { data, loading, error }] = useMutation<ResponseType>("/api/login");
+  const [mutation, { data, loading, error }] = useMutation<ResponseType>("/api/users/login");
   const {
     register,
     handleSubmit,
@@ -56,6 +57,9 @@ const LoginPage: NextPage = () => {
         />
         <button>로그인</button>
       </form>
+      <Link href="/users/help">
+        <button>비밀번호 찾기</button>
+      </Link>
     </div>
   );
 };

@@ -19,6 +19,7 @@
     "eslint-config-next": "13.0.3",
     "iron-session": "^6.3.1",
     "next": "13.0.3",
+    "nodemailer": "^6.8.0",
     "prisma": "^4.6.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
