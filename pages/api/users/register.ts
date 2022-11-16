@@ -1,27 +1,27 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import client from "@libs/server/client";
 import withHandler from "@libs/server/withHandler";
+import { withApiSession } from "@libs/server/withSession";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { password, email, name, age, gender } = req.body;
+  // isCorrectEmail(email);
+  // await isduplicateEmail(email);
 
-  try {
-    // isCorrectEmail(email);
-    // await isduplicateEmail(email);
-    await client.user.create({
-      data: {
-        name,
-        age: Number(age),
-        gender,
-        email,
-        password,
-      },
-    });
-    res.status(200);
-  } catch (error) {
-    res.status(500);
-    console.log(error);
-    throw new Error("회원가입 실패");
+  // 찾은다음 없으면 만들고 있으면 있는 유저 리턴해주는 걸로, 있는 유저면 오류가남
+  const user = await client.user.create({
+    data: {
+      name,
+      age: Number(age),
+      gender: "male",
+      email,
+      password,
+    },
+  });
+  if (user) {
+    return res.status(200).json({ ok: true });
+  } else {
+    return res.status(401).json({ ok: false });
   }
 }
 
@@ -42,4 +42,4 @@ async function isduplicateEmail(email: string) {
   return foundEmail ? true : false;
 }
 
-export default handler;
+export default withApiSession(withHandler({ methods: ["POST"], handler, isPrivate: false }));

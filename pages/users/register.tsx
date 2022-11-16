@@ -20,7 +20,7 @@ function RegisterPage() {
   } = useForm<RegisterForm>();
 
   function post({ email, password, gender, name, age }: RegisterForm) {
-    axios.post("api/register", {
+    axios.post("/api/users/register", {
       email,
       password,
       gender,

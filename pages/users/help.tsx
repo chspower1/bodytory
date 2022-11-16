@@ -37,6 +37,8 @@ const HelpPage: NextPage = () => {
       }
 
       setIsToken(true);
+    } else if (data?.ok === false) {
+      alert("비밀번호 확인해주세요");
     }
   }, [data, router, isToken]);
   return (

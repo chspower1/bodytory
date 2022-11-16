@@ -73,6 +73,9 @@ const LoginPage: NextPage = () => {
       <Link href="/users/help">
         <button>비밀번호 찾기</button>
       </Link>
+      <Link href="/users/register">
+        <button>회원가입</button>
+      </Link>
     </div>
   );
 };

@@ -1,14 +1,17 @@
 import { withdrawApi } from "@libs/client/accountApi";
 import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-
+import axios from "axios";
 interface PWType {
   password: String;
 }
 
 export default function Withdraw() {
+  const router = useRouter();
   const [isModal, setIsModal] = useState(false);
+
   const withdrawMutate = useMutation(["withdrawKey"], withdrawApi, {
     onError(error, variables, context) {
       setError("password", { message: `${error}` });
@@ -16,9 +19,11 @@ export default function Withdraw() {
     onSuccess: data => {
       if (data.ok) {
         setIsModal(true);
+        axios.post("/api/users/logout");
       }
     },
   });
+
   const {
     register,
     handleSubmit,
@@ -27,8 +32,14 @@ export default function Withdraw() {
     setError,
     formState: { errors },
   } = useForm<PWType>();
+
   const onSubmit: SubmitHandler<PWType> = ({ password }) => {
     withdrawMutate.mutate({ password: password });
+  };
+
+  const handleClickConfirm = () => {
+    setIsModal(false);
+    router.replace("/");
   };
   return (
     <div>
@@ -49,7 +60,7 @@ export default function Withdraw() {
         <div>
           <h3>삭제완료!</h3>
           <p>이제 아프지 말고 다신 보지 맙시다~!</p>
-          <button onClick={() => setIsModal(false)}>확인</button>
+          <button onClick={handleClickConfirm}>확인</button>
         </div>
       )}
     </div>

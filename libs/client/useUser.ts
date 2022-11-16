@@ -1,0 +1,18 @@
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  gender: string;
+  age: number;
+  phone: string;
+}
+const useUser = () => {
+  async function D() {
+    return (await axios.get("/api/users/me")) as User;
+  }
+  const { data: user } = useQuery(["user"], D);
+  return { user };
+};
+export default useUser;
