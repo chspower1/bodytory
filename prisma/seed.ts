@@ -113,29 +113,30 @@ interface AreaCode {
 // }
 // Deletehospitals();
 
-async function AddDepartmentToHospital() {
-  const data = hospitals3.slice(4300, 4644);
-  data.forEach((hospital, index) => {
-    const codeArr = [];
-    hospital.departments.forEach(async department => {
-      medicalCode.forEach(async code => {
-        if (code.진료명 === department) {
-          await client.hospital.update({
-            where: {
-              id: hospital.id,
-            },
-            data: {
-              medicalDepartments: {
-                connect: {
-                  id: code.번호,
-                },
-              },
-            },
-          });
-          console.log(4300 + index, " / 4644");
-        }
-      });
-    });
-  });
-}
-AddDepartmentToHospital();
+// 병원 <-> 진료과 맵핑
+// async function AddDepartmentToHospital() {
+//   const data = hospitals3.slice(4300, 4644);
+//   data.forEach((hospital, index) => {
+//     const codeArr = [];
+//     hospital.departments.forEach(async department => {
+//       medicalCode.forEach(async code => {
+//         if (code.진료명 === department) {
+//           await client.hospital.update({
+//             where: {
+//               id: hospital.id,
+//             },
+//             data: {
+//               medicalDepartments: {
+//                 connect: {
+//                   id: code.번호,
+//                 },
+//               },
+//             },
+//           });
+//           console.log(4300 + index, " / 4644");
+//         }
+//       });
+//     });
+//   });
+// }
+// AddDepartmentToHospital();

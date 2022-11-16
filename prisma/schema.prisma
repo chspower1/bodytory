@@ -6,6 +6,11 @@ generator client {
   previewFeatures = ["referentialIntegrity", "filteredRelationCount"]
 }
 
+generator erd {
+  provider = "prisma-erd-generator"
+  output   = "./ERD.png"
+}
+
 datasource db {
   provider             = "mysql"
   url                  = env("DATABASE_URL")
