@@ -23,17 +23,27 @@ enum Gender {
 }
 
 model User {
-  id        Int        @id @default(autoincrement())
-  createAt  DateTime   @default(now())
-  updateAt  DateTime   @updatedAt
-  password  String
-  email     String     @unique
-  phone     String?
-  name      String
-  age       Int
-  gender    Gender
-  records   Record[]
-  hospitals Hospital[]
+  id            Int             @id @default(autoincrement())
+  createAt      DateTime        @default(now())
+  updateAt      DateTime        @updatedAt
+  password      String
+  email         String          @unique
+  phone         String?
+  name          String
+  age           Int
+  gender        Gender
+  records       Record[]
+  hospitals     Hospital[]
+  Certification Certification[]
+}
+
+model Certification {
+  id       Int      @id @default(autoincrement())
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+  number   String
+  user     User     @relation(fields: [userId], references: [id])
+  userId   Int
 }
 
 enum Position {
