@@ -9,10 +9,10 @@ interface User {
   phone: string;
 }
 const useUser = () => {
-  async function D() {
+  async function getUser() {
     return (await axios.get("/api/users/me")) as User;
   }
-  const { data: user } = useQuery(["user"], D);
+  const { data: user } = useQuery(["user"], getUser);
   return { user };
 };
 export default useUser;
