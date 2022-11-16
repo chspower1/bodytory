@@ -9,11 +9,14 @@ import Link from "next/link";
 export interface HelpForm {
   email?: string;
   token?: string;
+  password?: string;
+  confirmPassword?: string;
 }
 
 const HelpPage: NextPage = () => {
   const router = useRouter();
   const [mutation, { data, loading, error }] = useMutation<ResponseType>("/api/users/help");
+  const [isResetMode, setIsResetMode] = useState(false);
   const [isToken, setIsToken] = useState(false);
   const {
     register,
@@ -33,7 +36,6 @@ const HelpPage: NextPage = () => {
     if (data?.ok) {
       if (isToken) {
         console.log("인증번호 인증 완료");
-        // router.push("") 비밀번호 수정페이지(=비밀번호 재설정)으로 이동
       }
 
       setIsToken(true);

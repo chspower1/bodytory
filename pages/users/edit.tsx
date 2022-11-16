@@ -41,7 +41,7 @@ export default function Edit() {
     } else if (oldPW === newPW) {
       setError("newPW", { message: "새로운 비밀번호를 입력해주세요" });
     } else {
-      changePwMutate.mutate({ password: oldPW, newPassword: newPW });
+      changePwMutate.mutate({ password: oldPW, newPassword: newPW, user });
     }
   };
   useEffect(() => {}, []);
