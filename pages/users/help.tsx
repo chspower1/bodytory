@@ -11,7 +11,7 @@ export interface HelpForm {
   token?: string;
 }
 
-const LoginPage: NextPage = () => {
+const HelpPage: NextPage = () => {
   const router = useRouter();
   const [mutation, { data, loading, error }] = useMutation<ResponseType>("/api/users/help");
   const [isToken, setIsToken] = useState(false);
@@ -38,7 +38,7 @@ const LoginPage: NextPage = () => {
 
       setIsToken(true);
     }
-  }, [data, router]);
+  }, [data, router, isToken]);
   return (
     <div>
       <form onSubmit={handleSubmit(onValid)}>
@@ -69,4 +69,4 @@ const LoginPage: NextPage = () => {
     </div>
   );
 };
-export default LoginPage;
+export default HelpPage;
