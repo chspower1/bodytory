@@ -68,14 +68,6 @@ model Hospital {
   user     User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model Certification {
-  id       Int      @id @default(autoincrement())
-  createAt DateTime @default(now())
-  updateAt DateTime
-  number   String
-  userId   Int
-}
-
 model HospitalToMedicalDepartment {
   A Int
   B Int
