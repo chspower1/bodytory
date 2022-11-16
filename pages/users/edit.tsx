@@ -13,8 +13,6 @@ interface PWType {
 
 export default function Edit() {
   const router = useRouter();
-  const { user } = useUser();
-  console.log(user);
   const changePwMutate = useMutation(["changePasswordKey"], changePasswordApi, {
     onError(error, variables, context) {
       setError("oldPW", { message: `${error}` });
@@ -42,7 +40,7 @@ export default function Edit() {
     } else if (oldPW === newPW) {
       setError("newPW", { message: "새로운 비밀번호를 입력해주세요" });
     } else {
-      changePwMutate.mutate({ email: user?.email, password: oldPW, newPassword: newPW });
+      changePwMutate.mutate({ password: oldPW, newPassword: newPW });
     }
   };
   useEffect(() => {}, []);

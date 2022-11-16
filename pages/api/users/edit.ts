@@ -7,13 +7,12 @@ import client from "@libs/server/client";
 // const client = new PrismaClient();
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { email, password, newPassword } = req.body;
-  console.log(email);
+  const {  password, newPassword } = req.body;
   const { user } = req.session;
   if (req.method === "PUT") {
     const findUserPW = await client.user.findFirst({
       where: {
-        email,
+        id : user?.id,
       },
     });
     console.log(findUserPW?.password);
@@ -21,7 +20,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (password === findUserPW?.password) {
       const data = await client.user.update({
         where: {
-          email,
+          id : user?.id,
         },
         data: {
           password: newPassword,
