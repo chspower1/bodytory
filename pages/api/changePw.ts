@@ -9,25 +9,25 @@ import client from "@libs/server/client";
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { email, password, newPassword } = req.body;
   if(req.method === "PUT"){
-  }
-  const findUserPW = await client.user.findUnique({
-    where:{
-      email
-    }
-  });
-  console.log(findUserPW?.password);
-  // const hashedPassword = await bcrypt.compare(password , checkPassword);
-  if(password === findUserPW?.password){
-    const data = await client.user.update({
+    const findUserPW = await client.user.findUnique({
       where:{
         email
-      },
-      data:{
-        password : newPassword
       }
     });
-    return res.json({ok:true})
-  }else{
-    return res.status(401).send("현재 비밀번호를 적어주세요");
+    console.log(findUserPW?.password);
+    // const hashedPassword = await bcrypt.compare(password , findUserPW?.password);
+    if(password === findUserPW?.password){
+      const data = await client.user.update({
+        where:{
+          email
+        },
+        data:{
+          password : newPassword
+        }
+      });
+      return res.json({ok:true})
+    }else{
+      return res.status(401).send("현재 비밀번호를 적어주세요");
+    }
   }
 }

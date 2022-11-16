@@ -10,8 +10,21 @@ const basicApi = ()=>
 
 export const changePasswordApi = async(data:any) =>{
   try{
-    const res = await basicApi().put("/api/account", data)
+    const res = await basicApi().put("/api/changePw", data)
     console.log(res)
+  }catch(err: any){
+    // console.log(err);
+    throw err.response.data
+  }
+}
+export const withdrawApi = async({email, password}:any) =>{
+  try{
+    const res = await basicApi().delete("/api/withdraw", {
+      data :{
+        email, password
+      }
+    })
+    return res.data
   }catch(err: any){
     // console.log(err);
     throw err.response.data
