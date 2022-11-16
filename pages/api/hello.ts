@@ -4,7 +4,7 @@ import withHandler from "@libs/server/withHandler";
 import { withApiSession } from "@libs/server/withSession";
 
 async function handler(req: NextApiRequest, res: NextApiResponse<ResponseType>) {
-  res.status(200).json({ name: "John Doe" });
+  return res.status(200);
 }
 
-export default withApiSession(withHandler({ methods: ["GET"] }, handler));
+export default withApiSession(withHandler({ methods: ["GET"], handler }));
