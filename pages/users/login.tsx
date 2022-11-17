@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { ResponseType } from "@libs/server/withHandler";
 import Link from "next/link";
+import useApi from "@libs/client/useApi";
 export interface LoginForm {
   email: string;
   password: string;
@@ -14,6 +15,7 @@ export interface LoginForm {
 
 const LoginPage: NextPage = () => {
   const router = useRouter();
+  // const { postApi } = useApi("/api/users/login");
   const [mutation, { data, loading, error }] = useMutation<ResponseType>("/api/users/login");
   const {
     register,

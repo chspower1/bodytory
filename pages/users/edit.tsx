@@ -1,5 +1,6 @@
 import Input from "@components/Input";
 import { changePasswordApi } from "@libs/client/accountApi";
+import useApi from "@libs/client/useApi";
 import useUser from "@libs/client/useUser";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
@@ -13,7 +14,9 @@ interface PWType {
 
 export default function Edit() {
   const router = useRouter();
-  const changePwMutate = useMutation(["changePasswordKey"], changePasswordApi, {
+  const { user } = useUser();
+  const { putApi } = useApi("/api/users/edit");
+  const changePwMutate = useMutation(["changePasswordKey"], putApi, {
     onError(error, variables, context) {
       setError("oldPW", { message: `${error}` });
     },
@@ -40,7 +43,7 @@ export default function Edit() {
     } else if (oldPW === newPW) {
       setError("newPW", { message: "새로운 비밀번호를 입력해주세요" });
     } else {
-      changePwMutate.mutate({ password: oldPW, newPassword: newPW });
+      changePwMutate.mutate({ password: oldPW, newPassword: newPW, user });
     }
   };
   useEffect(() => {}, []);
