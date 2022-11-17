@@ -12,9 +12,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     },
   });
 
-  if (foundEmail) return res.status(400).send("중복 이메일");
+  if (foundEmail) return res.status(400).send("중복된 이메일입니다");
 
-  res.status(200).send("사용가능 이메일");
+  return res.status(200).send("사용가능 이메일");
 }
 
 export default withApiSession(withHandler({ methods: ["POST"], handler, isPrivate: false }));

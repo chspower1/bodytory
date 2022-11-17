@@ -16,6 +16,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       password: await bcrypt.hash(password, 12),
     },
   });
-  res.status(200).json({ ok: true });
+  return res.status(200).end();
 }
 export default withApiSession(withHandler({ methods: ["POST"], handler, isPrivate: false }));
