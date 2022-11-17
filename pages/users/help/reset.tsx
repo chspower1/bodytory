@@ -15,8 +15,8 @@ interface ResetForm {
 
 const Reset: NextPage = () => {
   const router = useRouter();
-  const { postApi } = useApi("/api/users/help/reset");
-  const { mutateAsync } = useMutation(["help"], postApi, {
+  const { putApi } = useApi("/api/users/help/reset");
+  const { mutateAsync } = useMutation(["help"], putApi, {
     onSuccess(data) {
       if (data.ok) {
         router.push("/users/login");

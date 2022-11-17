@@ -25,4 +25,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse<ResponseType>) 
   }
 }
 
-export default withApiSession(withHandler({ methods: ["POST"], handler, isPrivate: false }));
+export default withApiSession(withHandler({ methods: ["PUT"], handler, isPrivate: false }));
