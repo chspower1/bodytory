@@ -2,20 +2,19 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import client from "@libs/server/client";
 import withHandler from "@libs/server/withHandler";
 import { withApiSession } from "@libs/server/withSession";
-import * as bcrypt from "bcrypt";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { password, email, name, age, gender } = req.body;
+  const { enterEmail } = req.body;
 
-  await client.user.create({
-    data: {
-      name,
-      age: Number(age),
-      gender,
-      email,
-      password: await bcrypt.hash(password, 12),
+  const foundEmail = await client.user.findFirst({
+    where: {
+      email: enterEmail,
     },
   });
-  res.status(200).json({ ok: true });
+
+  if (foundEmail) return res.status(400).send("중복 이메일");
+
+  res.status(200).send("사용가능 이메일");
 }
+
 export default withApiSession(withHandler({ methods: ["POST"], handler, isPrivate: false }));

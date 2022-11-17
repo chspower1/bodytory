@@ -1,9 +1,11 @@
 import Input from "@components/Input";
 import useApi from "@libs/client/useApi";
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
+import client from "@libs/server/client";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
+import { MouseEvent, useEffect, useState } from "react";
+import axios from "axios";
 
 interface RegisterForm {
   email: string;
@@ -16,15 +18,18 @@ interface RegisterForm {
 
 function RegisterPage() {
   const router = useRouter();
+  const [isNotDuplicate, setIsNotDuplicate] = useState<Boolean>(false);
   const {
     register,
     handleSubmit,
     setError,
+    watch,
+    clearErrors,
     formState: { errors },
   } = useForm<RegisterForm>();
   const { postApi } = useApi("/api/users/register");
   const { mutate } = useMutation(postApi, {
-    onError(error : any) {
+    onError(error: any) {
       alert(`${error.data}`);
     },
     onSuccess(data) {
@@ -33,9 +38,36 @@ function RegisterPage() {
   });
 
   async function onValid(data: RegisterForm) {
-    const { email, password, gender, name, age } = data;
+    const { email, password, passwordConfirm, gender, name, age } = data;
+
+    if (password !== passwordConfirm) {
+      setError("passwordConfirm", { message: "비밀번호가 일치하지 않습니다" });
+      return;
+    }
+
     mutate({ email, password, gender, name, age });
   }
+
+  async function checkDuplicateEmail(event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) {
+    event.preventDefault();
+    const enterEmail = watch("email");
+    const regex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
+    if (!regex.test(enterEmail)) return setError("email", { type: "custom", message: "이메일 형식이 아닙니다." });
+
+    try {
+      const result = await axios.post("/api/users/checkemail", { enterEmail });
+      setIsNotDuplicate(true);
+    } catch (error) {
+      setIsNotDuplicate(false);
+    }
+  }
+  useEffect(() => {
+    setError("email", { type: "custom", message: isNotDuplicate ? "적합한 이메일" : "중복이메일" });
+  }, [isNotDuplicate]);
+
+  useEffect(() => {
+    clearErrors();
+  }, []);
 
   return (
     <>
@@ -48,6 +80,7 @@ function RegisterPage() {
             register={register("email", { required: "이메일을 입력해주세요" })}
             errorMessage={errors.email?.message}
           />
+          <button onClick={event => checkDuplicateEmail(event)}>중복확인</button>
           <Input
             type="password"
             label="비밀번호"
@@ -56,10 +89,17 @@ function RegisterPage() {
             errorMessage={errors.password?.message}
           />
           <Input
+            type="passwordConfirm"
+            label="비밀번호확인"
+            name="passwordConfirm"
+            register={register("passwordConfirm", { required: "비밀번호 확인을 입력해주세요" })}
+            errorMessage={errors.passwordConfirm?.message}
+          />
+          <Input
             label="이름"
             name="name"
-            register={register("name", { required: "비밀번호 확인을 입력해주세요" })}
-            errorMessage={errors.passwordConfirm?.message}
+            register={register("name", { required: "이름을 입력해주세요" })}
+            errorMessage={errors.name?.message}
           />
           <Input
             type="number"
@@ -72,7 +112,7 @@ function RegisterPage() {
             <option value="male">남자</option>
             <option value="female">여자</option>
           </select>
-          <button>제출</button>
+          <button disabled={isNotDuplicate ? false : true}>제출</button>
         </form>
       </div>
     </>
