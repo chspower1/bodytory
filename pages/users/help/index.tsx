@@ -18,21 +18,24 @@ export interface HelpForm {
 const HelpPage: NextPage = () => {
   const router = useRouter();
   const { postApi } = useApi("/api/users/help");
+  const [email, setEmail] = useState("");
+  const [isToken, setIsToken] = useState(false);
   const { data, mutateAsync } = useMutation(["help"], postApi, {
     onSuccess(data) {
       if (data?.ok) {
         if (isToken) {
           console.log("인증번호 인증 완료");
-          router.push("reset");
+          router.push({
+            pathname: "/users/help/reset",
+            query: { email },
+          });
         }
         setIsToken(true);
       } else if (data?.ok === false) {
-        alert("비밀번호 확인해주세요");
+        alert("인증번호를 확인해주세요");
       }
     },
   });
-  const [isResetMode, setIsResetMode] = useState(false);
-  const [isToken, setIsToken] = useState(false);
   const {
     register,
     handleSubmit,
@@ -41,6 +44,7 @@ const HelpPage: NextPage = () => {
   } = useForm<HelpForm>();
 
   const onValid = (helpForm: HelpForm) => {
+    setEmail(helpForm?.email!);
     console.log(helpForm);
     mutateAsync(helpForm);
     // reset();
@@ -73,7 +77,7 @@ const HelpPage: NextPage = () => {
           />
         )}
 
-        <button>{isResetMode ? "비밀번호 변경" : isToken ? "인증번호 확인" : "이메일 인증"}</button>
+        <button>{isToken ? "인증번호 확인" : "이메일 인증"}</button>
       </form>
       <Link href="/"></Link>
     </div>

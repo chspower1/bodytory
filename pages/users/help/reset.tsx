@@ -16,7 +16,7 @@ interface ResetForm {
 const Reset: NextPage = () => {
   const router = useRouter();
   const { postApi } = useApi("/api/users/help/reset");
-  const { data, mutateAsync } = useMutation(["help"], postApi, {
+  const { mutateAsync } = useMutation(["help"], postApi, {
     onSuccess(data) {
       if (data.ok) {
         router.push("/users/login");
@@ -36,6 +36,7 @@ const Reset: NextPage = () => {
   };
   return (
     <div>
+      <div>{router.query.email}</div>
       <form onSubmit={handleSubmit(onValid)}>
         <Input
           name="password"
