@@ -33,18 +33,6 @@ function RegisterPage() {
     },
   });
 
-  // function post({ email, password, gender, name, age }: RegisterForm) {
-  //   const result = axios.post("/api/users/register", {
-  //     email,
-  //     password,
-  //     gender,
-  //     name,
-  //     age,
-  //   });
-  //   console.log("요청보냄");
-  //   return result;
-  // };
-
   async function onValid(data: RegisterForm) {
     const { email, password, gender, name, age } = data;
     registerMutate.mutate({ email, password, gender, name, age });

@@ -1,4 +1,3 @@
-import { withdrawApi } from "@libs/client/accountApi";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
@@ -12,7 +11,7 @@ interface PWType {
 export default function Withdraw() {
   const router = useRouter();
   const [isModal, setIsModal] = useState(false);
-  const { deleteApi } = useApi("/api/users/withdraw")
+  const { deleteApi } = useApi("/api/users/withdraw");
   const { mutate } = useMutation(["withdrawKey"], deleteApi, {
     onError(error, variables, context) {
       setError("password", { message: `${error}` });

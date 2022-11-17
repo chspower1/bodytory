@@ -5,12 +5,12 @@ import bcrypt from "bcrypt";
 import client from "@libs/server/client";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const {  password, newPassword } = req.body;
+  const { password, newPassword } = req.body;
   const { user } = req.session;
   if (req.method === "PUT") {
-    const findUserPW = await client.user.findFirst({  
+    const findUserPW = await client.user.findFirst({
       where: {
-        id : user?.id,
+        id: user?.id,
       },
     });
     const isPasswordCorrect = await bcrypt.compare(password, findUserPW?.password!);
@@ -18,7 +18,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       const hashedPassword = await bcrypt.hash(newPassword, 12);
       const data = await client.user.update({
         where: {
-          id : user?.id,
+          id: user?.id,
         },
         data: {
           password: hashedPassword,

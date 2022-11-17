@@ -1,7 +1,5 @@
 import Input from "@components/Input";
-import { changePasswordApi } from "@libs/client/accountApi";
 import useApi from "@libs/client/useApi";
-import useUser from "@libs/client/useUser";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -17,14 +15,14 @@ export default function Edit() {
   const [isModal, setIsModal] = useState(false);
   const { putApi } = useApi("/api/users/edit");
   const { mutate } = useMutation(["changePasswordKey"], putApi, {
-    onError(error:any) {
+    onError(error: any) {
       setError("oldPW", { message: `${error}` });
     },
     onSuccess: data => {
       setValue("oldPW", "");
       setValue("newPW", "");
       setValue("newPWC", "");
-      if(data.ok) router.replace("/"); /* setIsModal(true) */
+      if (data.ok) router.replace("/"); /* setIsModal(true) */
     },
   });
   const {
@@ -42,14 +40,13 @@ export default function Edit() {
       setError("newPW", { message: "새로운 비밀번호를 입력해주세요" });
     } else {
       mutate({ password: oldPW, newPassword: newPW });
-      
     }
   };
   useEffect(() => {}, []);
-  const handleClickGoHome = ()=>{
-    setIsModal(false)
+  const handleClickGoHome = () => {
+    setIsModal(false);
     router.replace("/");
-  }
+  };
   return (
     <div>
       <h3>비밀번호 변경테스트</h3>
