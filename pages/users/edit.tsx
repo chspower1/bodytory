@@ -16,7 +16,7 @@ export default function Edit() {
   const { putApi } = useApi("/api/users/edit");
   const { mutate } = useMutation(["changePasswordKey"], putApi, {
     onError(error: any) {
-      setError("oldPW", { message: `${error}` });
+      setError("oldPW", { message: `${error.data}` });
     },
     onSuccess: data => {
       setValue("oldPW", "");

@@ -20,13 +20,11 @@ const LoginPage: NextPage = () => {
   const router = useRouter();
   const { postApi } = useApi("/api/users/login");
   const { data, mutate } = useMutation(["login"], postApi, {
+    onError(error : any) {
+      alert(`${error.data}`)
+    },
     onSuccess(data) {
-      console.log(data?.ok);
-      if (data?.ok) {
         router.push("/");
-      } else if (data?.ok === false) {
-        alert("회원정보를 확인해주세요");
-      }
     },
   });
   const {

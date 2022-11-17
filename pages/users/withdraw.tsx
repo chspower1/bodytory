@@ -13,8 +13,8 @@ export default function Withdraw() {
   const [isModal, setIsModal] = useState(false);
   const { deleteApi } = useApi("/api/users/withdraw");
   const { mutate } = useMutation(["withdrawKey"], deleteApi, {
-    onError(error, variables, context) {
-      setError("password", { message: `${error}` });
+    onError(error : any, variables, context) {
+      setError("password", { message: `${error.data}` });
     },
     onSuccess: data => {
       if (data.ok) {

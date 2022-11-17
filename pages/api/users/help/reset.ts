@@ -19,9 +19,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse<ResponseType>) 
     },
   });
   if (user) {
-    return res.json({ ok: true });
+    return res.status(201);
   } else {
-    return res.json({ ok: false });
+    return res.status(401);
   }
 }
 
