@@ -1,11 +1,13 @@
 import Input from "@components/Input";
-import useMutation from "@libs/client/useMutation";
+
 import { NextPage } from "next";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { ResponseType } from "@libs/server/withHandler";
 import Link from "next/link";
+import useApi from "@libs/client/useApi";
+import { useMutation } from "@tanstack/react-query";
 export interface HelpForm {
   email?: string;
   token?: string;
@@ -15,9 +17,25 @@ export interface HelpForm {
 
 const HelpPage: NextPage = () => {
   const router = useRouter();
-  const [mutation, { data, loading, error }] = useMutation<ResponseType>("/api/users/help");
-  const [isResetMode, setIsResetMode] = useState(false);
+  const { postApi } = useApi("/api/users/help");
+  const [email, setEmail] = useState("");
   const [isToken, setIsToken] = useState(false);
+  const { data, mutateAsync } = useMutation(["help"], postApi, {
+    onSuccess(data) {
+      if (data?.ok) {
+        if (isToken) {
+          console.log("인증번호 인증 완료");
+          router.push({
+            pathname: "/users/help/reset",
+            query: { email },
+          });
+        }
+        setIsToken(true);
+      } else if (data?.ok === false) {
+        alert("인증번호를 확인해주세요");
+      }
+    },
+  });
   const {
     register,
     handleSubmit,
@@ -26,22 +44,13 @@ const HelpPage: NextPage = () => {
   } = useForm<HelpForm>();
 
   const onValid = (helpForm: HelpForm) => {
-    if (loading) return;
+    setEmail(helpForm?.email!);
     console.log(helpForm);
-    mutation(helpForm);
+    mutateAsync(helpForm);
     // reset();
   };
   useEffect(() => {
     // console.log(data?.ok);
-    if (data?.ok) {
-      if (isToken) {
-        console.log("인증번호 인증 완료");
-      }
-
-      setIsToken(true);
-    } else if (data?.ok === false) {
-      alert("비밀번호 확인해주세요");
-    }
   }, [data, router, isToken]);
   return (
     <div>
@@ -67,6 +76,7 @@ const HelpPage: NextPage = () => {
             errorMessage={errors.token?.message}
           />
         )}
+
         <button>{isToken ? "인증번호 확인" : "이메일 인증"}</button>
       </form>
       <Link href="/"></Link>

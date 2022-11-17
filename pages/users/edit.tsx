@@ -1,5 +1,6 @@
 import Input from "@components/Input";
 import { changePasswordApi } from "@libs/client/accountApi";
+import useApi from "@libs/client/useApi";
 import useUser from "@libs/client/useUser";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
@@ -14,7 +15,8 @@ interface PWType {
 export default function Edit() {
   const router = useRouter();
   const { user } = useUser();
-  const changePwMutate = useMutation(["changePasswordKey"], changePasswordApi, {
+  const { putApi } = useApi("/api/users/edit");
+  const changePwMutate = useMutation(["changePasswordKey"], putApi, {
     onError(error, variables, context) {
       setError("oldPW", { message: `${error}` });
     },
