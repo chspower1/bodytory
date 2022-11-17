@@ -16,7 +16,7 @@ export default function Edit() {
   const { putApi } = useApi("/api/users/edit");
   const { mutate } = useMutation(["changePasswordKey"], putApi, {
     onError(error: any) {
-      setError("oldPassword", { message: `${error}` });
+      setError("oldPassword", { message: `${error.data}` });
     },
     onSuccess() {
       // setIsModal(true)

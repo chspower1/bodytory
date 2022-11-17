@@ -47,18 +47,16 @@ async function handler(req: NextApiRequest, res: NextApiResponse<ResponseType>) 
         },
       });
       console.log(payload);
-      return res.json({
-        ok: true,
-      });
-    } else return res.json({ ok: false });
+      return res.status(201);
+    } else return res.status(403);
   }
   if (email && token) {
     const foudToken = await client.certification.deleteMany({
       where: { number: token },
     });
     console.log(foudToken);
-    if (foudToken.count > 0) return res.json({ ok: true });
-    else return res.json({ ok: false });
+    if (foudToken.count > 0) return res.status(201);
+    else return res.status(403);
   }
 }
 

@@ -17,8 +17,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       id: foundUser.id,
     };
     await req.session.save();
-    return res.json({ ok: true });
-  } else return res.json({ ok: false });
+    return res.status(201);
+  } else {
+    return res.status(401).send("회원정보를 확인해주세요");
+  }
 }
 
 export default withApiSession(withHandler({ methods: ["POST"], handler, isPrivate: false }));

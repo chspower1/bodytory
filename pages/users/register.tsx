@@ -24,8 +24,8 @@ function RegisterPage() {
   } = useForm<RegisterForm>();
   const { postApi } = useApi("/api/users/register");
   const { mutate } = useMutation(postApi, {
-    onError(error) {
-      alert(error);
+    onError(error : any) {
+      alert(`${error.data}`);
     },
     onSuccess(data) {
       router.replace("/");

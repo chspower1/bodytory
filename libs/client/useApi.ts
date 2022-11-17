@@ -13,7 +13,7 @@ export default function useApi<T = any>(url: string) {
       const result = await basicApi().post(url, data);
       return result.data;
     } catch (err: any) {
-      throw err.response.data;
+      throw err.response;
     }
   };
   const getApi = async () => {
@@ -21,7 +21,7 @@ export default function useApi<T = any>(url: string) {
       const result = await basicApi().get(url);
       return result.data;
     } catch (err: any) {
-      throw err.response.data;
+      throw err.response;
     }
   };
 
@@ -30,7 +30,7 @@ export default function useApi<T = any>(url: string) {
       const result = await basicApi().delete(url, { data });
       return result.data;
     } catch (err: any) {
-      throw err.response.data;
+      throw err.response;
     }
   };
   const putApi = async (data: T) => {
@@ -38,7 +38,7 @@ export default function useApi<T = any>(url: string) {
       const result = await basicApi().put(url, data);
       return result.data;
     } catch (err: any) {
-      throw err.response.data;
+      throw err.response;
     }
   };
   return { postApi, getApi, deleteApi, putApi };

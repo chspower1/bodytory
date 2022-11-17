@@ -19,7 +19,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         id: user?.id,
       },
     });
-    return res.json({ ok: true });
+    return res.status(204);
   } else {
     return res.status(401).send("현재 비밀번호를 적어주세요");
   }
