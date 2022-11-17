@@ -18,7 +18,7 @@ interface RegisterForm {
 
 function RegisterPage() {
   const router = useRouter();
-  const [isNotDuplicate, setIsNotDuplicate] = useState<Boolean>(false);
+  const [isNotDuplicate, setIsNotDuplicate] = useState<Boolean>();
   const {
     register,
     handleSubmit,
