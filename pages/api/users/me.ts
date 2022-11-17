@@ -18,7 +18,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       phone: true,
     },
   });
-  return curUser;
+  return res.json({ user: curUser });
 }
 
 export default withApiSession(withHandler({ methods: ["GET"], handler, isPrivate: false }));

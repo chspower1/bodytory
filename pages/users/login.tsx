@@ -19,7 +19,7 @@ interface LoginResponse {
 const LoginPage: NextPage = () => {
   const router = useRouter();
   const { postApi } = useApi("/api/users/login");
-  const { data, mutateAsync } = useMutation(["login"], postApi, {
+  const { data, mutate } = useMutation(["login"], postApi, {
     onSuccess(data) {
       console.log(data?.ok);
       if (data?.ok) {
@@ -36,7 +36,7 @@ const LoginPage: NextPage = () => {
   } = useForm<LoginForm>();
 
   const onValid = (loginForm: LoginForm) => {
-    mutateAsync(loginForm);
+    mutate(loginForm);
   };
 
   return (

@@ -1,10 +1,8 @@
 import withHandler from "@libs/server/withHandler";
 import { withApiSession } from "@libs/server/withSession";
 import { NextApiRequest, NextApiResponse } from "next";
-// import bcrypt from "bcrypt";
-import { Prisma, PrismaClient } from "@prisma/client";
+import bcrypt from "bcrypt";
 import client from "@libs/server/client";
-// const client = new PrismaClient();
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { password } = req.body;
@@ -14,8 +12,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       id: user?.id,
     },
   });
-  // const hashedPassword = await bcrypt.compare(password , findUserPW?.password);
-  if (password === findUserPW?.password) {
+  const isPasswordCorrect = await bcrypt.compare(password, findUserPW?.password!);
+  if (isPasswordCorrect) {
     const data = await client.user.delete({
       where: {
         id: user?.id,
