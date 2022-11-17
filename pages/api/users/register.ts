@@ -2,27 +2,24 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import client from "@libs/server/client";
 import withHandler from "@libs/server/withHandler";
 import { withApiSession } from "@libs/server/withSession";
+import * as bcrypt from "bcrypt";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { password, email, name, age, gender } = req.body;
-  // isCorrectEmail(email);
-  // await isduplicateEmail(email);
-
+  if (isCorrectEmail(email) && (await isduplicateEmail(email))) {
+    return res.json({ ok: false });
+  }
   // 찾은다음 없으면 만들고 있으면 있는 유저 리턴해주는 걸로, 있는 유저면 오류가남
-  const user = await client.user.create({
+  await client.user.create({
     data: {
       name,
       age: Number(age),
-      gender: "male",
+      gender,
       email,
-      password,
+      password: await bcrypt.hash(password, 12),
     },
   });
-  if (user) {
-    return res.status(200).json({ ok: true });
-  } else {
-    return res.status(401).json({ ok: false });
-  }
+  return res.json({ ok: true });
 }
 
 function isCorrectEmail(email: string) {

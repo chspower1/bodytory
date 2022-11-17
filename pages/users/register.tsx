@@ -1,5 +1,6 @@
 import Input from "@components/Input";
 import axios from "axios";
+import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 
 interface RegisterForm {
@@ -20,7 +21,7 @@ function RegisterPage() {
   } = useForm<RegisterForm>();
 
   function post({ email, password, gender, name, age }: RegisterForm) {
-    axios.post("/api/users/register", {
+    const result = axios.post("/api/users/register", {
       email,
       password,
       gender,
@@ -28,11 +29,19 @@ function RegisterPage() {
       age,
     });
     console.log("요청보냄");
+    return result;
   }
 
-  function onValid(data: RegisterForm) {
-    post(data);
+  async function onValid(data: RegisterForm) {
+    if ((await post(data)).data.ok) {
+      router.replace("/");
+      return;
+    }
+    alert("중복이메일입니다");
   }
+
+  const router = useRouter();
+
   return (
     <>
       <div>
@@ -45,6 +54,7 @@ function RegisterPage() {
             errorMessage={errors.email?.message}
           />
           <Input
+            type="password"
             label="비밀번호"
             name="password"
             register={register("password", { required: "비밀번호를 입력해주세요" })}
@@ -57,17 +67,16 @@ function RegisterPage() {
             errorMessage={errors.checkpassword?.message}
           />
           <Input
-            label="성별"
-            name="gender"
-            register={register("gender", { required: "이메일을 입력해주세요" })}
-            errorMessage={errors.email?.message}
-          />
-          <Input
+            type="number"
             label="나이"
             name="age"
             register={register("age", { required: "나이를 입력해주세요" })}
             errorMessage={errors.age?.message}
           />
+          <select {...register("gender", { required: "성별을 입력해주세요" })}>
+            <option value="male">남자</option>
+            <option value="female">여자</option>
+          </select>
           <button>제출</button>
         </form>
       </div>
