@@ -27,7 +27,7 @@ export default function useApi<T = any>(url: string) {
 
   const deleteApi = async (data: T) => {
     try {
-      const result = await basicApi().post(url, data);
+      const result = await basicApi().delete(url, {data});
       return result.data;
     } catch (err) {
       console.log(err);
