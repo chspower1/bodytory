@@ -1,4 +1,6 @@
 import Input from "@components/Input";
+import useApi from "@libs/client/useApi";
+import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
@@ -13,34 +15,40 @@ interface RegisterForm {
 }
 
 function RegisterPage() {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
     setError,
     formState: { errors },
   } = useForm<RegisterForm>();
+  const { postApi } = useApi("/api/users/register");
+  const registerMutate = useMutation(postApi, {
+    onError(error) {
+      alert(error);
+    },
+    onSuccess(data) {
+      console.log(data);
+      router.replace("/");
+    },
+  });
 
-  function post({ email, password, gender, name, age }: RegisterForm) {
-    const result = axios.post("/api/users/register", {
-      email,
-      password,
-      gender,
-      name,
-      age,
-    });
-    console.log("요청보냄");
-    return result;
-  }
+  // function post({ email, password, gender, name, age }: RegisterForm) {
+  //   const result = axios.post("/api/users/register", {
+  //     email,
+  //     password,
+  //     gender,
+  //     name,
+  //     age,
+  //   });
+  //   console.log("요청보냄");
+  //   return result;
+  // };
 
   async function onValid(data: RegisterForm) {
-    if ((await post(data)).data.ok) {
-      router.replace("/");
-      return;
-    }
-    alert("중복이메일입니다");
+    const { email, password, gender, name, age } = data;
+    registerMutate.mutate({ email, password, gender, name, age });
   }
-
-  const router = useRouter();
 
   return (
     <>

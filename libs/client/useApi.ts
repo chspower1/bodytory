@@ -12,8 +12,8 @@ export default function useApi<T = any>(url: string) {
     try {
       const result = await basicApi().post(url, data);
       return result.data;
-    } catch (err) {
-      console.log(err);
+    } catch (err: any) {
+      throw err.response.data;
     }
   };
   const getApi = async () => {

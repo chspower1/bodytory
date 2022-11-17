@@ -6,8 +6,8 @@ import * as bcrypt from "bcrypt";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { password, email, name, age, gender } = req.body;
-  if (isCorrectEmail(email) && (await isduplicateEmail(email))) {
-    return res.json({ ok: false });
+  if (await isduplicateEmail(email)) {
+    res.status(404).send("회원가입 실패");
   }
   // 찾은다음 없으면 만들고 있으면 있는 유저 리턴해주는 걸로, 있는 유저면 오류가남
   await client.user.create({
@@ -19,7 +19,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       password: await bcrypt.hash(password, 12),
     },
   });
-  return res.json({ ok: true });
+  res.status(200);
 }
 
 function isCorrectEmail(email: string) {
