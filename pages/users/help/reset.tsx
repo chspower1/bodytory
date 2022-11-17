@@ -18,18 +18,11 @@ const Reset: NextPage = () => {
   const { postApi } = useApi("/api/users/help/reset");
   const { data, mutateAsync } = useMutation(["help"], postApi, {
     onSuccess(data) {
-      if (data?.ok) {
-        if (isToken) {
-          console.log("인증번호 인증 완료");
-        }
-        setIsToken(true);
-      } else if (data?.ok === false) {
-        alert("비밀번호 확인해주세요");
+      if (data.ok) {
+        router.push("/users/login");
       }
     },
   });
-  const [isResetMode, setIsResetMode] = useState(false);
-  const [isToken, setIsToken] = useState(false);
   const {
     register,
     handleSubmit,

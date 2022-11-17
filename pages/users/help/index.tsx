@@ -23,6 +23,7 @@ const HelpPage: NextPage = () => {
       if (data?.ok) {
         if (isToken) {
           console.log("인증번호 인증 완료");
+          router.push("reset");
         }
         setIsToken(true);
       } else if (data?.ok === false) {
@@ -71,24 +72,7 @@ const HelpPage: NextPage = () => {
             errorMessage={errors.token?.message}
           />
         )}
-        <Input
-          name="password"
-          label="변경 비밀번호"
-          register={register("password", {
-            required: "변경할 비밀번호를 입력해주세요.",
-          })}
-          placeholder="변경할 비밀번호를 입력해주세요."
-          errorMessage={errors.token?.message}
-        />
-        <Input
-          name="token"
-          label="인증번호"
-          register={register("token", {
-            required: "비밀번호를 확인해주세요.",
-          })}
-          placeholder="비밀번호를 확인해주세요."
-          errorMessage={errors.token?.message}
-        />
+
         <button>{isResetMode ? "비밀번호 변경" : isToken ? "인증번호 확인" : "이메일 인증"}</button>
       </form>
       <Link href="/"></Link>
