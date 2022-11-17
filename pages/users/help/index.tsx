@@ -21,22 +21,21 @@ const HelpPage: NextPage = () => {
   const [email, setEmail] = useState("");
   const [isToken, setIsToken] = useState(false);
   const { mutateAsync } = useMutation(["help"], postApi, {
+    onError(error:any) {
+      alert(`${error.data}`);
+    },
     onSuccess(data) {
-      if (data?.ok) {
-        if (isToken) {
-          console.log("인증번호 인증 완료");
-          router.push(
-            {
-              pathname: "/users/help/reset",
-              query: { email },
-            },
-            "/users/help/reset",
-          );
-        }
-        setIsToken(true);
-      } else if (data?.ok === false) {
-        alert("인증번호를 확인해주세요");
+      if (isToken) {
+        console.log("인증번호 인증 완료");
+        router.push(
+          {
+            pathname: "/users/help/reset",
+            query: { email },
+          },
+          "/users/help/reset",
+        );
       }
+      setIsToken(true);
     },
   });
   const {

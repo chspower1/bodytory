@@ -7,20 +7,22 @@ import client from "@libs/server/client";
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { password } = req.body;
   const { user } = req.session;
-  const findUser = await client.user.findUnique({
+  const foundUser = await client.user.findUnique({
     where: {
-      id: user?.id,
+      id: user?.id!,
     },
   });
-  const isPasswordCorrect = await bcrypt.compare(password, findUser?.password!);
-  if (isPasswordCorrect) {
-    await client.user.delete({
-      where: {
-        id: user?.id,
-      },
-    });
-    return res.status(204);
-  } else {
+  if(foundUser) {
+    const isPasswordCorrect = await bcrypt.compare(password, foundUser?.password!);
+    if (isPasswordCorrect) {
+      await client.user.delete({
+        where: {
+          id: user?.id,
+        },
+      });
+      return res.status(204).end();
+    } 
+  }else {
     return res.status(401).send("현재 비밀번호를 적어주세요");
   }
 }

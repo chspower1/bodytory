@@ -18,10 +18,8 @@ export default function Withdraw() {
       setError("password", { message: `${error.data}` });
     },
     onSuccess: data => {
-      if (data.ok) {
-        setIsModal(true);
-        LogoutApi({});
-      }
+      setIsModal(true);
+      LogoutApi({});
     },
   });
 

@@ -11,14 +11,16 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       email,
     },
   });
-  const isPasswordCorrect = await bcrypt.compare(password, foundUser?.password!);
-  if (isPasswordCorrect && foundUser) {
-    req.session.user = {
-      id: foundUser.id,
-    };
-    await req.session.save();
-    return res.status(201);
-  } else {
+  if(foundUser) {
+    const isPasswordCorrect = await bcrypt.compare(password, foundUser?.password!);
+    if (isPasswordCorrect) {
+      req.session.user = {
+        id: foundUser.id,
+      };
+      await req.session.save();
+      return res.status(201).end();
+    }
+  }else {
     return res.status(401).send("회원정보를 확인해주세요");
   }
 }

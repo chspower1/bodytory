@@ -6,7 +6,7 @@ import { LoginForm } from "pages/users/login";
 import smtpTransport from "@libs/server/email";
 import { HelpForm } from "pages/users/help";
 import bcrypt from "bcrypt";
-async function handler(req: NextApiRequest, res: NextApiResponse<ResponseType>) {
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { email, password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 12);
   console.log(email, password);
@@ -19,9 +19,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse<ResponseType>) 
     },
   });
   if (foundUser) {
-    return res.status(201);
+    return res.status(201).end();
   } else {
-    return res.status(401);
+    return res.status(401).end();
   }
 }
 

@@ -6,7 +6,7 @@ import { LoginForm } from "pages/users/login";
 import smtpTransport from "@libs/server/email";
 import { HelpForm } from "pages/users/help";
 
-async function handler(req: NextApiRequest, res: NextApiResponse<ResponseType>) {
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { email, token }: HelpForm = req.body;
   console.log(email, token);
   if (email && !token) {
@@ -47,16 +47,16 @@ async function handler(req: NextApiRequest, res: NextApiResponse<ResponseType>) 
         },
       });
       console.log(payload);
-      return res.status(201);
-    } else return res.status(403);
+      return res.status(201).end();
+    } else return res.status(403).send("인증에 실패하였습니다");
   }
   if (email && token) {
     const foudToken = await client.certification.deleteMany({
       where: { number: token },
     });
     console.log(foudToken);
-    if (foudToken.count > 0) return res.status(201);
-    else return res.status(403);
+    if (foudToken.count > 0) return res.status(201).end();
+    else return res.status(403).send("토큰 값을 확인해주세요");
   }
 }
 

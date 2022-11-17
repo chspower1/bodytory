@@ -18,9 +18,7 @@ const Reset: NextPage = () => {
   const { putApi } = useApi("/api/users/help/reset");
   const { mutateAsync } = useMutation(["help"], putApi, {
     onSuccess(data) {
-      if (data.ok) {
-        router.push("/users/login");
-      }
+      router.push("/users/login");
     },
   });
   const {
