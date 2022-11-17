@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import axios from "axios";
+import useApi from "@libs/client/useApi";
 interface PWType {
   password: String;
 }
@@ -11,8 +12,8 @@ interface PWType {
 export default function Withdraw() {
   const router = useRouter();
   const [isModal, setIsModal] = useState(false);
-
-  const withdrawMutate = useMutation(["withdrawKey"], withdrawApi, {
+  const { deleteApi } = useApi("/api/users/withdraw")
+  const withdrawMutate = useMutation(["withdrawKey"], deleteApi, {
     onError(error, variables, context) {
       setError("password", { message: `${error}` });
     },
