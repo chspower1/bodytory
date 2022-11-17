@@ -6,4 +6,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   req.session.destroy();
   return res.json({ ok: true });
 }
-export default withApiSession(withHandler({ methods: ["POST"], handler }));
+export default withApiSession(withHandler({ methods: ["DELETE"], handler }));

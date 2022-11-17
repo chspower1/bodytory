@@ -12,7 +12,7 @@ export interface HelpForm {
   email?: string;
   token?: string;
   password?: string;
-  confirmPassword?: string;
+  passwordConfirm?: string;
 }
 
 const HelpPage: NextPage = () => {
@@ -40,12 +40,12 @@ const HelpPage: NextPage = () => {
     },
   });
   const {
-    register: helpRegister,
-    handleSubmit: helpHandleSubmit,
-    formState: { errors: helpErrors },
+    register,
+    handleSubmit,
+    formState: { errors },
   } = useForm<HelpForm>();
 
-  const onValidHelpForm = (helpForm: HelpForm) => {
+  const onValid = (helpForm: HelpForm) => {
     setEmail(helpForm?.email!);
     console.log(helpForm);
     mutateAsync(helpForm);
@@ -53,26 +53,26 @@ const HelpPage: NextPage = () => {
 
   return (
     <div>
-      <form onSubmit={helpHandleSubmit(onValidHelpForm)}>
+      <form onSubmit={handleSubmit(onValid)}>
         <Input
           name={"email"}
           label="이메일"
-          register={helpRegister("email", {
+          register={register("email", {
             required: "이메일를 입력해주세요.",
             // pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i, message: "올바른 이메일 형식이 아닙니다." },
           })}
           placeholder="이메일를 입력해주세요."
-          errorMessage={helpErrors.email?.message}
+          errorMessage={errors.email?.message}
         />
         {isToken && (
           <Input
             name="token"
             label="인증번호"
-            register={helpRegister("token", {
+            register={register("token", {
               required: "인증번호를 입력해주세요.",
             })}
             placeholder="인증번호를 입력해주세요."
-            errorMessage={helpErrors.token?.message}
+            errorMessage={errors.token?.message}
           />
         )}
 

@@ -10,7 +10,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<ResponseType>) 
   const { email, password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 12);
   console.log(email, password);
-  const user = await client.user.update({
+  const foundUser = await client.user.update({
     where: {
       email,
     },
@@ -18,7 +18,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<ResponseType>) 
       password: hashedPassword,
     },
   });
-  if (user) {
+  if (foundUser) {
     return res.json({ ok: true });
   } else {
     return res.json({ ok: false });

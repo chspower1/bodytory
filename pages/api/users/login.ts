@@ -4,17 +4,17 @@ import withHandler, { ResponseType } from "@libs/server/withHandler";
 import { withApiSession } from "@libs/server/withSession";
 import { LoginForm } from "pages/users/login";
 import bcrypt from "bcrypt";
-async function handler(req: NextApiRequest, res: NextApiResponse<ResponseType>) {
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { email, password, autoLogin }: LoginForm = req.body;
-  const user = await client.user.findFirst({
+  const foundUser = await client.user.findFirst({
     where: {
       email,
     },
   });
-  const isPasswordCorrect = await bcrypt.compare(password, user?.password!);
-  if (isPasswordCorrect && user) {
+  const isPasswordCorrect = await bcrypt.compare(password, foundUser?.password!);
+  if (isPasswordCorrect && foundUser) {
     req.session.user = {
-      id: user.id,
+      id: foundUser.id,
     };
     await req.session.save();
     return res.json({ ok: true });

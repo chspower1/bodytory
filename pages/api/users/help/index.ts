@@ -10,14 +10,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse<ResponseType>) 
   const { email, token }: HelpForm = req.body;
   console.log(email, token);
   if (email && !token) {
-    const user = await client.user.findFirst({
+    const foundUser = await client.user.findFirst({
       where: {
         email,
       },
     });
     const payload = Math.floor(10000 + Math.random() * 1000000) + "";
 
-    if (user) {
+    if (foundUser) {
       // 이메일 보내기
       // const mailOptions = {
       //   from: process.env.MAIL_ID,
@@ -53,11 +53,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse<ResponseType>) 
     } else return res.json({ ok: false });
   }
   if (email && token) {
-    const FindToken = await client.certification.deleteMany({
+    const foudToken = await client.certification.deleteMany({
       where: { number: token },
     });
-    console.log(FindToken);
-    if (FindToken.count > 0) return res.json({ ok: true });
+    console.log(foudToken);
+    if (foudToken.count > 0) return res.json({ ok: true });
     else return res.json({ ok: false });
   }
 }

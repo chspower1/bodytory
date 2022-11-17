@@ -8,15 +8,15 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { password, newPassword } = req.body;
   const { user } = req.session;
   if (req.method === "PUT") {
-    const findUserPW = await client.user.findFirst({
+    const foundUser = await client.user.findFirst({
       where: {
         id: user?.id,
       },
     });
-    const isPasswordCorrect = await bcrypt.compare(password, findUserPW?.password!);
+    const isPasswordCorrect = await bcrypt.compare(password, foundUser?.password!);
     if (isPasswordCorrect) {
       const hashedPassword = await bcrypt.hash(newPassword, 12);
-      const data = await client.user.update({
+      await client.user.update({
         where: {
           id: user?.id,
         },

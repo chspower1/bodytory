@@ -7,14 +7,14 @@ import client from "@libs/server/client";
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { password } = req.body;
   const { user } = req.session;
-  const findUserPW = await client.user.findUnique({
+  const findUser = await client.user.findUnique({
     where: {
       id: user?.id,
     },
   });
-  const isPasswordCorrect = await bcrypt.compare(password, findUserPW?.password!);
+  const isPasswordCorrect = await bcrypt.compare(password, findUser?.password!);
   if (isPasswordCorrect) {
-    const data = await client.user.delete({
+    await client.user.delete({
       where: {
         id: user?.id,
       },

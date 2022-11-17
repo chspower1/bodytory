@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 interface RegisterForm {
   email: string;
   password: string;
-  checkpassword: string;
+  passwordConfirm: string;
   gender: string;
   name: string;
   age: number;
@@ -23,7 +23,7 @@ function RegisterPage() {
     formState: { errors },
   } = useForm<RegisterForm>();
   const { postApi } = useApi("/api/users/register");
-  const registerMutate = useMutation(postApi, {
+  const { mutate } = useMutation(postApi, {
     onError(error) {
       alert(error);
     },
@@ -34,7 +34,7 @@ function RegisterPage() {
 
   async function onValid(data: RegisterForm) {
     const { email, password, gender, name, age } = data;
-    registerMutate.mutate({ email, password, gender, name, age });
+    mutate({ email, password, gender, name, age });
   }
 
   return (
@@ -59,7 +59,7 @@ function RegisterPage() {
             label="이름"
             name="name"
             register={register("name", { required: "비밀번호 확인을 입력해주세요" })}
-            errorMessage={errors.checkpassword?.message}
+            errorMessage={errors.passwordConfirm?.message}
           />
           <Input
             type="number"

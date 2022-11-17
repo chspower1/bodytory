@@ -13,13 +13,11 @@ export interface LoginForm {
   password: string;
   autoLogin?: boolean;
 }
-interface LoginResponse {
-  ok: boolean;
-}
+
 const LoginPage: NextPage = () => {
   const router = useRouter();
   const { postApi } = useApi("/api/users/login");
-  const { data, mutate } = useMutation(["login"], postApi, {
+  const { mutate } = useMutation(["login"], postApi, {
     onSuccess(data) {
       console.log(data?.ok);
       if (data?.ok) {

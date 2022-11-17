@@ -12,6 +12,7 @@ export default function Withdraw() {
   const router = useRouter();
   const [isModal, setIsModal] = useState(false);
   const { deleteApi } = useApi("/api/users/withdraw");
+  const { deleteApi: LogoutApi } = useApi("/api/users/logout");
   const { mutate } = useMutation(["withdrawKey"], deleteApi, {
     onError(error, variables, context) {
       setError("password", { message: `${error}` });
@@ -19,7 +20,7 @@ export default function Withdraw() {
     onSuccess: data => {
       if (data.ok) {
         setIsModal(true);
-        axios.post("/api/users/logout");
+        LogoutApi({});
       }
     },
   });

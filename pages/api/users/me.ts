@@ -5,7 +5,7 @@ import { withApiSession } from "@libs/server/withSession";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { user } = req.session;
-  const curUser = await client.user.findFirst({
+  const foundUser = await client.user.findFirst({
     where: {
       id: user?.id,
     },
@@ -18,7 +18,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       phone: true,
     },
   });
-  return res.json({ user: curUser });
+  return res.json({ user: foundUser });
 }
 
 export default withApiSession(withHandler({ methods: ["GET"], handler, isPrivate: false }));
