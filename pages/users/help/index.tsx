@@ -14,16 +14,13 @@ export interface HelpForm {
   password?: string;
   confirmPassword?: string;
 }
-interface ResetForm {
-  password: string;
-  confirmPassword: string;
-}
+
 const HelpPage: NextPage = () => {
   const router = useRouter();
   const { postApi } = useApi("/api/users/help");
   const [email, setEmail] = useState("");
   const [isToken, setIsToken] = useState(false);
-  const { data, mutateAsync } = useMutation(["help"], postApi, {
+  const { mutateAsync } = useMutation(["help"], postApi, {
     onSuccess(data) {
       if (data?.ok) {
         if (isToken) {
