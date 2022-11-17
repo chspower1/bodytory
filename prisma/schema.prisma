@@ -42,7 +42,7 @@ model Certification {
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
   number   String
-  user     User     @relation(fields: [userId], references: [id])
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId   Int
 }
 
