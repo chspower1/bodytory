@@ -1,29 +1,27 @@
 import withHandler from "@libs/server/withHandler";
 import { withApiSession } from "@libs/server/withSession";
 import { NextApiRequest, NextApiResponse } from "next";
-// import bcrypt from "bcrypt";
-// import { Prisma, PrismaClient } from "@prisma/client";
+import bcrypt from "bcrypt";
 import client from "@libs/server/client";
-// const client = new PrismaClient();
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const {  password, newPassword } = req.body;
   const { user } = req.session;
   if (req.method === "PUT") {
-    const findUserPW = await client.user.findFirst({
+    const findUserPW = await client.user.findFirst({  
       where: {
         id : user?.id,
       },
     });
-    console.log(findUserPW?.password);
-    // const hashedPassword = await bcrypt.compare(password , findUserPW?.password);
-    if (password === findUserPW?.password) {
+    const isPasswordCorrect = await bcrypt.compare(password, findUserPW?.password!);
+    if (isPasswordCorrect) {
+      const hashedPassword = await bcrypt.hash(newPassword, 12);
       const data = await client.user.update({
         where: {
           id : user?.id,
         },
         data: {
-          password: newPassword,
+          password: hashedPassword,
         },
       });
       return res.json({ ok: true });
