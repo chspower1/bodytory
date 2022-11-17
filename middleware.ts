@@ -14,7 +14,7 @@ export async function middleware(req: NextRequest) {
     !req.url.includes("/users/help") &&
     !req.url.includes("/users/register")
   ) {
-    return NextResponse.redirect(new URL("users/login", req.url));
+    return NextResponse.redirect(new URL("/users/login", req.url));
   } else if (session.user && (req.url.includes("users/login") || req.url.includes("users/help"))) {
     return NextResponse.redirect(new URL("/", req.url));
   }
