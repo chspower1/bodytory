@@ -4,7 +4,7 @@ import useApi from "@libs/client/useApi";
 import useUser from "@libs/client/useUser";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 interface PWType {
   oldPW: String;
@@ -14,9 +14,9 @@ interface PWType {
 
 export default function Edit() {
   const router = useRouter();
-  const { user } = useUser();
+  const [isModal, setIsModal] = useState(false);
   const { putApi } = useApi("/api/users/edit");
-  const changePwMutate = useMutation(["changePasswordKey"], putApi, {
+  const { mutate } = useMutation(["changePasswordKey"], putApi, {
     onError(error, variables, context) {
       setError("oldPW", { message: `${error}` });
     },
@@ -24,9 +24,7 @@ export default function Edit() {
       setValue("oldPW", "");
       setValue("newPW", "");
       setValue("newPWC", "");
-      if (data.ok) {
-        router.replace("/");
-      }
+      setIsModal(true)
     },
   });
   const {
@@ -43,10 +41,15 @@ export default function Edit() {
     } else if (oldPW === newPW) {
       setError("newPW", { message: "새로운 비밀번호를 입력해주세요" });
     } else {
-      changePwMutate.mutate({ password: oldPW, newPassword: newPW, user });
+      mutate({ password: oldPW, newPassword: newPW });
+      
     }
   };
   useEffect(() => {}, []);
+  const handleClickGoHome = ()=>{
+    setIsModal(false)
+    router.replace("/");
+  }
   return (
     <div>
       <h3>비밀번호 변경테스트</h3>
@@ -61,7 +64,7 @@ export default function Edit() {
         />
         <Input
           name="newPW"
-          label="새로운 비밀번호"
+          label="새 비밀번호"
           type="text"
           register={register("newPW", { required: "필수값입니다" })}
           placeholder="비밀번호를 입력해주세요."
@@ -69,15 +72,21 @@ export default function Edit() {
         />
         <Input
           name="newPWC"
-          label="비밀번호 확인"
+          label="새 비밀번호 확인"
           type="text"
           register={register("newPWC", { required: "필수값입니다" })}
           placeholder="비밀번호를 입력해주세요."
           errorMessage={errors.newPWC?.message}
         />
-
         <button type="submit">제출</button>
       </form>
+      {isModal && 
+      <div>
+        <h3>비밀번호 변경 완료</h3>
+        <p>비밀번호가 변경 되었습니다.</p>
+        <button onClick={handleClickGoHome}>홈으로</button>
+      </div>
+      }
     </div>
   );
 }
