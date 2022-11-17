@@ -1,5 +1,5 @@
 import Input from "@components/Input";
-import useMutation from "@libs/client/useMutation";
+
 import { NextPage } from "next";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
@@ -7,16 +7,28 @@ import { useRouter } from "next/router";
 import { ResponseType } from "@libs/server/withHandler";
 import Link from "next/link";
 import useApi from "@libs/client/useApi";
+import { useMutation } from "@tanstack/react-query";
 export interface LoginForm {
   email: string;
   password: string;
   autoLogin?: boolean;
 }
-
+interface LoginResponse {
+  ok: boolean;
+}
 const LoginPage: NextPage = () => {
   const router = useRouter();
-  // const { postApi } = useApi("/api/users/login");
-  const [mutation, { data, loading, error }] = useMutation<ResponseType>("/api/users/login");
+  const { postApi } = useApi("/api/users/login");
+  const { data, mutateAsync } = useMutation(["login"], postApi, {
+    onSuccess(data) {
+      console.log(data?.ok);
+      if (data?.ok) {
+        router.push("/");
+      } else if (data?.ok === false) {
+        alert("회원정보를 확인해주세요");
+      }
+    },
+  });
   const {
     register,
     handleSubmit,
@@ -24,19 +36,9 @@ const LoginPage: NextPage = () => {
   } = useForm<LoginForm>();
 
   const onValid = (loginForm: LoginForm) => {
-    if (loading) return;
-    console.log(loginForm);
-    mutation(loginForm);
+    mutateAsync(loginForm);
   };
 
-  useEffect(() => {
-    console.log(data?.ok);
-    if (data?.ok) {
-      router.push("/");
-    } else if (data?.ok === false) {
-      alert("회원정보를 확인해주세요");
-    }
-  }, [data, router]);
   return (
     <div>
       <form onSubmit={handleSubmit(onValid)}>
