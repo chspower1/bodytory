@@ -3,22 +3,26 @@ import client from "@libs/server/client";
 import withHandler, { ResponseType } from "@libs/server/withHandler";
 import { withApiSession } from "@libs/server/withSession";
 import { LoginForm } from "pages/users/login";
+import smtpTransport from "@libs/server/email";
+import { HelpForm } from "pages/users/help";
 import bcrypt from "bcrypt";
 async function handler(req: NextApiRequest, res: NextApiResponse<ResponseType>) {
-  const { email, password, autoLogin }: LoginForm = req.body;
-  const user = await client.user.findFirst({
+  const { email, password } = req.body;
+  const hashedPassword = await bcrypt.hash(password, 12);
+  console.log(email, password);
+  const user = await client.user.update({
     where: {
       email,
     },
+    data: {
+      password: hashedPassword,
+    },
   });
-  const isPasswordCorrect = await bcrypt.compare(password, user?.password!);
-  if (isPasswordCorrect && user) {
-    req.session.user = {
-      id: user.id,
-    };
-    await req.session.save();
+  if (user) {
     return res.json({ ok: true });
-  } else return res.json({ ok: false });
+  } else {
+    return res.json({ ok: false });
+  }
 }
 
 export default withApiSession(withHandler({ methods: ["POST"], handler, isPrivate: false }));

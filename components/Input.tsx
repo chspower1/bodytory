@@ -8,14 +8,23 @@ interface InputProps {
   type?: string;
   placeholder?: string;
   errorMessage?: string;
+  disabled?: boolean;
 }
 
-export default function Input({ label, name, register, type = "text", errorMessage, placeholder }: InputProps) {
+export default function Input({
+  label,
+  name,
+  register,
+  type = "text",
+  errorMessage,
+  placeholder,
+  disabled = false,
+}: InputProps) {
   return (
     <InputContainer>
       <Label htmlFor={name}>{label}</Label>
       <InputBox>
-        <MainInput id={name} {...register} type={type} placeholder={placeholder} />
+        <MainInput disabled={disabled} id={name} {...register} type={type} placeholder={placeholder} />
         <ErrorMessage>{errorMessage}</ErrorMessage>
       </InputBox>
     </InputContainer>

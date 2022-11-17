@@ -8,6 +8,41 @@ const basicApi = () =>
     },
   });
 
+export const postApi = async (url: string, data: any) => {
+  try {
+    const result = await basicApi().post(url, data);
+    return result.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+export const getApi = async (url: string) => {
+  try {
+    const result = await basicApi().get(url);
+    return result.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const deleteApi = async (url: string, data: any) => {
+  try {
+    const result = await basicApi().post(url, data);
+    return result.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const putApi = async (url: string, data: any) => {
+  try {
+    const result = await basicApi().put(url, data);
+    return result.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const changePasswordApi = async (data: any) => {
   try {
     const res = await basicApi().put("/api/users/edit", data);
