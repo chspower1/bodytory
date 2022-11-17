@@ -26,17 +26,22 @@ const Reset: NextPage = () => {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm<ResetForm>();
 
   const onValid = (resetForm: ResetForm) => {
     console.log(resetForm);
-    mutateAsync(resetForm);
+    mutateAsync({ email: router.query.email, password: resetForm.password });
   };
+  useEffect(() => {
+    console.log(router);
+    if (router.asPath !== "/users/help/reset" || !router.query.email) {
+      router.push("/users/login");
+    }
+  }, [router]);
   return (
     <div>
-      <div>{router.query.email}</div>
+      <div>{router.query?.email}</div>
       <form onSubmit={handleSubmit(onValid)}>
         <Input
           name="password"
