@@ -17,14 +17,14 @@ export default function Edit() {
   const [isModal, setIsModal] = useState(false);
   const { putApi } = useApi("/api/users/edit");
   const { mutate } = useMutation(["changePasswordKey"], putApi, {
-    onError(error, variables, context) {
+    onError(error:any) {
       setError("oldPW", { message: `${error}` });
     },
     onSuccess: data => {
       setValue("oldPW", "");
       setValue("newPW", "");
       setValue("newPWC", "");
-      setIsModal(true)
+      if(data.ok) router.replace("/"); /* setIsModal(true) */
     },
   });
   const {
@@ -80,13 +80,13 @@ export default function Edit() {
         />
         <button type="submit">제출</button>
       </form>
-      {isModal && 
+      {/* {isModal && 
       <div>
         <h3>비밀번호 변경 완료</h3>
         <p>비밀번호가 변경 되었습니다.</p>
         <button onClick={handleClickGoHome}>홈으로</button>
       </div>
-      }
+      } */}
     </div>
   );
 }
