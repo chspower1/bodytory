@@ -2,12 +2,13 @@ import Input from "@components/Input";
 
 import { NextPage } from "next";
 import { useForm } from "react-hook-form";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { ResponseType } from "@libs/server/withHandler";
 import Link from "next/link";
 import useApi from "@libs/client/useApi";
 import { useMutation } from "@tanstack/react-query";
+import Modal from "@components/Modal";
 export interface LoginForm {
   email: string;
   password: string;
@@ -35,6 +36,7 @@ const LoginPage: NextPage = () => {
     mutate(loginForm);
   };
 
+  const [showModal, setShowModal] = useState(false);
   return (
     <div>
       <form onSubmit={handleSubmit(onValid)}>
@@ -76,6 +78,14 @@ const LoginPage: NextPage = () => {
       <Link href="/users/register">
         <button>회원가입</button>
       </Link>
+      <button onClick={() => setShowModal(true)}>Open Modal</button>
+      <Modal
+          onClose={() => setShowModal(false)}
+          show={showModal}
+          title={"임시 타이틀"}
+      >
+        children으로 주는거라 태그 사이에 쓰면 됩니다.
+      </Modal>
     </div>
   );
 };
