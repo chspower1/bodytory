@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import { ErrorInfo, useState } from "react";
 
 const basicApi = () =>
   axios.create({
@@ -20,17 +20,17 @@ export default function useApi<T = any>(url: string) {
     try {
       const result = await basicApi().get(url);
       return result.data;
-    } catch (err) {
-      console.log(err);
+    } catch (err: any) {
+      throw err.response.data;
     }
   };
 
   const deleteApi = async (data: T) => {
     try {
-      const result = await basicApi().delete(url, {data});
+      const result = await basicApi().delete(url, { data });
       return result.data;
-    } catch (err) {
-      console.log(err);
+    } catch (err: any) {
+      throw err.response.data;
     }
   };
   const putApi = async (data: T) => {
@@ -38,7 +38,7 @@ export default function useApi<T = any>(url: string) {
       const result = await basicApi().put(url, data);
       return result.data;
     } catch (err: any) {
-      throw err.response.data
+      throw err.response.data;
     }
   };
   return { postApi, getApi, deleteApi, putApi };
