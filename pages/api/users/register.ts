@@ -19,7 +19,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       password: await bcrypt.hash(password, 12),
     },
   });
-  res.status(200);
+  res.status(200).json({ ok: true });
 }
 
 function isCorrectEmail(email: string) {

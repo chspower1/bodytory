@@ -28,7 +28,6 @@ function RegisterPage() {
       alert(error);
     },
     onSuccess(data) {
-      console.log(data);
       router.replace("/");
     },
   });
