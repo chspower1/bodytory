@@ -13,7 +13,7 @@ export default function Withdraw() {
   const router = useRouter();
   const [isModal, setIsModal] = useState(false);
   const { deleteApi } = useApi("/api/users/withdraw")
-  const withdrawMutate = useMutation(["withdrawKey"], deleteApi, {
+  const { mutate } = useMutation(["withdrawKey"], deleteApi, {
     onError(error, variables, context) {
       setError("password", { message: `${error}` });
     },
@@ -35,7 +35,7 @@ export default function Withdraw() {
   } = useForm<PWType>();
 
   const onSubmit: SubmitHandler<PWType> = ({ password }) => {
-    withdrawMutate.mutate({ password: password });
+    mutate({ password: password });
   };
 
   const handleClickConfirm = () => {
