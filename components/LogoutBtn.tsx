@@ -12,17 +12,17 @@ const LogoutBtn = () => {
   const handleClickLogout = async () => {
     LogoutApi({});
     // console.log(localStorage.removeItem("naverToken"));
-    // const res = await axios.get("/oauth2.0/token", {
-    //   params: {
-    //     grant_type: "delete",
-    //     client_id: process.env.NEXT_PUBLIC_NAVER_CLIENT_ID,
-    //     client_secret: process.env.NEXT_PUBLIC_NAVER_CLIENT_SECRET,
-    //     access_token: localStorage.getItem("naverToken"),
-    //     service_provider: "NAVER",
-    //   },
-    // });
-    // console.log(res);
-    router.replace("/auth/login");
+    const res = await axios.get("/oauth2.0/token", {
+      params: {
+        grant_type: "delete",
+        client_id: process.env.NEXT_PUBLIC_NAVER_CLIENT_ID,
+        client_secret: process.env.NEXT_PUBLIC_NAVER_CLIENT_SECRET,
+        access_token: localStorage.getItem("naverToken"),
+        service_provider: "NAVER",
+      },
+    });
+    console.log(res);
+    router.push("/auth/login");
   };
   return <button onClick={handleClickLogout}>로그아웃</button>;
 };
