@@ -10,12 +10,12 @@ export async function middleware(req: NextRequest) {
 
   if (
     !session.user &&
-    !req.url.includes("/users/login") &&
+    !req.url.includes("/auth/login") &&
     !req.url.includes("/users/help") &&
-    !req.url.includes("/users/register")
+    !req.url.includes("/auth/register")
   ) {
-    return NextResponse.redirect(new URL("/users/login", req.url));
-  } else if (session.user && (req.url.includes("users/login") || req.url.includes("users/help"))) {
+    return NextResponse.redirect(new URL("/auth/login", req.url));
+  } else if (session.user && (req.url.includes("auth/login") || req.url.includes("users/help"))) {
     return NextResponse.redirect(new URL("/", req.url));
   }
 }

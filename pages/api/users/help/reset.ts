@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import client from "@libs/server/client";
 import withHandler, { ResponseType } from "@libs/server/withHandler";
 import { withApiSession } from "@libs/server/withSession";
-import { LoginForm } from "pages/users/login";
+import { LoginForm } from "pages/auth/login";
 import smtpTransport from "@libs/server/email";
 import { HelpForm } from "pages/users/help";
 import bcrypt from "bcrypt";
