@@ -37,7 +37,7 @@ model User {
   email         String          @unique
   phone         String?
   name          String
-  birth         Int             @default(1993)
+  birth         String          @default("1993")
   gender        Gender
   records       Record[]
   hospitals     Hospital[]
