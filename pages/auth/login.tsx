@@ -75,7 +75,7 @@ const LoginPage: NextPage = () => {
       <Link href="/users/help">
         <button>비밀번호 찾기</button>
       </Link>
-      <Link href="/users/register">
+      <Link href="/auth/register">
         <button>회원가입</button>
       </Link>
       <button onClick={() => setShowModal(true)}>Open Modal</button>
