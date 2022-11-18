@@ -22,10 +22,10 @@ export default function Home() {
       <Link href={"/users/profile/edit"}>
         <button>계정 관리</button>
       </Link>
-      <Link href={"users/records/write"}>
+      <Link href={"/users/records/write"}>
         <button>기록하기</button>
       </Link>
-      <Link href={"users/records/chart"}>
+      <Link href={"/users/records/chart"}>
         <button>기록보기</button>
       </Link>
       <button onClick={handleClickLogout}>로그아웃</button>

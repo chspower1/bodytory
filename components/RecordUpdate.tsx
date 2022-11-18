@@ -14,7 +14,7 @@ interface RecordUpdateType {
 
 export default function RecordUpdate({ recordId, setCurrentIdx }: RecordUpdatePropsType) {
   const queryClient = useQueryClient();
-  const { putApi } = useApi("/apiusers/records");
+  const { putApi } = useApi("/api/users/records");
   const { mutate } = useMutation(["recordsUpdateKey"], putApi, {
     onSuccess(data, variables, context) {
       queryClient.invalidateQueries(["recordsReadKey"]);

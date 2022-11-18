@@ -11,7 +11,7 @@ interface WriteType {
 
 export default function WritePage() {
   const queryClient = useQueryClient();
-  const { postApi } = useApi("/apiusers/records");
+  const { postApi } = useApi("/api/users/records");
   const { mutate } = useMutation(["recordsWriteKey"], postApi, {
     onSuccess(data, variables, context) {
       queryClient.invalidateQueries(["recordsReadKey"]);
@@ -51,7 +51,7 @@ export default function WritePage() {
       {isText && <div>작성 되었습니다!</div>}
       <br />
       <br />
-      <Link href={"users/records/chart"}>
+      <Link href={"/users/records/chart"}>
         <button>기록보기</button>
       </Link>
     </div>

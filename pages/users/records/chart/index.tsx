@@ -6,7 +6,7 @@ import React, { useState } from "react";
 
 export default function ChartPage() {
   const queryClient = useQueryClient();
-  const { getApi, deleteApi } = useApi("/apiusers/records");
+  const { getApi, deleteApi } = useApi("/api/users/records");
   const { isLoading, status, data, error } = useQuery(["recordsReadKey"], getApi);
   const { mutate } = useMutation(["recordDeleteKey"], deleteApi, {
     onSuccess(data, variables, context) {
@@ -47,7 +47,7 @@ export default function ChartPage() {
       <br />
       <br />
       <br />
-      <Link href={"users/records/write"}>
+      <Link href={"/users/records/write"}>
         <button>작성하러 가기</button>
       </Link>
     </div>
