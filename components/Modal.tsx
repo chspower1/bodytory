@@ -4,7 +4,7 @@ import styled, { keyframes } from "styled-components";
 
 interface ModalType {
   show: boolean;
-  onClose : () => void;
+  onClose: () => void;
   children?: string;
   title?: string;
 }
@@ -52,30 +52,28 @@ const Dim = styled.div`
   z-index: 1000;
   background: #00000042;
   display: flex;
-  text-align:center;
+  text-align: center;
 `;
 const ModalBox = styled.div`
   width: 400px;
   height: 400px;
   background: #fff;
-  margin:auto;
-  opacity:0;
-  animation: ${showFrame} .3s forwards;
+  margin: auto;
+  opacity: 0;
+  animation: ${showFrame} 0.3s forwards;
   padding: 20px;
 `;
 
 const ModalCloseBtnBox = styled.div`
-  text-align:right;
-`
+  text-align: right;
+`;
 
 const ModalTitle = styled.div`
   padding: 20px 0;
-  h3{
+  h3 {
     font-size: 25px;
   }
-`
-const ModalContent = styled.div`
-
-`
+`;
+const ModalContent = styled.div``;
 
 export default Modal;

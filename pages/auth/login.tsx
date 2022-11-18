@@ -9,6 +9,8 @@ import Link from "next/link";
 import useApi from "@libs/client/useApi";
 import { useMutation } from "@tanstack/react-query";
 import Modal from "@components/Modal";
+import NaverLoginBtn from "@components/NaverLoginBtn";
+import KakaoLoginBtn from "@components/KakaoLoginBtn";
 export interface LoginForm {
   email: string;
   password: string;
@@ -18,12 +20,13 @@ export interface LoginForm {
 const LoginPage: NextPage = () => {
   const router = useRouter();
   const { postApi } = useApi("/api/auth/login");
+  const [showModal, setShowModal] = useState(false);
   const { mutate } = useMutation(["login"], postApi, {
-    onError(error : any) {
-      alert(`${error.data}`)
+    onError(error: any) {
+      alert(`${error.data}`);
     },
-    onSuccess(data) {
-        router.push("/");
+    onSuccess() {
+      router.push("/");
     },
   });
   const {
@@ -36,7 +39,6 @@ const LoginPage: NextPage = () => {
     mutate(loginForm);
   };
 
-  const [showModal, setShowModal] = useState(false);
   return (
     <div>
       <form onSubmit={handleSubmit(onValid)}>
@@ -78,12 +80,10 @@ const LoginPage: NextPage = () => {
       <Link href="/auth/register">
         <button>회원가입</button>
       </Link>
+      <NaverLoginBtn mutate={mutate} />
+      <KakaoLoginBtn mutate={mutate} />
       <button onClick={() => setShowModal(true)}>Open Modal</button>
-      <Modal
-          onClose={() => setShowModal(false)}
-          show={showModal}
-          title={"임시 타이틀"}
-      >
+      <Modal onClose={() => setShowModal(false)} show={showModal} title={"임시 타이틀"}>
         children으로 주는거라 태그 사이에 쓰면 됩니다.
       </Modal>
     </div>
