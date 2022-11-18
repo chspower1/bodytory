@@ -18,7 +18,7 @@ const Reset: NextPage = () => {
   const { putApi } = useApi("/api/users/help/reset");
   const { mutateAsync } = useMutation(["help"], putApi, {
     onSuccess(data) {
-      router.push("/users/login");
+      router.push("/auth/login");
     },
   });
   const {
@@ -34,7 +34,7 @@ const Reset: NextPage = () => {
   useEffect(() => {
     console.log(router);
     if (router.asPath !== "/users/help/reset" || !router.query.email) {
-      router.push("/users/login");
+      router.push("/auth/login");
     }
   }, [router]);
   return (

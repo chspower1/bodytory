@@ -10,7 +10,7 @@ interface User {
 }
 const useUser = () => {
   async function getUser() {
-    return (await axios.get("/api/users/me")) as User;
+    return await axios.get("/api/users/me");
   }
   const { data: user } = useQuery(["user"], getUser);
   return { user };
