@@ -6,7 +6,6 @@ import { LoginForm } from "pages/auth/login";
 import bcrypt from "bcrypt";
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { type } = req.body;
-  // 네이버 로그인
   if (type === "naver") {
     const { email, phone, name, birth, gender } = req.body;
     const foundUser = await client.user.findFirst({

@@ -5,8 +5,6 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 const KakaoLoginBtn = ({ mutate }: { mutate: UseMutateFunction<any, any, any, unknown> }) => {
-  const router = useRouter();
-
   const kakaoLogin = async () => {
     // 카카오 초기화
     const kakao = kakaoInit();
