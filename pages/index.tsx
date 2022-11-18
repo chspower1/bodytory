@@ -12,32 +12,23 @@ const Test = styled.div`
 `;
 export default function Home() {
   const router = useRouter();
-  const { deleteApi: LogoutApi } = useApi("/api/users/logout");
+  const { deleteApi: LogoutApi } = useApi("/api/auth/logout");
   const handleClickLogout = () => {
     LogoutApi({}).then(res => router.push("/auth/login"));
   };
   return (
-  <Test>
-    홈
-  <Link href={"/profile/edit"}>
-    <button>
-      계정 관리
-    </button>
-  </Link>  
-  <Link href={"/records/write"}>
-    <button>
-      기록하기
-    </button>
-  </Link>  
-  <Link href={"/records/chart"}>
-    <button>
-      기록보기
-    </button>
-  </Link>  
-  <button onClick={handleClickLogout}>
-    로그아웃
-  </button>  
-  </Test>
-    
+    <Test>
+      홈
+      <Link href={"/profile/edit"}>
+        <button>계정 관리</button>
+      </Link>
+      <Link href={"/records/write"}>
+        <button>기록하기</button>
+      </Link>
+      <Link href={"/records/chart"}>
+        <button>기록보기</button>
+      </Link>
+      <button onClick={handleClickLogout}>로그아웃</button>
+    </Test>
   );
 }
