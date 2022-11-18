@@ -28,12 +28,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       return res.status(401).send("회원정보를 확인해주세요");
     }
   }
-  if (type === "naver") {
+  if (type === "naver" || "kakao") {
+    console.log(req.body);
     const { id, email, phone, name, birth, gender } = req.body;
     const foundUser = await client.user.findFirst({
       where: {
-        accountId: id,
-        type: "naver",
+        accountId: id + "",
+        type,
       },
     });
     // 존재하는 유저
@@ -45,27 +46,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       return res.status(201).end();
     }
     // 새로운 유저
-    else return res.status(400).json({ type: "naver", id, email, phone, name, birth, gender });
-  }
-
-  if (type === "kakao") {
-    const { id, email, phone, name, birth, gender } = req.body;
-    const foundUser = await client.user.findFirst({
-      where: {
-        accountId: id,
-        type: "kakao",
-      },
-    });
-    // 존재하는 유저
-    if (foundUser) {
-      req.session.user = {
-        id: foundUser.id,
-      };
-      await req.session.save();
-      return res.status(201).end();
-    }
-    // 새로운 유저
-    else return res.status(400).json({ type: "kakao", id, email, phone, name, birth, gender });
+    else return res.status(400).json({ type, id, email, phone, name, birth, gender });
   }
 }
 
