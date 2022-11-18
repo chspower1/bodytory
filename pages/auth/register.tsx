@@ -22,7 +22,7 @@ interface RegisterForm {
 
 function RegisterPage() {
   const router = useRouter();
-  const [isNotDuplicate, setIsNotDuplicate] = useState<Boolean>(true);
+  const [isNotDuplicate, setIsNotDuplicate] = useState(false);
   const {
     register,
     handleSubmit,
@@ -41,37 +41,39 @@ function RegisterPage() {
     },
   });
 
-  async function onValid(data: RegisterForm) {
+  function onValid(data: RegisterForm) {
     const { accountId, email, password, passwordConfirm, gender, name, birth } = data;
-
     if (password !== passwordConfirm) {
       setError("passwordConfirm", { message: "비밀번호가 일치하지 않습니다" });
       return;
     }
-
     mutate({ accountId, email, password, gender, name, birth });
   }
-
-  useEffect(() => {
-    setError("accountId", { type: "custom", message: isNotDuplicate ? "사용 가능한 아이디입니다." : "중복된 아이디 입니다." });
-  }, [isNotDuplicate]);
 
   useEffect(() => {
     clearErrors();
   }, []);
 
   const enterAccountId = watch("accountId");
+  const regex = /^[a-zA-Z0-9]*$/;
   const { postApi: checkAccountIdApi } = useApi("/api/users/checkAccountId");
   const handleClickCheckAccountId = (e : React.MouseEvent<HTMLElement>)=>{
     e.preventDefault();
     if(enterAccountId === ""){
       setError("accountId", {message:"아이디를 입력해주세요"})
+    }else if(!regex.test(enterAccountId)){
+      setError("accountId", {message:`아이디 형식에 맞지 않습니다`})
     }else{
       checkAccountIdApi({accountId : enterAccountId})
-        .then(res => setError("accountId", {message:`${res}`}))
-        .catch(err => setError("accountId", {message:`${err}`}))
+        .then(res => {setError("accountId", {message:`${res}`}); setIsNotDuplicate(true)})
+        .catch(err => setError("accountId", {message:`${err.data}`}))
     }
   }
+  useEffect(()=>{
+    if(isNotDuplicate){
+      setIsNotDuplicate(false)
+    }
+  },[enterAccountId])
   return (
     <>
       <div>
@@ -130,16 +132,17 @@ function RegisterPage() {
             <h4>성별</h4>
             <div className="innerBox">
               <div className="inputBox">
-                <input id="registerGenderMale" type="radio" value={"male"} {...register("gender")} />
+                <input id="registerGenderMale" type="radio" value={"male"} {...register("gender", { required: "성별을 선택해주세요" })} />
                 <GenderLabel htmlFor="registerGenderMale">남자</GenderLabel>
               </div>
               <div className="inputBox">
-                <input id="registerGenderFeMale"  type="radio" value={"female"} {...register("gender")} />
+                <input id="registerGenderFeMale"  type="radio" value={"female"} {...register("gender", { required: "성별을 선택해주세요" })} />
                 <GenderLabel htmlFor="registerGenderFeMale">여자</GenderLabel>
               </div>
             </div>
+            <p>{errors.gender?.message}</p>
           </GenderBox>
-          <button disabled={!isNotDuplicate}>제출</button>
+          <button type="submit" disabled={!isNotDuplicate}>제출</button>
         </form>
       </div>
     </>
