@@ -40,7 +40,7 @@ const NaverLoginBtn = ({ mutate }: { mutate: UseMutateFunction<any, any, any, un
               email,
               phone: mobile,
               name,
-              birthyear,
+              birth: birthyear,
               gender: gender === "M" ? "male" : "female",
             });
           }

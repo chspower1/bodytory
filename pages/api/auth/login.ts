@@ -66,6 +66,40 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     }
   }
   if (type === "kakao") {
+    const { email, phone, name, birth, gender } = req.body;
+    const foundUser = await client.user.findFirst({
+      where: {
+        email: email + "/kakao",
+        type: "kakao",
+      },
+    });
+    // 존재하는 유저
+    if (foundUser) {
+      req.session.user = {
+        id: foundUser.id,
+      };
+      await req.session.save();
+      return res.status(201).end();
+    }
+    // 새로운 유저
+    else {
+      const newUser = await client.user.create({
+        data: {
+          type: "kakao",
+          email: email + "/kakao",
+          phone,
+          name,
+          birth,
+          gender,
+          password: Math.floor(10000 + Math.random() * 1000000) + "",
+        },
+      });
+      req.session.user = {
+        id: newUser.id,
+      };
+      await req.session.save();
+      return res.status(201).end();
+    }
   }
 }
 

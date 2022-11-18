@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 const LogoutBtn = () => {
   const router = useRouter();
   const { deleteApi: LogoutApi } = useApi("/api/users/logout");
-  const { getApi: naverLogoutApi } = useApi("/oauth2.0/token");
+  //   const { getApi: naverLogoutApi } = useApi("/oauth2.0/token");
 
   // 실제 서비스 코드
   // const { postApi: naverLogoutApi } = useApi("https://nid.naver.com/oauth2.0/token");
