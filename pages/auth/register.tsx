@@ -27,7 +27,7 @@ function RegisterPage() {
     clearErrors,
     formState: { errors },
   } = useForm<RegisterForm>();
-  const { postApi } = useApi("/api/users/register");
+  const { postApi } = useApi("/api/auth/register");
   const { mutate } = useMutation(postApi, {
     onError(error: any) {
       alert(`${error.data}`);

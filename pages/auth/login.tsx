@@ -17,7 +17,7 @@ export interface LoginForm {
 
 const LoginPage: NextPage = () => {
   const router = useRouter();
-  const { postApi } = useApi("/api/users/login");
+  const { postApi } = useApi("/api/auth/login");
   const { mutate } = useMutation(["login"], postApi, {
     onError(error : any) {
       alert(`${error.data}`)

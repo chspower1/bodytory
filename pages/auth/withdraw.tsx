@@ -11,7 +11,7 @@ interface PWType {
 export default function Withdraw() {
   const router = useRouter();
   const [isModal, setIsModal] = useState(false);
-  const { deleteApi } = useApi("/api/users/withdraw");
+  const { deleteApi } = useApi("/api/auth/withdraw");
   const { deleteApi: LogoutApi } = useApi("/api/users/logout");
   const { mutate } = useMutation(["withdrawKey"], deleteApi, {
     onError(error : any, variables, context) {
