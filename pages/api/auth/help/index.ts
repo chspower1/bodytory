@@ -4,7 +4,7 @@ import withHandler, { ResponseType } from "@libs/server/withHandler";
 import { withApiSession } from "@libs/server/withSession";
 import { LoginForm } from "pages/auth/login";
 import smtpTransport from "@libs/server/email";
-import { HelpForm } from "pages/help";
+import { HelpForm } from "pages/auth/help";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { token, accountId }: HelpForm = req.body;
@@ -64,11 +64,30 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
   if (accountId && token) {
     const foudToken = await client.certification.deleteMany({
-      where: { number: token },
+      where: {
+        number: token,
+        AND: {
+          user: {
+            accountId,
+          },
+        },
+      },
     });
+
     console.log(foudToken);
-    if (foudToken.count > 0) return res.status(201).end();
-    else return res.status(403).send("토큰 값을 확인해주세요");
+    if (foudToken.count > 0) {
+      await client.user.update({
+        where: {
+          accountId,
+        },
+        data: {
+          Certification: {
+            deleteMany: {},
+          },
+        },
+      });
+      return res.status(201).end();
+    } else return res.status(403).send("토큰 값을 확인해주세요");
   }
 }
 

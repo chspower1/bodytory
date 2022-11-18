@@ -87,7 +87,7 @@ const LoginPage: NextPage = () => {
         /> */}
         <button>로그인</button>
       </form>
-      <Link href="/users/help">
+      <Link href="/auth/help">
         <button>비밀번호 찾기</button>
       </Link>
       <Link href="/auth/register">

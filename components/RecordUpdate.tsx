@@ -1,24 +1,23 @@
-import Input from '@components/Input';
-import useApi from '@libs/client/useApi';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import React from 'react'
-import { SubmitHandler, useForm } from 'react-hook-form';
+import Input from "@components/Input";
+import useApi from "@libs/client/useApi";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import React from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 
-interface RecordUpdatePropsType{
+interface RecordUpdatePropsType {
   recordId: string;
   setCurrentIdx: React.Dispatch<React.SetStateAction<number>>;
 }
-interface RecordUpdateType{
+interface RecordUpdateType {
   updateWrite: string;
 }
 
-
-export default function RecordUpdate({recordId, setCurrentIdx}: RecordUpdatePropsType ) {
+export default function RecordUpdate({ recordId, setCurrentIdx }: RecordUpdatePropsType) {
   const queryClient = useQueryClient();
-  const { putApi } = useApi("/api/records/record");
-  const { mutate } = useMutation(['recordsUpdateKey'] , putApi,{
+  const { putApi } = useApi("/apiusers/records");
+  const { mutate } = useMutation(["recordsUpdateKey"], putApi, {
     onSuccess(data, variables, context) {
-      queryClient.invalidateQueries(['recordsReadKey']);
+      queryClient.invalidateQueries(["recordsReadKey"]);
     },
   });
   const {
@@ -28,7 +27,7 @@ export default function RecordUpdate({recordId, setCurrentIdx}: RecordUpdateProp
     formState: { errors },
   } = useForm<RecordUpdateType>();
   const onSubmit: SubmitHandler<RecordUpdateType> = ({ updateWrite }) => {
-    mutate({ id: recordId, position: "leg", description:updateWrite})
+    mutate({ id: recordId, position: "leg", description: updateWrite });
     setCurrentIdx(-1);
   };
 
@@ -36,15 +35,15 @@ export default function RecordUpdate({recordId, setCurrentIdx}: RecordUpdateProp
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Input
-            name="updateWrite"
-            label="기록할내용"
-            type="text"
-            register={register("updateWrite", { required: "필수값입니다" })}
-            placeholder="내용을 입력하세요"
-            errorMessage={errors.updateWrite?.message}
-          />
-        <button type="submit" >수정하기</button>
+          name="updateWrite"
+          label="기록할내용"
+          type="text"
+          register={register("updateWrite", { required: "필수값입니다" })}
+          placeholder="내용을 입력하세요"
+          errorMessage={errors.updateWrite?.message}
+        />
+        <button type="submit">수정하기</button>
       </form>
     </div>
-  )
+  );
 }

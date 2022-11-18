@@ -15,7 +15,7 @@ interface ResetForm {
 
 const Reset: NextPage = () => {
   const router = useRouter();
-  const { putApi } = useApi("/api/users/help/reset");
+  const { putApi } = useApi("/api/auth/help/reset");
   const { mutateAsync } = useMutation(["help"], putApi, {
     onSuccess(data) {
       router.push("/auth/login");
@@ -33,7 +33,7 @@ const Reset: NextPage = () => {
   };
   useEffect(() => {
     console.log(router.query);
-    if (router.asPath !== "/users/help/reset" || !router.query.email) {
+    if (router.asPath !== "/auth/help/reset" || !router.query.email) {
       router.push("/auth/login");
     }
   }, [router]);

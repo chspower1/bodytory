@@ -18,7 +18,7 @@ export interface HelpForm {
 
 const HelpPage: NextPage = () => {
   const router = useRouter();
-  const { postApi } = useApi("/api/users/help");
+  const { postApi } = useApi("/api/auth/help");
   const [isToken, setIsToken] = useState(false);
   const [email, setEmail] = useState("");
   const [accountId, setAccountId] = useState("");
@@ -34,10 +34,10 @@ const HelpPage: NextPage = () => {
         console.log("인증번호 인증 완료");
         router.push(
           {
-            pathname: "/users/help/reset",
+            pathname: "/auth/help/reset",
             query: { email, accountId },
           },
-          "/users/help/reset",
+          "/help/reset",
         );
       }
       setIsToken(true);

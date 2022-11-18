@@ -55,7 +55,7 @@ function RegisterPage() {
 
   const enterAccountId = watch("accountId");
   const regex = /^[a-zA-Z0-9]*$/;
-  const { postApi: checkAccountIdApi } = useApi("/api/auth/checkAccountId");
+  const { postApi: checkAccountIdApi } = useApi("/api/auth/register/check");
   const handleClickCheckAccountId = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     if (enterAccountId === "") {
