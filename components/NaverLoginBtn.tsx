@@ -1,9 +1,9 @@
 import useApi from "@libs/client/useApi";
+import { UseMutateFunction, useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
-const NaverLoginBtn = () => {
-  const { postApi } = useApi("/api/auth/login");
+const NaverLoginBtn = ({ mutate }: { mutate: UseMutateFunction<any, any, any, unknown> }) => {
   const router = useRouter();
   useEffect(() => {
     const naver = (window as any).naver;
@@ -31,7 +31,8 @@ const NaverLoginBtn = () => {
           if (status) {
             // 로그인 상태 값이 있을 경우
             console.log(naverLogin.user); // 사용자 정보 조회
-
+            const { email, phone, name, birth, gender } = naverLogin.user;
+            mutate({ type: "naver", email, phone, name, birth, gender });
             // if (!naverLogin.user.getAge()) {
             //   // 나이정보 제공을 동의하지 않았을 경우
             //   alert("나이 정보는 필수입니다.");
@@ -41,7 +42,6 @@ const NaverLoginBtn = () => {
             // }
 
             // /naver 페이지로 token값과 함께 전달 (서비스할 땐 token 전달을 하지 않고 상태 관리를 사용하는 것이 바람직할 것으로 보임)
-            router.push("/");
           }
         });
       }
