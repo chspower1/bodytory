@@ -20,8 +20,9 @@ const KakaoLoginBtn = ({ mutate }: { mutate: UseMutateFunction<any, any, any, un
 
             // 카카오 로그인 요청
             mutate({
+              id: res.id,
               type: "kakao",
-              email: res.id + "",
+              email: res.email,
               name: res.kakao_account.profile.nickname,
               birth: "2000",
               gender: res.kakao_account.gender,

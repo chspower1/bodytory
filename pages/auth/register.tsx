@@ -13,7 +13,8 @@ interface RegisterForm {
   passwordConfirm: string;
   gender: string;
   name: string;
-  age: number;
+  birth: string;
+  phone?: string;
 }
 
 function RegisterPage() {
@@ -25,6 +26,7 @@ function RegisterPage() {
     setError,
     watch,
     clearErrors,
+    setValue,
     formState: { errors },
   } = useForm<RegisterForm>();
   const { postApi } = useApi("/api/auth/register");
@@ -38,14 +40,14 @@ function RegisterPage() {
   });
 
   async function onValid(data: RegisterForm) {
-    const { email, password, passwordConfirm, gender, name, age } = data;
+    const { password, passwordConfirm } = data;
 
     if (password !== passwordConfirm) {
       setError("passwordConfirm", { message: "비밀번호가 일치하지 않습니다" });
       return;
     }
 
-    mutate({ email, password, gender, name, age });
+    mutate(data);
   }
 
   async function checkDuplicateEmail(event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) {
@@ -63,11 +65,20 @@ function RegisterPage() {
   }
   useEffect(() => {
     setError("email", { type: "custom", message: isNotDuplicate ? "적합한 이메일" : "중복이메일" });
-  }, [isNotDuplicate]);
+  }, [isNotDuplicate, setError]);
 
   useEffect(() => {
     clearErrors();
-  }, []);
+    if (router.query) {
+      const { email, phone, name, birth, gender } = router.query;
+      console.log(router.query);
+      setValue("email", (email as string) || "");
+      setValue("phone", (phone as string) || "");
+      setValue("name", (name as string) || "");
+      setValue("birth", (birth as string) || "");
+      // setValue("gender", (gender as string) || "");
+    }
+  }, [clearErrors, router, setValue]);
 
   return (
     <>
@@ -103,15 +114,28 @@ function RegisterPage() {
           />
           <Input
             type="number"
-            label="나이"
+            label="생년월일"
             name="age"
-            register={register("age", { required: "나이를 입력해주세요" })}
-            errorMessage={errors.age?.message}
+            register={register("birth", { required: "나이를 입력해주세요" })}
+            errorMessage={errors.birth?.message}
           />
-          <select {...register("gender", { required: "성별을 입력해주세요" })}>
-            <option value="male">남자</option>
-            <option value="female">여자</option>
-          </select>
+          <Input
+            type="radio"
+            label="남자"
+            name="gender"
+            value="male"
+            register={register("gender")}
+            errorMessage={errors.birth?.message}
+          />
+          <Input
+            type="radio"
+            label="여자"
+            name="gender"
+            value="female"
+            register={register("gender")}
+            errorMessage={errors.birth?.message}
+          />
+
           <button disabled={isNotDuplicate ? false : true}>제출</button>
         </form>
       </div>

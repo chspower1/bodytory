@@ -23,12 +23,23 @@ const LoginPage: NextPage = () => {
   const [showModal, setShowModal] = useState(false);
   const { mutate } = useMutation(["login"], postApi, {
     onError(error: any) {
-      alert(`${error.data}`);
+      console.log(error);
+      // alert(`${error.data}`);
+      if (error.data) {
+        router.push(
+          {
+            pathname: "/auth/register",
+            query: error.data,
+          },
+          "/auth/register",
+        );
+      }
     },
     onSuccess() {
       router.push("/");
     },
   });
+  const { mutate: socialLogin } = useMutation(["socialLogin"], postApi, {});
   const {
     register,
     handleSubmit,

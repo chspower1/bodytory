@@ -9,6 +9,8 @@ interface InputProps {
   placeholder?: string;
   errorMessage?: string;
   disabled?: boolean;
+  value?: string;
+  checked?: boolean;
 }
 
 export default function Input({
@@ -18,13 +20,15 @@ export default function Input({
   type = "text",
   errorMessage,
   placeholder,
+  value,
   disabled = false,
+  checked,
 }: InputProps) {
   return (
     <InputContainer>
       <Label htmlFor={name}>{label}</Label>
       <InputBox>
-        <MainInput disabled={disabled} id={name} {...register} type={type} placeholder={placeholder} />
+        <MainInput disabled={disabled} id={name} {...register} type={type} placeholder={placeholder} value={value} />
         <ErrorMessage>{errorMessage}</ErrorMessage>
       </InputBox>
     </InputContainer>

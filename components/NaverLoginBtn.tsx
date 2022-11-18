@@ -33,9 +33,10 @@ const NaverLoginBtn = ({ mutate }: { mutate: UseMutateFunction<any, any, any, un
           if (status) {
             // 사용자 정보 조회
             console.log(naverLogin.user);
-            const { email, mobile, name, birthyear, gender } = naverLogin.user;
+            const { email, mobile, name, birthyear, gender, id } = naverLogin.user;
             // 네이버 로그인 요청
             mutate({
+              id,
               type: "naver",
               email,
               phone: mobile,

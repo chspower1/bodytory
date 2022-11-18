@@ -33,11 +33,12 @@ model User {
   type          UserType        @default(origin)
   createAt      DateTime        @default(now())
   updateAt      DateTime        @updatedAt
+  accountId     String          @unique
   password      String
-  email         String          @unique
+  email         String
   phone         String?
   name          String
-  birth         String          @default("1993")
+  birth         String          @default("1993-10-23")
   gender        Gender
   records       Record[]
   hospitals     Hospital[]
