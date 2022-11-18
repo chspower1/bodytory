@@ -4,7 +4,7 @@ import withHandler from "@libs/server/withHandler";
 import { withApiSession } from "@libs/server/withSession";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { accountId } = req.body;
+  const { accountId }: { accountId: string } = req.body;
 
   const foundUser = await client.user.findFirst({
     where: {

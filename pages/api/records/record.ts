@@ -4,7 +4,7 @@ import withHandler from "@libs/server/withHandler";
 import { withApiSession } from "@libs/server/withSession";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { id, createAt, type, position, description } = req.body;
+  const { id, type, position, description } = req.body;
   const { user } = req.session;
   if (req.method === "POST") {
     await client.record.create({
@@ -19,35 +19,35 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         },
       },
     });
-    return res.status(200).end()
+    return res.status(200).end();
   }
-  if(req.method === "GET"){
+  if (req.method === "GET") {
     const data = await client.record.findMany({
-      where:{
+      where: {
         userId: user?.id,
-      }
-    })
-    return res.status(200).json(data)
+      },
+    });
+    return res.status(200).json(data);
   }
-  if(req.method === "PUT"){
+  if (req.method === "PUT") {
     await client.record.update({
       where: {
-        id
+        id,
       },
       data: {
         position,
         description,
       },
-    })
-    return res.status(200).end()
+    });
+    return res.status(200).end();
   }
-  if(req.method === "DELETE"){
+  if (req.method === "DELETE") {
     await client.record.delete({
       where: {
-        id
-      }
-    })
-    return res.status(200).end()
+        id,
+      },
+    });
+    return res.status(200).end();
   }
 }
 

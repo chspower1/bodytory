@@ -67,18 +67,21 @@ function RegisterPage() {
         .then(res => {
           setError("accountId", { message: `${res}` });
           setIsNotDuplicate(true);
+          alert("사용가능한 아이디");
         })
         .catch(err => setError("accountId", { message: `${err.data}` }));
     }
   };
-  useEffect(() => {
-    if (isNotDuplicate) {
-      setIsNotDuplicate(false);
-    }
-  }, [enterAccountId, setIsNotDuplicate, isNotDuplicate]);
+  // useEffect(() => {
+  //   if (isNotDuplicate) {
+  //     setIsNotDuplicate(false);
+  //   }
+  // }, [enterAccountId, setIsNotDuplicate, isNotDuplicate]);
+  // 소셜 계정 가입 시
   useEffect(() => {
     clearErrors();
-    if (router.query) {
+    if (router.query.type) {
+      console.log(router.query);
       const { id, email, phone, name, birth, gender, type } = router.query;
       setType(type as string);
       console.log(router.query);
@@ -108,7 +111,7 @@ function RegisterPage() {
           />
           <button onClick={handleClickCheckAccountId}>중복확인</button>
           <Input
-            label="이메일"
+            label="이메일(본인인증 확인용!!!)"
             name="email"
             placeholder="abc@abc.com"
             register={register("email", {

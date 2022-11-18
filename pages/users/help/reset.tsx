@@ -29,10 +29,10 @@ const Reset: NextPage = () => {
 
   const onValid = (resetForm: ResetForm) => {
     console.log(resetForm);
-    mutateAsync({ email: router.query.email, password: resetForm.password });
+    mutateAsync({ accountId: router.query.accountId, password: resetForm.password });
   };
   useEffect(() => {
-    console.log(router);
+    console.log(router.query);
     if (router.asPath !== "/users/help/reset" || !router.query.email) {
       router.push("/auth/login");
     }

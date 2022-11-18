@@ -12,7 +12,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       id: user?.id!,
     },
   });
-  if(foundUser) {
+  if (foundUser) {
     const isPasswordCorrect = await bcrypt.compare(password, foundUser?.password!);
     if (isPasswordCorrect) {
       await client.user.delete({
@@ -21,8 +21,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         },
       });
       return res.status(204).end();
-    } 
-  }else {
+    }
+  } else {
     return res.status(401).send("현재 비밀번호를 적어주세요");
   }
 }

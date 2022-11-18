@@ -7,12 +7,13 @@ import smtpTransport from "@libs/server/email";
 import { HelpForm } from "pages/users/help";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { email, token }: HelpForm = req.body;
-  console.log(email, token);
-  if (email && !token) {
+  const { token, accountId }: HelpForm = req.body;
+  console.log(accountId, token);
+  if (accountId && !token) {
     const foundUser = await client.user.findFirst({
       where: {
-        email,
+        accountId,
+        type: "origin",
       },
     });
     const payload = Math.floor(10000 + Math.random() * 1000000) + "";
@@ -36,21 +37,32 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       // });
       // smtpTransport.close();
       // 토큰 생성
-      await client.certification.create({
+      const certification = await client.certification.create({
         data: {
           number: payload,
           user: {
             connect: {
-              email,
+              accountId,
+            },
+          },
+        },
+        include: {
+          user: {
+            select: {
+              accountId: true,
+              email: true,
             },
           },
         },
       });
-      console.log(payload);
-      return res.status(201).end();
+      console.log(payload, certification);
+      return res.status(201).json({
+        email: certification.user.email,
+        accountId: certification.user.accountId,
+      });
     } else return res.status(403).send("인증에 실패하였습니다");
   }
-  if (email && token) {
+  if (accountId && token) {
     const foudToken = await client.certification.deleteMany({
       where: { number: token },
     });

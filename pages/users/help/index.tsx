@@ -9,6 +9,7 @@ import Link from "next/link";
 import useApi from "@libs/client/useApi";
 import { useMutation } from "@tanstack/react-query";
 export interface HelpForm {
+  accountId?: string;
   email?: string;
   token?: string;
   password?: string;
@@ -18,19 +19,23 @@ export interface HelpForm {
 const HelpPage: NextPage = () => {
   const router = useRouter();
   const { postApi } = useApi("/api/users/help");
-  const [email, setEmail] = useState("");
   const [isToken, setIsToken] = useState(false);
+  const [email, setEmail] = useState("");
+  const [accountId, setAccountId] = useState("");
   const { mutateAsync } = useMutation(["help"], postApi, {
-    onError(error:any) {
+    onError(error: any) {
       alert(`${error.data}`);
     },
     onSuccess(data) {
+      setEmail(data.email);
+      setAccountId(data.accountId);
+      console.log(data);
       if (isToken) {
         console.log("인증번호 인증 완료");
         router.push(
           {
             pathname: "/users/help/reset",
-            query: { email },
+            query: { email, accountId },
           },
           "/users/help/reset",
         );
@@ -45,7 +50,6 @@ const HelpPage: NextPage = () => {
   } = useForm<HelpForm>();
 
   const onValid = (helpForm: HelpForm) => {
-    setEmail(helpForm?.email!);
     console.log(helpForm);
     mutateAsync(helpForm);
   };
@@ -54,25 +58,27 @@ const HelpPage: NextPage = () => {
     <div>
       <form onSubmit={handleSubmit(onValid)}>
         <Input
-          name={"email"}
-          label="이메일"
-          register={register("email", {
-            required: "이메일를 입력해주세요.",
-            // pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i, message: "올바른 이메일 형식이 아닙니다." },
+          name={"accountId"}
+          label="아이디"
+          register={register("accountId", {
+            required: "아이디를 입력해주세요.",
           })}
-          placeholder="이메일를 입력해주세요."
-          errorMessage={errors.email?.message}
+          placeholder="아이디를 입력해주세요."
+          errorMessage={errors.accountId?.message}
         />
         {isToken && (
-          <Input
-            name="token"
-            label="인증번호"
-            register={register("token", {
-              required: "인증번호를 입력해주세요.",
-            })}
-            placeholder="인증번호를 입력해주세요."
-            errorMessage={errors.token?.message}
-          />
+          <>
+            <div>{email}</div>
+            <Input
+              name="token"
+              label="인증번호"
+              register={register("token", {
+                required: "인증번호를 입력해주세요.",
+              })}
+              placeholder="인증번호를 입력해주세요."
+              errorMessage={errors.token?.message}
+            />
+          </>
         )}
 
         <button>{isToken ? "인증번호 확인" : "이메일 인증"}</button>

@@ -7,12 +7,12 @@ import smtpTransport from "@libs/server/email";
 import { HelpForm } from "pages/users/help";
 import bcrypt from "bcrypt";
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { email, password } = req.body;
+  const { email, password, accountId } = req.body;
   const hashedPassword = await bcrypt.hash(password, 12);
   console.log(email, password);
   const foundUser = await client.user.update({
     where: {
-      email,
+      accountId,
     },
     data: {
       password: hashedPassword,
