@@ -6,6 +6,7 @@ import styles from "@styles/Home.module.css";
 import Link from "next/link";
 import useApi from "@libs/client/useApi";
 import { useRouter } from "next/router";
+import LogoutBtn from "@components/LogoutBtn";
 const Test = styled.div`
   color: red;
 `;
@@ -22,7 +23,7 @@ export default function Home() {
       <Link href={"/profile/edit"}>
         <button>계정 관리</button>
       </Link>
-      <button onClick={handleClickLogout}>로그아웃</button>
+      <LogoutBtn />
     </Test>
   );
 }

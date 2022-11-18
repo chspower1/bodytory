@@ -24,7 +24,7 @@ const LoginPage: NextPage = () => {
     onError(error: any) {
       alert(`${error.data}`);
     },
-    onSuccess(data) {
+    onSuccess() {
       router.push("/");
     },
   });
