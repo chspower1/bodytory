@@ -36,7 +36,7 @@ const LoginPage: NextPage = () => {
   } = useForm<LoginForm>();
 
   const onValid = (loginForm: LoginForm) => {
-    mutate(loginForm);
+    mutate({ ...loginForm, type: "origin" });
   };
 
   return (
