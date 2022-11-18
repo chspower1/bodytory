@@ -4,10 +4,12 @@ import { useMutation } from "@tanstack/react-query";
 import client from "@libs/server/client";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
-import { MouseEvent, useEffect, useState } from "react";
+import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
 import axios from "axios";
+import styled from "styled-components";
 
 interface RegisterForm {
+  accountId: string;
   email: string;
   password: string;
   passwordConfirm: string;
@@ -17,9 +19,11 @@ interface RegisterForm {
   phone?: string;
 }
 
+
+
 function RegisterPage() {
   const router = useRouter();
-  const [isNotDuplicate, setIsNotDuplicate] = useState<Boolean>();
+  const [isNotDuplicate, setIsNotDuplicate] = useState(false);
   const {
     register,
     handleSubmit,
@@ -65,7 +69,7 @@ function RegisterPage() {
   }
   useEffect(() => {
     setError("email", { type: "custom", message: isNotDuplicate ? "적합한 이메일" : "중복이메일" });
-  }, [isNotDuplicate, setError]);
+  }, [isNotDuplicate]);
 
   useEffect(() => {
     clearErrors();
@@ -80,29 +84,63 @@ function RegisterPage() {
     }
   }, [clearErrors, router, setValue]);
 
+  const enterAccountId = watch("accountId");
+  const regex = /^[a-zA-Z0-9]*$/;
+  const { postApi: checkAccountIdApi } = useApi("/api/users/checkAccountId");
+  const handleClickCheckAccountId = (e : React.MouseEvent<HTMLElement>)=>{
+    e.preventDefault();
+    if(enterAccountId === ""){
+      setError("accountId", {message:"아이디를 입력해주세요"})
+    }else if(!regex.test(enterAccountId)){
+      setError("accountId", {message:`아이디 형식에 맞지 않습니다`})
+    }else{
+      checkAccountIdApi({accountId : enterAccountId})
+        .then(res => {setError("accountId", {message:`${res}`}); setIsNotDuplicate(true)})
+        .catch(err => setError("accountId", {message:`${err.data}`}))
+    }
+  }
+  useEffect(()=>{
+    if(isNotDuplicate){
+      setIsNotDuplicate(false)
+    }
+  },[enterAccountId])
   return (
     <>
       <div>
         <form onSubmit={handleSubmit(onValid)}>
           <Input
+            label="아이디"
+            name="accountId"
+            placeholder="아이디를 입력해주세요"
+            register={register("accountId", { required: "아이디를 입력해주세요" })}
+            errorMessage={errors.accountId?.message}
+          />
+          <button onClick={handleClickCheckAccountId}>중복확인</button>
+          <Input
             label="이메일"
             name="email"
             placeholder="abc@abc.com"
-            register={register("email", { required: "이메일을 입력해주세요" })}
+            register={register("email", { required: "이메일을 입력해주세요",
+              pattern:{
+                value: /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/,
+                message : "이메일 형식이 아닙니다"
+              }
+            })}
             errorMessage={errors.email?.message}
           />
-          <button onClick={event => checkDuplicateEmail(event)}>중복확인</button>
           <Input
             type="password"
             label="비밀번호"
             name="password"
+            placeholder="비밀번호를 입력해주세요"
             register={register("password", { required: "비밀번호를 입력해주세요" })}
             errorMessage={errors.password?.message}
           />
           <Input
-            type="passwordConfirm"
-            label="비밀번호확인"
+            type="password"
+            label="비밀번호 확인"
             name="passwordConfirm"
+            placeholder="한번 더 입력해주세요"
             register={register("passwordConfirm", { required: "비밀번호 확인을 입력해주세요" })}
             errorMessage={errors.passwordConfirm?.message}
           />
@@ -113,33 +151,64 @@ function RegisterPage() {
             errorMessage={errors.name?.message}
           />
           <Input
-            type="number"
-            label="생년월일"
-            name="age"
-            register={register("birth", { required: "나이를 입력해주세요" })}
+            label="생일"
+            name="birth"
+            register={register("birth", { required: "생일을 입력해주세요",  
+                // pattern: /[0-9\-]/g
+              })}
             errorMessage={errors.birth?.message}
           />
-          <Input
-            type="radio"
-            label="남자"
-            name="gender"
-            value="male"
-            register={register("gender")}
-            errorMessage={errors.birth?.message}
-          />
-          <Input
-            type="radio"
-            label="여자"
-            name="gender"
-            value="female"
-            register={register("gender")}
-            errorMessage={errors.birth?.message}
-          />
-
-          <button disabled={isNotDuplicate ? false : true}>제출</button>
+          <GenderBox>
+            <h4>성별</h4>
+            <div className="innerBox">
+              <div className="inputBox">
+                <input id="registerGenderMale" type="radio" value={"male"} {...register("gender", { required: "성별을 선택해주세요" })} />
+                <GenderLabel htmlFor="registerGenderMale">남자</GenderLabel>
+              </div>
+              <div className="inputBox">
+                <input id="registerGenderFeMale"  type="radio" value={"female"} {...register("gender", { required: "성별을 선택해주세요" })} />
+                <GenderLabel htmlFor="registerGenderFeMale">여자</GenderLabel>
+              </div>
+            </div>
+            <p>{errors.gender?.message}</p>
+          </GenderBox>
+          <button type="submit" disabled={!isNotDuplicate}>제출</button>
         </form>
       </div>
     </>
   );
 }
+
+
+const GenderBox = styled.div`
+
+.innerBox{
+  display: inline-flex;
+}
+
+.inputBox{
+  width:80px;
+  height:50px;
+  border: 1px solid #000;
+}
+
+input{
+  position:absolute;
+  left: -999999%;
+}
+  input:checked + label{
+    background: #000;
+    color: #fff;
+  }
+`
+const GenderLabel = styled.label`
+  display: block;
+  width: 100%;
+  height:100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+`
+
 export default RegisterPage;
