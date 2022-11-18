@@ -37,7 +37,7 @@ const HelpPage: NextPage = () => {
             pathname: "/auth/help/reset",
             query: { email, accountId },
           },
-          "/help/reset",
+          "/auth/help/reset",
         );
       }
       setIsToken(true);
