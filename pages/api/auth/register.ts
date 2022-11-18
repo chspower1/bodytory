@@ -7,7 +7,7 @@ import * as bcrypt from "bcrypt";
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { accountId, password, email, name, birth, gender, type } = req.body;
 
-  await client.user.create({
+  const newUser = await client.user.create({
     data: {
       type,
       accountId,
@@ -18,6 +18,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       password: await bcrypt.hash(password, 12),
     },
   });
+  req.session.user = {
+    id: newUser.id,
+  };
+  await req.session.save();
   return res.status(200).end();
 }
 export default withApiSession(withHandler({ methods: ["POST"], handler, isPrivate: false }));

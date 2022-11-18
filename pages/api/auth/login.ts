@@ -7,10 +7,10 @@ import bcrypt from "bcrypt";
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { type } = req.body;
   if (type === "origin") {
-    const { email, password, autoLogin }: LoginForm = req.body;
+    const { accountId, password }: LoginForm = req.body;
     const foundUser = await client.user.findFirst({
       where: {
-        email,
+        accountId,
       },
     });
     if (foundUser) {

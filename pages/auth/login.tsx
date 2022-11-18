@@ -13,9 +13,8 @@ import NaverLoginBtn from "@components/NaverLoginBtn";
 import KakaoLoginBtn from "@components/KakaoLoginBtn";
 
 export interface LoginForm {
-  email: string;
+  accountId: string;
   password: string;
-  autoLogin?: boolean;
 }
 
 const LoginPage: NextPage = () => {
@@ -25,8 +24,7 @@ const LoginPage: NextPage = () => {
   const { mutate } = useMutation(["login"], postApi, {
     onError(error: any) {
       console.log(error);
-      // alert(`${error.data}`);
-      if (error.data) {
+      if (error.status === 400) {
         router.push(
           {
             pathname: "/auth/register",
@@ -34,6 +32,9 @@ const LoginPage: NextPage = () => {
           },
           "/auth/register",
         );
+      }
+      if (error.status === 401) {
+        alert("회원정보가 옳지 않습니다.");
       }
     },
     onSuccess() {
@@ -55,14 +56,14 @@ const LoginPage: NextPage = () => {
     <div>
       <form onSubmit={handleSubmit(onValid)}>
         <Input
-          name="email"
-          label="이메일"
-          register={register("email", {
-            required: "이메일를 입력해주세요.",
-            // pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i, message: "올바른 이메일 형식이 아닙니다." },
+          name="accountId"
+          label="아이디"
+          register={register("accountId", {
+            required: "아이디를 입력해주세요.",
+            // pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i, message: "올바른 아이디 형식이 아닙니다." },
           })}
           placeholder="이메일를 입력해주세요."
-          errorMessage={errors.email?.message}
+          errorMessage={errors.accountId?.message}
         />
         <Input
           name="password"
