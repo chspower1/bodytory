@@ -12,22 +12,17 @@ const Test = styled.div`
 export default function Home() {
   const router = useRouter();
   const { deleteApi: LogoutApi } = useApi("/api/users/logout");
-  const handleClickLogout = ()=>{
-    router.replace('/auth/login');
-    LogoutApi({})
-  }
+  const handleClickLogout = () => {
+    router.replace("/auth/login");
+    LogoutApi({});
+  };
   return (
-  <Test>
-    홈
-  <Link href={"/profile/edit"}>
-    <button>
-      계정 관리
-    </button>
-  </Link>  
-  <button onClick={handleClickLogout}>
-    로그아웃
-  </button>  
-  </Test>
-    
+    <Test>
+      홈
+      <Link href={"/profile/edit"}>
+        <button>계정 관리</button>
+      </Link>
+      <button onClick={handleClickLogout}>로그아웃</button>
+    </Test>
   );
 }

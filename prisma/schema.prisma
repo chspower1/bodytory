@@ -22,8 +22,15 @@ enum Gender {
   female
 }
 
+enum UserType {
+  naver
+  kakao
+  origin
+}
+
 model User {
   id            Int             @id @default(autoincrement())
+  type          UserType        @default(origin)
   createAt      DateTime        @default(now())
   updateAt      DateTime        @updatedAt
   password      String
@@ -63,10 +70,12 @@ model Record {
   updateAt    DateTime   @updatedAt
   type        RecordType
   position    Position
-  disease     String
+  disease     String?
   description String
   user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      Int
+  hospital    Hospital?  @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
+  hospitalId  Int?
 }
 
 model MedicalDepartment {
@@ -87,4 +96,5 @@ model Hospital {
   phone              String?
   address            String
   medicalDepartments MedicalDepartment[]
+  Record             Record[]
 }
