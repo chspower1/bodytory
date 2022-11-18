@@ -11,7 +11,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     const { email, phone, name, birth, gender } = req.body;
     const foundUser = await client.user.findFirst({
       where: {
-        email,
+        email: email + "/naver",
+        type: "naver",
       },
     });
     // 존재하는 유저
@@ -27,7 +28,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       const newUser = await client.user.create({
         data: {
           type: "naver",
-          email,
+          email: email + "/naver",
           phone,
           name,
           birth,

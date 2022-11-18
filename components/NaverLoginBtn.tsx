@@ -31,8 +31,15 @@ const NaverLoginBtn = ({ mutate }: { mutate: UseMutateFunction<any, any, any, un
           if (status) {
             // 로그인 상태 값이 있을 경우
             console.log(naverLogin.user); // 사용자 정보 조회
-            const { email, phone, name, birth, gender } = naverLogin.user;
-            mutate({ type: "naver", email, phone, name, birth, gender });
+            const { email, mobile, name, birthyear, gender } = naverLogin.user;
+            mutate({
+              type: "naver",
+              email,
+              phone: mobile,
+              name,
+              birthyear,
+              gender: gender === "M" ? "male" : "female",
+            });
             // if (!naverLogin.user.getAge()) {
             //   // 나이정보 제공을 동의하지 않았을 경우
             //   alert("나이 정보는 필수입니다.");
@@ -48,7 +55,7 @@ const NaverLoginBtn = ({ mutate }: { mutate: UseMutateFunction<any, any, any, un
     };
     login();
     getToken();
-  }, [router]);
+  }, [mutate, router]);
   return <button id="naverIdLogin">네이버 로그인</button>;
 };
 export default NaverLoginBtn;
