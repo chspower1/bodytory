@@ -14,8 +14,7 @@ export default function Home() {
   const router = useRouter();
   const { deleteApi: LogoutApi } = useApi("/api/users/logout");
   const handleClickLogout = () => {
-    router.replace("/auth/login");
-    LogoutApi({});
+    LogoutApi({}).then(res => router.push("/auth/login"));
   };
   return (
   <Test>
