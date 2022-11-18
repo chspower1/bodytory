@@ -24,6 +24,11 @@ export default function Home() {
       계정 관리
     </button>
   </Link>  
+  <Link href={"/write"}>
+    <button>
+      기록하기
+    </button>
+  </Link>  
   <button onClick={handleClickLogout}>
     로그아웃
   </button>  
