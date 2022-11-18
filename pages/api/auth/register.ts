@@ -5,10 +5,11 @@ import { withApiSession } from "@libs/server/withSession";
 import * as bcrypt from "bcrypt";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { accountId, password, email, name, birth, gender } = req.body;
+  const { accountId, password, email, name, birth, gender, type } = req.body;
 
   await client.user.create({
     data: {
+      type,
       accountId,
       name,
       birth,

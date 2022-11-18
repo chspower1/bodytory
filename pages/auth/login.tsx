@@ -11,6 +11,7 @@ import { useMutation } from "@tanstack/react-query";
 import Modal from "@components/Modal";
 import NaverLoginBtn from "@components/NaverLoginBtn";
 import KakaoLoginBtn from "@components/KakaoLoginBtn";
+
 export interface LoginForm {
   email: string;
   password: string;
@@ -39,7 +40,7 @@ const LoginPage: NextPage = () => {
       router.push("/");
     },
   });
-  const { mutate: socialLogin } = useMutation(["socialLogin"], postApi, {});
+
   const {
     register,
     handleSubmit,

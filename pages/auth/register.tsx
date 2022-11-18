@@ -19,10 +19,9 @@ interface RegisterForm {
   phone?: string;
 }
 
-
-
 function RegisterPage() {
   const router = useRouter();
+  const [type, setType] = useState("origin");
   const [isNotDuplicate, setIsNotDuplicate] = useState(false);
   const {
     register,
@@ -51,59 +50,51 @@ function RegisterPage() {
       return;
     }
 
-    mutate(data);
+    mutate({ ...data, type });
   }
-
-  async function checkDuplicateEmail(event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) {
-    event.preventDefault();
-    const enterEmail = watch("email");
-    const regex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
-    if (!regex.test(enterEmail)) return setError("email", { type: "custom", message: "이메일 형식이 아닙니다." });
-
-    try {
-      const result = await axios.post("/api/users/checkemail", { enterEmail });
-      setIsNotDuplicate(true);
-    } catch (error) {
-      setIsNotDuplicate(false);
-    }
-  }
-  useEffect(() => {
-    setError("email", { type: "custom", message: isNotDuplicate ? "적합한 이메일" : "중복이메일" });
-  }, [isNotDuplicate]);
-
-  useEffect(() => {
-    clearErrors();
-    if (router.query) {
-      const { email, phone, name, birth, gender } = router.query;
-      console.log(router.query);
-      setValue("email", (email as string) || "");
-      setValue("phone", (phone as string) || "");
-      setValue("name", (name as string) || "");
-      setValue("birth", (birth as string) || "");
-      // setValue("gender", (gender as string) || "");
-    }
-  }, [clearErrors, router, setValue]);
 
   const enterAccountId = watch("accountId");
   const regex = /^[a-zA-Z0-9]*$/;
   const { postApi: checkAccountIdApi } = useApi("/api/users/checkAccountId");
-  const handleClickCheckAccountId = (e : React.MouseEvent<HTMLElement>)=>{
+  const handleClickCheckAccountId = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
-    if(enterAccountId === ""){
-      setError("accountId", {message:"아이디를 입력해주세요"})
-    }else if(!regex.test(enterAccountId)){
-      setError("accountId", {message:`아이디 형식에 맞지 않습니다`})
-    }else{
-      checkAccountIdApi({accountId : enterAccountId})
-        .then(res => {setError("accountId", {message:`${res}`}); setIsNotDuplicate(true)})
-        .catch(err => setError("accountId", {message:`${err.data}`}))
+    if (enterAccountId === "") {
+      setError("accountId", { message: "아이디를 입력해주세요" });
+    } else if (!regex.test(enterAccountId)) {
+      setError("accountId", { message: `아이디 형식에 맞지 않습니다` });
+    } else {
+      checkAccountIdApi({ accountId: enterAccountId })
+        .then(res => {
+          setError("accountId", { message: `${res}` });
+          setIsNotDuplicate(true);
+        })
+        .catch(err => setError("accountId", { message: `${err.data}` }));
     }
-  }
-  useEffect(()=>{
-    if(isNotDuplicate){
-      setIsNotDuplicate(false)
+  };
+  useEffect(() => {
+    if (isNotDuplicate) {
+      setIsNotDuplicate(false);
     }
-  },[enterAccountId])
+  }, [enterAccountId, setIsNotDuplicate, isNotDuplicate]);
+  useEffect(() => {
+    clearErrors();
+    if (router.query) {
+      const { id, email, phone, name, birth, gender, type } = router.query;
+      setType(type as string);
+      console.log(router.query);
+      setIsNotDuplicate(true);
+      console.log(isNotDuplicate);
+      const fakePassword = Math.floor(10000 + Math.random() * 1000000) + "";
+      setValue("accountId", id as string);
+      setValue("password", fakePassword);
+      setValue("passwordConfirm", fakePassword);
+      setValue("email", (email as string) || "");
+      setValue("phone", (phone as string) || "");
+      setValue("name", (name as string) || "");
+      setValue("birth", (birth as string) || "");
+      setValue("gender", (gender as string) === "male" ? "male" : "female");
+    }
+  }, [clearErrors, router, setValue, isNotDuplicate]);
   return (
     <>
       <div>
@@ -120,11 +111,12 @@ function RegisterPage() {
             label="이메일"
             name="email"
             placeholder="abc@abc.com"
-            register={register("email", { required: "이메일을 입력해주세요",
-              pattern:{
+            register={register("email", {
+              required: "이메일을 입력해주세요",
+              pattern: {
                 value: /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/,
-                message : "이메일 형식이 아닙니다"
-              }
+                message: "이메일 형식이 아닙니다",
+              },
             })}
             errorMessage={errors.email?.message}
           />
@@ -153,62 +145,73 @@ function RegisterPage() {
           <Input
             label="생일"
             name="birth"
-            register={register("birth", { required: "생일을 입력해주세요",  
-                // pattern: /[0-9\-]/g
-              })}
+            register={register("birth", {
+              required: "생일을 입력해주세요",
+              // pattern: /[0-9\-]/g
+            })}
             errorMessage={errors.birth?.message}
           />
           <GenderBox>
             <h4>성별</h4>
             <div className="innerBox">
               <div className="inputBox">
-                <input id="registerGenderMale" type="radio" value={"male"} {...register("gender", { required: "성별을 선택해주세요" })} />
+                <input
+                  id="registerGenderMale"
+                  type="radio"
+                  value={"male"}
+                  {...register("gender", { required: "성별을 선택해주세요" })}
+                />
                 <GenderLabel htmlFor="registerGenderMale">남자</GenderLabel>
               </div>
               <div className="inputBox">
-                <input id="registerGenderFeMale"  type="radio" value={"female"} {...register("gender", { required: "성별을 선택해주세요" })} />
+                <input
+                  id="registerGenderFeMale"
+                  type="radio"
+                  value={"female"}
+                  {...register("gender", { required: "성별을 선택해주세요" })}
+                />
                 <GenderLabel htmlFor="registerGenderFeMale">여자</GenderLabel>
               </div>
             </div>
             <p>{errors.gender?.message}</p>
           </GenderBox>
-          <button type="submit" disabled={!isNotDuplicate}>제출</button>
+          <button type="submit" disabled={!isNotDuplicate}>
+            제출
+          </button>
         </form>
       </div>
     </>
   );
 }
 
-
 const GenderBox = styled.div`
+  .innerBox {
+    display: inline-flex;
+  }
 
-.innerBox{
-  display: inline-flex;
-}
+  .inputBox {
+    width: 80px;
+    height: 50px;
+    border: 1px solid #000;
+  }
 
-.inputBox{
-  width:80px;
-  height:50px;
-  border: 1px solid #000;
-}
-
-input{
-  position:absolute;
-  left: -999999%;
-}
-  input:checked + label{
+  input {
+    position: absolute;
+    left: -999999%;
+  }
+  input:checked + label {
     background: #000;
     color: #fff;
   }
-`
+`;
 const GenderLabel = styled.label`
   display: block;
   width: 100%;
-  height:100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-`
+`;
 
 export default RegisterPage;

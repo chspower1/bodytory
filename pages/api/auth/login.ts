@@ -45,7 +45,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       return res.status(201).end();
     }
     // 새로운 유저
-    else return res.status(400).json({ id, email, phone, name, birth, gender });
+    else return res.status(400).json({ type: "naver", id, email, phone, name, birth, gender });
   }
 
   if (type === "kakao") {
@@ -65,7 +65,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       return res.status(201).end();
     }
     // 새로운 유저
-    else return res.status(400).json({ id, email, phone, name, birth, gender });
+    else return res.status(400).json({ type: "kakao", id, email, phone, name, birth, gender });
   }
 }
 
