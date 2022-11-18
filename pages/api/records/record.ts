@@ -7,13 +7,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { type, position, description }: WriteRecord = req.body;
   const { user } = req.session;
   if(req.method === "POST"){
-    const data = await client.user.update({
+    await client.user.update({
       where:{
         id : user?.id,
       },
       data:{
         records:{
-          
+          type: "user"
         }
       }
     })
