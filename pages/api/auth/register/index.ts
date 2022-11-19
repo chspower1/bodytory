@@ -6,7 +6,7 @@ import * as bcrypt from "bcrypt";
 import { RegisterForm } from "pages/auth/register";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { accountId, password, email, name, birth, gender, type }: RegisterForm = req.body;
+  const { accountId, password, email, name, birth, gender, type, phone }: RegisterForm = req.body;
 
   const newUser = await client.user.create({
     data: {
@@ -16,6 +16,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       birth,
       gender,
       email,
+      phone,
       password: await bcrypt.hash(password, 12),
     },
   });

@@ -212,6 +212,15 @@ function RegisterPage() {
               })}
               errorMessage={thirdErrors.birth?.message}
             />
+            <Input
+              label="이메일"
+              name="email"
+              register={thirdRegister("email", {
+                required: "이메일을 입력해주세요",
+                // pattern: /[0-9\-]/g
+              })}
+              errorMessage={thirdErrors.email?.message}
+            />
             <GenderBox>
               <h4>성별</h4>
               <div className="innerBox">
