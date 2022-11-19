@@ -20,7 +20,7 @@ export interface LoginForm {
 const LoginPage: NextPage = () => {
   const router = useRouter();
   const { postApi } = useApi("/api/auth/login");
-  const [showModal, setShowModal] = useState(false);
+  // const [showModal, setShowModal] = useState(false);
   const { mutate } = useMutation(["login"], postApi, {
     onError(error: any) {
       console.log(error);
@@ -87,6 +87,9 @@ const LoginPage: NextPage = () => {
         /> */}
         <button>로그인</button>
       </form>
+      <Link href="/auth/help/findId">
+        <button>아이디 찾기</button>
+      </Link>
       <Link href="/auth/help">
         <button>비밀번호 찾기</button>
       </Link>
@@ -95,10 +98,10 @@ const LoginPage: NextPage = () => {
       </Link>
       <NaverLoginBtn mutate={mutate} />
       <KakaoLoginBtn mutate={mutate} />
-      <button onClick={() => setShowModal(true)}>Open Modal</button>
-      <Modal onClose={() => setShowModal(false)} show={showModal} title={"임시 타이틀"}>
+      {/* <button onClick={() => setShowModal(true)}>Open Modal</button> */}
+      {/* <Modal onClose={() => setShowModal(false)} activeFuction={} show={showModal} title={"임시 타이틀"}>
         children으로 주는거라 태그 사이에 쓰면 됩니다.
-      </Modal>
+      </Modal> */}
     </div>
   );
 };
