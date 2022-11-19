@@ -3,32 +3,36 @@ import ReactDOM from "react-dom";
 import styled, { keyframes } from "styled-components";
 
 interface ModalType {
-  show: boolean;
+  show : boolean;
+  closingComment ?: boolean;
   onClose: () => void;
-  children?: string;
+  activeFuction: () => void;
   title?: string;
+  children?: string | JSX.Element;
 }
-
-function Modal({ show, onClose, children, title }: ModalType) {
+/**
+ * @show 필수 입니다.
+ * @closingComment false가 기본값입니다.
+ */
+function Modal({ show, closingComment = false, onClose, activeFuction, children, title }: ModalType) {
   const [isBrowser, setIsBrowser] = useState(false);
 
   useEffect(() => {
     setIsBrowser(true);
     return setIsBrowser(true);
   }, []);
-  const handleCloseClick = () => {
-    onClose();
-  };
+
   const modalContent = show ? (
     <Dim>
       <ModalBox>
-        <ModalCloseBtnBox>
-          <button onClick={handleCloseClick}>x</button>
-        </ModalCloseBtnBox>
         <ModalTitle>
           <h3>{title}</h3>
         </ModalTitle>
         <ModalContent>{children}</ModalContent>
+        <ConfirmBtnBox>
+          <ConfirmBtn onClick={activeFuction}>확인</ConfirmBtn>
+          {!closingComment && <ConfirmBtn onClick={onClose}>취소</ConfirmBtn>}
+        </ConfirmBtnBox>
       </ModalBox>
     </Dim>
   ) : null;
@@ -38,6 +42,14 @@ function Modal({ show, onClose, children, title }: ModalType) {
     return null;
   }
 }
+
+const ConfirmBtnBox = styled.div`
+
+`
+
+const ConfirmBtn = styled.button`
+  
+`
 
 const showFrame = keyframes`
   100%{
@@ -62,10 +74,6 @@ const ModalBox = styled.div`
   opacity: 0;
   animation: ${showFrame} 0.3s forwards;
   padding: 20px;
-`;
-
-const ModalCloseBtnBox = styled.div`
-  text-align: right;
 `;
 
 const ModalTitle = styled.div`
