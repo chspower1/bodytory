@@ -12,7 +12,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (accountId && !token) {
     const foundUser = await client.user.findFirst({
       where: {
-        accountId,
         type: "origin",
       },
     });
