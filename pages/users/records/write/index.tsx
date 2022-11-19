@@ -25,7 +25,7 @@ export default function WritePage() {
     setError,
     formState: { errors },
   } = useForm<WriteType>();
-  const onSubmit: SubmitHandler<WriteType> = ({ write }) => {
+  const onValid: SubmitHandler<WriteType> = ({ write }) => {
     mutate({ type: "user", position: "arm", description: write });
     setValue("write", "");
     setIsText(true);
@@ -35,7 +35,7 @@ export default function WritePage() {
   };
   return (
     <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onValid)}>
         <Input
           name="write"
           label="기록할내용"

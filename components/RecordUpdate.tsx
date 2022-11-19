@@ -26,14 +26,14 @@ export default function RecordUpdate({ recordId, setCurrentIdx }: RecordUpdatePr
     setError,
     formState: { errors },
   } = useForm<RecordUpdateType>();
-  const onSubmit: SubmitHandler<RecordUpdateType> = ({ updateWrite }) => {
+  const onValid: SubmitHandler<RecordUpdateType> = ({ updateWrite }) => {
     mutate({ id: recordId, position: "leg", description: updateWrite });
     setCurrentIdx(-1);
   };
 
   return (
     <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onValid)}>
         <Input
           name="updateWrite"
           label="기록할내용"
