@@ -7,13 +7,30 @@ import { useForm } from "react-hook-form";
 import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
+import { Gender, UserType } from "@prisma/client";
 
-interface RegisterForm {
+interface FirstRegisterForm {
+  agree: boolean;
+}
+interface SecondRegisterForm {
   accountId: string;
-  email: string;
   password: string;
   passwordConfirm: string;
+}
+interface ThirdRegisterForm {
+  email: string;
   gender: string;
+  name: string;
+  birth: string;
+  phone?: string;
+}
+export interface RegisterForm {
+  type: UserType;
+  accountId: string;
+  password: string;
+  passwordConfirm: string;
+  email: string;
+  gender: Gender;
   name: string;
   birth: string;
   phone?: string;
@@ -22,61 +39,92 @@ interface RegisterForm {
 function RegisterPage() {
   const router = useRouter();
   const [type, setType] = useState("origin");
+  const [step, setStep] = useState(1);
   const [isNotDuplicate, setIsNotDuplicate] = useState(false);
   const {
-    register,
-    handleSubmit,
-    setError,
-    watch,
-    clearErrors,
-    setValue,
-    formState: { errors },
-  } = useForm<RegisterForm>();
+    register: firstRegister,
+    handleSubmit: firstHandleSubmit,
+    setError: firstSetError,
+    watch: firstWatch,
+    clearErrors: firstClearErrors,
+    setValue: firstSetValue,
+    formState: { errors: firstErrors },
+  } = useForm<FirstRegisterForm>();
+  const {
+    register: secondRegister,
+    handleSubmit: secondHandleSubmit,
+    setError: secondSetError,
+    watch: secondWatch,
+    clearErrors: secondClearErrors,
+    setValue: secondSetValue,
+    formState: { errors: secondErrors },
+  } = useForm<SecondRegisterForm>();
+  const {
+    register: thirdRegister,
+    handleSubmit: thirdHandleSubmit,
+    setError: thirdSetError,
+    watch: thirdWatch,
+    clearErrors: thirdClearErrors,
+    setValue: thirdSetValue,
+    formState: { errors: thirdErrors },
+  } = useForm<ThirdRegisterForm>();
   const { postApi } = useApi("/api/auth/register");
   const { mutate } = useMutation(postApi, {
     onError(error: any) {
       alert(`${error.data}`);
     },
-    onSuccess(data) {
+    onSuccess() {
       router.replace("/");
     },
   });
+  const clearErrors = () => {
+    firstClearErrors();
+    secondClearErrors();
+    thirdClearErrors();
+  };
+  async function firstOnValid(data: FirstRegisterForm) {
+    const { agree } = data;
 
-  async function onValid(data: RegisterForm) {
+    if (agree) {
+      setStep(2);
+    }
+  }
+  async function secondOnValid(data: SecondRegisterForm) {
     const { password, passwordConfirm } = data;
 
     if (password !== passwordConfirm) {
-      setError("passwordConfirm", { message: "비밀번호가 일치하지 않습니다" });
+      secondSetError("passwordConfirm", { message: "비밀번호가 일치하지 않습니다" });
       return;
-    }
-
-    mutate({ ...data, type });
+    } else setStep(3);
   }
-
-  const enterAccountId = watch("accountId");
+  async function thirdOnValid(data: ThirdRegisterForm) {
+    console.log({ ...firstWatch(), ...secondWatch(), ...thirdWatch() });
+    mutate({ ...firstWatch(), ...secondWatch(), ...thirdWatch(), type });
+  }
+  const enterAccountId = secondWatch("accountId");
   const regex = /^[a-zA-Z0-9]*$/;
   const { postApi: checkAccountIdApi } = useApi("/api/auth/register/check");
   const handleClickCheckAccountId = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     if (enterAccountId === "") {
-      setError("accountId", { message: "아이디를 입력해주세요" });
+      secondSetError("accountId", { message: "아이디를 입력해주세요" });
     } else if (!regex.test(enterAccountId)) {
-      setError("accountId", { message: `아이디 형식에 맞지 않습니다` });
+      secondSetError("accountId", { message: `아이디 형식에 맞지 않습니다` });
     } else {
       checkAccountIdApi({ accountId: enterAccountId })
         .then(res => {
-          setError("accountId", { message: `${res}` });
+          secondSetError("accountId", { message: `${res}` });
           setIsNotDuplicate(true);
           alert("사용가능한 아이디");
         })
-        .catch(err => setError("accountId", { message: `${err.data}` }));
+        .catch(err => secondSetError("accountId", { message: `${err.data}` }));
     }
   };
-  // useEffect(() => {
-  //   if (isNotDuplicate) {
-  //     setIsNotDuplicate(false);
-  //   }
-  // }, [enterAccountId, setIsNotDuplicate, isNotDuplicate]);
+  useEffect(() => {
+    if (isNotDuplicate) {
+      setIsNotDuplicate(false);
+    }
+  }, [enterAccountId]);
   // 소셜 계정 가입 시
   useEffect(() => {
     clearErrors();
@@ -88,105 +136,117 @@ function RegisterPage() {
       setIsNotDuplicate(true);
       console.log(isNotDuplicate);
       const fakePassword = Math.floor(10000 + Math.random() * 1000000) + "";
-      setValue("accountId", id as string);
-      setValue("password", fakePassword);
-      setValue("passwordConfirm", fakePassword);
-      setValue("email", (email as string) || "");
-      setValue("phone", (phone as string) || "");
-      setValue("name", (name as string) || "");
-      setValue("birth", (birth as string) || "");
-      setValue("gender", (gender as string) === "male" ? "male" : "female");
+      secondSetValue("accountId", id as string);
+      secondSetValue("password", fakePassword);
+      secondSetValue("passwordConfirm", fakePassword);
+      thirdSetValue("email", (email as string) || "");
+      thirdSetValue("phone", (phone as string) || "");
+      thirdSetValue("name", (name as string) || "");
+      thirdSetValue("birth", (birth as string) || "");
+      thirdSetValue("gender", (gender as string) === "male" ? "male" : "female");
     }
-  }, [clearErrors, router, setValue, isNotDuplicate]);
+  }, [router, isNotDuplicate]);
   return (
     <>
       <div>
-        <form onSubmit={handleSubmit(onValid)}>
-          <Input
-            label="아이디"
-            name="accountId"
-            placeholder="아이디를 입력해주세요"
-            register={register("accountId", { required: "아이디를 입력해주세요" })}
-            errorMessage={errors.accountId?.message}
-          />
-          <button onClick={handleClickCheckAccountId}>중복확인</button>
-          <Input
-            label="이메일(본인인증 확인용!!!)"
-            name="email"
-            placeholder="abc@abc.com"
-            register={register("email", {
-              required: "이메일을 입력해주세요",
-              pattern: {
-                value: /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/,
-                message: "이메일 형식이 아닙니다",
-              },
-            })}
-            errorMessage={errors.email?.message}
-          />
-          <Input
-            type="password"
-            label="비밀번호"
-            name="password"
-            placeholder="비밀번호를 입력해주세요"
-            register={register("password", { required: "비밀번호를 입력해주세요" })}
-            errorMessage={errors.password?.message}
-          />
-          <Input
-            type="password"
-            label="비밀번호 확인"
-            name="passwordConfirm"
-            placeholder="한번 더 입력해주세요"
-            register={register("passwordConfirm", { required: "비밀번호 확인을 입력해주세요" })}
-            errorMessage={errors.passwordConfirm?.message}
-          />
-          <Input
-            label="이름"
-            name="name"
-            register={register("name", { required: "이름을 입력해주세요" })}
-            errorMessage={errors.name?.message}
-          />
-          <Input
-            label="생일"
-            name="birth"
-            register={register("birth", {
-              required: "생일을 입력해주세요",
-              // pattern: /[0-9\-]/g
-            })}
-            errorMessage={errors.birth?.message}
-          />
-          <GenderBox>
-            <h4>성별</h4>
-            <div className="innerBox">
-              <div className="inputBox">
-                <input
-                  id="registerGenderMale"
-                  type="radio"
-                  value={"male"}
-                  {...register("gender", { required: "성별을 선택해주세요" })}
-                />
-                <GenderLabel htmlFor="registerGenderMale">남자</GenderLabel>
+        {step == 1 && (
+          <form onSubmit={firstHandleSubmit(firstOnValid)}>
+            <Input
+              label="동의"
+              name="agree"
+              type="checkbox"
+              register={firstRegister("agree", { required: "약관 동의 해주세요" })}
+              errorMessage={firstErrors.agree?.message}
+            />
+            <button type="submit" disabled={firstErrors.agree !== undefined}>
+              제출
+            </button>
+          </form>
+        )}
+        {step === 2 && (
+          <form onSubmit={secondHandleSubmit(secondOnValid)}>
+            <Input
+              label="아이디"
+              name="accountId"
+              placeholder="아이디를 입력해주세요"
+              register={secondRegister("accountId", { required: "아이디를 입력해주세요" })}
+              errorMessage={secondErrors.accountId?.message}
+            />
+            <button onClick={handleClickCheckAccountId}>중복확인</button>
+
+            <Input
+              type="password"
+              label="비밀번호"
+              name="password"
+              placeholder="비밀번호를 입력해주세요"
+              register={secondRegister("password", { required: "비밀번호를 입력해주세요" })}
+              errorMessage={secondErrors.password?.message}
+            />
+            <Input
+              type="password"
+              label="비밀번호 확인"
+              name="passwordConfirm"
+              placeholder="한번 더 입력해주세요"
+              register={secondRegister("passwordConfirm", { required: "비밀번호 확인을 입력해주세요" })}
+              errorMessage={secondErrors.passwordConfirm?.message}
+            />
+            <button type="submit" disabled={!isNotDuplicate}>
+              제출
+            </button>
+          </form>
+        )}
+        {step === 3 && (
+          <form onSubmit={thirdHandleSubmit(thirdOnValid)}>
+            <Input
+              label="이름"
+              name="name"
+              register={thirdRegister("name", { required: "이름을 입력해주세요" })}
+              errorMessage={thirdErrors.name?.message}
+            />
+            <Input
+              label="생일"
+              name="birth"
+              register={thirdRegister("birth", {
+                required: "생일을 입력해주세요",
+                // pattern: /[0-9\-]/g
+              })}
+              errorMessage={thirdErrors.birth?.message}
+            />
+            <GenderBox>
+              <h4>성별</h4>
+              <div className="innerBox">
+                <div className="inputBox">
+                  <input
+                    id="registerGenderMale"
+                    type="radio"
+                    value={"male"}
+                    {...thirdRegister("gender", { required: "성별을 선택해주세요" })}
+                  />
+                  <GenderLabel htmlFor="registerGenderMale">남자</GenderLabel>
+                </div>
+                <div className="inputBox">
+                  <input
+                    id="registerGenderFeMale"
+                    type="radio"
+                    value={"female"}
+                    {...thirdRegister("gender", { required: "성별을 선택해주세요" })}
+                  />
+                  <GenderLabel htmlFor="registerGenderFeMale">여자</GenderLabel>
+                </div>
               </div>
-              <div className="inputBox">
-                <input
-                  id="registerGenderFeMale"
-                  type="radio"
-                  value={"female"}
-                  {...register("gender", { required: "성별을 선택해주세요" })}
-                />
-                <GenderLabel htmlFor="registerGenderFeMale">여자</GenderLabel>
-              </div>
-            </div>
-            <p>{errors.gender?.message}</p>
-          </GenderBox>
-          <button type="submit" disabled={!isNotDuplicate}>
-            제출
-          </button>
-        </form>
+              <p>{thirdErrors.gender?.message}</p>
+            </GenderBox>
+            <button type="submit" disabled={!isNotDuplicate}>
+              제출
+            </button>
+          </form>
+        )}
       </div>
     </>
   );
 }
 
+export default RegisterPage;
 const GenderBox = styled.div`
   .innerBox {
     display: inline-flex;
@@ -216,5 +276,3 @@ const GenderLabel = styled.label`
   align-items: center;
   cursor: pointer;
 `;
-
-export default RegisterPage;

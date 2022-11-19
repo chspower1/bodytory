@@ -3,9 +3,10 @@ import client from "@libs/server/client";
 import withHandler from "@libs/server/withHandler";
 import { withApiSession } from "@libs/server/withSession";
 import * as bcrypt from "bcrypt";
+import { RegisterForm } from "pages/auth/register";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { accountId, password, email, name, birth, gender, type } = req.body;
+  const { accountId, password, email, name, birth, gender, type }: RegisterForm = req.body;
 
   const newUser = await client.user.create({
     data: {
