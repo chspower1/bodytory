@@ -31,12 +31,13 @@ export default class MyDocument extends Document {
   render(): JSX.Element {
     return (
       <Html>
-        <Head></Head>
+        <Head>
+          <Script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" strategy="afterInteractive" />
+          <Script src="https://developers.kakao.com/sdk/js/kakao.js" strategy="afterInteractive" />
+        </Head>
         <body>
           <Main />
-          <NextScript>
-            <Script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" />
-          </NextScript>
+          <NextScript />
         </body>
       </Html>
     );

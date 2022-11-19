@@ -7,6 +7,8 @@ const basicApi = () =>
       "Content-Type": "application/json",
     },
   });
+
+
 export default function useApi<T = any>(url: string) {
   const postApi = async (data: T) => {
     try {
