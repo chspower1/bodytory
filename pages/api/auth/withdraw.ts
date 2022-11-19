@@ -21,6 +21,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         },
       });
       return res.status(204).end();
+    } else {
+      return res.status(401).send("현재 비밀번호를 적어주세요");
     }
   } else {
     return res.status(401).send("현재 비밀번호를 적어주세요");
