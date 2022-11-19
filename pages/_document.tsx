@@ -1,4 +1,5 @@
-import Document, { DocumentContext, DocumentInitialProps } from "next/document";
+import Document, { DocumentContext, DocumentInitialProps, Head, Html, Main, NextScript } from "next/document";
+import Script from "next/script";
 import { ServerStyleSheet } from "styled-components";
 
 export default class MyDocument extends Document {
@@ -9,7 +10,7 @@ export default class MyDocument extends Document {
     try {
       ctx.renderPage = () =>
         originalRenderPage({
-          enhanceApp: (App) => (props) => sheet.collectStyles(<App {...props} />),
+          enhanceApp: App => props => sheet.collectStyles(<App {...props} />),
         });
 
       const initialProps = await Document.getInitialProps(ctx);
@@ -19,11 +20,26 @@ export default class MyDocument extends Document {
           <>
             {initialProps.styles}
             {sheet.getStyleElement()}
+            <div id="modal-root"></div>
           </>,
         ],
       };
     } finally {
       sheet.seal();
     }
+  }
+  render(): JSX.Element {
+    return (
+      <Html>
+        <Head>
+          <Script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" strategy="afterInteractive" />
+          <Script src="https://developers.kakao.com/sdk/js/kakao.js" strategy="afterInteractive" />
+        </Head>
+        <body>
+          <Main />
+          <NextScript />
+        </body>
+      </Html>
+    );
   }
 }
