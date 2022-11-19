@@ -1,6 +1,7 @@
 import Input from "@components/Input";
 import useApi from "@libs/client/useApi";
 import { useMutation } from "@tanstack/react-query";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -73,6 +74,11 @@ export default function Edit() {
         />
         <button type="submit">제출</button>
       </form>
+      <Link href="/auth/withdraw">
+        <button>
+          탈퇴하기
+        </button>
+      </Link>
       {/* {isModal && 
       <div>
         <h3>비밀번호 변경 완료</h3>
