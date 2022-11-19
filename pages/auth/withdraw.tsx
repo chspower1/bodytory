@@ -4,22 +4,25 @@ import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import axios from "axios";
 import useApi from "@libs/client/useApi";
-interface PWType {
-  password: String;
+import Modal from "@components/Modal";
+export interface WithdrawType {
+  password: string;
 }
 
 export default function Withdraw() {
   const router = useRouter();
-  const [isModal, setIsModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [closingComment, setClosingComment] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState("");
   const { deleteApi } = useApi("/api/auth/withdraw");
   const { deleteApi: LogoutApi } = useApi("/api/auth/logout");
   const { mutate } = useMutation(["withdrawKey"], deleteApi, {
     onError(error: any, variables, context) {
+      setShowModal(false);
       setError("password", { message: `${error.data}` });
     },
     onSuccess: data => {
-      setIsModal(true);
-      LogoutApi({});
+      setClosingComment(true);
     },
   });
 
@@ -30,20 +33,27 @@ export default function Withdraw() {
     setValue,
     setError,
     formState: { errors },
-  } = useForm<PWType>();
+  } = useForm<WithdrawType>();
 
-  const onSubmit: SubmitHandler<PWType> = ({ password }) => {
-    mutate({ password: password });
+  const onValid: SubmitHandler<WithdrawType> = ({ password }) => {
+    setCurrentPassword(password);
+    setShowModal(true);
   };
-
-  const handleClickConfirm = () => {
-    setIsModal(false);
-    router.replace("/");
+  const handleClickOnClose = () => {
+    setShowModal(false);
+  };
+  const handleClickActiveFuction = () => {
+    if (!closingComment) {
+      mutate({ password: currentPassword });
+    } else {
+      setShowModal(false);
+      LogoutApi({}).then(res => router.replace("/"));
+    }
   };
   return (
     <div>
       <h3>회원 탈퇴</h3>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onValid)}>
         <h4>
           비밀번호를 입력하고 확인을 누르시면
           <br />
@@ -55,13 +65,30 @@ export default function Withdraw() {
         <p>{errors.password && errors.password.message}</p>
         <button type="submit">탈퇴하기</button>
       </form>
-      {isModal && (
+      <Modal
+        onClose={handleClickOnClose}
+        activeFuction={handleClickActiveFuction}
+        show={showModal}
+        closingComment={closingComment}
+        title={"시스템"}
+      >
+        {!closingComment ? (
+          <>회원탈퇴를 하시겠습니까?</>
+        ) : (
+          <>
+            회원탈퇴가 성공적으로 완료되었습니다
+            <br />
+            홈으로 이동합니다
+          </>
+        )}
+      </Modal>
+      {/* {isModal && (
         <div>
           <h3>삭제완료!</h3>
           <p>이제 아프지 말고 다신 보지 맙시다~!</p>
           <button onClick={handleClickConfirm}>확인</button>
         </div>
-      )}
+      )} */}
     </div>
   );
 }
