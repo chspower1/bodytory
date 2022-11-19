@@ -9,27 +9,14 @@ import axios from "axios";
 import styled from "styled-components";
 import { Gender, UserType } from "@prisma/client";
 
-interface FirstRegisterForm {
-  agree: boolean;
-}
-interface SecondRegisterForm {
-  accountId: string;
-  password: string;
-  passwordConfirm: string;
-}
-interface ThirdRegisterForm {
-  email: string;
-  gender: string;
-  name: string;
-  birth: string;
-  phone?: string;
-}
 export interface RegisterForm {
+  agree?: boolean;
   type: UserType;
   accountId: string;
   password: string;
   passwordConfirm: string;
   email: string;
+  token?: string;
   gender: Gender;
   name: string;
   birth: string;
@@ -42,32 +29,15 @@ function RegisterPage() {
   const [step, setStep] = useState(1);
   const [isNotDuplicate, setIsNotDuplicate] = useState(false);
   const {
-    register: firstRegister,
-    handleSubmit: firstHandleSubmit,
-    setError: firstSetError,
-    watch: firstWatch,
-    clearErrors: firstClearErrors,
-    setValue: firstSetValue,
-    formState: { errors: firstErrors },
-  } = useForm<FirstRegisterForm>();
-  const {
-    register: secondRegister,
-    handleSubmit: secondHandleSubmit,
-    setError: secondSetError,
-    watch: secondWatch,
-    clearErrors: secondClearErrors,
-    setValue: secondSetValue,
-    formState: { errors: secondErrors },
-  } = useForm<SecondRegisterForm>();
-  const {
-    register: thirdRegister,
-    handleSubmit: thirdHandleSubmit,
-    setError: thirdSetError,
-    watch: thirdWatch,
-    clearErrors: thirdClearErrors,
-    setValue: thirdSetValue,
-    formState: { errors: thirdErrors },
-  } = useForm<ThirdRegisterForm>();
+    register,
+    handleSubmit,
+    setError,
+    watch,
+    clearErrors,
+    setValue,
+    formState: { errors },
+  } = useForm<RegisterForm>();
+
   const { postApi } = useApi("/api/auth/register");
   const { mutate } = useMutation(postApi, {
     onError(error: any) {
@@ -77,54 +47,32 @@ function RegisterPage() {
       router.replace("/");
     },
   });
-  const clearErrors = () => {
-    firstClearErrors();
-    secondClearErrors();
-    thirdClearErrors();
-  };
-  async function firstOnValid(data: FirstRegisterForm) {
-    const { agree } = data;
 
-    if (agree) {
-      setStep(2);
-    }
+  function onValid(data: RegisterForm) {
+    mutate(data);
   }
-  async function secondOnValid(data: SecondRegisterForm) {
-    const { password, passwordConfirm } = data;
 
-    if (password !== passwordConfirm) {
-      secondSetError("passwordConfirm", { message: "비밀번호가 일치하지 않습니다" });
-      return;
-    } else setStep(3);
-  }
-  async function thirdOnValid(data: ThirdRegisterForm) {
-    console.log({ ...firstWatch(), ...secondWatch(), ...thirdWatch() });
-    mutate({ ...firstWatch(), ...secondWatch(), ...thirdWatch(), type });
-  }
-  const enterAccountId = secondWatch("accountId");
-  const regex = /^[a-zA-Z0-9]*$/;
+  const enterAccountId = watch("accountId");
+  console.log(enterAccountId)
+  const AccountIdRegex = /^[a-zA-Z0-9]*$/;
   const { postApi: checkAccountIdApi } = useApi("/api/auth/register/check");
   const handleClickCheckAccountId = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
-    if (enterAccountId === "") {
-      secondSetError("accountId", { message: "아이디를 입력해주세요" });
-    } else if (!regex.test(enterAccountId)) {
-      secondSetError("accountId", { message: `아이디 형식에 맞지 않습니다` });
+    if (!enterAccountId) {
+      setError("accountId", { message: "아이디를 입력해주세요" });
+    } else if (!AccountIdRegex.test(enterAccountId)) {
+      setError("accountId", { message: `아이디 형식에 맞지 않습니다` });
     } else {
       checkAccountIdApi({ accountId: enterAccountId })
         .then(res => {
-          secondSetError("accountId", { message: `${res}` });
+          setError("accountId", { message: `${res}` });
           setIsNotDuplicate(true);
-          alert("사용가능한 아이디");
+          alert("사용가능한 아이디입니다");
         })
-        .catch(err => secondSetError("accountId", { message: `${err.data}` }));
+        .catch(err => setError("accountId", { message: `${err.data}` }));
     }
   };
-  useEffect(() => {
-    if (isNotDuplicate) {
-      setIsNotDuplicate(false);
-    }
-  }, [enterAccountId]);
+
   // 소셜 계정 가입 시
   useEffect(() => {
     clearErrors();
@@ -136,123 +84,189 @@ function RegisterPage() {
       setIsNotDuplicate(true);
       console.log(isNotDuplicate);
       const fakePassword = Math.floor(10000 + Math.random() * 1000000) + "";
-      secondSetValue("accountId", id as string);
-      secondSetValue("password", fakePassword);
-      secondSetValue("passwordConfirm", fakePassword);
-      thirdSetValue("email", (email as string) || "");
-      thirdSetValue("phone", (phone as string) || "");
-      thirdSetValue("name", (name as string) || "");
-      thirdSetValue("birth", (birth as string) || "");
-      thirdSetValue("gender", (gender as string) === "male" ? "male" : "female");
+      setValue("accountId", id as string);
+      setValue("password", fakePassword);
+      setValue("passwordConfirm", fakePassword);
+      setValue("email", (email as string) || "");
+      setValue("phone", (phone as string) || "");
+      setValue("name", (name as string) || "");
+      setValue("birth", (birth as string) || "");
+      setValue("gender", (gender as string) === "male" ? "male" : "female");
     }
   }, [router, isNotDuplicate]);
+
+  const handleClickNextLevel = (e: MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    if (watch("agree")) {
+      setStep(2);
+      if (watch("accountId") && watch("password") && watch("passwordConfirm")){
+        setStep(3);
+      }
+    }
+  };
+  const [isToken, setIsToken] = useState(false);
+  const [isCertified, setIsCertified] = useState("");
+  console.log(watch("agree"));
+  console.log(watch("accountId"));
+  console.log(watch("password"));
+  console.log(watch("passwordConfirm"));
+
+  const enterEmail = watch("email");
+  const enterToken = watch("token");
+  const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
+  const { postApi: checkEmailApi } = useApi("/api/auth/register/checkEmail");
+  const isTokenInData = isToken ? { email: enterEmail, token: enterToken } : { email: enterEmail };
+  const handleClickCheckEmail = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    if (!enterEmail) {
+      setError("email", { message: "이메일을 입력해주세요" });
+    } else if (!emailRegex.test(enterEmail)) {
+      setError("email", { message: `이메일 형식에 맞지 않습니다` });
+    }else if( isToken && !enterToken){
+      setError("token", { message: "인증번호를 입력해주세요" });
+    } else {
+      checkEmailApi(isTokenInData)
+        .then(res => {
+          if (res?.ok) {
+            if (isToken) {
+              setIsCertified(`${res.data}`);
+            }
+            setIsToken(true);
+          }
+          setIsToken(true);
+        })
+        .catch(err => setError("email", { message: `${err.data}` }));
+    }
+  };
+  console.log(enterEmail)
+  useEffect(() => {
+    if (isNotDuplicate) {
+      setIsNotDuplicate(false);
+    }
+  }, [enterAccountId]);
+  useEffect(() => {
+    setIsCertified("");
+    setIsToken(false);
+    setError("email", { message: `` });
+    setValue("token", "");
+  }, [enterEmail]);
   return (
     <>
       <div>
-        {step == 1 && (
-          <form onSubmit={firstHandleSubmit(firstOnValid)}>
+        <form onSubmit={handleSubmit(onValid)}>
+          {step === 1 && (
             <Input
               label="동의"
               name="agree"
               type="checkbox"
-              register={firstRegister("agree", { required: "약관 동의 해주세요" })}
-              errorMessage={firstErrors.agree?.message}
+              register={register("agree", { required: "약관 동의 해주세요" })}
+              errorMessage={errors.agree?.message}
             />
-            <button type="submit" disabled={firstErrors.agree !== undefined}>
-              제출
-            </button>
-          </form>
-        )}
-        {step === 2 && (
-          <form onSubmit={secondHandleSubmit(secondOnValid)}>
-            <Input
-              label="아이디"
-              name="accountId"
-              placeholder="아이디를 입력해주세요"
-              register={secondRegister("accountId", { required: "아이디를 입력해주세요" })}
-              errorMessage={secondErrors.accountId?.message}
-            />
-            <button onClick={handleClickCheckAccountId}>중복확인</button>
+          )}
+          {step === 2 && (
+            <>
+              <Input
+                label="아이디"
+                name="accountId"
+                placeholder="아이디를 입력해주세요"
+                register={register("accountId", { required: "아이디를 입력해주세요" })}
+                errorMessage={errors.accountId?.message}
+              />
+              <button onClick={handleClickCheckAccountId}>중복확인</button>
 
-            <Input
-              type="password"
-              label="비밀번호"
-              name="password"
-              placeholder="비밀번호를 입력해주세요"
-              register={secondRegister("password", { required: "비밀번호를 입력해주세요" })}
-              errorMessage={secondErrors.password?.message}
-            />
-            <Input
-              type="password"
-              label="비밀번호 확인"
-              name="passwordConfirm"
-              placeholder="한번 더 입력해주세요"
-              register={secondRegister("passwordConfirm", { required: "비밀번호 확인을 입력해주세요" })}
-              errorMessage={secondErrors.passwordConfirm?.message}
-            />
-            <button type="submit" disabled={!isNotDuplicate}>
-              제출
-            </button>
-          </form>
-        )}
-        {step === 3 && (
-          <form onSubmit={thirdHandleSubmit(thirdOnValid)}>
-            <Input
-              label="이름"
-              name="name"
-              register={thirdRegister("name", { required: "이름을 입력해주세요" })}
-              errorMessage={thirdErrors.name?.message}
-            />
-            <Input
-              label="생일"
-              name="birth"
-              register={thirdRegister("birth", {
-                required: "생일을 입력해주세요",
-                // pattern: /[0-9\-]/g
-              })}
-              errorMessage={thirdErrors.birth?.message}
-            />
-            <Input
-              label="이메일"
-              name="email"
-              register={thirdRegister("email", {
-                required: "이메일을 입력해주세요",
-                pattern:{
-                  value: /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/,
-                  message : "이메일 형식이 아닙니다"
-                }
-              })}
-              errorMessage={thirdErrors.email?.message}
-            />
-            <GenderBox>
-              <h4>성별</h4>
-              <div className="innerBox">
-                <div className="inputBox">
-                  <input
-                    id="registerGenderMale"
-                    type="radio"
-                    value={"male"}
-                    {...thirdRegister("gender", { required: "성별을 선택해주세요" })}
-                  />
-                  <GenderLabel htmlFor="registerGenderMale">남자</GenderLabel>
+              <Input
+                type="password"
+                label="비밀번호"
+                name="password"
+                placeholder="비밀번호를 입력해주세요"
+                register={register("password", { required: "비밀번호를 입력해주세요" })}
+                errorMessage={errors.password?.message}
+              />
+              <Input
+                type="password"
+                label="비밀번호 확인"
+                name="passwordConfirm"
+                placeholder="한번 더 입력해주세요"
+                register={register("passwordConfirm", { required: "비밀번호 확인을 입력해주세요" })}
+                errorMessage={errors.passwordConfirm?.message}
+              />
+            </>
+          )}
+          {step === 3 && (
+            <>
+              <Input
+                label="이름"
+                name="name"
+                register={register("name", { required: "이름을 입력해주세요" })}
+                errorMessage={errors.name?.message}
+              />
+              <Input
+                label="생일"
+                name="birth"
+                register={register("birth", {
+                  required: "생일을 입력해주세요",
+                  // pattern: /[0-9\-]/g
+                })}
+                errorMessage={errors.birth?.message}
+              />
+              <GenderBox>
+                <h4>성별</h4>
+                <div className="innerBox">
+                  <div className="inputBox">
+                    <input
+                      id="registerGenderMale"
+                      type="radio"
+                      value={"male"}
+                      {...register("gender", { required: "성별을 선택해주세요" })}
+                    />
+                    <GenderLabel htmlFor="registerGenderMale">남자</GenderLabel>
+                  </div>
+                  <div className="inputBox">
+                    <input
+                      id="registerGenderFeMale"
+                      type="radio"
+                      value={"female"}
+                      {...register("gender", { required: "성별을 선택해주세요" })}
+                    />
+                    <GenderLabel htmlFor="registerGenderFeMale">여자</GenderLabel>
+                  </div>
                 </div>
-                <div className="inputBox">
-                  <input
-                    id="registerGenderFeMale"
-                    type="radio"
-                    value={"female"}
-                    {...thirdRegister("gender", { required: "성별을 선택해주세요" })}
-                  />
-                  <GenderLabel htmlFor="registerGenderFeMale">여자</GenderLabel>
-                </div>
-              </div>
-              <p>{thirdErrors.gender?.message}</p>
-            </GenderBox>
-            <button type="submit" disabled={!isNotDuplicate}>
-              제출
-            </button>
-          </form>
-        )}
+                <p>{errors.gender?.message}</p>
+              </GenderBox>
+              <Input
+                label="이메일(본인인증 확인용!!!)"
+                name="email"
+                placeholder="abc@abc.com"
+                register={register("email", {
+                  required: "이메일을 입력해주세요",
+                })}
+                errorMessage={errors.email?.message}
+              />
+              {!isCertified ? (
+                <>
+                  {isToken && (
+                    <Input
+                      name="token"
+                      label="인증번호"
+                      register={register("token", {
+                        required: "인증번호를 입력해주세요.",
+                      })}
+                      placeholder="인증번호를 입력해주세요."
+                      errorMessage={errors.token?.message}
+                    />
+                  )}
+                  <button onClick={handleClickCheckEmail}>{isToken ? "인증번호 확인" : "이메일 인증"}</button>
+                </>
+              ) : (
+                <p>{isCertified}</p>
+              )}
+              <button type="submit" disabled={!isNotDuplicate && !isCertified}>
+                제출
+              </button>
+            </>
+          )}
+          {step === 3 || <button onClick={handleClickNextLevel}>다음 단계</button>}
+        </form>
       </div>
     </>
   );
