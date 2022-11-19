@@ -217,7 +217,10 @@ function RegisterPage() {
               name="email"
               register={thirdRegister("email", {
                 required: "이메일을 입력해주세요",
-                // pattern: /[0-9\-]/g
+                pattern:{
+                  value: /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/,
+                  message : "이메일 형식이 아닙니다"
+                }
               })}
               errorMessage={thirdErrors.email?.message}
             />
