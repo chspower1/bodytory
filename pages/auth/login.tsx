@@ -62,7 +62,7 @@ const LoginPage: NextPage = () => {
             required: "아이디를 입력해주세요.",
             // pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i, message: "올바른 아이디 형식이 아닙니다." },
           })}
-          placeholder="이메일를 입력해주세요."
+          placeholder="아이디를 입력해주세요."
           errorMessage={errors.accountId?.message}
         />
         <Input
