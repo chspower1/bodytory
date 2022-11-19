@@ -12,19 +12,23 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       id: user?.id,
     },
   });
-  const isPasswordCorrect = await bcrypt.compare(password, foundUser?.password!);
-  if (isPasswordCorrect) {
-    const hashedPassword = await bcrypt.hash(newPassword, 12);
-    await client.user.update({
-      where: {
-        id: user?.id,
-      },
-      data: {
-        password: hashedPassword,
-      },
-    });
-    return res.status(204).end();
-  } else {
+  if(foundUser){
+    const isPasswordCorrect = await bcrypt.compare(password, foundUser?.password!);
+    if (isPasswordCorrect) {
+      const hashedPassword = await bcrypt.hash(newPassword, 12);
+      await client.user.update({
+        where: {
+          id: user?.id,
+        },
+        data: {
+          password: hashedPassword,
+        },
+      });
+      return res.status(204).end();
+    } else {
+      return res.status(401).send("현재 비밀번호를 적어주세요");
+    }
+  }else {
     return res.status(401).send("현재 비밀번호를 적어주세요");
   }
 }
