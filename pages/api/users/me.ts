@@ -11,10 +11,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     },
     select: {
       id: true,
+      accountId : true,
       name: true,
       email: true,
       gender: true,
-      age: true,
+      birth : true,
+      type : true,
       phone: true,
     },
   });

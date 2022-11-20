@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 import client from "@libs/server/client";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { password } = req.body;
+  const { password, type } = req.body;
   const { user } = req.session;
   const foundUser = await client.user.findUnique({
     where: {
@@ -13,20 +13,32 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     },
   });
   if (foundUser) {
-    const isPasswordCorrect = await bcrypt.compare(password, foundUser?.password!);
-    if (isPasswordCorrect) {
+    if(type === "origin"){
+      const isPasswordCorrect = await bcrypt.compare(password, foundUser?.password!);
+      if (isPasswordCorrect) {
+        await client.user.delete({
+          where: {
+            id: user?.id,
+          },
+        });
+        return res.status(204).end();
+      } else {
+        return res.status(401).send("현재 비밀번호를 적어주세요");
+      }
+    } else if(type !== "origin"){
       await client.user.delete({
         where: {
           id: user?.id,
         },
       });
       return res.status(204).end();
-    } else {
-      return res.status(401).send("현재 비밀번호를 적어주세요");
+    }else{
+      return res.status(401).send("탈퇴 오류");
     }
-  } else {
-    return res.status(401).send("현재 비밀번호를 적어주세요");
+  }else{
+    return res.status(401).send("유저 정보가 없습니다.");
   }
+    
 }
 export default withApiSession(
   withHandler({
