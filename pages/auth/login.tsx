@@ -93,7 +93,7 @@ const LoginPage: NextPage = () => {
       <Link href="/auth/help">
         <button>비밀번호 찾기</button>
       </Link>
-      <Link href="/auth/register">
+      <Link href="/auth/register/choice">
         <button>회원가입</button>
       </Link>
       <NaverLoginBtn mutate={mutate} />
