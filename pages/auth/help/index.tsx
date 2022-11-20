@@ -8,7 +8,9 @@ import { ResponseType } from "@libs/server/withHandler";
 import Link from "next/link";
 import useApi from "@libs/client/useApi";
 import { useMutation } from "@tanstack/react-query";
+import { UserType } from "@prisma/client";
 export interface HelpForm {
+  type: UserType;
   accountId?: string;
   email?: string;
   token?: string;

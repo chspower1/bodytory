@@ -49,7 +49,7 @@ function RegisterPage() {
   });
 
   function onValid(data: RegisterForm) {
-    mutate(data);
+    mutate({ ...data, type });
   }
 
   const enterAccountId = watch("accountId");
@@ -115,7 +115,7 @@ function RegisterPage() {
   const enterToken = watch("token");
   const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
   const { postApi: checkEmailApi } = useApi("/api/auth/register/check/email");
-  const isTokenInData = isToken ? { email: enterEmail, token: enterToken } : { email: enterEmail };
+  const isTokenInData = isToken ? { email: enterEmail, token: enterToken, type } : { email: enterEmail, type };
   const handleClickCheckEmail = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     if (!enterEmail) {

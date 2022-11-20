@@ -5,12 +5,14 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import axios from "axios";
 import useApi from "@libs/client/useApi";
 import Modal from "@components/Modal";
+import useUser from "@libs/client/useUser";
 export interface WithdrawType {
   password: string;
 }
 
 export default function Withdraw() {
   const router = useRouter();
+  const { user } = useUser();
   const [showModal, setShowModal] = useState(false);
   const [closingComment, setClosingComment] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");

@@ -6,12 +6,12 @@ import smtpTransport from "@libs/server/email";
 import { HelpForm } from "pages/auth/help";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { email, token }: HelpForm = req.body;
+  const { email, token, type }: HelpForm = req.body;
   console.log(email, token);
   if (email && !token) {
     const user = await client.user.findFirst({
       where: {
-        type: "origin",
+        type,
         email,
       },
     });
