@@ -11,12 +11,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (email && !token) {
     const user = await client.user.findFirst({
       where: {
-        type:"origin",
+        type: "origin",
         email,
       },
     });
     const payload = Math.floor(10000 + Math.random() * 1000000) + "";
-    if(!user){
+
+    if (!user) {
       console.log("not user");
       const mailOptions = {
         from: process.env.MAIL_ID,
@@ -34,10 +35,15 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         }
       });
       smtpTransport.close();
+
+      await client.certification.deleteMany({
+        where: { email },
+      });
+
       await client.certification.create({
         data: {
           number: payload,
-          userId : Number(payload)
+          email,
         },
       });
       console.log(payload);
@@ -48,10 +54,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
   if (email && token) {
     const FindToken = await client.certification.deleteMany({
-      where: { number: token },
+      where: {
+        number: token,
+        email,
+      },
     });
     console.log(FindToken);
-    if (FindToken.count > 0) return res.status(200).json({ ok: true, data : "인증 되었습니다"});
+    if (FindToken.count > 0) return res.status(200).json({ ok: true, data: "인증 되었습니다" });
     else return res.status(403).send("인증번호를 확인해주세요");
   }
 }

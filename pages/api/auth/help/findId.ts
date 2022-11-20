@@ -11,7 +11,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (email && !token) {
     const user = await client.user.findFirst({
       where: {
-        type:"origin",
+        type: "origin",
         email,
       },
     });
@@ -41,7 +41,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           number: payload,
           user: {
             connect: {
-              id : user.id
+              id: user.id,
             },
           },
         },
@@ -57,13 +57,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       where: { number: token },
     });
     const fountUser = await client.user.findFirst({
-      where:{
+      where: {
         type: "origin",
         email,
-      }
-    })
+      },
+    });
     console.log(FindToken);
-    if (FindToken.count > 0) return res.status(200).json({ ok: true, data : fountUser?.accountId});
+    if (FindToken.count > 0) return res.status(200).json({ ok: true, data: fountUser?.accountId });
     else return res.status(403).send("인증번호를 확인해주세요");
   }
 }

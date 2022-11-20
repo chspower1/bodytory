@@ -10,7 +10,6 @@ import useApi from "@libs/client/useApi";
 import { useMutation } from "@tanstack/react-query";
 import { HelpForm } from ".";
 
-
 const HelpFindId: NextPage = () => {
   const router = useRouter();
   const { postApi } = useApi("/api/auth/help/findId");
@@ -18,17 +17,17 @@ const HelpFindId: NextPage = () => {
   const [isToken, setIsToken] = useState(false);
   const [foundAccountId, setFoundAccountId] = useState("");
   const { mutateAsync } = useMutation(["findIdMutateKey"], postApi, {
-    onError(error:any) {
+    onError(error: any) {
       alert(`${error.data}`);
     },
     onSuccess(data) {
       if (data?.ok) {
         if (isToken) {
           console.log("인증 완료");
-          setFoundAccountId(`${data.data}`)
+          setFoundAccountId(`${data.data}`);
         }
         setIsToken(true);
-      } 
+      }
     },
   });
   const {
@@ -69,14 +68,16 @@ const HelpFindId: NextPage = () => {
         )}
 
         <button>{isToken ? "인증번호 확인" : "이메일 인증"}</button>
-        <div>{foundAccountId && 
-          <>
-            <p>사용자님의 아이디는 "{foundAccountId}"입니다.</p>
-            <Link href="/auth/login">
-              <button>로그인 하러가기</button>
-            </Link>
-          </>
-        }</div>
+        <div>
+          {foundAccountId && (
+            <>
+              <p>사용자님의 아이디는 "{foundAccountId}"입니다.</p>
+              <Link href="/auth/login">
+                <button>로그인 하러가기</button>
+              </Link>
+            </>
+          )}
+        </div>
       </form>
     </div>
   );

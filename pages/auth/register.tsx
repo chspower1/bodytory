@@ -53,9 +53,9 @@ function RegisterPage() {
   }
 
   const enterAccountId = watch("accountId");
-  console.log(enterAccountId)
+  console.log(enterAccountId);
   const AccountIdRegex = /^[a-zA-Z0-9]*$/;
-  const { postApi: checkAccountIdApi } = useApi("/api/auth/register/check");
+  const { postApi: checkAccountIdApi } = useApi("/api/auth/register/check/id");
   const handleClickCheckAccountId = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     if (!enterAccountId) {
@@ -99,7 +99,7 @@ function RegisterPage() {
     e.preventDefault();
     if (watch("agree")) {
       setStep(2);
-      if (watch("accountId") && watch("password") && watch("passwordConfirm")){
+      if (watch("accountId") && watch("password") && watch("passwordConfirm")) {
         setStep(3);
       }
     }
@@ -114,7 +114,7 @@ function RegisterPage() {
   const enterEmail = watch("email");
   const enterToken = watch("token");
   const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
-  const { postApi: checkEmailApi } = useApi("/api/auth/register/checkEmail");
+  const { postApi: checkEmailApi } = useApi("/api/auth/register/check/email");
   const isTokenInData = isToken ? { email: enterEmail, token: enterToken } : { email: enterEmail };
   const handleClickCheckEmail = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
@@ -122,7 +122,7 @@ function RegisterPage() {
       setError("email", { message: "이메일을 입력해주세요" });
     } else if (!emailRegex.test(enterEmail)) {
       setError("email", { message: `이메일 형식에 맞지 않습니다` });
-    }else if( isToken && !enterToken){
+    } else if (isToken && !enterToken) {
       setError("token", { message: "인증번호를 입력해주세요" });
     } else {
       checkEmailApi(isTokenInData)
@@ -138,7 +138,7 @@ function RegisterPage() {
         .catch(err => setError("email", { message: `${err.data}` }));
     }
   };
-  console.log(enterEmail)
+  console.log(enterEmail);
   useEffect(() => {
     if (isNotDuplicate) {
       setIsNotDuplicate(false);
