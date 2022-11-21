@@ -162,10 +162,7 @@ function RegisterPage() {
     }
   }, [enterAccountId]);
   useEffect(() => {
-    setCertifiedComment("");
-    setIsToken(false);
     setError("email", { message: `` });
-    setValue("token", "");
     setIsCertified(false);
   }, [enterEmail]);
   return (
@@ -261,7 +258,7 @@ function RegisterPage() {
                 })}
                 errorMessage={errors.email?.message}
               />
-              {isCertified || <ResetBtn />}
+              <ResetBtn />
               {!certifiedComment ? (
                 <>
                   {isToken && (
