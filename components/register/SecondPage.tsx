@@ -21,7 +21,15 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     handleSubmit,
     watch,
     setError,
-  } = useForm<SecondRegisterForm>();
+    clearErrors,
+  } = useForm<SecondRegisterForm>({
+    mode: "onChange",
+    defaultValues: {
+      accountId: user?.accountId,
+      password: user?.password,
+      passwordConfirm: user?.passwordConfirm,
+    },
+  });
 
   const [isNotDuplicate, setIsNotDuplicate] = useState(false);
 
@@ -41,13 +49,18 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
   const handleClickCheckAccountId = async () => {
     try {
       await checkAccountIdApi({ accountId: watch("accountId") });
+      clearErrors("accountId");
       setIsNotDuplicate(true);
       alert("사용가능한 아이디입니다");
     } catch (err: any) {
       setError("accountId", { message: `${err.data}` });
     }
   };
-
+  const checkPassword = (value: string) => {
+    if (watch("password") === watch("passwordConfirm")) {
+      clearErrors(["password", "passwordConfirm"]);
+    } else return "비밀번호가 일치하지 않음";
+  };
   return (
     <form onSubmit={handleSubmit(onValid)}>
       <Input
@@ -57,11 +70,14 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
         register={register("accountId", {
           required: "아이디를 입력해주세요",
           validate: value => AccountIdRegex.test(value) || "아이디 형식에 맞지 않습니다.",
+          onChange() {
+            setIsNotDuplicate(false);
+          },
         })}
         errorMessage={errors.accountId?.message}
       />
-      <button type="button" onClick={handleClickCheckAccountId}>
-        중복확인
+      <button type="button" onClick={handleClickCheckAccountId} disabled={isNotDuplicate}>
+        {isNotDuplicate ? "중복확인 완료" : "중복확인"}
       </button>
 
       <Input
@@ -75,13 +91,10 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
           //   value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/i,
           //   message: "비밀번호가 안전하지 않아요.",
           // },
-          validate: {
-            checkPassword: value => {
-              if (watch("password") !== value) return "아이디가 일치하지 않음";
-            },
+          onChange() {
+            setError("passwordConfirm", { message: "비밀번호가 일치하지 않음" });
           },
         })}
-        errorMessage={errors.password?.message}
       />
       <Input
         type="password"
@@ -91,15 +104,15 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
         register={register("passwordConfirm", {
           required: "비밀번호 확인을 입력해주세요",
           validate: {
-            checkPassword: value => {
-              if (watch("password") !== value) return "아이디가 일치하지 않음";
-            },
+            checkPassword,
           },
         })}
         errorMessage={errors.passwordConfirm?.message}
       />
+      <button type="button" onClick={() => setPage(prev => prev - 1)}>
+        이전 페이지
+      </button>
       <button type="submit">다음 페이지</button>
-      <button type="button">이전 페이지</button>
     </form>
   );
 };

@@ -4,6 +4,11 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { RegisterForm } from "pages/auth/register";
 import useApi from "@libs/client/useApi";
 import { Gender } from "@prisma/client";
+import styled from "styled-components";
+import useReset from "@libs/client/useReset";
+import { useMutation } from "@tanstack/react-query";
+import { REGISTER_SIGNUP } from "constant/queryKeys";
+import { useRouter } from "next/router";
 
 interface ThirdRegisterForm {
   email: string;
@@ -19,39 +24,47 @@ interface RegisterPageProps {
   setPage: Dispatch<SetStateAction<number>>;
 }
 const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
+  const { birth, email, gender, name, phone } = user!;
+
+  const router = useRouter();
   const {
     register,
     formState: { errors },
     handleSubmit,
     watch,
     setError,
-  } = useForm<ThirdRegisterForm>();
-
-  const [isNotDuplicate, setIsNotDuplicate] = useState(false);
-
-  const { postApi: checkAccountIdApi } = useApi("/api/auth/register/check/id");
-
-  const AccountIdRegex = /^[a-zA-Z0-9]*$/;
-
-  const onValid = (data: ThirdRegisterForm) => {
-    if (isNotDuplicate) {
-      setUser(prev => ({ ...prev!, ...data }));
-      setPage(cur => cur + 1);
+    setValue,
+  } = useForm<ThirdRegisterForm>({ mode: "onChange", defaultValues: { birth, email, gender, name, phone } });
+  const { isToken, setIsToken, ResetBtn } = useReset({ setValue });
+  const { postApi } = useApi("/api/auth/register");
+  const { postApi: checkEmailApi } = useApi("/api/auth/register/check/email");
+  const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
+  const [certifiedComment, setCertifiedComment] = useState("");
+  const [isCertified, setIsCertified] = useState(false);
+  // const isTokenInData = isToken ? { email: enterEmail, token: enterToken, type } : { email: enterEmail, type };
+  const { mutate } = useMutation([REGISTER_SIGNUP], postApi, {
+    onError(error: any) {
+      alert(`${error.data}`);
+    },
+    onSuccess() {
+      router.replace("/");
+    },
+  });
+  const handleClickCheckEmail = async () => {
+    const isCorrectEmail = !errors.email && isToken && !errors.token;
+    console.log(!errors.email, isToken, !errors.token);
+    console.log(isCorrectEmail);
+    if (!isCorrectEmail) {
+      const data = await checkEmailApi(isTokenInData);
+      if (data?.ok && isToken) {
+        setCertifiedComment(`인증이 완료되었습니다.`);
+        setIsCertified(true);
+      }
+      setIsToken(true);
     } else {
-      setError("accountId", { message: "아이디 중복확인 해주세요!" });
     }
   };
-
-  const handleClickCheckAccountId = async () => {
-    try {
-      await checkAccountIdApi({ accountId: watch("accountId") });
-      setIsNotDuplicate(true);
-      alert("사용가능한 아이디입니다");
-    } catch (err: any) {
-      setError("accountId", { message: `${err.data}` });
-    }
-  };
-
+  const onValid = (data: ThirdRegisterForm) => {};
   return (
     <form onSubmit={handleSubmit(onValid)}>
       <Input
@@ -125,10 +138,42 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
         <p>{certifiedComment}</p>
       )}
 
+      <button type="button" onClick={() => setPage(prev => prev - 1)}>
+        이전 페이지
+      </button>
       <button type="submit">회원가입</button>
-      <button type="button">이전 페이지</button>
     </form>
   );
 };
 
 export default ThirdPage;
+
+const GenderBox = styled.div`
+  .innerBox {
+    display: inline-flex;
+  }
+
+  .inputBox {
+    width: 80px;
+    height: 50px;
+    border: 1px solid #000;
+  }
+
+  input {
+    position: absolute;
+    left: -999999%;
+  }
+  input:checked + label {
+    background: #000;
+    color: #fff;
+  }
+`;
+const GenderLabel = styled.label`
+  display: block;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+`;

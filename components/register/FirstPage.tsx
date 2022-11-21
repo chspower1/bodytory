@@ -15,8 +15,14 @@ const FirstPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm<FirstRegisterForm>();
+  } = useForm<FirstRegisterForm>({
+    mode: "onChange",
+    defaultValues: {
+      agree: user?.agree,
+    },
+  });
   const onValid = () => {
+    setUser(prev => ({ ...prev!, agree: true }));
     setPage(cur => cur + 1);
   };
   return (
@@ -28,8 +34,10 @@ const FirstPage = ({ user, setUser, setPage }: RegisterPageProps) => {
         register={register("agree", { required: "약관 동의 해주세요" })}
         errorMessage={errors.agree?.message}
       />
+      <button type="button" disabled>
+        이전 페이지
+      </button>
       <button>다음 페이지</button>
-      <button type="button" >이전 페이지</button>
     </form>
   );
 };
