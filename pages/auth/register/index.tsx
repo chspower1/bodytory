@@ -38,9 +38,13 @@ function RegisterPage() {
     clearErrors,
     setValue,
     formState: { errors },
-  } = useForm<RegisterForm>();
+  } = useForm<RegisterForm>({
+    mode: "onChange",
+  });
   const { isToken, setIsToken, ResetBtn } = useReset({ setValue });
   const { postApi } = useApi("/api/auth/register");
+  const { postApi: checkAccountIdApi } = useApi("/api/auth/register/check/id");
+  const { postApi: checkEmailApi } = useApi("/api/auth/register/check/email");
   const { mutate } = useMutation([REGISTER_SIGNUP], postApi, {
     onError(error: any) {
       alert(`${error.data}`);
@@ -50,65 +54,47 @@ function RegisterPage() {
     },
   });
 
-  function onValid(data: RegisterForm) {
-    mutate({ ...data, type });
-  }
-
   const enterAccountId = watch("accountId");
   const AccountIdRegex = /^[a-zA-Z0-9]*$/;
-  const { postApi: checkAccountIdApi } = useApi("/api/auth/register/check/id");
-  const handleClickCheckAccountId = (e: React.MouseEvent<HTMLElement>) => {
-    e.preventDefault();
-    if (!enterAccountId) {
-      setError("accountId", { message: "아이디를 입력해주세요" });
-    } else if (!AccountIdRegex.test(enterAccountId)) {
-      setError("accountId", { message: `아이디 형식에 맞지 않습니다` });
-    } else {
-      checkAccountIdApi({ accountId: enterAccountId })
-        .then(res => {
-          setError("accountId", { message: `${res}` });
-          setIsNotDuplicate(true);
-          alert("사용가능한 아이디입니다");
-        })
-        .catch(err => setError("accountId", { message: `${err.data}` }));
-    }
-  };
-
-  const handleClickNextLevel = (e: MouseEvent<HTMLElement>) => {
-    e.preventDefault();
-    if (watch("agree")) {
-      if (step === 2) {
-        if (!isNotDuplicate) {
-          setError("accountId", { message: "중복확인을 해주세요" });
-        }
-        if (!watch("password")) {
-          setError("password", { message: "비밀번호를 입력해주세요" });
-        }
-        if (!watch("passwordConfirm")) {
-          setError("passwordConfirm", { message: "비밀번호를 한번 더 입력해주세요" });
-        }
-        if (watch("password") !== watch("passwordConfirm")) {
-          setError("passwordConfirm", { message: "비밀번호가 일치하지 않습니다" });
-        } else {
-          setError("passwordConfirm", { message: "" });
-        }
-      }
-      if ((isNotDuplicate && watch("password") === watch("passwordConfirm")) || router.query.isNew) {
-        return setStep(3);
-      }
-      setStep(2);
-    }
-  };
 
   const [certifiedComment, setCertifiedComment] = useState("");
   const [isCertified, setIsCertified] = useState(false);
   const enterEmail = watch("email");
   const enterToken = watch("token");
   const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
-  const { postApi: checkEmailApi } = useApi("/api/auth/register/check/email");
   const isTokenInData = isToken ? { email: enterEmail, token: enterToken, type } : { email: enterEmail, type };
-  const handleClickCheckEmail = (e: React.MouseEvent<HTMLElement>) => {
-    e.preventDefault();
+
+  const handleClickCheckAccountId = async () => {
+    const checkIdValidation = enterAccountId && AccountIdRegex.test(enterAccountId);
+    if (checkIdValidation) {
+      try {
+        const data = await checkAccountIdApi({ accountId: enterAccountId });
+        setError("accountId", { message: `${data}` });
+        setIsNotDuplicate(true);
+        alert("사용가능한 아이디입니다");
+      } catch (err: any) {
+        setError("accountId", { message: `${err.data}` });
+      }
+    }
+  };
+
+  const handleClickNextLevel = () => {
+    if (watch("agree")) {
+      if (step === 2) {
+        const stepTwo =
+          isNotDuplicate &&
+          watch("password") &&
+          watch("passwordConfirm") &&
+          watch("password") !== watch("passwordConfirm");
+        stepTwo && setStep(3);
+      }
+      if (router.query.isNew) {
+        setStep(3);
+      }
+      setStep(2);
+    }
+  };
+  const handleClickCheckEmail = async () => {
     if (!enterEmail) {
       setError("email", { message: "이메일을 입력해주세요" });
     } else if (!emailRegex.test(enterEmail)) {
@@ -116,7 +102,7 @@ function RegisterPage() {
     } else if (isToken && !enterToken) {
       setError("token", { message: "인증번호를 입력해주세요" });
     } else {
-      checkEmailApi(isTokenInData)
+      const data = await checkEmailApi(isTokenInData)
         .then(res => {
           if (res?.ok) {
             if (isToken) {
@@ -131,7 +117,10 @@ function RegisterPage() {
       setError("email", { message: `` });
     }
   };
-  // console.log(enterEmail);
+
+  const onValid = (data: RegisterForm) => {
+    mutate({ ...data, type });
+  };
 
   useEffect(() => {
     clearErrors();
@@ -177,17 +166,28 @@ function RegisterPage() {
                 label="아이디"
                 name="accountId"
                 placeholder="아이디를 입력해주세요"
-                register={register("accountId", { required: "아이디를 입력해주세요" })}
+                register={register("accountId", {
+                  required: "아이디를 입력해주세요",
+                  validate: value => AccountIdRegex.test(value) || "아이디 형식에 맞지 않습니다.",
+                })}
                 errorMessage={errors.accountId?.message}
               />
-              <button onClick={handleClickCheckAccountId}>중복확인</button>
+              <button type="button" onClick={handleClickCheckAccountId}>
+                중복확인
+              </button>
 
               <Input
                 type="password"
                 label="비밀번호"
                 name="password"
                 placeholder="비밀번호를 입력해주세요"
-                register={register("password", { required: "비밀번호를 입력해주세요" })}
+                register={register("password", {
+                  required: "비밀번호를 입력해주세요",
+                  // pattern: {
+                  //   value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/i,
+                  //   message: "비밀번호가 안전하지 않아요.",
+                  // },
+                })}
                 errorMessage={errors.password?.message}
               />
               <Input
@@ -195,7 +195,14 @@ function RegisterPage() {
                 label="비밀번호 확인"
                 name="passwordConfirm"
                 placeholder="한번 더 입력해주세요"
-                register={register("passwordConfirm", { required: "비밀번호 확인을 입력해주세요" })}
+                register={register("passwordConfirm", {
+                  required: "비밀번호 확인을 입력해주세요",
+                  validate: {
+                    checkPassword: value => {
+                      if (watch("password") !== value) return "아이디가 일치하지 않음";
+                    },
+                  },
+                })}
                 errorMessage={errors.passwordConfirm?.message}
               />
             </>
@@ -265,7 +272,9 @@ function RegisterPage() {
                       errorMessage={errors.token?.message}
                     />
                   )}
-                  <button onClick={handleClickCheckEmail}>{isToken ? "인증번호 확인" : "이메일 인증"}</button>
+                  <button type="button" onClick={handleClickCheckEmail}>
+                    {isToken ? "인증번호 확인" : "이메일 인증"}
+                  </button>
                 </>
               ) : (
                 <p>{certifiedComment}</p>
@@ -275,7 +284,11 @@ function RegisterPage() {
               </button>
             </>
           )}
-          {step === 3 || <button onClick={handleClickNextLevel}>다음 단계</button>}
+          {step === 3 || (
+            <button type="button" onClick={handleClickNextLevel}>
+              다음 단계
+            </button>
+          )}
         </form>
       </div>
     </>
