@@ -1,14 +1,11 @@
-// @ts-nocheck
-import { HelpForm } from "pages/auth/help/find-pw";
-import { RegisterForm } from "pages/auth/register";
 import { useState } from "react";
-import { UseFormSetValue, UseFormWatch } from "react-hook-form";
+import { FieldValues, UseFormSetValue } from "react-hook-form";
 
-interface UseResetProps {
-  setValue: UseFormSetValue<RegisterForm> | UseFormSetValue<HelpForm>;
+interface UseResetProps<T extends FieldValues = any> {
+  setValue: UseFormSetValue<T>;
 }
 
-export default function useReset({ setValue }: UseResetProps) {
+const useReset = ({ setValue }: UseResetProps) => {
   const [isToken, setIsToken] = useState(false);
   const handleClickResetBtn = () => {
     setIsToken(false);
@@ -24,4 +21,5 @@ export default function useReset({ setValue }: UseResetProps) {
     </>
   );
   return { isToken, setIsToken, ResetBtn };
-}
+};
+export default useReset;

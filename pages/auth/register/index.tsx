@@ -26,9 +26,10 @@ export interface RegisterForm {
 }
 
 function RegisterPage() {
+  const [user, setUser] = useState<RegisterForm>();
   const router = useRouter();
   const [type, setType] = useState("origin");
-  const [step, setStep] = useState(1);
+  const [page, setPage] = useState(1);
   const [isNotDuplicate, setIsNotDuplicate] = useState(false);
   const {
     register,
@@ -80,13 +81,13 @@ function RegisterPage() {
 
   const handleClickNextLevel = () => {
     if (watch("agree")) {
-      setStep(2);
-      if (step === 2) {
-        const stepTwo = isNotDuplicate && !errors.password && !errors.passwordConfirm;
-        stepTwo && setStep(3);
+      setPage(2);
+      if (page === 2) {
+        const pageTwo = isNotDuplicate && !errors.password && !errors.passwordConfirm;
+        pageTwo && setPage(3);
       }
       if (router.query.isNew) {
-        setStep(3);
+        setPage(3);
       }
     }
   };
@@ -102,7 +103,6 @@ function RegisterPage() {
       }
       setIsToken(true);
     } else {
-      
     }
   };
 
@@ -139,7 +139,7 @@ function RegisterPage() {
     <>
       <div>
         <form onSubmit={handleSubmit(onValid)}>
-          {step === 1 && (
+          {page === 1 && (
             <Input
               label="동의"
               name="agree"
@@ -148,7 +148,7 @@ function RegisterPage() {
               errorMessage={errors.agree?.message}
             />
           )}
-          {step === 2 && (
+          {page === 2 && (
             <>
               <Input
                 label="아이디"
@@ -200,7 +200,7 @@ function RegisterPage() {
               />
             </>
           )}
-          {step === 3 && (
+          {page === 3 && (
             <>
               <Input
                 label="이름"
@@ -277,7 +277,7 @@ function RegisterPage() {
               </button>
             </>
           )}
-          {step === 3 || (
+          {page === 3 || (
             <button type="button" onClick={handleClickNextLevel}>
               다음 단계
             </button>
