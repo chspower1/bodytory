@@ -17,7 +17,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (!foundUser) {
       return res.status(401).send("회원정보를 확인해주세요");
     } else {
-      const isPasswordCorrect = await bcrypt.compare(password, foundUser.password!);
+      const isPasswordCorrect = await passwordCompare(password, foundUser.password!);
       if (isPasswordCorrect) {
         req.session.user = {
           id: foundUser.id,

@@ -18,7 +18,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     return res.status(401).send("유저 정보가 없습니다.");
   }else{
     if(type === "origin"){
-      const isPasswordCorrect = await bcrypt.compare(password, foundUser.password!);
+      const isPasswordCorrect = await passwordCompare(password, foundUser.password!);
       if (isPasswordCorrect) {
         await client.user.delete({
           where: {
