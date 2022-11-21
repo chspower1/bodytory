@@ -53,7 +53,6 @@ function RegisterPage() {
   }
 
   const enterAccountId = watch("accountId");
-  console.log(enterAccountId);
   const AccountIdRegex = /^[a-zA-Z0-9]*$/;
   const { postApi: checkAccountIdApi } = useApi("/api/auth/register/check/id");
   const handleClickCheckAccountId = (e: React.MouseEvent<HTMLElement>) => {
@@ -99,18 +98,14 @@ function RegisterPage() {
     e.preventDefault();
     if (watch("agree")) {
       setStep(2);
-      if (watch("accountId") && watch("password") && watch("passwordConfirm")) {
+      if (isNotDuplicate && watch("password") && watch("passwordConfirm")) {
         setStep(3);
       }
     }
   };
   const [isToken, setIsToken] = useState(false);
-  const [isCertified, setIsCertified] = useState("");
-  console.log(watch("agree"));
-  console.log(watch("accountId"));
-  console.log(watch("password"));
-  console.log(watch("passwordConfirm"));
-
+  const [certifiedComment, setCertifiedComment] = useState("");
+  const [isCertified, setIsCertified] = useState(false);
   const enterEmail = watch("email");
   const enterToken = watch("token");
   const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
@@ -129,7 +124,8 @@ function RegisterPage() {
         .then(res => {
           if (res?.ok) {
             if (isToken) {
-              setIsCertified(`${res.data}`);
+              setCertifiedComment(`${res.data}`);
+              setIsCertified(true)
             }
             setIsToken(true);
           }
@@ -145,11 +141,16 @@ function RegisterPage() {
     }
   }, [enterAccountId]);
   useEffect(() => {
-    setIsCertified("");
+    setCertifiedComment("");
     setIsToken(false);
     setError("email", { message: `` });
     setValue("token", "");
+    setIsCertified(false)
   }, [enterEmail]);
+
+  console.log(isNotDuplicate);
+  console.log(isCertified);
+  
   return (
     <>
       <div>
@@ -242,7 +243,7 @@ function RegisterPage() {
                 })}
                 errorMessage={errors.email?.message}
               />
-              {!isCertified ? (
+              {!certifiedComment ? (
                 <>
                   {isToken && (
                     <Input
@@ -258,9 +259,9 @@ function RegisterPage() {
                   <button onClick={handleClickCheckEmail}>{isToken ? "인증번호 확인" : "이메일 인증"}</button>
                 </>
               ) : (
-                <p>{isCertified}</p>
+                <p>{certifiedComment}</p>
               )}
-              <button type="submit" disabled={!isNotDuplicate && !isCertified}>
+              <button type="submit" disabled={ !isCertified }>
                 제출
               </button>
             </>
