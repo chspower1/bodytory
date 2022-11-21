@@ -4,6 +4,7 @@ import withHandler, { ResponseType } from "@libs/server/withHandler";
 import { withApiSession } from "@libs/server/withSession";
 import { LoginForm } from "pages/auth/login";
 import bcrypt from "bcrypt";
+import { passwordCompare } from "utils/passwordHelper";
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { type } = req.body;
   if (type === "origin") {
@@ -14,7 +15,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       },
     });
     if (foundUser) {
-      const isPasswordCorrect = await bcrypt.compare(password, foundUser.password!);
+      const isPasswordCorrect = await passwordCompare(password, foundUser.password!);
       if (isPasswordCorrect) {
         req.session.user = {
           id: foundUser.id,
