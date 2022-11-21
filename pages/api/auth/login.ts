@@ -24,7 +24,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         };
         await req.session.save();
         return res.status(201).end();
-      } 
+      }
     }
   }
   if (type === "naver" || "kakao") {
@@ -36,11 +36,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         type,
       },
     });
-    // 존재하는 유저
+    // 새로운 유저
     if (!foundUser) {
       return res.status(400).json({ type, id, email, phone, name, birth, gender });
     }
-    // 새로운 유저
+    // 존재하는 유저
     else {
       req.session.user = {
         id: foundUser.id,
