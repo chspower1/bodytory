@@ -74,28 +74,6 @@ function RegisterPage() {
     }
   };
 
-  // 소셜 계정 가입 시
-  useEffect(() => {
-    clearErrors();
-    if (router.query.isNew) {
-      console.log(router.query);
-      const { id, email, phone, name, birth, gender, type } = router.query;
-      setType(type as string);
-      console.log(router.query);
-      setIsNotDuplicate(true);
-      console.log(isNotDuplicate);
-      const fakePassword = Math.floor(10000 + Math.random() * 1000000) + "";
-      setValue("accountId", id as string);
-      setValue("password", fakePassword);
-      setValue("passwordConfirm", fakePassword);
-      setValue("email", (email as string) || "");
-      setValue("phone", (phone as string) || "");
-      setValue("name", (name as string) || "");
-      setValue("birth", (birth as string) || "");
-      setValue("gender", (gender as string) === "male" ? "male" : "female");
-    }
-  }, [router, isNotDuplicate]);
-
   const handleClickNextLevel = (e: MouseEvent<HTMLElement>) => {
     e.preventDefault();
     if (watch("agree")) {
@@ -111,19 +89,17 @@ function RegisterPage() {
         }
         if (watch("password") !== watch("passwordConfirm")) {
           setError("passwordConfirm", { message: "비밀번호가 일치하지 않습니다" });
-        }else{
+        } else {
           setError("passwordConfirm", { message: "" });
         }
       }
-      if (isNotDuplicate && watch("password") === watch("passwordConfirm")) {
+      if ((isNotDuplicate && watch("password") === watch("passwordConfirm")) || router.query.isNew) {
         return setStep(3);
       }
       setStep(2);
     }
   };
-  useEffect(()=>{
-    setIsNotDuplicate(false)
-  },[enterAccountId])
+
   const [certifiedComment, setCertifiedComment] = useState("");
   const [isCertified, setIsCertified] = useState(false);
   const enterEmail = watch("email");
@@ -152,15 +128,32 @@ function RegisterPage() {
           setIsToken(true);
         })
         .catch(err => setError("email", { message: `${err.data}` }));
-        setError("email", { message: `` });
+      setError("email", { message: `` });
     }
   };
   // console.log(enterEmail);
+
   useEffect(() => {
-    if (isNotDuplicate) {
-      setIsNotDuplicate(false);
+    clearErrors();
+    if (router.query.isNew) {
+      console.log(router.query);
+      const { id, email, phone, name, birth, gender, type } = router.query;
+      setType(type as string);
+      console.log(router.query);
+      setIsNotDuplicate(true);
+      console.log(isNotDuplicate);
+      const fakePassword = Math.floor(10000 + Math.random() * 1000000) + "";
+      setValue("accountId", id as string);
+      setValue("password", fakePassword);
+      setValue("passwordConfirm", fakePassword);
+      setValue("email", (email as string) || "");
+      setValue("phone", (phone as string) || "");
+      setValue("name", (name as string) || "");
+      setValue("birth", (birth as string) || "");
+      setValue("gender", (gender as string) === "male" ? "male" : "female");
     }
-  }, [enterAccountId]);
+  }, [router, isNotDuplicate]);
+
   useEffect(() => {
     setCertifiedComment("");
     setIsToken(false);
