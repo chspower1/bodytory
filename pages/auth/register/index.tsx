@@ -98,8 +98,13 @@ function RegisterPage() {
     e.preventDefault();
     if (watch("agree")) {
       setStep(2);
-      if (isNotDuplicate && watch("password") && watch("passwordConfirm")) {
-        setStep(3);
+      if(step === 2){
+        if(!watch("password")) return setError("password", { message: "비밀번호를 입력해주세요" });
+        if(!watch("passwordConfirm")) return setError("passwordConfirm", { message: "비밀번호를 한번 더 입력해주세요" });
+        if(watch("password") !== watch("passwordConfirm")) return setError("passwordConfirm", { message: "비밀번호가 일치하지 않습니다" });
+        if (isNotDuplicate && watch("password") === watch("passwordConfirm")) {
+          setStep(3);
+        }
       }
     }
   };
@@ -147,10 +152,6 @@ function RegisterPage() {
     setValue("token", "");
     setIsCertified(false)
   }, [enterEmail]);
-
-  console.log(isNotDuplicate);
-  console.log(isCertified);
-  
   return (
     <>
       <div>
