@@ -4,6 +4,7 @@ import withHandler, { ResponseType } from "@libs/server/withHandler";
 import { withApiSession } from "@libs/server/withSession";
 import { LoginForm } from "pages/auth/login";
 import bcrypt from "bcrypt";
+import { passwordCompare } from "utils/passwordHelper";
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { type } = req.body;
   if (type === "origin") {
@@ -23,9 +24,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         };
         await req.session.save();
         return res.status(201).end();
-      } else {
-        return res.status(401).send("회원정보를 확인해주세요");
-      }
+      } 
     }
   }
   if (type === "naver" || "kakao") {
