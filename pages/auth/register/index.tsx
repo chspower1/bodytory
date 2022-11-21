@@ -69,11 +69,11 @@ function RegisterPage() {
     if (checkIdValidation) {
       try {
         const data = await checkAccountIdApi({ accountId: enterAccountId });
-        setError("accountId", { message: `${data}` });
+        setError("accountId", { type:"costom", message: `${data}` });
         setIsNotDuplicate(true);
         alert("사용가능한 아이디입니다");
       } catch (err: any) {
-        setError("accountId", { message: `${err.data}` });
+        setError("accountId", { type:"costom", message: `${err.data}` });
       }
     }
   };
@@ -129,7 +129,7 @@ function RegisterPage() {
   }, [router, isNotDuplicate]);
 
   useEffect(() => {
-    setError("email", { message: `` });
+    setError("email", { type:"costom", message: `` });
     setIsCertified(false);
   }, [enterEmail]);
   return (
@@ -172,7 +172,7 @@ function RegisterPage() {
                   //   value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/i,
                   //   message: "비밀번호가 안전하지 않아요.",
                   // },
-                  validate: value => !watch("password") && "비밀번호를 입력해주세요",
+                  validate: value => !value && "비밀번호를 입력해주세요",
                   onChange(e) {
                     if (watch("passwordConfirm") === watch("password"))
                       setError("passwordConfirm", { type: "costom", message: "" });
@@ -204,7 +204,7 @@ function RegisterPage() {
                 name="name"
                 register={register("name", {
                   required: "이름을 입력해주세요",
-                  validate: value => !watch("name") && "이름을 입력해주세요",
+                  validate: value => !value && "이름을 입력해주세요",
                 })}
                 errorMessage={errors.name?.message}
               />
@@ -213,7 +213,7 @@ function RegisterPage() {
                 name="birth"
                 register={register("birth", {
                   required: "생일을 입력해주세요",
-                  validate: value => !watch("birth") && "생일을 입력해주세요",
+                  validate: value => !value && "생일을 입력해주세요",
                   // pattern: /[0-9\-]/g
                 })}
                 errorMessage={errors.birth?.message}
@@ -228,7 +228,7 @@ function RegisterPage() {
                       value={"male"}
                       {...register("gender", {
                         required: "성별을 선택해주세요",
-                        validate: value => !watch("gender") && "성별을 선택해주세요",
+                        validate: value => !value && "성별을 선택해주세요",
                       })}
                     />
                     <GenderLabel htmlFor="registerGenderMale">남자</GenderLabel>
@@ -240,7 +240,7 @@ function RegisterPage() {
                       value={"female"}
                       {...register("gender", {
                         required: "성별을 선택해주세요",
-                        validate: value => !watch("gender") && "성별을 선택해주세요",
+                        validate: value => !value && "성별을 선택해주세요",
                       })}
                     />
                     <GenderLabel htmlFor="registerGenderFeMale">여자</GenderLabel>
@@ -255,7 +255,7 @@ function RegisterPage() {
                 placeholder="abc@abc.com"
                 register={register("email", {
                   required: "이메일을 입력해주세요",
-                  validate: value => !watch("email") && "이메일을 입력해주세요",
+                  validate: value => !value && "이메일을 입력해주세요",
                 })}
                 errorMessage={errors.email?.message}
               />
@@ -268,7 +268,7 @@ function RegisterPage() {
                       label="인증번호"
                       register={register("token", {
                         required: "인증번호를 입력해주세요.",
-                        validate: value => !watch("token") && "인증번호를 입력해주세요",
+                        validate: value => !value && "인증번호를 입력해주세요",
                       })}
                       placeholder="인증번호를 입력해주세요."
                       errorMessage={errors.token?.message}
