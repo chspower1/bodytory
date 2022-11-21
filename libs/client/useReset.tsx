@@ -15,9 +15,13 @@ export default function useReset({ setValue }: UseResetProps) {
     setValue("token", "");
   };
   const ResetBtn = () => (
-    <button type="button" onClick={handleClickResetBtn}>
-      리셋
-    </button>
+    <>
+      {isToken && (
+        <button type="button" onClick={handleClickResetBtn}>
+          리셋
+        </button>
+      )}
+    </>
   );
   return { isToken, setIsToken, ResetBtn };
 }
