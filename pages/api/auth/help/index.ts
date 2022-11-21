@@ -8,10 +8,13 @@ import { HelpForm } from "pages/auth/help";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { token, accountId }: HelpForm = req.body;
-  console.log(accountId, token);
-  if (accountId && !token) {
+  const isAuthenticationRequest = accountId && !token;
+  const isAuthenticationNumberSubmit = accountId && token;
+
+  if (isAuthenticationRequest) {
     const foundUser = await client.user.findFirst({
       where: {
+        accountId,
         type: "origin",
       },
     });
@@ -19,29 +22,29 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
     if (foundUser) {
       // 이메일 보내기
-      // const mailOptions = {
-      //   from: process.env.MAIL_ID,
-      //   to: email,
-      //   subject: "비밀번호 찾기",
-      //   text: `인증코드 : ${payload}`,
-      // };
-      // const result = await smtpTransport.sendMail(mailOptions, (error, responses) => {
-      //   if (error) {
-      //     console.log(error);
-      //     return null;
-      //   } else {
-      //     console.log(responses);
-      //     return null;
-      //   }
-      // });
-      // smtpTransport.close();
+      const mailOptions = {
+        from: process.env.MAIL_ID,
+        to: foundUser.email,
+        subject: "비밀번호 찾기",
+        text: `인증코드 : ${payload}`,
+      };
+      await smtpTransport.sendMail(mailOptions, (error, responses) => {
+        if (error) {
+          console.log(error);
+          return null;
+        } else {
+          console.log(responses);
+          return null;
+        }
+      });
+      smtpTransport.close();
       // 토큰 생성
       const certification = await client.certification.create({
         data: {
           number: payload,
           user: {
             connect: {
-              accountId,
+              id: foundUser.id,
             },
           },
         },
@@ -56,12 +59,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       });
       console.log(payload, certification);
       return res.status(201).json({
-        email: certification.user.email,
-        accountId: certification.user.accountId,
+        email: certification.user?.email,
+        accountId: certification.user?.accountId,
       });
     } else return res.status(403).send("인증에 실패하였습니다");
   }
-  if (accountId && token) {
+  if (isAuthenticationNumberSubmit) {
     const foudToken = await client.certification.deleteMany({
       where: {
         number: token,
