@@ -4,7 +4,7 @@ import withHandler, { ResponseType } from "@libs/server/withHandler";
 import { withApiSession } from "@libs/server/withSession";
 import { LoginForm } from "pages/auth/login";
 import smtpTransport from "@libs/server/email";
-import { HelpForm } from "pages/auth/help";
+import { HelpForm } from "pages/auth/help/findpw";
 import bcrypt from "bcrypt";
 import { passwordEncryption } from "utils/passwordHelper";
 

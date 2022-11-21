@@ -9,6 +9,7 @@ import axios from "axios";
 import styled from "styled-components";
 import { Gender, UserType } from "@prisma/client";
 import { REGISTER_SIGNUP } from "constant/queryKeys";
+import useReset from "@libs/client/useReset";
 
 export interface RegisterForm {
   agree?: boolean;
@@ -38,7 +39,7 @@ function RegisterPage() {
     setValue,
     formState: { errors },
   } = useForm<RegisterForm>();
-
+  const { isToken, setIsToken, ResetBtn } = useReset({ setValue });
   const { postApi } = useApi("/api/auth/register");
   const { mutate } = useMutation([REGISTER_SIGNUP], postApi, {
     onError(error: any) {
@@ -112,7 +113,6 @@ function RegisterPage() {
     }
   };
 
-  const [isToken, setIsToken] = useState(false);
   const [certifiedComment, setCertifiedComment] = useState("");
   const [isCertified, setIsCertified] = useState(false);
   const enterEmail = watch("email");
@@ -242,12 +242,14 @@ function RegisterPage() {
               <Input
                 label="이메일(본인인증 확인용!!!)"
                 name="email"
+                disabled={isToken}
                 placeholder="abc@abc.com"
                 register={register("email", {
                   required: "이메일을 입력해주세요",
                 })}
                 errorMessage={errors.email?.message}
               />
+              {isCertified || <ResetBtn />}
               {!certifiedComment ? (
                 <>
                   {isToken && (

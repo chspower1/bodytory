@@ -92,7 +92,7 @@ const LoginPage: NextPage = () => {
       <Link href="/auth/help/findId">
         <button>아이디 찾기</button>
       </Link>
-      <Link href="/auth/help">
+      <Link href="/auth/help/findpw">
         <button>비밀번호 찾기</button>
       </Link>
       <Link href="/auth/register/choice">

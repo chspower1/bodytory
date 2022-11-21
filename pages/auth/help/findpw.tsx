@@ -10,6 +10,7 @@ import useApi from "@libs/client/useApi";
 import { useMutation } from "@tanstack/react-query";
 import { UserType } from "@prisma/client";
 import { HELP_FIND_PASSWORD } from "constant/queryKeys";
+import useReset from "@libs/client/useReset";
 export interface HelpForm {
   type: UserType;
   accountId?: string;
@@ -22,7 +23,6 @@ export interface HelpForm {
 const HelpPage: NextPage = () => {
   const router = useRouter();
   const { postApi } = useApi("/api/auth/help");
-  const [isToken, setIsToken] = useState(false);
   const [email, setEmail] = useState("");
   const [accountId, setAccountId] = useState("");
   const { mutateAsync } = useMutation([HELP_FIND_PASSWORD], postApi, {
@@ -49,9 +49,10 @@ const HelpPage: NextPage = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<HelpForm>();
-
+  const { isToken, setIsToken, ResetBtn } = useReset({ setValue });
   const onValid = (helpForm: HelpForm) => {
     console.log(helpForm);
     mutateAsync(helpForm);
@@ -62,6 +63,7 @@ const HelpPage: NextPage = () => {
       <form onSubmit={handleSubmit(onValid)}>
         <Input
           name={"accountId"}
+          disabled={isToken}
           label="아이디"
           register={register("accountId", {
             required: "아이디를 입력해주세요.",
@@ -69,6 +71,7 @@ const HelpPage: NextPage = () => {
           placeholder="아이디를 입력해주세요."
           errorMessage={errors.accountId?.message}
         />
+        <ResetBtn />
         {isToken && (
           <>
             <div>{email}</div>
