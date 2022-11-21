@@ -99,11 +99,20 @@ function RegisterPage() {
     e.preventDefault();
     if (watch("agree")) {
       if (step === 2) {
-        if (!watch("password")) return setError("password", { message: "비밀번호를 입력해주세요" });
-        if (!watch("passwordConfirm"))
-          return setError("passwordConfirm", { message: "비밀번호를 한번 더 입력해주세요" });
-        if (watch("password") !== watch("passwordConfirm"))
-          return setError("passwordConfirm", { message: "비밀번호가 일치하지 않습니다" });
+        if (!isNotDuplicate) {
+          setError("accountId", { message: "중복확인을 해주세요" });
+        }
+        if (!watch("password")) {
+          setError("password", { message: "비밀번호를 입력해주세요" });
+        }
+        if (!watch("passwordConfirm")) {
+          setError("passwordConfirm", { message: "비밀번호를 한번 더 입력해주세요" });
+        }
+        if (watch("password") !== watch("passwordConfirm")) {
+          setError("passwordConfirm", { message: "비밀번호가 일치하지 않습니다" });
+        }else{
+          setError("passwordConfirm", { message: "" });
+        }
       }
       if (isNotDuplicate && watch("password") === watch("passwordConfirm")) {
         return setStep(3);
@@ -111,7 +120,9 @@ function RegisterPage() {
       setStep(2);
     }
   };
-
+  useEffect(()=>{
+    setIsNotDuplicate(false)
+  },[enterAccountId])
   const [isToken, setIsToken] = useState(false);
   const [certifiedComment, setCertifiedComment] = useState("");
   const [isCertified, setIsCertified] = useState(false);
@@ -141,6 +152,7 @@ function RegisterPage() {
           setIsToken(true);
         })
         .catch(err => setError("email", { message: `${err.data}` }));
+        setError("email", { message: `` });
     }
   };
   // console.log(enterEmail);
