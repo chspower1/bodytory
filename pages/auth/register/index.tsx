@@ -95,6 +95,7 @@ function RegisterPage() {
     }
   };
   const handleClickCheckEmail = async () => {
+    const isCorrectEmail = enterEmail && emailRegex.test(enterEmail) && isToken && !enterToken;
     if (!enterEmail) {
       setError("email", { message: "이메일을 입력해주세요" });
     } else if (!emailRegex.test(enterEmail)) {
