@@ -21,6 +21,7 @@ export default function Home() {
   const handleClickLogout = () => {
     LogoutApi({}).then(res => router.push("/auth/login"));
   };
+  console.log(user);
   return (
     <Test>
       홈
