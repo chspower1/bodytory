@@ -6,6 +6,7 @@ import axios from "axios";
 import useApi from "@libs/client/useApi";
 import Modal from "@components/Modal";
 import useUser from "@libs/client/useUser";
+import { USER_WITHDRAW } from "constant/queryKeys";
 export interface WithdrawType {
   password: string;
 }
@@ -19,7 +20,7 @@ export default function Withdraw() {
   const [currentPassword, setCurrentPassword] = useState("");
   const { deleteApi } = useApi("/api/auth/withdraw");
   const { deleteApi: LogoutApi } = useApi("/api/auth/logout");
-  const { mutate } = useMutation(["withdrawKey"], deleteApi, {
+  const { mutate } = useMutation([USER_WITHDRAW], deleteApi, {
     onError(error: any, variables, context) {
       setShowModal(false);
       setError("password", { message: `${error.data}` });

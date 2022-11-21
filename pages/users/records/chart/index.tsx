@@ -1,16 +1,17 @@
 import RecordUpdate from "@components/RecordUpdate";
 import useApi from "@libs/client/useApi";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { RECORDS_DELETE, RECORDS_READ } from "constant/queryKeys";
 import Link from "next/link";
 import React, { useState } from "react";
 
 export default function ChartPage() {
   const queryClient = useQueryClient();
   const { getApi, deleteApi } = useApi("/api/users/records");
-  const { isLoading, status, data, error } = useQuery(["recordsReadKey"], getApi);
-  const { mutate } = useMutation(["recordDeleteKey"], deleteApi, {
+  const { isLoading, status, data, error } = useQuery([RECORDS_READ], getApi);
+  const { mutate } = useMutation([RECORDS_DELETE], deleteApi, {
     onSuccess(data, variables, context) {
-      queryClient.invalidateQueries(["recordsReadKey"]);
+      queryClient.invalidateQueries([RECORDS_READ]);
     },
   });
   const [currentIdx, setCurrentIdx] = useState(-1);

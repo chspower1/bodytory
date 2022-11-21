@@ -1,6 +1,7 @@
 import Input from "@components/Input";
 import useApi from "@libs/client/useApi";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { RECORDS_READ, RECORDS_UPDATE } from "constant/queryKeys";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
@@ -15,9 +16,9 @@ interface RecordUpdateType {
 export default function RecordUpdate({ recordId, setCurrentIdx }: RecordUpdatePropsType) {
   const queryClient = useQueryClient();
   const { putApi } = useApi("/api/users/records");
-  const { mutate } = useMutation(["recordsUpdateKey"], putApi, {
+  const { mutate } = useMutation([RECORDS_UPDATE], putApi, {
     onSuccess(data, variables, context) {
-      queryClient.invalidateQueries(["recordsReadKey"]);
+      queryClient.invalidateQueries([RECORDS_READ]);
     },
   });
   const {

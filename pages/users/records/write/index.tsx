@@ -1,6 +1,7 @@
 import Input from "@components/Input";
 import useApi from "@libs/client/useApi";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { RECORDS_CREATE, RECORDS_READ } from "constant/queryKeys";
 import Link from "next/link";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -12,9 +13,9 @@ interface WriteType {
 export default function WritePage() {
   const queryClient = useQueryClient();
   const { postApi } = useApi("/api/users/records");
-  const { mutate } = useMutation(["recordsWriteKey"], postApi, {
+  const { mutate } = useMutation([RECORDS_CREATE], postApi, {
     onSuccess(data, variables, context) {
-      queryClient.invalidateQueries(["recordsReadKey"]);
+      queryClient.invalidateQueries([RECORDS_READ]);
     },
   });
   const [isText, setIsText] = useState(false);

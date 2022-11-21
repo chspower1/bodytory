@@ -8,6 +8,7 @@ import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import { Gender, UserType } from "@prisma/client";
+import { REGISTER_SIGNUP } from "constant/queryKeys";
 
 export interface RegisterForm {
   agree?: boolean;
@@ -39,7 +40,7 @@ function RegisterPage() {
   } = useForm<RegisterForm>();
 
   const { postApi } = useApi("/api/auth/register");
-  const { mutate } = useMutation(postApi, {
+  const { mutate } = useMutation([REGISTER_SIGNUP],postApi, {
     onError(error: any) {
       alert(`${error.data}`);
     },

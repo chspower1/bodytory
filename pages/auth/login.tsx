@@ -11,6 +11,7 @@ import { useMutation } from "@tanstack/react-query";
 import Modal from "@components/Modal";
 import NaverLoginBtn from "@components/NaverLoginBtn";
 import KakaoLoginBtn from "@components/KakaoLoginBtn";
+import { USER_LOGIN } from "constant/queryKeys";
 
 export interface LoginForm {
   accountId: string;
@@ -21,7 +22,7 @@ const LoginPage: NextPage = () => {
   const router = useRouter();
   const { postApi } = useApi("/api/auth/login");
   // const [showModal, setShowModal] = useState(false);
-  const { mutate } = useMutation(["login"], postApi, {
+  const { mutate } = useMutation([USER_LOGIN], postApi, {
     onError(error: any) {
       console.log(error);
       if (error.status === 400) {
