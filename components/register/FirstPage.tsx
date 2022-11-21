@@ -25,8 +25,7 @@ const FirstPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     setUser(prev => ({ ...prev!, agree: true }));
     if (user?.type !== "origin") {
       setPage(3);
-    }
-    setPage(2);
+    } else setPage(2);
   };
   return (
     <form onSubmit={handleSubmit(onValid)}>
