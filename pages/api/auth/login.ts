@@ -8,37 +8,28 @@ import { passwordCompare } from "utils/passwordHelper";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { type } = req.body;
-  let foundUser;
+
   try {
     switch (type) {
       case "naver":
+        await loginBySocial(req, res);
+        break;
       case "kakao":
-        foundUser = await loginBySocial(req, res);
+        await loginBySocial(req, res);
         break;
       case "origin":
       default:
-        foundUser = await loginByOrigin(req);
+        await loginByOrigin(req, res);
     }
-
-    if (!foundUser) {
-      throw new Error("회원정보를 확인해주세요");
-    }
-
-    req.session.user = {
-      id: foundUser.id,
-    };
-    await req.session.save();
-
-    return res.status(201).end();
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : (<Object>error).toString();
     return res.status(401).send(errorMessage);
   }
 }
 
-async function loginByOrigin(req: NextApiRequest) {
+async function loginByOrigin(req: NextApiRequest, res: NextApiResponse) {
   const { accountId, password }: LoginForm = req.body;
-  const foundUser = await client.user.findFirst({
+  let foundUser = await client.user.findFirst({
     where: {
       accountId,
     },
@@ -52,7 +43,11 @@ async function loginByOrigin(req: NextApiRequest) {
     throw new Error("회원정보를 확인해주세요");
   }
 
-  return foundUser;
+  req.session.user = {
+    id: foundUser.id,
+  };
+  await req.session.save();
+  return res.status(201).end();
 }
 
 async function loginBySocial(req: NextApiRequest, res: NextApiResponse) {
@@ -65,10 +60,14 @@ async function loginBySocial(req: NextApiRequest, res: NextApiResponse) {
   });
 
   if (!foundUser) {
-    res.status(400).json({ type, id, email, phone, name, birth, gender });
+    return res.status(201).json({ isNew: true, type, id, email, phone, name, birth, gender });
   }
 
-  return foundUser;
+  req.session.user = {
+    id: foundUser.id,
+  };
+  await req.session.save();
+  return res.status(201).end();
 }
 
 export default withApiSession(withHandler({ methods: ["POST"], handler, isPrivate: false }));

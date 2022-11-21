@@ -40,7 +40,7 @@ function RegisterPage() {
   } = useForm<RegisterForm>();
 
   const { postApi } = useApi("/api/auth/register");
-  const { mutate } = useMutation([REGISTER_SIGNUP],postApi, {
+  const { mutate } = useMutation([REGISTER_SIGNUP], postApi, {
     onError(error: any) {
       alert(`${error.data}`);
     },
@@ -76,7 +76,7 @@ function RegisterPage() {
   // 소셜 계정 가입 시
   useEffect(() => {
     clearErrors();
-    if (router.query.type) {
+    if (router.query.isNew) {
       console.log(router.query);
       const { id, email, phone, name, birth, gender, type } = router.query;
       setType(type as string);
@@ -98,15 +98,20 @@ function RegisterPage() {
   const handleClickNextLevel = (e: MouseEvent<HTMLElement>) => {
     e.preventDefault();
     if (watch("agree")) {
-      setStep(2);
-      if(step === 2){
-        if(!watch("password")) return setError("password", { message: "비밀번호를 입력해주세요" });
-        if(!watch("passwordConfirm")) return setError("passwordConfirm", { message: "비밀번호를 한번 더 입력해주세요" });
-        if(watch("password") !== watch("passwordConfirm")) return setError("passwordConfirm", { message: "비밀번호가 일치하지 않습니다" });
-        if (isNotDuplicate && watch("password") === watch("passwordConfirm")) {
+      if (step === 2) {
+        if (!watch("password")) return setError("password", { message: "비밀번호를 입력해주세요" });
+        if (!watch("passwordConfirm"))
+          return setError("passwordConfirm", { message: "비밀번호를 한번 더 입력해주세요" });
+        if (watch("password") !== watch("passwordConfirm"))
+          return setError("passwordConfirm", { message: "비밀번호가 일치하지 않습니다" });
+        if ((isNotDuplicate || router.query.isNew) && watch("password") === watch("passwordConfirm")) {
           setStep(3);
         }
       }
+      if (router.query.isNew) {
+        return setStep(3);
+      }
+      setStep(2);
     }
   };
   const [isToken, setIsToken] = useState(false);
@@ -131,7 +136,7 @@ function RegisterPage() {
           if (res?.ok) {
             if (isToken) {
               setCertifiedComment(`${res.data}`);
-              setIsCertified(true)
+              setIsCertified(true);
             }
             setIsToken(true);
           }
@@ -151,7 +156,7 @@ function RegisterPage() {
     setIsToken(false);
     setError("email", { message: `` });
     setValue("token", "");
-    setIsCertified(false)
+    setIsCertified(false);
   }, [enterEmail]);
   return (
     <>
@@ -263,7 +268,7 @@ function RegisterPage() {
               ) : (
                 <p>{certifiedComment}</p>
               )}
-              <button type="submit" disabled={ !isCertified }>
+              <button type="submit" disabled={!isCertified}>
                 제출
               </button>
             </>

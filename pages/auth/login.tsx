@@ -25,21 +25,22 @@ const LoginPage: NextPage = () => {
   const { mutate } = useMutation([USER_LOGIN], postApi, {
     onError(error: any) {
       console.log(error);
-      if (error.status === 400) {
-        router.push(
-          {
-            pathname: "/auth/register",
-            query: error.data,
-          },
-          "/auth/register",
-        );
-      }
+
       if (error.status === 401) {
         alert("회원정보가 옳지 않습니다.");
       }
     },
-    onSuccess() {
-      router.push("/");
+    onSuccess(data) {
+      if (data.isNew) {
+        return router.push(
+          {
+            pathname: "/auth/register",
+            query: data,
+          },
+          "/auth/register",
+        );
+      }
+      return router.push("/");
     },
   });
 
