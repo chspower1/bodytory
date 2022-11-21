@@ -8,13 +8,13 @@ import { ResponseType } from "@libs/server/withHandler";
 import Link from "next/link";
 import useApi from "@libs/client/useApi";
 import { useMutation } from "@tanstack/react-query";
-import { HelpForm } from "./findpw";
+import { HelpForm } from "./find-pw";
 import { HELP_FIND_ID } from "constant/queryKeys";
 import useReset from "@libs/client/useReset";
 
 const HelpFindId: NextPage = () => {
   const router = useRouter();
-  const { postApi } = useApi("/api/auth/help/findId");
+  const { postApi } = useApi("/api/auth/help/find-id");
   const [email, setEmail] = useState("");
   const [foundAccountId, setFoundAccountId] = useState("");
   const { mutateAsync } = useMutation([HELP_FIND_ID], postApi, {

@@ -3,7 +3,7 @@ import client from "@libs/server/client";
 import withHandler, { ResponseType } from "@libs/server/withHandler";
 import { withApiSession } from "@libs/server/withSession";
 import smtpTransport from "@libs/server/email";
-import { HelpForm } from "pages/auth/help/findpw";
+import { HelpForm } from "pages/auth/help/find-pw";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { email, token, type }: HelpForm = req.body;

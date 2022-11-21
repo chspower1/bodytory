@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { HelpForm } from "pages/auth/help/findpw";
+import { HelpForm } from "pages/auth/help/find-pw";
 import { RegisterForm } from "pages/auth/register";
 import { useState } from "react";
 import { UseFormSetValue, UseFormWatch } from "react-hook-form";
