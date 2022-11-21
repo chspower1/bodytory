@@ -18,10 +18,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       password: hashedPassword,
     },
   });
-  if (foundUser) {
-    return res.status(201).end();
-  } else {
+  if (!foundUser) {
     return res.status(401).end();
+  } else {
+    return res.status(201).end();
   }
 }
 

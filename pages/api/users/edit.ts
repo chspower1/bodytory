@@ -7,14 +7,19 @@ import client from "@libs/server/client";
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { password, newPassword } = req.body;
   const { user } = req.session;
+  if (!user) return res.status(401).send("회원 정보를 확인해주세요");
   const foundUser = await client.user.findFirst({
     where: {
       id: user?.id,
     },
   });
-  if(foundUser){
-    const isPasswordCorrect = await bcrypt.compare(password, foundUser?.password!);
-    if (isPasswordCorrect) {
+  if(!foundUser){
+    return res.status(401).send("현재 비밀번호를 적어주세요");
+  }else {
+    const isPasswordCorrect = await bcrypt.compare(password, foundUser.password!);
+    if (!isPasswordCorrect) {
+      return res.status(401).send("현재 비밀번호를 적어주세요");
+    } else {
       const hashedPassword = await bcrypt.hash(newPassword, 12);
       await client.user.update({
         where: {
@@ -25,11 +30,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         },
       });
       return res.status(204).end();
-    } else {
-      return res.status(401).send("현재 비밀번호를 적어주세요");
     }
-  }else {
-    return res.status(401).send("현재 비밀번호를 적어주세요");
   }
 }
 export default withApiSession(

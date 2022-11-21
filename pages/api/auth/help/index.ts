@@ -13,11 +13,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     const foundUser = await client.user.findFirst({
       where: {
         type: "origin",
+        accountId
       },
     });
     const payload = Math.floor(10000 + Math.random() * 1000000) + "";
 
-    if (foundUser) {
+    if (!foundUser) {
+      return res.status(403).send("아이디를 확인해주세요");
+    } else {
       // 이메일 보내기
       // const mailOptions = {
       //   from: process.env.MAIL_ID,
@@ -56,10 +59,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       });
       console.log(payload, certification);
       return res.status(201).json({
-        email: certification.user.email,
-        accountId: certification.user.accountId,
+        email: certification.user!.email,
+        accountId: certification.user!.accountId,
       });
-    } else return res.status(403).send("인증에 실패하였습니다");
+    }
   }
   if (accountId && token) {
     const foudToken = await client.certification.deleteMany({

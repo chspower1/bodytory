@@ -13,7 +13,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         accountId,
       },
     });
-    if (foundUser) {
+    if (!foundUser) {
+      return res.status(401).send("회원정보를 확인해주세요");
+    } else {
       const isPasswordCorrect = await bcrypt.compare(password, foundUser.password!);
       if (isPasswordCorrect) {
         req.session.user = {
@@ -24,8 +26,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       } else {
         return res.status(401).send("회원정보를 확인해주세요");
       }
-    } else {
-      return res.status(401).send("회원정보를 확인해주세요");
     }
   }
   if (type === "naver" || "kakao") {
@@ -38,15 +38,17 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       },
     });
     // 존재하는 유저
-    if (foundUser) {
+    if (!foundUser) {
+      return res.status(400).json({ type, id, email, phone, name, birth, gender });
+    }
+    // 새로운 유저
+    else {
       req.session.user = {
         id: foundUser.id,
       };
       await req.session.save();
       return res.status(201).end();
     }
-    // 새로운 유저
-    else return res.status(400).json({ type, id, email, phone, name, birth, gender });
   }
 }
 
