@@ -104,16 +104,14 @@ function RegisterPage() {
           return setError("passwordConfirm", { message: "비밀번호를 한번 더 입력해주세요" });
         if (watch("password") !== watch("passwordConfirm"))
           return setError("passwordConfirm", { message: "비밀번호가 일치하지 않습니다" });
-        if ((isNotDuplicate || router.query.isNew) && watch("password") === watch("passwordConfirm")) {
-          setStep(3);
-        }
       }
-      if (router.query.isNew) {
+      if (isNotDuplicate && watch("password") === watch("passwordConfirm")) {
         return setStep(3);
       }
       setStep(2);
     }
   };
+
   const [isToken, setIsToken] = useState(false);
   const [certifiedComment, setCertifiedComment] = useState("");
   const [isCertified, setIsCertified] = useState(false);
@@ -145,7 +143,7 @@ function RegisterPage() {
         .catch(err => setError("email", { message: `${err.data}` }));
     }
   };
-  console.log(enterEmail);
+  // console.log(enterEmail);
   useEffect(() => {
     if (isNotDuplicate) {
       setIsNotDuplicate(false);
