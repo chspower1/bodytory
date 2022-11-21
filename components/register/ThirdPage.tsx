@@ -24,7 +24,7 @@ interface RegisterPageProps {
   setPage: Dispatch<SetStateAction<number>>;
 }
 const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
-  const { birth, email, gender, name, phone } = user!;
+  const { birth, email, gender, name, phone, type } = user!;
 
   const router = useRouter();
   const {
@@ -36,13 +36,12 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     setValue,
   } = useForm<ThirdRegisterForm>({ mode: "onChange", defaultValues: { birth, email, gender, name, phone } });
   const { isToken, setIsToken, ResetBtn } = useReset({ setValue });
-  const { postApi } = useApi("/api/auth/register");
+  const { postApi: createUser } = useApi("/api/auth/register");
   const { postApi: checkEmailApi } = useApi("/api/auth/register/check/email");
   const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
   const [certifiedComment, setCertifiedComment] = useState("");
-  const [isCertified, setIsCertified] = useState(false);
-  // const isTokenInData = isToken ? { email: enterEmail, token: enterToken, type } : { email: enterEmail, type };
-  const { mutate } = useMutation([REGISTER_SIGNUP], postApi, {
+  const isTokenInData = { email: watch("email"), token: isToken ? watch("token") : false, type };
+  const { mutate } = useMutation([REGISTER_SIGNUP], createUser, {
     onError(error: any) {
       alert(`${error.data}`);
     },
@@ -51,20 +50,23 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     },
   });
   const handleClickCheckEmail = async () => {
-    const isCorrectEmail = !errors.email && isToken && !errors.token;
-    console.log(!errors.email, isToken, !errors.token);
-    console.log(isCorrectEmail);
-    if (!isCorrectEmail) {
+    if (!errors.email) {
       const data = await checkEmailApi(isTokenInData);
       if (data?.ok && isToken) {
         setCertifiedComment(`인증이 완료되었습니다.`);
-        setIsCertified(true);
+        setUser(prev => ({ ...prev!, isCertified: true }));
       }
       setIsToken(true);
-    } else {
     }
   };
-  const onValid = (data: ThirdRegisterForm) => {};
+  const handleClickPrevPage = () => {
+    if (user?.type !== "origin") {
+      setPage(1);
+    } else setPage(2);
+  };
+  const onValid = (data: ThirdRegisterForm) => {
+    mutate({ ...user, ...data });
+  };
   return (
     <form onSubmit={handleSubmit(onValid)}>
       <Input
@@ -117,7 +119,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
         errorMessage={errors.email?.message}
       />
       <ResetBtn />
-      {!certifiedComment ? (
+      {!user?.isCertified ? (
         <>
           {isToken && (
             <Input
@@ -135,10 +137,10 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
           </button>
         </>
       ) : (
-        <p>{certifiedComment}</p>
+        <p>인증 완료되었습니다.</p>
       )}
 
-      <button type="button" onClick={() => setPage(prev => prev - 1)}>
+      <button type="button" onClick={handleClickPrevPage}>
         이전 페이지
       </button>
       <button type="submit">회원가입</button>

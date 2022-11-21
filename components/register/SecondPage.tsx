@@ -1,6 +1,6 @@
 import Input from "@components/Input";
 import { useForm } from "react-hook-form";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { RegisterForm } from "pages/auth/register";
 import useApi from "@libs/client/useApi";
 
@@ -38,7 +38,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
   const onValid = (data: SecondRegisterForm) => {
     if (user?.isNotDuplicate) {
       setUser(prev => ({ ...prev!, ...data }));
-      setPage(cur => cur + 1);
+      setPage(3);
     } else {
       setError("accountId", { message: "아이디 중복확인 해주세요!" });
     }
@@ -59,6 +59,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       clearErrors(["password", "passwordConfirm"]);
     } else return "비밀번호가 일치하지 않음";
   };
+
   return (
     <form onSubmit={handleSubmit(onValid)}>
       <Input
@@ -107,7 +108,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
         })}
         errorMessage={errors.passwordConfirm?.message}
       />
-      <button type="button" onClick={() => setPage(prev => prev - 1)}>
+      <button type="button" onClick={() => setPage(1)}>
         이전 페이지
       </button>
       <button type="submit">다음 페이지</button>

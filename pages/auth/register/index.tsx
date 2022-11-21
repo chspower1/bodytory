@@ -43,7 +43,7 @@ function RegisterPage() {
   const [user, setUser] = useState<RegisterForm | undefined>();
   const [type, setType] = useState("origin");
   const [page, setPage] = useState(1);
-
+  console.log(user);
   useEffect(() => {
     if (router.query.isNew) {
       console.log(router.query);
@@ -62,8 +62,10 @@ function RegisterPage() {
         type: type as UserType,
       }));
       setPage(1);
+    } else {
+      setUser(prev => ({ ...prev!, type: "origin" }));
     }
-  }, [router]);
+  }, []);
 
   return (
     <>

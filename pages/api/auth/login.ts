@@ -60,7 +60,7 @@ async function loginBySocial(req: NextApiRequest, res: NextApiResponse) {
   });
 
   if (!foundUser) {
-    return res.status(400).json({ isNew: true, type, accountId, email, phone, name, birth, gender });
+    return res.status(201).json({ isNew: true, type, accountId, email, phone, name, birth, gender });
   }
 
   req.session.user = {

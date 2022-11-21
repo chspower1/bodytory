@@ -14,7 +14,7 @@ export interface WithdrawType {
 export default function Withdraw() {
   const router = useRouter();
   const { user } = useUser();
-  const userType = user?.type
+  const userType = user?.type;
   const [showModal, setShowModal] = useState(false);
   const [closingComment, setClosingComment] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");
@@ -63,14 +63,14 @@ export default function Withdraw() {
           <br />
           탈퇴가 진행 됩니다.
         </h4>
-        {userType === "origin" &&
-        <>
-          <p>
-            <input type="text" {...register("password", { required: "필수값입니다" })} />
-          </p>
-          <p>{errors.password && errors.password.message}</p>
-        </>
-        }
+        {userType === "origin" && (
+          <>
+            <p>
+              <input type="text" {...register("password", { required: "필수값입니다" })} />
+            </p>
+            <p>{errors.password && errors.password.message}</p>
+          </>
+        )}
         <button type="submit">탈퇴하기</button>
       </form>
       <Modal

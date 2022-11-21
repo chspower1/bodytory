@@ -19,22 +19,22 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (user) {
       return res.status(403).send("중복된 이메일입니다");
     } else {
-      const mailOptions = {
-        from: process.env.MAIL_ID,
-        to: email,
-        subject: "이메일 인증",
-        text: `인증코드 : ${payload}`,
-      };
-      const result = await smtpTransport.sendMail(mailOptions, (error, responses) => {
-        if (error) {
-          console.log(error);
-          return null;
-        } else {
-          console.log(responses);
-          return null;
-        }
-      });
-      smtpTransport.close();
+      // const mailOptions = {
+      //   from: process.env.MAIL_ID,
+      //   to: email,
+      //   subject: "이메일 인증",
+      //   text: `인증코드 : ${payload}`,
+      // };
+      // const result = await smtpTransport.sendMail(mailOptions, (error, responses) => {
+      //   if (error) {
+      //     console.log(error);
+      //     return null;
+      //   } else {
+      //     console.log(responses);
+      //     return null;
+      //   }
+      // });
+      // smtpTransport.close();
 
       await client.certification.deleteMany({
         where: { email },

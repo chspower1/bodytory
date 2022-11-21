@@ -21,6 +21,7 @@ const FirstPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       agree: user?.agree,
     },
   });
+
   const onValid = () => {
     setUser(prev => ({ ...prev!, agree: true }));
     if (user?.type !== "origin") {

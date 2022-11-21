@@ -31,6 +31,7 @@ const LoginPage: NextPage = () => {
       }
     },
     onSuccess(data) {
+      console.log(data);
       if (data.isNew) {
         return router.push(
           {
@@ -39,8 +40,7 @@ const LoginPage: NextPage = () => {
           },
           "/auth/register",
         );
-      }
-      return router.push("/");
+      } else return router.push("/");
     },
   });
 
