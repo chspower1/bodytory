@@ -80,6 +80,7 @@ function RegisterPage() {
 
   const handleClickNextLevel = () => {
     if (watch("agree")) {
+      setStep(2);
       if (step === 2) {
         const stepTwo = isNotDuplicate && !errors.password && !errors.passwordConfirm;
         stepTwo && setStep(3);
@@ -87,31 +88,18 @@ function RegisterPage() {
       if (router.query.isNew) {
         return setStep(3);
       }
-      setStep(2);
     }
   };
   const handleClickCheckEmail = async () => {
-    const isCorrectEmail = enterEmail && emailRegex.test(enterEmail) && isToken && !enterToken;
-    if (!enterEmail) {
-      setError("email", { message: "이메일을 입력해주세요" });
-    } else if (!emailRegex.test(enterEmail)) {
-      setError("email", { message: `이메일 형식에 맞지 않습니다` });
-    } else if (isToken && !enterToken) {
-      setError("token", { message: "인증번호를 입력해주세요" });
+    const isCorrectEmail = !errors.email && isToken && !errors.token;
+    if (isCorrectEmail) {
+      const data = await checkEmailApi(isTokenInData);
+      if (data?.ok && isToken) {
+        setCertifiedComment(`인증이 완료되었습니다.`);
+        setIsCertified(true);
+      }
+      setIsToken(true);
     } else {
-      const data = await checkEmailApi(isTokenInData)
-        .then(res => {
-          if (res?.ok) {
-            if (isToken) {
-              setCertifiedComment(`${res.data}`);
-              setIsCertified(true);
-            }
-            setIsToken(true);
-          }
-          setIsToken(true);
-        })
-        .catch(err => setError("email", { message: `${err.data}` }));
-      setError("email", { message: `` });
     }
   };
 
