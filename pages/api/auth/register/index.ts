@@ -4,6 +4,7 @@ import withHandler from "@libs/server/withHandler";
 import { withApiSession } from "@libs/server/withSession";
 import * as bcrypt from "bcrypt";
 import { RegisterForm } from "pages/auth/register";
+import { passwordEncryption } from "utils/passwordHelper";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { accountId, password, email, name, birth, gender, type, phone }: RegisterForm = req.body;
@@ -17,7 +18,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       gender,
       email,
       phone,
-      password: await bcrypt.hash(password, 12),
+      password: await passwordEncryption(password),
     },
   });
   req.session.user = {

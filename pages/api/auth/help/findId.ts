@@ -56,14 +56,15 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     const FindToken = await client.certification.deleteMany({
       where: { number: token },
     });
-    const fountUser = await client.user.findFirst({
+    const foundUser = await client.user.findFirst({
       where: {
         type: "origin",
         email,
       },
     });
     console.log(FindToken);
-    if (FindToken.count > 0) return res.status(200).json({ ok: true, data: fountUser?.accountId });
+    if(!foundUser) return res.status(403).send("회원정보를 확인해주세요");
+    if (FindToken.count > 0) return res.status(200).json({ ok: true, data: foundUser?.accountId });
     else return res.status(403).send("인증번호를 확인해주세요");
   }
 }

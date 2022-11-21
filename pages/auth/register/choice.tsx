@@ -3,13 +3,14 @@ import KakaoLoginBtn from "@components/KakaoLoginBtn";
 import NaverLoginBtn from "@components/NaverLoginBtn";
 import useApi from "@libs/client/useApi";
 import { useMutation } from "@tanstack/react-query";
+import { USER_LOGIN } from "constant/queryKeys";
 import { useRouter } from "next/router";
 import React from "react";
 
 export default function ChoicePage() {
   const router = useRouter();
   const { postApi } = useApi("/api/auth/login");
-  const { mutate } = useMutation(["login"], postApi, {
+  const { mutate } = useMutation([USER_LOGIN], postApi, {
     onError(error: any) {
       console.log(error);
       if (error.status === 400) {

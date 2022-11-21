@@ -9,6 +9,7 @@ import Link from "next/link";
 import useApi from "@libs/client/useApi";
 import { useMutation } from "@tanstack/react-query";
 import { UserType } from "@prisma/client";
+import { HELP_FIND_PASSWORD } from "constant/queryKeys";
 export interface HelpForm {
   type: UserType;
   accountId?: string;
@@ -24,7 +25,7 @@ const HelpPage: NextPage = () => {
   const [isToken, setIsToken] = useState(false);
   const [email, setEmail] = useState("");
   const [accountId, setAccountId] = useState("");
-  const { mutateAsync } = useMutation(["help"], postApi, {
+  const { mutateAsync } = useMutation([HELP_FIND_PASSWORD], postApi, {
     onError(error: any) {
       alert(`${error.data}`);
     },

@@ -16,9 +16,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       },
     });
     const payload = Math.floor(10000 + Math.random() * 1000000) + "";
-
-    if (!user) {
-      console.log("not user");
+    if (user) {
+      return res.status(403).send("중복된 이메일입니다");
+    } else {
       const mailOptions = {
         from: process.env.MAIL_ID,
         to: email,
@@ -50,7 +50,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       return res.status(200).json({
         ok: true,
       });
-    } else return res.status(403).send("중복된 이메일입니다");
+    }
   }
   if (email && token) {
     const FindToken = await client.certification.deleteMany({

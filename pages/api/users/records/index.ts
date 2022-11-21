@@ -6,6 +6,7 @@ import { withApiSession } from "@libs/server/withSession";
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { id, type, position, description } = req.body;
   const { user } = req.session;
+  if (!user) return res.status(401).send("회원 정보를 확인해주세요");
   if (req.method === "POST") {
     await client.record.create({
       data: {
@@ -14,7 +15,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         description,
         user: {
           connect: {
-            id: user?.id,
+            id: user.id,
           },
         },
       },
@@ -24,7 +25,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "GET") {
     const data = await client.record.findMany({
       where: {
-        userId: user?.id,
+        userId: user.id,
       },
     });
     return res.status(200).json(data);

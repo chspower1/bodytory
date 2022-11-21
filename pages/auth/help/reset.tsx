@@ -8,6 +8,7 @@ import { ResponseType } from "@libs/server/withHandler";
 import Link from "next/link";
 import useApi from "@libs/client/useApi";
 import { useMutation } from "@tanstack/react-query";
+import { HELP_FIND_PASSWORD } from "constant/queryKeys";
 interface ResetForm {
   password: string;
   confirmPassword: string;
@@ -16,7 +17,7 @@ interface ResetForm {
 const Reset: NextPage = () => {
   const router = useRouter();
   const { putApi } = useApi("/api/auth/help/reset");
-  const { mutateAsync } = useMutation(["help"], putApi, {
+  const { mutateAsync } = useMutation([HELP_FIND_PASSWORD], putApi, {
     onSuccess(data) {
       router.push("/auth/login");
     },

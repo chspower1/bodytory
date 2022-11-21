@@ -9,6 +9,7 @@ import Link from "next/link";
 import useApi from "@libs/client/useApi";
 import { useMutation } from "@tanstack/react-query";
 import { HelpForm } from ".";
+import { HELP_FIND_ID } from "constant/queryKeys";
 
 const HelpFindId: NextPage = () => {
   const router = useRouter();
@@ -16,7 +17,7 @@ const HelpFindId: NextPage = () => {
   const [email, setEmail] = useState("");
   const [isToken, setIsToken] = useState(false);
   const [foundAccountId, setFoundAccountId] = useState("");
-  const { mutateAsync } = useMutation(["findIdMutateKey"], postApi, {
+  const { mutateAsync } = useMutation([HELP_FIND_ID], postApi, {
     onError(error: any) {
       alert(`${error.data}`);
     },
