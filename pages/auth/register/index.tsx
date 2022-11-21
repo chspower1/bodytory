@@ -92,7 +92,9 @@ function RegisterPage() {
   };
   const handleClickCheckEmail = async () => {
     const isCorrectEmail = !errors.email && isToken && !errors.token;
-    if (isCorrectEmail) {
+    console.log(!errors.email, isToken, !errors.token);
+    console.log(isCorrectEmail);
+    if (!isCorrectEmail) {
       const data = await checkEmailApi(isTokenInData);
       if (data?.ok && isToken) {
         setCertifiedComment(`인증이 완료되었습니다.`);
@@ -100,6 +102,7 @@ function RegisterPage() {
       }
       setIsToken(true);
     } else {
+      
     }
   };
 
