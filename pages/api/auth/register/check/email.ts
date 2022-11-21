@@ -60,7 +60,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       },
     });
     console.log(FindToken);
-    if (FindToken.count > 0) return res.status(200).json({ ok: true, data: "인증 되었습니다" });
+    if (FindToken.count > 0) return res.status(200).json({ ok: true });
     else return res.status(403).send("인증번호를 확인해주세요");
   }
 }
