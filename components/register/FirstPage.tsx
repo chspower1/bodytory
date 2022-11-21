@@ -6,18 +6,18 @@ interface FirstRegisterForm {
   agree: boolean;
 }
 interface RegisterPageProps {
-  user: RegisterForm;
+  user: RegisterForm | undefined;
   setUser: Dispatch<SetStateAction<RegisterForm | undefined>>;
-  setStep: Dispatch<SetStateAction<number>>;
+  setPage: Dispatch<SetStateAction<number>>;
 }
-const FirstPage = ({ user, setUser, setStep }: RegisterPageProps) => {
+const FirstPage = ({ user, setUser, setPage }: RegisterPageProps) => {
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm<FirstRegisterForm>();
   const onValid = () => {
-    setStep(cur => cur + 1);
+    setPage(cur => cur + 1);
   };
   return (
     <form onSubmit={handleSubmit(onValid)}>
@@ -28,6 +28,8 @@ const FirstPage = ({ user, setUser, setStep }: RegisterPageProps) => {
         register={register("agree", { required: "약관 동의 해주세요" })}
         errorMessage={errors.agree?.message}
       />
+      <button>다음 페이지</button>
+      <button type="button" >이전 페이지</button>
     </form>
   );
 };

@@ -10,6 +10,7 @@ import styled from "styled-components";
 import { Gender, UserType } from "@prisma/client";
 import { REGISTER_SIGNUP } from "constant/queryKeys";
 import useReset from "@libs/client/useReset";
+import FirstPage from "@components/register/FirstPage";
 
 export interface RegisterForm {
   agree?: boolean;
@@ -26,7 +27,7 @@ export interface RegisterForm {
 }
 
 function RegisterPage() {
-  const [user, setUser] = useState<RegisterForm>();
+  const [user, setUser] = useState<RegisterForm | undefined>();
   const router = useRouter();
   const [type, setType] = useState("origin");
   const [page, setPage] = useState(1);
@@ -139,67 +140,8 @@ function RegisterPage() {
     <>
       <div>
         <form onSubmit={handleSubmit(onValid)}>
-          {page === 1 && (
-            <Input
-              label="동의"
-              name="agree"
-              type="checkbox"
-              register={register("agree", { required: "약관 동의 해주세요" })}
-              errorMessage={errors.agree?.message}
-            />
-          )}
-          {page === 2 && (
-            <>
-              <Input
-                label="아이디"
-                name="accountId"
-                placeholder="아이디를 입력해주세요"
-                register={register("accountId", {
-                  required: "아이디를 입력해주세요",
-                  validate: value => AccountIdRegex.test(value) || "아이디 형식에 맞지 않습니다.",
-                })}
-                errorMessage={errors.accountId?.message}
-              />
-              <button type="button" onClick={handleClickCheckAccountId}>
-                중복확인
-              </button>
-
-              <Input
-                type="password"
-                label="비밀번호"
-                name="password"
-                placeholder="비밀번호를 입력해주세요"
-                register={register("password", {
-                  required: "비밀번호를 입력해주세요",
-                  // pattern: {
-                  //   value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/i,
-                  //   message: "비밀번호가 안전하지 않아요.",
-                  // },
-                  validate: {
-                    checkPassword: value => {
-                      if (watch("password") !== value) return "아이디가 일치하지 않음";
-                    },
-                  },
-                })}
-                errorMessage={errors.password?.message}
-              />
-              <Input
-                type="password"
-                label="비밀번호 확인"
-                name="passwordConfirm"
-                placeholder="한번 더 입력해주세요"
-                register={register("passwordConfirm", {
-                  required: "비밀번호 확인을 입력해주세요",
-                  validate: {
-                    checkPassword: value => {
-                      if (watch("password") !== value) return "아이디가 일치하지 않음";
-                    },
-                  },
-                })}
-                errorMessage={errors.passwordConfirm?.message}
-              />
-            </>
-          )}
+          {page === 1 && <FirstPage user={user} setUser={setUser} setPage={setPage} />}
+          {page === 2 && <FirstPage user={user} setUser={setUser} setPage={setPage} />}
           {page === 3 && (
             <>
               <Input
