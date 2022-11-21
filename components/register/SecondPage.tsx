@@ -31,14 +31,12 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     },
   });
 
-  const [isNotDuplicate, setIsNotDuplicate] = useState(false);
-
   const { postApi: checkAccountIdApi } = useApi("/api/auth/register/check/id");
 
   const AccountIdRegex = /^[a-zA-Z0-9]*$/;
 
   const onValid = (data: SecondRegisterForm) => {
-    if (isNotDuplicate) {
+    if (user?.isNotDuplicate) {
       setUser(prev => ({ ...prev!, ...data }));
       setPage(cur => cur + 1);
     } else {
@@ -49,8 +47,8 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
   const handleClickCheckAccountId = async () => {
     try {
       await checkAccountIdApi({ accountId: watch("accountId") });
+      setUser(prev => ({ ...prev!, isNotDuplicate: true }));
       clearErrors("accountId");
-      setIsNotDuplicate(true);
       alert("사용가능한 아이디입니다");
     } catch (err: any) {
       setError("accountId", { message: `${err.data}` });
@@ -71,13 +69,13 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
           required: "아이디를 입력해주세요",
           validate: value => AccountIdRegex.test(value) || "아이디 형식에 맞지 않습니다.",
           onChange() {
-            setIsNotDuplicate(false);
+            setUser(prev => ({ ...prev!, isNotDuplicate: false }));
           },
         })}
         errorMessage={errors.accountId?.message}
       />
-      <button type="button" onClick={handleClickCheckAccountId} disabled={isNotDuplicate}>
-        {isNotDuplicate ? "중복확인 완료" : "중복확인"}
+      <button type="button" onClick={handleClickCheckAccountId} disabled={user?.isNotDuplicate}>
+        {user?.isNotDuplicate ? "중복확인 완료" : "중복확인"}
       </button>
 
       <Input

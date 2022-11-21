@@ -51,16 +51,16 @@ async function loginByOrigin(req: NextApiRequest, res: NextApiResponse) {
 }
 
 async function loginBySocial(req: NextApiRequest, res: NextApiResponse) {
-  const { id, email, phone, name, birth, gender, type } = req.body;
+  const { accountId, email, phone, name, birth, gender, type } = req.body;
   const foundUser = await client.user.findFirst({
     where: {
-      accountId: id + "",
+      accountId: accountId + "",
       type,
     },
   });
 
   if (!foundUser) {
-    return res.status(201).json({ isNew: true, type, id, email, phone, name, birth, gender });
+    return res.status(201).json({ isNew: true, type, accountId, email, phone, name, birth, gender });
   }
 
   req.session.user = {

@@ -46,6 +46,7 @@ function RegisterPage() {
 
   useEffect(() => {
     if (router.query.isNew) {
+      console.log(router.query);
       const { accountId, email, phone, name, birth, gender, type } = router.query;
       const fakePassword = Math.floor(10000 + Math.random() * 1000000) + "";
       setUser(prev => ({
@@ -60,7 +61,7 @@ function RegisterPage() {
         gender: gender as Gender,
         type: type as UserType,
       }));
-      setPage(3);
+      setPage(1);
     }
   }, [router]);
 
