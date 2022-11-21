@@ -81,15 +81,11 @@ function RegisterPage() {
   const handleClickNextLevel = () => {
     if (watch("agree")) {
       if (step === 2) {
-        const stepTwo =
-          isNotDuplicate &&
-          watch("password") &&
-          watch("passwordConfirm") &&
-          watch("password") !== watch("passwordConfirm");
+        const stepTwo = isNotDuplicate && !errors.password && !errors.passwordConfirm;
         stepTwo && setStep(3);
       }
       if (router.query.isNew) {
-        setStep(3);
+        return setStep(3);
       }
       setStep(2);
     }
@@ -188,6 +184,11 @@ function RegisterPage() {
                   //   value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/i,
                   //   message: "비밀번호가 안전하지 않아요.",
                   // },
+                  validate: value => !watch("password") && "비밀번호를 입력해주세요",
+                  onChange(e) {
+                    if (watch("passwordConfirm") === watch("password"))
+                      setError("passwordConfirm", { type: "costom", message: "" });
+                  },
                 })}
                 errorMessage={errors.password?.message}
               />
@@ -200,7 +201,7 @@ function RegisterPage() {
                   required: "비밀번호 확인을 입력해주세요",
                   validate: {
                     checkPassword: value => {
-                      if (watch("password") !== value) return "아이디가 일치하지 않음";
+                      if (watch("password") !== value) return "비밀번호가 일치하지 않습니다";
                     },
                   },
                 })}
@@ -213,7 +214,10 @@ function RegisterPage() {
               <Input
                 label="이름"
                 name="name"
-                register={register("name", { required: "이름을 입력해주세요" })}
+                register={register("name", {
+                  required: "이름을 입력해주세요",
+                  validate: value => !watch("name") && "이름을 입력해주세요",
+                })}
                 errorMessage={errors.name?.message}
               />
               <Input
@@ -221,6 +225,7 @@ function RegisterPage() {
                 name="birth"
                 register={register("birth", {
                   required: "생일을 입력해주세요",
+                  validate: value => !watch("birth") && "생일을 입력해주세요",
                   // pattern: /[0-9\-]/g
                 })}
                 errorMessage={errors.birth?.message}
@@ -233,7 +238,10 @@ function RegisterPage() {
                       id="registerGenderMale"
                       type="radio"
                       value={"male"}
-                      {...register("gender", { required: "성별을 선택해주세요" })}
+                      {...register("gender", {
+                        required: "성별을 선택해주세요",
+                        validate: value => !watch("gender") && "성별을 선택해주세요",
+                      })}
                     />
                     <GenderLabel htmlFor="registerGenderMale">남자</GenderLabel>
                   </div>
@@ -242,7 +250,10 @@ function RegisterPage() {
                       id="registerGenderFeMale"
                       type="radio"
                       value={"female"}
-                      {...register("gender", { required: "성별을 선택해주세요" })}
+                      {...register("gender", {
+                        required: "성별을 선택해주세요",
+                        validate: value => !watch("gender") && "성별을 선택해주세요",
+                      })}
                     />
                     <GenderLabel htmlFor="registerGenderFeMale">여자</GenderLabel>
                   </div>
@@ -256,6 +267,7 @@ function RegisterPage() {
                 placeholder="abc@abc.com"
                 register={register("email", {
                   required: "이메일을 입력해주세요",
+                  validate: value => !watch("email") && "이메일을 입력해주세요",
                 })}
                 errorMessage={errors.email?.message}
               />
@@ -268,6 +280,7 @@ function RegisterPage() {
                       label="인증번호"
                       register={register("token", {
                         required: "인증번호를 입력해주세요.",
+                        validate: value => !watch("token") && "인증번호를 입력해주세요",
                       })}
                       placeholder="인증번호를 입력해주세요."
                       errorMessage={errors.token?.message}
