@@ -9,9 +9,13 @@ import { HelpForm } from "pages/auth/help";
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { token, accountId }: HelpForm = req.body;
   console.log(accountId, token);
+  const isAuthenticationRequest = accountId && !token;
+  const isAuthenticationRequest2= accountId && token;
+
   if (accountId && !token) {
     const foundUser = await client.user.findFirst({
       where: {
+        accountId,
         type: "origin",
       },
     });

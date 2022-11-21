@@ -5,18 +5,19 @@ import { withApiSession } from "@libs/server/withSession";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { user } = req.session;
+  if (!user?.id) return res.json({ user: null });
   const foundUser = await client.user.findFirst({
     where: {
       id: user?.id,
     },
     select: {
       id: true,
-      accountId : true,
+      accountId: true,
       name: true,
       email: true,
       gender: true,
-      birth : true,
-      type : true,
+      birth: true,
+      type: true,
       phone: true,
     },
   });

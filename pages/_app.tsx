@@ -9,20 +9,19 @@ import { ErrorBoundary } from "react-error-boundary";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      suspense: true,
+      retry: false,
+      // useErrorBoundary: true,
+      // suspense: true,
       staleTime: 1000 * 60 * 5,
-      onError(err) {
-        console.log(err);
-      },
+      cacheTime: 1000 * 60 * 5,
     },
     mutations: {
-      onError(error: any) {
-        if (error.status === 400) {
-        }
-      },
+      // useErrorBoundary: true,
+      onError(error: any) {},
     },
   },
 });
+
 declare global {
   interface Window {
     Kakao: any;
@@ -33,11 +32,11 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
       {/* <ErrorBoundary fallback={<div>에러</div>}> */}
-      <Suspense fallback={<div>로딩중</div>}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </Suspense>
+      {/* <Suspense fallback={<div>로딩중</div>}> */}
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+      {/* </Suspense> */}
       {/* </ErrorBoundary> */}
       <ReactQueryDevtools />
     </QueryClientProvider>

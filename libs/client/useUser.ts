@@ -1,18 +1,11 @@
+import { User } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  gender: string;
-  age: number;
-  phone: string;
-}
+import useApi from "./useApi";
 const useUser = () => {
-  async function getUser() {
-    return await axios.get("/api/users/me");
-  }
-  const { data: user } = useQuery(["user"], getUser);
+  const { getApi } = useApi("/api/users/me");
+  const { data: user } = useQuery<User>(["user"], getApi);
+  console.log(user);
   return { user };
 };
 export default useUser;

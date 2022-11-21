@@ -2,12 +2,26 @@ import RecordUpdate from "@components/RecordUpdate";
 import useApi from "@libs/client/useApi";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
-import React, { useState } from "react";
-
+import React, { useState, Suspense } from "react";
+import client from "@libs/server/client";
+import { Record } from "@prisma/client";
+import RecordsList from "@components/RecordsList";
+// test용 데이터
+// const initialData = [0, 1, 2, 3].map((_, index) => ({
+//   id: index,
+//   createAt: Date.now(),
+//   updateAt: Date.now(),
+//   type: "user",
+//   position: "arm",
+//   disease: "dd",
+//   description: "sdd",
+//   userId: index,
+//   hospitalId: null,
+// }));
 export default function ChartPage() {
   const queryClient = useQueryClient();
   const { getApi, deleteApi } = useApi("/api/users/records");
-  const { isLoading, status, data, error } = useQuery(["recordsReadKey"], getApi);
+  const { isLoading, data: records } = useQuery<Record[] | undefined>(["recordsReadKey"], getApi);
   const { mutate } = useMutation(["recordDeleteKey"], deleteApi, {
     onSuccess(data, variables, context) {
       queryClient.invalidateQueries(["recordsReadKey"]);
@@ -20,29 +34,27 @@ export default function ChartPage() {
   const handleClickDeleteRecord = (id: number) => () => {
     mutate({ id: id });
   };
-  if (isLoading) {
-    return <div>isLoading...</div>;
-  }
-  console.log(data);
+  // if (isLoading) return null;
   return (
     <div>
-      {data.map((ele: any, idx: number) => (
+      {records?.map((record, idx) => (
         <div key={idx}>
           <div>
-            <p>사용자 : {ele.type}</p>
-            <p>내용 : {ele.description}</p>
-            <p>통증 위치 : {ele.position}</p>
+            <p>사용자 : {record.type}</p>
+            <p>내용 : {record.description}</p>
+            <p>통증 위치 : {record.position}</p>
           </div>
           <div>
             {currentIdx === idx ? (
-              <RecordUpdate recordId={ele.id} setCurrentIdx={setCurrentIdx} />
+              <RecordUpdate recordId={record.id + ""} setCurrentIdx={setCurrentIdx} />
             ) : (
               <button onClick={handleClickUpdateRecord(idx)}>수정하기</button>
             )}
-            <button onClick={handleClickDeleteRecord(ele.id)}>삭제하기</button>
+            <button onClick={handleClickDeleteRecord(record.id)}>삭제하기</button>
           </div>
         </div>
       ))}
+
       <br />
       <br />
       <br />
