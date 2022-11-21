@@ -3,21 +3,8 @@ import useApi from "@libs/client/useApi";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import React, { useState, Suspense } from "react";
-import client from "@libs/server/client";
 import { Record } from "@prisma/client";
-import RecordsList from "@components/RecordsList";
-// test용 데이터
-// const initialData = [0, 1, 2, 3].map((_, index) => ({
-//   id: index,
-//   createAt: Date.now(),
-//   updateAt: Date.now(),
-//   type: "user",
-//   position: "arm",
-//   disease: "dd",
-//   description: "sdd",
-//   userId: index,
-//   hospitalId: null,
-// }));
+
 export default function ChartPage() {
   const queryClient = useQueryClient();
   const { getApi, deleteApi } = useApi("/api/users/records");
@@ -34,7 +21,7 @@ export default function ChartPage() {
   const handleClickDeleteRecord = (id: number) => () => {
     mutate({ id: id });
   };
-  // if (isLoading) return null;
+  if (isLoading) return null;
   return (
     <div>
       {records?.map((record, idx) => (
