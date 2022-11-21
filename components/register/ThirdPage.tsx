@@ -32,14 +32,12 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     formState: { errors },
     handleSubmit,
     watch,
-    setError,
     setValue,
   } = useForm<ThirdRegisterForm>({ mode: "onChange", defaultValues: { birth, email, gender, name, phone } });
   const { isToken, setIsToken, ResetBtn } = useReset({ setValue });
   const { postApi: createUser } = useApi("/api/auth/register");
   const { postApi: checkEmailApi } = useApi("/api/auth/register/check/email");
   const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
-  const [certifiedComment, setCertifiedComment] = useState("");
   const isTokenInData = { email: watch("email"), token: isToken ? watch("token") : false, type };
   const { mutate } = useMutation([REGISTER_SIGNUP], createUser, {
     onError(error: any) {
@@ -53,7 +51,6 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     if (!errors.email) {
       const data = await checkEmailApi(isTokenInData);
       if (data?.ok && isToken) {
-        setCertifiedComment(`인증이 완료되었습니다.`);
         setUser(prev => ({ ...prev!, isCertified: true }));
       }
       setIsToken(true);

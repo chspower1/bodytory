@@ -54,7 +54,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       setError("accountId", { message: `${err.data}` });
     }
   };
-  const checkPassword = (value: string) => {
+  const checkPassword = () => {
     if (watch("password") === watch("passwordConfirm")) {
       clearErrors(["password", "passwordConfirm"]);
     } else return "비밀번호가 일치하지 않음";

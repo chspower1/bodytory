@@ -41,7 +41,6 @@ interface RegisterQueryProps {
 function RegisterPage() {
   const router = useRouter();
   const [user, setUser] = useState<RegisterForm | undefined>();
-  const [type, setType] = useState("origin");
   const [page, setPage] = useState(1);
   console.log(user);
   useEffect(() => {
@@ -77,32 +76,3 @@ function RegisterPage() {
 }
 
 export default RegisterPage;
-const GenderBox = styled.div`
-  .innerBox {
-    display: inline-flex;
-  }
-
-  .inputBox {
-    width: 80px;
-    height: 50px;
-    border: 1px solid #000;
-  }
-
-  input {
-    position: absolute;
-    left: -999999%;
-  }
-  input:checked + label {
-    background: #000;
-    color: #fff;
-  }
-`;
-const GenderLabel = styled.label`
-  display: block;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-`;
