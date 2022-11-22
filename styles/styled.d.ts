@@ -3,16 +3,16 @@ import "styled-components";
 declare module "styled-components" {
   export interface DefaultTheme {
     color: {
-      darkBg: "#5359E9";
-      lightBg: "#F2F3FF";
-      disabled: "#4B4D7A";
-      disabledText: "#D2D2DD";
-      error: "#F84E8B";
-      text: "#2B2D64";
-      mint: "#03E7CB";
-      mintBtn: "#12D4C9";
-      input: "#646AEB";
-      white: "#FFFFFF";
+      darkBg: "rgb(83, 89, 233)";
+      lightBg: "rgb(242, 243, 255)";
+      disabled: "rgb(75, 77, 122)";
+      disabledText: "rgb(210, 210, 221)";
+      error: "rgb(248, 78, 139)";
+      text: "rgb(43, 45, 100)";
+      mint: "rgb(3, 231, 203)";
+      mintBtn: "rgb(18, 212, 201)";
+      input: "rgb(100, 106, 235)";
+      white: "rgb(255, 255, 255)";
     };
     boxShadow: {
       normal: "0 3px 8px 0 rgb(0 0 0 / 10%)";
