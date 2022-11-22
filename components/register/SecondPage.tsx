@@ -31,8 +31,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       passwordConfirm: user?.passwordConfirm,
     },
   });
-  const [currentInput, setCurrentInput] = useState(1);
-  const [currentComment, setCurrentComment] = useState("사용하실 아이디를 입력해주세요");
+  const [currentComment, setCurrentComment] = useState("");
   const { postApi: checkAccountIdApi } = useApi("/api/auth/register/check/id");
 
   const AccountIdRegex = /^[a-zA-Z0-9]*$/;
@@ -56,16 +55,27 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       setUser(prev => ({ ...prev!, isNotDuplicate: true }));
       clearErrors("accountId");
       setCurrentInput(2);
-      setCurrentComment("사용하실 비밀번호를 입력해주세요")
+      setCurrentComment("사용하실 비밀번호를 입력해주세요");
     } catch (err: any) {
       setError("accountId", { type: "custom", message: `이미 사용 중인 아이디에요!\n다른아이디를 입력해주세요` });
     }
   };
-  const isErrorsMessage = errors.accountId?.message || errors.password?.message || errors.passwordConfirm?.message
+  const checkPassword = () => {
+    if (watch("password") === watch("passwordConfirm")) {
+      clearErrors(["password", "passwordConfirm"]);
+      setCurrentComment("");
+    } else return "비밀번호가 일치하지 않음";
+  };
+  const isErrorsMessage = errors.accountId?.message || errors.password?.message || errors.passwordConfirm?.message;
+
+  useEffect(() => {
+    setError("accountId", { message: "아이디 중복확인을 해주세요" });
+    setError("password", {});
+  }, []);
   return (
     <form onSubmit={handleSubmit(onValid)}>
       <div className="errorMessageBox">
-        <p>{isErrorsMessage ? isErrorsMessage  : currentComment}</p>
+        <p>{isErrorsMessage ? isErrorsMessage : currentComment}</p>
       </div>
       <Input
         label="아이디"
@@ -76,7 +86,6 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
           validate: value => AccountIdRegex.test(value) || "아이디는 영문 대소문자, 숫자를 입력해주세요",
           onChange() {
             setUser(prev => ({ ...prev!, isNotDuplicate: false }));
-            setCurrentInput(1);
             setValue("password", "");
             setValue("passwordConfirm", "");
           },
@@ -86,7 +95,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
         중복확인
       </button>
 
-      {currentInput >= 2 && (
+      {!errors.accountId && (
         <Input
           type="password"
           label="비밀번호"
@@ -98,20 +107,19 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
             //   value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/i,
             //   message: "비밀번호가 안전하지 않아요.",
             // },
+
             onChange() {
               if (!watch("password")) {
-                setCurrentInput(2);
                 setValue("passwordConfirm", "");
-                setCurrentComment("사용하실 아이디를 입력해주세요")
+                setCurrentComment("사용하실 아이디를 입력해주세요");
               } else {
-                setCurrentInput(3);
-                setCurrentComment("비밀번호를 한번 더 입력해주세요")
+                setCurrentComment("비밀번호를 한번 더 입력해주세요");
               }
             },
           })}
         />
       )}
-      {currentInput === 3 && (
+      {!errors.password && (
         <Input
           type="password"
           label="비밀번호 확인"
@@ -119,13 +127,16 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
           placeholder="한번 더 입력해주세요"
           register={register("passwordConfirm", {
             required: "비밀번호가 일치하지 않아요! 비밀번호를 다시 확인해주세요",
+            validate: {
+              checkPassword,
+            },
           })}
         />
       )}
       <button type="button" onClick={() => setPage(1)}>
         이전 페이지
       </button>
-      <button type="submit" disabled={currentInput !== 3}>
+      <button type="submit" disabled={!errors === false}>
         다음 페이지
       </button>
     </form>
