@@ -1,6 +1,6 @@
 import Input from "@components/Input";
 import { useForm } from "react-hook-form";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { RegisterForm } from "pages/auth/register";
 import useApi from "utils/client/customApi";
 import { Gender } from "@prisma/client";
@@ -75,22 +75,53 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
   const onValid = (data: ThirdRegisterForm) => {
     mutate({ ...user, ...data });
   };
+
+  const isErrorsMessage =
+    errors.name?.message ||
+    errors.birth?.message ||
+    errors.gender?.message ||
+    errors.email?.message ||
+    errors.token?.message;
+
+  useEffect(() => {
+    if (!user?.passwordConfirm) {
+      setError("name", {
+        type: "custom",
+        message: "마지막 단계에요!\n이용자님의 이름, 생일, 성별, 이메일을 알려주세요",
+      });
+    }
+  }, []);
+
   return (
     <form onSubmit={handleSubmit(onValid)}>
+      <div className="errorMessageBox">
+        {isErrorsMessage && isErrorsMessage.includes("\n") ? (
+          isErrorsMessage.split("\n").map(ele => <p>{ele}</p>)
+        ) : (
+          <p>{isErrorsMessage}</p>
+        )}
+      </div>
       <Input
         label="이름"
         name="name"
-        register={register("name", { required: "이름을 입력해주세요" })}
-        errorMessage={errors.name?.message}
+        register={register("name", {
+          required: "이름을 입력해주세요",
+          validate: value => /^[가-힣a-zA-Z]+$/.test(value) || "한글과 영어만 입력해주세요",
+          onChange() {
+            setUser(prev => ({ ...prev!, name: watch("name") }));
+          },
+        })}
       />
       <Input
         label="생일"
         name="birth"
         register={register("birth", {
           required: "생일을 입력해주세요",
-          validate: value => /[0-9\-]/g.test(value) || "숫자만 입력해주세요",
+          validate: value => /^[0-9\-]/g.test(value) || `숫자와 "-"만 입력해주세요`,
+          onChange() {
+            setUser(prev => ({ ...prev!, birth: watch("birth") }));
+          },
         })}
-        errorMessage={errors.birth?.message}
       />
       <GenderBox>
         <h4>성별</h4>
@@ -100,7 +131,12 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
               id="registerGenderMale"
               type="radio"
               value={"male"}
-              {...register("gender", { required: "성별을 선택해주세요" })}
+              {...register("gender", {
+                required: "성별을 선택해주세요",
+                onChange() {
+                  setUser(prev => ({ ...prev!, gender: watch("gender") }));
+                },
+              })}
             />
             <GenderLabel htmlFor="registerGenderMale">남자</GenderLabel>
           </div>
@@ -109,12 +145,16 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
               id="registerGenderFeMale"
               type="radio"
               value={"female"}
-              {...register("gender", { required: "성별을 선택해주세요" })}
+              {...register("gender", {
+                required: "성별을 선택해주세요",
+                onChange() {
+                  setUser(prev => ({ ...prev!, gender: watch("gender") }));
+                },
+              })}
             />
             <GenderLabel htmlFor="registerGenderFeMale">여자</GenderLabel>
           </div>
         </div>
-        <p>{errors.gender?.message}</p>
       </GenderBox>
       <Input
         label="이메일(본인인증 확인용!!!)"
@@ -124,10 +164,12 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
         register={register("email", {
           required: "이메일을 입력해주세요",
           validate: value => emailRegex.test(value) || "이메일 형식에 맞지 않습니다",
+          onChange() {
+            setUser(prev => ({ ...prev!, email: watch("email") }));
+          },
         })}
-        errorMessage={errors.email?.message}
       />
-      <ResetBtn />
+      {!user?.isCertified && <ResetBtn />}
       {!user?.isCertified ? (
         <>
           {isToken && (
@@ -136,10 +178,9 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
               label="인증번호"
               register={register("token", {
                 required: "인증번호를 입력해주세요.",
-                validate: value => /[0-9]/.test(value) || "숫자만 입력해주세요",
+                validate: value => /^[0-9]$/.test(value) || "숫자만 입력해주세요",
               })}
               placeholder="인증번호를 입력해주세요."
-              errorMessage={errors.token?.message}
             />
           )}
           <button type="button" onClick={handleClickCheckEmail}>
