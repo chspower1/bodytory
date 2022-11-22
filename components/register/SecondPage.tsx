@@ -91,7 +91,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
           //   message: "비밀번호가 안전하지 않아요.",
           // },
           onChange() {
-            setError("passwordConfirm", { message: "비밀번호가 일치하지 않음" });
+            if(watch("password") === watch("passwordConfirm")) setError("passwordConfirm", { message: "" });
           },
         })}
       />
