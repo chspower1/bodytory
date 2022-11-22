@@ -22,7 +22,7 @@ export interface HelpForm {
 
 const HelpPage: NextPage = () => {
   const router = useRouter();
-  const { postApi } = useApi("/api/auth/help");
+  const { postApi } = useApi("/api/auth/help/find-pw");
   const [email, setEmail] = useState("");
   const [accountId, setAccountId] = useState("");
   const { mutateAsync } = useMutation([HELP_FIND_PASSWORD], postApi, {

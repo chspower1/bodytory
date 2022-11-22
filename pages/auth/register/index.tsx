@@ -10,320 +10,69 @@ import styled from "styled-components";
 import { Gender, UserType } from "@prisma/client";
 import { REGISTER_SIGNUP } from "constant/queryKeys";
 import useReset from "@libs/client/useReset";
+import FirstPage from "@components/register/FirstPage";
+import ThirdPage from "@components/register/ThirdPage";
+import SecondPage from "@components/register/SecondPage";
 
 export interface RegisterForm {
-  agree?: boolean;
+  agree: boolean;
   type: UserType;
   accountId: string;
   password: string;
   passwordConfirm: string;
   email: string;
-  token?: string;
+  token: string;
   gender: Gender;
   name: string;
   birth: string;
   phone?: string;
+  isNotDuplicate: boolean;
+  isCertified: boolean;
 }
-
+interface RegisterQueryProps {
+  accountId: string;
+  email: string;
+  phone: string;
+  name: string;
+  birth: string;
+  gender: Gender;
+  type: UserType;
+}
 function RegisterPage() {
   const router = useRouter();
-  const [type, setType] = useState("origin");
-  const [step, setStep] = useState(1);
-  const [isNotDuplicate, setIsNotDuplicate] = useState(false);
-  const {
-    register,
-    handleSubmit,
-    setError,
-    watch,
-    clearErrors,
-    setValue,
-    formState: { errors },
-  } = useForm<RegisterForm>({
-    mode: "onChange",
-  });
-  const { isToken, setIsToken, ResetBtn } = useReset({ setValue });
-  const { postApi } = useApi("/api/auth/register");
-  const { postApi: checkAccountIdApi } = useApi("/api/auth/register/check/id");
-  const { postApi: checkEmailApi } = useApi("/api/auth/register/check/email");
-  const { mutate } = useMutation([REGISTER_SIGNUP], postApi, {
-    onError(error: any) {
-      alert(`${error.data}`);
-    },
-    onSuccess() {
-      router.replace("/");
-    },
-  });
-
-  const enterAccountId = watch("accountId");
-  const AccountIdRegex = /^[a-zA-Z0-9]*$/;
-
-  const [certifiedComment, setCertifiedComment] = useState("");
-  const [isCertified, setIsCertified] = useState(false);
-  const enterEmail = watch("email");
-  const enterToken = watch("token");
-  const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
-  const isTokenInData = isToken ? { email: enterEmail, token: enterToken, type } : { email: enterEmail, type };
-
-  const handleClickCheckAccountId = async () => {
-    const checkIdValidation = enterAccountId && AccountIdRegex.test(enterAccountId);
-    if (checkIdValidation) {
-      try {
-        const data = await checkAccountIdApi({ accountId: enterAccountId });
-        setError("accountId", { type:"costom", message: `${data}` });
-        setIsNotDuplicate(true);
-        alert("사용가능한 아이디입니다");
-      } catch (err: any) {
-        setError("accountId", { type:"costom", message: `${err.data}` });
-      }
-    }
-  };
-
-  const handleClickNextLevel = () => {
-    if (watch("agree")) {
-      setStep(2);
-      if (step === 2) {
-        const stepTwo = isNotDuplicate && !errors.password && !errors.passwordConfirm;
-        stepTwo && setStep(3);
-      }
-      if (router.query.isNew) {
-        return setStep(3);
-      }
-    }
-  };
-  const handleClickCheckEmail = async () => {
-    const isCorrectEmail = !errors.email && isToken && !errors.token;
-    if (isCorrectEmail) {
-      const data = await checkEmailApi(isTokenInData);
-      if (data?.ok && isToken) {
-        setCertifiedComment(`인증이 완료되었습니다.`);
-        setIsCertified(true);
-      }
-      setIsToken(true);
-    } else {
-    }
-  };
-
-  const onValid = (data: RegisterForm) => {
-    mutate({ ...data, type });
-  };
-
+  const [user, setUser] = useState<RegisterForm | undefined>();
+  const [page, setPage] = useState(1);
+  console.log(user);
   useEffect(() => {
-    clearErrors();
     if (router.query.isNew) {
       console.log(router.query);
-      const { id, email, phone, name, birth, gender, type } = router.query;
-      setType(type as string);
-      console.log(router.query);
-      setIsNotDuplicate(true);
-      console.log(isNotDuplicate);
+      const { accountId, email, phone, name, birth, gender, type } = router.query;
       const fakePassword = Math.floor(10000 + Math.random() * 1000000) + "";
-      setValue("accountId", id as string);
-      setValue("password", fakePassword);
-      setValue("passwordConfirm", fakePassword);
-      setValue("email", (email as string) || "");
-      setValue("phone", (phone as string) || "");
-      setValue("name", (name as string) || "");
-      setValue("birth", (birth as string) || "");
-      setValue("gender", (gender as string) === "male" ? "male" : "female");
+      setUser(prev => ({
+        ...prev!,
+        accountId: accountId as string,
+        password: fakePassword,
+        passwordConfirm: fakePassword,
+        email: email as string,
+        phone: phone as string,
+        name: name as string,
+        birth: birth as string,
+        gender: gender as Gender,
+        type: type as UserType,
+      }));
+      setPage(1);
+    } else {
+      setUser(prev => ({ ...prev!, type: "origin" }));
     }
-  }, [router, isNotDuplicate]);
+  }, []);
 
-  useEffect(() => {
-    setError("email", { type:"costom", message: `` });
-    setIsCertified(false);
-  }, [enterEmail]);
   return (
     <>
-      <div>
-        <form onSubmit={handleSubmit(onValid)}>
-          {step === 1 && (
-            <Input
-              label="동의"
-              name="agree"
-              type="checkbox"
-              register={register("agree", { required: "약관 동의 해주세요" })}
-              errorMessage={errors.agree?.message}
-            />
-          )}
-          {step === 2 && (
-            <>
-              <Input
-                label="아이디"
-                name="accountId"
-                placeholder="아이디를 입력해주세요"
-                register={register("accountId", {
-                  required: "아이디를 입력해주세요",
-                  validate: value => AccountIdRegex.test(value) || "아이디 형식에 맞지 않습니다.",
-                })}
-                errorMessage={errors.accountId?.message}
-              />
-              <button type="button" onClick={handleClickCheckAccountId}>
-                중복확인
-              </button>
-
-              <Input
-                type="password"
-                label="비밀번호"
-                name="password"
-                placeholder="비밀번호를 입력해주세요"
-                register={register("password", {
-                  required: "비밀번호를 입력해주세요",
-                  // pattern: {
-                  //   value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/i,
-                  //   message: "비밀번호가 안전하지 않아요.",
-                  // },
-                  validate: value => !value && "비밀번호를 입력해주세요",
-                  onChange(e) {
-                    if (watch("passwordConfirm") === watch("password"))
-                      setError("passwordConfirm", { type: "costom", message: "" });
-                  },
-                })}
-                errorMessage={errors.password?.message}
-              />
-              <Input
-                type="password"
-                label="비밀번호 확인"
-                name="passwordConfirm"
-                placeholder="한번 더 입력해주세요"
-                register={register("passwordConfirm", {
-                  required: "비밀번호 확인을 입력해주세요",
-                  validate: {
-                    checkPassword: value => {
-                      if (watch("password") !== value) return "비밀번호가 일치하지 않습니다";
-                    },
-                  },
-                })}
-                errorMessage={errors.passwordConfirm?.message}
-              />
-            </>
-          )}
-          {step === 3 && (
-            <>
-              <Input
-                label="이름"
-                name="name"
-                register={register("name", {
-                  required: "이름을 입력해주세요",
-                  validate: value => !value && "이름을 입력해주세요",
-                })}
-                errorMessage={errors.name?.message}
-              />
-              <Input
-                label="생일"
-                name="birth"
-                register={register("birth", {
-                  required: "생일을 입력해주세요",
-                  validate: value => !value && "생일을 입력해주세요",
-                  // pattern: /[0-9\-]/g
-                })}
-                errorMessage={errors.birth?.message}
-              />
-              <GenderBox>
-                <h4>성별</h4>
-                <div className="innerBox">
-                  <div className="inputBox">
-                    <input
-                      id="registerGenderMale"
-                      type="radio"
-                      value={"male"}
-                      {...register("gender", {
-                        required: "성별을 선택해주세요",
-                        validate: value => !value && "성별을 선택해주세요",
-                      })}
-                    />
-                    <GenderLabel htmlFor="registerGenderMale">남자</GenderLabel>
-                  </div>
-                  <div className="inputBox">
-                    <input
-                      id="registerGenderFeMale"
-                      type="radio"
-                      value={"female"}
-                      {...register("gender", {
-                        required: "성별을 선택해주세요",
-                        validate: value => !value && "성별을 선택해주세요",
-                      })}
-                    />
-                    <GenderLabel htmlFor="registerGenderFeMale">여자</GenderLabel>
-                  </div>
-                </div>
-                <p>{errors.gender?.message}</p>
-              </GenderBox>
-              <Input
-                label="이메일(본인인증 확인용!!!)"
-                name="email"
-                disabled={isToken}
-                placeholder="abc@abc.com"
-                register={register("email", {
-                  required: "이메일을 입력해주세요",
-                  validate: value => !value && "이메일을 입력해주세요",
-                })}
-                errorMessage={errors.email?.message}
-              />
-              <ResetBtn />
-              {!certifiedComment ? (
-                <>
-                  {isToken && (
-                    <Input
-                      name="token"
-                      label="인증번호"
-                      register={register("token", {
-                        required: "인증번호를 입력해주세요.",
-                        validate: value => !value && "인증번호를 입력해주세요",
-                      })}
-                      placeholder="인증번호를 입력해주세요."
-                      errorMessage={errors.token?.message}
-                    />
-                  )}
-                  <button type="button" onClick={handleClickCheckEmail}>
-                    {isToken ? "인증번호 확인" : "이메일 인증"}
-                  </button>
-                </>
-              ) : (
-                <p>{certifiedComment}</p>
-              )}
-              <button type="submit" disabled={!isCertified}>
-                제출
-              </button>
-            </>
-          )}
-          {step === 3 || (
-            <button type="button" onClick={handleClickNextLevel}>
-              다음 단계
-            </button>
-          )}
-        </form>
-      </div>
+      {page === 1 && <FirstPage user={user} setUser={setUser} setPage={setPage} />}
+      {page === 2 && <SecondPage user={user} setUser={setUser} setPage={setPage} />}
+      {page === 3 && <ThirdPage user={user} setUser={setUser} setPage={setPage} />}
     </>
   );
 }
 
 export default RegisterPage;
-const GenderBox = styled.div`
-  .innerBox {
-    display: inline-flex;
-  }
-
-  .inputBox {
-    width: 80px;
-    height: 50px;
-    border: 1px solid #000;
-  }
-
-  input {
-    position: absolute;
-    left: -999999%;
-  }
-  input:checked + label {
-    background: #000;
-    color: #fff;
-  }
-`;
-const GenderLabel = styled.label`
-  display: block;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-`;

@@ -13,15 +13,18 @@ export default function ChoicePage() {
   const { mutate } = useMutation([USER_LOGIN], postApi, {
     onError(error: any) {
       console.log(error);
-      if (error.status === 400) {
-        router.push(
+    },
+    onSuccess(data) {
+      console.log(data);
+      if (data.isNew) {
+        return router.push(
           {
             pathname: "/auth/register",
-            query: error.data,
+            query: data,
           },
           "/auth/register",
         );
-      }
+      } else return router.push("/");
     },
   });
   return (
