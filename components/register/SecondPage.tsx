@@ -46,6 +46,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
 
   const handleClickCheckAccountId = async () => {
     try {
+      if (!watch("accountId")) return setError("accountId", { message: "아이디를 입력해주세요" });
       await checkAccountIdApi({ accountId: watch("accountId") });
       setUser(prev => ({ ...prev!, isNotDuplicate: true }));
       clearErrors("accountId");
