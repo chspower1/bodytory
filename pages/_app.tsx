@@ -41,8 +41,8 @@ export default function App({ Component, pageProps }: AppProps) {
       <QueryClientProvider client={queryClient}>
         {/* <ErrorBoundary fallback={<div>에러</div>}> */}
         {/* <Suspense fallback={<div>로딩중</div>}> */}
-        <GlobalStyled />
         <ThemeProvider theme={theme}>
+          <GlobalStyled />
           <Layout>
             <Component {...pageProps} />
           </Layout>
