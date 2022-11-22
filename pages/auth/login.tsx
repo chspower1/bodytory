@@ -54,7 +54,6 @@ const LoginPage: NextPage = () => {
   const onValid = (loginForm: LoginForm) => {
     mutate({ ...loginForm, type: "origin" });
   };
-
   return (
     <div>
       <form onSubmit={handleSubmit(onValid)}>

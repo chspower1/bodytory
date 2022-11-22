@@ -5,6 +5,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Layout from "@components/Layout";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
+import { GlobalStyled } from "@styles/GlobalStyled";
 
 const queryClient = new QueryClient({
   defaultOptions: {

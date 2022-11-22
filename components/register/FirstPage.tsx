@@ -2,6 +2,7 @@ import Input from "@components/Input";
 import { useForm } from "react-hook-form";
 import { Dispatch, SetStateAction } from "react";
 import { RegisterForm } from "pages/auth/register";
+import { RoundButton } from "@components/Button";
 interface FirstRegisterForm {
   agree: boolean;
 }
@@ -37,7 +38,7 @@ const FirstPage = ({ user, setUser, setPage }: RegisterPageProps) => {
         register={register("agree", { required: "약관 동의 해주세요" })}
         errorMessage={errors.agree?.message}
       />
-      <button>다음 페이지</button>
+      <RoundButton size="lg">다음 페이지</RoundButton>
     </form>
   );
 };
