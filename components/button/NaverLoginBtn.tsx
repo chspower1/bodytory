@@ -53,11 +53,9 @@ const NaverLoginBtn = ({ mutate }: { mutate: UseMutateFunction<any, any, any, un
     getToken();
   }, [mutate, router]);
   return (
-    <SnsButton size="sm" bgColor="#4B50D3">
-      <button id="naverIdLogin" style={{ display: "none" }}>
-        네이버 로그인
-      </button>
-    </SnsButton>
+    // <SnsButton size="sm" bgColor="#4B50D3">
+    <button id="naverIdLogin">네이버 로그인</button>
+    // </SnsButton>
   );
 };
 export default NaverLoginBtn;

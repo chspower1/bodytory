@@ -41,9 +41,9 @@ const KakaoLoginBtn = ({ mutate }: { mutate: UseMutateFunction<any, any, any, un
     });
   };
   return (
-    <SnsButton size="sm" bgColor="#4B50D3">
-      <button onClick={kakaoLogin}>카카오 로그인</button>
-    </SnsButton>
+
+    <button onClick={kakaoLogin}>카카오 로그인</button>
+
   );
 };
 export default KakaoLoginBtn;

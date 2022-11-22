@@ -12,8 +12,9 @@ import Modal from "@components/Modal";
 import NaverLoginBtn from "@components/button/NaverLoginBtn";
 import KakaoLoginBtn from "@components/button/KakaoLoginBtn";
 import { USER_LOGIN } from "constant/queryKeys";
-import { RoundButton } from "@components/button/Button";
-
+import { RoundButton, SnsButton } from "@components/button/Button";
+import Image from "next/image";
+import naver from "/public/Group 26.jpg";
 export interface LoginForm {
   accountId: string;
   password: string;
@@ -99,7 +100,10 @@ const LoginPage: NextPage = () => {
       <Link href="/auth/register/choice">
         <button>회원가입</button>
       </Link>
+      <Image src={naver} width={300} height={300} />
+      {/* <SnsButton size="sm" bgColor="#4B50D3"> */}
       <NaverLoginBtn mutate={mutate} />
+      {/* </SnsButton> */}
       <KakaoLoginBtn mutate={mutate} />
       {/* <button onClick={() => setShowModal(true)}>Open Modal</button> */}
       {/* <Modal onClose={() => setShowModal(false)} activeFuction={} show={showModal} title={"임시 타이틀"}>

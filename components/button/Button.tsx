@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import styled, { css } from "styled-components";
-import naver from "@public/naver.png";
+import naver from "/public/naver.png";
 
 interface ButtonProps {
   padding?: string;
@@ -137,7 +137,7 @@ export const SnsButton = ({
       padding={padding}
       borderRadius={borderRadius}
     >
-      <img src={naver} alt="naver" />
+      <Image src={naver} alt="naver" />
       {children}
     </Button>
   );
