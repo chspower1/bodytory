@@ -1,7 +1,8 @@
 import Image from "next/image";
 import React from "react";
 import styled, { css } from "styled-components";
-import naver from "/public/naver.png";
+import naver from "/public/static/naver.svg";
+import kakao from "/public/static/kakao.svg";
 
 interface ButtonProps {
   padding?: string;
@@ -13,8 +14,10 @@ interface ButtonProps {
   textColor?: string;
   children: React.ReactNode;
   size?: ButtonSize;
+  social: SocailType;
+  onClick?: () => void;
 }
-
+type SocailType = "kakao" | "naver";
 type ButtonSize = "sm" | "md" | "lg" | "xl" | "custom";
 
 const Button = styled.button<{
@@ -27,6 +30,7 @@ const Button = styled.button<{
 
   borderRadius: string;
 }>`
+  position: "relative";
   display: flex;
   justify-content: center;
   align-items: center;
@@ -112,7 +116,7 @@ export const RoundButton = ({
     </Button>
   );
 };
-export const SnsButton = ({
+export const SocialButton = ({
   padding = "auto",
   width = "360px",
   height = "80px",
@@ -122,6 +126,8 @@ export const SnsButton = ({
   textColor = "#FFFFFF",
   children,
   size = "lg",
+  social,
+  onClick,
 }: ButtonProps) => {
   if (size === "sm") {
     [width, height, fontSize] = ["240px", "60px", "20px"];
@@ -129,6 +135,7 @@ export const SnsButton = ({
 
   return (
     <Button
+      onClick={onClick}
       width={width}
       height={height}
       fontSize={fontSize}
@@ -137,11 +144,12 @@ export const SnsButton = ({
       padding={padding}
       borderRadius={borderRadius}
     >
-      <Image src={naver} alt="naver" />
+      <Image src={social === "naver" ? naver : kakao} alt="naver" style={{ position: "absolute", left: "0px" }} />
       {children}
     </Button>
   );
 };
+
 export const RectangleButton = ({
   padding = "auto",
   width = "88px",

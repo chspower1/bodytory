@@ -1,11 +1,15 @@
 import customApi from "utils/client/customApi";
 import { UseMutateFunction, useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
-import { RoundButton, SnsButton } from "./Button";
+import { useEffect, useRef } from "react";
+import { RoundButton, SocialButton } from "./Button";
 
 const NaverLoginBtn = ({ mutate }: { mutate: UseMutateFunction<any, any, any, unknown> }) => {
+  const naverRef = useRef<any>();
   const router = useRouter();
+  const handleNaverLogin = () => {
+    naverRef?.current!.children[0].click();
+  };
   useEffect(() => {
     const naver = (window as any).naver;
     let naverLogin: any;
@@ -53,9 +57,10 @@ const NaverLoginBtn = ({ mutate }: { mutate: UseMutateFunction<any, any, any, un
     getToken();
   }, [mutate, router]);
   return (
-    // <SnsButton size="sm" bgColor="#4B50D3">
-    <button id="naverIdLogin">네이버 로그인</button>
-    // </SnsButton>
+    <SocialButton onClick={handleNaverLogin} social="naver" size="sm" bgColor="#4B50D3">
+      네이버 로그인
+      <button ref={naverRef} id="naverIdLogin" style={{ display: "none" }} />
+    </SocialButton>
   );
 };
 export default NaverLoginBtn;
