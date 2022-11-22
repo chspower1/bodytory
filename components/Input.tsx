@@ -37,7 +37,9 @@ export default function Input({
 }
 
 const InputContainer = styled.div`
-  
+  & + &{
+    margin-top: 20px;
+  }
 `;
 const Label = styled.label`
   margin-left: 20px;
@@ -49,9 +51,16 @@ const InputBox = styled.div`
   position: relative;
 `;
 const MainInput = styled.input`
+&[type="password"]{
+  &::placeholder{
+    letter-spacing: 7.2px;
+    font-size:12px;
+  }
+}
   &[type="checkbox"]{
     width:auto;
   }
+  
   width: 100%;
   height: 50px;
   text-align:center;
@@ -60,6 +69,7 @@ const MainInput = styled.input`
   transition : border .3s;
   border: 2px solid transparent;
   background-color:${({theme})=> theme.color.input};
+  color:#fff;
   box-shadow: 8px 8px 24px rgba(49, 54, 167, 0.2);
   outline : 0;
   &:focus{
@@ -69,6 +79,6 @@ const MainInput = styled.input`
     border: 2px solid ${({theme}) => theme.color.error};
   }
   &::placeholder{
-    color:#fff;
+    color:#aaa;
   }
 `;
