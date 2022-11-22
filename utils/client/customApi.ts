@@ -8,8 +8,7 @@ const basicApi = () =>
     },
   });
 
-
-export default function useApi<T = any>(url: string) {
+export default function customApi<T = any>(url: string) {
   const postApi = async (data: T) => {
     try {
       const result = await basicApi().post(url, data);

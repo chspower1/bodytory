@@ -2,8 +2,8 @@ import withHandler from "@libs/server/withHandler";
 import { withApiSession } from "@libs/server/withSession";
 import { NextApiRequest, NextApiResponse } from "next";
 import bcrypt from "bcrypt";
-import client from "@libs/server/client";
-import { passwordCompare } from "utils/passwordHelper";
+import client from "utils/server/client";
+import { passwordCompare } from "utils/server/passwordHelper";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { password, type } = req.body;

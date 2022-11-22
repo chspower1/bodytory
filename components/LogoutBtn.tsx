@@ -1,4 +1,4 @@
-import useApi from "@libs/client/useApi";
+import useApi from "utils/client/customApi";
 import axios from "axios";
 import { useRouter } from "next/router";
 

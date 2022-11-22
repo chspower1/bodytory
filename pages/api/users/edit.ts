@@ -2,8 +2,8 @@ import withHandler from "@libs/server/withHandler";
 import { withApiSession } from "@libs/server/withSession";
 import { NextApiRequest, NextApiResponse } from "next";
 import bcrypt from "bcrypt";
-import client from "@libs/server/client";
-import { passwordCompare, passwordEncryption } from "utils/passwordHelper";
+import client from "utils/server/client";
+import { passwordCompare, passwordEncryption } from "utils/server/passwordHelper";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { password, newPassword } = req.body;
@@ -14,9 +14,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       id: user?.id,
     },
   });
-  if(!foundUser){
+  if (!foundUser) {
     return res.status(401).send("현재 비밀번호를 적어주세요");
-  }else {
+  } else {
     const isPasswordCorrect = await bcrypt.compare(password, foundUser.password!);
     if (!isPasswordCorrect) {
       return res.status(401).send("현재 비밀번호를 적어주세요");

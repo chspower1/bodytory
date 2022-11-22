@@ -1,4 +1,4 @@
-import useApi from "@libs/client/useApi";
+import useApi from "utils/client/customApi";
 import { UseMutateFunction, useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useEffect } from "react";

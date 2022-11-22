@@ -1,6 +1,6 @@
 import { User } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
-import useApi from "./useApi";
+import useApi from "../utils/client/customApi";
 import { USE_USER } from "constant/queryKeys";
 
 const useUser = () => {

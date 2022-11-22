@@ -3,9 +3,9 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import axios from "axios";
-import useApi from "@libs/client/useApi";
+import useApi from "utils/client/customApi";
 import Modal from "@components/Modal";
-import useUser from "@libs/client/useUser";
+import useUser from "hooks/useUser";
 import { USER_WITHDRAW } from "constant/queryKeys";
 export interface WithdrawType {
   password: string;

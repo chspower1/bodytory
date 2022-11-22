@@ -1,7 +1,7 @@
 import Input from "@components/Input";
-import useApi from "@libs/client/useApi";
+import useApi from "utils/client/customApi";
 import { useMutation } from "@tanstack/react-query";
-import client from "@libs/server/client";
+import client from "utils/server/client";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
@@ -9,7 +9,7 @@ import axios from "axios";
 import styled from "styled-components";
 import { Gender, UserType } from "@prisma/client";
 import { REGISTER_SIGNUP } from "constant/queryKeys";
-import useReset from "@libs/client/useReset";
+import useReset from "hooks/useReset";
 import FirstPage from "@components/register/FirstPage";
 import ThirdPage from "@components/register/ThirdPage";
 import SecondPage from "@components/register/SecondPage";

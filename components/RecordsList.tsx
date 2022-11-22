@@ -1,4 +1,4 @@
-import useApi from "@libs/client/useApi";
+import useApi from "utils/client/customApi";
 import { Record } from "@prisma/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import RecordUpdate from "./RecordUpdate";

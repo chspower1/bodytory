@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { ResponseType } from "@libs/server/withHandler";
 import Link from "next/link";
-import useApi from "@libs/client/useApi";
+import useApi from "utils/client/customApi";
 import { useMutation } from "@tanstack/react-query";
 import { HELP_FIND_PASSWORD } from "constant/queryKeys";
 interface ResetForm {

@@ -1,10 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import client from "@libs/server/client";
+import client from "utils/server/client";
 import withHandler, { ResponseType } from "@libs/server/withHandler";
 import { withApiSession } from "@libs/server/withSession";
 import { LoginForm } from "pages/auth/login";
 import bcrypt from "bcrypt";
-import { passwordCompare } from "utils/passwordHelper";
+import { passwordCompare } from "utils/server/passwordHelper";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { type } = req.body;

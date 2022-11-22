@@ -1,5 +1,5 @@
-import { kakaoInit } from "@libs/client/kakaoInit";
-import useApi from "@libs/client/useApi";
+import { kakaoInit } from "utils/client/kakaoInit";
+import useApi from "utils/client/customApi";
 import { UseMutateFunction, useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useEffect } from "react";

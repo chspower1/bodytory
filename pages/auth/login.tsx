@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { ResponseType } from "@libs/server/withHandler";
 import Link from "next/link";
-import useApi from "@libs/client/useApi";
+import useApi from "utils/client/customApi";
 import { useMutation } from "@tanstack/react-query";
 import Modal from "@components/Modal";
 import NaverLoginBtn from "@components/NaverLoginBtn";

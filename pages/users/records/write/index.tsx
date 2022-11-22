@@ -1,5 +1,5 @@
 import Input from "@components/Input";
-import useApi from "@libs/client/useApi";
+import useApi from "utils/client/customApi";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { RECORDS_CREATE, RECORDS_READ } from "constant/queryKeys";
 import Link from "next/link";

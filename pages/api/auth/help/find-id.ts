@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import client from "@libs/server/client";
+import client from "utils/server/client";
 import withHandler, { ResponseType } from "@libs/server/withHandler";
 import { withApiSession } from "@libs/server/withSession";
 import smtpTransport from "@libs/server/email";

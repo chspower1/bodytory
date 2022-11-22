@@ -2,10 +2,10 @@ import Input from "@components/Input";
 import { useForm } from "react-hook-form";
 import { Dispatch, SetStateAction, useState } from "react";
 import { RegisterForm } from "pages/auth/register";
-import useApi from "@libs/client/useApi";
+import useApi from "utils/client/customApi";
 import { Gender } from "@prisma/client";
 import styled from "styled-components";
-import useReset from "@libs/client/useReset";
+import useReset from "hooks/useReset";
 import { useMutation } from "@tanstack/react-query";
 import { REGISTER_SIGNUP } from "constant/queryKeys";
 import { useRouter } from "next/router";
@@ -49,23 +49,22 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     },
   });
   const handleClickCheckEmail = async () => {
-    try{
+    try {
       if (!errors.email) {
         const data = await checkEmailApi(isTokenInData);
         if (data?.ok && isToken && watch("token")) {
           setUser(prev => ({ ...prev!, isCertified: true }));
         }
-        if(!watch("token")){
-          setError("token", {type : "costom", message:"인증번호를 입력해주세요"})
+        if (!watch("token")) {
+          setError("token", { type: "costom", message: "인증번호를 입력해주세요" });
         }
         setIsToken(true);
       }
-      
-    }catch(err : any){
-      if(isToken){
-        return setError("token" , { type:"costom", message:`${err.data}`})
+    } catch (err: any) {
+      if (isToken) {
+        return setError("token", { type: "costom", message: `${err.data}` });
       }
-      setError("email" , { type:"costom", message:`${err.data}`})
+      setError("email", { type: "costom", message: `${err.data}` });
     }
   };
   const handleClickPrevPage = () => {
@@ -89,7 +88,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
         name="birth"
         register={register("birth", {
           required: "생일을 입력해주세요",
-          validate : value => /[0-9\-]/g.test(value) || "숫자만 입력해주세요"
+          validate: value => /[0-9\-]/g.test(value) || "숫자만 입력해주세요",
         })}
         errorMessage={errors.birth?.message}
       />
@@ -124,7 +123,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
         placeholder="abc@abc.com"
         register={register("email", {
           required: "이메일을 입력해주세요",
-          validate: value => emailRegex.test(value) || "이메일 형식에 맞지 않습니다"
+          validate: value => emailRegex.test(value) || "이메일 형식에 맞지 않습니다",
         })}
         errorMessage={errors.email?.message}
       />
@@ -137,7 +136,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
               label="인증번호"
               register={register("token", {
                 required: "인증번호를 입력해주세요.",
-                validate : value => /[0-9]/.test(value) || "숫자만 입력해주세요"
+                validate: value => /[0-9]/.test(value) || "숫자만 입력해주세요",
               })}
               placeholder="인증번호를 입력해주세요."
               errorMessage={errors.token?.message}

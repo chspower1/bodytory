@@ -2,7 +2,7 @@ import Input from "@components/Input";
 import { useForm } from "react-hook-form";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { RegisterForm } from "pages/auth/register";
-import useApi from "@libs/client/useApi";
+import useApi from "utils/client/customApi";
 
 interface SecondRegisterForm {
   accountId: string;
@@ -92,7 +92,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
           //   message: "비밀번호가 안전하지 않아요.",
           // },
           onChange() {
-            if(watch("password") === watch("passwordConfirm")) setError("passwordConfirm", { message: "" });
+            if (watch("password") === watch("passwordConfirm")) setError("passwordConfirm", { message: "" });
           },
         })}
       />

@@ -1,6 +1,6 @@
 import Input from "@components/Input";
 import Modal from "@components/Modal";
-import useApi from "@libs/client/useApi";
+import useApi from "utils/client/customApi";
 import { useMutation } from "@tanstack/react-query";
 import { USER_CHANGE_PASSWORD } from "constant/queryKeys";
 import Link from "next/link";
@@ -17,7 +17,7 @@ export default function Edit() {
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
   const [closingComment, setClosingComment] = useState(false);
-  const [{oldPassword, newPassword}, setChangePassword] = useState({oldPassword: "", newPassword : ""})
+  const [{ oldPassword, newPassword }, setChangePassword] = useState({ oldPassword: "", newPassword: "" });
   const { putApi } = useApi("/api/users/edit");
   const { mutate } = useMutation([USER_CHANGE_PASSWORD], putApi, {
     onError(error: any) {
@@ -40,21 +40,21 @@ export default function Edit() {
     } else if (oldPassword === newPassword) {
       setError("newPassword", { message: "새로운 비밀번호를 입력해주세요" });
     } else {
-      setChangePassword({ oldPassword, newPassword});
+      setChangePassword({ oldPassword, newPassword });
       setShowModal(true);
     }
   };
-  const handleClickOnClose = ()=>{
+  const handleClickOnClose = () => {
     setShowModal(false);
-  }
-  const handleClickActiveFuction = ()=>{
-    if(!closingComment){
-      mutate({ password: oldPassword, newPassword })
-    }else{
+  };
+  const handleClickActiveFuction = () => {
+    if (!closingComment) {
+      mutate({ password: oldPassword, newPassword });
+    } else {
       setShowModal(false);
       router.replace("/");
     }
-  }
+  };
   return (
     <div>
       <h3>비밀번호 변경테스트</h3>
@@ -85,13 +85,25 @@ export default function Edit() {
         />
         <button type="submit">제출</button>
       </form>
-      <Modal onClose={handleClickOnClose} activeFuction={handleClickActiveFuction} show={showModal} closingComment={closingComment} title={"시스템"}>
-        {!closingComment ? <>비밀번호를 변경하시겠습니까?</> : <>변경이 성공적으로 완료되었습니다<br />홈으로 이동합니다</>}
+      <Modal
+        onClose={handleClickOnClose}
+        activeFuction={handleClickActiveFuction}
+        show={showModal}
+        closingComment={closingComment}
+        title={"시스템"}
+      >
+        {!closingComment ? (
+          <>비밀번호를 변경하시겠습니까?</>
+        ) : (
+          <>
+            변경이 성공적으로 완료되었습니다
+            <br />
+            홈으로 이동합니다
+          </>
+        )}
       </Modal>
       <Link href="/auth/withdraw">
-        <button>
-          탈퇴하기
-        </button>
+        <button>탈퇴하기</button>
       </Link>
     </div>
   );

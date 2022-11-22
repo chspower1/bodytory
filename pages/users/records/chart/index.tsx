@@ -1,5 +1,5 @@
 import RecordUpdate from "@components/RecordUpdate";
-import useApi from "@libs/client/useApi";
+import useApi from "utils/client/customApi";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { RECORDS_DELETE, RECORDS_READ } from "constant/queryKeys";
 import Link from "next/link";
