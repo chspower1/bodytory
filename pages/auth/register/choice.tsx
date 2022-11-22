@@ -1,6 +1,6 @@
 import ChoiceResiterBox from "@components/ChoiceResiterBox";
-import KakaoLoginBtn from "@components/KakaoLoginBtn";
-import NaverLoginBtn from "@components/NaverLoginBtn";
+import KakaoLoginBtn from "@components/button/KakaoLoginBtn";
+import NaverLoginBtn from "@components/button/NaverLoginBtn";
 import useApi from "utils/client/customApi";
 import { useMutation } from "@tanstack/react-query";
 import { USER_LOGIN } from "constant/queryKeys";

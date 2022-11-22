@@ -9,9 +9,10 @@ import Link from "next/link";
 import useApi from "utils/client/customApi";
 import { useMutation } from "@tanstack/react-query";
 import Modal from "@components/Modal";
-import NaverLoginBtn from "@components/NaverLoginBtn";
-import KakaoLoginBtn from "@components/KakaoLoginBtn";
+import NaverLoginBtn from "@components/button/NaverLoginBtn";
+import KakaoLoginBtn from "@components/button/KakaoLoginBtn";
 import { USER_LOGIN } from "constant/queryKeys";
+import { RoundButton } from "@components/button/Button";
 
 export interface LoginForm {
   accountId: string;
@@ -87,7 +88,7 @@ const LoginPage: NextPage = () => {
           register={register("autoLogin")}
           errorMessage={errors.password?.message}
         /> */}
-        <button>로그인</button>
+        <RoundButton size="lg">로그인</RoundButton>
       </form>
       <Link href="/auth/help/find-id">
         <button>아이디 찾기</button>

@@ -1,5 +1,8 @@
+import Image from "next/image";
 import React from "react";
 import styled, { css } from "styled-components";
+import naver from "@public/naver.png";
+
 interface ButtonProps {
   padding?: string;
   borderRadius?: string;
@@ -34,6 +37,9 @@ const Button = styled.button<{
   background-color: ${props => props.bgColor};
   color: ${props => props.textColor};
   border-radius: ${props => props.borderRadius};
+  button {
+    color: ${props => props.textColor};
+  }
 `;
 
 export const CircleButton = ({
@@ -71,22 +77,25 @@ export const CircleButton = ({
 export const RoundButton = ({
   padding = "0px 50px",
   width = "auto",
-  height = "50px",
-  borderRadius = "50px",
+  height = "60px",
+  borderRadius,
   fontSize = "18px",
   bgColor = "#3D42BF",
   textColor = "#FFFFFF",
   children,
-  size = "md",
+  size = "custom",
 }: ButtonProps) => {
   if (size === "sm") {
-    [width, height, fontSize, borderRadius] = ["140px", "40px", "16px", "30px"];
+    [width, height, fontSize, padding] = ["140px", "40px", "16px", "auto"];
+  }
+  if (size === "md") {
+    [width, height, fontSize, padding] = ["auto", "50px", "18px", "0px 50px"];
   }
   if (size === "lg") {
-    [width, height, fontSize, borderRadius] = ["140", "40px", "20px", "90px"];
+    [width, height, fontSize, padding] = ["500px", "58px", "20px", "auto"];
   }
   if (size === "xl") {
-    [width, height, fontSize, borderRadius] = ["500px", "70px", "22px", "100px"];
+    [width, height, fontSize, padding] = ["500px", "70px", "22px", "auto"];
   }
 
   return (
@@ -97,7 +106,7 @@ export const RoundButton = ({
       bgColor={bgColor}
       textColor={textColor}
       padding={padding}
-      borderRadius={borderRadius}
+      borderRadius={height}
     >
       {children}
     </Button>
@@ -128,6 +137,7 @@ export const SnsButton = ({
       padding={padding}
       borderRadius={borderRadius}
     >
+      <img src={naver} alt="naver" />
       {children}
     </Button>
   );

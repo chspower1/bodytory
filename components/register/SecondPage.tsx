@@ -69,6 +69,8 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
   const isErrorsMessage = errors.accountId?.message || errors.password?.message || errors.passwordConfirm?.message;
 
   useEffect(() => {
+    if (user?.passwordConfirm) {
+    }
     setError("accountId", { message: "아이디 중복확인을 해주세요" });
     setError("password", {});
   }, []);

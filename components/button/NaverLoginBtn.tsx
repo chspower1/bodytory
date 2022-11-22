@@ -2,6 +2,7 @@ import useApi from "utils/client/customApi";
 import { UseMutateFunction, useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { RoundButton, SnsButton } from "./Button";
 
 const NaverLoginBtn = ({ mutate }: { mutate: UseMutateFunction<any, any, any, unknown> }) => {
   const router = useRouter();
@@ -51,6 +52,12 @@ const NaverLoginBtn = ({ mutate }: { mutate: UseMutateFunction<any, any, any, un
     login();
     getToken();
   }, [mutate, router]);
-  return <button id="naverIdLogin">네이버 로그인</button>;
+  return (
+    <SnsButton size="sm" bgColor="#4B50D3">
+      <button id="naverIdLogin" style={{ display: "none" }}>
+        네이버 로그인
+      </button>
+    </SnsButton>
+  );
 };
 export default NaverLoginBtn;

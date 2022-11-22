@@ -2,7 +2,7 @@ import Input from "@components/Input";
 import { useForm } from "react-hook-form";
 import { Dispatch, SetStateAction } from "react";
 import { RegisterForm } from "pages/auth/register";
-import { RoundButton } from "@components/Button";
+import { RoundButton } from "@components/button/Button";
 interface FirstRegisterForm {
   agree: boolean;
 }
