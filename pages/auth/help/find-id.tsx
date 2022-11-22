@@ -11,6 +11,8 @@ import { useMutation } from "@tanstack/react-query";
 import { HelpForm } from "./find-pw";
 import { HELP_FIND_ID } from "constant/queryKeys";
 import useReset from "@hooks/useReset";
+import { RoundButton } from "@components/button/Button";
+import { theme } from "@styles/theme";
 
 const HelpFindId: NextPage = () => {
   const router = useRouter();
@@ -57,7 +59,6 @@ const HelpFindId: NextPage = () => {
             // pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i, message: "올바른 이메일 형식이 아닙니다." },
           })}
           placeholder="이메일를 입력해주세요."
-          errorMessage={helpErrors.email?.message}
         />
         <ResetBtn />
         {isToken && (
@@ -68,18 +69,20 @@ const HelpFindId: NextPage = () => {
               required: "인증번호를 입력해주세요.",
             })}
             placeholder="인증번호를 입력해주세요."
-            errorMessage={helpErrors.token?.message}
           />
         )}
-
-        <button>{isToken ? "인증번호 확인" : "이메일 인증"}</button>
+        <RoundButton size="lg">
+          <button>{isToken ? "인증번호 확인" : "이메일 인증"}</button>
+        </RoundButton>
         <div>
           {foundAccountId && (
             <>
               <p>사용자님의 아이디는 &quot;{foundAccountId}&quot;입니다.</p>
-              <Link href="/auth/login">
-                <button>로그인 하러가기</button>
-              </Link>
+              <RoundButton size="lg" bgColor={theme.color.mintBtn}>
+                <Link href="/auth/login">
+                  <button>로그인 하러가기</button>
+                </Link>
+              </RoundButton>
             </>
           )}
         </div>

@@ -62,6 +62,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       setError("accountId", { type: "custom", message: `이미 사용 중인 아이디에요!\n다른아이디를 입력해주세요` });
     }
   };
+
   const checkPassword = () => {
     if (watch("password") === watch("passwordConfirm")) {
       clearErrors(["password", "passwordConfirm"]);
@@ -75,7 +76,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
         {!isErrorsMessage ? (
           `사용하실 아이디를 입력해주세요`
         ) : isErrorsMessage.includes("\n") ? (
-          isErrorsMessage.split("\n").map(ele => <p>{ele}</p>)
+          isErrorsMessage.split("\n").map((ele, idx) => <p key={idx}>{ele}</p>)
         ) : (
           <p>{isErrorsMessage}</p>
         )}

@@ -9,6 +9,7 @@ import Link from "next/link";
 import customApi from "utils/client/customApi";
 import { useMutation } from "@tanstack/react-query";
 import { HELP_FIND_PASSWORD } from "constant/queryKeys";
+import { RoundButton } from "@components/button/Button";
 
 interface ResetForm {
   password: string;
@@ -59,7 +60,6 @@ const Reset: NextPage = () => {
             required: "변경할 비밀번호를 입력해주세요.",
           })}
           placeholder="변경할 비밀번호를 입력해주세요."
-          errorMessage={errors.password?.message}
         />
         <Input
           name="passwordConfirm"
@@ -71,9 +71,8 @@ const Reset: NextPage = () => {
             },
           })}
           placeholder="비밀번호를 확인해주세요."
-          errorMessage={errors.passwordConfirm?.message}
         />
-        <button>비밀번호 변경</button>
+        <RoundButton size="lg">비밀번호 변경</RoundButton>
       </form>
     </div>
   );

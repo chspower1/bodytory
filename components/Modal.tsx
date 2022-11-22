@@ -3,8 +3,8 @@ import ReactDOM from "react-dom";
 import styled, { keyframes } from "styled-components";
 
 interface ModalType {
-  show : boolean;
-  closingComment ?: boolean;
+  show: boolean;
+  closingComment?: boolean;
   onClose: () => void;
   activeFuction: () => void;
   title?: string;
@@ -43,13 +43,9 @@ function Modal({ show, closingComment = false, onClose, activeFuction, children,
   }
 }
 
-const ConfirmBtnBox = styled.div`
+const ConfirmBtnBox = styled.div``;
 
-`
-
-const ConfirmBtn = styled.button`
-  
-`
+const ConfirmBtn = styled.button``;
 
 const showFrame = keyframes`
   100%{

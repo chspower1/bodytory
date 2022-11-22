@@ -11,6 +11,7 @@ import { useMutation } from "@tanstack/react-query";
 import { UserType } from "@prisma/client";
 import { HELP_FIND_PASSWORD } from "constant/queryKeys";
 import useReset from "@hooks/useReset";
+import { RoundButton } from "@components/button/Button";
 export interface HelpForm {
   type: UserType;
   accountId?: string;
@@ -69,7 +70,6 @@ const HelpPage: NextPage = () => {
             required: "아이디를 입력해주세요.",
           })}
           placeholder="아이디를 입력해주세요."
-          errorMessage={errors.accountId?.message}
         />
         <ResetBtn />
         {isToken && (
@@ -82,12 +82,12 @@ const HelpPage: NextPage = () => {
                 required: "인증번호를 입력해주세요.",
               })}
               placeholder="인증번호를 입력해주세요."
-              errorMessage={errors.token?.message}
             />
           </>
         )}
-
-        <button>{isToken ? "인증번호 확인" : "이메일 인증"}</button>
+        <RoundButton size="lg">
+          <button>{isToken ? "인증번호 확인" : "이메일 인증"}</button>
+        </RoundButton>
       </form>
     </div>
   );

@@ -1,6 +1,7 @@
 import customApi from "utils/client/customApi";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { RoundButton } from "./button/Button";
 
 const LogoutBtn = () => {
   const router = useRouter();
@@ -24,6 +25,10 @@ const LogoutBtn = () => {
     console.log(res);
     router.push("/auth/login");
   };
-  return <button onClick={handleClickLogout}>로그아웃</button>;
+  return (
+    <RoundButton size="md" onClick={handleClickLogout}>
+      로그아웃
+    </RoundButton>
+  );
 };
 export default LogoutBtn;
