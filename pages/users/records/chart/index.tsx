@@ -34,7 +34,7 @@ export default function ChartPage() {
           </div>
           <div>
             {currentIdx === idx ? (
-              <RecordUpdate recordId={record.id + ""} setCurrentIdx={setCurrentIdx} />
+              <RecordUpdate recordId={record.id} setCurrentIdx={setCurrentIdx} />
             ) : (
               <button onClick={handleClickUpdateRecord(idx)}>수정하기</button>
             )}

@@ -20,11 +20,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       password: hashedPassword,
     },
   });
+
   if (!foundUser) {
     return res.status(401).end();
-  } else {
-    return res.status(201).end();
   }
+
+  return res.status(201).end();
 }
 
 export default withApiSession(withHandler({ methods: ["PUT"], handler, isPrivate: false }));

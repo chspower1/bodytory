@@ -6,7 +6,7 @@ import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 interface RecordUpdatePropsType {
-  recordId: string;
+  recordId: number;
   setCurrentIdx: React.Dispatch<React.SetStateAction<number>>;
 }
 interface RecordUpdateType {
