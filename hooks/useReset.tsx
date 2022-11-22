@@ -15,7 +15,7 @@ const useReset = ({ setValue }: UseResetProps) => {
     <>
       {isToken && (
         <button type="button" onClick={handleClickResetBtn}>
-          리셋
+          재설정
         </button>
       )}
     </>
