@@ -19,11 +19,11 @@ export default function Home() {
   const { deleteApi: LogoutApi } = useApi("/api/auth/logout");
   const [showModal, setShowModal] = useState(false);
   const handleClickLogout = async () => {
-    try {
-      await LogoutApi({});
-      router.push("/auth/login");
-    } catch (err) {
-      console.log(err);
+    try{
+      await LogoutApi({})
+      router.push("/auth/login")
+    }catch{
+      console.log("logout Error")
     }
   };
   console.log(user);

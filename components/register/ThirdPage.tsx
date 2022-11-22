@@ -49,17 +49,23 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     },
   });
   const handleClickCheckEmail = async () => {
-    try {
+    try{
       if (!errors.email) {
         const data = await checkEmailApi(isTokenInData);
-        if (data?.ok && isToken) {
+        if (data?.ok && isToken && watch("token")) {
           setUser(prev => ({ ...prev!, isCertified: true }));
+        }
+        if(!watch("token")){
+          setError("token", {type : "costom", message:"인증번호를 입력해주세요"})
         }
         setIsToken(true);
       }
-    } catch (err) {
-      setError("email", { message: "중복 이메일 입니다." });
-      console.log(err);
+      
+    }catch(err : any){
+      if(isToken){
+        return setError("token" , { type:"costom", message:`${err.data}`})
+      }
+      setError("email" , { type:"costom", message:`${err.data}`})
     }
   };
   const handleClickPrevPage = () => {
@@ -83,7 +89,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
         name="birth"
         register={register("birth", {
           required: "생일을 입력해주세요",
-          // pattern: /[0-9\-]/g
+          validate : value => /[0-9\-]/g.test(value) || "숫자만 입력해주세요"
         })}
         errorMessage={errors.birth?.message}
       />
@@ -118,6 +124,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
         placeholder="abc@abc.com"
         register={register("email", {
           required: "이메일을 입력해주세요",
+          validate: value => emailRegex.test(value) || "이메일 형식에 맞지 않습니다"
         })}
         errorMessage={errors.email?.message}
       />
@@ -130,6 +137,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
               label="인증번호"
               register={register("token", {
                 required: "인증번호를 입력해주세요.",
+                validate : value => /[0-9]/.test(value) || "숫자만 입력해주세요"
               })}
               placeholder="인증번호를 입력해주세요."
               errorMessage={errors.token?.message}
