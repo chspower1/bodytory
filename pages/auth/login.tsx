@@ -61,17 +61,15 @@ const LoginPage: NextPage = () => {
       <form onSubmit={handleSubmit(onValid)}>
         <Input
           name="accountId"
-          label="아이디"
           register={register("accountId", {
             required: "아이디를 입력해주세요.",
             // pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i, message: "올바른 아이디 형식이 아닙니다." },
           })}
           placeholder="아이디를 입력해주세요."
-          errorMessage={errors.accountId?.message}
+          error={errors.accountId?.message}
         />
         <Input
           name="password"
-          label="비밀번호"
           register={register("password", {
             required: "비밀번호를 입력해주세요.",
             // pattern: {
@@ -80,7 +78,7 @@ const LoginPage: NextPage = () => {
             // },
           })}
           placeholder="비밀번호를 입력해주세요."
-          errorMessage={errors.password?.message}
+          error={errors.password?.message}
         />
         {/* <Input
           name="autoLogin"
