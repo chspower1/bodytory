@@ -1,5 +1,5 @@
 import { kakaoInit } from "utils/client/kakaoInit";
-import useApi from "utils/client/customApi";
+import customApi from "utils/client/customApi";
 import { UseMutateFunction, useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -40,10 +40,6 @@ const KakaoLoginBtn = ({ mutate }: { mutate: UseMutateFunction<any, any, any, un
       },
     });
   };
-  return (
-
-    <button onClick={kakaoLogin}>카카오 로그인</button>
-
-  );
+  return <button onClick={kakaoLogin}>카카오 로그인</button>;
 };
 export default KakaoLoginBtn;

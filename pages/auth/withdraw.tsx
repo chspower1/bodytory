@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import axios from "axios";
-import useApi from "utils/client/customApi";
+import customApi from "utils/client/customApi";
 import Modal from "@components/Modal";
 import useUser from "hooks/useUser";
 import { USER_WITHDRAW } from "constant/queryKeys";
@@ -18,8 +18,8 @@ export default function Withdraw() {
   const [showModal, setShowModal] = useState(false);
   const [closingComment, setClosingComment] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");
-  const { deleteApi } = useApi("/api/auth/withdraw");
-  const { deleteApi: LogoutApi } = useApi("/api/auth/logout");
+  const { deleteApi } = customApi("/api/auth/withdraw");
+  const { deleteApi: LogoutApi } = customApi("/api/auth/logout");
   const { mutate } = useMutation([USER_WITHDRAW], deleteApi, {
     onError(error: any, variables, context) {
       setShowModal(false);

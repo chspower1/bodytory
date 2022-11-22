@@ -1,6 +1,6 @@
 import Input from "@components/Input";
 import Modal from "@components/Modal";
-import useApi from "utils/client/customApi";
+import customApi from "utils/client/customApi";
 import { useMutation } from "@tanstack/react-query";
 import { USER_CHANGE_PASSWORD } from "constant/queryKeys";
 import Link from "next/link";
@@ -18,7 +18,7 @@ export default function Edit() {
   const [showModal, setShowModal] = useState(false);
   const [closingComment, setClosingComment] = useState(false);
   const [{ oldPassword, newPassword }, setChangePassword] = useState({ oldPassword: "", newPassword: "" });
-  const { putApi } = useApi("/api/users/edit");
+  const { putApi } = customApi("/api/users/edit");
   const { mutate } = useMutation([USER_CHANGE_PASSWORD], putApi, {
     onError(error: any) {
       setShowModal(false);

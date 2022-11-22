@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { ResponseType } from "@utils/server/withHandler";
 import Link from "next/link";
-import useApi from "utils/client/customApi";
+import customApi from "utils/client/customApi";
 import { useMutation } from "@tanstack/react-query";
 import { HELP_FIND_PASSWORD } from "constant/queryKeys";
 
@@ -17,7 +17,7 @@ interface ResetForm {
 
 const Reset: NextPage = () => {
   const router = useRouter();
-  const { putApi } = useApi("/api/auth/help/reset");
+  const { putApi } = customApi("/api/auth/help/reset");
   const { mutateAsync } = useMutation([HELP_FIND_PASSWORD], putApi, {
     onSuccess(data) {
       router.push("/auth/login");

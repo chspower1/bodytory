@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { ResponseType } from "@utils/server/withHandler";
 import Link from "next/link";
-import useApi from "utils/client/customApi";
+import customApi from "utils/client/customApi";
 import { useMutation } from "@tanstack/react-query";
 import Modal from "@components/Modal";
 import NaverLoginBtn from "@components/button/NaverLoginBtn";
@@ -22,7 +22,7 @@ export interface LoginForm {
 
 const LoginPage: NextPage = () => {
   const router = useRouter();
-  const { postApi } = useApi("/api/auth/login");
+  const { postApi } = customApi("/api/auth/login");
   // const [showModal, setShowModal] = useState(false);
   const { mutate } = useMutation([USER_LOGIN], postApi, {
     onError(error: any) {

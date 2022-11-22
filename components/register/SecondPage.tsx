@@ -2,7 +2,7 @@ import Input from "@components/Input";
 import { useForm } from "react-hook-form";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { RegisterForm } from "pages/auth/register";
-import useApi from "utils/client/customApi";
+import customApi from "utils/client/customApi";
 
 interface SecondRegisterForm {
   accountId: string;
@@ -32,7 +32,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     },
   });
   const [currentComment, setCurrentComment] = useState("");
-  const { postApi: checkAccountIdApi } = useApi("/api/auth/register/check/id");
+  const { postApi: checkAccountIdApi } = customApi("/api/auth/register/check/id");
 
   const AccountIdRegex = /^[a-zA-Z0-9]*$/;
 

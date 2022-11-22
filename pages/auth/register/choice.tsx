@@ -1,7 +1,7 @@
 import ChoiceResiterBox from "@components/ChoiceResiterBox";
 import KakaoLoginBtn from "@components/button/KakaoLoginBtn";
 import NaverLoginBtn from "@components/button/NaverLoginBtn";
-import useApi from "utils/client/customApi";
+import customApi from "utils/client/customApi";
 import { useMutation } from "@tanstack/react-query";
 import { USER_LOGIN } from "constant/queryKeys";
 import { useRouter } from "next/router";
@@ -9,7 +9,7 @@ import React from "react";
 
 export default function ChoicePage() {
   const router = useRouter();
-  const { postApi } = useApi("/api/auth/login");
+  const { postApi } = customApi("/api/auth/login");
   const { mutate } = useMutation([USER_LOGIN], postApi, {
     onError(error: any) {
       console.log(error);

@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { ResponseType } from "@utils/server/withHandler";
 import Link from "next/link";
-import useApi from "utils/client/customApi";
+import customApi from "utils/client/customApi";
 import { useMutation } from "@tanstack/react-query";
 import { UserType } from "@prisma/client";
 import { HELP_FIND_PASSWORD } from "constant/queryKeys";
@@ -22,7 +22,7 @@ export interface HelpForm {
 
 const HelpPage: NextPage = () => {
   const router = useRouter();
-  const { postApi } = useApi("/api/auth/help/find-pw");
+  const { postApi } = customApi("/api/auth/help/find-pw");
   const [email, setEmail] = useState("");
   const [accountId, setAccountId] = useState("");
   const { mutateAsync } = useMutation([HELP_FIND_PASSWORD], postApi, {

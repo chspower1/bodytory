@@ -1,11 +1,11 @@
-import useApi from "utils/client/customApi";
+import customApi from "utils/client/customApi";
 import { Record } from "@prisma/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import RecordUpdate from "./RecordUpdate";
 import { useState } from "react";
 export default function RecordsList(): JSX.Element {
   const queryClient = useQueryClient();
-  const { getApi, deleteApi } = useApi("/api/users/records");
+  const { getApi, deleteApi } = customApi("/api/users/records");
   const { isLoading, data: records } = useQuery<Record[] | undefined>(["recordsReadKey"], getApi);
   const [currentIdx, setCurrentIdx] = useState(-1);
   const { mutate } = useMutation(["recordDeleteKey"], deleteApi, {

@@ -1,5 +1,5 @@
 import Input from "@components/Input";
-import useApi from "utils/client/customApi";
+import customApi from "utils/client/customApi";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { RECORDS_READ, RECORDS_UPDATE } from "constant/queryKeys";
 import React from "react";
@@ -15,7 +15,7 @@ interface RecordUpdateType {
 
 export default function RecordUpdate({ recordId, setCurrentIdx }: RecordUpdatePropsType) {
   const queryClient = useQueryClient();
-  const { putApi } = useApi("/api/users/records");
+  const { putApi } = customApi("/api/users/records");
   const { mutate } = useMutation([RECORDS_UPDATE], putApi, {
     onSuccess(data, variables, context) {
       queryClient.invalidateQueries([RECORDS_READ]);
