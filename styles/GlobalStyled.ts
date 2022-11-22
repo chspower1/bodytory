@@ -53,7 +53,7 @@ const GlobalStyled = createGlobalStyle`
   
   button,
   input {
-    color:white;
+    color:${({ theme }) => theme.color.text};
     overflow: visible;
   }
   
