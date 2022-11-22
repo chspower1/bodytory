@@ -9,7 +9,7 @@ import axios from "axios";
 import styled from "styled-components";
 import { Gender, UserType } from "@prisma/client";
 import { REGISTER_SIGNUP } from "constant/queryKeys";
-import useReset from "hooks/useReset";
+import useReset from "@hooks/useReset";
 import FirstPage from "@components/register/FirstPage";
 import ThirdPage from "@components/register/ThirdPage";
 import SecondPage from "@components/register/SecondPage";

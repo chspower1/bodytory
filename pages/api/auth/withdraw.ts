@@ -1,5 +1,5 @@
-import withHandler from "@libs/server/withHandler";
-import { withApiSession } from "@libs/server/withSession";
+import withHandler from "@utils/server/withHandler";
+import { withApiSession } from "@utils/server/withSession";
 import { NextApiRequest, NextApiResponse } from "next";
 import bcrypt from "bcrypt";
 import client from "utils/server/client";

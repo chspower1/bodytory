@@ -4,13 +4,13 @@ import { NextPage } from "next";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { ResponseType } from "@libs/server/withHandler";
+import { ResponseType } from "@utils/server/withHandler";
 import Link from "next/link";
 import useApi from "utils/client/customApi";
 import { useMutation } from "@tanstack/react-query";
 import { HelpForm } from "./find-pw";
 import { HELP_FIND_ID } from "constant/queryKeys";
-import useReset from "hooks/useReset";
+import useReset from "@hooks/useReset";
 
 const HelpFindId: NextPage = () => {
   const router = useRouter();

@@ -1,8 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import client from "utils/server/client";
-import withHandler, { ResponseType } from "@libs/server/withHandler";
-import { withApiSession } from "@libs/server/withSession";
-import smtpTransport from "@libs/server/email";
+import withHandler, { ResponseType } from "@utils/server/withHandler";
+import { withApiSession } from "@utils/server/withSession";
+import smtpTransport from "@utils/server/email";
 import { HelpForm } from "pages/auth/help/find-pw";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {

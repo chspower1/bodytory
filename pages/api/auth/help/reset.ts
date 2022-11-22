@@ -1,9 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import client from "utils/server/client";
-import withHandler, { ResponseType } from "@libs/server/withHandler";
-import { withApiSession } from "@libs/server/withSession";
+import withHandler, { ResponseType } from "@utils/server/withHandler";
+import { withApiSession } from "@utils/server/withSession";
 import { LoginForm } from "pages/auth/login";
-import smtpTransport from "@libs/server/email";
+import smtpTransport from "@utils/server/email";
 import { HelpForm } from "pages/auth/help/find-pw";
 import bcrypt from "bcrypt";
 import { passwordEncryption } from "utils/server/passwordHelper";

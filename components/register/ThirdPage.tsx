@@ -5,7 +5,7 @@ import { RegisterForm } from "pages/auth/register";
 import useApi from "utils/client/customApi";
 import { Gender } from "@prisma/client";
 import styled from "styled-components";
-import useReset from "hooks/useReset";
+import useReset from "@hooks/useReset";
 import { useMutation } from "@tanstack/react-query";
 import { REGISTER_SIGNUP } from "constant/queryKeys";
 import { useRouter } from "next/router";
