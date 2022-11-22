@@ -55,6 +55,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       setError("accountId", { message: `${err.data}` });
     }
   };
+
   const checkPassword = () => {
     if (watch("password") === watch("passwordConfirm")) {
       clearErrors(["password", "passwordConfirm"]);

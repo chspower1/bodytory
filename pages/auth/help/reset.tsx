@@ -11,7 +11,7 @@ import { useMutation } from "@tanstack/react-query";
 import { HELP_FIND_PASSWORD } from "constant/queryKeys";
 interface ResetForm {
   password: string;
-  confirmPassword: string;
+  passwordConfirm: string;
 }
 
 const Reset: NextPage = () => {
@@ -25,6 +25,8 @@ const Reset: NextPage = () => {
   const {
     register,
     handleSubmit,
+    watch,
+    clearErrors,
     formState: { errors },
   } = useForm<ResetForm>();
 
@@ -32,6 +34,13 @@ const Reset: NextPage = () => {
     console.log(resetForm);
     mutateAsync({ accountId: router.query.accountId, password: resetForm.password });
   };
+
+  const checkPassword = () => {
+    if (watch("password") === watch("passwordConfirm")) {
+      clearErrors(["password", "passwordConfirm"]);
+    } else return "비밀번호가 일치하지 않음";
+  };
+
   useEffect(() => {
     console.log(router.query);
     if (router.asPath !== "/auth/help/reset" || !router.query.email) {
@@ -52,13 +61,16 @@ const Reset: NextPage = () => {
           errorMessage={errors.password?.message}
         />
         <Input
-          name="confirmPassword"
+          name="passwordConfirm"
           label="비밀번호 확인"
-          register={register("confirmPassword", {
+          register={register("passwordConfirm", {
             required: "비밀번호를 확인해주세요.",
+            validate: {
+              checkPassword,
+            },
           })}
           placeholder="비밀번호를 확인해주세요."
-          errorMessage={errors.confirmPassword?.message}
+          errorMessage={errors.passwordConfirm?.message}
         />
         <button>비밀번호 변경</button>
       </form>
