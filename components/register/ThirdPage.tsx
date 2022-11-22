@@ -56,15 +56,15 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
           setUser(prev => ({ ...prev!, isCertified: true }));
         }
         if (!watch("token")) {
-          setError("token", { type: "costom", message: "인증번호를 입력해주세요" });
+          setError("token", { type: "custom", message: "인증번호를 입력해주세요" });
         }
         setIsToken(true);
       }
     } catch (err: any) {
       if (isToken) {
-        return setError("token", { type: "costom", message: `${err.data}` });
+        return setError("token", { type: "custom", message: `${err.data}` });
       }
-      setError("email", { type: "costom", message: `${err.data}` });
+      setError("email", { type: "custom", message: `${err.data}` });
     }
   };
   const handleClickPrevPage = () => {
