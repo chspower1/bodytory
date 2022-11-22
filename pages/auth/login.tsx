@@ -33,6 +33,7 @@ const LoginPage: NextPage = () => {
     onSuccess(data) {
       console.log(data);
       if (data.isNew) {
+        console.log("----------------------------", data);
         return router.push(
           {
             pathname: "/auth/register",

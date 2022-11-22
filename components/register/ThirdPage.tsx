@@ -32,6 +32,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     formState: { errors },
     handleSubmit,
     watch,
+    setError,
     setValue,
   } = useForm<ThirdRegisterForm>({ mode: "onChange", defaultValues: { birth, email, gender, name, phone } });
   const { isToken, setIsToken, ResetBtn } = useReset({ setValue });
@@ -48,12 +49,17 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     },
   });
   const handleClickCheckEmail = async () => {
-    if (!errors.email) {
-      const data = await checkEmailApi(isTokenInData);
-      if (data?.ok && isToken) {
-        setUser(prev => ({ ...prev!, isCertified: true }));
+    try {
+      if (!errors.email) {
+        const data = await checkEmailApi(isTokenInData);
+        if (data?.ok && isToken) {
+          setUser(prev => ({ ...prev!, isCertified: true }));
+        }
+        setIsToken(true);
       }
-      setIsToken(true);
+    } catch (err) {
+      setError("email", { message: "중복 이메일 입니다." });
+      console.log(err);
     }
   };
   const handleClickPrevPage = () => {
