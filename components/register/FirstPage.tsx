@@ -32,11 +32,11 @@ const FirstPage = ({ user, setUser, setPage }: RegisterPageProps) => {
   return (
     <form onSubmit={handleSubmit(onValid)}>
       <Input
-        label="동의"
+        label="모든 약관에 동의합니다."
         name="agree"
         type="checkbox"
         register={register("agree", { required: "약관 동의 해주세요" })}
-        errorMessage={errors.agree?.message}
+        error={errors.agree?.message}
       />
       <RoundButton size="lg">다음 페이지</RoundButton>
     </form>

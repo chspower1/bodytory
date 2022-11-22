@@ -33,16 +33,16 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       passwordConfirm: user?.passwordConfirm,
     },
   });
-  const [currentComment, setCurrentComment] = useState("");
   const { postApi: checkAccountIdApi } = customApi("/api/auth/register/check/id");
 
-  const AccountIdRegex = /^[a-zA-Z0-9]*$/;
+  const Regex = /^[a-zA-Z0-9]{6,}$/;
 
   const onValid = (data: SecondRegisterForm) => {
     if (user?.isNotDuplicate) {
       if (watch("password") !== watch("passwordConfirm")) {
         return setError("passwordConfirm", { type: "custom", message: "비밀번호가 일치하지 않아요" });
       }
+
       setUser(prev => ({ ...prev!, ...data }));
       setPage(3);
     } else {
@@ -53,11 +53,11 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
   const handleClickCheckAccountId = async () => {
     try {
       if (!watch("accountId")) return setError("accountId", { message: "아이디를 입력해주세요" });
+      if (!Regex.test(watch("accountId"))) return;
       await checkAccountIdApi({ accountId: watch("accountId") });
       setUser(prev => ({ ...prev!, isNotDuplicate: true }));
       clearErrors("accountId");
-      setCurrentInput(2);
-      setCurrentComment("사용하실 비밀번호를 입력해주세요");
+      setError("password", { type: "custom", message: "사용하실 비밀번호를 입력해주세요" });
     } catch (err: any) {
       setError("accountId", { type: "custom", message: `이미 사용 중인 아이디에요!\n다른아이디를 입력해주세요` });
     }
@@ -65,72 +65,67 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
   const checkPassword = () => {
     if (watch("password") === watch("passwordConfirm")) {
       clearErrors(["password", "passwordConfirm"]);
-      setCurrentComment("");
-    } else return "비밀번호가 일치하지 않음";
+    } else return "비밀번호가 일치하지 않아요!\n비밀번호를 다시 확인해주세요";
   };
   const isErrorsMessage = errors.accountId?.message || errors.password?.message || errors.passwordConfirm?.message;
 
-  useEffect(() => {
-    if (user?.passwordConfirm) {
-    }
-    setError("accountId", { message: "아이디 중복확인을 해주세요" });
-    setError("password", {});
-  }, []);
   return (
     <form onSubmit={handleSubmit(onValid)}>
       <div className="errorMessageBox">
-        <p>{isErrorsMessage ? isErrorsMessage : currentComment}</p>
+        {!isErrorsMessage ? (
+          `사용하실 아이디를 입력해주세요`
+        ) : isErrorsMessage.includes("\n") ? (
+          isErrorsMessage.split("\n").map(ele => <p>{ele}</p>)
+        ) : (
+          <p>{isErrorsMessage}</p>
+        )}
       </div>
       <Input
-        label="아이디"
         name="accountId"
         placeholder="아이디를 입력해주세요"
         register={register("accountId", {
           required: "사용하실 아이디를 입력해주세요",
-          validate: value => AccountIdRegex.test(value) || "아이디는 영문 대소문자, 숫자를 입력해주세요",
+          validate: value => Regex.test(value) || "아이디는 6자리 이상\n영문 대소문자, 숫자를 입력해주세요",
           onChange() {
             setUser(prev => ({ ...prev!, isNotDuplicate: false }));
             setValue("password", "");
             setValue("passwordConfirm", "");
           },
         })}
+        error={errors.accountId?.message}
       />
-      <button type="button" onClick={handleClickCheckAccountId} disabled={user?.isNotDuplicate}>
-        중복확인
-      </button>
+      {!user?.isNotDuplicate && (
+        <button type="button" onClick={handleClickCheckAccountId}>
+          중복확인
+        </button>
+      )}
 
-      {!errors.accountId && (
+      {user?.isNotDuplicate && (
         <Input
-          type="password"
-          label="비밀번호"
           name="password"
           placeholder="비밀번호를 입력해주세요"
           register={register("password", {
             required: "비밀번호는 6자리 이상 영문 대소문자, 숫자를 포함해서 입력해주세요",
-            // pattern: {
-            //   value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/i,
-            //   message: "비밀번호가 안전하지 않아요.",
-            // },
-
+            validate: value =>
+              Regex.test(value) || "비밀번호는 6자리 이상\n영문 대소문자, 숫자를 포함해서 입력해주세요",
             onChange() {
               if (!watch("password")) {
                 setValue("passwordConfirm", "");
-                setCurrentComment("사용하실 아이디를 입력해주세요");
-              } else {
-                setCurrentComment("비밀번호를 한번 더 입력해주세요");
+              }
+              if (watch("password") === watch("passwordConfirm")) {
+                clearErrors("passwordConfirm");
               }
             },
           })}
         />
       )}
-      {!errors.password && (
+      {Regex.test(watch("password")) && user?.isNotDuplicate && (
         <Input
           type="password"
-          label="비밀번호 확인"
           name="passwordConfirm"
           placeholder="한번 더 입력해주세요"
           register={register("passwordConfirm", {
-            required: "비밀번호가 일치하지 않아요! 비밀번호를 다시 확인해주세요",
+            required: "비밀번호가 일치하지 않아요!\n비밀번호를 다시 확인해주세요",
             validate: {
               checkPassword,
             },
