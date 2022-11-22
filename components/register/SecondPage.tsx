@@ -30,7 +30,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       passwordConfirm: user?.passwordConfirm,
     },
   });
-
+  const [isViewPassword, setIsViewPassword] = useState(false);
   const { postApi: checkAccountIdApi } = useApi("/api/auth/register/check/id");
 
   const AccountIdRegex = /^[a-zA-Z0-9]*$/;
@@ -80,9 +80,8 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       <button type="button" onClick={handleClickCheckAccountId} disabled={user?.isNotDuplicate}>
         {user?.isNotDuplicate ? "중복확인 완료" : "중복확인"}
       </button>
-
       <Input
-        type="password"
+        type={isViewPassword ? "password" : "text"}
         label="비밀번호"
         name="password"
         placeholder="비밀번호를 입력해주세요"

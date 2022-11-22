@@ -1,9 +1,7 @@
 import { createGlobalStyle } from "styled-components";
-import reset from "styled-reset";
-import "../assets/fonts/font.css";
-
+// import { reset } from "styled-reset";
+/* ${reset} */
 const GlobalStyled = createGlobalStyle`
-  ${reset}
 
   * {
     box-sizing: border-box;
@@ -11,12 +9,12 @@ const GlobalStyled = createGlobalStyle`
 
   html,
   body {
-    background: ${props => props.theme.color.purpleBg};
+    background: ${props => props.theme.color.darkBg};
     font-family: 'Noto Sans KR', sans-serif;
-    /* font-size: ${({ theme }) => theme.fontSizes.bodyText}; */
+    font-size: ${props => props.theme.font.size.bodyText};
     font-weight: 400;
     line-height: 1.5;
-    /* color: ${({ theme }) => theme.colors.bodyText}; */
+    color: ${props => props.theme.color.text};
   }
 
   // 현재는 pc용 웹서비스 (모바일 반응형 X)

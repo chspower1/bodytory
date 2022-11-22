@@ -1,4 +1,3 @@
-import "@styles/globals.css";
 import type { AppProps } from "next/app";
 import { QueryClient, QueryClientProvider, QueryErrorResetBoundary } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -42,8 +41,8 @@ export default function App({ Component, pageProps }: AppProps) {
       <QueryClientProvider client={queryClient}>
         {/* <ErrorBoundary fallback={<div>에러</div>}> */}
         {/* <Suspense fallback={<div>로딩중</div>}> */}
+        <GlobalStyled />
         <ThemeProvider theme={theme}>
-          <GlobalStyled />
           <Layout>
             <Component {...pageProps} />
           </Layout>
