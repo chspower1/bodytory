@@ -36,7 +36,9 @@ export default function Input({
   );
 }
 
-const InputContainer = styled.div``;
+const InputContainer = styled.div`
+  
+`;
 const Label = styled.label`
   margin-left: 20px;
 `;
@@ -57,13 +59,16 @@ const MainInput = styled.input`
   border-radius: 10px;
   transition : border .3s;
   border: 2px solid transparent;
-  background-color:
-  box-shadow: 8px 8px 24px ${({theme})=> theme.color.input};
+  background-color:${({theme})=> theme.color.input};
+  box-shadow: 8px 8px 24px rgba(49, 54, 167, 0.2);
   outline : 0;
   &:focus{
     border: 2px solid #000;
   }
   &.error{
     border: 2px solid ${({theme}) => theme.color.error};
+  }
+  &::placeholder{
+    color:#fff;
   }
 `;
