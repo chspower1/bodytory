@@ -103,7 +103,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       </div>
       <Input
         name="name"
-        placeholder="ex) 김토리"
+        placeholder="김토리"
         register={register("name", {
           required: "이름을 입력해주세요",
           validate: value => /^[가-힣a-zA-Z]+$/.test(value) || "한글과 영어만 입력해주세요",
@@ -114,7 +114,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       />
       <Input
         name="birth"
-        placeholder="ex) YYYYMMDD"
+        placeholder="YYYYMMDD"
         register={register("birth", {
           required: "생일을 입력해주세요",
           validate: value => /^[0-9\-]/g.test(value) || `숫자와 "-"만 입력해주세요`,
@@ -159,7 +159,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       <Input
         name="email"
         disabled={isToken}
-        placeholder="이메일을 입력해주세요"
+        placeholder="toritori2022@naver.com"
         register={register("email", {
           required: "이메일을 입력해주세요",
           validate: value => emailRegex.test(value) || "이메일 형식에 맞지 않습니다",

@@ -42,7 +42,6 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       if (watch("password") !== watch("passwordConfirm")) {
         return setError("passwordConfirm", { type: "custom", message: "비밀번호가 일치하지 않아요" });
       }
-
       setUser(prev => ({ ...prev!, ...data }));
       setPage(3);
     } else {
@@ -54,6 +53,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     try {
       if (!watch("accountId")) return setError("accountId", { message: "아이디를 입력해주세요" });
       if (!Regex.test(watch("accountId"))) return;
+      
       await checkAccountIdApi({ accountId: watch("accountId") });
       setUser(prev => ({ ...prev!, isNotDuplicate: true }));
       clearErrors("accountId");
@@ -72,20 +72,24 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
   return (
     <form onSubmit={handleSubmit(onValid)}>
       <div className="errorMessageBox">
-        {!isErrorsMessage ? (
-          `사용하실 아이디를 입력해주세요`
-        ) : isErrorsMessage.includes("\n") ? (
-          isErrorsMessage.split("\n").map(ele => <p>{ele}</p>)
+        {}
+        {isErrorsMessage ? (
+          isErrorsMessage.includes("\n") ? (
+            isErrorsMessage.split("\n").map(ele => <p>{ele}</p>)
+          ) : (
+            <p>{isErrorsMessage}</p>
+          )
         ) : (
-          <p>{isErrorsMessage}</p>
+          !watch("accountId") && `사용하실 아이디를 입력해주세요`
         )}
       </div>
       <Input
         name="accountId"
-        placeholder="아이디를 입력해주세요"
+        placeholder="toritori2022"
         register={register("accountId", {
           required: "사용하실 아이디를 입력해주세요",
-          validate: value => Regex.test(value) || "아이디는 6자리 이상\n영문 대소문자, 숫자를 입력해주세요",
+          validate: value =>
+            Regex.test(value) || "아이디는 6자리 이상\n영문 대소문자, 숫자를 입력해주세요",
           onChange() {
             setUser(prev => ({ ...prev!, isNotDuplicate: false }));
             setValue("password", "");
@@ -103,13 +107,14 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       {user?.isNotDuplicate && (
         <Input
           name="password"
-          placeholder="비밀번호를 입력해주세요"
+          type="password"
+          placeholder="●●●●●●"
           register={register("password", {
-            required: "비밀번호는 6자리 이상 영문 대소문자, 숫자를 포함해서 입력해주세요",
+            required: "비밀번호는 6자리 이상\n영문 대소문자, 숫자를 포함해서 입력해주세요",
             validate: value =>
               Regex.test(value) || "비밀번호는 6자리 이상\n영문 대소문자, 숫자를 포함해서 입력해주세요",
             onChange() {
-              if (!watch("password")) {
+              if (watch("password").length < 6) {
                 setValue("passwordConfirm", "");
               }
               if (watch("password") === watch("passwordConfirm")) {
@@ -123,7 +128,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
         <Input
           type="password"
           name="passwordConfirm"
-          placeholder="한번 더 입력해주세요"
+          placeholder="●●●●●●"
           register={register("passwordConfirm", {
             required: "비밀번호가 일치하지 않아요!\n비밀번호를 다시 확인해주세요",
             validate: {
@@ -132,18 +137,12 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
           })}
         />
       )}
-      <Box>
-        <CircleButton size="md">
-          <button type="button" onClick={() => setPage(1)}>
-            이전 페이지
-          </button>
-        </CircleButton>
-        <CircleButton size="md">
-          <button type="submit" disabled={!errors === false}>
-            다음 페이지
-          </button>
-        </CircleButton>
-      </Box>
+      <button type="button" onClick={() => setPage(1)}>
+        이전 페이지
+      </button>
+      <button type="submit" disabled={!user?.isNotDuplicate && watch("password") === watch("passwordConfirm")}>
+        다음 페이지
+      </button>
     </form>
   );
 };
