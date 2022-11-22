@@ -6,6 +6,8 @@ import { useMutation } from "@tanstack/react-query";
 import { USER_LOGIN } from "constant/queryKeys";
 import { useRouter } from "next/router";
 import React from "react";
+import { SocialButton } from "@components/button/Button";
+import OriginLoginBtn from "@components/button/OriginLoginBtn";
 
 export default function ChoicePage() {
   const router = useRouter();
@@ -30,9 +32,10 @@ export default function ChoicePage() {
   return (
     <div>
       <h2>어떤 방식으로 회원가입 할까요?</h2>
-      <ChoiceResiterBox title="일반" img="없음" />
-      <NaverLoginBtn mutate={mutate} />
-      <KakaoLoginBtn mutate={mutate} />
+
+      <OriginLoginBtn size="lg" />
+      <NaverLoginBtn size="lg" mutate={mutate} />
+      <KakaoLoginBtn size="lg" mutate={mutate} />
     </div>
   );
 }

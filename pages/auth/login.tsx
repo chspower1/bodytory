@@ -89,6 +89,7 @@ const LoginPage: NextPage = () => {
           register={register("autoLogin")}
           errorMessage={errors.password?.message}
         /> */}
+        <RoundButton size="lg">로그인 하기</RoundButton>
       </form>
       <Link href="/auth/help/find-id">
         <button>아이디 찾기</button>
@@ -99,8 +100,8 @@ const LoginPage: NextPage = () => {
       <Link href="/auth/register/choice">
         <button>회원가입</button>
       </Link>
-      <NaverLoginBtn mutate={mutate} />
-      <KakaoLoginBtn mutate={mutate} />
+      <NaverLoginBtn size="sm" mutate={mutate} />
+      <KakaoLoginBtn size="sm" mutate={mutate} />
       {/* <button onClick={() => setShowModal(true)}>Open Modal</button> */}
       {/* <Modal onClose={() => setShowModal(false)} activeFuction={} show={showModal} title={"임시 타이틀"}>
         children으로 주는거라 태그 사이에 쓰면 됩니다.

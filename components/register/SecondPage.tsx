@@ -3,6 +3,8 @@ import { useForm } from "react-hook-form";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { RegisterForm } from "pages/auth/register";
 import customApi from "utils/client/customApi";
+import { CircleButton, RoundButton } from "@components/button/Button";
+import { Box } from "@styles/Container";
 
 interface SecondRegisterForm {
   accountId: string;
@@ -135,12 +137,18 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
           })}
         />
       )}
-      <button type="button" onClick={() => setPage(1)}>
-        이전 페이지
-      </button>
-      <button type="submit" disabled={!errors === false}>
-        다음 페이지
-      </button>
+      <Box>
+        <CircleButton size="md">
+          <button type="button" onClick={() => setPage(1)}>
+            이전 페이지
+          </button>
+        </CircleButton>
+        <CircleButton size="md">
+          <button type="submit" disabled={!errors === false}>
+            다음 페이지
+          </button>
+        </CircleButton>
+      </Box>
     </form>
   );
 };

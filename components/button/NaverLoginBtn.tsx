@@ -2,9 +2,10 @@ import customApi from "utils/client/customApi";
 import { UseMutateFunction, useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useEffect, useRef } from "react";
-import { RoundButton, SocialButton } from "./Button";
+import { ButtonSize, RoundButton, SocialButton } from "./Button";
 
-const NaverLoginBtn = ({ mutate }: { mutate: UseMutateFunction<any, any, any, unknown> }) => {
+
+const NaverLoginBtn = ({ mutate, size }: { mutate: UseMutateFunction<any, any, any, unknown>; size: ButtonSize }) => {
   const naverRef = useRef<any>();
   const router = useRouter();
   const handleNaverLogin = () => {
@@ -57,7 +58,7 @@ const NaverLoginBtn = ({ mutate }: { mutate: UseMutateFunction<any, any, any, un
     getToken();
   }, [mutate, router]);
   return (
-    <SocialButton onClick={handleNaverLogin} social="naver" size="sm" bgColor="#4B50D3">
+    <SocialButton onClick={handleNaverLogin} social="naver" size={size} bgColor="#4B50D3">
       네이버 로그인
       <button ref={naverRef} id="naverIdLogin" style={{ display: "none" }} />
     </SocialButton>

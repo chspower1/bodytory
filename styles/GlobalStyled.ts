@@ -53,6 +53,7 @@ ${reset}
   
   button,
   input {
+    color:white;
     overflow: visible;
   }
   

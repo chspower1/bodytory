@@ -3,6 +3,7 @@ import React from "react";
 import styled, { css } from "styled-components";
 import naver from "/public/static/naver.svg";
 import kakao from "/public/static/kakao.svg";
+import origin from "/public/static/origin.svg";
 
 interface ButtonProps {
   padding?: string;
@@ -14,11 +15,11 @@ interface ButtonProps {
   textColor?: string;
   children: React.ReactNode;
   size?: ButtonSize;
-  social: SocailType;
+  social?: SocailType;
   onClick?: () => void;
 }
-type SocailType = "kakao" | "naver";
-type ButtonSize = "sm" | "md" | "lg" | "xl" | "custom";
+type SocailType = "kakao" | "naver" | "origin";
+export type ButtonSize = "sm" | "md" | "lg" | "xl" | "custom";
 
 const Button = styled.button<{
   padding: string;
@@ -143,8 +144,16 @@ export const SocialButton = ({
       textColor={textColor}
       padding={padding}
       borderRadius={borderRadius}
+      style={{ justifyContent: "flex-start" }}
     >
-      <Image src={social === "naver" ? naver : kakao} alt="naver" style={{ position: "absolute", left: "0px" }} />
+      <div>
+        <Image
+          src={social === "naver" ? naver : social === "kakao" ? kakao : origin}
+          alt="naver"
+          style={{ marginRight: "10px" }}
+          height={size === "lg" ? 80 : 60}
+        />
+      </div>
       {children}
     </Button>
   );

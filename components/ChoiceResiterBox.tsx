@@ -30,10 +30,8 @@ const TextBox = styled.div`
 export default function ChoiceResiterBox({ title, img }: { title: string; img: string }) {
   return (
     <ContentBox>
-      <Link href="/auth/register">
-        <ImgBg className="imgBg"></ImgBg>
-        <TextBox>{title} 회원가입</TextBox>
-      </Link>
+      <ImgBg className="imgBg"></ImgBg>
+      <TextBox>{title} 회원가입</TextBox>
     </ContentBox>
   );
 }
