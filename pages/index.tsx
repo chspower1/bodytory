@@ -4,7 +4,7 @@ import Image from "next/image";
 import styled from "styled-components";
 import styles from "@styles/Home.module.css";
 import Link from "next/link";
-import useApi from "utils/client/customApi";
+import customApi from "utils/client/customApi";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import Modal from "@components/Modal";
@@ -16,7 +16,7 @@ const Test = styled.div`
 export default function Home() {
   const { user } = useUser();
   const router = useRouter();
-  const { deleteApi: LogoutApi } = useApi("/api/auth/logout");
+  const { deleteApi: LogoutApi } = customApi("/api/auth/logout");
   const [showModal, setShowModal] = useState(false);
   const handleClickLogout = async () => {
     try {

@@ -6,13 +6,15 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { ResponseType } from "@utils/server/withHandler";
 import Link from "next/link";
-import useApi from "utils/client/customApi";
+import customApi from "utils/client/customApi";
 import { useMutation } from "@tanstack/react-query";
 import Modal from "@components/Modal";
-import NaverLoginBtn from "@components/NaverLoginBtn";
-import KakaoLoginBtn from "@components/KakaoLoginBtn";
+import NaverLoginBtn from "@components/button/NaverLoginBtn";
+import KakaoLoginBtn from "@components/button/KakaoLoginBtn";
 import { USER_LOGIN } from "constant/queryKeys";
-
+import { RoundButton } from "@components/button/Button";
+import Image from "next/image";
+import naver from "/public/static/naver.svg";
 export interface LoginForm {
   accountId: string;
   password: string;
@@ -20,7 +22,7 @@ export interface LoginForm {
 
 const LoginPage: NextPage = () => {
   const router = useRouter();
-  const { postApi } = useApi("/api/auth/login");
+  const { postApi } = customApi("/api/auth/login");
   // const [showModal, setShowModal] = useState(false);
   const { mutate } = useMutation([USER_LOGIN], postApi, {
     onError(error: any) {
@@ -87,7 +89,7 @@ const LoginPage: NextPage = () => {
           register={register("autoLogin")}
           errorMessage={errors.password?.message}
         /> */}
-        <button>로그인</button>
+        <RoundButton size="lg">로그인 하기</RoundButton>
       </form>
       <Link href="/auth/help/find-id">
         <button>아이디 찾기</button>
@@ -98,8 +100,8 @@ const LoginPage: NextPage = () => {
       <Link href="/auth/register/choice">
         <button>회원가입</button>
       </Link>
-      <NaverLoginBtn mutate={mutate} />
-      <KakaoLoginBtn mutate={mutate} />
+      <NaverLoginBtn size="sm" mutate={mutate} />
+      <KakaoLoginBtn size="sm" mutate={mutate} />
       {/* <button onClick={() => setShowModal(true)}>Open Modal</button> */}
       {/* <Modal onClose={() => setShowModal(false)} activeFuction={} show={showModal} title={"임시 타이틀"}>
         children으로 주는거라 태그 사이에 쓰면 됩니다.

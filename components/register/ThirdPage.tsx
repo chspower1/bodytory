@@ -2,7 +2,7 @@ import Input from "@components/Input";
 import { useForm } from "react-hook-form";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { RegisterForm } from "pages/auth/register";
-import useApi from "utils/client/customApi";
+import customApi from "utils/client/customApi";
 import { Gender } from "@prisma/client";
 import styled from "styled-components";
 import useReset from "@hooks/useReset";
@@ -36,8 +36,8 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     setValue,
   } = useForm<ThirdRegisterForm>({ mode: "onChange", defaultValues: { birth, email, gender, name, phone } });
   const { isToken, setIsToken, ResetBtn } = useReset({ setValue });
-  const { postApi: createUser } = useApi("/api/auth/register");
-  const { postApi: checkEmailApi } = useApi("/api/auth/register/check/email");
+  const { postApi: createUser } = customApi("/api/auth/register");
+  const { postApi: checkEmailApi } = customApi("/api/auth/register/check/email");
   const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
   const isTokenInData = { email: watch("email"), token: isToken ? watch("token") : false, type };
   const { mutate } = useMutation([REGISTER_SIGNUP], createUser, {

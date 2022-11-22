@@ -1,10 +1,11 @@
 import { kakaoInit } from "utils/client/kakaoInit";
-import useApi from "utils/client/customApi";
+import customApi from "utils/client/customApi";
 import { UseMutateFunction, useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { SocialButton } from "./Button";
 
-const KakaoLoginBtn = ({ mutate }: { mutate: UseMutateFunction<any, any, any, unknown> }) => {
+const KakaoLoginBtn = ({ mutate, size }: { mutate: UseMutateFunction<any, any, any, unknown>; size: ButtonSize }) => {
   const kakaoLogin = async () => {
     // 카카오 초기화
     const kakao = kakaoInit();
@@ -39,6 +40,10 @@ const KakaoLoginBtn = ({ mutate }: { mutate: UseMutateFunction<any, any, any, un
       },
     });
   };
-  return <button onClick={kakaoLogin}>카카오 로그인</button>;
+  return (
+    <SocialButton social="kakao" size={size} bgColor="#4B50D3">
+      <button onClick={kakaoLogin}>카카오 로그인</button>
+    </SocialButton>
+  );
 };
 export default KakaoLoginBtn;

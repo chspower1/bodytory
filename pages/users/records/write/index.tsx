@@ -1,5 +1,5 @@
 import Input from "@components/Input";
-import useApi from "utils/client/customApi";
+import customApi from "utils/client/customApi";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { RECORDS_CREATE, RECORDS_READ } from "constant/queryKeys";
 import Link from "next/link";
@@ -12,7 +12,7 @@ interface WriteType {
 
 export default function WritePage() {
   const queryClient = useQueryClient();
-  const { postApi } = useApi("/api/users/records");
+  const { postApi } = customApi("/api/users/records");
   const { mutate } = useMutation([RECORDS_CREATE], postApi, {
     onSuccess(data, variables, context) {
       queryClient.invalidateQueries([RECORDS_READ]);

@@ -1,14 +1,14 @@
-import useApi from "utils/client/customApi";
+import customApi from "utils/client/customApi";
 import axios from "axios";
 import { useRouter } from "next/router";
 
 const LogoutBtn = () => {
   const router = useRouter();
-  const { deleteApi: LogoutApi } = useApi("/api/auth/logout");
-  //   const { getApi: naverLogoutApi } = useApi("/oauth2.0/token");
+  const { deleteApi: LogoutApi } = customApi("/api/auth/logout");
+  //   const { getApi: naverLogoutApi } = customApi("/oauth2.0/token");
 
   // 실제 서비스 코드
-  // const { postApi: naverLogoutApi } = useApi("https://nid.naver.com/oauth2.0/token");
+  // const { postApi: naverLogoutApi } = customApi("https://nid.naver.com/oauth2.0/token");
   const handleClickLogout = async () => {
     LogoutApi({});
     // console.log(localStorage.removeItem("naverToken"));
