@@ -5,7 +5,10 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Layout from "@components/Layout";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { GlobalStyled } from "@styles/GlobalStyled";
+import GlobalStyled from "@styles/GlobalStyled";
+import Head from "next/head";
+import { theme } from "@styles/theme";
+import { ThemeProvider } from "styled-components";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -31,15 +34,24 @@ declare global {
 }
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <QueryClientProvider client={queryClient}>
-      {/* <ErrorBoundary fallback={<div>에러</div>}> */}
-      {/* <Suspense fallback={<div>로딩중</div>}> */}
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
-      {/* </Suspense> */}
-      {/* </ErrorBoundary> */}
-      <ReactQueryDevtools />
-    </QueryClientProvider>
+    <>
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>바디토리</title>
+      </Head>
+      <QueryClientProvider client={queryClient}>
+        {/* <ErrorBoundary fallback={<div>에러</div>}> */}
+        {/* <Suspense fallback={<div>로딩중</div>}> */}
+        <ThemeProvider theme={theme}>
+          <GlobalStyled />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </ThemeProvider>
+        {/* </Suspense> */}
+        {/* </ErrorBoundary> */}
+        <ReactQueryDevtools />
+      </QueryClientProvider>
+    </>
   );
 }

@@ -11,7 +11,7 @@ const GlobalStyled = createGlobalStyle`
 
   html,
   body {
-    /* background: ${({ theme }) => theme.colors.bodyBg}; */
+    background: ${props => props.theme.color.purpleBg};
     font-family: 'Noto Sans KR', sans-serif;
     /* font-size: ${({ theme }) => theme.fontSizes.bodyText}; */
     font-weight: 400;
