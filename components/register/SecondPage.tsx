@@ -67,23 +67,18 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
   };
   const isErrorsMessage = errors.accountId?.message || errors.password?.message || errors.passwordConfirm?.message;
 
-  useEffect(() => {
-    if (!user?.passwordConfirm) {
-      setError("accountId", { type: "custom", message: "사용하실 아이디를 입력해주세요" });
-    }
-  }, []);
-
   return (
     <form onSubmit={handleSubmit(onValid)}>
       <div className="errorMessageBox">
-        {isErrorsMessage && isErrorsMessage.includes("\n") ? (
+        {!isErrorsMessage ? (
+          `사용하실 아이디를 입력해주세요`
+        ) : isErrorsMessage.includes("\n") ? (
           isErrorsMessage.split("\n").map(ele => <p>{ele}</p>)
         ) : (
           <p>{isErrorsMessage}</p>
         )}
       </div>
       <Input
-        label="아이디"
         name="accountId"
         placeholder="아이디를 입력해주세요"
         register={register("accountId", {
@@ -95,6 +90,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
             setValue("passwordConfirm", "");
           },
         })}
+        error={errors.accountId?.message}
       />
       {!user?.isNotDuplicate && (
         <button type="button" onClick={handleClickCheckAccountId}>
@@ -104,12 +100,12 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
 
       {user?.isNotDuplicate && (
         <Input
-          label="비밀번호"
           name="password"
           placeholder="비밀번호를 입력해주세요"
           register={register("password", {
             required: "비밀번호는 6자리 이상 영문 대소문자, 숫자를 포함해서 입력해주세요",
-            validate: value => Regex.test(value) || "비밀번호는 6자리 이상\n영문 대소문자, 숫자를 포함해서 입력해주세요",
+            validate: value =>
+              Regex.test(value) || "비밀번호는 6자리 이상\n영문 대소문자, 숫자를 포함해서 입력해주세요",
             onChange() {
               if (!watch("password")) {
                 setValue("passwordConfirm", "");
@@ -124,7 +120,6 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       {Regex.test(watch("password")) && user?.isNotDuplicate && (
         <Input
           type="password"
-          label="비밀번호 확인"
           name="passwordConfirm"
           placeholder="한번 더 입력해주세요"
           register={register("passwordConfirm", {

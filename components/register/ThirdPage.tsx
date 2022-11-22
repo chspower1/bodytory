@@ -102,8 +102,8 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
         )}
       </div>
       <Input
-        label="이름"
         name="name"
+        placeholder="ex) 김토리"
         register={register("name", {
           required: "이름을 입력해주세요",
           validate: value => /^[가-힣a-zA-Z]+$/.test(value) || "한글과 영어만 입력해주세요",
@@ -113,8 +113,8 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
         })}
       />
       <Input
-        label="생일"
         name="birth"
+        placeholder="ex) YYYYMMDD"
         register={register("birth", {
           required: "생일을 입력해주세요",
           validate: value => /^[0-9\-]/g.test(value) || `숫자와 "-"만 입력해주세요`,
@@ -157,10 +157,9 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
         </div>
       </GenderBox>
       <Input
-        label="이메일(본인인증 확인용!!!)"
         name="email"
         disabled={isToken}
-        placeholder="abc@abc.com"
+        placeholder="이메일을 입력해주세요"
         register={register("email", {
           required: "이메일을 입력해주세요",
           validate: value => emailRegex.test(value) || "이메일 형식에 맞지 않습니다",
@@ -175,12 +174,11 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
           {isToken && (
             <Input
               name="token"
-              label="인증번호"
+              placeholder="인증번호"
               register={register("token", {
                 required: "인증번호를 입력해주세요.",
                 validate: value => /^[0-9]$/.test(value) || "숫자만 입력해주세요",
               })}
-              placeholder="인증번호를 입력해주세요."
             />
           )}
           <button type="button" onClick={handleClickCheckEmail}>
