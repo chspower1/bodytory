@@ -55,7 +55,7 @@ const InputBox = styled.div<{ width?: string; height?: string }>`
   align-items: center;
   position: relative;
   & + & {
-    margin-top: 20px;
+    margin-top: 40px;
   }
 `;
 const MainInput = styled.input`

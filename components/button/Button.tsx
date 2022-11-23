@@ -124,7 +124,7 @@ export const RoundButton = ({
     [width, height, fontSize, padding] = ["auto", "50px", "18px", "0px 50px"];
   }
   if (size === "lg") {
-    [width, height, fontSize, padding] = ["500px", "58px", "20px", "auto"];
+    [width, height, fontSize, padding] = ["500px", "60px", "20px", "auto"];
   }
   if (size === "xl") {
     [width, height, fontSize, padding] = ["500px", "70px", "22px", "auto"];

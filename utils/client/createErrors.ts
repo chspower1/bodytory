@@ -3,6 +3,9 @@
 //  1. user : RegisterForm의 userState
 //  2. checkList : 해당 페이지 Input 요소 이름 List
 //  3. setError : 해당 페이지 form setError 함수
+//  4. minLength : checkList 순서대로 배열
+//  5. KoreanName : 이름 한글 매치
+//  6. 인자 다 넣고 해당 페이지에 useEffect에 넣고 쓰기
 
 import { FieldValues, Path, UseFormSetError } from "react-hook-form";
 
