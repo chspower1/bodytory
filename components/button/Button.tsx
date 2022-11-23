@@ -12,11 +12,9 @@ import { theme } from "@styles/theme";
 const ChangeToHoverColor = (color: string) => {
   if (color.includes("rgb")) {
     const colorArr = color.split(",");
-    console.log(colorArr);
     const redValue = parseInt(colorArr[0].split("(")[1]);
     const greenValue = parseInt(colorArr[1]);
     const blueValue = parseInt(colorArr[2].replace(")", ""));
-    console.log(colorArr, redValue, greenValue, blueValue);
     const newColor = `rgb(${redValue - 15},${greenValue - 15},${blueValue - 15})`;
     return newColor;
   }
@@ -103,7 +101,7 @@ export const CircleButton = ({
 export const RoundButton = ({
   size = "custom",
   padding = "0px 50px",
-  width = size === "custom" || size === "md" ? "auto" : size === "lg" ? "500px" : (size = "sm" ? "140px" : "500px"),
+  width = size === "custom" || size === "md" ? "auto" : size === "lg" ? "500px" : size === "sm" ? "140px" : "500px",
   height = "60px",
   borderRadius,
   fontSize = "18px",

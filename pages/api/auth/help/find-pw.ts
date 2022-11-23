@@ -24,22 +24,22 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       return res.status(403).send("아이디를 확인해주세요");
     } else {
       // 이메일 보내기
-      const mailOptions = {
-        from: process.env.MAIL_ID,
-        to: foundUser.email,
-        subject: "비밀번호 찾기",
-        text: `인증코드 : ${payload}`,
-      };
-      await smtpTransport.sendMail(mailOptions, (error, responses) => {
-        if (error) {
-          console.log(error);
-          return null;
-        } else {
-          console.log(responses);
-          return null;
-        }
-      });
-      smtpTransport.close();
+      // const mailOptions = {
+      //   from: process.env.MAIL_ID,
+      //   to: foundUser.email,
+      //   subject: "비밀번호 찾기",
+      //   text: `인증코드 : ${payload}`,
+      // };
+      // await smtpTransport.sendMail(mailOptions, (error, responses) => {
+      //   if (error) {
+      //     console.log(error);
+      //     return null;
+      //   } else {
+      //     console.log(responses);
+      //     return null;
+      //   }
+      // });
+      // smtpTransport.close();
       // 토큰 생성
       const certification = await client.certification.create({
         data: {

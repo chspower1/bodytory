@@ -79,9 +79,7 @@ const HelpFindId: NextPage = () => {
             <>
               <p>사용자님의 아이디는 &quot;{foundAccountId}&quot;입니다.</p>
               <RoundButton size="lg" bgColor={theme.color.mintBtn}>
-                <Link href="/auth/login">
-                  <button>로그인 하러가기</button>
-                </Link>
+                <Link href="/auth/login">로그인 하러가기</Link>
               </RoundButton>
             </>
           )}
