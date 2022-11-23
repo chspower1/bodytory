@@ -74,26 +74,16 @@ const Button = styled.button<{
 export const CircleButton = ({
   size = "md",
   padding = "auto",
-  width = "100px",
-  height = "100px",
+  width = size === "md" ? "100px" : size === "lg" ? "140px" : "62px",
+  height = size === "md" ? "100px" : size === "lg" ? "140px" : "62px",
   borderRadius = "50%",
-  fontSize = "18px",
+  fontSize = size === "md" ? "18px" : size === "lg" ? "26px" : "62px",
   bgColor = "rgb(61, 66, 191)",
   textColor = "rgb(255, 255, 255)",
   children,
   nonSubmit = false,
   disable = false,
 }: ButtonProps) => {
-  useEffect(() => {
-    ChangeToHoverColor(bgColor);
-    if (size === "sm") {
-      [width, height, fontSize] = ["62px", "62px", "18px"];
-    }
-    if (size === "lg") {
-      [width, height, fontSize] = ["140px", "140px", "26px"];
-    }
-  }, [size]);
-
   return (
     <Button
       width={width}
@@ -111,15 +101,15 @@ export const CircleButton = ({
   );
 };
 export const RoundButton = ({
+  size = "custom",
   padding = "0px 50px",
-  width = "auto",
+  width = size === "custom" || size === "md" ? "auto" : size === "lg" ? "500px" : (size = "sm" ? "140px" : "500px"),
   height = "60px",
   borderRadius,
   fontSize = "18px",
   bgColor = "rgb(61, 66, 191)",
   textColor = "rgb(255, 255, 255)",
   children,
-  size = "custom",
   nonSubmit = false,
   disable = false,
 }: ButtonProps) => {
