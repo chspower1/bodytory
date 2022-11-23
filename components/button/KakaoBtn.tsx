@@ -26,9 +26,8 @@ const KakaoLoginBtn = ({ mutate, size, kind }: SocialBtnProps) => {
               type: "kakao",
               email: res.kakao_account.email,
               name: res.kakao_account.profile.nickname,
-              birth: "2000",
+              birth: "",
               gender: res.kakao_account.gender,
-              phone: "000-0000-000",
             });
           },
           fail: (error: any) => {
@@ -43,8 +42,13 @@ const KakaoLoginBtn = ({ mutate, size, kind }: SocialBtnProps) => {
   };
   const [comment, _] = useState(kind === "login" ? "로그인" : "회원가입");
   return (
-    <SocialButton social="kakao" size={size} bgColor={kind === "login" ? "rgb(75, 80, 211)" : "rgb(61, 66, 191)"}>
-      <button onClick={kakaoLogin}>카카오 {comment}</button>
+    <SocialButton
+      social="kakao"
+      onClick={kakaoLogin}
+      size={size}
+      bgColor={kind === "login" ? "rgb(75, 80, 211)" : "rgb(61, 66, 191)"}
+    >
+      카카오 {comment}
     </SocialButton>
   );
 };
