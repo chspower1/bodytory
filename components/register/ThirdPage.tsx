@@ -89,27 +89,12 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     mutate({ ...user, ...data });
   };
 
-  const errorMessageText = () => {
-    const isErrorsMessage =
-      errors.name?.message ||
-      errors.birth?.message ||
-      errors.gender?.message ||
-      errors.email?.message ||
-      errors.token?.message;
-    if (!isErrorsMessage) {
-      if (currentComment.includes("\n")) {
-        return currentComment.split("\n").map(ele => <p key={ele}>{ele}</p>);
-      } else {
-        return <p>{currentComment}</p>;
-      }
-    } else {
-      if (isErrorsMessage.includes("\n")) {
-        return isErrorsMessage.split("\n").map(ele => <p key={ele}>{ele}</p>);
-      } else {
-        return <p>{isErrorsMessage}</p>;
-      }
-    }
-  };
+  const isErrorsMessage =
+    errors.name?.message ||
+    errors.birth?.message ||
+    errors.gender?.message ||
+    errors.email?.message ||
+    errors.token?.message;
 
   useEffect(() => {
     if (!watch("name") || !watch("birth") || !watch("gender") || !watch("email")) {
@@ -131,7 +116,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
   },[])
   return (
     <form onSubmit={handleSubmit(onValid)}>
-      <MessageBox>{errorMessageText()}</MessageBox>
+      <MessageBox isErrorsMessage={isErrorsMessage} currentComment={currentComment}/>
       <Input
         name="name"
         placeholder="김토리"

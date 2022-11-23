@@ -52,22 +52,8 @@ const Reset: NextPage = () => {
     } else return "비밀번호가 일치하지 않아요!\n비밀번호를 다시 확인해주세요";
   };
 
-  const errorMessageText = () => {
-    const isErrorsMessage = errors.password?.message || errors.passwordConfirm?.message;
-    if (isErrorsMessage) {
-      if (isErrorsMessage.includes("\n")) {
-        return isErrorsMessage.split("\n").map(ele => <p key={ele}>{ele}</p>);
-      } else {
-        return <p>{isErrorsMessage}</p>;
-      }
-    } else {
-      if (currentComment.includes("\n")) {
-        return currentComment.split("\n").map(ele => <p key={ele}>{ele}</p>);
-      } else {
-        return <p>{currentComment}</p>;
-      }
-    }
-  };
+  const isErrorsMessage = errors.password?.message || errors.passwordConfirm?.message;
+
 
   useEffect(() => {
     console.log(router.query);
@@ -79,7 +65,7 @@ const Reset: NextPage = () => {
     <div>
       {!isSuccess ? (
         <>
-          <MessageBox>{errorMessageText()}</MessageBox>
+          <MessageBox isErrorsMessage={isErrorsMessage} currentComment={currentComment}/>
           <form onSubmit={handleSubmit(onValid)}>
             <Input
               name="password"

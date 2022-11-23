@@ -67,22 +67,8 @@ const HelpFindId: NextPage = () => {
     mutate({ email: watch("email") });
   };
 
-  const errorMessageText = () => {
-    const isErrorsMessage = helpErrors.email?.message || helpErrors.token?.message;
-    if (isErrorsMessage) {
-      if (isErrorsMessage.includes("\n")) {
-        return isErrorsMessage.split("\n").map(ele => <p key={ele}>{ele}</p>);
-      } else {
-        return <p>{isErrorsMessage}</p>;
-      }
-    } else {
-      if (currentComment.includes("\n")) {
-        return currentComment.split("\n").map(ele => <p key={ele}>{ele}</p>);
-      } else {
-        return <p>{currentComment}</p>;
-      }
-    }
-  };
+  const isErrorsMessage = helpErrors.email?.message || helpErrors.token?.message;
+  
   useEffect(() => {
     if (!isToken) {
       setCurrentComment("아이디를 잊으셨나요?\n가입 시 입력한 이메일을 알려주세요");
@@ -93,7 +79,7 @@ const HelpFindId: NextPage = () => {
     <FindUserIdRoot>
       {!foundAccountId ? (
         <>
-          <MessageBox>{errorMessageText()}</MessageBox>
+          <MessageBox isErrorsMessage={isErrorsMessage} currentComment={currentComment}/>
           <form onSubmit={helpHandleSubmit(onValidHelpForm)}>
             {isToken ? (
               <ButtonInInput

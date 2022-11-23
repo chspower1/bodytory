@@ -83,22 +83,8 @@ const HelpPage: NextPage = () => {
     mutate({ accountId: watch("accountId") });
   };
 
-  const errorMessageText = () => {
-    const isErrorsMessage = helpErrors.accountId?.message || helpErrors.token?.message;
-    if (isErrorsMessage) {
-      if (isErrorsMessage.includes("\n")) {
-        return isErrorsMessage.split("\n").map(ele => <p key={ele}>{ele}</p>);
-      } else {
-        return <p>{isErrorsMessage}</p>;
-      }
-    } else {
-      if (currentComment.includes("\n")) {
-        return currentComment.split("\n").map(ele => <p key={ele}>{ele}</p>);
-      } else {
-        return <p>{currentComment}</p>;
-      }
-    }
-  };
+  const isErrorsMessage = helpErrors.accountId?.message || helpErrors.token?.message;
+  
   useEffect(() => {
     if (!isToken) {
       setCurrentComment("비밀번호를 잊으셨나요?\n가입한 아이디을 알려주세요");
@@ -106,7 +92,7 @@ const HelpPage: NextPage = () => {
   }, [isToken]);
   return (
     <div>
-      <MessageBox>{errorMessageText()}</MessageBox>
+      <MessageBox isErrorsMessage={isErrorsMessage} currentComment={currentComment}/>
       <form onSubmit={handleSubmit(onValid)}>
         {isToken ?<ButtonInInput
           name="accountId"

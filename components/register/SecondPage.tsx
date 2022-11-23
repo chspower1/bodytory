@@ -71,17 +71,9 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     } else return "비밀번호가 일치하지 않아요!\n비밀번호를 다시 확인해주세요";
   };
 
-  const errorMessageText = () => {
-    const isErrorsMessage = errors.accountId?.message || errors.password?.message || errors.passwordConfirm?.message;
-    if (!isErrorsMessage) {
-      return <p>{currentComment}</p>;
-    }
-    if (isErrorsMessage && isErrorsMessage.includes("\n")) {
-      return isErrorsMessage.split("\n").map(ele => <p key={ele}>{ele}</p>);
-    } else {
-      return <p>{isErrorsMessage}</p>;
-    }
-  };
+  const isErrorsMessage = errors.accountId?.message || errors.password?.message || errors.passwordConfirm?.message;
+
+  
   // firstPage로 갈 시 2페이지 모든 폼 리셋
   const pageReset = () => {
     setPage(1);
@@ -107,7 +99,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
 
   return (
     <form onSubmit={handleSubmit(onValid)}>
-      <MessageBox>{errorMessageText()}</MessageBox>
+      <MessageBox isErrorsMessage={isErrorsMessage} currentComment={currentComment}/>
       <Input
         name="accountId"
         placeholder="toritori2022"
