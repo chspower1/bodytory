@@ -16,6 +16,9 @@ import { RoundButton } from "@components/button/Button";
 import Image from "next/image";
 import naver from "/public/static/naver.svg";
 import { Box, Col, Row, WhiteBoldText, WhiteText, Wrapper } from "@styles/Common";
+import { theme } from "@styles/theme";
+import { checkEmptyObj } from "@utils/client/checkEmptyObj";
+import { watch } from "fs";
 export interface LoginForm {
   accountId: string;
   password: string;
@@ -25,6 +28,7 @@ const LoginPage: NextPage = () => {
   const router = useRouter();
   const { postApi } = customApi("/api/auth/login");
   // const [showModal, setShowModal] = useState(false);
+
   const { mutate } = useMutation([USER_LOGIN], postApi, {
     onError(error: any) {
       console.log(error);
@@ -51,12 +55,20 @@ const LoginPage: NextPage = () => {
   const {
     register,
     handleSubmit,
+    watch,
+    setError,
     formState: { errors },
-  } = useForm<LoginForm>();
+  } = useForm<LoginForm>({ mode: "onChange" });
 
   const onValid = (loginForm: LoginForm) => {
     mutate({ ...loginForm, type: "origin" });
   };
+  console.log(errors, checkEmptyObj(errors));
+
+  useEffect(() => {
+    setError("accountId", { type: "required" });
+    setError("password", { type: "required" });
+  }, []);
   return (
     <Wrapper>
       <Col>
@@ -89,7 +101,9 @@ const LoginPage: NextPage = () => {
           register={register("autoLogin")}
           errorMessage={errors.password?.message}
         /> */}
-          <RoundButton size="lg">로그인 하기</RoundButton>
+          <RoundButton size="lg" bgColor={theme.color.mintBtn} disable={!checkEmptyObj(errors)}>
+            로그인 하기
+          </RoundButton>
         </form>
 
         <Row>

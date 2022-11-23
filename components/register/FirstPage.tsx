@@ -45,13 +45,9 @@ const FirstPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       />
       <Box>
         <Link href="/auth/register/choice">
-          <CircleButton nonSubmit size="lg">
-            이전 페이지
-          </CircleButton>
+          <CircleButton nonSubmit>이전 페이지</CircleButton>
         </Link>
-        <CircleButton size="md" disable={!(user?.agree || watch("agree"))}>
-          다음 페이지
-        </CircleButton>
+        <CircleButton disable={!(user?.agree || watch("agree"))}>다음 페이지</CircleButton>
       </Box>
     </form>
   );
