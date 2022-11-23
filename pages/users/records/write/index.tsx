@@ -27,7 +27,7 @@ export default function WritePage() {
     formState: { errors },
   } = useForm<WriteType>();
   const onValid: SubmitHandler<WriteType> = ({ write }) => {
-    mutate({ type: "user", position: "arm", description: write });
+    mutate({ type: "user", position: "head", description: write });
     setValue("write", "");
     setIsText(true);
     setTimeout(() => {

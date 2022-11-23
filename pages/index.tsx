@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import Modal from "@components/Modal";
 import useUser from "hooks/useUser";
+import ManageImage from "@components/ManageImage";
 // import LogoutBtn from "@components/LogoutBtn";
 const Test = styled.div`
   color: red;
@@ -39,6 +40,7 @@ export default function Home() {
       <Link href={"/users/records/chart"}>
         <button>기록보기</button>
       </Link>
+      <ManageImage />
       <button onClick={() => setShowModal(true)}>로그아웃</button>
       <Modal onClose={() => setShowModal(false)} activeFuction={handleClickLogout} show={showModal} title={"시스템"}>
         로그아웃 하시겠습니까?
