@@ -40,7 +40,6 @@ export default function Home() {
       <Link href={"/users/records/chart"}>
         <button>기록보기</button>
       </Link>
-      <ManageImage />
       <button onClick={() => setShowModal(true)}>로그아웃</button>
       <Modal onClose={() => setShowModal(false)} activeFuction={handleClickLogout} show={showModal} title={"시스템"}>
         로그아웃 하시겠습니까?

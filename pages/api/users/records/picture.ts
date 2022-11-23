@@ -4,13 +4,15 @@ import withHandler from "@utils/server/withHandler";
 import { withApiSession } from "@utils/server/withSession";
 import multer from "multer";
 import nextconnect from "next-connect";
+import path from "path";
+import { connect } from "http2";
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
-    cb(null, "./images");
+    cb(null, "./public");
   },
   filename(req, file, cb) {
-    cb(null, file.fieldname + "-" + Date.now());
+    cb(null, file.fieldname + "-" + Date.now() + file.originalname);
   },
 });
 
@@ -26,27 +28,37 @@ const handler = nextconnect<NextApiRequest, NextApiResponse>({
 const upload = multer({ storage: storage });
 
 handler.post(upload.array("image"), (req, res) => {
-  //   res.status(200).json(req.files?.map(array => v.filename));
-  //   res.json(req.files?.map((v: { filename: any }) => v.filename));
+  const { recordId } = req.body;
+  const files = req.files as Express.Multer.File[];
+  files.forEach(file => {
+    addPicture(recordId, file.filename);
+  });
+  res.status(200).end();
 });
 
-async function addPicture(req: NextApiRequest) {
-  const { id, addimages } = req.body;
+export const config = {
+  api: {
+    bodyParser: false, // Disallow body parsing, consume as stream
+  },
+};
+
+async function addPicture(id: string, fileUrl: string) {
   const data = await client.record.findFirst({
     where: {
-      id,
+      id: Number(id),
     },
     select: {
-      images: true,
+      id: true,
     },
   });
-
-  await client.record.update({
-    where: {
-      id,
-    },
+  await client.recordImage.create({
     data: {
-      images: data + addimages,
+      url: `/${fileUrl}`,
+      record: {
+        connect: {
+          id: data?.id!,
+        },
+      },
     },
   });
 }
