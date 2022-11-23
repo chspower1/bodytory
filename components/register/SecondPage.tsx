@@ -6,6 +6,7 @@ import customApi from "utils/client/customApi";
 import { CircleButton, RoundButton } from "@components/button/Button";
 import { Box, Col, Container } from "@styles/Common";
 import MessageBox from "@components/MessageBox";
+import { ACCOUNT_ID_REGEX, PASSWORD_REGEX } from "constant/regex";
 import { ButtonBox, FormContainer } from "./FirstPage";
 import { theme } from "@styles/theme";
 import { checkEmptyObj } from "@utils/client/checkEmptyObj";
@@ -42,9 +43,6 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
   const [currentComment, setCurrentComment] = useState("");
   const { postApi: checkAccountIdApi } = customApi("/api/auth/register/check/id");
 
-  const AccountIdRegex = /^[a-zA-Z0-9]{6,}$/;
-  const PasswordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
-
   const onValid = (data: SecondRegisterForm) => {
     if (user?.isNotDuplicate) {
       if (watch("password") !== watch("passwordConfirm")) {
@@ -60,7 +58,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
   const handleClickCheckAccountId = async () => {
     try {
       if (!watch("accountId")) return setError("accountId", { message: "사용하실 아이디를 입력해주세요" });
-      if (!AccountIdRegex.test(watch("accountId"))) return;
+      if (!ACCOUNT_ID_REGEX.test(watch("accountId"))) return;
       await checkAccountIdApi({ accountId: watch("accountId") });
       setUser(prev => ({ ...prev!, isNotDuplicate: true }));
       clearErrors("accountId");
@@ -76,17 +74,8 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     } else return "비밀번호가 일치하지 않아요!\n비밀번호를 다시 확인해주세요";
   };
 
-  const errorMessageText = () => {
-    const isErrorsMessage = errors.accountId?.message || errors.password?.message || errors.passwordConfirm?.message;
-    if (!isErrorsMessage) {
-      return <p>{currentComment}</p>;
-    }
-    if (isErrorsMessage && isErrorsMessage.includes("\n")) {
-      return isErrorsMessage.split("\n").map(ele => <p key={ele}>{ele}</p>);
-    } else {
-      return <p>{isErrorsMessage}</p>;
-    }
-  };
+  const isErrorsMessage = errors.accountId?.message || errors.password?.message || errors.passwordConfirm?.message;
+
   // firstPage로 갈 시 2페이지 모든 폼 리셋
   const pageReset = () => {
     setPage(1);
@@ -120,7 +109,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     <Container>
       <form onSubmit={handleSubmit(onValid)}>
         <FormContainer>
-          <MessageBox>{errorMessageText()}</MessageBox>
+          <MessageBox isErrorsMessage={isErrorsMessage} currentComment={currentComment} />
           <Input
             name="accountId"
             placeholder="toritori2022"
@@ -128,7 +117,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
               required: true,
               validate: {
                 checkAccountId: value =>
-                  AccountIdRegex.test(value) || "아이디는 6자리 이상\n영문 대소문자, 숫자를 입력해주세요",
+                  ACCOUNT_ID_REGEX.test(value) || "아이디는 6자리 이상\n영문 대소문자, 숫자를 입력해주세요",
                 checkIsNotDuplicate: () => user?.isNotDuplicate || "아이디 중복 확인을 해주세요",
               },
               onChange() {
@@ -162,7 +151,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                 required: true,
                 validate: {
                   regexPassword: value =>
-                    PasswordRegex.test(value) || "비밀번호는 6자리 이상\n영문 대소문자, 숫자를 조합해서 입력해주세요",
+                    PASSWORD_REGEX.test(value) || "비밀번호는 6자리 이상\n영문 대소문자, 숫자를 조합해서 입력해주세요",
                 },
                 onChange() {
                   if (watch("password").length < 6) {

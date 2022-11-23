@@ -17,6 +17,7 @@ import { RoundButton } from "@components/button/Button";
 import { Box, Col, Container, Row } from "@styles/Common";
 import { theme } from "@styles/theme";
 import { FormContainer } from "./FirstPage";
+import { EMAIL_REGEX } from "constant/regex";
 
 interface ThirdRegisterForm {
   email: string;
@@ -47,7 +48,6 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
   const [isToken, setIsToken] = useState(false);
   const { postApi: createUser } = customApi("/api/auth/register");
   const { postApi: checkEmailApi } = customApi("/api/auth/register/check/email");
-  const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
   const isTokenInData = { email: watch("email"), token: isToken ? watch("token") : undefined, type };
   const { mutate } = useMutation([REGISTER_SIGNUP], createUser, {
     onError(error: any) {
@@ -61,8 +61,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     try {
       console.log(errors.email);
       if (!watch("email")) return setError("email", { message: "앗! 이메일 인증을 완료해주세요" });
-      if (watch("email") && !emailRegex.test(watch("email")))
-        return setError("email", { message: "이메일 형식에 맞지 않습니다" });
+      if(watch("email") && !EMAIL_REGEX.test(watch("email"))) return setError("email", { message: "이메일 형식에 맞지 않습니다" });
       if (isToken && !watch("token")) return setError("token", { message: "인증번호를 입력해주세요" });
       if (errors.email?.type === "checkCertificate") {
         const data = await checkEmailApi(isTokenInData);
@@ -93,27 +92,12 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     mutate({ ...user, ...data });
   };
 
-  const errorMessageText = () => {
-    const isErrorsMessage =
-      errors.name?.message ||
-      errors.birth?.message ||
-      errors.gender?.message ||
-      errors.email?.message ||
-      errors.token?.message;
-    if (!isErrorsMessage) {
-      if (currentComment.includes("\n")) {
-        return currentComment.split("\n").map(ele => <p key={ele}>{ele}</p>);
-      } else {
-        return <p>{currentComment}</p>;
-      }
-    } else {
-      if (isErrorsMessage.includes("\n")) {
-        return isErrorsMessage.split("\n").map(ele => <p key={ele}>{ele}</p>);
-      } else {
-        return <p>{isErrorsMessage}</p>;
-      }
-    }
-  };
+  const isErrorsMessage =
+    errors.name?.message ||
+    errors.birth?.message ||
+    errors.gender?.message ||
+    errors.email?.message ||
+    errors.token?.message;
 
   useEffect(() => {
     if (!watch("name") || !watch("birth") || !watch("gender") || !watch("email")) {
@@ -137,7 +121,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     <Container>
       <form onSubmit={handleSubmit(onValid)}>
         <FormContainer>
-          <MessageBox>{errorMessageText()}</MessageBox>
+          <MessageBox isErrorsMessage={isErrorsMessage} currentComment={currentComment}/>
           <Input
             name="name"
             placeholder="김토리"
@@ -208,7 +192,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
             register={register("email", {
               required: "이메일을 입력해주세요",
               validate: {
-                checkEmailValidate: value => emailRegex.test(value) || "이메일 형식에 맞지 않습니다",
+                checkEmailValidate: value => EMAIL_REGEX.test(value) || "이메일 형식에 맞지 않습니다",
                 checkCertificate: () => user?.isCertified || "이메일 인증은 완료해주세요!",
               },
               onChange() {

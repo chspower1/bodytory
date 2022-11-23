@@ -6,7 +6,7 @@ import checked from "@public/check_checked.svg";
 export interface InputProps {
   label?: string;
   name: string;
-  register: UseFormRegisterReturn;
+  register?: UseFormRegisterReturn;
   type?: string;
   placeholder?: string;
   error?: string;
