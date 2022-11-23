@@ -5,6 +5,7 @@ import { RegisterForm } from "pages/auth/register";
 import customApi from "utils/client/customApi";
 import { CircleButton, RoundButton } from "@components/button/Button";
 import { Box } from "@styles/Container";
+import MessageBox from "@components/MessageBox";
 
 interface SecondRegisterForm {
   accountId: string;
@@ -69,7 +70,6 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
   const checkPassword = () => {
     if (watch("password") === watch("passwordConfirm")) {
       clearErrors(["password", "passwordConfirm"]);
-      setCurrentInputIdx(4);
     } else return "비밀번호가 일치하지 않아요!\n비밀번호를 다시 확인해주세요";
   };
 
@@ -104,13 +104,14 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     } else if (!watch("passwordConfirm")) {
       setCurrentComment("비밀번호를 한번 더 입력해주세요");
     } else {
+      setCurrentInputIdx(4);
       setCurrentComment("다음 단계로 넘어가주세요!");
     }
   }, [watch("accountId"), watch("password"), watch("passwordConfirm"), user?.isNotDuplicate]);
 
   return (
     <form onSubmit={handleSubmit(onValid)}>
-      <div className="errorMessageBox">{errorMessageText()}</div>
+      <MessageBox>{errorMessageText()}</MessageBox>
       <Input
         name="accountId"
         placeholder="toritori2022"
