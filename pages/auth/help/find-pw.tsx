@@ -84,7 +84,7 @@ const HelpPage: NextPage = () => {
   };
 
   const isErrorsMessage = helpErrors.accountId?.message || helpErrors.token?.message;
-  
+
   useEffect(() => {
     if (!isToken) {
       setCurrentComment("비밀번호를 잊으셨나요?\n가입한 아이디을 알려주세요");
@@ -127,7 +127,7 @@ const HelpPage: NextPage = () => {
                 name="token"
                 placeholder="인증번호"
                 register={register("token", {
-                  required: true,
+                  required: "인증번호를 입력해주세요",
                   validate: value => /^[0-9]+$/.test(value!)|| "숫자만 입력해주세요",
                 })}
                 buttonValue="인증번호 확인"
