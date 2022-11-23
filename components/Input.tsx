@@ -1,9 +1,9 @@
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import { UseFormRegisterReturn } from "react-hook-form";
 import styled from "styled-components";
-import checkbox from '@public/checkbox.png';
+import checked from '@public/check_checked.svg';
 
-interface InputProps {
+export interface InputProps {
   label?: string;
   name: string;
   register: UseFormRegisterReturn;
@@ -13,6 +13,7 @@ interface InputProps {
   disabled?: boolean;
   value?: string;
   checked?: boolean;
+  maxLength ?: number;
 }
 
 export default function Input({
@@ -25,42 +26,38 @@ export default function Input({
   value,
   disabled = false,
   checked,
+  maxLength
 }: InputProps) {
   return (
-    <InputContainer>
-      <InputBox>
-        <MainInput disabled={disabled} id={name} {...register} type={type} placeholder={placeholder} value={value} className={error ? "error" : ""} />
-        <Label htmlFor={name}>{label}</Label>
-      </InputBox>
-    </InputContainer>
+    <InputBox>
+      <Label htmlFor={name} >{label}</Label>
+      <MainInput disabled={disabled} id={name} {...register} type={type} placeholder={placeholder} value={value} className={error ? "error" : ""} maxLength={maxLength}/>
+    </InputBox>
   );
 }
 
 const InputContainer = styled.div`
-  & + &{
-    margin-top: 20px;
-  }
+  
 `;
 const Label = styled.label`
   margin-left: 20px;
 `;
 const InputBox = styled.div`
-  width: 400px;
+  width: 500px;
   display:flex;
   align-items:center;
   position: relative;
+  & + &{
+    margin-top: 20px;
+  }
 `;
 const MainInput = styled.input`
-&[type="password"]{
-  &::placeholder{
-    letter-spacing: 7.2px;
-    font-size:12px;
+  &[type="password"]{
+    &::placeholder{
+      letter-spacing: 7.2px;
+      font-size:12px;
+    }
   }
-}
-  &[type="checkbox"]{
-    width:auto;
-  }
-  
   width: 100%;
   height: 50px;
   text-align:center;
@@ -73,7 +70,7 @@ const MainInput = styled.input`
   box-shadow: 8px 8px 24px rgba(49, 54, 167, 0.2);
   outline : 0;
   &:focus{
-    border: 2px solid #000;
+    border: 2px solid #444;
   }
   &.error{
     border: 2px solid ${({theme}) => theme.color.error};
