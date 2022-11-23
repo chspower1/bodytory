@@ -2,7 +2,9 @@ import Input from "@components/Input";
 import { useForm } from "react-hook-form";
 import { Dispatch, SetStateAction } from "react";
 import { RegisterForm } from "pages/auth/register";
-import { RoundButton } from "@components/button/Button";
+import { CircleButton, RoundButton } from "@components/button/Button";
+import { Box } from "@styles/Common";
+import Link from "next/link";
 interface FirstRegisterForm {
   agree: boolean;
 }
@@ -16,6 +18,7 @@ const FirstPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     register,
     formState: { errors },
     handleSubmit,
+    watch,
   } = useForm<FirstRegisterForm>({
     mode: "onChange",
     defaultValues: {
@@ -38,7 +41,16 @@ const FirstPage = ({ user, setUser, setPage }: RegisterPageProps) => {
         register={register("agree", { required: "약관 동의 해주세요" })}
         error={errors.agree?.message}
       />
-      <RoundButton size="lg">다음 페이지</RoundButton>
+      <Box>
+        <Link href="/auth/register/choice">
+          <CircleButton nonSubmit size="lg">
+            이전 페이지
+          </CircleButton>
+        </Link>
+        <CircleButton size="md" disable={!(user?.agree || watch("agree"))}>
+          다음 페이지
+        </CircleButton>
+      </Box>
     </form>
   );
 };

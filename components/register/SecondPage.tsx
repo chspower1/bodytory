@@ -4,7 +4,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { RegisterForm } from "pages/auth/register";
 import customApi from "utils/client/customApi";
 import { CircleButton, RoundButton } from "@components/button/Button";
-import { Box } from "@styles/Container";
+import { Box } from "@styles/Common";
 
 interface SecondRegisterForm {
   accountId: string;
@@ -68,6 +68,9 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       clearErrors(["password", "passwordConfirm"]);
     } else return "비밀번호가 일치하지 않아요!\n비밀번호를 다시 확인해주세요";
   };
+
+  const checkAccessNextPage = () => {};
+
   const isErrorsMessage = errors.accountId?.message || errors.password?.message || errors.passwordConfirm?.message;
 
   return (
@@ -138,21 +141,17 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
         />
       )}
       <Box>
-        <CircleButton size="md">
-          <button type="button" onClick={() => setPage(1)}>
-            이전 페이지
-          </button>
+        <CircleButton nonSubmit size="md" onClick={() => setPage(1)}>
+          이전 페이지
         </CircleButton>
-        <CircleButton size="md">
-          <button
-            type="submit"
-            // disabled={
-            //   (!user?.isNotDuplicate && watch("password") === watch("passwordConfirm")) ||
-            //   user?.password === user?.passwordConfirm
-            // }
-          >
-            다음 페이지
-          </button>
+        <CircleButton
+          size="md"
+          disable={
+            user?.isNotDuplicate &&
+            (watch("password") !== watch("passwordConfirm") || user?.password !== user?.passwordConfirm)
+          }
+        >
+          다음 페이지
         </CircleButton>
       </Box>
     </form>

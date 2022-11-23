@@ -3,11 +3,11 @@ import { ButtonSize, SocialButton } from "./Button";
 
 const OriginLoginBtn = ({ size }: { size: ButtonSize }) => {
   return (
-    <SocialButton social="origin" size={size} bgColor="#4B50D3">
-      <Link href="/auth/register">
-        <button>일반 로그인</button>
-      </Link>
-    </SocialButton>
+    <Link href="/auth/register">
+      <SocialButton social="origin" size={size} bgColor="rgb(75, 80, 211)">
+        일반 로그인
+      </SocialButton>
+    </Link>
   );
 };
 export default OriginLoginBtn;

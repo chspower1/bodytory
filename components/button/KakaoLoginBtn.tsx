@@ -3,7 +3,7 @@ import customApi from "utils/client/customApi";
 import { UseMutateFunction, useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { SocialButton } from "./Button";
+import { ButtonSize, SocialButton } from "./Button";
 
 const KakaoLoginBtn = ({ mutate, size }: { mutate: UseMutateFunction<any, any, any, unknown>; size: ButtonSize }) => {
   const kakaoLogin = async () => {
@@ -41,7 +41,7 @@ const KakaoLoginBtn = ({ mutate, size }: { mutate: UseMutateFunction<any, any, a
     });
   };
   return (
-    <SocialButton social="kakao" size={size} bgColor="#4B50D3">
+    <SocialButton social="kakao" size={size} bgColor="rgb(75, 80, 211)">
       <button onClick={kakaoLogin}>카카오 로그인</button>
     </SocialButton>
   );

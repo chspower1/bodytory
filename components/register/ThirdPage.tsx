@@ -10,7 +10,7 @@ import { useMutation } from "@tanstack/react-query";
 import { REGISTER_SIGNUP } from "constant/queryKeys";
 import { useRouter } from "next/router";
 import { RoundButton } from "@components/button/Button";
-import { Box } from "@styles/Container";
+import { Box } from "@styles/Common";
 
 interface ThirdRegisterForm {
   email: string;
@@ -98,7 +98,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     <form onSubmit={handleSubmit(onValid)}>
       <div className="errorMessageBox">
         {isErrorsMessage && isErrorsMessage.includes("\n") ? (
-          isErrorsMessage.split("\n").map(ele => <p>{ele}</p>)
+          isErrorsMessage.split("\n").map((ele, idx) => <p key={idx}>{ele}</p>)
         ) : (
           <p>{isErrorsMessage}</p>
         )}
@@ -190,11 +190,12 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       ) : (
         <p>인증 완료되었습니다.</p>
       )}
+
       <Box>
         <RoundButton nonSubmit size="md" onClick={handleClickPrevPage}>
           이전 페이지
         </RoundButton>
-        <RoundButton size="custom" width="360px">
+        <RoundButton disable size="lg">
           회원가입
         </RoundButton>
       </Box>

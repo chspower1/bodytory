@@ -17,3 +17,21 @@ export const Box = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
+export const Row = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+export const Col = styled(Row)`
+  flex-direction: column;
+`;
+
+export const WhiteText = styled.span`
+  color: white;
+  font-size: 16px;
+`;
+
+export const WhiteBoldText = styled(WhiteText)`
+  font-weight: 600;
+`;

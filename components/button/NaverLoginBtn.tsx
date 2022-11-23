@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 import { useEffect, useRef } from "react";
 import { ButtonSize, RoundButton, SocialButton } from "./Button";
 
-
 const NaverLoginBtn = ({ mutate, size }: { mutate: UseMutateFunction<any, any, any, unknown>; size: ButtonSize }) => {
   const naverRef = useRef<any>();
   const router = useRouter();
@@ -58,7 +57,7 @@ const NaverLoginBtn = ({ mutate, size }: { mutate: UseMutateFunction<any, any, a
     getToken();
   }, [mutate, router]);
   return (
-    <SocialButton onClick={handleNaverLogin} social="naver" size={size} bgColor="#4B50D3">
+    <SocialButton onClick={handleNaverLogin} social="naver" size={size} bgColor="rgb(75, 80, 211)">
       네이버 로그인
       <button ref={naverRef} id="naverIdLogin" style={{ display: "none" }} />
     </SocialButton>
