@@ -9,8 +9,8 @@ import Link from "next/link";
 import customApi from "utils/client/customApi";
 import { useMutation } from "@tanstack/react-query";
 import Modal from "@components/Modal";
-import NaverLoginBtn from "@components/button/NaverLoginBtn";
-import KakaoLoginBtn from "@components/button/KakaoLoginBtn";
+import NaverLoginBtn from "@components/button/NaverBtn";
+import KakaoLoginBtn from "@components/button/KakaoBtn";
 import { USER_LOGIN } from "constant/queryKeys";
 import { RoundButton } from "@components/button/Button";
 import Image from "next/image";
@@ -102,7 +102,7 @@ const LoginPage: NextPage = () => {
           errorMessage={errors.password?.message}
         /> */}
           <RoundButton size="lg" bgColor={theme.color.mintBtn} disable={!checkEmptyObj(errors)}>
-            로그인 하기
+            로그인
           </RoundButton>
         </form>
 
@@ -116,8 +116,8 @@ const LoginPage: NextPage = () => {
           </Link>
         </Row>
         <Row>
-          <NaverLoginBtn size="sm" mutate={mutate} />
-          <KakaoLoginBtn size="sm" mutate={mutate} />
+          <NaverLoginBtn size="sm" mutate={mutate} kind="login" />
+          <KakaoLoginBtn size="sm" mutate={mutate} kind="login" />
         </Row>
         <Row>
           <Link href="/auth/register/choice">

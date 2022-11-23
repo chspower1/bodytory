@@ -1,13 +1,13 @@
 import ChoiceResiterBox from "@components/ChoiceResiterBox";
-import KakaoLoginBtn from "@components/button/KakaoLoginBtn";
-import NaverLoginBtn from "@components/button/NaverLoginBtn";
+import KakaoLoginBtn from "@components/button/KakaoBtn";
+import NaverLoginBtn from "@components/button/NaverBtn";
 import customApi from "utils/client/customApi";
 import { useMutation } from "@tanstack/react-query";
 import { USER_LOGIN } from "constant/queryKeys";
 import { useRouter } from "next/router";
 import React from "react";
 import { SocialButton } from "@components/button/Button";
-import OriginLoginBtn from "@components/button/OriginLoginBtn";
+import OriginLoginBtn from "@components/button/OriginBtn";
 
 export default function ChoicePage() {
   const router = useRouter();

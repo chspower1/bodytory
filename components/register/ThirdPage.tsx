@@ -15,6 +15,7 @@ import ButtonInInput from "@components/ButtonInInput";
 import CheckBoxInput from "@components/CheckBoxInput";
 import { RoundButton } from "@components/button/Button";
 import { Box } from "@styles/Common";
+import { theme } from "@styles/theme";
 
 interface ThirdRegisterForm {
   email: string;
@@ -235,10 +236,15 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       )}
 
       <Box>
-        <RoundButton nonSubmit size="md" onClick={handleClickPrevPage}>
-          이전 페이지
+        <RoundButton nonSubmit size="custom" height="60px" bgColor="rgb(75, 80, 211)" onClick={handleClickPrevPage}>
+          이전 단계
         </RoundButton>
-        <RoundButton size="lg" disable={!currentComment.includes("회원가입")}>
+        <RoundButton
+          size="custom"
+          width="360px"
+          bgColor={theme.color.mintBtn}
+          disable={!currentComment.includes("회원가입")}
+        >
           {currentComment.includes("회원가입") ? "회원가입 완료" : "정보를 모두 입력해주세요"}
         </RoundButton>
       </Box>

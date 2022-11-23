@@ -4,8 +4,9 @@ import { UseMutateFunction, useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { ButtonSize, SocialButton } from "./Button";
+import { SocialBtnProps } from "./NaverBtn";
 
-const KakaoLoginBtn = ({ mutate, size }: { mutate: UseMutateFunction<any, any, any, unknown>; size: ButtonSize }) => {
+const KakaoLoginBtn = ({ mutate, size, kind }: SocialBtnProps) => {
   const kakaoLogin = async () => {
     // 카카오 초기화
     const kakao = kakaoInit();
@@ -41,7 +42,7 @@ const KakaoLoginBtn = ({ mutate, size }: { mutate: UseMutateFunction<any, any, a
     });
   };
   return (
-    <SocialButton social="kakao" size={size} bgColor="rgb(75, 80, 211)">
+    <SocialButton social="kakao" size={size} bgColor={kind === "login" ? "rgb(75, 80, 211)" : "rgb(61, 66, 191)"}>
       <button onClick={kakaoLogin}>카카오 로그인</button>
     </SocialButton>
   );

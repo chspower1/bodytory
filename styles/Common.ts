@@ -27,9 +27,9 @@ export const Col = styled(Row)`
   flex-direction: column;
 `;
 
-export const WhiteText = styled.span`
+export const WhiteText = styled.span<{ fontSize?: string }>`
   color: white;
-  font-size: 16px;
+  font-size: ${({ fontSize }) => fontSize || "16px"};
 `;
 
 export const WhiteBoldText = styled(WhiteText)`

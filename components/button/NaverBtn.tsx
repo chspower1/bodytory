@@ -4,7 +4,13 @@ import { useRouter } from "next/router";
 import { useEffect, useRef } from "react";
 import { ButtonSize, RoundButton, SocialButton } from "./Button";
 
-const NaverLoginBtn = ({ mutate, size }: { mutate: UseMutateFunction<any, any, any, unknown>; size: ButtonSize }) => {
+export interface SocialBtnProps {
+  mutate: UseMutateFunction<any, any, any, unknown>;
+  size: ButtonSize;
+  kind: "login" | "register";
+}
+
+const NaverLoginBtn = ({ mutate, size, kind }: SocialBtnProps) => {
   const naverRef = useRef<any>();
   const router = useRouter();
   const handleNaverLogin = () => {
@@ -57,7 +63,12 @@ const NaverLoginBtn = ({ mutate, size }: { mutate: UseMutateFunction<any, any, a
     getToken();
   }, [mutate, router]);
   return (
-    <SocialButton onClick={handleNaverLogin} social="naver" size={size} bgColor="rgb(75, 80, 211)">
+    <SocialButton
+      onClick={handleNaverLogin}
+      social="naver"
+      size={size}
+      bgColor={kind === "login" ? "rgb(75, 80, 211)" : "rgb(61, 66, 191)"}
+    >
       네이버 로그인
       <button ref={naverRef} id="naverIdLogin" style={{ display: "none" }} />
     </SocialButton>

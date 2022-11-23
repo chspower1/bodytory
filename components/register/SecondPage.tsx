@@ -6,6 +6,8 @@ import customApi from "utils/client/customApi";
 import { CircleButton, RoundButton } from "@components/button/Button";
 import { Box } from "@styles/Common";
 import MessageBox from "@components/MessageBox";
+import { ButtonBox } from "./FirstPage";
+import { theme } from "@styles/theme";
 
 interface SecondRegisterForm {
   accountId: string;
@@ -178,24 +180,24 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
           error={errors.passwordConfirm?.message}
         />
       )}
-      <Box>
+      <ButtonBox>
         <CircleButton
           nonSubmit
-          size="md"
+          bgColor="rgb(75, 80, 211)"
           onClick={() => {
             console.log("sdadasda");
             pageReset();
           }}
         >
-          이전 페이지
+          이전 단계
         </CircleButton>
         <CircleButton
-          size="md"
+          bgColor={theme.color.mintBtn}
           disable={Boolean(errors.password || errors.accountId || errors.passwordConfirm || !watch("accountId"))}
         >
-          다음 페이지
+          다음 단계
         </CircleButton>
-      </Box>
+      </ButtonBox>
     </form>
   );
 };
