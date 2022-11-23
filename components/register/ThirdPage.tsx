@@ -58,7 +58,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
   const handleClickCheckEmail = async () => {
     try {
       if (!watch("email")) return setError("email", { message: "앗! 이메일 인증을 완료해주세요" });
-      if(watch("email") && !emailRegex.test(watch("email"))) return setError("email", { message: "$$$$" });
+      if(watch("email") && !emailRegex.test(watch("email"))) return setError("email", { message: "이메일 형식에 맞지 않습니다" });
       if (isToken && !watch("token")) return setError("token", { message: "인증번호를 입력해주세요" });
       if (!errors.email) {
         const data = await checkEmailApi(isTokenInData);
@@ -196,7 +196,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
         placeholder="toritori2022@naver.com"
         register={register("email", {
           required: "이메일을 입력해주세요",
-          
+          validate: value => emailRegex.test(value) || "이메일 형식에 맞지 않습니다",
           onChange() {
             setUser(prev => ({ ...prev!, email: watch("email") }));
           },
