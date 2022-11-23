@@ -95,7 +95,6 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
   };
 
   useEffect(() => {
-    console.log(watch(), errors);
     if (!watch("accountId")) {
       setCurrentComment("사용하실 아이디를 입력해주세요");
     } else if (!user?.isNotDuplicate) {
@@ -108,7 +107,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       setCurrentInputIdx(4);
       setCurrentComment("다음 단계로 넘어가주세요!");
     }
-  }, [watch(), user?.isNotDuplicate]);
+  }, [watch, watch(), user?.isNotDuplicate]);
   useEffect(() => {
     if (!user?.accountId) {
       setError("accountId", { types: { required: "", validate: "" } });

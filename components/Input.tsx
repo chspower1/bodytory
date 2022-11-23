@@ -1,7 +1,7 @@
 import Image, { StaticImageData } from "next/image";
 import { UseFormRegisterReturn } from "react-hook-form";
 import styled from "styled-components";
-import checked from '@public/check_checked.svg';
+import checked from "@public/check_checked.svg";
 
 export interface InputProps {
   label?: string;
@@ -13,7 +13,9 @@ export interface InputProps {
   disabled?: boolean;
   value?: string;
   checked?: boolean;
-  maxLength ?: number;
+  maxLength?: number;
+  width?: string;
+  height?: string;
 }
 
 export default function Input({
@@ -26,40 +28,45 @@ export default function Input({
   value,
   disabled = false,
   checked,
-  maxLength
+  maxLength,
+  width = "500px",
+  height = "62px",
 }: InputProps) {
   return (
-    <InputBox>
-      <Label htmlFor={name} >{label}</Label>
-      <MainInput disabled={disabled} id={name} {...register} type={type} placeholder={placeholder} value={value} className={error ? "error" : ""} maxLength={maxLength}/>
+    <InputBox width={width} height={height}>
+      <MainInput
+        disabled={disabled}
+        id={name}
+        {...register}
+        type={type}
+        placeholder={placeholder}
+        value={value}
+        className={error ? "error" : ""}
+        maxLength={maxLength}
+      />
     </InputBox>
   );
 }
 
-const InputContainer = styled.div`
-  
-`;
-const Label = styled.label`
-  margin-left: 20px;
-`;
-const InputBox = styled.div`
-  width: 500px;
-  display:flex;
-  align-items:center;
+const InputBox = styled.div<{ width?: string; height?: string }>`
+  width: ${({ width }) => width};
+  height: ${({ height }) => height};
+  display: flex;
+  align-items: center;
   position: relative;
-  & + &{
+  & + & {
     margin-top: 20px;
   }
 `;
 const MainInput = styled.input`
-  &[type="password"]{
-    &::placeholder{
+  &[type="password"] {
+    &::placeholder {
       letter-spacing: 7.2px;
-      font-size:12px;
+      font-size: 12px;
     }
   }
   width: 100%;
-  height: 50px;
+  height: 100%;
   text-align: center;
   padding: 10px 5px;
   border-radius: 10px;
@@ -68,8 +75,8 @@ const MainInput = styled.input`
   background-color: ${({ theme }) => theme.color.input};
   color: #fff;
   box-shadow: 8px 8px 24px rgba(49, 54, 167, 0.2);
-  outline : 0;
-  &:focus{
+  outline: 0;
+  &:focus {
     border: 2px solid #444;
   }
   &.error {

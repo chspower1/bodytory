@@ -7,13 +7,13 @@ import { InputProps } from "./Input";
 interface ButtonInInputProps<T extends FieldValues = any> extends InputProps {
   activeFn?: () => Promise<void>;
   buttonValue?: string;
-  nonSubmit ?: boolean ;
-  setValue ?: UseFormSetValue<T>;
+  nonSubmit?: boolean;
+  setValue?: UseFormSetValue<T>;
   changeButtonValue?: string;
-  isToken ?: boolean;
-  setIsToken ?: Dispatch<SetStateAction<boolean>>
-  isAuthenticationColumn ?: boolean;
-  isCertified ?: boolean;
+  isToken?: boolean;
+  setIsToken?: Dispatch<SetStateAction<boolean>>;
+  isAuthenticationColumn?: boolean;
+  isCertified?: boolean;
 }
 
 const ButtonInInput = ({
@@ -39,12 +39,21 @@ const ButtonInInput = ({
   };
   return (
     <InputBox className={`${error ? "error" : ""} ${isAuthenticationColumn ? "authenticationColumn" : ""}`}>
-      <Input disabled={disabled} id={name} {...register} type={type} placeholder={placeholder} className={isAuthenticationColumn && error ? "error" : ""} />
+      <Input
+        disabled={disabled}
+        id={name}
+        {...register}
+        type={type}
+        placeholder={placeholder}
+        className={isAuthenticationColumn && error ? "error" : ""}
+      />
       {!name.includes("token") ? (
         isToken ? (
-          !isCertified && <RoundButton size="sm" onClick={handleClickResetBtn} nonSubmit={nonSubmit}>
-            {`${changeButtonValue} `}재설정
-          </RoundButton>
+          !isCertified && (
+            <RoundButton size="sm" onClick={handleClickResetBtn} nonSubmit={nonSubmit}>
+              {`${changeButtonValue} `}재설정
+            </RoundButton>
+          )
         ) : (
           <RoundButton size="sm" onClick={activeFn} nonSubmit={nonSubmit}>
             {buttonValue}
@@ -68,45 +77,42 @@ const InputBox = styled.div`
   background-color: ${({ theme }) => theme.color.input};
   border-radius: 10px;
   user-select: none;
-  display:flex;
-  align-items:center;
-  overflow:hidden;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
   &:not(.authenticationColumn):focus-within {
     border: 2px solid #444;
     &.error {
       border: 2px solid ${({ theme }) => theme.color.error};
     }
   }
-  & + &{
+  & + & {
     margin-top: 10px;
   }
-  &.authenticationColumn{
+  &.authenticationColumn {
     width: 315px;
     background-color: #00000000;
-    input{
+    input {
       border-bottom: 2px solid #888;
-      &:focus{
+      &:focus {
         border-bottom: 2px solid #fff;
       }
     }
   }
 `;
 const Input = styled.input`
-  flex:1;
+  flex: 1;
   height: 50px;
-  text-align:center;
-  background:transparent;
-  border:0;
-  outline:0;
-  color:#fff;
+  text-align: center;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  color: #fff;
   transition: border 0.3s;
-  &::placeholder{
-    color:#aaa;
+  &::placeholder {
+    color: #aaa;
   }
   &.error {
     border-bottom: 2px solid ${({ theme }) => theme.color.error};
   }
 `;
-
-
-

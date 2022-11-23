@@ -14,8 +14,9 @@ import RadioInput from "@components/radioInput";
 import ButtonInInput from "@components/ButtonInInput";
 import CheckBoxInput from "@components/CheckBoxInput";
 import { RoundButton } from "@components/button/Button";
-import { Box } from "@styles/Common";
+import { Box, Col, Container, Row } from "@styles/Common";
 import { theme } from "@styles/theme";
+import { FormContainer } from "./FirstPage";
 
 interface ThirdRegisterForm {
   email: string;
@@ -133,127 +134,138 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     }
   }, []);
   return (
-    <form onSubmit={handleSubmit(onValid)}>
-      <MessageBox>{errorMessageText()}</MessageBox>
-      <Input
-        name="name"
-        placeholder="김토리"
-        register={register("name", {
-          required: "이름을 입력해주세요",
-          validate: value => /^[가-힣a-zA-Z]+$/.test(value) || "한글과 영어만 입력해주세요",
-          onChange() {
-            setUser(prev => ({ ...prev!, name: watch("name") }));
-          },
-        })}
-        error={errors.name?.message}
-      />
-      <Input
-        name="birth"
-        placeholder="YYYY-MM-DD"
-        register={register("birth", {
-          required: "생일을 입력해주세요",
-          // validate: value => /[^0-9]/g.test(value) || `숫자만 입력해주세요`,
-          onChange() {
-            setValue(
-              "birth",
-              watch("birth")
-                .replace(/[^0-9]/g, "")
-                .replace(/^(\d{0,4})(\d{0,2})(\d{0,2})$/g, "$1-$2-$3")
-                .replace(/(\-{1,2})$/g, ""),
-            );
-            setUser(prev => ({ ...prev!, birth: watch("birth") }));
-          },
-        })}
-        maxLength={10}
-        error={errors.birth?.message}
-      />
-      <GenderBox>
-        <RadioInput
-          name="registerGenderMale"
-          value="male"
-          label="남자"
-          register={register("gender", {
-            required: "성별을 선택해주세요",
-            onChange() {
-              setUser(prev => ({ ...prev!, gender: watch("gender") }));
-            },
-          })}
-          error={errors.gender?.message}
-        />
-        <RadioInput
-          name="registerGenderFeMale"
-          value="female"
-          label="여자"
-          register={register("gender", {
-            required: "성별을 선택해주세요",
-            onChange() {
-              setUser(prev => ({ ...prev!, gender: watch("gender") }));
-            },
-          })}
-          error={errors.gender?.message}
-        />
-      </GenderBox>
-      <ButtonInInput
-        name="email"
-        disabled={isToken}
-        placeholder="toritori2022@naver.com"
-        register={register("email", {
-          required: "이메일을 입력해주세요",
-          validate: {
-            checkEmailValidate: value => emailRegex.test(value) || "이메일 형식에 맞지 않습니다",
-            checkCertificate: () => user?.isCertified || "이메일 인증은 완료해주세요!",
-          },
-          onChange() {
-            setUser(prev => ({ ...prev!, email: watch("email") }));
-          },
-        })}
-        activeFn={handleClickCheckEmail}
-        buttonValue="인증메일 전송"
-        nonSubmit
-        setValue={setValue}
-        changeButtonValue="메일"
-        isToken={isToken}
-        setIsToken={setIsToken}
-        isCertified={user?.isCertified}
-      />
-      {!user?.isCertified ? (
-        isToken && (
+    <Container>
+      <form onSubmit={handleSubmit(onValid)}>
+        <FormContainer>
+          <MessageBox>{errorMessageText()}</MessageBox>
+          <Input
+            name="name"
+            placeholder="김토리"
+            register={register("name", {
+              required: "이름을 입력해주세요",
+              validate: value => /^[가-힣a-zA-Z]+$/.test(value) || "한글과 영어만 입력해주세요",
+              onChange() {
+                setUser(prev => ({ ...prev!, name: watch("name") }));
+              },
+            })}
+            error={errors.name?.message}
+          />
+          <Row style={{ justifyContent: "space-between" }}>
+            <Col>
+              <Input
+                width="280px"
+                name="birth"
+                placeholder="YYYY-MM-DD"
+                register={register("birth", {
+                  required: "생일을 입력해주세요",
+                  // validate: value => /[^0-9]/g.test(value) || `숫자만 입력해주세요`,
+                  onChange() {
+                    setValue(
+                      "birth",
+                      watch("birth")
+                        .replace(/[^0-9]/g, "")
+                        .replace(/^(\d{0,4})(\d{0,2})(\d{0,2})$/g, "$1-$2-$3")
+                        .replace(/(\-{1,2})$/g, ""),
+                    );
+                    setUser(prev => ({ ...prev!, birth: watch("birth") }));
+                  },
+                })}
+                maxLength={10}
+                error={errors.birth?.message}
+              />
+            </Col>
+            <GenderBox>
+              <RadioInput
+                name="registerGenderMale"
+                value="male"
+                label="남자"
+                register={register("gender", {
+                  required: "성별을 선택해주세요",
+                  onChange() {
+                    setUser(prev => ({ ...prev!, gender: watch("gender") }));
+                  },
+                })}
+                error={errors.gender?.message}
+              />
+              <RadioInput
+                name="registerGenderFeMale"
+                value="female"
+                label="여자"
+                register={register("gender", {
+                  required: "성별을 선택해주세요",
+                  onChange() {
+                    setUser(prev => ({ ...prev!, gender: watch("gender") }));
+                  },
+                })}
+                error={errors.gender?.message}
+              />
+            </GenderBox>
+          </Row>
           <ButtonInInput
-            name="token"
-            placeholder="인증번호"
-            register={register("token", {
-              required: "인증번호를 입력해주세요.",
-              validate: { checkToken: value => /^[0-9]+$/.test(value) || "숫자만 입력해주세요" },
+            name="email"
+            disabled={isToken}
+            placeholder="toritori2022@naver.com"
+            register={register("email", {
+              required: "이메일을 입력해주세요",
+              validate: {
+                checkEmailValidate: value => emailRegex.test(value) || "이메일 형식에 맞지 않습니다",
+                checkCertificate: () => user?.isCertified || "이메일 인증은 완료해주세요!",
+              },
+              onChange() {
+                setUser(prev => ({ ...prev!, email: watch("email") }));
+              },
             })}
             activeFn={handleClickCheckEmail}
-            buttonValue="인증번호 확인"
+            buttonValue="인증메일 전송"
             nonSubmit
-            isAuthenticationColumn
+            setValue={setValue}
+            changeButtonValue="메일"
+            isToken={isToken}
+            setIsToken={setIsToken}
+            isCertified={user?.isCertified}
           />
-        )
-      ) : (
-        <CheckBoxInput label="인증 완료되었습니다" name="completion" checked />
-      )}
+          {!user?.isCertified ? (
+            isToken && (
+              <ButtonInInput
+                name="token"
+                placeholder="인증번호"
+                register={register("token", {
+                  required: "인증번호를 입력해주세요.",
+                  validate: { checkToken: value => /^[0-9]+$/.test(value) || "숫자만 입력해주세요" },
+                })}
+                activeFn={handleClickCheckEmail}
+                buttonValue="인증번호 확인"
+                nonSubmit
+                isAuthenticationColumn
+              />
+            )
+          ) : (
+            <CheckBoxInput label="인증 완료되었습니다" name="completion" checked />
+          )}
 
-      <Box>
-        <RoundButton nonSubmit size="custom" height="60px" bgColor="rgb(75, 80, 211)" onClick={handleClickPrevPage}>
-          이전 단계
-        </RoundButton>
-        <RoundButton
-          size="custom"
-          width="360px"
-          bgColor={theme.color.mintBtn}
-          disable={!currentComment.includes("회원가입")}
-        >
-          {currentComment.includes("회원가입") ? "회원가입 완료" : "정보를 모두 입력해주세요"}
-        </RoundButton>
-      </Box>
-    </form>
+          <Box>
+            <RoundButton nonSubmit size="custom" height="60px" bgColor="rgb(75, 80, 211)" onClick={handleClickPrevPage}>
+              이전 단계
+            </RoundButton>
+            <RoundButton
+              size="custom"
+              width="360px"
+              bgColor={theme.color.mintBtn}
+              disable={!currentComment.includes("회원가입")}
+            >
+              {currentComment.includes("회원가입") ? "회원가입 완료" : "정보를 모두 입력해주세요"}
+            </RoundButton>
+          </Box>
+        </FormContainer>
+      </form>
+    </Container>
   );
 };
 
 export default ThirdPage;
 
-const GenderBox = styled.div`
-  display: inline-flex;
+const GenderBox = styled(Box)`
+  gap: 26px;
+  width: 220px;
+  justify-content: flex-end;
 `;
