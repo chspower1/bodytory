@@ -10,6 +10,7 @@ import { ACCOUNT_ID_REGEX, PASSWORD_REGEX } from "constant/regex";
 import { ButtonBox, FormContainer } from "./FirstPage";
 import { theme } from "@styles/theme";
 import { checkEmptyObj } from "@utils/client/checkEmptyObj";
+import { createErrors } from "@utils/client/createErrors";
 
 interface SecondRegisterForm {
   accountId: string;
@@ -21,6 +22,34 @@ interface RegisterPageProps {
   setUser: Dispatch<SetStateAction<RegisterForm | undefined>>;
   setPage: Dispatch<SetStateAction<number>>;
 }
+const KoreanName = {
+  accountId: "아이디",
+  password: "비밀번호",
+  passwordConfirm: "비밀번호 확인",
+};
+
+// 안쓸듯
+const SecondRegisterPageErrorMessage = {
+  accountId: {
+    required: "",
+    minLength: "",
+    validate: {
+      checkAccountId: "아이디는 6자리 이상\n영문 대소문자, 숫자를 입력해주세요",
+      checkIsNotDuplicate: "아이디 중복 확인을 해주세요",
+    },
+  },
+  password: {
+    required: "비밀번호를 입력해주세요!",
+    validate: "비밀번호는 6자리 이상\n영문 대소문자, 숫자를 조합해서 입력해주세요",
+  },
+  passwordConfirm: {
+    required: "비밀번호를 다시 한번 입력해주세요!",
+    validate: {
+      checkPassword: "비밀번호가 일치하지 않아요!\n비밀번호를 다시 확인해주세요",
+    },
+  },
+};
+
 const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
   const {
     register,
@@ -32,7 +61,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     clearErrors,
     reset,
   } = useForm<SecondRegisterForm>({
-    mode: "onChange",
+    mode: "all",
     defaultValues: {
       accountId: user?.accountId,
       password: user?.password,
@@ -98,12 +127,19 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     }
   }, [watch, watch(), user?.isNotDuplicate]);
   useEffect(() => {
-    if (!user?.accountId) {
-      setError("accountId", { types: { required: "", validate: "" } });
-    }
-    if (!user?.password) {
-      setError("password", { types: { required: "", validate: "" } });
-    } else clearErrors();
+    createErrors<SecondRegisterForm>({
+      user: user!,
+      checkList: ["accountId", "password"],
+      setError,
+      KoreanName,
+    });
+
+    // if (!user?.accountId) {
+    //   setError("accountId", { types: { required: "", validate: "" } });
+    // }
+    // if (!user?.password) {
+    //   setError("password", { types: { required: "", validate: "" } });
+    // } else clearErrors();
   }, []);
   return (
     <Container>

@@ -29,6 +29,21 @@ export interface RegisterForm {
   isNotDuplicate: boolean;
   isCertified: boolean;
 }
+export type RegisterFormList =
+  | "agree"
+  | "type"
+  | "accountId"
+  | "password"
+  | "passwordConfirm"
+  | "email"
+  | "token"
+  | "gender"
+  | "name"
+  | "birth"
+  | "phone"
+  | "isNotDuplicate"
+  | "isCertified";
+
 interface RegisterQueryProps {
   accountId: string;
   email: string;

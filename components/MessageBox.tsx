@@ -1,13 +1,13 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from "react";
+import styled from "styled-components";
 
-interface MessageProps{
-  children ?: React.ReactNode;
-  isErrorsMessage ?: string;
-  currentComment ?: string;
+interface MessageProps {
+  children?: React.ReactNode;
+  isErrorsMessage?: string;
+  currentComment?: string;
 }
 
-const MessageBox = ({children, isErrorsMessage, currentComment}: MessageProps) => {
+const MessageBox = ({ children, isErrorsMessage, currentComment }: MessageProps) => {
   const errorMessageText = () => {
     if (isErrorsMessage) {
       if (isErrorsMessage.includes("\n")) {
@@ -23,18 +23,14 @@ const MessageBox = ({children, isErrorsMessage, currentComment}: MessageProps) =
       }
     }
   };
-  return (
-    <MessageContainer>
-      {children ? children : errorMessageText()}
-    </MessageContainer>
-  )
-}
+  return <MessageContainer>{children ? children : errorMessageText()}</MessageContainer>;
+};
 
-export default MessageBox
+export default MessageBox;
 
 const MessageContainer = styled.div`
   font-size: 36px;
-  color:#fff;
+  color: #fff;
   padding-bottom: 50px;
-  text-align:center;
-`
+  text-align: center;
+`;

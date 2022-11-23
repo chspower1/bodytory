@@ -18,6 +18,8 @@ import { Box, Col, Container, Row } from "@styles/Common";
 import { theme } from "@styles/theme";
 import { FormContainer } from "./FirstPage";
 import { EMAIL_REGEX } from "constant/regex";
+import { checkEmptyObj } from "@utils/client/checkEmptyObj";
+import { createErrors } from "@utils/client/createErrors";
 
 interface ThirdRegisterForm {
   email: string;
@@ -25,13 +27,19 @@ interface ThirdRegisterForm {
   gender: Gender;
   name: string;
   birth: string;
-  phone?: string;
 }
 interface RegisterPageProps {
   user: RegisterForm | undefined;
   setUser: Dispatch<SetStateAction<RegisterForm | undefined>>;
   setPage: Dispatch<SetStateAction<number>>;
 }
+const KoreanName = {
+  email: "이메일",
+  token: "토큰",
+  gender: "성별",
+  name: "이름",
+  birth: "생일",
+};
 const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
   const { birth, email, gender, name, phone, type } = user!;
   const router = useRouter();
@@ -42,7 +50,8 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     watch,
     setError,
     setValue,
-  } = useForm<ThirdRegisterForm>({ mode: "onChange", defaultValues: { birth, email, gender, name, phone } });
+    clearErrors,
+  } = useForm<ThirdRegisterForm>({ mode: "onChange", defaultValues: { birth, email, gender, name } });
   const [currentComment, setCurrentComment] = useState("");
   // const { isToken, setIsToken, ResetBtn } = useReset({ setValue });
   const [isToken, setIsToken] = useState(false);
@@ -61,12 +70,14 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     try {
       console.log(errors.email);
       if (!watch("email")) return setError("email", { message: "앗! 이메일 인증을 완료해주세요" });
-      if(watch("email") && !EMAIL_REGEX.test(watch("email"))) return setError("email", { message: "이메일 형식에 맞지 않습니다" });
+      if (watch("email") && !EMAIL_REGEX.test(watch("email")))
+        return setError("email", { message: "이메일 형식에 맞지 않습니다" });
       if (isToken && !watch("token")) return setError("token", { message: "인증번호를 입력해주세요" });
       if (errors.email?.type === "checkCertificate") {
         const data = await checkEmailApi(isTokenInData);
         if (data?.ok && isToken && watch("token")) {
           setUser(prev => ({ ...prev!, isCertified: true }));
+          clearErrors();
         }
         if (!watch("token")) {
           setError("token", { type: "custom", message: "인증번호를 입력해주세요" });
@@ -109,25 +120,36 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       watch("email") &&
       user?.isCertified
     ) {
-      setCurrentComment("회원가입 완료를 눌러주세요!");
+      setCurrentComment("모든 정보를 입력했어요! \n 회원가입 완료를 눌러주세요!");
     }
   }, [watch("name"), watch("birth"), watch("gender"), watch("email"), user?.isCertified]);
   useEffect(() => {
     if (user?.isCertified) {
       setIsToken(true);
     }
+    createErrors<ThirdRegisterForm>({
+      user: user!,
+      checkList: ["name", "birth", "gender", "email"],
+      setError,
+      minLength: [2, 8, 0, 0],
+      KoreanName,
+    });
   }, []);
   return (
     <Container>
       <form onSubmit={handleSubmit(onValid)}>
         <FormContainer>
-          <MessageBox isErrorsMessage={isErrorsMessage} currentComment={currentComment}/>
+          <MessageBox isErrorsMessage={isErrorsMessage} currentComment={currentComment} />
           <Input
             name="name"
             placeholder="김토리"
             register={register("name", {
               required: "이름을 입력해주세요",
               validate: value => /^[가-힣a-zA-Z]+$/.test(value) || "한글과 영어만 입력해주세요",
+              minLength: {
+                value: 2,
+                message: "이름은 두 글자 이상 입력해주세요!",
+              },
               onChange() {
                 setUser(prev => ({ ...prev!, name: watch("name") }));
               },
@@ -143,6 +165,10 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                 register={register("birth", {
                   required: "생일을 입력해주세요",
                   // validate: value => /[^0-9]/g.test(value) || `숫자만 입력해주세요`,
+                  minLength: {
+                    value: 10,
+                    message: "생년월일을 모두 입력해주세요!",
+                  },
                   onChange() {
                     setValue(
                       "birth",
@@ -193,7 +219,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
               required: "이메일을 입력해주세요",
               validate: {
                 checkEmailValidate: value => EMAIL_REGEX.test(value) || "이메일 형식에 맞지 않습니다",
-                checkCertificate: () => user?.isCertified || "이메일 인증은 완료해주세요!",
+                checkCertificate: () => user?.isCertified || "이메일 인증을 완료해주세요!",
               },
               onChange() {
                 setUser(prev => ({ ...prev!, email: watch("email") }));
@@ -231,12 +257,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
             <RoundButton nonSubmit size="custom" height="60px" bgColor="rgb(75, 80, 211)" onClick={handleClickPrevPage}>
               이전 단계
             </RoundButton>
-            <RoundButton
-              size="custom"
-              width="360px"
-              bgColor={theme.color.mintBtn}
-              disable={!currentComment.includes("회원가입")}
-            >
+            <RoundButton size="custom" width="360px" bgColor={theme.color.mintBtn} disable={!checkEmptyObj(errors)}>
               {currentComment.includes("회원가입") ? "회원가입 완료" : "정보를 모두 입력해주세요"}
             </RoundButton>
           </Box>
