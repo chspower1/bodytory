@@ -85,9 +85,7 @@ const HelpPage: NextPage = () => {
             />
           </>
         )}
-        <RoundButton size="lg">
-          <button>{isToken ? "인증번호 확인" : "이메일 인증"}</button>
-        </RoundButton>
+        <RoundButton size="lg">{isToken ? "인증번호 확인" : "이메일 인증"}</RoundButton>
       </form>
     </div>
   );

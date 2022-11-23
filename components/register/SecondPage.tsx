@@ -26,7 +26,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     setError,
     setValue,
     clearErrors,
-    reset
+    reset,
   } = useForm<SecondRegisterForm>({
     mode: "onChange",
     defaultValues: {
@@ -73,8 +73,6 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     } else return "비밀번호가 일치하지 않아요!\n비밀번호를 다시 확인해주세요";
   };
 
-
-
   const errorMessageText = () => {
     const isErrorsMessage = errors.accountId?.message || errors.password?.message || errors.passwordConfirm?.message;
     if (!isErrorsMessage) {
@@ -86,14 +84,14 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       return <p>{isErrorsMessage}</p>;
     }
   };
-  // firstPage로 갈 시 2페이지 모든 폼 리셋 
-  const pageReset = ()=>{
-    setPage(1)
+  // firstPage로 갈 시 2페이지 모든 폼 리셋
+  const pageReset = () => {
+    setPage(1);
     setCurrentInputIdx(1);
     reset();
-  }
+  };
   console.log(user);
-  
+
   useEffect(() => {
     if (!watch("accountId")) {
       setCurrentComment("사용하실 아이디를 입력해주세요");
@@ -141,9 +139,8 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
           register={register("password", {
             required: true,
             validate: {
-              regexPassword : value =>
-              PasswordRegex.test(value) || "비밀번호는 6자리 이상\n영문 대소문자, 숫자를 조합해서 입력해주세요",
-              
+              regexPassword: value =>
+                PasswordRegex.test(value) || "비밀번호는 6자리 이상\n영문 대소문자, 숫자를 조합해서 입력해주세요",
             },
             onChange() {
               if (watch("password").length < 6) {
@@ -151,9 +148,9 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                 setCurrentInputIdx(2);
               } else {
                 setCurrentInputIdx(3);
-                if(watch("password") !== watch("passwordConfirm") && watch("passwordConfirm")){
-                  setError("passwordConfirm",{message:"비밀번호가 일치하지 않아요!\n비밀번호를 다시 확인해주세요"})
-                }else{
+                if (watch("password") !== watch("passwordConfirm") && watch("passwordConfirm")) {
+                  setError("passwordConfirm", { message: "비밀번호가 일치하지 않아요!\n비밀번호를 다시 확인해주세요" });
+                } else {
                   clearErrors(["password", "passwordConfirm"]);
                 }
               }
@@ -178,12 +175,22 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
         />
       )}
       <Box>
-        <CircleButton nonSubmit size="md" onClick={pageReset}>
+        <CircleButton
+          nonSubmit
+          size="md"
+          onClick={() => {
+            console.log("sdadasda");
+            pageReset();
+          }}
+        >
           이전 페이지
         </CircleButton>
         <CircleButton
           size="md"
-          disable={currentInputIdx !== 4}
+          disable={
+            user?.isNotDuplicate &&
+            (watch("password") !== watch("passwordConfirm") || user?.password !== user?.passwordConfirm)
+          }
         >
           다음 페이지
         </CircleButton>

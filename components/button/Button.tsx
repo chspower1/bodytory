@@ -32,7 +32,7 @@ interface ButtonProps {
   children: React.ReactNode;
   size?: ButtonSize;
   social?: SocailType;
-  onClick?: () => void;
+  onClick?: (() => void) | (() => Promise<void>);
   nonSubmit?: boolean;
   disable?: boolean;
 }
@@ -81,6 +81,7 @@ export const CircleButton = ({
   children,
   nonSubmit = false,
   disable = false,
+  onClick,
 }: ButtonProps) => {
   return (
     <Button
@@ -93,6 +94,7 @@ export const CircleButton = ({
       borderRadius={borderRadius}
       type={nonSubmit ? "button" : "submit"}
       disable={disable}
+      onClick={onClick}
     >
       {children}
     </Button>
@@ -110,6 +112,7 @@ export const RoundButton = ({
   children,
   nonSubmit = false,
   disable = false,
+  onClick,
 }: ButtonProps) => {
   if (size === "sm") {
     [width, height, fontSize, padding] = ["140px", "40px", "16px", "auto"];
@@ -135,6 +138,7 @@ export const RoundButton = ({
       borderRadius={height}
       type={nonSubmit ? "button" : "submit"}
       disable={disable}
+      onClick={onClick}
     >
       {children}
     </Button>
@@ -197,6 +201,7 @@ export const RectangleButton = ({
   size = "md",
   nonSubmit = false,
   disable = false,
+  onClick,
 }: ButtonProps) => {
   if (size === "sm") {
     [width, height, fontSize] = ["87px", "29px", "16px"];
@@ -213,6 +218,7 @@ export const RectangleButton = ({
       borderRadius={borderRadius}
       type={nonSubmit ? "button" : "submit"}
       disable={disable}
+      onClick={onClick}
     >
       {children}
     </Button>

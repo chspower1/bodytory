@@ -57,8 +57,8 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
   });
   const handleClickCheckEmail = async () => {
     try {
-      if(!watch("email")) return setError("email", { message: "앗! 이메일 인증을 완료해주세요" });
-      if(isToken && !watch("token")) return setError("token", { message: "인증번호를 입력해주세요" });
+      if (!watch("email")) return setError("email", { message: "앗! 이메일 인증을 완료해주세요" });
+      if (isToken && !watch("token")) return setError("token", { message: "인증번호를 입력해주세요" });
       if (!errors.email) {
         const data = await checkEmailApi(isTokenInData);
         if (data?.ok && isToken && watch("token")) {
@@ -70,17 +70,20 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
         setIsToken(true);
       }
     } catch (err: any) {
+      console.log(err);
       if (isToken) {
         return setError("token", { type: "custom", message: `${err.data}` });
       }
       setError("email", { type: "custom", message: `${err.data}` });
     }
   };
+
   const handleClickPrevPage = () => {
     if (user?.type !== "origin") {
       setPage(1);
     } else setPage(2);
   };
+
   const onValid = (data: ThirdRegisterForm) => {
     mutate({ ...user, ...data });
   };
@@ -216,7 +219,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
           />
         )
       ) : (
-        <CheckBoxInput label="인증 완료되었습니다" name="completion"  checked/>
+        <CheckBoxInput label="인증 완료되었습니다" name="completion" checked />
         // <p>인증 완료되었습니다.</p>
       )}
 
@@ -224,8 +227,8 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
         <RoundButton nonSubmit size="md" onClick={handleClickPrevPage}>
           이전 페이지
         </RoundButton>
-        <RoundButton  size="lg" disable={!currentComment.includes("회원가입")}>
-            {currentComment.includes("회원가입") ? "회원가입 완료" : "정보를 모두 입력해주세요"}
+        <RoundButton size="lg" disable={!currentComment.includes("회원가입")}>
+          {currentComment.includes("회원가입") ? "회원가입 완료" : "정보를 모두 입력해주세요"}
         </RoundButton>
       </Box>
     </form>
