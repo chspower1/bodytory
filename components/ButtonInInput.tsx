@@ -78,7 +78,7 @@ export default ButtonInInput;
 
 const InputBox = styled.div`
   width: 500px;
-  transition: border 0.3s;
+  transition: border 0.3s ease;
   border: 2px solid transparent;
   background-color: ${({ theme }) => theme.color.input};
   border-radius: 10px;
@@ -87,7 +87,7 @@ const InputBox = styled.div`
   align-items: center;
   overflow: hidden;
   &:not(.authenticationColumn):focus-within {
-    border: 2px solid #444;
+    border: 3px solid #8c9af3;
     &.error {
       border: 2px solid ${({ theme }) => theme.color.error};
     }

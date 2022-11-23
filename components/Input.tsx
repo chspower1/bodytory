@@ -70,14 +70,14 @@ const MainInput = styled.input`
   text-align: center;
   padding: 10px 5px;
   border-radius: 10px;
-  transition: border 0.3s;
+  transition: border 0.3s ease;
   border: 2px solid transparent;
   background-color: ${({ theme }) => theme.color.input};
   color: #fff;
   box-shadow: 8px 8px 24px rgba(49, 54, 167, 0.2);
   outline: 0;
   &:focus {
-    border: 2px solid #444;
+    border: 3px solid #8c9af3;
   }
   &.error {
     border: 2px solid ${({ theme }) => theme.color.error};
