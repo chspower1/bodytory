@@ -32,17 +32,22 @@ const ButtonInInput = ({
   setIsToken,
   isAuthenticationColumn,
   isCertified,
+  value,
 }: ButtonInInputProps) => {
   const handleClickResetBtn = () => {
     setIsToken!(false);
-    setValue!("token", "");
+    if(setValue){
+      setValue("token", "");
+    }
   };
+  console.log(isToken);
+  
   return (
     <InputBox className={`${error ? "error" : ""} ${isAuthenticationColumn ? "authenticationColumn" : ""}`}>
-      <Input disabled={disabled} id={name} {...register} type={type} placeholder={placeholder} className={isAuthenticationColumn && error ? "error" : ""} />
+      <Input id={name} className={isAuthenticationColumn && error ? "error" : ""} {...register} type={type} value={value} placeholder={placeholder} disabled={disabled}  />
       {!name.includes("token") ? (
         isToken ? (
-          !isCertified && <RoundButton size="sm" onClick={handleClickResetBtn} nonSubmit={nonSubmit}>
+          !isCertified && <RoundButton size="sm" onClick={handleClickResetBtn} nonSubmit={nonSubmit} >
             {`${changeButtonValue} `}재설정
           </RoundButton>
         ) : (
