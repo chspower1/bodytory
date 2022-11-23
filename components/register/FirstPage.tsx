@@ -37,43 +37,41 @@ const FirstPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     } else setPage(2);
   };
   return (
-    <Wrapper>
-      <form onSubmit={handleSubmit(onValid)}>
-        <FirstPageContainer>
-          <MessageBox>토리가 이용자님의 정보를 수집하고 안전하게 보호해요!</MessageBox>
-          <CheckBoxInput
-            label="모든 약관에 동의합니다."
-            name="agree"
-            register={register("agree", { required: "약관 동의 해주세요" })}
-            error={errors.agree?.message}
-          />
-          <Col>
-            <TermsRow>
-              <WhiteText fontSize="18px">[필수] 서비스 이용 약관 </WhiteText>
-              <RectangleButton nonSubmit bgColor="rgb(61, 66, 191)" fontSize="16px">
-                내용 보기
-              </RectangleButton>
-            </TermsRow>
-            <TermsRow>
-              <WhiteText fontSize="18px">[필수] 개인 정보 수집 및 이용 약관 </WhiteText>
-              <RectangleButton nonSubmit bgColor="rgb(61, 66, 191)" fontSize="16px">
-                내용 보기
-              </RectangleButton>
-            </TermsRow>
-          </Col>
-          <ButtonBox>
-            <Link href="/auth/register/choice">
-              <CircleButton nonSubmit bgColor="rgb(75, 80, 211)">
-                이전 단계
-              </CircleButton>
-            </Link>
-            <CircleButton bgColor={theme.color.mintBtn} disable={!(user?.agree || watch("agree"))}>
-              다음 단계
+    <form onSubmit={handleSubmit(onValid)}>
+      <FormContainer>
+        <MessageBox>토리가 이용자님의 정보를 수집하고 안전하게 보호해요!</MessageBox>
+        <CheckBoxInput
+          label="모든 약관에 동의합니다."
+          name="agree"
+          register={register("agree", { required: "약관 동의 해주세요" })}
+          error={errors.agree?.message}
+        />
+        <Col>
+          <TermsRow>
+            <WhiteText fontSize="18px">[필수] 서비스 이용 약관 </WhiteText>
+            <RectangleButton nonSubmit bgColor="rgb(61, 66, 191)" fontSize="16px">
+              내용 보기
+            </RectangleButton>
+          </TermsRow>
+          <TermsRow>
+            <WhiteText fontSize="18px">[필수] 개인 정보 수집 및 이용 약관 </WhiteText>
+            <RectangleButton nonSubmit bgColor="rgb(61, 66, 191)" fontSize="16px">
+              내용 보기
+            </RectangleButton>
+          </TermsRow>
+        </Col>
+        <ButtonBox>
+          <Link href="/auth/register/choice">
+            <CircleButton nonSubmit bgColor="rgb(75, 80, 211)">
+              이전 단계
             </CircleButton>
-          </ButtonBox>
-        </FirstPageContainer>
-      </form>
-    </Wrapper>
+          </Link>
+          <CircleButton bgColor={theme.color.mintBtn} disable={!(user?.agree || watch("agree"))}>
+            다음 단계
+          </CircleButton>
+        </ButtonBox>
+      </FormContainer>
+    </form>
   );
 };
 
@@ -85,7 +83,7 @@ const TermsRow = styled(Row)`
   height: 70px;
   justify-content: space-between;
 `;
-const FirstPageContainer = styled(Container)`
+export const FormContainer = styled(Box)`
   height: 100vh;
   flex-direction: column;
   justify-content: space-evenly;

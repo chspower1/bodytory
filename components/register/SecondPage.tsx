@@ -4,10 +4,11 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { RegisterForm } from "pages/auth/register";
 import customApi from "utils/client/customApi";
 import { CircleButton, RoundButton } from "@components/button/Button";
-import { Box } from "@styles/Common";
+import { Box, Col, Container } from "@styles/Common";
 import MessageBox from "@components/MessageBox";
-import { ButtonBox } from "./FirstPage";
+import { ButtonBox, FormContainer } from "./FirstPage";
 import { theme } from "@styles/theme";
+import { checkEmptyObj } from "@utils/client/checkEmptyObj";
 
 interface SecondRegisterForm {
   accountId: string;
@@ -92,9 +93,9 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     setCurrentInputIdx(1);
     reset();
   };
-  console.log(Boolean(errors.password || errors.accountId || errors.passwordConfirm));
 
   useEffect(() => {
+    console.log(watch(), errors);
     if (!watch("accountId")) {
       setCurrentComment("사용하실 아이디를 입력해주세요");
     } else if (!user?.isNotDuplicate) {
@@ -107,98 +108,115 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       setCurrentInputIdx(4);
       setCurrentComment("다음 단계로 넘어가주세요!");
     }
-  }, [watch("accountId"), watch("password"), watch("passwordConfirm"), user?.isNotDuplicate]);
-
+  }, [watch(), user?.isNotDuplicate]);
+  useEffect(() => {
+    if (!user?.accountId) {
+      setError("accountId", { types: { required: "", validate: "" } });
+    }
+    if (!user?.password) {
+      setError("password", { types: { required: "", validate: "" } });
+    } else clearErrors();
+  }, []);
   return (
-    <form onSubmit={handleSubmit(onValid)}>
-      <MessageBox>{errorMessageText()}</MessageBox>
-      <Input
-        name="accountId"
-        placeholder="toritori2022"
-        register={register("accountId", {
-          required: true,
-          validate: {
-            checkAccountId: value =>
-              AccountIdRegex.test(value) || "아이디는 6자리 이상\n영문 대소문자, 숫자를 입력해주세요",
-            checkIsNotDuplicate: () => user?.isNotDuplicate || "아이디 중복 확인을 해주세요",
-          },
-          onChange() {
-            setUser(prev => ({ ...prev!, isNotDuplicate: false }));
-            setCurrentInputIdx(1);
-            setValue("password", "");
-            setValue("passwordConfirm", "");
-          },
-        })}
-        error={errors.accountId?.message}
-      />
-      {(!user?.isNotDuplicate || !watch("accountId")) && (
-        <button type="button" onClick={handleClickCheckAccountId}>
-          중복확인
-        </button>
-      )}
-
-      {currentInputIdx >= 2 && (
-        <Input
-          name="password"
-          type="password"
-          placeholder="●●●●●●"
-          register={register("password", {
-            required: true,
-            validate: {
-              regexPassword: value =>
-                PasswordRegex.test(value) || "비밀번호는 6자리 이상\n영문 대소문자, 숫자를 조합해서 입력해주세요",
-            },
-            onChange() {
-              if (watch("password").length < 6) {
+    <Container>
+      <form onSubmit={handleSubmit(onValid)}>
+        <FormContainer>
+          <MessageBox>{errorMessageText()}</MessageBox>
+          <Input
+            name="accountId"
+            placeholder="toritori2022"
+            register={register("accountId", {
+              required: true,
+              validate: {
+                checkAccountId: value =>
+                  AccountIdRegex.test(value) || "아이디는 6자리 이상\n영문 대소문자, 숫자를 입력해주세요",
+                checkIsNotDuplicate: () => user?.isNotDuplicate || "아이디 중복 확인을 해주세요",
+              },
+              onChange() {
+                setUser(prev => ({ ...prev!, isNotDuplicate: false }));
+                setCurrentInputIdx(1);
+                setValue("password", "");
                 setValue("passwordConfirm", "");
-                setCurrentInputIdx(2);
-              } else {
-                setCurrentInputIdx(3);
-                if (watch("password") !== watch("passwordConfirm") && watch("passwordConfirm")) {
-                  setError("passwordConfirm", { message: "비밀번호가 일치하지 않아요!\n비밀번호를 다시 확인해주세요" });
-                } else {
-                  clearErrors(["password", "passwordConfirm"]);
-                }
-              }
-            },
-          })}
-          error={errors.password?.message}
-        />
-      )}
+                console.log(errors.accountId);
+              },
+            })}
+            error={errors.accountId?.message}
+          />
+          {(!user?.isNotDuplicate || !watch("accountId")) && (
+            <RoundButton
+              nonSubmit
+              size="md"
+              bgColor={theme.color.mintBtn}
+              disable={Boolean(errors?.accountId?.type !== "checkIsNotDuplicate")}
+              onClick={handleClickCheckAccountId}
+            >
+              중복확인
+            </RoundButton>
+          )}
 
-      {currentInputIdx >= 3 && (
-        <Input
-          type="password"
-          name="passwordConfirm"
-          placeholder="●●●●●●"
-          register={register("passwordConfirm", {
-            required: true,
-            validate: {
-              checkPassword,
-            },
-          })}
-          error={errors.passwordConfirm?.message}
-        />
-      )}
-      <ButtonBox>
-        <CircleButton
-          nonSubmit
-          bgColor="rgb(75, 80, 211)"
-          onClick={() => {
-            console.log("sdadasda");
-            pageReset();
-          }}
-        >
-          이전 단계
-        </CircleButton>
-        <CircleButton
-          bgColor={theme.color.mintBtn}
-          disable={Boolean(errors.password || errors.accountId || errors.passwordConfirm || !watch("accountId"))}
-        >
-          다음 단계
-        </CircleButton>
-      </ButtonBox>
-    </form>
+          {currentInputIdx >= 2 && (
+            <Input
+              name="password"
+              type="password"
+              placeholder="●●●●●●"
+              register={register("password", {
+                required: true,
+                validate: {
+                  regexPassword: value =>
+                    PasswordRegex.test(value) || "비밀번호는 6자리 이상\n영문 대소문자, 숫자를 조합해서 입력해주세요",
+                },
+                onChange() {
+                  if (watch("password").length < 6) {
+                    setValue("passwordConfirm", "");
+                    setCurrentInputIdx(2);
+                  } else {
+                    setCurrentInputIdx(3);
+                    if (watch("password") !== watch("passwordConfirm") && watch("passwordConfirm")) {
+                      setError("passwordConfirm", {
+                        message: "비밀번호가 일치하지 않아요!\n비밀번호를 다시 확인해주세요",
+                      });
+                    } else {
+                      clearErrors(["password", "passwordConfirm"]);
+                    }
+                  }
+                },
+              })}
+              error={errors.password?.message}
+            />
+          )}
+
+          {currentInputIdx >= 3 && (
+            <Input
+              type="password"
+              name="passwordConfirm"
+              placeholder="●●●●●●"
+              register={register("passwordConfirm", {
+                required: true,
+                validate: {
+                  checkPassword,
+                },
+              })}
+              error={errors.passwordConfirm?.message}
+            />
+          )}
+          <ButtonBox>
+            <CircleButton
+              nonSubmit
+              bgColor="rgb(75, 80, 211)"
+              onClick={() => {
+                console.log("sdadasda");
+                pageReset();
+              }}
+            >
+              이전 단계
+            </CircleButton>
+            <CircleButton bgColor={theme.color.mintBtn} disable={!checkEmptyObj(errors)}>
+              다음 단계
+            </CircleButton>
+          </ButtonBox>
+        </FormContainer>
+      </form>
+    </Container>
   );
 };
 

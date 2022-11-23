@@ -2,7 +2,7 @@ import { kakaoInit } from "utils/client/kakaoInit";
 import customApi from "utils/client/customApi";
 import { UseMutateFunction, useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ButtonSize, SocialButton } from "./Button";
 import { SocialBtnProps } from "./NaverBtn";
 
@@ -41,9 +41,10 @@ const KakaoLoginBtn = ({ mutate, size, kind }: SocialBtnProps) => {
       },
     });
   };
+  const [comment, _] = useState(kind === "login" ? "로그인" : "회원가입");
   return (
     <SocialButton social="kakao" size={size} bgColor={kind === "login" ? "rgb(75, 80, 211)" : "rgb(61, 66, 191)"}>
-      <button onClick={kakaoLogin}>카카오 로그인</button>
+      <button onClick={kakaoLogin}>카카오 {comment}</button>
     </SocialButton>
   );
 };

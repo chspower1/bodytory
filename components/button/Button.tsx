@@ -8,6 +8,7 @@ import naver from "/public/static/naver.svg";
 import kakao from "/public/static/kakao.svg";
 import origin from "/public/static/origin.svg";
 import { theme } from "@styles/theme";
+import { Box, Col } from "@styles/Common";
 
 const ChangeToHoverColor = (color: string) => {
   if (color.includes("rgb")) {
@@ -179,15 +180,13 @@ export const SocialButton = ({
       type={nonSubmit ? "button" : "submit"}
       disable={disable}
     >
-      <div>
-        <Image
-          src={social === "naver" ? naver : social === "kakao" ? kakao : origin}
-          alt="naver"
-          style={{ marginRight: "10px" }}
-          height={size === "lg" ? 80 : 60}
-        />
-      </div>
-      {children}
+      <Image
+        src={social === "naver" ? naver : social === "kakao" ? kakao : origin}
+        alt="naver"
+        height={size === "lg" ? 80 : 60}
+      />
+
+      <Col style={{ width: "100%" }}>{children}</Col>
     </Button>
   );
 };
