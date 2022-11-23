@@ -90,7 +90,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     setCurrentInputIdx(1);
     reset();
   };
-  console.log(user);
+  console.log(Boolean(errors.password || errors.accountId || errors.passwordConfirm));
 
   useEffect(() => {
     if (!watch("accountId")) {
@@ -115,7 +115,11 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
         placeholder="toritori2022"
         register={register("accountId", {
           required: true,
-          validate: value => AccountIdRegex.test(value) || "아이디는 6자리 이상\n영문 대소문자, 숫자를 입력해주세요",
+          validate: {
+            checkAccountId: value =>
+              AccountIdRegex.test(value) || "아이디는 6자리 이상\n영문 대소문자, 숫자를 입력해주세요",
+            checkIsNotDuplicate: () => user?.isNotDuplicate || "아이디 중복 확인을 해주세요",
+          },
           onChange() {
             setUser(prev => ({ ...prev!, isNotDuplicate: false }));
             setCurrentInputIdx(1);
@@ -187,10 +191,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
         </CircleButton>
         <CircleButton
           size="md"
-          disable={
-            user?.isNotDuplicate &&
-            (watch("password") !== watch("passwordConfirm") || user?.password !== user?.passwordConfirm)
-          }
+          disable={Boolean(errors.password || errors.accountId || errors.passwordConfirm || !watch("accountId"))}
         >
           다음 페이지
         </CircleButton>

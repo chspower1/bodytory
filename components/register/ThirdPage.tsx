@@ -57,10 +57,12 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
   });
   const handleClickCheckEmail = async () => {
     try {
+      console.log(errors.email);
       if (!watch("email")) return setError("email", { message: "앗! 이메일 인증을 완료해주세요" });
-      if(watch("email") && !emailRegex.test(watch("email"))) return setError("email", { message: "이메일 형식에 맞지 않습니다" });
+      if (watch("email") && !emailRegex.test(watch("email")))
+        return setError("email", { message: "이메일 형식에 맞지 않습니다" });
       if (isToken && !watch("token")) return setError("token", { message: "인증번호를 입력해주세요" });
-      if (!errors.email) {
+      if (errors.email?.type === "checkCertificate") {
         const data = await checkEmailApi(isTokenInData);
         if (data?.ok && isToken && watch("token")) {
           setUser(prev => ({ ...prev!, isCertified: true }));
@@ -124,11 +126,11 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       setCurrentComment("회원가입 완료를 눌러주세요!");
     }
   }, [watch("name"), watch("birth"), watch("gender"), watch("email"), user?.isCertified]);
-  useEffect(()=>{
-    if(user?.isCertified){
+  useEffect(() => {
+    if (user?.isCertified) {
       setIsToken(true);
     }
-  },[])
+  }, []);
   return (
     <form onSubmit={handleSubmit(onValid)}>
       <MessageBox>{errorMessageText()}</MessageBox>
@@ -196,7 +198,10 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
         placeholder="toritori2022@naver.com"
         register={register("email", {
           required: "이메일을 입력해주세요",
-          validate: value => emailRegex.test(value) || "이메일 형식에 맞지 않습니다",
+          validate: {
+            checkEmailValidate: value => emailRegex.test(value) || "이메일 형식에 맞지 않습니다",
+            checkCertificate: () => user?.isCertified || "이메일 인증은 완료해주세요!",
+          },
           onChange() {
             setUser(prev => ({ ...prev!, email: watch("email") }));
           },
@@ -217,7 +222,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
             placeholder="인증번호"
             register={register("token", {
               required: "인증번호를 입력해주세요.",
-              validate: value => /^[0-9]+$/.test(value) || "숫자만 입력해주세요",
+              validate: { checkToken: value => /^[0-9]+$/.test(value) || "숫자만 입력해주세요" },
             })}
             activeFn={handleClickCheckEmail}
             buttonValue="인증번호 확인"

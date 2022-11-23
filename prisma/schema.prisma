@@ -110,6 +110,7 @@ model RecordImage {
   updateAt DateTime @updatedAt
   record   Record   @relation(fields: [recordId], references: [id], onDelete: Cascade)
   recordId Int
+  url      String
 }
 
 model MedicalDepartment {
