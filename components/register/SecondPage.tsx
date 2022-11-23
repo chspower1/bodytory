@@ -6,6 +6,7 @@ import customApi from "utils/client/customApi";
 import { CircleButton, RoundButton } from "@components/button/Button";
 import { Box } from "@styles/Common";
 import MessageBox from "@components/MessageBox";
+import { ACCOUNT_ID_REGEX, PASSWORD_REGEX } from "constant/regex";
 
 interface SecondRegisterForm {
   accountId: string;
@@ -39,9 +40,6 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
   const [currentComment, setCurrentComment] = useState("");
   const { postApi: checkAccountIdApi } = customApi("/api/auth/register/check/id");
 
-  const AccountIdRegex = /^[a-zA-Z0-9]{6,}$/;
-  const PasswordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
-
   const onValid = (data: SecondRegisterForm) => {
     if (user?.isNotDuplicate) {
       if (watch("password") !== watch("passwordConfirm")) {
@@ -57,7 +55,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
   const handleClickCheckAccountId = async () => {
     try {
       if (!watch("accountId")) return setError("accountId", { message: "사용하실 아이디를 입력해주세요" });
-      if (!AccountIdRegex.test(watch("accountId"))) return;
+      if (!ACCOUNT_ID_REGEX.test(watch("accountId"))) return;
       await checkAccountIdApi({ accountId: watch("accountId") });
       setUser(prev => ({ ...prev!, isNotDuplicate: true }));
       clearErrors("accountId");
@@ -115,7 +113,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
         placeholder="toritori2022"
         register={register("accountId", {
           required: true,
-          validate: value => AccountIdRegex.test(value) || "아이디는 6자리 이상\n영문 대소문자, 숫자를 입력해주세요",
+          validate: value => ACCOUNT_ID_REGEX.test(value) || "아이디는 6자리 이상\n영문 대소문자, 숫자를 입력해주세요",
           onChange() {
             setUser(prev => ({ ...prev!, isNotDuplicate: false }));
             setCurrentInputIdx(1);
@@ -140,7 +138,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
             required: true,
             validate: {
               regexPassword: value =>
-                PasswordRegex.test(value) || "비밀번호는 6자리 이상\n영문 대소문자, 숫자를 조합해서 입력해주세요",
+              PASSWORD_REGEX.test(value) || "비밀번호는 6자리 이상\n영문 대소문자, 숫자를 조합해서 입력해주세요",
             },
             onChange() {
               if (watch("password").length < 6) {

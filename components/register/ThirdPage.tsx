@@ -15,6 +15,7 @@ import ButtonInInput from "@components/ButtonInInput";
 import CheckBoxInput from "@components/CheckBoxInput";
 import { RoundButton } from "@components/button/Button";
 import { Box } from "@styles/Common";
+import { EMAIL_REGEX } from "constant/regex";
 
 interface ThirdRegisterForm {
   email: string;
@@ -45,7 +46,6 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
   const [isToken, setIsToken] = useState(false);
   const { postApi: createUser } = customApi("/api/auth/register");
   const { postApi: checkEmailApi } = customApi("/api/auth/register/check/email");
-  const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
   const isTokenInData = { email: watch("email"), token: isToken ? watch("token") : undefined, type };
   const { mutate } = useMutation([REGISTER_SIGNUP], createUser, {
     onError(error: any) {
@@ -58,7 +58,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
   const handleClickCheckEmail = async () => {
     try {
       if (!watch("email")) return setError("email", { message: "앗! 이메일 인증을 완료해주세요" });
-      if(watch("email") && !emailRegex.test(watch("email"))) return setError("email", { message: "이메일 형식에 맞지 않습니다" });
+      if(watch("email") && !EMAIL_REGEX.test(watch("email"))) return setError("email", { message: "이메일 형식에 맞지 않습니다" });
       if (isToken && !watch("token")) return setError("token", { message: "인증번호를 입력해주세요" });
       if (!errors.email) {
         const data = await checkEmailApi(isTokenInData);
@@ -196,7 +196,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
         placeholder="toritori2022@naver.com"
         register={register("email", {
           required: "이메일을 입력해주세요",
-          validate: value => emailRegex.test(value) || "이메일 형식에 맞지 않습니다",
+          validate: value => EMAIL_REGEX.test(value) || "이메일 형식에 맞지 않습니다",
           onChange() {
             setUser(prev => ({ ...prev!, email: watch("email") }));
           },
