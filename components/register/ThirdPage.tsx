@@ -53,7 +53,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       alert(`${error.data}`);
     },
     onSuccess() {
-      router.replace("/");
+      router.replace("/auth/register/success");
     },
   });
   const handleClickCheckEmail = async () => {

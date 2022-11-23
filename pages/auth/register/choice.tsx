@@ -33,9 +33,9 @@ export default function ChoicePage() {
     <div>
       <h2>어떤 방식으로 회원가입 할까요?</h2>
 
-      <OriginLoginBtn size="lg" />
-      <NaverLoginBtn size="lg" mutate={mutate} />
-      <KakaoLoginBtn size="lg" mutate={mutate} />
+      <OriginLoginBtn size="lg" kind="register" />
+      <NaverLoginBtn size="lg" mutate={mutate} kind="register" />
+      <KakaoLoginBtn size="lg" mutate={mutate} kind="register" />
     </div>
   );
 }
