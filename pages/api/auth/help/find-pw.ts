@@ -10,8 +10,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { token, accountId }: HelpForm = req.body;
   const isAuthenticationRequest = accountId && !token;
   const isAuthenticationNumberSubmit = accountId && token;
-
+  
   if (isAuthenticationRequest) {
+    console.log(accountId , token);
     const foundUser = await client.user.findFirst({
       where: {
         accountId,
@@ -77,7 +78,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         },
       },
     });
-
     console.log(foudToken);
     if (foudToken.count > 0) {
       await client.user.update({
@@ -90,8 +90,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           },
         },
       });
-      return res.status(201).end();
-    } else return res.status(403).send("토큰 값을 확인해주세요");
+      return res.status(201).json({ok:true});
+    } else return res.status(403).send("인증번호를 확인해주세요");
   }
 }
 

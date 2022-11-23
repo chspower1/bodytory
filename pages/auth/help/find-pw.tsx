@@ -12,6 +12,9 @@ import { UserType } from "@prisma/client";
 import { HELP_FIND_PASSWORD } from "constant/queryKeys";
 import useReset from "@hooks/useReset";
 import { RoundButton } from "@components/button/Button";
+import { ACCOUNT_ID_REGEX, EMAIL_REGEX, PASSWORD_REGEX } from "constant/regex";
+import MessageBox from "@components/MessageBox";
+import ButtonInInput from "@components/ButtonInInput";
 export interface HelpForm {
   type: UserType;
   accountId?: string;
@@ -25,67 +28,130 @@ const HelpPage: NextPage = () => {
   const router = useRouter();
   const { postApi } = customApi("/api/auth/help/find-pw");
   const [email, setEmail] = useState("");
+  const [currentComment, setCurrentComment] = useState("비밀번호를 잊으셨나요?\n가입한 아이디을 알려주세요");
   const [accountId, setAccountId] = useState("");
-  const { mutateAsync } = useMutation([HELP_FIND_PASSWORD], postApi, {
+  const { mutate } = useMutation([HELP_FIND_PASSWORD], postApi, {
     onError(error: any) {
-      alert(`${error.data}`);
+      if (isToken) {
+        return setError("token", { message: `${error.data}` });
+      }
+      setError("accountId", { message: `가입된 아이디가 없어요\n다시 한번 확인해주세요` });
     },
     onSuccess(data) {
-      setEmail(data.email);
-      setAccountId(data.accountId);
-      console.log(data);
+      console.log("t", data);
       if (isToken) {
-        console.log("인증번호 인증 완료");
-        router.push(
-          {
-            pathname: "/auth/help/reset",
-            query: { email, accountId },
-          },
-          "/auth/help/reset",
-        );
+        if(data.ok){
+          return router.push(
+            {
+              pathname: "/auth/help/reset",
+              query: { accountId },
+            },
+            "/auth/help/reset",
+          );
+        }
+        setValue("token", "");
+        clearErrors();
+        return setCurrentComment("해당 아이디의 이메일로 한번 더 보냈어요!\n인증번호를 확인해주세요");
       }
       setIsToken(true);
+      setEmail(data.email);
+      setAccountId(data.accountId);
+      setCurrentComment("해당 아이디의 이메일로 인증메일을 보냈어요!\n인증번호를 확인해주세요");
     },
   });
   const {
     register,
     handleSubmit,
     setValue,
-    formState: { errors },
-  } = useForm<HelpForm>();
-  const { isToken, setIsToken, ResetBtn } = useReset({ setValue });
+    watch,
+    setError,
+    clearErrors,
+    formState: { errors : helpErrors },
+  } = useForm<HelpForm>({mode:"onChange"});
+  const [isToken, setIsToken] = useState(false);
   const onValid = (helpForm: HelpForm) => {
     console.log(helpForm);
-    mutateAsync(helpForm);
+    mutate(helpForm);
+  };
+  
+  
+  const handleClickFindPassword = () => {
+    if (!watch("accountId")) return setError("accountId", { message: "아이디를 입력해주세요" });
+    if (watch("accountId") && !ACCOUNT_ID_REGEX.test(watch("accountId")!)) {
+      return setError("accountId", { message: "아이디 형식에 맞지 않습니다" });
+    }
+    mutate({ accountId: watch("accountId") });
   };
 
+  const errorMessageText = () => {
+    const isErrorsMessage = helpErrors.accountId?.message || helpErrors.token?.message;
+    if (isErrorsMessage) {
+      if (isErrorsMessage.includes("\n")) {
+        return isErrorsMessage.split("\n").map(ele => <p key={ele}>{ele}</p>);
+      } else {
+        return <p>{isErrorsMessage}</p>;
+      }
+    } else {
+      if (currentComment.includes("\n")) {
+        return currentComment.split("\n").map(ele => <p key={ele}>{ele}</p>);
+      } else {
+        return <p>{currentComment}</p>;
+      }
+    }
+  };
+  useEffect(() => {
+    if (!isToken) {
+      setCurrentComment("비밀번호를 잊으셨나요?\n가입한 아이디을 알려주세요");
+    }
+  }, [isToken]);
   return (
     <div>
+      <MessageBox>{errorMessageText()}</MessageBox>
       <form onSubmit={handleSubmit(onValid)}>
-        <Input
-          name={"accountId"}
-          disabled={isToken}
-          label="아이디"
-          register={register("accountId", {
-            required: "아이디를 입력해주세요.",
-          })}
-          placeholder="아이디를 입력해주세요."
+        {isToken ?<ButtonInInput
+          name="accountId"
+          register={register("accountId")}
+          error={helpErrors.accountId?.message}
+          isCertified={false}
+          changeButtonValue="아이디"
+          disabled
+          nonSubmit
+          isToken={isToken}
+          setIsToken={setIsToken}
         />
-        <ResetBtn />
+        :
+        <Input
+          name="accountId"
+          register={register("accountId", {
+            required: true,
+            validate: value => ACCOUNT_ID_REGEX.test(value!) || "아이디 형식에 맞지 않습니다",
+          })}
+          placeholder="toritori2022"
+          error={helpErrors.accountId?.message}
+        />
+        }
+        <RoundButton size="lg" nonSubmit onClick={handleClickFindPassword}>
+          {isToken ? "인증메일 다시 보내기" : "비밀번호 찾기"}
+        </RoundButton>
         {isToken && (
           <>
-            <div>{email}</div>
-            <Input
-              name="token"
-              label="인증번호"
-              register={register("token", {
-                required: "인증번호를 입력해주세요.",
-              })}
-              placeholder="인증번호를 입력해주세요."
-            />
+            <Input name="email" value={email} disabled  />
+            {isToken && (
+              <ButtonInInput
+                name="token"
+                placeholder="인증번호"
+                register={register("token", {
+                  required: true,
+                  validate: value => /^[0-9]+$/.test(value!)|| "숫자만 입력해주세요",
+                })}
+                buttonValue="인증번호 확인"
+                isAuthenticationColumn
+                error={helpErrors.token?.message}
+              />
+            )}
           </>
         )}
-        <RoundButton size="lg">{isToken ? "인증번호 확인" : "이메일 인증"}</RoundButton>
+        
       </form>
     </div>
   );
