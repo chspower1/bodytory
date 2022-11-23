@@ -9,6 +9,10 @@ import useReset from "@hooks/useReset";
 import { useMutation } from "@tanstack/react-query";
 import { REGISTER_SIGNUP } from "constant/queryKeys";
 import { useRouter } from "next/router";
+import MessageBox from "@components/MessageBox";
+import RadioInput from "@components/radioInput";
+import ButtonInInput from "@components/ButtonInInput";
+import CheckBoxInput from "@components/CheckBoxInput";
 import { RoundButton } from "@components/button/Button";
 import { Box } from "@styles/Common";
 
@@ -27,7 +31,6 @@ interface RegisterPageProps {
 }
 const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
   const { birth, email, gender, name, phone, type } = user!;
-
   const router = useRouter();
   const {
     register,
@@ -37,11 +40,13 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     setError,
     setValue,
   } = useForm<ThirdRegisterForm>({ mode: "onChange", defaultValues: { birth, email, gender, name, phone } });
-  const { isToken, setIsToken, ResetBtn } = useReset({ setValue });
+  const [currentComment, setCurrentComment] = useState("");
+  // const { isToken, setIsToken, ResetBtn } = useReset({ setValue });
+  const [isToken, setIsToken] = useState(false);
   const { postApi: createUser } = customApi("/api/auth/register");
   const { postApi: checkEmailApi } = customApi("/api/auth/register/check/email");
   const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
-  const isTokenInData = { email: watch("email"), token: isToken ? watch("token") : false, type };
+  const isTokenInData = { email: watch("email"), token: isToken ? watch("token") : undefined, type };
   const { mutate } = useMutation([REGISTER_SIGNUP], createUser, {
     onError(error: any) {
       alert(`${error.data}`);
@@ -52,6 +57,8 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
   });
   const handleClickCheckEmail = async () => {
     try {
+      if(!watch("email")) return setError("email", { message: "앗! 이메일 인증을 완료해주세요" });
+      if(isToken && !watch("token")) return setError("token", { message: "인증번호를 입력해주세요" });
       if (!errors.email) {
         const data = await checkEmailApi(isTokenInData);
         if (data?.ok && isToken && watch("token")) {
@@ -78,31 +85,45 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     mutate({ ...user, ...data });
   };
 
-  const isErrorsMessage =
-    errors.name?.message ||
-    errors.birth?.message ||
-    errors.gender?.message ||
-    errors.email?.message ||
-    errors.token?.message;
+  const errorMessageText = () => {
+    const isErrorsMessage =
+      errors.name?.message ||
+      errors.birth?.message ||
+      errors.gender?.message ||
+      errors.email?.message ||
+      errors.token?.message;
+    if (!isErrorsMessage) {
+      if (currentComment.includes("\n")) {
+        return currentComment.split("\n").map(ele => <p key={ele}>{ele}</p>);
+      } else {
+        return <p>{currentComment}</p>;
+      }
+    } else {
+      if (isErrorsMessage.includes("\n")) {
+        return isErrorsMessage.split("\n").map(ele => <p key={ele}>{ele}</p>);
+      } else {
+        return <p>{isErrorsMessage}</p>;
+      }
+    }
+  };
 
   useEffect(() => {
-    if (!user?.passwordConfirm) {
-      setError("name", {
-        type: "custom",
-        message: "마지막 단계에요!\n이용자님의 이름, 생일, 성별, 이메일을 알려주세요",
-      });
+    if (!watch("name") || !watch("birth") || !watch("gender") || !watch("email")) {
+      setCurrentComment("마지막 단계에요!\n이용자님의 이름, 생일, 성별, 이메일을 알려주세요");
+    } else if (
+      watch("name") &&
+      watch("birth").length === 10 &&
+      watch("gender") &&
+      watch("email") &&
+      user?.isCertified
+    ) {
+      setCurrentComment("회원가입 완료를 눌러주세요!");
     }
-  }, []);
+  }, [watch("name"), watch("birth"), watch("gender"), watch("email"), user?.isCertified]);
 
   return (
     <form onSubmit={handleSubmit(onValid)}>
-      <div className="errorMessageBox">
-        {isErrorsMessage && isErrorsMessage.includes("\n") ? (
-          isErrorsMessage.split("\n").map((ele, idx) => <p key={idx}>{ele}</p>)
-        ) : (
-          <p>{isErrorsMessage}</p>
-        )}
-      </div>
+      <MessageBox>{errorMessageText()}</MessageBox>
       <Input
         name="name"
         placeholder="김토리"
@@ -116,49 +137,50 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       />
       <Input
         name="birth"
-        placeholder="YYYYMMDD"
+        placeholder="YYYY-MM-DD"
         register={register("birth", {
           required: "생일을 입력해주세요",
-          validate: value => /^[0-9\-]/g.test(value) || `숫자와 "-"만 입력해주세요`,
+          // validate: value => /[^0-9]/g.test(value) || `숫자만 입력해주세요`,
           onChange() {
+            setValue(
+              "birth",
+              watch("birth")
+                .replace(/[^0-9]/g, "")
+                .replace(/^(\d{0,4})(\d{0,2})(\d{0,2})$/g, "$1-$2-$3")
+                .replace(/(\-{1,2})$/g, ""),
+            );
             setUser(prev => ({ ...prev!, birth: watch("birth") }));
           },
         })}
+        maxLength={10}
       />
       <GenderBox>
-        <h4>성별</h4>
-        <div className="innerBox">
-          <div className="inputBox">
-            <input
-              id="registerGenderMale"
-              type="radio"
-              value={"male"}
-              {...register("gender", {
-                required: "성별을 선택해주세요",
-                onChange() {
-                  setUser(prev => ({ ...prev!, gender: watch("gender") }));
-                },
-              })}
-            />
-            <GenderLabel htmlFor="registerGenderMale">남자</GenderLabel>
-          </div>
-          <div className="inputBox">
-            <input
-              id="registerGenderFeMale"
-              type="radio"
-              value={"female"}
-              {...register("gender", {
-                required: "성별을 선택해주세요",
-                onChange() {
-                  setUser(prev => ({ ...prev!, gender: watch("gender") }));
-                },
-              })}
-            />
-            <GenderLabel htmlFor="registerGenderFeMale">여자</GenderLabel>
-          </div>
-        </div>
+        <RadioInput
+          name="registerGenderMale"
+          value="male"
+          label="남자"
+          register={register("gender", {
+            required: "성별을 선택해주세요",
+            onChange() {
+              setUser(prev => ({ ...prev!, gender: watch("gender") }));
+            },
+          })}
+          error={errors.gender?.message}
+        />
+        <RadioInput
+          name="registerGenderFeMale"
+          value="female"
+          label="여자"
+          register={register("gender", {
+            required: "성별을 선택해주세요",
+            onChange() {
+              setUser(prev => ({ ...prev!, gender: watch("gender") }));
+            },
+          })}
+          error={errors.gender?.message}
+        />
       </GenderBox>
-      <Input
+      <ButtonInInput
         name="email"
         disabled={isToken}
         placeholder="toritori2022@naver.com"
@@ -169,34 +191,41 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
             setUser(prev => ({ ...prev!, email: watch("email") }));
           },
         })}
+        activeFn={handleClickCheckEmail}
+        buttonValue="인증메일 전송"
+        nonSubmit
+        setValue={setValue}
+        changeButtonValue="메일"
+        isToken={isToken}
+        setIsToken={setIsToken}
+        isCertified={user?.isCertified}
       />
-      {!user?.isCertified && <ResetBtn />}
       {!user?.isCertified ? (
-        <>
-          {isToken && (
-            <Input
-              name="token"
-              placeholder="인증번호"
-              register={register("token", {
-                required: "인증번호를 입력해주세요.",
-                validate: value => /^[0-9]$/.test(value) || "숫자만 입력해주세요",
-              })}
-            />
-          )}
-          <button type="button" onClick={handleClickCheckEmail}>
-            {isToken ? "인증번호 확인" : "이메일 인증"}
-          </button>
-        </>
+        isToken && (
+          <ButtonInInput
+            name="token"
+            placeholder="인증번호"
+            register={register("token", {
+              required: "인증번호를 입력해주세요.",
+              validate: value => /^[0-9]+$/.test(value) || "숫자만 입력해주세요",
+            })}
+            activeFn={handleClickCheckEmail}
+            buttonValue="인증번호 확인"
+            nonSubmit
+            isAuthenticationColumn
+          />
+        )
       ) : (
-        <p>인증 완료되었습니다.</p>
+        <CheckBoxInput label="인증 완료되었습니다" name="completion"  checked/>
+        // <p>인증 완료되었습니다.</p>
       )}
 
       <Box>
         <RoundButton nonSubmit size="md" onClick={handleClickPrevPage}>
           이전 페이지
         </RoundButton>
-        <RoundButton disable size="lg">
-          회원가입
+        <RoundButton  size="lg" disable={!currentComment.includes("회원가입")}>
+            {currentComment.includes("회원가입") ? "회원가입 완료" : "정보를 모두 입력해주세요"}
         </RoundButton>
       </Box>
     </form>
@@ -206,31 +235,5 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
 export default ThirdPage;
 
 const GenderBox = styled.div`
-  .innerBox {
-    display: inline-flex;
-  }
-
-  .inputBox {
-    width: 80px;
-    height: 50px;
-    border: 1px solid #000;
-  }
-
-  input {
-    position: absolute;
-    left: -999999%;
-  }
-  input:checked + label {
-    background: #000;
-    color: #fff;
-  }
-`;
-const GenderLabel = styled.label`
-  display: block;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
+  display: inline-flex;
 `;
