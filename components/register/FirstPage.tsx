@@ -3,6 +3,8 @@ import { useForm } from "react-hook-form";
 import { Dispatch, SetStateAction } from "react";
 import { RegisterForm } from "pages/auth/register";
 import { RoundButton } from "@components/button/Button";
+import CheckBoxInput from "@components/CheckBoxInput";
+import MessageBox from "@components/MessageBox";
 interface FirstRegisterForm {
   agree: boolean;
 }
@@ -31,10 +33,10 @@ const FirstPage = ({ user, setUser, setPage }: RegisterPageProps) => {
   };
   return (
     <form onSubmit={handleSubmit(onValid)}>
-      <Input
+      <MessageBox>토리가 이용자님의 정보를 수집하고 안전하게 보호해요!</MessageBox>
+      <CheckBoxInput
         label="모든 약관에 동의합니다."
         name="agree"
-        type="checkbox"
         register={register("agree", { required: "약관 동의 해주세요" })}
         error={errors.agree?.message}
       />
