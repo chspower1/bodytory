@@ -7,8 +7,9 @@ import { HelpForm } from "pages/auth/help/find-pw";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { email, token, type }: HelpForm = req.body;
-  console.log(email, token);
-  if (email && !token) {
+  console.log("test", email, token);
+  if (email && token === undefined) {
+    console.log("test1", email, token);
     const user = await client.user.findFirst({
       where: {
         type,
@@ -52,14 +53,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       });
     }
   }
-  if (email && token) {
+  if (email && token !== undefined) {
     const FindToken = await client.certification.deleteMany({
       where: {
         number: token,
         email,
       },
     });
-    console.log(FindToken);
+    console.log("FindToken",FindToken);
     if (FindToken.count > 0) return res.status(200).json({ ok: true });
     else return res.status(403).send("인증번호를 확인해주세요");
   }
