@@ -1,9 +1,27 @@
+// 사용 규칙
+// 1. 모든 Color값은 rgb값으로만 가능 ex) rgb(255,0,4)
+
 import Image from "next/image";
-import React from "react";
+import { useEffect } from "react";
 import styled, { css } from "styled-components";
 import naver from "/public/static/naver.svg";
 import kakao from "/public/static/kakao.svg";
 import origin from "/public/static/origin.svg";
+import { theme } from "@styles/theme";
+
+const ChangeToHoverColor = (color: string) => {
+  if (color.includes("rgb")) {
+    const colorArr = color.split(",");
+    console.log(colorArr);
+    const redValue = parseInt(colorArr[0].split("(")[1]);
+    const greenValue = parseInt(colorArr[1]);
+    const blueValue = parseInt(colorArr[2].replace(")", ""));
+    console.log(colorArr, redValue, greenValue, blueValue);
+    const newColor = `rgb(${redValue - 15},${greenValue - 15},${blueValue - 15})`;
+    return newColor;
+  }
+  return color;
+};
 
 interface ButtonProps {
   padding?: string;
@@ -17,6 +35,8 @@ interface ButtonProps {
   size?: ButtonSize;
   social?: SocailType;
   onClick?: () => void;
+  nonSubmit?: boolean;
+  disable?: boolean;
 }
 type SocailType = "kakao" | "naver" | "origin";
 export type ButtonSize = "sm" | "md" | "lg" | "xl" | "custom";
@@ -28,7 +48,7 @@ const Button = styled.button<{
   fontSize: string;
   bgColor: string;
   textColor: string;
-
+  disable: boolean;
   borderRadius: string;
 }>`
   position: "relative";
@@ -42,38 +62,49 @@ const Button = styled.button<{
   background-color: ${props => props.bgColor};
   color: ${props => props.textColor};
   border-radius: ${props => props.borderRadius};
+  &:hover {
+    background-color: ${props => ChangeToHoverColor(props.bgColor)};
+  }
+  transition: background-color 0.5s ease;
   button {
     color: ${props => props.textColor};
   }
 `;
 
 export const CircleButton = ({
+  size = "md",
   padding = "auto",
   width = "100px",
   height = "100px",
   borderRadius = "50%",
   fontSize = "18px",
-  bgColor = "#3D42BF",
-  textColor = "#FFFFFF",
+  bgColor = "rgb(61, 66, 191)",
+  textColor = "rgb(255, 255, 255)",
   children,
-  size = "md",
+  nonSubmit = false,
+  disable = false,
 }: ButtonProps) => {
-  if (size === "sm") {
-    [width, height, fontSize] = ["62px", "62px", "18px"];
-  }
-  if (size === "lg") {
-    [width, height, fontSize] = ["140px", "140px", "26px"];
-  }
+  useEffect(() => {
+    ChangeToHoverColor(bgColor);
+    if (size === "sm") {
+      [width, height, fontSize] = ["62px", "62px", "18px"];
+    }
+    if (size === "lg") {
+      [width, height, fontSize] = ["140px", "140px", "26px"];
+    }
+  }, [size]);
 
   return (
     <Button
       width={width}
       height={height}
       fontSize={fontSize}
-      bgColor={bgColor}
+      bgColor={disable ? theme.color.disabled : bgColor}
       textColor={textColor}
       padding={padding}
       borderRadius={borderRadius}
+      type={nonSubmit ? "button" : "submit"}
+      disable={disable}
     >
       {children}
     </Button>
@@ -85,10 +116,12 @@ export const RoundButton = ({
   height = "60px",
   borderRadius,
   fontSize = "18px",
-  bgColor = "#3D42BF",
-  textColor = "#FFFFFF",
+  bgColor = "rgb(61, 66, 191)",
+  textColor = "rgb(255, 255, 255)",
   children,
   size = "custom",
+  nonSubmit = false,
+  disable = false,
 }: ButtonProps) => {
   if (size === "sm") {
     [width, height, fontSize, padding] = ["140px", "40px", "16px", "auto"];
@@ -108,10 +141,12 @@ export const RoundButton = ({
       width={width}
       height={height}
       fontSize={fontSize}
-      bgColor={bgColor}
+      bgColor={disable ? theme.color.disabled : bgColor}
       textColor={textColor}
       padding={padding}
       borderRadius={height}
+      type={nonSubmit ? "button" : "submit"}
+      disable={disable}
     >
       {children}
     </Button>
@@ -123,12 +158,14 @@ export const SocialButton = ({
   height = "80px",
   borderRadius = "100px",
   fontSize = "22px",
-  bgColor = "#3D42BF",
-  textColor = "#FFFFFF",
+  bgColor = "rgb(75, 80, 211)",
+  textColor = "rgb(255, 255, 255)",
   children,
   size = "lg",
   social,
   onClick,
+  nonSubmit = false,
+  disable = false,
 }: ButtonProps) => {
   if (size === "sm") {
     [width, height, fontSize] = ["240px", "60px", "20px"];
@@ -140,11 +177,13 @@ export const SocialButton = ({
       width={width}
       height={height}
       fontSize={fontSize}
-      bgColor={bgColor}
+      bgColor={disable ? theme.color.disabled : bgColor}
       textColor={textColor}
       padding={padding}
       borderRadius={borderRadius}
       style={{ justifyContent: "flex-start" }}
+      type={nonSubmit ? "button" : "submit"}
+      disable={disable}
     >
       <div>
         <Image
@@ -158,17 +197,18 @@ export const SocialButton = ({
     </Button>
   );
 };
-
 export const RectangleButton = ({
   padding = "auto",
   width = "88px",
   height = "40px",
   borderRadius = "5px",
   fontSize = "18px",
-  bgColor = "#3D42BF",
-  textColor = "#FFFFFF",
+  bgColor = "rgb(61, 66, 191)",
+  textColor = "rgb(255, 255, 255)",
   children,
   size = "md",
+  nonSubmit = false,
+  disable = false,
 }: ButtonProps) => {
   if (size === "sm") {
     [width, height, fontSize] = ["87px", "29px", "16px"];
@@ -179,10 +219,12 @@ export const RectangleButton = ({
       width={width}
       height={height}
       fontSize={fontSize}
-      bgColor={bgColor}
+      bgColor={disable ? theme.color.disabled : bgColor}
       textColor={textColor}
       padding={padding}
       borderRadius={borderRadius}
+      type={nonSubmit ? "button" : "submit"}
+      disable={disable}
     >
       {children}
     </Button>

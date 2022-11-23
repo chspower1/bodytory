@@ -13,6 +13,8 @@ import MessageBox from "@components/MessageBox";
 import RadioInput from "@components/radioInput";
 import ButtonInInput from "@components/ButtonInInput";
 import CheckBoxInput from "@components/CheckBoxInput";
+import { RoundButton } from "@components/button/Button";
+import { Box } from "@styles/Common";
 
 interface ThirdRegisterForm {
   email: string;
@@ -218,12 +220,14 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
         // <p>인증 완료되었습니다.</p>
       )}
 
-      <button type="button" onClick={handleClickPrevPage}>
-        이전 단계
-      </button>
-      <button type="submit" disabled={!currentComment.includes("회원가입")}>
-        {currentComment.includes("회원가입") ? "회원가입 완료" : "정보를 모두 입력해주세요"}
-      </button>
+      <Box>
+        <RoundButton nonSubmit size="md" onClick={handleClickPrevPage}>
+          이전 페이지
+        </RoundButton>
+        <RoundButton  size="lg" disable={!currentComment.includes("회원가입")}>
+            {currentComment.includes("회원가입") ? "회원가입 완료" : "정보를 모두 입력해주세요"}
+        </RoundButton>
+      </Box>
     </form>
   );
 };

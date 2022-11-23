@@ -4,7 +4,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { RegisterForm } from "pages/auth/register";
 import customApi from "utils/client/customApi";
 import { CircleButton, RoundButton } from "@components/button/Button";
-import { Box } from "@styles/Container";
+import { Box } from "@styles/Common";
 import MessageBox from "@components/MessageBox";
 
 interface SecondRegisterForm {
@@ -177,12 +177,17 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
           error={errors.passwordConfirm?.message}
         />
       )}
-      <button type="button" onClick={pageReset}>
-        이전 단계
-      </button>
-      <button type="submit" disabled={currentInputIdx !== 4}>
-        다음 단계
-      </button>
+      <Box>
+        <CircleButton nonSubmit size="md" onClick={pageReset}>
+          이전 페이지
+        </CircleButton>
+        <CircleButton
+          size="md"
+          disable={currentInputIdx !== 4}
+        >
+          다음 페이지
+        </CircleButton>
+      </Box>
     </form>
   );
 };

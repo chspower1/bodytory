@@ -60,22 +60,22 @@ const MainInput = styled.input`
   }
   width: 100%;
   height: 50px;
-  text-align:center;
+  text-align: center;
   padding: 10px 5px;
   border-radius: 10px;
-  transition : border .3s;
+  transition: border 0.3s;
   border: 2px solid transparent;
-  background-color:${({theme})=> theme.color.input};
-  color:#fff;
+  background-color: ${({ theme }) => theme.color.input};
+  color: #fff;
   box-shadow: 8px 8px 24px rgba(49, 54, 167, 0.2);
   outline : 0;
   &:focus{
     border: 2px solid #444;
   }
-  &.error{
-    border: 2px solid ${({theme}) => theme.color.error};
+  &.error {
+    border: 2px solid ${({ theme }) => theme.color.error};
   }
-  &::placeholder{
-    color:#aaa;
+  &::placeholder {
+    color: #aaa;
   }
 `;

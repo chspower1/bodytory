@@ -57,8 +57,32 @@ model Certification {
 
 enum Position {
   head
-  arm
-  leg
+  forehead
+  eyes
+  nose
+  mouth
+  cheek
+  chin
+  ears
+  back
+  waist
+  hip
+  neck
+  chest
+  stomach
+  pelvis
+  sexOrgan
+  shoulder
+  upperArm
+  albow
+  forearm
+  wrist
+  hand
+  thigh
+  knee
+  calf
+  ankle
+  foot
 }
 
 enum RecordType {
@@ -67,17 +91,25 @@ enum RecordType {
 }
 
 model Record {
-  id          Int        @id @default(autoincrement())
-  createAt    DateTime   @default(now())
-  updateAt    DateTime   @updatedAt
+  id          Int           @id @default(autoincrement())
+  createAt    DateTime      @default(now())
+  updateAt    DateTime      @updatedAt
   type        RecordType
   position    Position
-  disease     String?
   description String
-  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      Int
-  hospital    Hospital?  @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
+  hospital    Hospital?     @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
   hospitalId  Int?
+  images      RecordImage[]
+}
+
+model RecordImage {
+  id       Int      @id @default(autoincrement())
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+  record   Record   @relation(fields: [recordId], references: [id], onDelete: Cascade)
+  recordId Int
 }
 
 model MedicalDepartment {
