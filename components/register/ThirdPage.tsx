@@ -58,6 +58,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
   const handleClickCheckEmail = async () => {
     try {
       if (!watch("email")) return setError("email", { message: "앗! 이메일 인증을 완료해주세요" });
+      if(watch("email") && !emailRegex.test(watch("email"))) return setError("email", { message: "$$$$" });
       if (isToken && !watch("token")) return setError("token", { message: "인증번호를 입력해주세요" });
       if (!errors.email) {
         const data = await checkEmailApi(isTokenInData);
@@ -123,7 +124,11 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       setCurrentComment("회원가입 완료를 눌러주세요!");
     }
   }, [watch("name"), watch("birth"), watch("gender"), watch("email"), user?.isCertified]);
-
+  useEffect(()=>{
+    if(user?.isCertified){
+      setIsToken(true);
+    }
+  },[])
   return (
     <form onSubmit={handleSubmit(onValid)}>
       <MessageBox>{errorMessageText()}</MessageBox>
@@ -137,6 +142,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
             setUser(prev => ({ ...prev!, name: watch("name") }));
           },
         })}
+        error={errors.name?.message}
       />
       <Input
         name="birth"
@@ -156,6 +162,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
           },
         })}
         maxLength={10}
+        error={errors.birth?.message}
       />
       <GenderBox>
         <RadioInput
@@ -189,7 +196,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
         placeholder="toritori2022@naver.com"
         register={register("email", {
           required: "이메일을 입력해주세요",
-          validate: value => emailRegex.test(value) || "이메일 형식에 맞지 않습니다",
+          
           onChange() {
             setUser(prev => ({ ...prev!, email: watch("email") }));
           },
@@ -220,7 +227,6 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
         )
       ) : (
         <CheckBoxInput label="인증 완료되었습니다" name="completion" checked />
-        // <p>인증 완료되었습니다.</p>
       )}
 
       <Box>
