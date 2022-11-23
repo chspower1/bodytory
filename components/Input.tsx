@@ -6,7 +6,7 @@ import checked from '@public/check_checked.svg';
 export interface InputProps {
   label?: string;
   name: string;
-  register: UseFormRegisterReturn;
+  register ?: UseFormRegisterReturn;
   type?: string;
   placeholder?: string;
   error?: string;
@@ -30,7 +30,6 @@ export default function Input({
 }: InputProps) {
   return (
     <InputBox>
-      <Label htmlFor={name} >{label}</Label>
       <MainInput disabled={disabled} id={name} {...register} type={type} placeholder={placeholder} value={value} className={error ? "error" : ""} maxLength={maxLength}/>
     </InputBox>
   );
