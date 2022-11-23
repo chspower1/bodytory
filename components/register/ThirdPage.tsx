@@ -126,7 +126,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
   useEffect(() => {
     if (user?.isCertified) {
       setIsToken(true);
-    }
+    } else setError("email", { type: "checkCertificate", message: "이메일 인증을 완료해주세요!" });
     createErrors<ThirdRegisterForm>({
       user: user!,
       checkList: ["name", "birth", "gender", "email"],
