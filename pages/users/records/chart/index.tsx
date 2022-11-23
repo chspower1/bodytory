@@ -3,8 +3,10 @@ import customApi from "utils/client/customApi";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { RECORDS_DELETE, RECORDS_READ } from "constant/queryKeys";
 import Link from "next/link";
-import React, { useState, Suspense } from "react";
+import React, { useState, Suspense, useEffect } from "react";
 import { Record, RecordImage } from "@prisma/client";
+import ManageImage from "@components/ManageImage";
+import Image from "next/image";
 
 interface RecordWithImage extends Record {
   images: RecordImage[];
@@ -12,7 +14,10 @@ interface RecordWithImage extends Record {
 export default function ChartPage() {
   const queryClient = useQueryClient();
   const { getApi, deleteApi } = customApi("/api/users/records");
-  const { isLoading, data: records } = useQuery<Record[] | undefined>([RECORDS_READ], getApi);
+  const { isLoading, data: records } = useQuery<RecordWithImage[] | undefined>([RECORDS_READ], getApi, {
+    staleTime: 0,
+    cacheTime: 0,
+  });
   const { mutate } = useMutation([RECORDS_DELETE], deleteApi, {
     onSuccess(data, variables, context) {
       queryClient.invalidateQueries([RECORDS_READ]);
@@ -26,6 +31,7 @@ export default function ChartPage() {
     mutate({ id: id });
   };
   if (isLoading) return null;
+
   return (
     <div>
       {records?.map((record, idx) => (
@@ -43,6 +49,12 @@ export default function ChartPage() {
             )}
             <button onClick={handleClickDeleteRecord(record.id)}>삭제하기</button>
           </div>
+          <div>
+            {record.images.map((elem, key) => (
+              <img src={elem.url} width={30} height={30} alt="이미지" key={key} />
+            ))}
+          </div>
+          <ManageImage recordId={String(record.id)} />
         </div>
       ))}
 

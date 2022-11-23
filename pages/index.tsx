@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import Modal from "@components/Modal";
 import useUser from "hooks/useUser";
+import ManageImage from "@components/ManageImage";
 // import LogoutBtn from "@components/LogoutBtn";
 const Test = styled.div`
   color: red;

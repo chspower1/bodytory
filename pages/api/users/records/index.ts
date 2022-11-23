@@ -40,9 +40,7 @@ async function findRecord(req: NextApiRequest, res: NextApiResponse) {
     where: {
       userId: user!.id,
     },
-    include: {
-      images: true,
-    },
+    include: { images: true },
   });
   return res.status(200).json(data);
 }
