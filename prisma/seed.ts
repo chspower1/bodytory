@@ -140,3 +140,9 @@ interface AreaCode {
 //   });
 // }
 // AddDepartmentToHospital();
+
+// // 레코드 다 지우기
+// async function DeleteRecords() {
+//   await client.record.deleteMany({});
+// }
+// DeleteRecords();
