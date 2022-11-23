@@ -17,6 +17,7 @@ interface ButtonProps {
   size?: ButtonSize;
   social?: SocailType;
   onClick?: () => void;
+  nonSubmit?: boolean;
 }
 type SocailType = "kakao" | "naver" | "origin";
 export type ButtonSize = "sm" | "md" | "lg" | "xl" | "custom";
@@ -57,6 +58,7 @@ export const CircleButton = ({
   textColor = "#FFFFFF",
   children,
   size = "md",
+  nonSubmit = false,
 }: ButtonProps) => {
   if (size === "sm") {
     [width, height, fontSize] = ["62px", "62px", "18px"];
@@ -74,6 +76,7 @@ export const CircleButton = ({
       textColor={textColor}
       padding={padding}
       borderRadius={borderRadius}
+      type={nonSubmit ? "button" : "submit"}
     >
       {children}
     </Button>
@@ -89,6 +92,7 @@ export const RoundButton = ({
   textColor = "#FFFFFF",
   children,
   size = "custom",
+  nonSubmit = false,
 }: ButtonProps) => {
   if (size === "sm") {
     [width, height, fontSize, padding] = ["140px", "40px", "16px", "auto"];
@@ -112,6 +116,7 @@ export const RoundButton = ({
       textColor={textColor}
       padding={padding}
       borderRadius={height}
+      type={nonSubmit ? "button" : "submit"}
     >
       {children}
     </Button>
@@ -129,6 +134,7 @@ export const SocialButton = ({
   size = "lg",
   social,
   onClick,
+  nonSubmit = false,
 }: ButtonProps) => {
   if (size === "sm") {
     [width, height, fontSize] = ["240px", "60px", "20px"];
@@ -145,6 +151,7 @@ export const SocialButton = ({
       padding={padding}
       borderRadius={borderRadius}
       style={{ justifyContent: "flex-start" }}
+      type={nonSubmit ? "button" : "submit"}
     >
       <div>
         <Image
@@ -169,6 +176,7 @@ export const RectangleButton = ({
   textColor = "#FFFFFF",
   children,
   size = "md",
+  nonSubmit = false,
 }: ButtonProps) => {
   if (size === "sm") {
     [width, height, fontSize] = ["87px", "29px", "16px"];
@@ -183,6 +191,7 @@ export const RectangleButton = ({
       textColor={textColor}
       padding={padding}
       borderRadius={borderRadius}
+      type={nonSubmit ? "button" : "submit"}
     >
       {children}
     </Button>

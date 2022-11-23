@@ -9,6 +9,8 @@ import useReset from "@hooks/useReset";
 import { useMutation } from "@tanstack/react-query";
 import { REGISTER_SIGNUP } from "constant/queryKeys";
 import { useRouter } from "next/router";
+import { RoundButton } from "@components/button/Button";
+import { Box } from "@styles/Container";
 
 interface ThirdRegisterForm {
   email: string;
@@ -188,11 +190,14 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       ) : (
         <p>인증 완료되었습니다.</p>
       )}
-
-      <button type="button" onClick={handleClickPrevPage}>
-        이전 페이지
-      </button>
-      <button type="submit">회원가입</button>
+      <Box>
+        <RoundButton nonSubmit size="md" onClick={handleClickPrevPage}>
+          이전 페이지
+        </RoundButton>
+        <RoundButton size="custom" width="360px">
+          회원가입
+        </RoundButton>
+      </Box>
     </form>
   );
 };

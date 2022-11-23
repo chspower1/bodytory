@@ -53,7 +53,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     try {
       if (!watch("accountId")) return setError("accountId", { message: "아이디를 입력해주세요" });
       if (!Regex.test(watch("accountId"))) return;
-      
+
       await checkAccountIdApi({ accountId: watch("accountId") });
       setUser(prev => ({ ...prev!, isNotDuplicate: true }));
       clearErrors("accountId");
@@ -76,7 +76,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
         {}
         {isErrorsMessage ? (
           isErrorsMessage.includes("\n") ? (
-            isErrorsMessage.split("\n").map(ele => <p>{ele}</p>)
+            isErrorsMessage.split("\n").map((ele, index) => <p key={index}>{ele}</p>)
           ) : (
             <p>{isErrorsMessage}</p>
           )
@@ -89,8 +89,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
         placeholder="toritori2022"
         register={register("accountId", {
           required: "사용하실 아이디를 입력해주세요",
-          validate: value =>
-            Regex.test(value) || "아이디는 6자리 이상\n영문 대소문자, 숫자를 입력해주세요",
+          validate: value => Regex.test(value) || "아이디는 6자리 이상\n영문 대소문자, 숫자를 입력해주세요",
           onChange() {
             setUser(prev => ({ ...prev!, isNotDuplicate: false }));
             setValue("password", "");
@@ -138,12 +137,24 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
           })}
         />
       )}
-      <button type="button" onClick={() => setPage(1)}>
-        이전 페이지
-      </button>
-      <button type="submit" disabled={!user?.isNotDuplicate && watch("password") === watch("passwordConfirm")}>
-        다음 페이지
-      </button>
+      <Box>
+        <CircleButton size="md">
+          <button type="button" onClick={() => setPage(1)}>
+            이전 페이지
+          </button>
+        </CircleButton>
+        <CircleButton size="md">
+          <button
+            type="submit"
+            // disabled={
+            //   (!user?.isNotDuplicate && watch("password") === watch("passwordConfirm")) ||
+            //   user?.password === user?.passwordConfirm
+            // }
+          >
+            다음 페이지
+          </button>
+        </CircleButton>
+      </Box>
     </form>
   );
 };
