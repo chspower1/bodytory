@@ -1,8 +1,8 @@
 import { createGlobalStyle } from "styled-components";
-// import { reset } from "styled-reset";
+import { reset } from "styled-reset";
 
-// ${reset}
 const GlobalStyled = createGlobalStyle`
+${reset}
 
   * {
     box-sizing: border-box;
@@ -20,7 +20,7 @@ const GlobalStyled = createGlobalStyle`
 
   // 현재는 pc용 웹서비스 (모바일 반응형 X)
   body {
-    min-width: 1460px;
+    /* min-width: 1460px; */
     // overflow-y: scroll;
   }
 

@@ -50,13 +50,13 @@ const FirstPage = ({ user, setUser, setPage }: RegisterPageProps) => {
           <Col>
             <TermsRow>
               <WhiteText fontSize="18px">[필수] 서비스 이용 약관 </WhiteText>
-              <RectangleButton bgColor="rgb(61, 66, 191)" fontSize="16px">
+              <RectangleButton nonSubmit bgColor="rgb(61, 66, 191)" fontSize="16px">
                 내용 보기
               </RectangleButton>
             </TermsRow>
             <TermsRow>
               <WhiteText fontSize="18px">[필수] 개인 정보 수집 및 이용 약관 </WhiteText>
-              <RectangleButton bgColor="rgb(61, 66, 191)" fontSize="16px">
+              <RectangleButton nonSubmit bgColor="rgb(61, 66, 191)" fontSize="16px">
                 내용 보기
               </RectangleButton>
             </TermsRow>

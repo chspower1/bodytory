@@ -15,7 +15,7 @@ import { USER_LOGIN } from "constant/queryKeys";
 import { RoundButton } from "@components/button/Button";
 import Image from "next/image";
 import naver from "/public/static/naver.svg";
-import { Box, Col, Row, WhiteBoldText, WhiteText, Wrapper } from "@styles/Common";
+import { Box, Col, Container, Row, WhiteBoldText, WhiteText, Wrapper } from "@styles/Common";
 import { theme } from "@styles/theme";
 import { checkEmptyObj } from "@utils/client/checkEmptyObj";
 import { watch } from "fs";
@@ -70,7 +70,7 @@ const LoginPage: NextPage = () => {
     setError("password", { type: "required" });
   }, []);
   return (
-    <Wrapper>
+    <Container>
       <Col>
         <form onSubmit={handleSubmit(onValid)}>
           <Input
@@ -131,7 +131,7 @@ const LoginPage: NextPage = () => {
         children으로 주는거라 태그 사이에 쓰면 됩니다.
       </Modal> */}
       </Col>
-    </Wrapper>
+    </Container>
   );
 };
 export default LoginPage;

@@ -10,6 +10,8 @@ import customApi from "utils/client/customApi";
 import { useMutation } from "@tanstack/react-query";
 import { HELP_FIND_PASSWORD } from "constant/queryKeys";
 import { RoundButton } from "@components/button/Button";
+import { theme } from "@styles/theme";
+import { checkEmptyObj } from "@utils/client/checkEmptyObj";
 
 interface ResetForm {
   password: string;
@@ -72,7 +74,13 @@ const Reset: NextPage = () => {
           })}
           placeholder="비밀번호를 확인해주세요."
         />
-        <RoundButton size="lg">비밀번호 변경</RoundButton>
+        <RoundButton
+          size="lg"
+          bgColor={theme.color.mintBtn}
+          disable={!checkEmptyObj(errors) || !watch("password") || !watch("passwordConfirm")}
+        >
+          비밀번호 변경
+        </RoundButton>
       </form>
     </div>
   );

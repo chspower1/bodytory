@@ -14,7 +14,7 @@ export const theme: DefaultTheme = {
     white: "rgb(255, 255, 255)",
   },
   boxShadow: {
-    normal: "0 3px 8px 0 rgb(0 0 0 / 10%)",
+    normal: "8px 8px 24px rgb(49, 54, 167,0.2)",
   },
   font: {
     size: {

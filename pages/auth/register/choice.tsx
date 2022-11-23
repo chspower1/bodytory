@@ -8,7 +8,8 @@ import { useRouter } from "next/router";
 import React from "react";
 import { SocialButton } from "@components/button/Button";
 import OriginLoginBtn from "@components/button/OriginBtn";
-
+import { Col, Container, ToryText, WhiteText } from "@styles/Common";
+import styled from "styled-components";
 export default function ChoicePage() {
   const router = useRouter();
   const { postApi } = customApi("/api/auth/login");
@@ -30,12 +31,17 @@ export default function ChoicePage() {
     },
   });
   return (
-    <div>
-      <h2>어떤 방식으로 회원가입 할까요?</h2>
+    <Container>
+      <ButtonBox>
+        <ToryText>어떤 방식으로 회원가입 할까요?</ToryText>
 
-      <OriginLoginBtn size="lg" kind="register" />
-      <NaverLoginBtn size="lg" mutate={mutate} kind="register" />
-      <KakaoLoginBtn size="lg" mutate={mutate} kind="register" />
-    </div>
+        <OriginLoginBtn size="lg" kind="register" />
+        <NaverLoginBtn size="lg" mutate={mutate} kind="register" />
+        <KakaoLoginBtn size="lg" mutate={mutate} kind="register" />
+      </ButtonBox>
+    </Container>
   );
 }
+const ButtonBox = styled(Col)`
+  gap: 50px;
+`;

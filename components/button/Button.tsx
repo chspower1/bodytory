@@ -60,6 +60,8 @@ const Button = styled.button<{
   background-color: ${props => props.bgColor};
   color: ${props => props.textColor};
   border-radius: ${props => props.borderRadius};
+  box-shadow: 8px 8px 24px rgb(49, 54, 167, 0.2);
+  /* box-shadow: ${({ theme }) => theme.boxShadow}; */
   &:hover {
     background-color: ${props => ChangeToHoverColor(props.bgColor)};
   }

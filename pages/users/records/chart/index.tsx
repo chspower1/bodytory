@@ -4,8 +4,11 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { RECORDS_DELETE, RECORDS_READ } from "constant/queryKeys";
 import Link from "next/link";
 import React, { useState, Suspense } from "react";
-import { Record } from "@prisma/client";
+import { Record, RecordImage } from "@prisma/client";
 
+interface RecordWithImage extends Record {
+  images: RecordImage[];
+}
 export default function ChartPage() {
   const queryClient = useQueryClient();
   const { getApi, deleteApi } = customApi("/api/users/records");
