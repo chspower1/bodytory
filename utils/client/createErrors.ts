@@ -31,7 +31,13 @@ export const createErrors = <T extends FieldValues = any>({
           console.log(item, "error발생");
           setError(item, {
             type: "minLength",
-            message: `${KoreanName[item]}을 ${minLength[index]}글자 이상 입력해 주세요!`,
+            message: `${
+              item === "birth"
+                ? `생년월일 ${minLength[index]}자를 입력해 주세요!`
+                : item === "gender"
+                ? `성별을 체크해주세요!`
+                : `${KoreanName[item]}을 ${minLength[index]}글자 이상 입력해 주세요!`
+            }`,
           });
         }
       }
