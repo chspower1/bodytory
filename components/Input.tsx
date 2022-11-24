@@ -51,11 +51,10 @@ export default function Input({
 const InputBox = styled.div<{ width?: string; height?: string }>`
   width: ${({ width }) => width};
   height: ${({ height }) => height};
-  display: flex;
-  align-items: center;
+  margin: 0 auto;
   position: relative;
   & + & {
-    margin-top: 40px;
+    margin: 40px auto 0;
   }
 `;
 const MainInput = styled.input`

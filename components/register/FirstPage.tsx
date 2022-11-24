@@ -65,7 +65,7 @@ const FirstPage = ({ user, setUser, setPage }: RegisterPageProps) => {
               </TermsBox>
             </Col>
           </FormContents>
-            <ButtonBox>
+            <PrevNextButtonBox>
               <Link href="/auth/register/choice">
                 <CircleButton nonSubmit bgColor="rgb(75, 80, 211)">
                   이전 단계
@@ -74,7 +74,7 @@ const FirstPage = ({ user, setUser, setPage }: RegisterPageProps) => {
               <CircleButton bgColor={theme.color.mintBtn} disable={!(user?.agree || watch("agree"))}>
                 다음 단계
               </CircleButton>
-            </ButtonBox>
+            </PrevNextButtonBox>
         </Form>
       </InnerContainer>
     </FlexContainer>
@@ -85,8 +85,9 @@ export default FirstPage;
 
 
 
-const Form = styled.form`
+export const Form = styled.form`
   display:flex;
+  height:100%;
   flex-direction:column;
   justify-content:space-between;
 `
@@ -108,6 +109,6 @@ const TermsRow = styled(Row)`
 export const FormContents = styled.div`
   
 `;
-export const ButtonBox = styled(Row)`
+export const PrevNextButtonBox = styled(Row)`
   gap: 65px;
 `;
