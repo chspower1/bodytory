@@ -52,12 +52,12 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     setValue,
     clearErrors,
   } = useForm<ThirdRegisterForm>({ mode: "onChange", defaultValues: { birth, email, gender, name } });
-  const [currentComment, setCurrentComment] = useState("");
+  const [currentComment, setCurrentComment] = useState("마지막 단계에요!\n이용자님의 이름, 생일, 성별, 이메일을 알려주세요");
   // const { isToken, setIsToken, ResetBtn } = useReset({ setValue });
   const [isToken, setIsToken] = useState(false);
   const { postApi: createUser } = customApi("/api/auth/register");
   const { postApi: checkEmailApi } = customApi("/api/auth/register/check/email");
-  const isTokenInData = { email: watch("email"), token: isToken ? watch("token") : undefined, type };
+  const isTokenInData = isToken ? { email: watch("email"), token: watch("token"),  type } : { email: watch("email"),  type };
   const { mutate } = useMutation([REGISTER_SIGNUP], createUser, {
     onError(error: any) {
       alert(`${error.data}`);
@@ -68,26 +68,29 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
   });
   const handleClickCheckEmail = async () => {
     try {
-      console.log(errors.email);
-      if (!watch("email")) return setError("email", { message: "앗! 이메일 인증을 완료해주세요" });
+      console.log("errors",errors.email);
+      clearErrors(["email","token"]);
+      if (!watch("email")) return setError("email", { message: "앗! 이메일 칸이 비어있어요!" });
       if (watch("email") && !EMAIL_REGEX.test(watch("email")))
         return setError("email", { message: "이메일 형식에 맞지 않습니다" });
       if (isToken && !watch("token")) return setError("token", { message: "인증번호를 입력해주세요" });
       // if (errors.email?.type === "checkCertificate") {
       const data = await checkEmailApi(isTokenInData);
+      console.log(data, isToken);
+      if (isToken && !watch("token")) {
+        return setError("token", { type: "custom", message: "$$$" });
+      }
       if (data?.ok && isToken && watch("token")) {
         setUser(prev => ({ ...prev!, isCertified: true }));
         clearErrors();
       }
-      if (!watch("token")) {
-        setError("token", { type: "custom", message: "인증번호를 입력해주세요" });
-      }
       setIsToken(true);
+      
       // }
     } catch (err: any) {
       console.log(err);
       if (isToken) {
-        return setError("token", { type: "custom", message: `${err.data}` });
+        return setError("token", { type: "custom", message: `이메일에서 인증번호 확인 후\n입력해주세요!` });
       }
       setError("email", { type: "custom", message: `${err.data}` });
     }
@@ -100,7 +103,12 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
   };
 
   const onValid = (data: ThirdRegisterForm) => {
-    mutate({ ...user, ...data });
+    if(!isToken){
+      return setError("email", { type: "custom", message: "이메일 인증을 해주세요!" });
+    }
+    if(user?.isCertified){
+      mutate({ ...user, ...data });
+    }
   };
 
   const isErrorsMessage =
@@ -137,7 +145,13 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     }); */
   }, []);
   
-  
+  useEffect(()=>{
+    if(isToken){
+      setCurrentComment("이메일에서 인증번호 확인 후\n입력해주세요!");
+    }else{
+      setCurrentComment("마지막 단계에요!\n이용자님의 이름, 생일, 성별, 이메일을 알려주세요");
+    }
+  },[isToken])
   return (
     <FlexContainer>
       <InnerContainer>
@@ -218,7 +232,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
               disabled={isToken}
               placeholder="toritori2022@naver.com"
               register={register("email", {
-                required: "이메일을 입력해주세요",
+                required: "앗! 이메일 칸이 비어있어요!",
                 validate: {
                   checkEmailValidate: value => !ONLY_KR_REGEX.test(value) || "이메일 형식에 맞지 않습니다",
                   // checkCertificate: () => user?.isCertified || "이메일 인증을 완료해주세요!",
@@ -243,13 +257,14 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                   name="token"
                   placeholder="인증번호"
                   register={register("token", {
-                    required: "인증번호를 입력해주세요.",
+                    required: "인증번호를 입력해주세요",
                     validate: { checkToken: value => /^[0-9]+$/.test(value) || "숫자만 입력해주세요" },
                   })}
                   activeFn={handleClickCheckEmail}
                   buttonValue="인증번호 확인"
                   nonSubmit
                   isAuthenticationColumn
+                  error={errors.token}
                 />
               )
             ) : (
