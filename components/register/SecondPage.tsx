@@ -158,7 +158,6 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                   validate: {
                     checkAccountId: value =>
                       ACCOUNT_ID_REGEX.test(value) || "아이디는 6자리 이상\n영문 대소문자, 숫자를 입력해주세요",
-                    checkIsNotDuplicate: () => user?.isNotDuplicate || "아이디 중복 확인을 해주세요",
                   },
                   onChange() {
                     setUser(prev => ({ ...prev!, isNotDuplicate: false }));
@@ -176,7 +175,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                     nonSubmit
                     size="sm"
                     bgColor={theme.color.mintBtn}
-                    disable={Boolean(errors?.accountId?.type !== "checkIsNotDuplicate")}
+                    disable={Boolean(!currentComment.includes("중복확인"))}
                     onClick={handleClickCheckAccountId}
                   >
                     중복확인
