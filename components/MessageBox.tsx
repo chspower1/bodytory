@@ -16,8 +16,8 @@ const MessageBox = ({ children, isErrorsMessage, currentComment }: MessageProps)
         return <p>{isErrorsMessage}</p>;
       }
     } else {
-      if (currentComment!.includes("\n")) {
-        return currentComment!.split("\n").map(ele => <p key={ele}>{ele}</p>);
+      if (currentComment?.includes("\n")) {
+        return currentComment?.split("\n").map(ele => <p key={ele}>{ele}</p>);
       } else {
         return <p>{currentComment}</p>;
       }
@@ -29,8 +29,11 @@ const MessageBox = ({ children, isErrorsMessage, currentComment }: MessageProps)
 export default MessageBox;
 
 const MessageContainer = styled.div`
-  font-size: 36px;
+  font-size: 34px;
+  letter-spacing: -1px;
+  word-spacing: -2px;
   color: #fff;
   padding-bottom: 50px;
   text-align: center;
+  padding: 50px 0 65px;
 `;
