@@ -17,7 +17,7 @@ import { RoundButton } from "@components/button/Button";
 import { Box, Col, Container, FlexContainer, InnerContainer, Row } from "@styles/Common";
 import { theme } from "@styles/theme";
 import { Form, FormContents, PrevNextButtonBox } from "./FirstPage";
-import { EMAIL_REGEX } from "constant/regex";
+import { EMAIL_REGEX, KR_EN_REGEX, ONLY_KR_REGEX } from "constant/regex";
 import { checkEmptyObj } from "@utils/client/checkEmptyObj";
 import { createErrors } from "@utils/client/createErrors";
 
@@ -73,17 +73,17 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       if (watch("email") && !EMAIL_REGEX.test(watch("email")))
         return setError("email", { message: "이메일 형식에 맞지 않습니다" });
       if (isToken && !watch("token")) return setError("token", { message: "인증번호를 입력해주세요" });
-      if (errors.email?.type === "checkCertificate") {
-        const data = await checkEmailApi(isTokenInData);
-        if (data?.ok && isToken && watch("token")) {
-          setUser(prev => ({ ...prev!, isCertified: true }));
-          clearErrors();
-        }
-        if (!watch("token")) {
-          setError("token", { type: "custom", message: "인증번호를 입력해주세요" });
-        }
-        setIsToken(true);
+      // if (errors.email?.type === "checkCertificate") {
+      const data = await checkEmailApi(isTokenInData);
+      if (data?.ok && isToken && watch("token")) {
+        setUser(prev => ({ ...prev!, isCertified: true }));
+        clearErrors();
       }
+      if (!watch("token")) {
+        setError("token", { type: "custom", message: "인증번호를 입력해주세요" });
+      }
+      setIsToken(true);
+      // }
     } catch (err: any) {
       console.log(err);
       if (isToken) {
@@ -126,15 +126,18 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
   useEffect(() => {
     if (user?.isCertified) {
       setIsToken(true);
-    } else setError("email", { type: "checkCertificate", message: "이메일 인증을 완료해주세요!" });
-    createErrors<ThirdRegisterForm>({
+    } 
+    // else setError("email", { type: "checkCertificate", message: "이메일 인증을 완료해주세요!" });
+    /* createErrors<ThirdRegisterForm>({
       user: user!,
       checkList: ["name", "birth", "gender", "email"],
       setError,
       minLength: [2, 8, 0, 0],
       KoreanName,
-    });
+    }); */
   }, []);
+  
+  
   return (
     <FlexContainer>
       <InnerContainer>
@@ -146,7 +149,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
               placeholder="김토리"
               register={register("name", {
                 required: "이름을 입력해주세요",
-                validate: value => /^[가-힣a-zA-Z]+$/.test(value) || "한글과 영어만 입력해주세요",
+                validate: value => KR_EN_REGEX.test(value) || "이름은 한글,영어 중 입력해주세요",
                 minLength: {
                   value: 2,
                   message: "이름은 두 글자 이상 입력해주세요!",
@@ -155,7 +158,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                   setUser(prev => ({ ...prev!, name: watch("name") }));
                 },
               })}
-              error={errors.name}
+              error={errors.name?.message}
             />
             <SpaceBetweenRowBox>
               <Input
@@ -181,7 +184,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                   },
                 })}
                 maxLength={10}
-                error={errors.birth}
+                error={errors.birth?.message}
               />
               <GenderBox>
                 <RadioInput
@@ -189,24 +192,24 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                   value="male"
                   label="남자"
                   register={register("gender", {
-                    required: "성별을 선택해주세요",
+                    required: "성별을 체크해주세요",
                     onChange() {
                       setUser(prev => ({ ...prev!, gender: watch("gender") }));
                     },
                   })}
-                  error={errors.gender}
+                  error={errors.gender?.message}
                 />
                 <RadioInput
                   name="registerGenderFeMale"
                   value="female"
                   label="여자"
                   register={register("gender", {
-                    required: "성별을 선택해주세요",
+                    required: "성별을 체크해주세요",
                     onChange() {
                       setUser(prev => ({ ...prev!, gender: watch("gender") }));
                     },
                   })}
-                  error={errors.gender}
+                  error={errors.gender?.message}
                 />
               </GenderBox>
             </SpaceBetweenRowBox>
@@ -217,8 +220,8 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
               register={register("email", {
                 required: "이메일을 입력해주세요",
                 validate: {
-                  checkEmailValidate: value => EMAIL_REGEX.test(value) || "이메일 형식에 맞지 않습니다",
-                  checkCertificate: () => user?.isCertified || "이메일 인증을 완료해주세요!",
+                  checkEmailValidate: value => !ONLY_KR_REGEX.test(value) || "이메일 형식에 맞지 않습니다",
+                  // checkCertificate: () => user?.isCertified || "이메일 인증을 완료해주세요!",
                 },
                 onChange() {
                   setUser(prev => ({ ...prev!, email: watch("email") }));
@@ -232,6 +235,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
               isToken={isToken}
               setIsToken={setIsToken}
               isCertified={user?.isCertified}
+              error={errors.email?.message}
             />
             {!user?.isCertified ? (
               isToken && (
@@ -256,7 +260,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
               <RoundButton nonSubmit size="custom" height="60px" bgColor="rgb(75, 80, 211)" onClick={handleClickPrevPage}>
                 이전 단계
               </RoundButton>
-              <RoundButton size="custom" width="360px" bgColor={theme.color.mintBtn} disable={!checkEmptyObj(errors)}>
+              <RoundButton size="custom" width="360px" bgColor={theme.color.mintBtn} disable={!user?.isCertified}>
                 {currentComment.includes("회원가입") ? "회원가입 완료" : "정보를 모두 입력해주세요"}
               </RoundButton>
             </PrevNextButtonBox>
