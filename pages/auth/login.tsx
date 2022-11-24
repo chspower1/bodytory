@@ -164,7 +164,7 @@ const LoginForm = styled.form`
   display: flex;
   justify-content: center;
 `;
-const LoginInputAreaBox = styled.div`
+export const LoginInputAreaBox = styled.div`
   margin-bottom: 40px;
 `;
 const LoginFormInnerBox = styled.div`
