@@ -33,7 +33,10 @@ const MessageContainer = styled.div`
   letter-spacing: -1px;
   word-spacing: -2px;
   color: #fff;
-  padding-bottom: 50px;
   text-align: center;
-  padding: 50px 0 65px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 166px;
 `;

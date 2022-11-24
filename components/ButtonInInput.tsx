@@ -98,6 +98,7 @@ const InputBox = styled.div`
   }
   &.authenticationColumn {
     width: 315px;
+    margin: 0 auto;
     background-color: #00000000;
     input {
       border-bottom: 2px solid #888;
