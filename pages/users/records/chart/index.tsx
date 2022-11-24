@@ -55,7 +55,7 @@ export default function ChartPage() {
       <br />
       <br />
       <Link href={"/users/records/write"}>
-        <button>작성하러 가기</button>
+          작성하러 가기
       </Link>
     </div>
   );
