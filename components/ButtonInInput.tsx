@@ -1,3 +1,4 @@
+import { theme } from "@styles/theme";
 import React, { Dispatch, SetStateAction, useState } from "react";
 import { FieldValues, UseFormSetValue } from "react-hook-form";
 import styled from "styled-components";
@@ -53,23 +54,25 @@ const ButtonInInput = ({
         placeholder={placeholder}
         disabled={disabled}
       />
-      {!name.includes("token") ? (
-        isToken ? (
-          !isCertified && (
-            <RoundButton size="sm" onClick={handleClickResetBtn} nonSubmit={nonSubmit}>
-              {`${changeButtonValue} `}재설정
+      <div>
+        {!name.includes("token") ? (
+          isToken ? (
+            !isCertified && (
+              <RoundButton size="sm" onClick={handleClickResetBtn} nonSubmit={nonSubmit}>
+                {`${changeButtonValue} `}재설정
+              </RoundButton>
+            )
+          ) : (
+            <RoundButton size="sm" onClick={activeFn} nonSubmit={nonSubmit} >
+              {buttonValue}
             </RoundButton>
           )
         ) : (
-          <RoundButton size="sm" onClick={activeFn} nonSubmit={nonSubmit}>
+          <RoundButton size="sm" onClick={activeFn} nonSubmit={nonSubmit} bgColor={theme.color.lightBg} textColor={theme.color.darkBg}>
             {buttonValue}
           </RoundButton>
-        )
-      ) : (
-        <RoundButton size="sm" onClick={activeFn} nonSubmit={nonSubmit}>
-          {buttonValue}
-        </RoundButton>
-      )}
+        )}
+      </div>
     </InputBox>
   );
 };
@@ -97,19 +100,29 @@ const InputBox = styled.div`
     margin-top: 10px;
   }
   &.authenticationColumn {
-    width: 315px;
     margin: 0 auto;
     background-color: #00000000;
     input {
-      border-bottom: 2px solid #888;
+      width:190px;
+      height: 50px;
+      border-bottom: 2px solid #fff;
       &:focus {
         border-bottom: 2px solid #fff;
       }
+      &.error {
+        border: 0;
+        border-bottom: 2px solid ${({ theme }) => theme.color.error};
+      }
+    }
+    button{
+      font-weight: bolder;
+      letter-spacing: -1px;
+      margin-left:20px;
     }
   }
 `;
 const Input = styled.input`
-  flex: 1;
+  width:100%;
   height: 62px;
   text-align: center;
   background: transparent;
@@ -117,10 +130,11 @@ const Input = styled.input`
   outline: 0;
   color: #fff;
   transition: border 0.3s;
+  padding: 0 20px;
   &::placeholder {
     color: #aaa;
   }
   &.error {
-    border-bottom: 2px solid ${({ theme }) => theme.color.error};
+    border: 2px solid ${({ theme }) => theme.color.error};
   }
 `;
