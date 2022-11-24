@@ -1,18 +1,16 @@
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  width: 100vw;
+  height: calc(100vh - 113px);
+  width: 100%;
   overflow: hidden;
 `;
 
 export const Container = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width:100%;
+  max-width:1300px;
+  margin: 0 auto;
+  padding: 30px 0;
 `;
 
 export const Box = styled.div`
@@ -35,7 +33,7 @@ export const WhiteText = styled.span<{ fontSize?: string }>`
   font-size: ${({ fontSize }) => fontSize || "16px"};
 `;
 export const ToryText = styled(WhiteText)`
-  font-size: 36px;
+  font-size: 34px;
 `;
 export const WhiteBoldText = styled(WhiteText)`
   font-weight: 600;
