@@ -37,28 +37,30 @@ const FirstPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     } else setPage(2);
   };
   return (
-    <form onSubmit={handleSubmit(onValid)}>
+    <Form onSubmit={handleSubmit(onValid)}>
       <FormContainer>
-        <MessageBox>토리가 이용자님의 정보를 수집하고 안전하게 보호해요!</MessageBox>
-        <CheckBoxInput
-          label="모든 약관에 동의합니다."
-          name="agree"
-          register={register("agree", { required: "약관 동의 해주세요" })}
-          error={errors.agree?.message}
-        />
+        <MessageBox>토리가 이용자님의 정보를 수집하고 안전하게 보호해요</MessageBox>
         <Col>
-          <TermsRow>
-            <WhiteText fontSize="18px">[필수] 서비스 이용 약관 </WhiteText>
-            <RectangleButton nonSubmit bgColor="rgb(61, 66, 191)" fontSize="16px">
-              내용 보기
-            </RectangleButton>
-          </TermsRow>
-          <TermsRow>
-            <WhiteText fontSize="18px">[필수] 개인 정보 수집 및 이용 약관 </WhiteText>
-            <RectangleButton nonSubmit bgColor="rgb(61, 66, 191)" fontSize="16px">
-              내용 보기
-            </RectangleButton>
-          </TermsRow>
+          <CheckBoxInput
+            label="모든 약관에 동의합니다."
+            name="agree"
+            register={register("agree", { required: "약관 동의 해주세요" })}
+            error={errors.agree?.message}
+          />
+          <TermsBox>
+            <TermsRow>
+              <WhiteText fontSize="18px">[필수] 서비스 이용 약관 </WhiteText>
+              <RectangleButton nonSubmit bgColor="rgb(61, 66, 191)" size="sm">
+                내용 보기
+              </RectangleButton>
+            </TermsRow>
+            <TermsRow>
+              <WhiteText fontSize="18px">[필수] 개인 정보 수집 및 이용 약관 </WhiteText>
+              <RectangleButton nonSubmit bgColor="rgb(61, 66, 191)" size="sm">
+                내용 보기
+              </RectangleButton>
+            </TermsRow>
+          </TermsBox>
         </Col>
         <ButtonBox>
           <Link href="/auth/register/choice">
@@ -71,22 +73,32 @@ const FirstPage = ({ user, setUser, setPage }: RegisterPageProps) => {
           </CircleButton>
         </ButtonBox>
       </FormContainer>
-    </form>
+    </Form>
   );
 };
 
 export default FirstPage;
 
+const Form = styled(Box)`
+
+`
+const TermsBox = styled(Col)`
+  width:520px;
+  margin-top : 40px;
+`
 const TermsRow = styled(Row)`
-  width: 600px;
-  padding: 0px 25px;
+  width:100%;
   height: 70px;
   justify-content: space-between;
+  span{
+    font-size: 16px;
+  }
+  & + &{
+    border-top : 1px solid #646AEB;
+  }
 `;
-export const FormContainer = styled(Box)`
-  height: 100vh;
-  flex-direction: column;
-  justify-content: space-evenly;
+export const FormContainer = styled.div`
+  
 `;
 export const ButtonBox = styled(Row)`
   gap: 65px;
