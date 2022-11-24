@@ -117,7 +117,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
   useEffect(() => {
     if (!watch("accountId")) {
       setCurrentComment("사용하실 아이디를 입력해주세요");
-    } else if (!user?.isNotDuplicate) {
+    } else if (watch("accountId").length >= 6 && !user?.isNotDuplicate && ACCOUNT_ID_REGEX.test(watch("accountId"))) {
       setCurrentComment("중복확인을 눌러주세요!");
     } else if (!watch("password")) {
       setCurrentComment("사용하실 비밀번호를 입력해주세요");
@@ -128,7 +128,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       setCurrentComment("다음 단계로 넘어가주세요!");
     }
   }, [watch, watch(), user?.isNotDuplicate]);
-  useEffect(() => {
+  /* useEffect(() => {
     createErrors<SecondRegisterForm>({
       user: user!,
       checkList: ["accountId", "password"],
@@ -142,7 +142,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     // if (!user?.password) {
     //   setError("password", { types: { required: "", validate: "" } });
     // } else clearErrors();
-  }, []);
+  }, []); */
   return (
     <FlexContainer>
       <InnerContainer>
@@ -242,7 +242,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
             >
               이전 단계
             </CircleButton>
-            <CircleButton bgColor={theme.color.mintBtn} disable={!checkEmptyObj(errors)}>
+            <CircleButton bgColor={theme.color.mintBtn} disable={/* !checkEmptyObj(error) */(currentInputIdx !== 4) || Boolean(isErrorsMessage)}>
               다음 단계
             </CircleButton>
           </PrevNextButtonBox>
