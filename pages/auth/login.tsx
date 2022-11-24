@@ -21,6 +21,7 @@ import { checkEmptyObj } from "@utils/client/checkEmptyObj";
 import { watch } from "fs";
 import styled from "styled-components";
 import MessageBox from "@components/MessageBox";
+import { ACCOUNT_ID_REGEX, PASSWORD_REGEX } from "constant/regex";
 export interface LoginForm {
   accountId: string;
   password: string;
@@ -30,7 +31,7 @@ const LoginPage: NextPage = () => {
   const router = useRouter();
   const { postApi } = customApi("/api/auth/login");
   const [isError, setIsError] = useState(false);
-
+  const [isCompletion, setIsCompletion] = useState(false);
   const { mutate } = useMutation([USER_LOGIN], postApi, {
     onError(error: any) {
       console.log(error);
@@ -64,22 +65,23 @@ const LoginPage: NextPage = () => {
   const onValid = (loginForm: LoginForm) => {
     mutate({ ...loginForm, type: "origin" });
   };
-  console.log(errors, checkEmptyObj(errors));
+  // console.log(errors, checkEmptyObj(errors));
 
   const isErrorsMessage = errors.accountId?.message || errors.password?.message;
-
+  
   useEffect(() => {
-    setError("accountId", { type: "required" });
-    setError("password", { type: "required" });
-  }, []);
-  useEffect(() => {
+    if(watch("accountId") && watch("password") && !isErrorsMessage){
+      setIsCompletion(true);
+    }else{
+      setIsCompletion(false);
+    }
     setIsError(false);
-  }, [watch("accountId"), watch("password")]);
+  }, [watch("accountId"), watch("password"),isErrorsMessage]);
   return (
     <FlexContainer>
       <InnerContainer>
-        <MessageBox>
-            {isErrorsMessage ||
+        <MessageBox isErrorsMessage={isErrorsMessage}>
+            {!isErrorsMessage &&
               (isError ? <>앗! 로그인 정보를 다시 한번 확인해주세요</> : <>로그인 정보를 입력해주세요</>)}
         </MessageBox>
         <LoginForm as="form" onSubmit={handleSubmit(onValid)}>
@@ -89,21 +91,26 @@ const LoginPage: NextPage = () => {
                 name="accountId"
                 register={register("accountId", {
                   required: "아이디를 입력해주세요",
-                  // pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i, message: "올바른 아이디 형식이 아닙니다." },
+                  validate: {
+                    checkAccountId: value =>
+                      ACCOUNT_ID_REGEX.test(value) || "아이디는 6자리 이상\n영문 대소문자, 숫자를 입력해주세요",
+                  },
                 })}
                 placeholder="아이디를 입력해주세요"
                 error={errors.accountId}
               />
               <Input
                 name="password"
+                type="password"
                 register={register("password", {
                   required: "비밀번호를 입력해주세요",
-                  // pattern: {
-                  //   value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/i,
-                  //   message: "비밀번호가 안전하지 않아요.",
-                  // },
+                  validate: {
+                    regexPassword: value =>
+                      PASSWORD_REGEX.test(value) ||
+                      "비밀번호는 6자리 이상\n영문 대소문자, 숫자를 조합해서 입력해주세요",
+                  },
                 })}
-                placeholder="비밀번호를 입력해주세요"
+                placeholder="●●●●●●"
                 error={errors.password}
               />
               {/* <Input
@@ -114,7 +121,7 @@ const LoginPage: NextPage = () => {
             errorMessage={errors.password?.message}
           /> */}
             </LoginInputAreaBox>
-            <RoundButton size="lg" bgColor={theme.color.mintBtn} disable={!checkEmptyObj(errors)}>
+            <RoundButton size="lg" bgColor={theme.color.mintBtn} disable={!isCompletion}>
               로그인
             </RoundButton>
           </LoginFormInnerBox>
