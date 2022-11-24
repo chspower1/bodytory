@@ -120,7 +120,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       watch("email") &&
       user?.isCertified
     ) {
-      setCurrentComment("모든 정보를 입력했어요! \n 회원가입 완료를 눌러주세요!");
+      setCurrentComment("모든 정보를 입력했어요!\n회원가입 완료를 눌러주세요!");
     }
   }, [watch("name"), watch("birth"), watch("gender"), watch("email"), user?.isCertified]);
   useEffect(() => {
