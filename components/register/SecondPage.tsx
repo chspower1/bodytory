@@ -167,7 +167,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                     console.log(errors.accountId);
                   },
                 })}
-                error={errors.accountId?.message}
+                error={errors.accountId}
               />
               {(!user?.isNotDuplicate || !watch("accountId")) && (
                 <ButtonBox>
@@ -211,7 +211,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                       }
                     },
                   })}
-                  error={errors.password?.message}
+                  error={errors.password}
                 />
               )}
 
@@ -226,7 +226,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                       checkPassword,
                     },
                   })}
-                  error={errors.passwordConfirm?.message}
+                  error={errors.passwordConfirm}
                 />
               )}
             </LoginInputAreaBox>

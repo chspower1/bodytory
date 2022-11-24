@@ -41,7 +41,7 @@ export default function RecordUpdate({ recordId, setCurrentIdx }: RecordUpdatePr
           type="text"
           register={register("updateWrite", { required: "필수값입니다" })}
           placeholder="내용을 입력하세요"
-          error={errors.updateWrite?.message}
+          error={errors.updateWrite}
         />
         <button type="submit">수정하기</button>
       </form>

@@ -47,7 +47,7 @@ const FirstPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                 label="모든 약관에 동의합니다."
                 name="agree"
                 register={register("agree", { required: "약관 동의 해주세요" })}
-                error={errors.agree?.message}
+                error={errors.agree}
               />
               <TermsBox>
                 <TermsRow>

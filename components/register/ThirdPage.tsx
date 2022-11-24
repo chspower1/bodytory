@@ -155,7 +155,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                   setUser(prev => ({ ...prev!, name: watch("name") }));
                 },
               })}
-              error={errors.name?.message}
+              error={errors.name}
             />
             <SpaceBetweenRowBox>
               <Input
@@ -181,7 +181,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                   },
                 })}
                 maxLength={10}
-                error={errors.birth?.message}
+                error={errors.birth}
               />
               <GenderBox>
                 <RadioInput
@@ -194,7 +194,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                       setUser(prev => ({ ...prev!, gender: watch("gender") }));
                     },
                   })}
-                  error={errors.gender?.message}
+                  error={errors.gender}
                 />
                 <RadioInput
                   name="registerGenderFeMale"
@@ -206,7 +206,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                       setUser(prev => ({ ...prev!, gender: watch("gender") }));
                     },
                   })}
-                  error={errors.gender?.message}
+                  error={errors.gender}
                 />
               </GenderBox>
             </SpaceBetweenRowBox>

@@ -92,7 +92,7 @@ const LoginPage: NextPage = () => {
                   // pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i, message: "올바른 아이디 형식이 아닙니다." },
                 })}
                 placeholder="아이디를 입력해주세요"
-                error={errors.accountId?.message}
+                error={errors.accountId}
               />
               <Input
                 name="password"
@@ -104,7 +104,7 @@ const LoginPage: NextPage = () => {
                   // },
                 })}
                 placeholder="비밀번호를 입력해주세요"
-                error={errors.password?.message}
+                error={errors.password}
               />
               {/* <Input
             name="autoLogin"
