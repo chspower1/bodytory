@@ -16,7 +16,7 @@ import { EMAIL_REGEX } from "constant/regex";
 import ButtonInInput from "@components/ButtonInInput";
 import MessageBox from "@components/MessageBox";
 import styled from "styled-components";
-import { FlexContainer, InnerContainer } from "@styles/Common";
+import { FlexContainer, InnerContainer, Row } from "@styles/Common";
 
 const HelpFindId: NextPage = () => {
   const router = useRouter();
@@ -138,9 +138,13 @@ const HelpFindId: NextPage = () => {
                   이용자님의 아이디는 <strong>{foundAccountId}</strong> 입니다.
                 </p>
               </MessageBox>
-              <RoundButton size="lg" bgColor={theme.color.mintBtn}>
-                <Link href="/auth/login">로그인하러 가기</Link>
-              </RoundButton>
+              <div className="linkButton">
+                <Link href="/auth/login">
+                  <RoundButton size="lg" bgColor={theme.color.mintBtn}>
+                    로그인하러 가기
+                  </RoundButton>
+                </Link>
+              </div>
             </div>
           </FinalCommentBox>
         )}
@@ -152,7 +156,7 @@ export default HelpFindId;
 
 const Container = styled(FlexContainer)``;
 
-const Seperation = styled.div`
+export const Seperation = styled(Row)`
   & + & {
     margin-top: 30px;
   }
@@ -162,17 +166,21 @@ export const FinalCommentBox = styled.div`
   display: flex;
   justify-content: center;
   .innerBox {
-    div {
+    .messageBox {
       font-size: 36px;
       color: #fff;
-      margin-bottom: 50px;
+      margin-bottom: 80px;
       strong {
         border-bottom: 2px solid #fff;
         margin: 0 30px;
       }
     }
-    button {
-      margin: 0 auto;
+    .linkButton{
+      display:flex;
+      justify-content: center;
+      a{
+        display:inline-block;
+      }
     }
   }
 `;

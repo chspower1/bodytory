@@ -17,6 +17,7 @@ import MessageBox from "@components/MessageBox";
 import ButtonInInput from "@components/ButtonInInput";
 import styled from "styled-components";
 import { FlexContainer, InnerContainer } from "@styles/Common";
+import { Seperation } from "./find-id";
 export interface HelpForm {
   type: UserType;
   accountId?: string;
@@ -126,10 +127,12 @@ const HelpPage: NextPage = () => {
               {isToken ? "인증메일 다시 보내기" : "비밀번호 찾기"}
             </RoundButton>
           </Seperation>
-          <Seperation>
-            {isToken && (
-              <>
+          {isToken && (
+            <>
+              <Seperation>
                 <Input name="email" value={email} disabled />
+              </Seperation>
+              <Seperation>
                 {isToken && (
                   <ButtonInInput
                     name="token"
@@ -143,9 +146,9 @@ const HelpPage: NextPage = () => {
                     error={helpErrors.token?.message}
                   />
                 )}
-              </>
-            )}
-          </Seperation>
+              </Seperation>
+            </>
+          )}
         </form>
       </InnerContainer>
     </Container>
@@ -161,9 +164,3 @@ const Test = styled(InnerContainer)`
 `;
 
 const Container = styled(FlexContainer)``;
-
-const Seperation = styled.div`
-  & + & {
-    margin-top: 30px;
-  }
-`;

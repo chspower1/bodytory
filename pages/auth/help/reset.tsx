@@ -134,9 +134,13 @@ const Reset: NextPage = () => {
                 <p>비밀번호가 재설정이 완료되었어요! </p>
                 <p>새로운 비밀번호로 로그인해주세요</p>
               </MessageBox>
-              <RoundButton size="lg" bgColor={theme.color.mintBtn} onClick={() => router.push("/auth/login")}>
-                <Link href="/auth/login">로그인하러 가기</Link>
-              </RoundButton>
+              <div className="linkButton">
+                <Link href="/auth/login">
+                  <RoundButton size="lg" bgColor={theme.color.mintBtn} onClick={() => router.push("/auth/login")}>
+                    로그인하러 가기
+                  </RoundButton>
+                </Link>
+              </div>
             </div>
           </FinalCommentBox>
         )}
