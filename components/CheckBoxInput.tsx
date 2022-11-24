@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import checkIcon from "@public/checkbox.png"
 import checkedIcon from "@public/checkbox_checked.png"
-import { RadioProps } from './radioInput'
+import { RadioProps } from './RadioInput'
 
 
 
@@ -24,7 +24,8 @@ const CheckBoxInput = ({
 export default CheckBoxInput
 
 const InputBox = styled.div`
-  width: 500px;
+  width: 630px;
+  height:106px;
   transition : border .3s;
   border: 2px solid transparent;
   background-color:${({theme})=> theme.color.input};
@@ -60,6 +61,7 @@ const Input = styled.input`
   
 `
 const Label = styled.label`
+  height:100%;
   display:flex;
   align-items:center;
   font-size: 20px;
