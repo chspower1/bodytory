@@ -8,6 +8,7 @@ import GlobalStyled from "@styles/GlobalStyled";
 import Head from "next/head";
 import { theme } from "@styles/theme";
 import { ThemeProvider } from "styled-components";
+import Header from "@components/Header";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -43,6 +44,7 @@ export default function App({ Component, pageProps }: AppProps) {
         {/* <Suspense fallback={<div>로딩중</div>}> */}
         <ThemeProvider theme={theme}>
           <GlobalStyled />
+          <Header/>
           <Layout>
             <Component {...pageProps} />
           </Layout>
