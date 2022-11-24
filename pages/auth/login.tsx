@@ -15,7 +15,7 @@ import { USER_LOGIN } from "constant/queryKeys";
 import { RoundButton } from "@components/button/Button";
 import Image from "next/image";
 import naver from "/public/static/naver.svg";
-import { Box, Col, Container, Row, ToryText, WhiteBoldText, WhiteText, Wrapper } from "@styles/Common";
+import { Box, Col, FlexContainer, Row, ToryText, WhiteBoldText, WhiteText, Wrapper } from "@styles/Common";
 import { theme } from "@styles/theme";
 import { checkEmptyObj } from "@utils/client/checkEmptyObj";
 import { watch } from "fs";
@@ -77,78 +77,89 @@ const LoginPage: NextPage = () => {
   }, [watch("accountId"), watch("password")]);
   return (
     <Container>
-      <ToryTextBox>
-        <ToryText>
-          {isErrorsMessage ||
-            (isError ? <>앗! 로그인 정보를 다시 한번 확인해주세요</> : <>로그인 정보를 입력해주세요</>)}
-        </ToryText>
-      </ToryTextBox>
-      <LoginForm as="form" onSubmit={handleSubmit(onValid)}>
-        <LoginFormInnerBox>
-          <LoginInputAreaBox>
-            <Input
-              name="accountId"
-              register={register("accountId", {
-                required: "아이디를 입력해주세요",
-                // pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i, message: "올바른 아이디 형식이 아닙니다." },
-              })}
-              placeholder="아이디를 입력해주세요"
-              error={errors.accountId?.message}
-            />
-            <Input
-              name="password"
-              register={register("password", {
-                required: "비밀번호를 입력해주세요",
-                // pattern: {
-                //   value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/i,
-                //   message: "비밀번호가 안전하지 않아요.",
-                // },
-              })}
-              placeholder="비밀번호를 입력해주세요"
-              error={errors.password?.message}
-            />
-            {/* <Input
+      <InnerContainer>
+        <ToryTextBox>
+          <ToryText>
+            {isErrorsMessage ||
+              (isError ? <>앗! 로그인 정보를 다시 한번 확인해주세요</> : <>로그인 정보를 입력해주세요</>)}
+          </ToryText>
+        </ToryTextBox>
+        <LoginForm as="form" onSubmit={handleSubmit(onValid)}>
+          <LoginFormInnerBox>
+            <LoginInputAreaBox>
+              <Input
+                name="accountId"
+                register={register("accountId", {
+                  required: "아이디를 입력해주세요",
+                  // pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i, message: "올바른 아이디 형식이 아닙니다." },
+                })}
+                placeholder="아이디를 입력해주세요"
+                error={errors.accountId?.message}
+              />
+              <Input
+                name="password"
+                register={register("password", {
+                  required: "비밀번호를 입력해주세요",
+                  // pattern: {
+                  //   value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/i,
+                  //   message: "비밀번호가 안전하지 않아요.",
+                  // },
+                })}
+                placeholder="비밀번호를 입력해주세요"
+                error={errors.password?.message}
+              />
+              {/* <Input
             name="autoLogin"
             label="자동로그인"
             type="checkbox"
             register={register("autoLogin")}
             errorMessage={errors.password?.message}
           /> */}
-          </LoginInputAreaBox>
-          <RoundButton size="lg" bgColor={theme.color.mintBtn} disable={!checkEmptyObj(errors)}>
-            로그인
-          </RoundButton>
-        </LoginFormInnerBox>
-      </LoginForm>
-      <LoginFindBox>
-        <Link href="/auth/help/find-id">
-          <WhiteText>아이디 찾기</WhiteText>
-        </Link>
-        <i>|</i>
-        <Link href="/auth/help/find-pw">
-          <WhiteText>비밀번호 찾기</WhiteText>
-        </Link>
-      </LoginFindBox>
-      <SocialLoginBox>
-        <div className="soscialInnerBox">
-          <NaverLoginBtn size="sm" mutate={mutate} kind="login" />
-          <KakaoLoginBtn size="sm" mutate={mutate} kind="login" />
-        </div>
-      </SocialLoginBox>
-      <RegisterLinkBox>
-        <WhiteText>아직 회원이 아니신가요?</WhiteText>
-        <Link href="/auth/register/choice">
-          <WhiteBoldText>회원가입</WhiteBoldText>
-        </Link>
-      </RegisterLinkBox>
-      {/* <button onClick={() => setShowModal(true)}>Open Modal</button> */}
-      {/* <Modal onClose={() => setShowModal(false)} activeFuction={} show={showModal} title={"임시 타이틀"}>
+            </LoginInputAreaBox>
+            <RoundButton size="lg" bgColor={theme.color.mintBtn} disable={!checkEmptyObj(errors)}>
+              로그인
+            </RoundButton>
+          </LoginFormInnerBox>
+        </LoginForm>
+        <LoginFindBox>
+          <Link href="/auth/help/find-id">
+            <WhiteText>아이디 찾기</WhiteText>
+          </Link>
+          <i>|</i>
+          <Link href="/auth/help/find-pw">
+            <WhiteText>비밀번호 찾기</WhiteText>
+          </Link>
+        </LoginFindBox>
+        <SocialLoginBox>
+          <div className="soscialInnerBox">
+            <NaverLoginBtn size="sm" mutate={mutate} kind="login" />
+            <KakaoLoginBtn size="sm" mutate={mutate} kind="login" />
+          </div>
+        </SocialLoginBox>
+        <RegisterLinkBox>
+          <WhiteText>아직 회원이 아니신가요?</WhiteText>
+          <Link href="/auth/register/choice">
+            <WhiteBoldText>회원가입</WhiteBoldText>
+          </Link>
+        </RegisterLinkBox>
+        {/* <button onClick={() => setShowModal(true)}>Open Modal</button> */}
+        {/* <Modal onClose={() => setShowModal(false)} activeFuction={} show={showModal} title={"임시 타이틀"}>
         children으로 주는거라 태그 사이에 쓰면 됩니다.
       </Modal> */}
+      </InnerContainer>
     </Container>
   );
 };
 export default LoginPage;
+
+const Container = styled(FlexContainer)`
+  height:100%;
+
+`;
+const InnerContainer = styled.div`
+  margin: auto;
+`;
+
 export const ToryTextBox = styled.div`
   text-align: center;
   padding: 50px 0 65px;
@@ -187,7 +198,7 @@ const SocialLoginBox = styled(Row)`
     > div,
     > button {
       margin: 0 20px;
-      div{
+      div {
         font-size: 16px;
       }
     }
@@ -196,10 +207,10 @@ const SocialLoginBox = styled(Row)`
 
 const RegisterLinkBox = styled(Row)`
   padding: 20px 0;
-  >span{
+  > span {
     font-size: 15px;
   }
-  a{
-    margin : 0 0 0 10px;
+  a {
+    margin: 0 0 0 10px;
   }
 `;
