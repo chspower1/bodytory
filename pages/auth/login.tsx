@@ -78,12 +78,10 @@ const LoginPage: NextPage = () => {
   return (
     <FlexContainer>
       <InnerContainer>
-        <ToryTextBox>
-          <ToryText>
+        <MessageBox>
             {isErrorsMessage ||
               (isError ? <>앗! 로그인 정보를 다시 한번 확인해주세요</> : <>로그인 정보를 입력해주세요</>)}
-          </ToryText>
-        </ToryTextBox>
+        </MessageBox>
         <LoginForm as="form" onSubmit={handleSubmit(onValid)}>
           <LoginFormInnerBox>
             <LoginInputAreaBox>
