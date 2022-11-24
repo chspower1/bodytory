@@ -1,10 +1,14 @@
-import { Wrapper } from "@styles/Common";
+import { Container, Wrapper } from "@styles/Common";
 
 interface LayoutProps {
   children?: React.ReactNode;
 }
 const Layout = ({ children }: LayoutProps) => {
-  return <Wrapper>{children}</Wrapper>;
+  return (
+    <Wrapper>
+      <Container>{children}</Container>
+    </Wrapper>
+  );
 };
 
 export default Layout;
