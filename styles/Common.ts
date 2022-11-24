@@ -15,7 +15,9 @@ export const Container = styled.div`
 export const FlexContainer = styled(Container)`
   display:flex;
 `
-
+export const InnerContainer = styled.div`
+  margin: auto;
+`;
 
 export const Box = styled.div`
   display: flex;

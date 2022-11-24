@@ -15,7 +15,7 @@ import { USER_LOGIN } from "constant/queryKeys";
 import { RoundButton } from "@components/button/Button";
 import Image from "next/image";
 import naver from "/public/static/naver.svg";
-import { Box, Col, FlexContainer, Row, ToryText, WhiteBoldText, WhiteText, Wrapper } from "@styles/Common";
+import { Box, Col, InnerContainer, FlexContainer, Row, ToryText, WhiteBoldText, WhiteText, Wrapper } from "@styles/Common";
 import { theme } from "@styles/theme";
 import { checkEmptyObj } from "@utils/client/checkEmptyObj";
 import { watch } from "fs";
@@ -156,9 +156,7 @@ const Container = styled(FlexContainer)`
   height:100%;
 
 `;
-const InnerContainer = styled.div`
-  margin: auto;
-`;
+
 
 export const ToryTextBox = styled.div`
   text-align: center;
