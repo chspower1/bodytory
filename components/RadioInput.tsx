@@ -1,12 +1,12 @@
 import React from "react";
-import { UseFormRegisterReturn } from "react-hook-form";
+import { FieldError, UseFormRegisterReturn } from "react-hook-form";
 import styled from "styled-components";
 
 export interface RadioProps {
   label: string;
   name: string;
   register?: UseFormRegisterReturn;
-  error?: string;
+  error?: FieldError | string;
   value?: string;
   checked?: boolean;
 }
