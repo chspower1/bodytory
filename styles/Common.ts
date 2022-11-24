@@ -4,7 +4,7 @@ export const Wrapper = styled.div`
   height: 100vh;
   width: 100%;
   overflow: hidden;
-  padding-top: 116px;
+  // padding-top: 116px;
 `;
 
 export const Container = styled.div`
@@ -20,7 +20,7 @@ export const FlexContainer = styled(Container)`
 export const InnerContainer = styled.div`
   margin: auto;
   height: 800px;
-  padding-top: 50px;
+  padding-top: 70px;
 `;
 
 export const Box = styled.div`
