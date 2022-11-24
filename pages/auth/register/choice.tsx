@@ -8,8 +8,9 @@ import { useRouter } from "next/router";
 import React from "react";
 import { SocialButton } from "@components/button/Button";
 import OriginLoginBtn from "@components/button/OriginBtn";
-import { Col, Container, ToryText, WhiteText } from "@styles/Common";
+import { Box, Col, Container, ToryText, WhiteText } from "@styles/Common";
 import styled from "styled-components";
+import { ToryTextBox } from "../login";
 export default function ChoicePage() {
   const router = useRouter();
   const { postApi } = customApi("/api/auth/login");
@@ -31,17 +32,30 @@ export default function ChoicePage() {
     },
   });
   return (
-    <Container>
+    <ChoiceWrapper>
+      <ToryTextBox>
+        <ToryText>어떤 방식으로 회원가입할까요?</ToryText>
+      </ToryTextBox>
       <ButtonBox>
-        <ToryText>어떤 방식으로 회원가입 할까요?</ToryText>
-
-        <OriginLoginBtn size="lg" kind="register" />
-        <NaverLoginBtn size="lg" mutate={mutate} kind="register" />
-        <KakaoLoginBtn size="lg" mutate={mutate} kind="register" />
+        <ButtonInnerBox>
+          <OriginLoginBtn size="lg" kind="register" />
+          <NaverLoginBtn size="lg" mutate={mutate} kind="register" />
+          <KakaoLoginBtn size="lg" mutate={mutate} kind="register" />
+        </ButtonInnerBox>
       </ButtonBox>
-    </Container>
+    </ChoiceWrapper>
   );
 }
-const ButtonBox = styled(Col)`
+
+const ChoiceWrapper = styled.div`
+
+`
+
+const ButtonBox = styled(Box)`
+  margin: 50px 0;
+`
+
+const ButtonInnerBox = styled(Col)`
+  display:inline-flex;
   gap: 50px;
 `;
