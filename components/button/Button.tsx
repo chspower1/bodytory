@@ -50,7 +50,7 @@ const Button = styled.button<{
   disable: boolean;
   borderRadius: string;
 }>`
-  position: "relative";
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -205,7 +205,7 @@ export const RectangleButton = ({
   onClick,
 }: ButtonProps) => {
   if (size === "sm") {
-    [width, height, fontSize] = ["87px", "29px", "16px"];
+    [width, height, fontSize] = ["87px", "29px", "14px"];
   }
 
   return (
