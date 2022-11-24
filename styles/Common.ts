@@ -7,19 +7,19 @@ export const Wrapper = styled.div`
 `;
 
 export const Container = styled.div`
-  width:100%;
-  max-width:1300px;
+  width: 100%;
+  max-width: 1300px;
   margin: 0 auto;
 `;
 
 export const FlexContainer = styled(Container)`
-  display:flex;
-  height:100%;
-`
+  display: flex;
+  height: 100%;
+`;
 export const InnerContainer = styled.div`
   margin: auto;
   height: 800px;
-  padding-top : 50px;
+  padding-top: 50px;
 `;
 
 export const Box = styled.div`
