@@ -17,7 +17,7 @@ import MessageBox from "@components/MessageBox";
 import ButtonInInput from "@components/ButtonInInput";
 import styled from "styled-components";
 import { FlexContainer, InnerContainer } from "@styles/Common";
-import { Seperation } from "./find-id";
+import { FindForm, Seperation } from "./find-id";
 export interface HelpForm {
   type: UserType;
   accountId?: string;
@@ -96,13 +96,13 @@ const HelpPage: NextPage = () => {
     <Container>
       <InnerContainer>
         <MessageBox isErrorsMessage={isErrorsMessage} currentComment={currentComment} />
-        <form onSubmit={handleSubmit(onValid)}>
+        <FindForm onSubmit={handleSubmit(onValid)}>
           <Seperation>
             {isToken ? (
               <ButtonInInput
                 name="accountId"
                 register={register("accountId")}
-                error={helpErrors.accountId?.message}
+                error={helpErrors.accountId}
                 isCertified={false}
                 changeButtonValue="아이디"
                 disabled
@@ -118,7 +118,7 @@ const HelpPage: NextPage = () => {
                   validate: value => ACCOUNT_ID_REGEX.test(value!) || "아이디 형식에 맞지 않습니다",
                 })}
                 placeholder="toritori2022"
-                error={helpErrors.accountId?.message}
+                error={helpErrors.accountId}
               />
             )}
           </Seperation>
@@ -143,13 +143,13 @@ const HelpPage: NextPage = () => {
                     })}
                     buttonValue="인증번호 확인"
                     isAuthenticationColumn
-                    error={helpErrors.token?.message}
+                    error={helpErrors.token}
                   />
                 )}
               </Seperation>
             </>
           )}
-        </form>
+        </FindForm>
       </InnerContainer>
     </Container>
   );
