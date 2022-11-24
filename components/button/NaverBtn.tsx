@@ -64,15 +64,17 @@ const NaverLoginBtn = ({ mutate, size, kind }: SocialBtnProps) => {
     getToken();
   }, [mutate, router]);
   return (
-    <SocialButton
-      onClick={handleNaverLogin}
-      social="naver"
-      size={size}
-      bgColor={kind === "login" ? "rgb(75, 80, 211)" : "rgb(61, 66, 191)"}
-    >
-      네이버 {comment}
+    <div>
+      <SocialButton
+        onClick={handleNaverLogin}
+        social="naver"
+        size={size}
+        bgColor={kind === "login" ? "rgb(75, 80, 211)" : "rgb(61, 66, 191)"}
+      >
+        네이버로 {comment}
+      </SocialButton>
       <button ref={naverRef} id="naverIdLogin" style={{ display: "none" }} />
-    </SocialButton>
+    </div>
   );
 };
 export default NaverLoginBtn;
