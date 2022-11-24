@@ -31,10 +31,8 @@ const InputBox = styled.div`
   border-radius: 50%;
   overflow: hidden;
   user-select: none;
-  &:focus-within {
-    &.error {
-      border: 2px solid ${({ theme }) => theme.color.error};
-    }
+  &.error {
+    border: 2px solid ${({ theme }) => theme.color.error};
   }
 `;
 const Input = styled.input`
