@@ -15,6 +15,8 @@ import MessageBox from "@components/MessageBox";
 import { FinalCommentBox } from "./find-id";
 import { theme } from "@styles/theme";
 import { checkEmptyObj } from "@utils/client/checkEmptyObj";
+import styled from "styled-components";
+import { FlexContainer, InnerContainer } from "@styles/Common";
 
 interface ResetForm {
   password: string;
@@ -62,75 +64,92 @@ const Reset: NextPage = () => {
     }
   }, [router]);
   return (
-    <div>
-      {!isSuccess ? (
-        <>
-          <MessageBox isErrorsMessage={isErrorsMessage} currentComment={currentComment} />
-          <form onSubmit={handleSubmit(onValid)}>
-            <Input
-              name="password"
-              placeholder="●●●●●●"
-              register={register("password", {
-                required: true,
-                validate: {
-                  regexPassword: value =>
-                    PASSWORD_REGEX.test(value) || "비밀번호는 6자리 이상\n영문 대소문자, 숫자를 조합해서 입력해주세요",
-                },
-                onChange() {
-                  if (watch("password").length < 6) {
-                    setValue("passwordConfirm", "");
-                  } else {
-                    if (watch("password") !== watch("passwordConfirm") && watch("passwordConfirm")) {
-                      setError("passwordConfirm", {
-                        message: "비밀번호가 일치하지 않아요!\n비밀번호를 다시 확인해주세요",
-                      });
-                    } else {
-                      setCurrentComment("비밀번호를 한번 더 입력해주세요");
-                      clearErrors(["password", "passwordConfirm"]);
-                    }
-                  }
-                },
-              })}
-              error={errors.password?.message}
-            />
-            {PASSWORD_REGEX.test(watch("password")) && (
-              <>
+    <Container>
+      <InnerContainer>
+        {!isSuccess ? (
+          <>
+            <MessageBox isErrorsMessage={isErrorsMessage} currentComment={currentComment} />
+            <form onSubmit={handleSubmit(onValid)}>
+              <Seperation>
                 <Input
-                  name="passwordConfirm"
+                  name="password"
                   placeholder="●●●●●●"
-                  register={register("passwordConfirm", {
+                  register={register("password", {
                     required: true,
                     validate: {
-                      checkPassword,
+                      regexPassword: value =>
+                        PASSWORD_REGEX.test(value) ||
+                        "비밀번호는 6자리 이상\n영문 대소문자, 숫자를 조합해서 입력해주세요",
+                    },
+                    onChange() {
+                      if (watch("password").length < 6) {
+                        setValue("passwordConfirm", "");
+                      } else {
+                        if (watch("password") !== watch("passwordConfirm") && watch("passwordConfirm")) {
+                          setError("passwordConfirm", {
+                            message: "비밀번호가 일치하지 않아요!\n비밀번호를 다시 확인해주세요",
+                          });
+                        } else {
+                          setCurrentComment("비밀번호를 한번 더 입력해주세요");
+                          clearErrors(["password", "passwordConfirm"]);
+                        }
+                      }
                     },
                   })}
-                  error={errors.passwordConfirm?.message}
+                  error={errors.password?.message}
                 />
-                <RoundButton
-                  size="lg"
-                  bgColor={theme.color.mintBtn}
-                  disable={!checkEmptyObj(errors) || !watch("password") || !watch("passwordConfirm")}
-                >
-                  비밀번호 재설정 완료
-                </RoundButton>
-              </>
-            )}
-          </form>
-        </>
-      ) : (
-        <FinalCommentBox>
-          <div className="innerBox">
-            <MessageBox>
-              <p>비밀번호가 재설정이 완료되었어요! </p>
-              <p>새로운 비밀번호로 로그인해주세요</p>
-            </MessageBox>
-            <RoundButton size="lg" bgColor={theme.color.mintBtn} onClick={() => router.push("/auth/login")}>
-              <Link href="/auth/login">로그인하러 가기</Link>
-            </RoundButton>
-          </div>
-        </FinalCommentBox>
-      )}
-    </div>
+              </Seperation>
+              {PASSWORD_REGEX.test(watch("password")) && (
+                <>
+                  <Seperation>
+                    <Input
+                      name="passwordConfirm"
+                      placeholder="●●●●●●"
+                      register={register("passwordConfirm", {
+                        required: true,
+                        validate: {
+                          checkPassword,
+                        },
+                      })}
+                      error={errors.passwordConfirm?.message}
+                    />
+                  </Seperation>
+                  <Seperation>
+                    <RoundButton
+                      size="lg"
+                      bgColor={theme.color.mintBtn}
+                      disable={!checkEmptyObj(errors) || !watch("password") || !watch("passwordConfirm")}
+                    >
+                      비밀번호 재설정 완료
+                    </RoundButton>
+                  </Seperation>
+                </>
+              )}
+            </form>
+          </>
+        ) : (
+          <FinalCommentBox>
+            <div className="innerBox">
+              <MessageBox>
+                <p>비밀번호가 재설정이 완료되었어요! </p>
+                <p>새로운 비밀번호로 로그인해주세요</p>
+              </MessageBox>
+              <RoundButton size="lg" bgColor={theme.color.mintBtn} onClick={() => router.push("/auth/login")}>
+                <Link href="/auth/login">로그인하러 가기</Link>
+              </RoundButton>
+            </div>
+          </FinalCommentBox>
+        )}
+      </InnerContainer>
+    </Container>
   );
 };
 export default Reset;
+
+const Container = styled(FlexContainer)``;
+
+const Seperation = styled.div`
+  & + & {
+    margin-top: 30px;
+  }
+`;
