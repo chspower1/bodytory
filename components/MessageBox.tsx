@@ -23,7 +23,7 @@ const MessageBox = ({ children, isErrorsMessage, currentComment }: MessageProps)
       }
     }
   };
-  return <MessageContainer>{children ? children : errorMessageText()}</MessageContainer>;
+  return <MessageContainer className="messageBox">{children ? children : errorMessageText()}</MessageContainer>;
 };
 
 export default MessageBox;
