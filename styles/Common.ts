@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
-  height: calc(100vh - 113px);
+  height: 100vh;
   width: 100%;
   overflow: hidden;
 `;
@@ -10,8 +10,12 @@ export const Container = styled.div`
   width:100%;
   max-width:1300px;
   margin: 0 auto;
-  padding: 30px 0;
 `;
+
+export const FlexContainer = styled(Container)`
+  display:flex;
+`
+
 
 export const Box = styled.div`
   display: flex;
