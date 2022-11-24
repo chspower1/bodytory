@@ -11,6 +11,7 @@ import OriginLoginBtn from "@components/button/OriginBtn";
 import { Box, Col, Container, FlexContainer, InnerContainer, ToryText, WhiteText } from "@styles/Common";
 import styled from "styled-components";
 import { ToryTextBox } from "../login";
+import MessageBox from "@components/MessageBox";
 export default function ChoicePage() {
   const router = useRouter();
   const { postApi } = customApi("/api/auth/login");
@@ -34,9 +35,9 @@ export default function ChoicePage() {
   return (
     <FlexContainer>
       <InnerContainer>
-        <ToryTextBox>
-          <ToryText>어떤 방식으로 회원가입할까요?</ToryText>
-        </ToryTextBox>
+        <MessageBox>
+          어떤 방식으로 회원가입할까요?
+        </MessageBox>
         <ButtonBox>
           <ButtonInnerBox>
             <OriginLoginBtn size="lg" kind="register" />
