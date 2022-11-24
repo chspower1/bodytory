@@ -37,6 +37,9 @@ const InputBox = styled.div`
     }
   }
   &.completion {
+    width:500px;
+    height:auto;
+    margin: 0 auto;
     background-color: transparent;
     label{
       padding: 20px;
