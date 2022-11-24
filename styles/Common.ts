@@ -4,6 +4,7 @@ export const Wrapper = styled.div`
   height: 100vh;
   width: 100%;
   overflow: hidden;
+  padding-top: 116px;
 `;
 
 export const Container = styled.div`

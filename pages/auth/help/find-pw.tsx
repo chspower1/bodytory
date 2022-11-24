@@ -15,6 +15,8 @@ import { RoundButton } from "@components/button/Button";
 import { ACCOUNT_ID_REGEX, EMAIL_REGEX, PASSWORD_REGEX } from "constant/regex";
 import MessageBox from "@components/MessageBox";
 import ButtonInInput from "@components/ButtonInInput";
+import styled from "styled-components";
+import { FlexContainer, InnerContainer } from "@styles/Common";
 export interface HelpForm {
   type: UserType;
   accountId?: string;
@@ -40,7 +42,7 @@ const HelpPage: NextPage = () => {
     onSuccess(data) {
       console.log("t", data);
       if (isToken) {
-        if(data.ok){
+        if (data.ok) {
           return router.push(
             {
               pathname: "/auth/help/reset",
@@ -66,15 +68,14 @@ const HelpPage: NextPage = () => {
     watch,
     setError,
     clearErrors,
-    formState: { errors : helpErrors },
-  } = useForm<HelpForm>({mode:"onChange"});
+    formState: { errors: helpErrors },
+  } = useForm<HelpForm>({ mode: "onChange" });
   const [isToken, setIsToken] = useState(false);
   const onValid = (helpForm: HelpForm) => {
     console.log(helpForm);
     mutate(helpForm);
   };
-  
-  
+
   const handleClickFindPassword = () => {
     if (!watch("accountId")) return setError("accountId", { message: "아이디를 입력해주세요" });
     if (watch("accountId") && !ACCOUNT_ID_REGEX.test(watch("accountId")!)) {
@@ -91,55 +92,78 @@ const HelpPage: NextPage = () => {
     }
   }, [isToken]);
   return (
-    <div>
-      <MessageBox isErrorsMessage={isErrorsMessage} currentComment={currentComment}/>
-      <form onSubmit={handleSubmit(onValid)}>
-        {isToken ?<ButtonInInput
-          name="accountId"
-          register={register("accountId")}
-          error={helpErrors.accountId?.message}
-          isCertified={false}
-          changeButtonValue="아이디"
-          disabled
-          nonSubmit
-          isToken={isToken}
-          setIsToken={setIsToken}
-        />
-        :
-        <Input
-          name="accountId"
-          register={register("accountId", {
-            required: true,
-            validate: value => ACCOUNT_ID_REGEX.test(value!) || "아이디 형식에 맞지 않습니다",
-          })}
-          placeholder="toritori2022"
-          error={helpErrors.accountId?.message}
-        />
-        }
-        <RoundButton size="lg" nonSubmit onClick={handleClickFindPassword}>
-          {isToken ? "인증메일 다시 보내기" : "비밀번호 찾기"}
-        </RoundButton>
-        {isToken && (
-          <>
-            <Input name="email" value={email} disabled  />
-            {isToken && (
+    <Container>
+      <InnerContainer>
+        <MessageBox isErrorsMessage={isErrorsMessage} currentComment={currentComment} />
+        <form onSubmit={handleSubmit(onValid)}>
+          <Seperation>
+            {isToken ? (
               <ButtonInInput
-                name="token"
-                placeholder="인증번호"
-                register={register("token", {
-                  required: "인증번호를 입력해주세요",
-                  validate: value => /^[0-9]+$/.test(value!)|| "숫자만 입력해주세요",
+                name="accountId"
+                register={register("accountId")}
+                error={helpErrors.accountId?.message}
+                isCertified={false}
+                changeButtonValue="아이디"
+                disabled
+                nonSubmit
+                isToken={isToken}
+                setIsToken={setIsToken}
+              />
+            ) : (
+              <Input
+                name="accountId"
+                register={register("accountId", {
+                  required: true,
+                  validate: value => ACCOUNT_ID_REGEX.test(value!) || "아이디 형식에 맞지 않습니다",
                 })}
-                buttonValue="인증번호 확인"
-                isAuthenticationColumn
-                error={helpErrors.token?.message}
+                placeholder="toritori2022"
+                error={helpErrors.accountId?.message}
               />
             )}
-          </>
-        )}
-        
-      </form>
-    </div>
+          </Seperation>
+          <Seperation>
+            <RoundButton size="lg" nonSubmit onClick={handleClickFindPassword}>
+              {isToken ? "인증메일 다시 보내기" : "비밀번호 찾기"}
+            </RoundButton>
+          </Seperation>
+          <Seperation>
+            {isToken && (
+              <>
+                <Input name="email" value={email} disabled />
+                {isToken && (
+                  <ButtonInInput
+                    name="token"
+                    placeholder="인증번호"
+                    register={register("token", {
+                      required: "인증번호를 입력해주세요",
+                      validate: value => /^[0-9]+$/.test(value!) || "숫자만 입력해주세요",
+                    })}
+                    buttonValue="인증번호 확인"
+                    isAuthenticationColumn
+                    error={helpErrors.token?.message}
+                  />
+                )}
+              </>
+            )}
+          </Seperation>
+        </form>
+      </InnerContainer>
+    </Container>
   );
 };
 export default HelpPage;
+
+const Test = styled(InnerContainer)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+const Container = styled(FlexContainer)``;
+
+const Seperation = styled.div`
+  & + & {
+    margin-top: 30px;
+  }
+`;
