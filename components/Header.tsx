@@ -41,7 +41,10 @@ const Header = () => {
 export default Header;
 
 const HeaderWrap = styled.div`
-  
+  position:absolute;
+  left:0px;
+  top:0px;
+  width:100%;
 `
 const HeaderContainer = styled.div`
   padding:0 65px;
@@ -67,7 +70,7 @@ const HeaderUl = styled.ul`
   width:270px;
   align-items:center;
   li{
-    margin : 0 30px;
+    margin : 0 20px;
     font-size: 18px;
     letter-spacing : -1.5px;
     font-weight: 600;
