@@ -79,8 +79,8 @@ const FirstPage = ({ user, setUser, setPage }: RegisterPageProps) => {
 
 export default FirstPage;
 
-const Form = styled(Box)`
-
+const Form = styled.form`
+  
 `
 const TermsBox = styled(Col)`
   width:520px;
