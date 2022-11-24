@@ -110,7 +110,7 @@ const InputBox = styled.div`
 `;
 const Input = styled.input`
   flex: 1;
-  height: 50px;
+  height: 62px;
   text-align: center;
   background: transparent;
   border: 0;
