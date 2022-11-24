@@ -41,7 +41,6 @@ const ButtonInInput = ({
       setValue("token", "");
     }
   };
-  console.log(isToken);
 
   return (
     <InputBox className={`${error ? "error" : ""} ${isAuthenticationColumn ? "authenticationColumn" : ""}`}>
@@ -92,9 +91,9 @@ const InputBox = styled.div`
   overflow: hidden;
   &:not(.authenticationColumn):focus-within {
     border: 2px solid #8c9af3;
-    &.error {
-      border: 2px solid ${({ theme }) => theme.color.error};
-    }
+  }
+  &.error:not(.authenticationColumn) {
+    border: 2px solid ${({ theme }) => theme.color.error};
   }
   & + & {
     margin-top: 10px;
