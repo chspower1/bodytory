@@ -14,10 +14,7 @@ interface RecordWithImage extends Record {
 export default function ChartPage() {
   const queryClient = useQueryClient();
   const { getApi, deleteApi } = customApi("/api/users/records");
-  const { isLoading, data: records } = useQuery<RecordWithImage[] | undefined>([RECORDS_READ], getApi, {
-    staleTime: 0,
-    cacheTime: 0,
-  });
+  const { isLoading, data: records } = useQuery<RecordWithImage[] | undefined>([RECORDS_READ], getApi);
   const { mutate } = useMutation([RECORDS_DELETE], deleteApi, {
     onSuccess(data, variables, context) {
       queryClient.invalidateQueries([RECORDS_READ]);
@@ -49,12 +46,7 @@ export default function ChartPage() {
             )}
             <button onClick={handleClickDeleteRecord(record.id)}>삭제하기</button>
           </div>
-          <div>
-            {record.images.map((elem, key) => (
-              <img src={elem.url} width={30} height={30} alt="이미지" key={key} />
-            ))}
-          </div>
-          <ManageImage recordId={String(record.id)} />
+          <ManageImage recordId={String(record.id)} recordImage={record.images} />
         </div>
       ))}
 
