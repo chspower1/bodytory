@@ -48,7 +48,7 @@ const KakaoLoginBtn = ({ mutate, size, kind }: SocialBtnProps) => {
       size={size}
       bgColor={kind === "login" ? "rgb(75, 80, 211)" : "rgb(61, 66, 191)"}
     >
-      카카오 {comment}
+      카카오로 {comment}
     </SocialButton>
   );
 };
