@@ -1,11 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import client from "utils/server/client";
-import withHandler from "@utils/server/withHandler";
-import { withApiSession } from "@utils/server/withSession";
 import multer from "multer";
 import nextconnect from "next-connect";
-import path from "path";
-import { connect } from "http2";
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
@@ -27,12 +23,16 @@ const handler = nextconnect<NextApiRequest, NextApiResponse>({
 
 const upload = multer({ storage: storage });
 
-handler.post(upload.array("image"), (req, res) => {
+handler.post(upload.array("image"), async (req, res) => {
   const { recordId } = req.body;
   const files = req.files as Express.Multer.File[];
-  files.forEach(file => {
-    addPicture(recordId, file.filename);
+
+  const saveFiles = files.map(async file => {
+    await addPicture(recordId, file.filename);
   });
+
+  await Promise.all(saveFiles);
+
   res.status(200).end();
 });
 
@@ -62,6 +62,7 @@ async function addPicture(id: string, fileUrl: string) {
     },
   });
 }
+
 function saveImage() {}
 async function updatePicture(req: NextApiRequest) {
   const { id, images } = req.body;
