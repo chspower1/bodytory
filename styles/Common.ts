@@ -14,9 +14,12 @@ export const Container = styled.div`
 
 export const FlexContainer = styled(Container)`
   display:flex;
+  height:100%;
 `
 export const InnerContainer = styled.div`
   margin: auto;
+  height: 800px;
+  padding-top : 50px;
 `;
 
 export const Box = styled.div`

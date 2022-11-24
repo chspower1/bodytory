@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { Dispatch, SetStateAction } from "react";
 import { RegisterForm } from "pages/auth/register";
 import { CircleButton, RectangleButton, RoundButton } from "@components/button/Button";
-import { Box, Col, Container, Row, WhiteText, Wrapper } from "@styles/Common";
+import { Box, Col, Container, FlexContainer, InnerContainer, Row, WhiteText, Wrapper } from "@styles/Common";
 import Link from "next/link";
 import CheckBoxInput from "@components/CheckBoxInput";
 import MessageBox from "@components/MessageBox";
@@ -37,50 +37,58 @@ const FirstPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     } else setPage(2);
   };
   return (
-    <Form onSubmit={handleSubmit(onValid)}>
-      <FormContainer>
-        <MessageBox>토리가 이용자님의 정보를 수집하고 안전하게 보호해요</MessageBox>
-        <Col>
-          <CheckBoxInput
-            label="모든 약관에 동의합니다."
-            name="agree"
-            register={register("agree", { required: "약관 동의 해주세요" })}
-            error={errors.agree?.message}
-          />
-          <TermsBox>
-            <TermsRow>
-              <WhiteText fontSize="18px">[필수] 서비스 이용 약관 </WhiteText>
-              <RectangleButton nonSubmit bgColor="rgb(61, 66, 191)" size="sm">
-                내용 보기
-              </RectangleButton>
-            </TermsRow>
-            <TermsRow>
-              <WhiteText fontSize="18px">[필수] 개인 정보 수집 및 이용 약관 </WhiteText>
-              <RectangleButton nonSubmit bgColor="rgb(61, 66, 191)" size="sm">
-                내용 보기
-              </RectangleButton>
-            </TermsRow>
-          </TermsBox>
-        </Col>
-        <ButtonBox>
-          <Link href="/auth/register/choice">
-            <CircleButton nonSubmit bgColor="rgb(75, 80, 211)">
-              이전 단계
-            </CircleButton>
-          </Link>
-          <CircleButton bgColor={theme.color.mintBtn} disable={!(user?.agree || watch("agree"))}>
-            다음 단계
-          </CircleButton>
-        </ButtonBox>
-      </FormContainer>
-    </Form>
+    <FlexContainer>
+      <InnerContainer>
+        <Form onSubmit={handleSubmit(onValid)}>
+          <FormContents>
+            <MessageBox>토리가 이용자님의 정보를 수집하고 안전하게 보호해요</MessageBox>
+            <Col>
+              <CheckBoxInput
+                label="모든 약관에 동의합니다."
+                name="agree"
+                register={register("agree", { required: "약관 동의 해주세요" })}
+                error={errors.agree?.message}
+              />
+              <TermsBox>
+                <TermsRow>
+                  <WhiteText fontSize="18px">[필수] 서비스 이용 약관 </WhiteText>
+                  <RectangleButton nonSubmit bgColor="rgb(61, 66, 191)" size="sm">
+                    내용 보기
+                  </RectangleButton>
+                </TermsRow>
+                <TermsRow>
+                  <WhiteText fontSize="18px">[필수] 개인 정보 수집 및 이용 약관 </WhiteText>
+                  <RectangleButton nonSubmit bgColor="rgb(61, 66, 191)" size="sm">
+                    내용 보기
+                  </RectangleButton>
+                </TermsRow>
+              </TermsBox>
+            </Col>
+          </FormContents>
+            <ButtonBox>
+              <Link href="/auth/register/choice">
+                <CircleButton nonSubmit bgColor="rgb(75, 80, 211)">
+                  이전 단계
+                </CircleButton>
+              </Link>
+              <CircleButton bgColor={theme.color.mintBtn} disable={!(user?.agree || watch("agree"))}>
+                다음 단계
+              </CircleButton>
+            </ButtonBox>
+        </Form>
+      </InnerContainer>
+    </FlexContainer>
   );
 };
 
 export default FirstPage;
 
+
+
 const Form = styled.form`
-  
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
 `
 const TermsBox = styled(Col)`
   width:520px;
@@ -97,7 +105,7 @@ const TermsRow = styled(Row)`
     border-top : 1px solid #646AEB;
   }
 `;
-export const FormContainer = styled.div`
+export const FormContents = styled.div`
   
 `;
 export const ButtonBox = styled(Row)`

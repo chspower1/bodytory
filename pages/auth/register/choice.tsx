@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import { SocialButton } from "@components/button/Button";
 import OriginLoginBtn from "@components/button/OriginBtn";
-import { Box, Col, Container, ToryText, WhiteText } from "@styles/Common";
+import { Box, Col, Container, FlexContainer, InnerContainer, ToryText, WhiteText } from "@styles/Common";
 import styled from "styled-components";
 import { ToryTextBox } from "../login";
 export default function ChoicePage() {
@@ -32,18 +32,20 @@ export default function ChoicePage() {
     },
   });
   return (
-    <ChoiceWrapper>
-      <ToryTextBox>
-        <ToryText>어떤 방식으로 회원가입할까요?</ToryText>
-      </ToryTextBox>
-      <ButtonBox>
-        <ButtonInnerBox>
-          <OriginLoginBtn size="lg" kind="register" />
-          <NaverLoginBtn size="lg" mutate={mutate} kind="register" />
-          <KakaoLoginBtn size="lg" mutate={mutate} kind="register" />
-        </ButtonInnerBox>
-      </ButtonBox>
-    </ChoiceWrapper>
+    <FlexContainer>
+      <InnerContainer>
+        <ToryTextBox>
+          <ToryText>어떤 방식으로 회원가입할까요?</ToryText>
+        </ToryTextBox>
+        <ButtonBox>
+          <ButtonInnerBox>
+            <OriginLoginBtn size="lg" kind="register" />
+            <NaverLoginBtn size="lg" mutate={mutate} kind="register" />
+            <KakaoLoginBtn size="lg" mutate={mutate} kind="register" />
+          </ButtonInnerBox>
+        </ButtonBox>
+      </InnerContainer>
+    </FlexContainer>
   );
 }
 

@@ -76,7 +76,7 @@ const LoginPage: NextPage = () => {
     setIsError(false);
   }, [watch("accountId"), watch("password")]);
   return (
-    <Container>
+    <FlexContainer>
       <InnerContainer>
         <ToryTextBox>
           <ToryText>
@@ -147,15 +147,10 @@ const LoginPage: NextPage = () => {
         children으로 주는거라 태그 사이에 쓰면 됩니다.
       </Modal> */}
       </InnerContainer>
-    </Container>
+    </FlexContainer>
   );
 };
 export default LoginPage;
-
-const Container = styled(FlexContainer)`
-  height:100%;
-
-`;
 
 
 export const ToryTextBox = styled.div`
