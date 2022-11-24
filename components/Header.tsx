@@ -70,7 +70,7 @@ const HeaderUl = styled.ul`
   width:270px;
   align-items:center;
   li{
-    margin : 0 20px;
+    margin : 0 28px;
     font-size: 18px;
     letter-spacing : -1.5px;
     font-weight: 600;
