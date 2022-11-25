@@ -275,7 +275,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
               <RoundButton nonSubmit size="custom" height="60px" bgColor="rgb(75, 80, 211)" onClick={handleClickPrevPage}>
                 이전 단계
               </RoundButton>
-              <RoundButton size="custom" width="360px" bgColor={theme.color.mintBtn} disable={!checkEmptyObj(errors)}>
+              <RoundButton size="custom" width="360px" bgColor={theme.color.mintBtn} disable={!checkEmptyObj(errors) || !user?.isCertified}>
                 {currentComment.includes("회원가입") ? "회원가입 완료" : "정보를 모두 입력해주세요"}
               </RoundButton>
             </PrevNextButtonBox>
