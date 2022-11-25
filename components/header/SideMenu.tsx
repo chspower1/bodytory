@@ -1,7 +1,7 @@
 import { Col, Row } from "@styles/Common";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
-import styled, { keyframes } from "styled-components";
+import styled, { css } from "styled-components";
 import settingIcon from "@public/settingIcon.png";
 import HamburgerMenuButton from "./HamburgerMenuButton";
 import { useRouter } from "next/router";
@@ -9,6 +9,7 @@ const SideMenu = () => {
   const router = useRouter();
   const dimRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [isActive, setIsActive] = useState(false);
   const [menuList, _] = useState([
     {
       subject: "오늘 기록하기",
@@ -26,8 +27,8 @@ const SideMenu = () => {
   /* /auth/hospital */
   return (
     <>
-      <HamburgerMenuButton isOpen={isOpen} setIsOpen={setIsOpen} />
-      {isOpen && <Dim>
+      <HamburgerMenuButton isOpen={isOpen} setIsOpen={setIsOpen} isActive={isActive} setIsActive={setIsActive} />
+      {isActive && <Dim isOpen={isOpen}>
         <SideMenuBox>
           <InnerBox>
             <ContentsBox>
@@ -48,43 +49,16 @@ const SideMenu = () => {
             </ContentsBox>
           </InnerBox>
         </SideMenuBox>
-      </Dim>}
+      </Dim>
+      }
     </>
   );
 };
 
 export default SideMenu;
 
-const OpenDimAnimation = keyframes`
-  0%{
-    opacity: 0;
-    display:none;
-  }
-  100%{
-    opacity: 1;
-    display: flex;
-  }
-`
-const CloseDimAnimation = keyframes`
-  0%{
-    opacity: 1;
-    
-  }
-  100%{
-    opacity: 0;
-    
-  }
-`
-const OpenMenuAnimation = keyframes`
-  0%{
-    transform: translateX(100%);
-  }
-  100%{
-    transform: translateX(0);
-  }
-`
 
-const Dim = styled.div`
+const Dim = styled.div<{isOpen : boolean}>`
   display: flex;
   position: fixed;
   left: 0;
@@ -93,7 +67,14 @@ const Dim = styled.div`
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.2);
-  animation: ${OpenDimAnimation} .6s forwards;
+  opacity: ${({isOpen}) => isOpen ? `1` : `0`};
+  transition: opacity .6s;
+  ${({isOpen}) => isOpen && css`
+    & > div{
+      transform: translateX(0%);
+    };
+  `}
+  
 `;
 
 const SideMenuBox = styled.div`
@@ -104,7 +85,8 @@ const SideMenuBox = styled.div`
   background: ${({ theme }) => theme.color.darkBg};
   border-radius: 50px 0 0 50px;
   transform: translateX(100%);
-  animation: ${OpenMenuAnimation} .6s forwards;
+  transition: transform .6s;
+
   color: #fff;
   a {
     color: #fff;
