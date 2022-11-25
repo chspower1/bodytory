@@ -1,76 +1,44 @@
 import { RecordImage } from "@prisma/client";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteImageApi, uploadImageApi } from "@utils/client/imageApi";
+import uploadImage from "@utils/client/uploadImage";
 import { RECORDS_READ } from "constant/queryKeys";
-import React, { InputHTMLAttributes, useEffect } from "react";
+import Image from "next/image";
 import styled from "styled-components";
 
 export default function ManageImage({ recordId, recordImage }: { recordId: string; recordImage: RecordImage[] }) {
-  async function api(formData: any) {
-    return await axios.post("/api/users/records/picture", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-  }
   const queryClient = useQueryClient();
-  const { mutate } = useMutation(api, {
+
+  const uploadImageMutation = useMutation(uploadImageApi, {
     onSuccess(data) {
       queryClient.invalidateQueries([RECORDS_READ]);
     },
   });
-  const deleteTest = useMutation(deleteImage, {
+
+  const deleteImageMutation = useMutation(deleteImageApi, {
     onSuccess(data) {
       queryClient.invalidateQueries([RECORDS_READ]);
     },
   });
-  function handleImage(id: string) {
-    const input = document.createElement("input");
-    input.setAttribute("type", "file");
-    input.setAttribute("accept", "image/*");
-    input.multiple = true;
-    input.click();
 
-    input.addEventListener("change", async () => {
-      try {
-        const formData = new FormData();
-        console.log(input.files);
-        formData.append("recordId", id);
-        Array.from(input?.files!).forEach(file => formData.append("image", file));
-
-        mutate(formData);
-
-        console.log("보냄");
-      } catch (err) {
-        console.log(err);
-      }
-    });
-  }
-
-  async function deleteImage(id: number) {
-    console.log(id);
-    const form = new FormData();
-    form.append("id", String(id));
-    await axios.delete(`/api/users/records/${id}`);
-  }
   return (
     <div>
-      <ImageLabel onClick={() => handleImage(recordId)}>사진 추가</ImageLabel>
-      <ImageBox>
+      <UploadImageButton onClick={() => uploadImage(recordId, uploadImageMutation.mutate)}>사진 추가</UploadImageButton>
+      <ImageContainer>
         {recordImage.map((elem, key) => (
           <>
-            <TestDiv>
-              <img src={elem.url} alt="이미지" />
-              <DeleteButton onClick={() => deleteTest.mutate(elem.id)}>삭제</DeleteButton>
-            </TestDiv>
+            <ImageBox key={key}>
+              <Image src={elem.url} alt="이미지" width={100} height={100} />
+              <DeleteButton onClick={() => deleteImageMutation.mutate(elem.id)}></DeleteButton>
+            </ImageBox>
           </>
         ))}
-      </ImageBox>
+      </ImageContainer>
     </div>
   );
 }
 
-const TestDiv = styled.div`
+const ImageBox = styled.div`
   flex: 0 0 auto;
   position: relative;
   & img {
@@ -84,21 +52,23 @@ const DeleteButton = styled.button`
   width: 30px;
   height: 30px;
   position: absolute;
-  background-color: red;
-  right: 0;
+  background-image: url("/delete.png");
+  background-position: center;
+  background-size: cover;
+  right: 5px;
+  top: 5px;
 `;
 
-const ImageBox = styled.div`
+const ImageContainer = styled.div`
   display: flex;
   width: 1000px;
   overflow-x: scroll;
   overflow-y: hidden;
 `;
 
-const ImageLabel = styled.button`
+const UploadImageButton = styled.button`
+  width: 100px;
+  height: 50px;
+  background-color: white;
   cursor: pointer;
-`;
-
-const ImageInput = styled.input`
-  display: none;
 `;
