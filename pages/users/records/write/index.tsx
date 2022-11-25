@@ -12,6 +12,7 @@ interface WriteType {
 }
 
 export type SiteType =
+  | "head"
   | "forehead"
   | "eyes"
   | "nose"
@@ -64,10 +65,13 @@ export default function WritePage() {
   //     setIsText(false);
   //   }, 2000);
   // };
-  const [selectedSite, setSelectedSite] = useState<SiteType>("stomach");
+  const [selectedSite, setSelectedSite] = useState<SiteType>("forehead");
 
   return (
-    <BodyNavigator selectedSite={selectedSite} setSelectedSite={setSelectedSite} />
+    <>
+      <h1>{selectedSite}</h1>
+      <BodyNavigator selectedSite={selectedSite} setSelectedSite={setSelectedSite} />
+    </>
     // <div>
     //   <form onSubmit={handleSubmit(onValid)}>
     //     <Input
