@@ -12,7 +12,7 @@ import { Box, Col, Container, FlexContainer, InnerContainer, ToryText, WhiteText
 import styled from "styled-components";
 import { ToryTextBox } from "../login";
 import MessageBox from "@components/MessageBox";
-export default function ChoicePage() {
+const ChoicePage = () => {
   const router = useRouter();
   const { postApi } = customApi("/api/auth/login");
   const { mutate } = useMutation([USER_LOGIN], postApi, {
@@ -35,9 +35,7 @@ export default function ChoicePage() {
   return (
     <FlexContainer>
       <InnerContainer>
-        <MessageBox>
-          어떤 방식으로 회원가입할까요?
-        </MessageBox>
+        <MessageBox>어떤 방식으로 회원가입할까요?</MessageBox>
         <ButtonBox>
           <ButtonInnerBox>
             <OriginLoginBtn size="lg" kind="register" />
@@ -48,17 +46,17 @@ export default function ChoicePage() {
       </InnerContainer>
     </FlexContainer>
   );
-}
+};
 
-const ChoiceWrapper = styled.div`
+export default ChoicePage;
 
-`
+const ChoiceWrapper = styled.div``;
 
 const ButtonBox = styled(Box)`
   margin: 50px 0;
-`
+`;
 
 const ButtonInnerBox = styled(Col)`
-  display:inline-flex;
+  display: inline-flex;
   gap: 50px;
 `;

@@ -14,13 +14,13 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       retry: false,
-      // useErrorBoundary: true,
+      useErrorBoundary: true,
       // suspense: true,
       staleTime: 1000 * 60 * 5,
       cacheTime: 1000 * 60 * 5,
     },
     mutations: {
-      // useErrorBoundary: true,
+      useErrorBoundary: true,
       onError(error: any) {},
     },
   },
@@ -40,17 +40,17 @@ export default function App({ Component, pageProps }: AppProps) {
         <title>바디토리</title>
       </Head>
       <QueryClientProvider client={queryClient}>
-        {/* <ErrorBoundary fallback={<div>에러</div>}> */}
-        {/* <Suspense fallback={<div>로딩중</div>}> */}
-        <ThemeProvider theme={theme}>
-          <GlobalStyled />
-          <Header/>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </ThemeProvider>
-        {/* </Suspense> */}
-        {/* </ErrorBoundary> */}
+        <ErrorBoundary fallback={<div>에러</div>}>
+          <Suspense fallback={<div>로딩중</div>}>
+            <ThemeProvider theme={theme}>
+              <GlobalStyled />
+              <Header />
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </ThemeProvider>
+          </Suspense>
+        </ErrorBoundary>
         <ReactQueryDevtools />
       </QueryClientProvider>
     </>
