@@ -6,6 +6,8 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import BodyNavigator from "@components/record/BodyNavigator";
+import styled from "styled-components";
+import SiteChecker from "@components/record/SiteChecker";
 
 interface WriteType {
   write: string;
@@ -66,12 +68,13 @@ export default function WritePage() {
   //   }, 2000);
   // };
   const [selectedSite, setSelectedSite] = useState<SiteType>(null);
+  const [hoveredSite, setHoveredSite] = useState<string>("");
 
   return (
-    <>
-      <h1>{selectedSite}</h1>
-      <BodyNavigator selectedSite={selectedSite} setSelectedSite={setSelectedSite} />
-    </>
+    <RecordContainer>
+      <SiteChecker hoveredSite={hoveredSite} />
+      <BodyNavigator selectedSite={selectedSite} setSelectedSite={setSelectedSite} setHoveredSite={setHoveredSite} />
+    </RecordContainer>
     // <div>
     //   <form onSubmit={handleSubmit(onValid)}>
     //     <Input
@@ -95,3 +98,11 @@ export default function WritePage() {
     // </div>
   );
 }
+
+const RecordContainer = styled.div`
+  padding: 50px;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: space-between;
+`;
