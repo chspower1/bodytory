@@ -196,7 +196,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                         "비밀번호는 6자리 이상\n영문 대소문자, 숫자를 조합해서 입력해주세요",
                     },
                     onChange() {
-                      if (watch("password").length < 6) {
+                      if (watch("password").length < 6 ) {
                         setValue("passwordConfirm", "");
                         setCurrentInputIdx(2);
                       } else {
@@ -215,7 +215,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                 />
               )}
 
-              {currentInputIdx >= 3 && (
+              {currentInputIdx >= 3 && !errors.password?.message && (
                 <Input
                   type="password"
                   name="passwordConfirm"
