@@ -71,7 +71,7 @@ const FirstPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                   이전 단계
                 </CircleButton>
               </Link>
-              <CircleButton bgColor={theme.color.mintBtn} disable={Boolean(errors.agree)}>
+              <CircleButton bgColor={theme.color.mintBtn} disable={Boolean(errors.agree) || !watch("agree")}>
                 다음 단계
               </CircleButton>
             </PrevNextButtonBox>
