@@ -24,7 +24,7 @@ const BodyNavigator = ({ selectedSite, setSelectedSite, setHoveredSite, isRecord
   return (
     <CustomContainer>
       {currentBodyPosition !== "face" ? (
-        <ButtonsContainer>
+        <ButtonsBox>
           {isRecordSiteSelected || (
             <RoundButton width="90px" height="50px" onClick={() => setCurrentBodyPosition("front")}>
               앞
@@ -35,15 +35,15 @@ const BodyNavigator = ({ selectedSite, setSelectedSite, setHoveredSite, isRecord
               뒤
             </RoundButton>
           )}
-        </ButtonsContainer>
+        </ButtonsBox>
       ) : (
-        <ButtonsContainer>
+        <ButtonsBox>
           {isRecordSiteSelected || (
             <RoundButton width="90px" height="50px" onClick={() => setCurrentBodyPosition("front")}>
               몸
             </RoundButton>
           )}
-        </ButtonsContainer>
+        </ButtonsBox>
       )}
       {isRecordSiteSelected ? (
         <PathBox isViewMode={true}>
@@ -1465,7 +1465,7 @@ const PathBox = styled.div<{ isViewMode?: boolean }>`
     `}
 `;
 
-const ButtonsContainer = styled.div`
+const ButtonsBox = styled.div`
   display: flex;
   justify-content: space-between;
   position: absolute;

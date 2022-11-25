@@ -72,7 +72,7 @@ export default function WritePage() {
 
   return (
     <RecordContainer>
-      <SiteChecker hoveredSite={hoveredSite} />
+      <SiteChecker hoveredSite={hoveredSite} selectedSite={selectedSite} setSelectedSite={setSelectedSite} />
       <BodyNavigator
         selectedSite={selectedSite}
         setSelectedSite={setSelectedSite}

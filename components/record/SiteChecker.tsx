@@ -1,15 +1,38 @@
+import { RoundButton } from "@components/button/Button";
+import { useRouter } from "next/router";
+import { SiteType } from "pages/users/records/write";
+import { Dispatch, SetStateAction } from "react";
 import styled from "styled-components";
 
 interface SiteCheckerProps {
   hoveredSite: string;
+  selectedSite: SiteType;
+  setSelectedSite: Dispatch<SetStateAction<SiteType>>;
 }
 
-const SiteChecker = ({ hoveredSite }: SiteCheckerProps) => {
+const SiteChecker = ({ hoveredSite, selectedSite, setSelectedSite }: SiteCheckerProps) => {
+  const router = useRouter();
+
   return (
     <CheckerContainer>
       <ToriBox></ToriBox>
-      <TestText>증상을 기록할 부위를 선택해주세요</TestText>
-      <Displayer>{hoveredSite}</Displayer>
+      {selectedSite === null ? (
+        <TestText>증상을 기록할 부위를 선택해주세요</TestText>
+      ) : (
+        <TestText>{hoveredSite}에 대한 증상을 기록할까요?</TestText>
+      )}
+      {selectedSite === null ? (
+        <Displayer>{hoveredSite}</Displayer>
+      ) : (
+        <ButtonsBox>
+          <RoundButton width="auto" height="60px" onClick={() => router.push(`./write/${selectedSite}`)}>
+            네
+          </RoundButton>
+          <RoundButton width="auto" height="60px" onClick={() => setSelectedSite(null)}>
+            아니요, 다시 선택할래요
+          </RoundButton>
+        </ButtonsBox>
+      )}
     </CheckerContainer>
   );
 };
@@ -66,6 +89,14 @@ const Displayer = styled.div`
   text-align: center;
 
   color: #12d4c9;
+`;
+
+const ButtonsBox = styled.div`
+  margin-left: auto;
+  margin-right: auto;
+  width: 472px;
+  height: 60px;
+  display: flex;
 `;
 
 export default SiteChecker;
