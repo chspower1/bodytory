@@ -73,7 +73,12 @@ export default function WritePage() {
   return (
     <RecordContainer>
       <SiteChecker hoveredSite={hoveredSite} />
-      <BodyNavigator selectedSite={selectedSite} setSelectedSite={setSelectedSite} setHoveredSite={setHoveredSite} />
+      <BodyNavigator
+        selectedSite={selectedSite}
+        setSelectedSite={setSelectedSite}
+        setHoveredSite={setHoveredSite}
+        isRecordSiteSelected={selectedSite !== null}
+      />
     </RecordContainer>
     // <div>
     //   <form onSubmit={handleSubmit(onValid)}>
