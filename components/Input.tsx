@@ -1,5 +1,5 @@
 import Image, { StaticImageData } from "next/image";
-import { UseFormRegisterReturn } from "react-hook-form";
+import { FieldError, UseFormRegisterReturn } from "react-hook-form";
 import styled from "styled-components";
 import checked from "@public/check_checked.svg";
 
@@ -9,7 +9,7 @@ export interface InputProps {
   register?: UseFormRegisterReturn;
   type?: string;
   placeholder?: string;
-  error?: string;
+  error?: FieldError | string;
   disabled?: boolean;
   value?: string;
   checked?: boolean;

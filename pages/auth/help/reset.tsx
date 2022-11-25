@@ -96,7 +96,7 @@ const Reset: NextPage = () => {
                       }
                     },
                   })}
-                  error={errors.password?.message}
+                  error={errors.password}
                 />
               </Seperation>
               {PASSWORD_REGEX.test(watch("password")) && (
@@ -111,7 +111,7 @@ const Reset: NextPage = () => {
                           checkPassword,
                         },
                       })}
-                      error={errors.passwordConfirm?.message}
+                      error={errors.passwordConfirm}
                     />
                   </Seperation>
                   <Seperation>

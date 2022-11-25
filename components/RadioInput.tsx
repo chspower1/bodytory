@@ -1,12 +1,12 @@
 import React from "react";
-import { UseFormRegisterReturn } from "react-hook-form";
+import { FieldError, UseFormRegisterReturn } from "react-hook-form";
 import styled from "styled-components";
 
 export interface RadioProps {
   label: string;
   name: string;
   register?: UseFormRegisterReturn;
-  error?: string;
+  error?: FieldError | string;
   value?: string;
   checked?: boolean;
 }
@@ -31,10 +31,8 @@ const InputBox = styled.div`
   border-radius: 50%;
   overflow: hidden;
   user-select: none;
-  &:focus-within {
-    &.error {
-      border: 2px solid ${({ theme }) => theme.color.error};
-    }
+  &.error {
+    border: 2px solid ${({ theme }) => theme.color.error};
   }
 `;
 const Input = styled.input`

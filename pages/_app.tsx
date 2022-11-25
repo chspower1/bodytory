@@ -8,19 +8,19 @@ import GlobalStyled from "@styles/GlobalStyled";
 import Head from "next/head";
 import { theme } from "@styles/theme";
 import { ThemeProvider } from "styled-components";
-import Header from "@components/Header";
+import Header from "@components/header/Header";
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       retry: false,
-      useErrorBoundary: true,
+      // useErrorBoundary: true,
       // suspense: true,
       staleTime: 1000 * 60 * 5,
       cacheTime: 1000 * 60 * 5,
     },
     mutations: {
-      useErrorBoundary: true,
+      // useErrorBoundary: true,
       onError(error: any) {},
     },
   },
@@ -40,8 +40,8 @@ export default function App({ Component, pageProps }: AppProps) {
         <title>바디토리</title>
       </Head>
       <QueryClientProvider client={queryClient}>
-        <ErrorBoundary fallback={<div>에러</div>}>
-          <Suspense fallback={<div>로딩중</div>}>
+        {/* <ErrorBoundary fallback={<div>에러</div>}>
+          <Suspense fallback={<div>로딩중</div>}> */}
             <ThemeProvider theme={theme}>
               <GlobalStyled />
               <Header />
@@ -49,8 +49,8 @@ export default function App({ Component, pageProps }: AppProps) {
                 <Component {...pageProps} />
               </Layout>
             </ThemeProvider>
-          </Suspense>
-        </ErrorBoundary>
+          {/* </Suspense>
+        </ErrorBoundary> */}
         <ReactQueryDevtools />
       </QueryClientProvider>
     </>

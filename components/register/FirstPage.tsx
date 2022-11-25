@@ -47,7 +47,7 @@ const FirstPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                 label="모든 약관에 동의합니다."
                 name="agree"
                 register={register("agree", { required: "약관 동의 해주세요" })}
-                error={errors.agree?.message}
+                error={errors.agree}
               />
               <TermsBox>
                 <TermsRow>
@@ -71,7 +71,7 @@ const FirstPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                   이전 단계
                 </CircleButton>
               </Link>
-              <CircleButton bgColor={theme.color.mintBtn} disable={!(user?.agree || watch("agree"))}>
+              <CircleButton bgColor={theme.color.mintBtn} disable={Boolean(errors.agree) || !watch("agree")}>
                 다음 단계
               </CircleButton>
             </PrevNextButtonBox>

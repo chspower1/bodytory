@@ -77,26 +77,14 @@ const HelpFindId: NextPage = () => {
   }, [isToken]);
 
   return (
-    <Container>
+    <FlexContainer>
       <InnerContainer>
         {!foundAccountId ? (
           <>
             <MessageBox isErrorsMessage={isErrorsMessage} currentComment={currentComment} />
-            <form onSubmit={helpHandleSubmit(onValidHelpForm)}>
-              <Seperation>
-                {isToken ? (
-                  <ButtonInInput
-                    name="email"
-                    register={helpRegister("email")}
-                    error={helpErrors.email?.message}
-                    isCertified={false}
-                    changeButtonValue="이메일"
-                    disabled
-                    nonSubmit
-                    isToken={isToken}
-                    setIsToken={setIsToken}
-                  />
-                ) : (
+            <FindForm onSubmit={helpHandleSubmit(onValidHelpForm)}>
+              {isToken || (
+                <Seperation>
                   <Input
                     name="email"
                     register={helpRegister("email", {
@@ -104,17 +92,17 @@ const HelpFindId: NextPage = () => {
                       validate: value => EMAIL_REGEX.test(value!) || "이메일 형식에 맞지 않습니다",
                     })}
                     placeholder="toritori2022@naver.com"
-                    error={helpErrors.email?.message}
+                    error={helpErrors.email}
                   />
-                )}
-              </Seperation>
+                </Seperation>
+              )}
               <Seperation>
                 <RoundButton size="lg" nonSubmit onClick={handleClickFindId}>
                   {isToken ? "인증메일 다시 보내기" : "아이디 찾기"}
                 </RoundButton>
               </Seperation>
-              <Seperation>
-                {isToken && (
+              {isToken && (
+                <Seperation>
                   <ButtonInInput
                     name="token"
                     placeholder="인증번호"
@@ -124,11 +112,11 @@ const HelpFindId: NextPage = () => {
                     })}
                     buttonValue="인증번호 확인"
                     isAuthenticationColumn
-                    error={helpErrors.token?.message}
+                    error={helpErrors.token}
                   />
-                )}
-              </Seperation>
-            </form>
+                </Seperation>
+              )}
+            </FindForm>
           </>
         ) : (
           <FinalCommentBox>
@@ -149,16 +137,22 @@ const HelpFindId: NextPage = () => {
           </FinalCommentBox>
         )}
       </InnerContainer>
-    </Container>
+    </FlexContainer>
   );
 };
 export default HelpFindId;
 
-const Container = styled(FlexContainer)``;
+export const FindForm = styled.form`
+  margin-top: 100px;
+`
 
 export const Seperation = styled(Row)`
   & + & {
-    margin-top: 30px;
+    padding-top: 30px;
+    
+    > button, > div{
+      margin-top: 30px;
+    }
   }
 `;
 
@@ -175,11 +169,11 @@ export const FinalCommentBox = styled.div`
         margin: 0 30px;
       }
     }
-    .linkButton{
-      display:flex;
+    .linkButton {
+      display: flex;
       justify-content: center;
-      a{
-        display:inline-block;
+      a {
+        display: inline-block;
       }
     }
   }

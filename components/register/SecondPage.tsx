@@ -117,7 +117,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
   useEffect(() => {
     if (!watch("accountId")) {
       setCurrentComment("사용하실 아이디를 입력해주세요");
-    } else if (!user?.isNotDuplicate) {
+    } else if (watch("accountId").length >= 6 && !user?.isNotDuplicate && ACCOUNT_ID_REGEX.test(watch("accountId"))) {
       setCurrentComment("중복확인을 눌러주세요!");
     } else if (!watch("password")) {
       setCurrentComment("사용하실 비밀번호를 입력해주세요");
@@ -128,7 +128,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       setCurrentComment("다음 단계로 넘어가주세요!");
     }
   }, [watch, watch(), user?.isNotDuplicate]);
-  useEffect(() => {
+  /* useEffect(() => {
     createErrors<SecondRegisterForm>({
       user: user!,
       checkList: ["accountId", "password"],
@@ -142,7 +142,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     // if (!user?.password) {
     //   setError("password", { types: { required: "", validate: "" } });
     // } else clearErrors();
-  }, []);
+  }, []); */
   return (
     <FlexContainer>
       <InnerContainer>
@@ -158,7 +158,6 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                   validate: {
                     checkAccountId: value =>
                       ACCOUNT_ID_REGEX.test(value) || "아이디는 6자리 이상\n영문 대소문자, 숫자를 입력해주세요",
-                    checkIsNotDuplicate: () => user?.isNotDuplicate || "아이디 중복 확인을 해주세요",
                   },
                   onChange() {
                     setUser(prev => ({ ...prev!, isNotDuplicate: false }));
@@ -168,15 +167,15 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                     console.log(errors.accountId);
                   },
                 })}
-                error={errors.accountId?.message}
+                error={errors.accountId}
               />
               {(!user?.isNotDuplicate || !watch("accountId")) && (
                 <ButtonBox>
                   <RoundButton
                     nonSubmit
                     size="sm"
-                    bgColor={theme.color.mintBtn}
-                    disable={Boolean(errors?.accountId?.type !== "checkIsNotDuplicate")}
+                    bgColor={errors.accountId?.message?.includes("다른아이디") ? theme.color.error : theme.color.mintBtn}
+                    disable={Boolean(!currentComment.includes("중복확인"))}
                     onClick={handleClickCheckAccountId}
                   >
                     중복확인
@@ -197,7 +196,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                         "비밀번호는 6자리 이상\n영문 대소문자, 숫자를 조합해서 입력해주세요",
                     },
                     onChange() {
-                      if (watch("password").length < 6) {
+                      if (watch("password").length < 6 ) {
                         setValue("passwordConfirm", "");
                         setCurrentInputIdx(2);
                       } else {
@@ -212,11 +211,11 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                       }
                     },
                   })}
-                  error={errors.password?.message}
+                  error={errors.password}
                 />
               )}
 
-              {currentInputIdx >= 3 && (
+              {currentInputIdx >= 3 && !errors.password?.message && (
                 <Input
                   type="password"
                   name="passwordConfirm"
@@ -227,7 +226,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                       checkPassword,
                     },
                   })}
-                  error={errors.passwordConfirm?.message}
+                  error={errors.passwordConfirm}
                 />
               )}
             </LoginInputAreaBox>
@@ -243,7 +242,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
             >
               이전 단계
             </CircleButton>
-            <CircleButton bgColor={theme.color.mintBtn} disable={!checkEmptyObj(errors)}>
+            <CircleButton bgColor={theme.color.mintBtn} disable={/* !checkEmptyObj(error) */(currentInputIdx !== 4) || Boolean(isErrorsMessage)}>
               다음 단계
             </CircleButton>
           </PrevNextButtonBox>
