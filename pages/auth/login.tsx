@@ -15,7 +15,17 @@ import { USER_LOGIN } from "constant/queryKeys";
 import { RoundButton } from "@components/button/Button";
 import Image from "next/image";
 import naver from "/public/static/naver.svg";
-import { Box, Col, InnerContainer, FlexContainer, Row, ToryText, WhiteBoldText, WhiteText, Wrapper } from "@styles/Common";
+import {
+  Box,
+  Col,
+  InnerContainer,
+  FlexContainer,
+  Row,
+  ToryText,
+  WhiteBoldText,
+  WhiteText,
+  Wrapper,
+} from "@styles/Common";
 import { theme } from "@styles/theme";
 import { checkEmptyObj } from "@utils/client/checkEmptyObj";
 import { watch } from "fs";
@@ -68,21 +78,21 @@ const LoginPage: NextPage = () => {
   // console.log(errors, checkEmptyObj(errors));
 
   const isErrorsMessage = errors.accountId?.message || errors.password?.message;
-  
+
   useEffect(() => {
-    if(watch("accountId") && watch("password") && !isErrorsMessage){
+    if (watch("accountId") && watch("password") && !isErrorsMessage) {
       setIsCompletion(true);
-    }else{
+    } else {
       setIsCompletion(false);
     }
     setIsError(false);
-  }, [watch("accountId"), watch("password"),isErrorsMessage]);
+  }, [watch("accountId"), watch("password"), isErrorsMessage]);
   return (
     <FlexContainer>
       <InnerContainer>
         <MessageBox isErrorsMessage={isErrorsMessage}>
-            {!isErrorsMessage &&
-              (isError ? <>앗! 로그인 정보를 다시 한번 확인해주세요</> : <>로그인 정보를 입력해주세요</>)}
+          {!isErrorsMessage &&
+            (isError ? <>앗! 로그인 정보를 다시 한번 확인해주세요</> : <>로그인 정보를 입력해주세요</>)}
         </MessageBox>
         <LoginForm as="form" onSubmit={handleSubmit(onValid)}>
           <LoginFormInnerBox>
@@ -156,7 +166,6 @@ const LoginPage: NextPage = () => {
   );
 };
 export default LoginPage;
-
 
 export const ToryTextBox = styled.div`
   text-align: center;

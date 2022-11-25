@@ -20,6 +20,7 @@ export default function ChartPage() {
       queryClient.invalidateQueries([RECORDS_READ]);
     },
   });
+
   const [currentIdx, setCurrentIdx] = useState(-1);
   const handleClickUpdateRecord = (idx: React.SetStateAction<number>) => () => {
     setCurrentIdx(idx);
@@ -54,9 +55,7 @@ export default function ChartPage() {
       <br />
       <br />
       <br />
-      <Link href={"/users/records/write"}>
-          작성하러 가기
-      </Link>
+      <Link href={"/users/records/write"}>작성하러 가기</Link>
     </div>
   );
 }

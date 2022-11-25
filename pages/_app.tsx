@@ -42,14 +42,14 @@ export default function App({ Component, pageProps }: AppProps) {
       <QueryClientProvider client={queryClient}>
         {/* <ErrorBoundary fallback={<div>에러</div>}>
           <Suspense fallback={<div>로딩중</div>}> */}
-            <ThemeProvider theme={theme}>
-              <GlobalStyled />
-              <Header />
-              <Layout>
-                <Component {...pageProps} />
-              </Layout>
-            </ThemeProvider>
-          {/* </Suspense>
+        <ThemeProvider theme={theme}>
+          <GlobalStyled />
+          {/* <Header /> */}
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </ThemeProvider>
+        {/* </Suspense>
         </ErrorBoundary> */}
         <ReactQueryDevtools />
       </QueryClientProvider>
