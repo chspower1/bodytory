@@ -174,7 +174,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                   <RoundButton
                     nonSubmit
                     size="sm"
-                    bgColor={theme.color.mintBtn}
+                    bgColor={errors.accountId?.message?.includes("다른아이디") ? theme.color.error : theme.color.mintBtn}
                     disable={Boolean(!currentComment.includes("중복확인"))}
                     onClick={handleClickCheckAccountId}
                   >
