@@ -9,6 +9,7 @@ import Head from "next/head";
 import { theme } from "@styles/theme";
 import { ThemeProvider } from "styled-components";
 import Header from "@components/header/Header";
+import { RecoilRoot } from "recoil";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -40,17 +41,19 @@ export default function App({ Component, pageProps }: AppProps) {
         <title>바디토리</title>
       </Head>
       <QueryClientProvider client={queryClient}>
-        {/* <ErrorBoundary fallback={<div>에러</div>}>
-          <Suspense fallback={<div>로딩중</div>}> */}
-            <ThemeProvider theme={theme}>
-              <GlobalStyled />
-              <Header />
-              <Layout>
-                <Component {...pageProps} />
-              </Layout>
-            </ThemeProvider>
+        <RecoilRoot>
+          {/* <ErrorBoundary fallback={<div>에러</div>}>
+            <Suspense fallback={<div>로딩중</div>}> */}
+          <ThemeProvider theme={theme}>
+            <GlobalStyled />
+            <Header />
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </ThemeProvider>
           {/* </Suspense>
-        </ErrorBoundary> */}
+          </ErrorBoundary> */}
+        </RecoilRoot>
         <ReactQueryDevtools />
       </QueryClientProvider>
     </>

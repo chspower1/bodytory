@@ -20,6 +20,8 @@ import { Form, FormContents, PrevNextButtonBox } from "./FirstPage";
 import { EMAIL_REGEX, KR_EN_REGEX, ONLY_KR_REGEX } from "constant/regex";
 import { checkEmptyObj } from "@utils/client/checkEmptyObj";
 import { createErrors } from "@utils/client/createErrors";
+import { loggedInUser } from "atoms/atoms";
+import { useSetRecoilState } from "recoil";
 
 interface ThirdRegisterForm {
   email: string;
@@ -41,6 +43,9 @@ const KoreanName = {
   birth: "생일",
 };
 const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
+
+  const setCurrentUser = useSetRecoilState(loggedInUser);
+
   const { birth, email, gender, name, phone, type } = user!;
   const router = useRouter();
   const {
@@ -63,6 +68,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       alert(`${error.data}`);
     },
     onSuccess() {
+      setCurrentUser(user!)
       router.replace("/auth/register/success");
     },
   });

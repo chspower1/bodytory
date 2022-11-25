@@ -65,7 +65,7 @@ export default function Edit() {
           type="text"
           register={register("oldPassword", { required: "필수값입니다" })}
           placeholder="비밀번호를 입력해주세요."
-          errorMessage={errors.oldPassword?.message}
+          error={errors.oldPassword?.message}
         />
         <Input
           name="newPassword"
@@ -73,7 +73,7 @@ export default function Edit() {
           type="text"
           register={register("newPassword", { required: "필수값입니다" })}
           placeholder="비밀번호를 입력해주세요."
-          errorMessage={errors.newPassword?.message}
+          error={errors.newPassword?.message}
         />
         <Input
           name="newPasswordConfirm"
@@ -81,7 +81,7 @@ export default function Edit() {
           type="text"
           register={register("newPasswordConfirm", { required: "필수값입니다" })}
           placeholder="비밀번호를 입력해주세요."
-          errorMessage={errors.newPasswordConfirm?.message}
+          error={errors.newPasswordConfirm?.message}
         />
         <button type="submit">제출</button>
       </form>
