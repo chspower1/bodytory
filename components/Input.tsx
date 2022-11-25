@@ -2,6 +2,7 @@ import Image, { StaticImageData } from "next/image";
 import { UseFormRegisterReturn } from "react-hook-form";
 import styled from "styled-components";
 import checked from "@public/check_checked.svg";
+import { theme } from "@styles/theme";
 
 export interface InputProps {
   label?: string;
@@ -16,6 +17,9 @@ export interface InputProps {
   maxLength?: number;
   width?: string;
   height?: string;
+  align?: string;
+  bgcolor?: string;
+  color?: string;
 }
 
 export default function Input({
@@ -31,6 +35,9 @@ export default function Input({
   maxLength,
   width = "500px",
   height = "62px",
+  align = "center",
+  bgcolor = theme.color.input,
+  color = "#fff",
 }: InputProps) {
   return (
     <InputBox width={width} height={height}>
@@ -43,6 +50,9 @@ export default function Input({
         value={value}
         className={error ? "error" : ""}
         maxLength={maxLength}
+        align={align}
+        bgColor={bgcolor}
+        color={color}
       />
     </InputBox>
   );
@@ -57,7 +67,7 @@ const InputBox = styled.div<{ width?: string; height?: string }>`
     margin: 40px auto 0;
   }
 `;
-const MainInput = styled.input`
+const MainInput = styled.input<{ align?: string; bgColor?: string; color?: string }>`
   &[type="password"] {
     &::placeholder {
       letter-spacing: 7.2px;
@@ -66,13 +76,13 @@ const MainInput = styled.input`
   }
   width: 100%;
   height: 100%;
-  text-align: center;
-  padding: 10px 5px;
+  text-align: ${prop => prop.align};
+  padding: 10px 20px;
   border-radius: 10px;
   transition: border 0.3s ease;
   border: 2px solid transparent;
-  background-color: ${({ theme }) => theme.color.input};
-  color: #fff;
+  background-color: ${prop => prop.bgColor};
+  color: ${prop => prop.color};
   box-shadow: 8px 8px 24px rgba(49, 54, 167, 0.2);
   outline: 0;
   &:focus {

@@ -15,7 +15,7 @@ const Test = styled.div`
   color: red;
 `;
 export default function Home() {
-  const { user } = useUser();
+  const user = useUser();
   const router = useRouter();
   const { deleteApi: LogoutApi } = customApi("/api/auth/logout");
   const [showModal, setShowModal] = useState(false);
@@ -27,7 +27,6 @@ export default function Home() {
       console.log("logout Error");
     }
   };
-  console.log(user);
   return (
     <Test>
       홈

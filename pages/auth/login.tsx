@@ -15,7 +15,17 @@ import { USER_LOGIN } from "constant/queryKeys";
 import { RoundButton } from "@components/button/Button";
 import Image from "next/image";
 import naver from "/public/static/naver.svg";
-import { Box, Col, InnerContainer, FlexContainer, Row, ToryText, WhiteBoldText, WhiteText, Wrapper } from "@styles/Common";
+import {
+  Box,
+  Col,
+  InnerContainer,
+  FlexContainer,
+  Row,
+  ToryText,
+  WhiteBoldText,
+  WhiteText,
+  Wrapper,
+} from "@styles/Common";
 import { theme } from "@styles/theme";
 import { checkEmptyObj } from "@utils/client/checkEmptyObj";
 import { watch } from "fs";
@@ -79,8 +89,8 @@ const LoginPage: NextPage = () => {
     <FlexContainer>
       <InnerContainer>
         <MessageBox>
-            {isErrorsMessage ||
-              (isError ? <>앗! 로그인 정보를 다시 한번 확인해주세요</> : <>로그인 정보를 입력해주세요</>)}
+          {isErrorsMessage ||
+            (isError ? <>앗! 로그인 정보를 다시 한번 확인해주세요</> : <>로그인 정보를 입력해주세요</>)}
         </MessageBox>
         <LoginForm as="form" onSubmit={handleSubmit(onValid)}>
           <LoginFormInnerBox>
@@ -96,6 +106,7 @@ const LoginPage: NextPage = () => {
               />
               <Input
                 name="password"
+                type="password"
                 register={register("password", {
                   required: "비밀번호를 입력해주세요",
                   // pattern: {
@@ -103,7 +114,7 @@ const LoginPage: NextPage = () => {
                   //   message: "비밀번호가 안전하지 않아요.",
                   // },
                 })}
-                placeholder="비밀번호를 입력해주세요"
+                placeholder="●●●●●●"
                 error={errors.password?.message}
               />
               {/* <Input
@@ -149,7 +160,6 @@ const LoginPage: NextPage = () => {
   );
 };
 export default LoginPage;
-
 
 export const ToryTextBox = styled.div`
   text-align: center;
