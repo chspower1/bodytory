@@ -59,13 +59,13 @@ export default function WritePage() {
   // } = useForm<WriteType>();
   // const onValid: SubmitHandler<WriteType> = ({ write }) => {
   //   mutate({ type: "user", position: "head", description: write });
-  //   setValue("write", "");
+  //   setValue("write", "");ㅋ
   //   setIsText(true);
   //   setTimeout(() => {
   //     setIsText(false);
   //   }, 2000);
   // };
-  const [selectedSite, setSelectedSite] = useState<SiteType>("forehead");
+  const [selectedSite, setSelectedSite] = useState<SiteType>(null);
 
   return (
     <>

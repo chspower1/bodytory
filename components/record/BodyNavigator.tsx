@@ -19,16 +19,16 @@ const BodyNavigator = ({ selectedSite, setSelectedSite }: BodyNavigator) => {
   );
 
   return (
-    <CustomDiv>
+    <CustomContainer>
       {currentBodyPosition !== "face" && (
         <div>
           <button onClick={() => setCurrentBodyPosition("front")}>앞</button>
           <button onClick={() => setCurrentBodyPosition("back")}>뒤</button>
         </div>
       )}
-      <div>
+      <PathBox>
         {currentBodyPosition === "front" && (
-          <svg xmlns="http://www.w3.org/2000/svg" width="414" height="792" viewBox="0 0 414 792" fill="none">
+          <svg xmlns="http://www.w3.org/2000/svg" width="auto" height="auto" viewBox="0 0 414 792" fill="none">
             <g clip-path="url(#clip0_200_1219)">
               <HoverPath
                 isChecked={selectedSite === "neck"}
@@ -218,7 +218,7 @@ const BodyNavigator = ({ selectedSite, setSelectedSite }: BodyNavigator) => {
               />
               <HoverPath
                 isChecked={selectedSite === "head"}
-                onClick={() => setSelectedSite("head")}
+                onClick={() => setCurrentBodyPosition("face")}
                 d="M205.424 8.11719C187.648 8.11719 170.729 19.2706 169.538 46.8568C168.446 72.0759 188.083 106.082 205.858 106.082C223.634 106.082 242.587 72.1007 243.108 46.8568C243.555 24.6367 223.212 8.11719 205.424 8.11719V8.11719Z"
                 fill="#D9DEFF"
               />
@@ -341,7 +341,7 @@ const BodyNavigator = ({ selectedSite, setSelectedSite }: BodyNavigator) => {
           </svg>
         )}
         {currentBodyPosition === "back" && (
-          <svg xmlns="http://www.w3.org/2000/svg" width="414" height="792" viewBox="0 0 397 748" fill="none">
+          <svg xmlns="http://www.w3.org/2000/svg" width="auto" height="auto" viewBox="0 0 397 748" fill="none">
             <g clip-path="url(#clip0_144_1651)">
               <HoverPath
                 isChecked={selectedSite === "neck"}
@@ -471,7 +471,7 @@ const BodyNavigator = ({ selectedSite, setSelectedSite }: BodyNavigator) => {
               />
               <HoverPath
                 isChecked={selectedSite === "head"}
-                onClick={() => setSelectedSite("head")}
+                onClick={() => setCurrentBodyPosition("face")}
                 d="M197.89 8.90039C180.799 8.90039 164.53 18.2561 163.385 41.4249C162.336 62.6034 181.216 91.1473 198.307 91.1473C215.398 91.1473 233.622 62.6272 234.123 41.4249C234.553 22.7731 214.993 8.90039 197.89 8.90039V8.90039Z"
                 fill="#03E7CB"
               />
@@ -612,7 +612,7 @@ const BodyNavigator = ({ selectedSite, setSelectedSite }: BodyNavigator) => {
           </svg>
         )}
         {currentBodyPosition === "face" && (
-          <svg xmlns="http://www.w3.org/2000/svg" width="466" height="542" viewBox="0 0 466 542" fill="none">
+          <svg xmlns="http://www.w3.org/2000/svg" width="auto" height="auto" viewBox="0 0 466 542" fill="none">
             <g clip-path="url(#clip0_599_5)">
               <HoverPath
                 isChecked={selectedSite === "head"}
@@ -749,14 +749,24 @@ const BodyNavigator = ({ selectedSite, setSelectedSite }: BodyNavigator) => {
             </defs>
           </svg>
         )}
-      </div>
-    </CustomDiv>
+      </PathBox>
+    </CustomContainer>
   );
 };
 
-const CustomDiv = styled.div`
+const CustomContainer = styled.div`
   display: flex;
-  margin-top: 120px;
+  width: 50%;
+  aspect-ratio: 1/1;
+  position: relative;
+  background-color: #ebecfc;
+  box-shadow: 8px 8px 18px rgba(174, 178, 228, 0.25);
+  border-radius: 30px;
+`;
+
+const PathBox = styled.div`
+  margin: auto;
+  width: 50%;
 `;
 
 const HoverPath = styled.path<{ isChecked: boolean }>`
