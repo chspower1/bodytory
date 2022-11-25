@@ -19,6 +19,8 @@ import Image from "next/image";
 import getAmericanAge from "@utils/client/getAmericanAge";
 import { loggedInUser } from "atoms/atoms";
 import { useRecoilValue } from "recoil";
+import { User } from "@prisma/client";
+import { RegisterForm } from "pages/auth/register";
 
 interface PasswordType {
   oldPassword: string;
@@ -31,8 +33,9 @@ export default function Edit() {
   const [showModal, setShowModal] = useState(false);
   const [closingComment, setClosingComment] = useState(false);
   const currentUser = useRecoilValue(loggedInUser);
-  const user = useUser();
-  const americanAge = getAmericanAge(user?.birth);
+  const[test, setTest] = useState<User | RegisterForm | null>(null);
+  const americanAge = getAmericanAge(String(test?.birth!));
+  
   const [{ oldPassword, newPassword }, setChangePassword] = useState({ oldPassword: "", newPassword: "" });
   const { putApi } = customApi("/api/users/edit");
   const { mutate } = useMutation([USER_CHANGE_PASSWORD], putApi, {
@@ -71,7 +74,9 @@ export default function Edit() {
       router.replace("/");
     }
   };
-
+  useEffect(() => {
+    setTest(currentUser);
+  }, [])
   useEffect(() => {
     document.body.style.backgroundColor = theme.color.lightBg;
     return () => {
@@ -83,25 +88,25 @@ export default function Edit() {
       <InContainer>
         <div>
           <SeperationBox>
-            <Name>{user?.name}</Name>
+            <Name>{test?.name}</Name>
           </SeperationBox>
           <SeperationBox>
             <UserInfo>
               <span>
-                {user?.gender === "male" ? "남" : "여"},{` 만 ${americanAge}세`}
+                {test?.gender === "male" ? "남" : "여"},{` 만 ${americanAge}세`}
               </span>
             </UserInfo>
           </SeperationBox>
           <LoginStatusBox>
             <Image
-              src={user?.type === "naver" ? naver : user?.type === "kakao" ? kakao : origin}
+              src={test?.type === "naver" ? naver : test?.type === "kakao" ? kakao : origin}
               alt="logo"
               height={50}
               width={50}
             />
           </LoginStatusBox>
           <EmailInputBox>
-            <Input disabled={true} type="text" name="user-email" value={user?.email} align="left" />
+            <Input disabled={true} type="text" name="user-email" value={test?.email} align="left" />
           </EmailInputBox>
         </div>
         <div>
@@ -142,7 +147,7 @@ export default function Edit() {
               />
             </SeperationBox>
             <SeperationBox style={{ display: "flex", justifyContent: "center" }}>
-              <RoundButton type="submit" size="md" bgColor={theme.color.mintBtn}>
+              <RoundButton size="md" bgColor={theme.color.mintBtn}>
                 비밀번호 변경하기
               </RoundButton>
             </SeperationBox>

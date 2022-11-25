@@ -17,40 +17,36 @@ const Header = () => {
 
   return (
     <>
-      {!router.asPath.includes("success") && (
-        <>
-          {!isLogin ? (
-            <HeaderWrap>
-              <HeaderContainer>
-                <HeaderInnerBox>
-                  <HeaderUl>
-                    <li>
-                      <Link href="">서비스 소개</Link>
-                    </li>
-                    <li>
-                      {router.asPath.includes("login") ? (
-                        <Link href="/auth/register" title="회원가입">
-                          회원가입
-                        </Link>
-                      ) : (
-                        <Link href="/auth/login" title="로그인">
-                          로그인
-                        </Link>
-                      )}
-                    </li>
-                  </HeaderUl>
-                  <HeaderLogoBox>
-                    <Link href="" title="바디토리">
-                      <span>바디토리</span>
+      {!isLogin ? (
+        <HeaderWrap>
+          <HeaderContainer>
+            <HeaderInnerBox>
+              <HeaderUl>
+                <li>
+                  <Link href="">서비스 소개</Link>
+                </li>
+                <li>
+                  {router.asPath.includes("login") ? (
+                    <Link href="/auth/register" title="회원가입">
+                      회원가입
                     </Link>
-                  </HeaderLogoBox>
-                </HeaderInnerBox>
-              </HeaderContainer>
-            </HeaderWrap>
-          ) : (
-            <SideMenu />
-          )}
-        </>
+                  ) : (
+                    <Link href="/auth/login" title="로그인">
+                      로그인
+                    </Link>
+                  )}
+                </li>
+              </HeaderUl>
+              <HeaderLogoBox>
+                <Link href="" title="바디토리">
+                  <span>바디토리</span>
+                </Link>
+              </HeaderLogoBox>
+            </HeaderInnerBox>
+          </HeaderContainer>
+        </HeaderWrap>
+      ) : (
+        <SideMenu />
       )}
     </>
   );
