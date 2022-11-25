@@ -9,12 +9,17 @@ import SideMenu from "./SideMenu";
 import { User } from "@prisma/client";
 import { useRecoilValue } from "recoil";
 import { loggedInUser } from "atoms/atoms";
+import { RegisterForm } from "pages/auth/register";
 
 const Header = () => {
   const router = useRouter();
-  const isLogin = useRecoilValue(loggedInUser);
+  const [ isLogin, setIsLogin ] = useState<User | RegisterForm | null>(null);
+  const currentUser = useRecoilValue(loggedInUser);
   console.log(isLogin);
-
+  
+  useEffect(()=>{
+    setIsLogin(currentUser);
+  },[currentUser])
   return (
     <>
       {!isLogin ? (
