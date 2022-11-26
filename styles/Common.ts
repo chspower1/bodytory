@@ -44,7 +44,16 @@ export const WhiteText = styled.span<{ fontSize?: string }>`
 `;
 export const ToryText = styled(WhiteText)`
   font-size: 34px;
+  line-height: 1.8;
 `;
+export const ToryText26 = styled(ToryText)`
+  font-size: 26px;
+
+  strong {
+    font-weight: 700;
+  }
+`;
+
 export const WhiteBoldText = styled(WhiteText)`
   font-weight: 600;
 `;
