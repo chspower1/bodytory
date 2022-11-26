@@ -7,6 +7,9 @@ import customApi from "utils/client/customApi";
 import Modal from "@components/Modal";
 import useUser from "hooks/useUser";
 import { USER_WITHDRAW } from "constant/queryKeys";
+import { useRecoilState } from "recoil";
+import { loggedInUser } from "atoms/atoms";
+
 export interface WithdrawType {
   password: string;
 }
@@ -15,6 +18,7 @@ export default function Withdraw() {
   const router = useRouter();
   const { user } = useUser();
   const userType = user?.type;
+  const [currentUser, setCurrentUser] = useRecoilState(loggedInUser);
   const [showModal, setShowModal] = useState(false);
   const [closingComment, setClosingComment] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");
@@ -46,23 +50,24 @@ export default function Withdraw() {
   const handleClickOnClose = () => {
     setShowModal(false);
   };
-  const handleClickActiveFuction = () => {
+  const handleClickActiveFuction = async() => {
     if (!closingComment) {
       mutate({ password: currentPassword, type: userType });
     } else {
       setShowModal(false);
-      LogoutApi({}).then(res => router.replace("/"));
+      const logout = await LogoutApi({});
+      router.replace("/");
+      setCurrentUser(null);
     }
   };
   return (
     <div>
       <h3>회원 탈퇴</h3>
       <form onSubmit={handleSubmit(onValid)}>
-        <h4>
-          비밀번호를 입력하고 확인을 누르시면
-          <br />
-          탈퇴가 진행 됩니다.
-        </h4>
+        <div>
+          <p>{currentUser?.type === "origin" ? `비밀번호를 입력하고 확인을` : `탈퇴하기를`} 누르시면</p>
+          <p>탈퇴가 진행 됩니다</p>
+        </div>
         {userType === "origin" && (
           <>
             <p>

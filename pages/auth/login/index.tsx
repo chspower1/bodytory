@@ -15,13 +15,26 @@ import { USER_LOGIN } from "constant/queryKeys";
 import { RoundButton } from "@components/button/Button";
 import Image from "next/image";
 import naver from "/public/static/naver.svg";
-import { Box, Col, InnerContainer, FlexContainer, Row, ToryText, WhiteBoldText, WhiteText, Wrapper } from "@styles/Common";
+import {
+  Box,
+  Col,
+  InnerContainer,
+  FlexContainer,
+  Row,
+  ToryText,
+  WhiteBoldText,
+  WhiteText,
+  Wrapper,
+} from "@styles/Common";
 import { theme } from "@styles/theme";
 import { checkEmptyObj } from "@utils/client/checkEmptyObj";
 import { watch } from "fs";
 import styled from "styled-components";
 import MessageBox from "@components/MessageBox";
 import { ACCOUNT_ID_REGEX, PASSWORD_REGEX } from "constant/regex";
+import { loggedInUser } from "atoms/atoms";
+import { useSetRecoilState } from "recoil";
+
 export interface LoginForm {
   accountId: string;
   password: string;
@@ -32,6 +45,8 @@ const LoginPage: NextPage = () => {
   const { postApi } = customApi("/api/auth/login");
   const [isError, setIsError] = useState(false);
   const [isCompletion, setIsCompletion] = useState(false);
+  const setCurrentUser = useSetRecoilState(loggedInUser);
+
   const { mutate } = useMutation([USER_LOGIN], postApi, {
     onError(error: any) {
       console.log(error);
@@ -41,7 +56,6 @@ const LoginPage: NextPage = () => {
       }
     },
     onSuccess(data) {
-      console.log(data);
       if (data.isNew) {
         console.log("----------------------------", data);
         return router.push(
@@ -51,7 +65,9 @@ const LoginPage: NextPage = () => {
           },
           "/auth/register",
         );
-      } else return router.push("/");
+      } else{
+        setCurrentUser(data)
+        return router.push("/");}
     },
   });
   const {
@@ -77,6 +93,7 @@ const LoginPage: NextPage = () => {
     }
     setIsError(false);
   }, [watch("accountId"), watch("password"),isErrorsMessage]);
+  
   return (
     <FlexContainer>
       <InnerContainer>
@@ -156,7 +173,6 @@ const LoginPage: NextPage = () => {
   );
 };
 export default LoginPage;
-
 
 export const ToryTextBox = styled.div`
   text-align: center;
