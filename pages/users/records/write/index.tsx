@@ -6,12 +6,15 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import BodyNavigator from "@components/record/BodyNavigator";
+import styled from "styled-components";
+import SiteChecker from "@components/record/SiteChecker";
 
 interface WriteType {
   write: string;
 }
 
 export type SiteType =
+  | "head"
   | "forehead"
   | "eyes"
   | "nose"
@@ -58,16 +61,25 @@ export default function WritePage() {
   // } = useForm<WriteType>();
   // const onValid: SubmitHandler<WriteType> = ({ write }) => {
   //   mutate({ type: "user", position: "head", description: write });
-  //   setValue("write", "");
+  //   setValue("write", "");ㅋ
   //   setIsText(true);
   //   setTimeout(() => {
   //     setIsText(false);
   //   }, 2000);
   // };
-  const [selectedSite, setSelectedSite] = useState<SiteType>("stomach");
+  const [selectedSite, setSelectedSite] = useState<SiteType>(null);
+  const [hoveredSite, setHoveredSite] = useState<string>("");
 
   return (
-    <BodyNavigator selectedSite={selectedSite} setSelectedSite={setSelectedSite} />
+    <RecordContainer>
+      <SiteChecker hoveredSite={hoveredSite} selectedSite={selectedSite} setSelectedSite={setSelectedSite} />
+      <BodyNavigator
+        selectedSite={selectedSite}
+        setSelectedSite={setSelectedSite}
+        setHoveredSite={setHoveredSite}
+        isRecordSiteSelected={selectedSite !== null}
+      />
+    </RecordContainer>
     // <div>
     //   <form onSubmit={handleSubmit(onValid)}>
     //     <Input
@@ -91,3 +103,11 @@ export default function WritePage() {
     // </div>
   );
 }
+
+const RecordContainer = styled.div`
+  padding: 50px;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: space-between;
+`;
