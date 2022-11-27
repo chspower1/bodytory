@@ -10,7 +10,7 @@ export const Wrapper = styled.div<{ bgColor?: string }>`
 
 export const Container = styled.div`
   width: 100%;
-  max-width: 1300px;
+  max-width: 1600px;
   margin: 0 auto;
 `;
 export const WhiteWrapper = styled(Wrapper)`
@@ -43,17 +43,24 @@ export const Row = styled.div`
 export const Col = styled(Row)`
   flex-direction: column;
 `;
-
 export const WhiteText = styled.span<{ fontSize?: string }>`
   color: white;
   font-size: ${({ fontSize }) => fontSize || "16px"};
 `;
-export const ToryText = styled(WhiteText)`
-  font-size: 34px;
+export const BodyText = styled(WhiteText)`
+  color: ${({ theme }) => theme.color.text};
+`;
+export const ToryText = styled(WhiteText)<{ color?: string }>`
+  font-size: 36px;
+  color: ${props => (props.color ? props.color : props.theme.color.text)};
 `;
 export const BlackToryText = styled.div`
+  /* color: ${({ theme }) => theme.color.text}; */
   font-size: 36px;
   width: auto;
+`;
+export const Accent = styled(ToryText)`
+  color: ${({ theme }) => theme.color.darkBg};
 `;
 export const WhiteBoldText = styled(WhiteText)`
   font-weight: 600;
