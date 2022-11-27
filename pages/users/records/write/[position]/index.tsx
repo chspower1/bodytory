@@ -1,6 +1,6 @@
 import { CircleButton, RectangleButton, RoundButton } from "@components/button/Button";
 import { Position } from "@prisma/client";
-import { BlackToryText, Box, Col, FlexContainer, WhiteWrapper } from "@styles/Common";
+import { BlackToryText, Box, BtnBox, Col, FlexContainer, WhiteWrapper } from "@styles/Common";
 import { theme } from "@styles/theme";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -12,7 +12,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useMutation } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
-import { PositionBoxText } from "@components/record/SiteChecker";
+import { CreateBtnBox, PositionBoxText, TextBox, ToryBox } from "@components/record/SiteChecker";
+import ToryIcon from "@components/ToryIcon";
 export default function WritePositionPage() {
   const router = useRouter();
   const { postApi } = customApi("/api/users/records");
@@ -48,30 +49,41 @@ export default function WritePositionPage() {
   return (
     <WhiteWrapper>
       <FlexContainer>
-        <Col>
-          <BlackToryText>
-            <PositionBoxText>{KoreanPosition[position]}</PositionBoxText>에 어떤 증상이 있나요?
-          </BlackToryText>
-          {error && <div>증상을 말해주세요</div>}
-          <RectangleButton
-            size="custom"
-            width="640px"
-            height="100px"
-            bgColor="rgb(209, 239, 247)"
-            textColor={theme.color.mintBtn}
-            onClick={hadleClickCreateRecord}
-          >
-            {transcript}
-          </RectangleButton>
-
-          <CircleButton
-            bgColor={listening ? theme.color.mintBtn : theme.color.darkBg}
-            onClick={listening ? handleClickStopListening : handleClickStartListening}
-          >
-            <Image src={mic} alt="마이크" />
-          </CircleButton>
+        <Col height="100vh">
+          <Box height="20%">
+            <ToryIcon />
+          </Box>
+          <Box height="30%">
+            <BlackToryText>
+              <PositionBoxText>{KoreanPosition[position]}</PositionBoxText>에 어떤 증상이 있나요?
+            </BlackToryText>
+          </Box>
+          <VoiceBox height="30%">
+            <RectangleButton
+              size="custom"
+              width="640px"
+              height="100px"
+              bgColor="rgb(209, 239, 247)"
+              textColor={theme.color.mintBtn}
+              onClick={hadleClickCreateRecord}
+              fontSize="30px"
+              boxShadow={false}
+            >
+              {transcript ? transcript : "증상을 말해주세요!"}
+            </RectangleButton>
+            <CircleButton
+              bgColor={listening ? theme.color.mintBtn : theme.color.darkBg}
+              onClick={listening ? handleClickStopListening : handleClickStartListening}
+              boxShadow={false}
+            >
+              <Image src={mic} alt="마이크" />
+            </CircleButton>
+          </VoiceBox>
         </Col>
       </FlexContainer>
     </WhiteWrapper>
   );
 }
+const VoiceBox = styled(Col)`
+  gap: 60px;
+`;
