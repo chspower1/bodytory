@@ -73,6 +73,7 @@ const Reset: NextPage = () => {
               <Seperation>
                 <Input
                   name="password"
+                  type="password"
                   placeholder="●●●●●●"
                   register={register("password", {
                     required: true,

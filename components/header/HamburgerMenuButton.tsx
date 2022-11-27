@@ -3,18 +3,31 @@ import styled from "styled-components";
 
 interface MenuProps {
   isOpen : boolean;
+  isActive : boolean;
   setIsOpen : React.Dispatch<React.SetStateAction<boolean>>;
+  setIsActive : React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const HamburgerMenuButton = ({isOpen, setIsOpen} : MenuProps) => {
-  const [isActive, setIsActive] = useState(false);
-  const isOpenMenu = ()=>{
-    setIsActive(prev => !prev);
-    setIsOpen(prev=> !prev);
+const HamburgerMenuButton = ({isOpen, setIsOpen, isActive, setIsActive} : MenuProps) => {
+  const handle =()=>{
+    if(isOpen === isActive){
+      if(!isOpen){
+        setIsActive(true);
+        setTimeout(()=>{
+          setIsOpen(true);
+        },10)
+      }else{
+        setIsOpen(false);
+        setTimeout(()=>{
+          setIsActive(false);
+        },600)
+      }
+    }
+    
   }
   return (
-    <MenuButtonBox className={isActive ? "active" : ""}>
-      <MenuButton onClick={isOpenMenu}>
+    <MenuButtonBox className={isOpen ? "active" : ""}>
+      <MenuButton onClick={handle}>
         <LineBox>
           <span />
           <span />
@@ -69,14 +82,14 @@ const LineBox = styled.div`
   display:flex;
   flex-direction: column;
   justify-content:space-between;
-  transition: transform 1s;
+  transition: transform .6s;
   span {
     display: block;
     width:100%;
     height:4px;
     border-radius: 4px;
     background:#fff;
-    transition: transform 1s, width 1s , background .3s;
+    transition: transform .3s, width .3s , background .3s;
   }
   
 `;

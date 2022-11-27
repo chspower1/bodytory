@@ -1,6 +1,7 @@
 import { Wrapper } from "@styles/Common";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import Header from "./header/Header";
 
 interface LayoutProps {
   children?: React.ReactNode;
@@ -12,7 +13,12 @@ const Layout = ({ children }: LayoutProps) => {
     if (router.pathname.includes("/auth")) setBgColor("rgb(83, 89, 233)");
     else setBgColor("rgb(242, 243, 255)");
   }, [router]);
-  return <Wrapper bgColor={bgColor}>{children}</Wrapper>;
+  return (
+    <Wrapper bgColor={bgColor}>
+      <Header />
+      {children}
+    </Wrapper>
+  );
 };
 
 export default Layout;

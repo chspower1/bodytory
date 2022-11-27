@@ -37,7 +37,7 @@ async function loginByOrigin(req: NextApiRequest, res: NextApiResponse) {
   if (!foundUser) {
     throw new Error("회원정보를 확인해주세요");
   }
-
+  const {type, email, phone, name, birth, gender} = foundUser
   const isPasswordCorrect = await passwordCompare(password, foundUser.password!);
   if (!isPasswordCorrect) {
     throw new Error("회원정보를 확인해주세요");
@@ -47,7 +47,7 @@ async function loginByOrigin(req: NextApiRequest, res: NextApiResponse) {
     id: foundUser.id,
   };
   await req.session.save();
-  return res.status(201).end();
+  return res.status(201).json({ type, accountId, email, phone, name, birth, gender });
 }
 
 async function loginBySocial(req: NextApiRequest, res: NextApiResponse) {
@@ -67,7 +67,7 @@ async function loginBySocial(req: NextApiRequest, res: NextApiResponse) {
     id: foundUser.id,
   };
   await req.session.save();
-  return res.status(201).end();
+  return res.status(201).json({ type, accountId, email, phone, name, birth, gender });
 }
 
 export default withApiSession(withHandler({ methods: ["POST"], handler, isPrivate: false }));
