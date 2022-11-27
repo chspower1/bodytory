@@ -8,6 +8,7 @@ interface BodyNavigator {
   setSelectedSite: Dispatch<SetStateAction<SiteType>>;
   setHoveredSite?: Dispatch<SetStateAction<string>>;
   isRecordSiteSelected?: boolean;
+  isWritePage: boolean;
 }
 
 type CurrentBodyPosition = "front" | "back" | "face";
@@ -16,13 +17,19 @@ const face: SiteType[] = ["head", "forehead", "eyes", "nose", "mouth", "cheek", 
 
 const back: SiteType[] = ["back", "waist", "hip"];
 
-const BodyNavigator = ({ selectedSite, setSelectedSite, setHoveredSite, isRecordSiteSelected }: BodyNavigator) => {
+const BodyNavigator = ({
+  selectedSite,
+  setSelectedSite,
+  setHoveredSite,
+  isRecordSiteSelected,
+  isWritePage,
+}: BodyNavigator) => {
   const [currentBodyPosition, setCurrentBodyPosition] = useState<CurrentBodyPosition>(
     face.includes(selectedSite) ? "face" : back.includes(selectedSite) ? "back" : "front",
   );
 
   return (
-    <CustomContainer>
+    <CustomContainer isWritePage={isWritePage}>
       {currentBodyPosition !== "face" ? (
         <ButtonsBox>
           {selectedSite !== null || (
@@ -1410,14 +1417,23 @@ const BodyNavigator = ({ selectedSite, setSelectedSite, setHoveredSite, isRecord
   );
 };
 
-const CustomContainer = styled.div`
+BodyNavigator.defaultProps = {
+  isWritePage: true,
+};
+
+const CustomContainer = styled.div<{ isWritePage: boolean }>`
   display: flex;
   width: 50%;
   aspect-ratio: 1/1;
   position: relative;
-  background-color: #ebecfc;
-  box-shadow: 8px 8px 18px rgba(174, 178, 228, 0.25);
-  border-radius: 30px;
+  ${({ isWritePage }) =>
+    isWritePage
+      ? css`
+          background-color: #ebecfc;
+          box-shadow: 8px 8px 18px rgba(174, 178, 228, 0.25);
+          border-radius: 30px;
+        `
+      : css``}
 `;
 
 const PathBox = styled.div<{ isViewMode?: boolean }>`
