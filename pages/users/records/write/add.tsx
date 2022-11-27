@@ -1,5 +1,8 @@
+import { RoundButton } from "@components/button/Button";
 import { PositionBoxText } from "@components/record/SiteChecker";
-import { Col, FlexContainer, ToryText, WhiteText, Wrapper } from "@styles/Common";
+import { BtnBox, Col, FlexContainer, ToryText, WhiteText, Wrapper } from "@styles/Common";
+import { theme } from "@styles/theme";
+import Link from "next/link";
 import styled from "styled-components";
 
 const AddPage = () => {
@@ -10,17 +13,18 @@ const AddPage = () => {
           <PositionBoxText>머리</PositionBoxText>에 대한 기록을 완료했어요.
         </ToryText>
         <ToryText>다른 부위도 기록할까요?</ToryText>
-        <Tory />
+        <BtnBox>
+          <Link href="/users/records/write">
+            <RoundButton>네, 다른 부위도 기록할래요</RoundButton>
+          </Link>
+          <Link href="/">
+            <RoundButton bgColor={theme.color.weekPurple} textColor="rgb(93, 107, 178)">
+              아니요,더 기록할게 없어요
+            </RoundButton>
+          </Link>
+        </BtnBox>
       </Col>
     </FlexContainer>
   );
 };
 export default AddPage;
-
-const Tory = styled.div`
-  margin-top: 115px;
-  background-color: white;
-  width: 360px;
-  height: 360px;
-  border-radius: 50%;
-`;
