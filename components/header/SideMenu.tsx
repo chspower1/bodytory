@@ -28,8 +28,8 @@ const SideMenu = () => {
   /* /auth/hospital */
 
   const handleClickCloseMenu = () => {
-    if(isOpen === isActive){
-      if(isOpen){
+    if (isOpen === isActive) {
+      if (isOpen) {
         setIsOpen(false);
         setTimeout(() => {
           setIsActive(false);
@@ -37,15 +37,16 @@ const SideMenu = () => {
       }
     }
   };
-  useEffect(()=>{
-    handleClickCloseMenu()
-  },[router.asPath])
+  useEffect(() => {
+    handleClickCloseMenu();
+  }, [router.asPath]);
 
   return (
     <>
       <HamburgerMenuButton isOpen={isOpen} setIsOpen={setIsOpen} isActive={isActive} setIsActive={setIsActive} />
       {isActive && (
-        <Dim isOpen={isOpen}>
+        <SideMenuWrap>
+          <Dim isOpen={isOpen} onClick={handleClickCloseMenu} />
           <SideMenuBox>
             <InnerBox>
               <ContentsBox>
@@ -82,7 +83,7 @@ const SideMenu = () => {
               </FooterUl>
             </Footer>
           </SideMenuBox>
-        </Dim>
+        </SideMenuWrap>
       )}
     </>
   );
@@ -90,9 +91,17 @@ const SideMenu = () => {
 
 export default SideMenu;
 
-const Dim = styled.div<{ isOpen: boolean }>`
-  display: flex;
+const SideMenuWrap = styled.div`
   position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+`;
+
+const Dim = styled.div<{ isOpen: boolean }>`
+  position: absolute;
   left: 0;
   top: 0;
   z-index: 10;
@@ -104,22 +113,24 @@ const Dim = styled.div<{ isOpen: boolean }>`
   ${({ isOpen }) =>
     isOpen &&
     css`
-      & > div {
-        transform: translateX(0%);
+      & + div {
+        right: 0;
       }
     `}
 `;
 
 const SideMenuBox = styled.div`
+  position: absolute;
+  right: -500px;
+  bottom: 0;
+  z-index: 11;
   display: flex;
-  flex-direction: column;
   width: 500px;
   height: 97%;
-  margin: auto 0 0 auto;
+  flex-direction: column;
   background: ${({ theme }) => theme.color.darkBg};
   border-radius: 30px 0 0 30px;
-  transform: translateX(100%);
-  transition: transform 0.6s;
+  transition: right 0.6s;
   overflow: hidden;
   color: #fff;
   a {
