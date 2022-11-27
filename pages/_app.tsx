@@ -46,7 +46,6 @@ export default function App({ Component, pageProps }: AppProps) {
             <Suspense fallback={<div>로딩중</div>}> */}
           <ThemeProvider theme={theme}>
             <GlobalStyled />
-            
             <Layout>
               <Component {...pageProps} />
             </Layout>
