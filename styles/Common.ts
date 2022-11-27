@@ -45,7 +45,7 @@ export const Col = styled(Row)`
 `;
 export const WhiteText = styled.span<{ fontSize?: string }>`
   color: white;
-  font-size: ${({ fontSize }) => fontSize || "16px"};
+  font-size: ${({ fontSize }) => fontSize || "18px"};
 `;
 export const BodyText = styled(WhiteText)`
   color: ${({ theme }) => theme.color.text};
