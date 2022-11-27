@@ -13,11 +13,11 @@ const SideMenu = () => {
   const [menuList, _] = useState([
     {
       subject: "오늘 기록하기",
-      link: "/auth/records/write",
+      link: "/users/records/write",
     },
     {
       subject: "기록 확인하기",
-      link: "/auth/records/chart",
+      link: "/users/records/chart",
     },
     {
       subject: "내 병원 관리하기",
@@ -28,37 +28,37 @@ const SideMenu = () => {
   return (
     <>
       <HamburgerMenuButton isOpen={isOpen} setIsOpen={setIsOpen} isActive={isActive} setIsActive={setIsActive} />
-      {isActive && <Dim isOpen={isOpen}>
-        <SideMenuBox>
-          <InnerBox>
-            <ContentsBox>
-              <div className="goEdit">
-                <Link href="/auth/profile/edit">
-                  <i></i>계정 설정
-                </Link>
-              </div>
-              <Nav>
-                <ul>
-                  {menuList.map(({ subject, link }) => (
-                    <li key={subject} className={router.asPath === link ? "active" : ""}>
-                      <Link href={link}>{subject}</Link>
-                    </li>
-                  ))}
-                </ul>
-              </Nav>
-            </ContentsBox>
-          </InnerBox>
-        </SideMenuBox>
-      </Dim>
-      }
+      {isActive && (
+        <Dim isOpen={isOpen}>
+          <SideMenuBox>
+            <InnerBox>
+              <ContentsBox>
+                <div className="goEdit">
+                  <Link href="/auth/profile/edit">
+                    <i></i>계정 설정
+                  </Link>
+                </div>
+                <Nav>
+                  <ul>
+                    {menuList.map(({ subject, link }) => (
+                      <li key={subject} className={router.asPath === link ? "active" : ""}>
+                        <Link href={link}>{subject}</Link>
+                      </li>
+                    ))}
+                  </ul>
+                </Nav>
+              </ContentsBox>
+            </InnerBox>
+          </SideMenuBox>
+        </Dim>
+      )}
     </>
   );
 };
 
 export default SideMenu;
 
-
-const Dim = styled.div<{isOpen : boolean}>`
+const Dim = styled.div<{ isOpen: boolean }>`
   display: flex;
   position: fixed;
   left: 0;
@@ -67,14 +67,15 @@ const Dim = styled.div<{isOpen : boolean}>`
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.2);
-  opacity: ${({isOpen}) => isOpen ? `1` : `0`};
-  transition: opacity .6s;
-  ${({isOpen}) => isOpen && css`
-    & > div{
-      transform: translateX(0%);
-    };
-  `}
-  
+  opacity: ${({ isOpen }) => (isOpen ? `1` : `0`)};
+  transition: opacity 0.6s;
+  ${({ isOpen }) =>
+    isOpen &&
+    css`
+      & > div {
+        transform: translateX(0%);
+      }
+    `}
 `;
 
 const SideMenuBox = styled.div`
@@ -85,7 +86,7 @@ const SideMenuBox = styled.div`
   background: ${({ theme }) => theme.color.darkBg};
   border-radius: 50px 0 0 50px;
   transform: translateX(100%);
-  transition: transform .6s;
+  transition: transform 0.6s;
 
   color: #fff;
   a {
