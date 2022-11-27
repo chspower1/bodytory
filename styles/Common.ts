@@ -43,6 +43,12 @@ export const Row = styled.div`
 export const Col = styled(Row)`
   flex-direction: column;
 `;
+
+export const BtnBox = styled(Row)<{ width?: string }>`
+  width: ${props => (props.width ? props.width : "auto")};
+  justify-content: space-between;
+`;
+
 export const WhiteText = styled.span<{ fontSize?: string }>`
   color: white;
   font-size: ${({ fontSize }) => fontSize || "18px"};
