@@ -10,22 +10,37 @@ import mic from "/public/static/icon/mic.svg";
 import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useMutation } from "@tanstack/react-query";
+import customApi from "@utils/client/customApi";
+import { PositionBoxText } from "@components/record/SiteChecker";
 export default function WritePositionPage() {
   const router = useRouter();
+  const { postApi } = customApi("/api/users/records");
   const position = router.query.position as Position;
   const { transcript, listening, resetTranscript, browserSupportsSpeechRecognition } = useSpeechRecognition();
-  const [comments, setComments] = useState<string[]>([]);
-
+  const [error, setError] = useState(false);
+  const { mutate } = useMutation(["records", "write"], postApi, {
+    onSuccess() {
+      router.push("/users/records/write/add");
+    },
+  });
   const handleClickStopListening = () => {
     SpeechRecognition.stopListening();
   };
   const handleClickStartListening = () => {
+    setError(false);
     resetTranscript();
     SpeechRecognition.startListening({ language: "ko", continuous: true });
-    setComments(prev => [...prev, transcript]);
   };
 
-  console.log(listening, comments);
+  const hadleClickCreateRecord = () => {
+    if (transcript !== "") {
+      setError(false);
+      SpeechRecognition.stopListening();
+      mutate({ type: "user", position, description: transcript });
+      router.replace("/users/records/write/analysis");
+    } else setError(true);
+  };
 
   if (!browserSupportsSpeechRecognition) {
     return <span>지원안됨</span>;
@@ -35,40 +50,28 @@ export default function WritePositionPage() {
       <FlexContainer>
         <Col>
           <BlackToryText>
-            <BoxText>{KoreanPosition[position]}</BoxText>에 어떤 증상이 있나요?
+            <PositionBoxText>{KoreanPosition[position]}</PositionBoxText>에 어떤 증상이 있나요?
           </BlackToryText>
-          <RoundButton bgColor={theme.color.mintBtn}>{position}</RoundButton>
+          {error && <div>증상을 말해주세요</div>}
+          <RectangleButton
+            size="custom"
+            width="640px"
+            height="100px"
+            bgColor="rgb(209, 239, 247)"
+            textColor={theme.color.mintBtn}
+            onClick={hadleClickCreateRecord}
+          >
+            {transcript}
+          </RectangleButton>
+
           <CircleButton
             bgColor={listening ? theme.color.mintBtn : theme.color.darkBg}
             onClick={listening ? handleClickStopListening : handleClickStartListening}
           >
             <Image src={mic} alt="마이크" />
           </CircleButton>
-
-          {transcript && (
-            <Link href="/users/records/write/analysis">
-              <RectangleButton
-                size="custom"
-                width="640px"
-                height="100px"
-                bgColor="rgb(209, 239, 247)"
-                textColor={theme.color.mintBtn}
-              >
-                {transcript}
-              </RectangleButton>
-            </Link>
-          )}
         </Col>
       </FlexContainer>
     </WhiteWrapper>
   );
 }
-
-const BoxText = styled.span`
-  font-size: 36px;
-  background-color: rgb(232, 233, 255);
-  color: ${({ theme }) => theme.color.darkBg};
-  border-radius: 10px;
-  padding: 0px 10px;
-  margin-right: 5px;
-`;
