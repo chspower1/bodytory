@@ -38,7 +38,10 @@
       "@public/*": [
         "public/*"
       ]
-    }
+    },
+    "types": [
+      "kakao.maps.d.ts"
+    ]
   },
   "include": [
     "next-env.d.ts",

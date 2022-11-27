@@ -34,6 +34,7 @@
     "react-dom": "18.2.0",
     "react-error-boundary": "^3.1.4",
     "react-hook-form": "^7.39.4",
+    "react-kakao-maps-sdk": "^1.1.5",
     "react-speech-recognition": "^3.10.0",
     "recoil": "^0.7.6",
     "recoil-persist": "^4.2.0",
