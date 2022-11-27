@@ -6,7 +6,7 @@ import customApi from "@utils/client/customApi";
 import Image from "next/image";
 import { useEffect } from "react";
 import styled from "styled-components";
-import setting from "../../public/settingIcon.png";
+import medicalIcon from "../../public/medical.png";
 
 const Hospital = () => {
   const { getApi } = customApi("/api/users/hospital");
@@ -33,7 +33,7 @@ const Hospital = () => {
         </div>
         <div style={{ display: "flex", justifyContent: "center", height: "100px", alignItems: "end" }}>
           <RoundButton size="custom" width="260px" height="50px">
-            <Image src={setting} width={20} height={20} alt="병원" style={{ marginRight: "20px" }} /> 병원 추가하기
+            <Image src={medicalIcon} width={20} height={20} alt="병원" style={{ marginRight: "20px" }} /> 병원 추가하기
           </RoundButton>
         </div>
         <HospitalContainer>
