@@ -46,17 +46,17 @@ export default function WritePositionPage() {
           </CircleButton>
 
           {transcript && (
-            // <Link href={`${}`}>
-            <RectangleButton
-              size="custom"
-              width="640px"
-              height="100px"
-              bgColor="rgb(209, 239, 247)"
-              textColor={theme.color.mintBtn}
-            >
-              {transcript}
-            </RectangleButton>
-            // </Link>
+            <Link href="/users/records/write/analysis">
+              <RectangleButton
+                size="custom"
+                width="640px"
+                height="100px"
+                bgColor="rgb(209, 239, 247)"
+                textColor={theme.color.mintBtn}
+              >
+                {transcript}
+              </RectangleButton>
+            </Link>
           )}
         </Col>
       </FlexContainer>
