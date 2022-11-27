@@ -5,6 +5,7 @@ import styled, { css } from "styled-components";
 import settingIcon from "@public/settingIcon.png";
 import HamburgerMenuButton from "./HamburgerMenuButton";
 import { useRouter } from "next/router";
+import LogoutBtn from "@components/LogoutBtn";
 const SideMenu = () => {
   const router = useRouter();
   const dimRef = useRef<HTMLDivElement>(null);
@@ -13,11 +14,11 @@ const SideMenu = () => {
   const [menuList, _] = useState([
     {
       subject: "오늘 기록하기",
-      link: "/auth/records/write",
+      link: "/users/records/write",
     },
     {
       subject: "기록 확인하기",
-      link: "/auth/records/chart",
+      link: "/users/records/chart",
     },
     {
       subject: "내 병원 관리하기",
@@ -25,40 +26,71 @@ const SideMenu = () => {
     },
   ]);
   /* /auth/hospital */
+
+  const handleClickCloseMenu = () => {
+    if(isOpen === isActive){
+      if(isOpen){
+        setIsOpen(false);
+        setTimeout(() => {
+          setIsActive(false);
+        }, 600);
+      }
+    }
+  };
+  useEffect(()=>{
+    handleClickCloseMenu()
+  },[router.asPath])
+
   return (
     <>
       <HamburgerMenuButton isOpen={isOpen} setIsOpen={setIsOpen} isActive={isActive} setIsActive={setIsActive} />
-      {isActive && <Dim isOpen={isOpen}>
-        <SideMenuBox>
-          <InnerBox>
-            <ContentsBox>
-              <div className="goEdit">
-                <Link href="/auth/profile/edit">
-                  <i></i>계정 설정
-                </Link>
-              </div>
-              <Nav>
-                <ul>
-                  {menuList.map(({ subject, link }) => (
-                    <li key={subject} className={router.asPath === link ? "active" : ""}>
-                      <Link href={link}>{subject}</Link>
-                    </li>
-                  ))}
-                </ul>
-              </Nav>
-            </ContentsBox>
-          </InnerBox>
-        </SideMenuBox>
-      </Dim>
-      }
+      {isActive && (
+        <Dim isOpen={isOpen}>
+          <SideMenuBox>
+            <InnerBox>
+              <ContentsBox>
+                <div className="goEdit">
+                  <Link href="/users/profile/edit">
+                    <i></i>계정 설정
+                  </Link>
+                </div>
+                <Nav>
+                  <ul>
+                    {menuList.map(({ subject, link }) => (
+                      <li key={subject}>
+                        <Link href={link} className={router.asPath === link ? "active" : ""}>
+                          {subject}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </Nav>
+              </ContentsBox>
+              <ButtonBox>
+                <LogoutBtn />
+              </ButtonBox>
+            </InnerBox>
+            <Footer>
+              <FooterUl>
+                <li>
+                  <Link href="">바디토리 소개</Link>
+                </li>
+                <li>
+                  <Link href="">팀 소개</Link>
+                </li>
+                <li>© 2022. BODYTORY</li>
+              </FooterUl>
+            </Footer>
+          </SideMenuBox>
+        </Dim>
+      )}
     </>
   );
 };
 
 export default SideMenu;
 
-
-const Dim = styled.div<{isOpen : boolean}>`
+const Dim = styled.div<{ isOpen: boolean }>`
   display: flex;
   position: fixed;
   left: 0;
@@ -67,26 +99,28 @@ const Dim = styled.div<{isOpen : boolean}>`
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.2);
-  opacity: ${({isOpen}) => isOpen ? `1` : `0`};
-  transition: opacity .6s;
-  ${({isOpen}) => isOpen && css`
-    & > div{
-      transform: translateX(0%);
-    };
-  `}
-  
+  opacity: ${({ isOpen }) => (isOpen ? `1` : `0`)};
+  transition: opacity 0.6s;
+  ${({ isOpen }) =>
+    isOpen &&
+    css`
+      & > div {
+        transform: translateX(0%);
+      }
+    `}
 `;
 
 const SideMenuBox = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 500px;
   height: 97%;
-  padding: 87px 40px 56px 76px;
   margin: auto 0 0 auto;
   background: ${({ theme }) => theme.color.darkBg};
-  border-radius: 50px 0 0 50px;
+  border-radius: 30px 0 0 30px;
   transform: translateX(100%);
-  transition: transform .6s;
-
+  transition: transform 0.6s;
+  overflow: hidden;
   color: #fff;
   a {
     color: #fff;
@@ -96,6 +130,7 @@ const SideMenuBox = styled.div`
 const InnerBox = styled(Col)`
   width: 100%;
   height: 100%;
+  padding: 87px 40px 56px;
   justify-content: space-between;
 `;
 
@@ -117,42 +152,58 @@ const ContentsBox = styled.div`
   }
 `;
 
+const ButtonBox = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
 const Nav = styled.nav`
   padding-top: 100px;
   ul {
+    margin-left: 36px;
     li {
-      position: relative;
-      display: inline-block;
-      padding-bottom: 10px;
-      &::after {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 3px;
-        background: #fff;
-        transform: scaleX(0);
-        transition: transform 0.6s;
-      }
       a {
+        position: relative;
         font-size: 35px;
         font-weight: bolder;
+        padding-bottom: 10px;
         letter-spacing: -2px;
+        &::after {
+          content: "";
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 3px;
+          background: #fff;
+          transform: scaleX(0);
+          transition: transform 0.6s;
+        }
+        &.active::after {
+          transform: scaleX(1);
+        }
+        &:hover::after {
+          transform: scaleX(1);
+        }
       }
       & + li {
         margin-top: 50px;
-      }
-      &.active::after {
-        transform: scaleX(1);
-      }
-      &:hover::after {
-        transform: scaleX(1);
       }
     }
   }
 `;
 
-const Footer = styled(Row)`
-  justify-content: space-around;
+const Footer = styled.div`
+  flex-shrink: 0;
+  padding: 18px 0;
+  background: ${({ theme }) => theme.color.disabled};
+`;
+const FooterUl = styled(Row)`
+  justify-content: space-between;
+  margin-left: 40px;
+  padding: 0 30px;
+  font-size: 14px;
+  li {
+    list-style: none;
+  }
 `;
