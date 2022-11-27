@@ -1,14 +1,20 @@
-import useApi from "@libs/client/useApi";
+import customApi from "utils/client/customApi";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { RoundButton } from "./button/Button";
+import { loggedInUser } from "atoms/atoms";
+import { useSetRecoilState } from "recoil";
+import Modal from "@components/Modal";
+import { useState } from "react";
 
 const LogoutBtn = () => {
   const router = useRouter();
-  const { deleteApi: LogoutApi } = useApi("/api/auth/logout");
-  //   const { getApi: naverLogoutApi } = useApi("/oauth2.0/token");
-
+  const setCurrentUser = useSetRecoilState(loggedInUser);
+  const [showModal, setShowModal] = useState(false);
+  const { deleteApi: LogoutApi } = customApi("/api/auth/logout");
+  //   const { getApi: naverLogoutApi } = customApi("/oauth2.0/token");
   // 실제 서비스 코드
-  // const { postApi: naverLogoutApi } = useApi("https://nid.naver.com/oauth2.0/token");
+  // const { postApi: naverLogoutApi } = customApi("https://nid.naver.com/oauth2.0/token");
   const handleClickLogout = async () => {
     LogoutApi({});
     // console.log(localStorage.removeItem("naverToken"));
@@ -22,8 +28,18 @@ const LogoutBtn = () => {
       },
     });
     console.log(res);
-    router.push("/auth/login");
+    setCurrentUser(null);
+    router.push("/auth/login");      
   };
-  return <button onClick={handleClickLogout}>로그아웃</button>;
+  return (
+    <>
+    <RoundButton size="md" onClick={() => setShowModal(true)}>
+      로그아웃
+    </RoundButton>
+    <Modal onClose={() => setShowModal(false)} activeFuction={handleClickLogout} show={showModal} title={"시스템"}>
+      로그아웃 하시겠습니까?
+    </Modal>
+    </>
+  );
 };
 export default LogoutBtn;

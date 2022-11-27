@@ -1,11 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import client from "@libs/server/client";
-import withHandler from "@libs/server/withHandler";
-import { withApiSession } from "@libs/server/withSession";
+import client from "utils/server/client";
+import withHandler from "@utils/server/withHandler";
+import { withApiSession } from "@utils/server/withSession";
 import * as bcrypt from "bcrypt";
+import { RegisterForm } from "pages/auth/register";
+import { passwordEncryption } from "utils/server/passwordHelper";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { accountId, password, email, name, birth, gender, type } = req.body;
+  const { accountId, password, email, name, birth, gender, type, phone }: RegisterForm = req.body;
 
   const newUser = await client.user.create({
     data: {
@@ -15,7 +17,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       birth,
       gender,
       email,
-      password: await bcrypt.hash(password, 12),
+      phone,
+      password: await passwordEncryption(password),
     },
   });
   req.session.user = {

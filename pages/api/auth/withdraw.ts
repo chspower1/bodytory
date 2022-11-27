@@ -1,19 +1,28 @@
-import withHandler from "@libs/server/withHandler";
-import { withApiSession } from "@libs/server/withSession";
+import withHandler from "@utils/server/withHandler";
+import { withApiSession } from "@utils/server/withSession";
 import { NextApiRequest, NextApiResponse } from "next";
 import bcrypt from "bcrypt";
-import client from "@libs/server/client";
+import client from "utils/server/client";
+import { passwordCompare } from "utils/server/passwordHelper";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { password } = req.body;
+  const { password, type } = req.body;
   const { user } = req.session;
+
+  if (!user) return res.status(401).send("회원 정보를 확인해주세요");
+
   const foundUser = await client.user.findUnique({
     where: {
       id: user?.id!,
     },
   });
-  if (foundUser) {
-    const isPasswordCorrect = await bcrypt.compare(password, foundUser?.password!);
+
+  if (!foundUser) {
+    return res.status(401).send("유저 정보가 없습니다.");
+  }
+
+  if (type === "origin") {
+    const isPasswordCorrect = await passwordCompare(password, foundUser.password!);
     if (isPasswordCorrect) {
       await client.user.delete({
         where: {
@@ -22,10 +31,22 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       });
       return res.status(204).end();
     }
-  } else {
+
     return res.status(401).send("현재 비밀번호를 적어주세요");
   }
+
+  if (type !== "origin") {
+    await client.user.delete({
+      where: {
+        id: user?.id,
+      },
+    });
+    return res.status(204).end();
+  }
+
+  return res.status(401).send("탈퇴 오류");
 }
+
 export default withApiSession(
   withHandler({
     methods: ["DELETE"],

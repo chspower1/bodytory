@@ -1,24 +1,26 @@
-import { NextPage } from "next";
-import Head from "next/head";
-import Image from "next/image";
 import styled from "styled-components";
-import styles from "@styles/Home.module.css";
 import Link from "next/link";
-import useApi from "@libs/client/useApi";
-import { useRouter } from "next/router";
-// import LogoutBtn from "@components/LogoutBtn";
+import LogoutBtn from "@components/LogoutBtn";
+import { loggedInUser } from "atoms/atoms";
+import { useRecoilState } from "recoil";
+import { useEffect, useState } from "react";
+import { User } from "@prisma/client";
+import { RegisterForm } from "./auth/register";
+
+
 const Test = styled.div`
   color: red;
 `;
 export default function Home() {
-  const router = useRouter();
-  const { deleteApi: LogoutApi } = useApi("/api/auth/logout");
-  const handleClickLogout = () => {
-    LogoutApi({}).then(res => router.push("/auth/login"));
-  };
+  const[test, setTest] = useState<User | RegisterForm | null>(null);
+  const [currentUser, setCurrentUser] = useRecoilState(loggedInUser);
+  useEffect(() => {
+    setTest(currentUser);
+  }, [])
+  
   return (
     <Test>
-      홈
+      <div>{test?.name}</div>
       <Link href={"/users/profile/edit"}>
         <button>계정 관리</button>
       </Link>
@@ -28,7 +30,7 @@ export default function Home() {
       <Link href={"/users/records/chart"}>
         <button>기록보기</button>
       </Link>
-      <button onClick={handleClickLogout}>로그아웃</button>
+      <LogoutBtn/>
     </Test>
   );
 }
