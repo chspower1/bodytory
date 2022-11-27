@@ -15,14 +15,14 @@ const Header = () => {
   const router = useRouter();
   const [ isLogin, setIsLogin ] = useState<boolean>();
   const currentUser = useRecoilValue(loggedInUser);
-
+  
   
   useEffect(()=>{
-    currentUser ? setIsLogin(false) : setIsLogin(true)
+    currentUser === null ? setIsLogin(true) : setIsLogin(false)
   },[currentUser])
   return (
     <>
-      {!isLogin ? (
+      {isLogin ? (
         <HeaderWrap>
           <HeaderContainer>
             <HeaderInnerBox>
