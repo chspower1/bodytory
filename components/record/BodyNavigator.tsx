@@ -25,20 +25,30 @@ const BodyNavigator = ({ selectedSite, setSelectedSite, setHoveredSite, isRecord
     <CustomContainer>
       {currentBodyPosition !== "face" ? (
         <ButtonsBox>
-          {isRecordSiteSelected || (
-            <RoundButton width="90px" height="50px" onClick={() => setCurrentBodyPosition("front")}>
+          {selectedSite !== null || (
+            <RoundButton
+              width="90px"
+              height="50px"
+              onClick={() => setCurrentBodyPosition("front")}
+              bgColor={currentBodyPosition !== "front" ? "#C6CDFA" : undefined}
+            >
               앞
             </RoundButton>
           )}
-          {isRecordSiteSelected || (
-            <RoundButton width="90px" height="50px" onClick={() => setCurrentBodyPosition("back")}>
+          {selectedSite !== null || (
+            <RoundButton
+              width="90px"
+              height="50px"
+              onClick={() => setCurrentBodyPosition("back")}
+              bgColor={currentBodyPosition !== "back" ? "#C6CDFA" : undefined}
+            >
               뒤
             </RoundButton>
           )}
         </ButtonsBox>
       ) : (
         <ButtonsBox>
-          {isRecordSiteSelected || (
+          {selectedSite !== null || (
             <RoundButton width="90px" height="50px" onClick={() => setCurrentBodyPosition("front")}>
               몸
             </RoundButton>
