@@ -4,6 +4,7 @@ import { theme } from "@styles/theme";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
 import Image from "next/image";
+import { useEffect } from "react";
 import styled from "styled-components";
 import setting from "../../public/settingIcon.png";
 
@@ -12,21 +13,27 @@ const Hospital = () => {
   const { data } = useQuery(["hospital"], getApi);
   console.log(data);
   const log = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  useEffect(() => {
+    document.body.style.backgroundColor = theme.color.lightBg;
+    return () => {
+      document.body.style.backgroundColor = theme.color.darkBg;
+    };
+  }, []);
   return (
     <MainContainer>
       <MainInnerContainer>
         <div style={{ width: "100%", height: "200px", textAlign: "left", padding: "50px" }}>
           <p style={{ fontSize: "32px" }}>
-            <Text weight="600" size="32px">
+            <Text weight="600" size="32px" style={{ color: "rgb(100,106,235)" }}>
               소희님
             </Text>
             의 기록을 공유받고 있는 병원 목록이에요
             <br /> 병원을 클릭하면 해당 병원에서의 진료내역을 확인할 수 있어요
           </p>
         </div>
-        <div style={{ display: "flex", justifyContent: "center", height: "100px" }}>
+        <div style={{ display: "flex", justifyContent: "center", height: "100px", alignItems: "end" }}>
           <RoundButton size="custom" width="260px" height="50px">
-            <Image src={setting} width={20} height={20} alt="병원" /> 병원 추가하기
+            <Image src={setting} width={20} height={20} alt="병원" style={{ marginRight: "20px" }} /> 병원 추가하기
           </RoundButton>
         </div>
         <HospitalContainer>
@@ -124,7 +131,7 @@ const HospitalInfor = styled.li`
   padding: 30px;
   width: 100%;
   height: 80px;
-  background-color: ${theme.color.darkBg};
+  background-color: rgb(100, 106, 235);
   border-radius: 20px;
   & + & {
     margin-top: 20px;
