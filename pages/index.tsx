@@ -52,7 +52,7 @@ export default function Home() {
           </Link>
           <Link href={`/hospital/${user?.id}`}>
             <RoundButton width="400px" height="70px" bgColor="rgb(108, 113, 240)">
-              <Image src={hospital} alt="#" />내 병원 관리하기
+              <BtnIcon src={hospital} alt="#" />내 병원 관리하기
             </RoundButton>
           </Link>
         </ButtonBox>
