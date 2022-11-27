@@ -9,6 +9,7 @@ declare module "styled-components" {
       disabledText: "rgb(210, 210, 221)";
       error: "rgb(248, 78, 139)";
       text: "rgb(43, 45, 100)";
+      weekPurple: "rgb(198,205,250)";
       mint: "rgb(3, 231, 203)";
       mintBtn: "rgb(18, 212, 201)";
       input: "rgb(100, 106, 235)";
