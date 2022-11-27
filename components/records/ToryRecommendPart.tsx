@@ -21,12 +21,11 @@ function ToryRecommend() {
           <RecommendText>
             <Tag>Ai 토리추천</Tag>
             <Text>
-              <strong>$정형외과, 가정의학과, 치과</strong>에 방문해보시는 것을 추천드려요!
+              <strong>$손목 $통증</strong>이 많으시네요. <strong>$정형외과</strong>에 한번 방문해보시는 건 어떠신가요?
             </Text>
           </RecommendText>
           <RoundButton size="md" onClick={() => setShowModal(true)}>내 주변 해당 병원 찾기</RoundButton>
         </ToryRecommendBox>
-        <Warning>Ai 토리추천 서비스는 의료행위가 아닌 정보 참고용 서비스임을 밝히며, 정확한 의학적 판단을 위해서는 반드시 가까운 의료기관을 내원해주세요</Warning>
       </ToryRecommendContainer>
       
       <Modal onClose={() => setShowModal(false)} activeFuction={handleClickLogout} show={showModal} title={""}>
@@ -48,8 +47,9 @@ const ToryRecommendBox = styled.div`
   justify-content: space-between;
   border-radius: 20px;
   padding: 15px 20px;
-  box-shadow: 8px 8px 18px 0px rgba(32, 36, 120, 0.3);
-  background: ${({ theme }) => theme.color.white};
+  box-shadow: 8px 8px 18px 0px rgba(58, 64, 190, 0.3);
+  background: ${({ theme }) => theme.color.input};
+  color: ${({ theme }) => theme.color.white};
 `;
 
 const RecommendText = styled.div`
@@ -75,14 +75,6 @@ const Text = styled.div`
   strong {
     font-weight: 700;
   }
-`;
-
-const Warning = styled.div`
-  background: url(${IconWarning.src}) no-repeat 25px 50%/13px;
-  padding: 15px 45px;
-  font-size: 13px;
-  color: #D9DEFF;
-  opacity: .8;
 `;
 
 const MapContainer = styled.div`
