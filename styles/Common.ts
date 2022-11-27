@@ -29,17 +29,14 @@ export const InnerContainer = styled.div`
   padding-top: 70px;
 `;
 
-export const Box = styled.div`
+export const Box = styled.div<{ height?: string }>`
   display: flex;
   justify-content: center;
   align-items: center;
+  height: ${props => (props.height ? props.height : "auto")};
 `;
 
-export const Row = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+export const Row = styled(Box)``;
 export const Col = styled(Row)`
   flex-direction: column;
 `;
