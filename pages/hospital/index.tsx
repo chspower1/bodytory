@@ -1,72 +1,78 @@
 import { RectangleButton, RoundButton } from "@components/button/Button";
+import { User } from "@prisma/client";
 import { Container } from "@styles/Common";
 import { theme } from "@styles/theme";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
+import { loggedInUser } from "atoms/atoms";
 import Image from "next/image";
-import { useEffect } from "react";
+import { RegisterForm } from "pages/auth/register";
+import { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import medicalIcon from "../../public/medical.png";
 
 const Hospital = () => {
   const { getApi } = customApi("/api/users/hospital");
   const { data } = useQuery(["hospital"], getApi);
-  console.log(data);
+  const currentUser = useRecoilValue(loggedInUser);
+  const [user, setUser] = useState<User | RegisterForm | null>();
   const log = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
   useEffect(() => {
     document.body.style.backgroundColor = theme.color.lightBg;
     return () => {
       document.body.style.backgroundColor = theme.color.darkBg;
     };
   }, []);
+
+  useEffect(() => {
+    setUser(currentUser);
+  });
+
   return (
     <MainContainer>
       <MainInnerContainer>
-        <div style={{ width: "100%", height: "200px", textAlign: "left", padding: "50px" }}>
-          <p style={{ fontSize: "32px" }}>
-            <Text weight="600" size="32px" style={{ color: "rgb(100,106,235)" }}>
-              소희님
-            </Text>
-            의 기록을 공유받고 있는 병원 목록이에요
+        <DescriptionBox>
+          <Pragraph>
+            <HighlightText>{user?.name}님</HighlightText>의 기록을 공유받고 있는 병원 목록이에요
             <br /> 병원을 클릭하면 해당 병원에서의 진료내역을 확인할 수 있어요
-          </p>
-        </div>
-        <div style={{ display: "flex", justifyContent: "center", height: "100px", alignItems: "end" }}>
+          </Pragraph>
+        </DescriptionBox>
+        <ButtonBox>
           <RoundButton size="custom" width="260px" height="50px">
-            <Image src={medicalIcon} width={20} height={20} alt="병원" style={{ marginRight: "20px" }} /> 병원 추가하기
+            <ImageIcon src={medicalIcon} width={20} height={20} alt="병원" /> 병원 추가하기
           </RoundButton>
-        </div>
+        </ButtonBox>
         <HospitalContainer>
           <InnerContainer>
             <HospitalList>
-              {log.map((number: number) => {
+              {log.map((number: number, index) => {
                 return (
-                  <>
-                    <HospitalInfor>
-                      <HospitalInforBox>
-                        <HospitalDescriptionBox>
-                          <span>로고</span>
-                          <Text size="18px" weight="900" style={{ color: "white" }}>
-                            삼성본정형외과의원
-                          </Text>
-                          <RectangleButton size="sm">정형외과</RectangleButton>
-                        </HospitalDescriptionBox>
-                        <HospitalPlaceBox>
-                          <Text weight="200" size="17px">
-                            서울 성북구 아리랑로 7 농협 건물 2층,4층
-                          </Text>
-                        </HospitalPlaceBox>
-                        <HospitalStatusBox>
-                          <Text weight="200" size="15px">
-                            기록 공유 중
-                          </Text>
-                          <RoundButton size="md" bgColor="rgb(128,133,251)">
-                            공유 중지하기
-                          </RoundButton>
-                        </HospitalStatusBox>
-                      </HospitalInforBox>
-                    </HospitalInfor>
-                  </>
+                  <HospitalInfor key={index}>
+                    <HospitalInforBox>
+                      <HospitalDescriptionBox>
+                        <span>로고</span>
+                        <Text size="18px" weight="900" style={{ color: "white" }}>
+                          삼성본정형외과의원
+                        </Text>
+                        <RectangleButton size="sm">정형외과</RectangleButton>
+                      </HospitalDescriptionBox>
+                      <HospitalPlaceBox>
+                        <Text weight="200" size="17px">
+                          서울 성북구 아리랑로 7 농협 건물 2층,4층
+                        </Text>
+                      </HospitalPlaceBox>
+                      <HospitalStatusBox>
+                        <Text weight="200" size="15px">
+                          기록 공유 중
+                        </Text>
+                        <RoundButton size="md" bgColor="rgb(128,133,251)">
+                          공유 중지하기
+                        </RoundButton>
+                      </HospitalStatusBox>
+                    </HospitalInforBox>
+                  </HospitalInfor>
                 );
               })}
             </HospitalList>
@@ -102,6 +108,15 @@ const Text = styled.span<{ size?: string; weight?: string }>`
   font-size: ${prop => prop.size || "16px"};
   font-weight: ${prop => prop.weight || "300"};
   color: ${theme.color.white};
+`;
+
+const Pragraph = styled.p`
+  font-size: 32px;
+`;
+const HighlightText = styled.span`
+  color: rgb(100, 106, 235);
+  font-size: 32px;
+  font-weight: 700;
 `;
 
 const InnerContainer = styled.div`
@@ -172,4 +187,22 @@ const HospitalStatusBox = styled.div`
   align-items: center;
   width: 300px;
   justify-content: space-between;
+`;
+
+const DescriptionBox = styled.div`
+  width: 100%;
+  height: 200px;
+  text-align: left;
+  padding: 50px;
+`;
+
+const ImageIcon = styled(Image)`
+  margin-right: 20px;
+`;
+
+const ButtonBox = styled.div`
+  display: flex;
+  justify-content: center;
+  height: 100px;
+  align-items: end;
 `;
