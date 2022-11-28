@@ -10,12 +10,15 @@ const HospitalList = ({ lists, add }: { lists?: Hospital[]; add: boolean }) => {
   return (
     <HospitalContainer add={add}>
       <InnerContainer add={add}>
-        <HospitalLists>
-          {lists &&
-            lists.map((list: Hospital) => {
-              return <HospitalContent list={list} add={add} key={list.id} />;
-            })}
-        </HospitalLists>
+        {lists ? (
+          <HospitalLists>
+            {lists.map((list: Hospital) => (
+              <HospitalContent list={list} add={add} key={list.id} />
+            ))}
+          </HospitalLists>
+        ) : (
+          <NoneMessage>{add ? "검색결과가 없습니다" : "병원내역이 없습니다"}</NoneMessage>
+        )}
       </InnerContainer>
     </HospitalContainer>
   );
@@ -23,10 +26,21 @@ const HospitalList = ({ lists, add }: { lists?: Hospital[]; add: boolean }) => {
 
 export default HospitalList;
 
+const NoneMessage = styled.div`
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
+  font-size: 30px;
+  color: ${theme.color.darkBg};
+`;
+
 const InnerContainer = styled.div<{ add: boolean }>`
   width: 100%;
   height: 100%;
-  overflow-y: scroll;
+  overflow-y: auto;
+  position: relative;
   &::-webkit-scrollbar {
     width: 10px;
   }

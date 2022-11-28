@@ -29,24 +29,40 @@ const FindHospital = () => {
   return (
     <MainContainer>
       <MainInnerContainer>
-        <DescriptionBox>
-          <Pragraph>
-            추가할 병원을 검색해주세요
-            <br />
-            지도에서 내 주변 병원도 확인할 수 있어요
-          </Pragraph>
-        </DescriptionBox>
-        <ButtonBox>
-          <RoundButton size="md">지도에서 내 주변 병원 찾기</RoundButton>
-        </ButtonBox>
-        <div>
-          <Input name="search-hospital" width="700px" bgcolor="#fff" color="black" />
-          <RoundButton size="sm">검색</RoundButton>
-        </div>
-        <HospitalList lists={undefined} add={true} />
+        <DescriptionContainer>
+          <DescriptionBox>
+            <Pragraph>
+              추가할 병원을 검색해주세요
+              <br />
+              지도에서 내 주변 병원도 확인할 수 있어요
+            </Pragraph>
+          </DescriptionBox>
+          <ButtonBox>
+            <RoundButton size="md">지도에서 내 주변 병원 찾기</RoundButton>
+          </ButtonBox>
+          <SearchBox>
+            <Input name="search-hospital" width="700px" bgcolor="#fff" color="black" />
+            <RoundButton size="custom" height="60px">
+              검색
+            </RoundButton>
+          </SearchBox>
+        </DescriptionContainer>
+        {<HospitalList lists={data?.hospitals} add={true} />}
       </MainInnerContainer>
     </MainContainer>
   );
 };
 
 export default FindHospital;
+
+const SearchBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 60%;
+  margin: 0 auto;
+  margin-top: 50px;
+`;
+const DescriptionContainer = styled.div`
+  width: 100%;
+`;
