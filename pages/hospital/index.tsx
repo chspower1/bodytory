@@ -1,4 +1,5 @@
 import { RectangleButton, RoundButton } from "@components/button/Button";
+import HospitalList, { HospitalLists } from "@components/HospitalList";
 import { User } from "@prisma/client";
 import { Container } from "@styles/Common";
 import { theme } from "@styles/theme";
@@ -28,7 +29,7 @@ const Hospital = () => {
 
   useEffect(() => {
     setUser(currentUser);
-  });
+  }, [currentUser]);
 
   return (
     <MainContainer>
@@ -44,40 +45,7 @@ const Hospital = () => {
             <ImageIcon src={medicalIcon} width={20} height={20} alt="병원" /> 병원 추가하기
           </RoundButton>
         </ButtonBox>
-        <HospitalContainer>
-          <InnerContainer>
-            <HospitalList>
-              {log.map((number: number, index) => {
-                return (
-                  <HospitalInfor key={index}>
-                    <HospitalInforBox>
-                      <HospitalDescriptionBox>
-                        <span>로고</span>
-                        <Text size="18px" weight="900" style={{ color: "white" }}>
-                          삼성본정형외과의원
-                        </Text>
-                        <RectangleButton size="sm">정형외과</RectangleButton>
-                      </HospitalDescriptionBox>
-                      <HospitalPlaceBox>
-                        <Text weight="200" size="17px">
-                          서울 성북구 아리랑로 7 농협 건물 2층,4층
-                        </Text>
-                      </HospitalPlaceBox>
-                      <HospitalStatusBox>
-                        <Text weight="200" size="15px">
-                          기록 공유 중
-                        </Text>
-                        <RoundButton size="md" bgColor="rgb(128,133,251)">
-                          공유 중지하기
-                        </RoundButton>
-                      </HospitalStatusBox>
-                    </HospitalInforBox>
-                  </HospitalInfor>
-                );
-              })}
-            </HospitalList>
-          </InnerContainer>
-        </HospitalContainer>
+        <HospitalList lists={data?.hospitals} add={false} />
       </MainInnerContainer>
     </MainContainer>
   );
@@ -85,7 +53,7 @@ const Hospital = () => {
 
 export default Hospital;
 
-const MainContainer = styled.div`
+export const MainContainer = styled.div`
   height: 100%;
   display: flex;
   align-items: center;
@@ -94,7 +62,7 @@ const MainContainer = styled.div`
   margin: 0 auto;
 `;
 
-const MainInnerContainer = styled.div`
+export const MainInnerContainer = styled.div`
   width: 1600px;
   height: 1000px;
   margin: auto;
@@ -102,12 +70,6 @@ const MainInnerContainer = styled.div`
   align-items: center;
   flex-direction: column;
   justify-content: space-between;
-`;
-
-const Text = styled.span<{ size?: string; weight?: string }>`
-  font-size: ${prop => prop.size || "16px"};
-  font-weight: ${prop => prop.weight || "300"};
-  color: ${theme.color.white};
 `;
 
 const Pragraph = styled.p`
@@ -130,63 +92,6 @@ const InnerContainer = styled.div`
     border-radius: 10px;
     background-color: rgb(188, 197, 255);
   }
-`;
-
-const HospitalContainer = styled.div`
-  width: 1700px;
-  height: 600px;
-  background-color: rgb(217, 222, 255);
-  border-radius: 40px;
-  padding: 30px;
-`;
-
-const HospitalInfor = styled.li`
-  display: inline-block;
-  position: relative;
-  padding: 30px;
-  width: 100%;
-  height: 80px;
-  background-color: rgb(100, 106, 235);
-  border-radius: 20px;
-  & + & {
-    margin-top: 20px;
-  }
-`;
-
-const HospitalList = styled.ul`
-  width: 98%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const HospitalInforBox = styled.div`
-  height: 100%;
-  width: 100%;
-  display: flex;
-  align-items: center;
-`;
-
-const HospitalPlaceBox = styled.div`
-  position: absolute;
-  left: 400px;
-  color: white;
-`;
-
-const HospitalDescriptionBox = styled.div`
-  display: flex;
-  width: 300px;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const HospitalStatusBox = styled.div`
-  position: absolute;
-  right: 30px;
-  display: flex;
-  align-items: center;
-  width: 300px;
-  justify-content: space-between;
 `;
 
 const DescriptionBox = styled.div`
