@@ -91,17 +91,29 @@ enum RecordType {
 }
 
 model Record {
-  id          Int           @id @default(autoincrement())
-  createAt    DateTime      @default(now())
-  updateAt    DateTime      @updatedAt
-  type        RecordType
-  position    Position
-  description String
-  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId      Int
-  hospital    Hospital?     @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
-  hospitalId  Int?
-  images      RecordImage[]
+  id           Int           @id @default(autoincrement())
+  createAt     DateTime      @default(now())
+  updateAt     DateTime      @updatedAt
+  type         RecordType
+  position     Position
+  diagnosis    String?
+  prescription String?
+  description  String
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       Int
+  hospital     Hospital?     @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
+  hospitalId   Int?
+  images       RecordImage[]
+  recommend    Recommend[]
+}
+
+model Recommend {
+  id                Int      @id @default(autoincrement())
+  createAt          DateTime @default(now())
+  updateAt          DateTime @updatedAt
+  MedicalDepartment String
+  Record            Record   @relation(fields: [recordId], references: [id])
+  recordId          Int
 }
 
 model RecordImage {

@@ -34,6 +34,7 @@ const ChartWrap = styled.div`
     width: 30px;
   }
   &::-webkit-scrollbar-thumb {
+    width: 10px;
     background-color: #4449C2;
     background-clip: content-box;
     border: 10px solid transparent;
@@ -41,6 +42,8 @@ const ChartWrap = styled.div`
   }
   &::-webkit-scrollbar-thumb:hover {
     background-color: #363CBF;
+    background-clip: content-box;
+    border: 10px solid transparent;
   }
 `;
 
@@ -48,14 +51,14 @@ const ChartContainer = styled.div`
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 30px 20px 20px 30px;
+  padding: 30px 30px 20px 40px;
 `;
 
 const TitleBox = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  padding-right: 70px;
+  padding: 0 70px 0 25px;
   margin-bottom: 30px;
 `;
 

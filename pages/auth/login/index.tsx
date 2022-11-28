@@ -84,11 +84,11 @@ const LoginPage: NextPage = () => {
   // console.log(errors, checkEmptyObj(errors));
 
   const isErrorsMessage = errors.accountId?.message || errors.password?.message;
-  
+
   useEffect(() => {
-    if(watch("accountId") && watch("password") && !isErrorsMessage){
+    if (watch("accountId") && watch("password") && !isErrorsMessage) {
       setIsCompletion(true);
-    }else{
+    } else {
       setIsCompletion(false);
     }
     setIsError(false);
@@ -98,8 +98,8 @@ const LoginPage: NextPage = () => {
     <FlexContainer>
       <InnerContainer>
         <MessageBox isErrorsMessage={isErrorsMessage}>
-            {!isErrorsMessage &&
-              (isError ? <>앗! 로그인 정보를 다시 한번 확인해주세요</> : <>로그인 정보를 입력해주세요</>)}
+          {!isErrorsMessage &&
+            (isError ? <>앗! 로그인 정보를 다시 한번 확인해주세요</> : <>로그인 정보를 입력해주세요</>)}
         </MessageBox>
         <LoginForm as="form" onSubmit={handleSubmit(onValid)}>
           <LoginFormInnerBox>
@@ -173,6 +173,7 @@ const LoginPage: NextPage = () => {
   );
 };
 export default LoginPage;
+
 
 export const ToryTextBox = styled.div`
   text-align: center;

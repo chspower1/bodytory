@@ -43,8 +43,8 @@ const ToryTextBox = styled.div`
 const Tory24 = styled.div`
   // 추후 토리로 변경
   background: #fff;
-  width: 100px;
-  height: 128px;
+  width: 120px;
+  height: 120px;
   margin-right: 30px;
 `;
 

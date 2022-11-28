@@ -45,60 +45,34 @@ const SideMenu = () => {
     <>
       <HamburgerMenuButton isOpen={isOpen} setIsOpen={setIsOpen} isActive={isActive} setIsActive={setIsActive} />
       {isActive && (
-        <SideMenuWrap>
-          <Dim isOpen={isOpen} onClick={handleClickCloseMenu} />
+        <Dim isOpen={isOpen}>
           <SideMenuBox>
             <InnerBox>
               <ContentsBox>
                 <div className="goEdit">
-                  <Link href="/users/profile/edit">
+                  <Link href="/auth/profile/edit">
                     <i></i>계정 설정
                   </Link>
                 </div>
                 <Nav>
                   <ul>
                     {menuList.map(({ subject, link }) => (
-                      <li key={subject}>
-                        <Link href={link} className={router.asPath === link ? "active" : ""}>
-                          {subject}
-                        </Link>
+                      <li key={subject} className={router.asPath === link ? "active" : ""}>
+                        <Link href={link}>{subject}</Link>
                       </li>
                     ))}
                   </ul>
                 </Nav>
               </ContentsBox>
-              <ButtonBox>
-                <LogoutBtn />
-              </ButtonBox>
             </InnerBox>
-            <Footer>
-              <FooterUl>
-                <li>
-                  <Link href="">바디토리 소개</Link>
-                </li>
-                <li>
-                  <Link href="">팀 소개</Link>
-                </li>
-                <li>© 2022. BODYTORY</li>
-              </FooterUl>
-            </Footer>
           </SideMenuBox>
-        </SideMenuWrap>
+        </Dim>
       )}
     </>
   );
 };
 
 export default SideMenu;
-
-const SideMenuWrap = styled.div`
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 10;
-`;
 
 const Dim = styled.div<{ isOpen: boolean }>`
   position: absolute;
@@ -113,8 +87,8 @@ const Dim = styled.div<{ isOpen: boolean }>`
   ${({ isOpen }) =>
     isOpen &&
     css`
-      & + div {
-        right: 0;
+      & > div {
+        transform: translateX(0%);
       }
     `}
 `;
@@ -129,9 +103,10 @@ const SideMenuBox = styled.div`
   height: 97%;
   flex-direction: column;
   background: ${({ theme }) => theme.color.darkBg};
-  border-radius: 30px 0 0 30px;
-  transition: right 0.6s;
-  overflow: hidden;
+  border-radius: 50px 0 0 50px;
+  transform: translateX(100%);
+  transition: transform 0.6s;
+
   color: #fff;
   a {
     color: #fff;
