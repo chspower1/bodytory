@@ -104,6 +104,16 @@ model Record {
   hospital     Hospital?     @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
   hospitalId   Int?
   images       RecordImage[]
+  recommend    Recommend[]
+}
+
+model Recommend {
+  id                Int      @id @default(autoincrement())
+  createAt          DateTime @default(now())
+  updateAt          DateTime @updatedAt
+  MedicalDepartment String
+  Record            Record   @relation(fields: [recordId], references: [id])
+  recordId          Int
 }
 
 model RecordImage {
