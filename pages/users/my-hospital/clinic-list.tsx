@@ -27,8 +27,8 @@ const ClinicList = () => {
             </RoundButton>
           </ButtonBox>
         </PageHeadBox>
-        {/* <ClinicSlide /> */}
-        <SlideCopy />
+        <ClinicSlide />
+        {/* <SlideCopy /> */}
         {/* <SwiperBox /> */}
       </ClinicContainer>
     </ClinicListWrap>
