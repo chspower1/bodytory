@@ -31,7 +31,7 @@ const Test = () => {
           <MapMarker // 마커를 생성합니다
             position={{ lat: 33.450701, lng: 126.570667 }}
             image={{
-              src: {``}, // 마커이미지의 주소입니다
+              src: "#", // 마커이미지의 주소입니다
               size: {
                 width: 64,
                 height: 69,
