@@ -13,16 +13,16 @@ import { RegisterForm } from "pages/auth/register";
 
 const Header = () => {
   const router = useRouter();
-  const [ isLogin, setIsLogin ] = useState<User | RegisterForm | null>(null);
+  const [ isLogin, setIsLogin ] = useState<boolean>();
   const currentUser = useRecoilValue(loggedInUser);
-  console.log(isLogin);
+  
   
   useEffect(()=>{
-    setIsLogin(currentUser);
+    currentUser === null ? setIsLogin(true) : setIsLogin(false)
   },[currentUser])
   return (
     <>
-      {!isLogin ? (
+      {isLogin ? (
         <HeaderWrap>
           <HeaderContainer>
             <HeaderInnerBox>

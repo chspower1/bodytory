@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import axios from "axios";
 import customApi from "utils/client/customApi";
@@ -16,9 +16,9 @@ export interface WithdrawType {
 
 export default function Withdraw() {
   const router = useRouter();
-  const { user } = useUser();
-  const userType = user?.type;
   const [currentUser, setCurrentUser] = useRecoilState(loggedInUser);
+  const [isOrigin, setIsOrigin] = useState<boolean>();
+  const userType = currentUser?.type;
   const [showModal, setShowModal] = useState(false);
   const [closingComment, setClosingComment] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");
@@ -60,15 +60,19 @@ export default function Withdraw() {
       setCurrentUser(null);
     }
   };
+  useEffect(() => {
+    userType === "origin" ? setIsOrigin(true) : setIsOrigin(false)
+  }, [])
+  
   return (
     <div>
       <h3>회원 탈퇴</h3>
       <form onSubmit={handleSubmit(onValid)}>
         <div>
-          <p>{currentUser?.type === "origin" ? `비밀번호를 입력하고 확인을` : `탈퇴하기를`} 누르시면</p>
+          <p>{isOrigin ? `비밀번호를 입력하고 확인을` : `탈퇴하기를`} 누르시면</p>
           <p>탈퇴가 진행 됩니다</p>
         </div>
-        {userType === "origin" && (
+        {isOrigin && (
           <>
             <p>
               <input type="text" {...register("password", { required: "필수값입니다" })} />

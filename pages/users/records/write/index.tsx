@@ -60,7 +60,7 @@ export default function WritePage() {
         selectedSite={selectedSite}
         setSelectedSite={setSelectedSite}
         setHoveredSite={setHoveredSite}
-        isRecordSiteSelected={selectedSite !== null}
+        hoveredSite={hoveredSite}
       />
     </RecordContainer>
   );

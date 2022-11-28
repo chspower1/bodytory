@@ -56,15 +56,26 @@ export const BodyText = styled(WhiteText)`
 export const ToryText = styled(WhiteText)<{ color?: string }>`
   font-size: 36px;
   color: ${props => (props.color ? props.color : props.theme.color.text)};
+  line-height: 1.8;
+
+  strong {
+    font-weight: 700;
+  }
 `;
 export const BlackToryText = styled.div`
   /* color: ${({ theme }) => theme.color.text}; */
   font-size: 36px;
   width: auto;
 `;
+
+export const ToryText26 = styled(ToryText)`
+  font-size: 26px;
+`;
+
 export const Accent = styled(ToryText)`
   color: ${({ theme }) => theme.color.darkBg};
 `;
+
 export const WhiteBoldText = styled(WhiteText)`
   font-weight: 600;
 `;

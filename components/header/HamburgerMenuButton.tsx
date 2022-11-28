@@ -46,8 +46,9 @@ const MenuButtonBox = styled.div`
   z-index: 12;
   width: 80px;
   height: 80px;
-  background: ${({theme}) => theme.color.darkBg};
+  background: ${({theme}) => theme.color.input};
   border-radius: 0 0 0 10px;
+  box-shadow :-5px 5px 12px rgba(78, 83, 188, 0.3);
   overflow:hidden;
   transition: background .6s;
   &.active{

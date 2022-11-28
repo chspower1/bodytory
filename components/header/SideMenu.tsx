@@ -5,6 +5,7 @@ import styled, { css } from "styled-components";
 import settingIcon from "@public/settingIcon.png";
 import HamburgerMenuButton from "./HamburgerMenuButton";
 import { useRouter } from "next/router";
+import LogoutBtn from "@components/LogoutBtn";
 const SideMenu = () => {
   const router = useRouter();
   const dimRef = useRef<HTMLDivElement>(null);
@@ -25,6 +26,21 @@ const SideMenu = () => {
     },
   ]);
   /* /auth/hospital */
+
+  const handleClickCloseMenu = () => {
+    if (isOpen === isActive) {
+      if (isOpen) {
+        setIsOpen(false);
+        setTimeout(() => {
+          setIsActive(false);
+        }, 600);
+      }
+    }
+  };
+  useEffect(() => {
+    handleClickCloseMenu();
+  }, [router.asPath]);
+
   return (
     <>
       <HamburgerMenuButton isOpen={isOpen} setIsOpen={setIsOpen} isActive={isActive} setIsActive={setIsActive} />
@@ -59,8 +75,7 @@ const SideMenu = () => {
 export default SideMenu;
 
 const Dim = styled.div<{ isOpen: boolean }>`
-  display: flex;
-  position: fixed;
+  position: absolute;
   left: 0;
   top: 0;
   z-index: 10;
@@ -79,10 +94,14 @@ const Dim = styled.div<{ isOpen: boolean }>`
 `;
 
 const SideMenuBox = styled.div`
+  position: absolute;
+  right: -500px;
+  bottom: 0;
+  z-index: 11;
+  display: flex;
   width: 500px;
   height: 97%;
-  padding: 87px 40px 56px 76px;
-  margin: auto 0 0 auto;
+  flex-direction: column;
   background: ${({ theme }) => theme.color.darkBg};
   border-radius: 50px 0 0 50px;
   transform: translateX(100%);
@@ -97,6 +116,7 @@ const SideMenuBox = styled.div`
 const InnerBox = styled(Col)`
   width: 100%;
   height: 100%;
+  padding: 87px 40px 56px;
   justify-content: space-between;
 `;
 
@@ -118,42 +138,58 @@ const ContentsBox = styled.div`
   }
 `;
 
+const ButtonBox = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
 const Nav = styled.nav`
   padding-top: 100px;
   ul {
+    margin-left: 36px;
     li {
-      position: relative;
-      display: inline-block;
-      padding-bottom: 10px;
-      &::after {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 3px;
-        background: #fff;
-        transform: scaleX(0);
-        transition: transform 0.6s;
-      }
       a {
+        position: relative;
         font-size: 35px;
         font-weight: bolder;
+        padding-bottom: 10px;
         letter-spacing: -2px;
+        &::after {
+          content: "";
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 3px;
+          background: #fff;
+          transform: scaleX(0);
+          transition: transform 0.6s;
+        }
+        &.active::after {
+          transform: scaleX(1);
+        }
+        &:hover::after {
+          transform: scaleX(1);
+        }
       }
       & + li {
         margin-top: 50px;
-      }
-      &.active::after {
-        transform: scaleX(1);
-      }
-      &:hover::after {
-        transform: scaleX(1);
       }
     }
   }
 `;
 
-const Footer = styled(Row)`
-  justify-content: space-around;
+const Footer = styled.div`
+  flex-shrink: 0;
+  padding: 18px 0;
+  background: ${({ theme }) => theme.color.disabled};
+`;
+const FooterUl = styled(Row)`
+  justify-content: space-between;
+  margin-left: 40px;
+  padding: 0 30px;
+  font-size: 14px;
+  li {
+    list-style: none;
+  }
 `;
