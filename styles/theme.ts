@@ -20,7 +20,7 @@ export const theme: DefaultTheme = {
   font: {
     size: {
       toriText: "36px",
-      bodyText: "15px",
+      bodyText: "18px",
     },
     bold: {
       Regular: "Noto Sans KR Regular",

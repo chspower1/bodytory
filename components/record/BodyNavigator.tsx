@@ -7,8 +7,8 @@ interface BodyNavigator {
   selectedSite: SiteType;
   setSelectedSite: Dispatch<SetStateAction<SiteType>>;
   setHoveredSite?: Dispatch<SetStateAction<string>>;
-  isRecordSiteSelected?: boolean;
   isWritePage: boolean;
+  hoveredSite?: string;
 }
 
 type CurrentBodyPosition = "front" | "back" | "face";
@@ -17,13 +17,7 @@ const face: SiteType[] = ["head", "forehead", "eyes", "nose", "mouth", "cheek", 
 
 const back: SiteType[] = ["back", "waist", "hip"];
 
-const BodyNavigator = ({
-  selectedSite,
-  setSelectedSite,
-  setHoveredSite,
-  isRecordSiteSelected,
-  isWritePage,
-}: BodyNavigator) => {
+const BodyNavigator = ({ selectedSite, setSelectedSite, setHoveredSite, isWritePage, hoveredSite }: BodyNavigator) => {
   const [currentBodyPosition, setCurrentBodyPosition] = useState<CurrentBodyPosition>(
     face.includes(selectedSite) ? "face" : back.includes(selectedSite) ? "back" : "front",
   );
@@ -70,6 +64,7 @@ const BodyNavigator = ({
           <svg xmlns="http://www.w3.org/2000/svg" width="auto" height="auto" viewBox="0 0 414 792" fill="none">
             <g clip-path="url(#clip0_200_1219)">
               <HoverPath
+                isHover={hoveredSite === "목"}
                 isChecked={selectedSite === "neck"}
                 onClick={() => setSelectedSite("neck")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("목")}
@@ -78,14 +73,16 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "어깨"}
                 isChecked={selectedSite === "shoulder"}
                 onClick={() => setSelectedSite("shoulder")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("어깨")}
                 onMouseLeave={() => setHoveredSite && setHoveredSite("")}
-                d="M154.256 149.406C154.256 149.406 131.63 149.406 124.374 158.887C117.105 168.367 96.005 185.469 115.12 185.234C134.223 184.998 132.461 186.398 141.38 176.336C141.38 176.336 161.339 158.156 161.86 156.049C162.381 153.942 161.004 149.877 154.268 149.406H154.256Z"
+                d="M154.256 149.406C154.256 149.406 131.63 149.406 124.374 158.887C117.105 168.367 96.005 185.469 115.12 185.234C134.223 184.998 132.461 186.398 141.38 176.336C141.38 176.336 161.339 158.156 161.86 156.049C162.381 153.942 161.004 149.877 154.268 149.406H154.256Z "
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "윗팔"}
                 isChecked={selectedSite === "upperArm"}
                 onClick={() => setSelectedSite("upperArm")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("윗팔")}
@@ -94,6 +91,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "팔꿈치"}
                 isChecked={selectedSite === "albow"}
                 onClick={() => setSelectedSite("albow")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("팔꿈치")}
@@ -102,6 +100,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "아랫팔"}
                 isChecked={selectedSite === "forearm"}
                 onClick={() => setSelectedSite("forearm")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("아랫팔")}
@@ -110,6 +109,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "손목"}
                 isChecked={selectedSite === "wrist"}
                 onClick={() => setSelectedSite("wrist")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("손목")}
@@ -118,6 +118,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "어깨"}
                 isChecked={selectedSite === "shoulder"}
                 onClick={() => setSelectedSite("shoulder")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("어깨")}
@@ -126,6 +127,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "윗팔"}
                 isChecked={selectedSite === "upperArm"}
                 onClick={() => setSelectedSite("upperArm")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("윗팔")}
@@ -134,6 +136,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "팔꿈치"}
                 isChecked={selectedSite === "albow"}
                 onClick={() => setSelectedSite("albow")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("팔꿈치")}
@@ -142,6 +145,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "아랫팔"}
                 isChecked={selectedSite === "forearm"}
                 onClick={() => setSelectedSite("forearm")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("아랫팔")}
@@ -150,6 +154,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "손목"}
                 isChecked={selectedSite === "wrist"}
                 onClick={() => setSelectedSite("wrist")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("손목")}
@@ -158,6 +163,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "가슴"}
                 isChecked={selectedSite === "chest"}
                 onClick={() => setSelectedSite("chest")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("가슴")}
@@ -166,6 +172,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "배"}
                 isChecked={selectedSite === "stomach"}
                 onClick={() => setSelectedSite("stomach")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("배")}
@@ -174,6 +181,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "골반"}
                 isChecked={selectedSite === "pelvis"}
                 onClick={() => setSelectedSite("pelvis")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("골반")}
@@ -182,6 +190,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "골반"}
                 isChecked={selectedSite === "pelvis"}
                 onClick={() => setSelectedSite("pelvis")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("골반")}
@@ -190,6 +199,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "생식기"}
                 isChecked={selectedSite === "sexOrgan"}
                 onClick={() => setSelectedSite("sexOrgan")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("생식기")}
@@ -198,6 +208,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "허벅지"}
                 isChecked={selectedSite === "thigh"}
                 onClick={() => setSelectedSite("thigh")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("허벅지")}
@@ -206,6 +217,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "무릎"}
                 isChecked={selectedSite === "knee"}
                 onClick={() => setSelectedSite("knee")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("무릎")}
@@ -214,6 +226,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "종아리"}
                 isChecked={selectedSite === "calf"}
                 onClick={() => setSelectedSite("calf")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("종아리")}
@@ -222,6 +235,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "발목"}
                 isChecked={selectedSite === "ankle"}
                 onClick={() => setSelectedSite("ankle")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("발목")}
@@ -230,6 +244,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "허벅지"}
                 isChecked={selectedSite === "thigh"}
                 onClick={() => setSelectedSite("thigh")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("허벅지")}
@@ -238,6 +253,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "무릎"}
                 isChecked={selectedSite === "knee"}
                 onClick={() => setSelectedSite("knee")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("무릎")}
@@ -246,6 +262,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "종아리"}
                 isChecked={selectedSite === "calf"}
                 onClick={() => setSelectedSite("calf")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("종아리")}
@@ -254,6 +271,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "발목"}
                 isChecked={selectedSite === "ankle"}
                 onClick={() => setSelectedSite("ankle")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("발목")}
@@ -262,6 +280,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "손"}
                 isChecked={selectedSite === "hand"}
                 onClick={() => setSelectedSite("hand")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("손")}
@@ -270,6 +289,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "손"}
                 isChecked={selectedSite === "hand"}
                 onClick={() => setSelectedSite("hand")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("손")}
@@ -278,6 +298,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "발"}
                 isChecked={selectedSite === "foot"}
                 onClick={() => setSelectedSite("foot")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("발")}
@@ -286,6 +307,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "발"}
                 isChecked={selectedSite === "foot"}
                 onClick={() => setSelectedSite("foot")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("발")}
@@ -294,6 +316,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "머리"}
                 isChecked={selectedSite === "head"}
                 onClick={() => setCurrentBodyPosition("face")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("머리")}
@@ -423,6 +446,7 @@ const BodyNavigator = ({
           <svg xmlns="http://www.w3.org/2000/svg" width="auto" height="auto" viewBox="0 0 409 769" fill="none">
             <g clip-path="url(#clip0_200_1146)">
               <HoverPath
+                isHover={hoveredSite === "목"}
                 isChecked={selectedSite === "neck"}
                 onClick={() => setSelectedSite("neck")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("목")}
@@ -431,6 +455,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "어깨"}
                 isChecked={selectedSite === "shoulder"}
                 onClick={() => setSelectedSite("shoulder")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("어깨")}
@@ -439,6 +464,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "윗팔"}
                 isChecked={selectedSite === "upperArm"}
                 onClick={() => setSelectedSite("upperArm")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("윗팔")}
@@ -447,6 +473,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "팔꿈치"}
                 isChecked={selectedSite === "albow"}
                 onClick={() => setSelectedSite("albow")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("팔꿈치")}
@@ -455,6 +482,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "아랫팔"}
                 isChecked={selectedSite === "forearm"}
                 onClick={() => setSelectedSite("forearm")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("아랫팔")}
@@ -463,6 +491,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "손목"}
                 isChecked={selectedSite === "wrist"}
                 onClick={() => setSelectedSite("wrist")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("손목")}
@@ -471,6 +500,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "어깨"}
                 isChecked={selectedSite === "shoulder"}
                 onClick={() => setSelectedSite("shoulder")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("어깨")}
@@ -479,14 +509,16 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "어깨"}
                 isChecked={selectedSite === "upperArm"}
                 onClick={() => setSelectedSite("upperArm")}
-                onMouseEnter={() => setHoveredSite && setHoveredSite("윗팔")}
+                onMouseEnter={() => setHoveredSite && setHoveredSite("어깨")}
                 onMouseLeave={() => setHoveredSite && setHoveredSite("")}
                 d="M309.1 250.094C310.402 249.714 311.262 248.486 311.163 247.136C310.672 240.632 308.584 227.685 306.054 217.744C303.156 206.38 307.909 191.42 298.98 188.757C290.039 186.094 275.658 186.548 276.579 200.587C277.512 214.615 278.433 224.592 282.265 233.747C286.097 242.903 290.973 256.819 299.214 253.579C303.917 251.726 307.184 250.671 309.112 250.094H309.1Z"
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "팔꿈치"}
                 isChecked={selectedSite === "albow"}
                 onClick={() => setSelectedSite("albow")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("팔꿈치")}
@@ -495,6 +527,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "아랫팔"}
                 isChecked={selectedSite === "forearm"}
                 onClick={() => setSelectedSite("forearm")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("아랫팔")}
@@ -503,6 +536,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "손목"}
                 isChecked={selectedSite === "wrist"}
                 onClick={() => setSelectedSite("wrist")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("손목")}
@@ -511,6 +545,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "허벅지"}
                 isChecked={selectedSite === "thigh"}
                 onClick={() => setSelectedSite("thigh")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("허벅지")}
@@ -519,6 +554,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "무릎"}
                 isChecked={selectedSite === "knee"}
                 onClick={() => setSelectedSite("knee")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("무릎")}
@@ -527,6 +563,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "종아리"}
                 isChecked={selectedSite === "calf"}
                 onClick={() => setSelectedSite("calf")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("종아리")}
@@ -535,6 +572,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "발목"}
                 isChecked={selectedSite === "ankle"}
                 onClick={() => setSelectedSite("ankle")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("발목")}
@@ -543,6 +581,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "허벅지"}
                 isChecked={selectedSite === "thigh"}
                 onClick={() => setSelectedSite("thigh")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("허벅지")}
@@ -551,6 +590,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "무릎"}
                 isChecked={selectedSite === "knee"}
                 onClick={() => setSelectedSite("knee")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("무릎")}
@@ -559,6 +599,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "종아리"}
                 isChecked={selectedSite === "calf"}
                 onClick={() => setSelectedSite("calf")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("종아리")}
@@ -567,6 +608,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "발목"}
                 isChecked={selectedSite === "ankle"}
                 onClick={() => setSelectedSite("ankle")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("발목")}
@@ -575,6 +617,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "손"}
                 isChecked={selectedSite === "hand"}
                 onClick={() => setSelectedSite("hand")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("손")}
@@ -583,6 +626,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "손"}
                 isChecked={selectedSite === "hand"}
                 onClick={() => setSelectedSite("hand")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("손")}
@@ -591,6 +635,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "머리"}
                 isChecked={selectedSite === "head"}
                 onClick={() => setCurrentBodyPosition("face")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("머리")}
@@ -599,6 +644,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "등"}
                 isChecked={selectedSite === "back"}
                 onClick={() => setSelectedSite("back")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("등")}
@@ -609,6 +655,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "허리"}
                 isChecked={selectedSite === "waist"}
                 onClick={() => setSelectedSite("waist")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("허리")}
@@ -619,6 +666,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "엉덩이"}
                 isChecked={selectedSite === "hip"}
                 onClick={() => setSelectedSite("hip")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("엉덩이")}
@@ -629,6 +677,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "발"}
                 isChecked={selectedSite === "foot"}
                 onClick={() => setSelectedSite("foot")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("발")}
@@ -637,6 +686,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "발"}
                 isChecked={selectedSite === "foot"}
                 onClick={() => setSelectedSite("foot")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("발")}
@@ -736,6 +786,7 @@ const BodyNavigator = ({
           <svg xmlns="http://www.w3.org/2000/svg" width="auto" height="auto" viewBox="0 0 466 542" fill="none">
             <g clip-path="url(#clip0_599_5)">
               <HoverPath
+                isHover={hoveredSite === "머리"}
                 isChecked={selectedSite === "head"}
                 onClick={() => setSelectedSite("head")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("머리")}
@@ -744,6 +795,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "이마"}
                 isChecked={selectedSite === "forehead"}
                 onClick={() => setSelectedSite("forehead")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("이마")}
@@ -752,6 +804,7 @@ const BodyNavigator = ({
                 fill="#B3BDFF"
               />
               <HoverPath
+                isHover={hoveredSite === "눈"}
                 isChecked={selectedSite === "eyes"}
                 onClick={() => setSelectedSite("eyes")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("눈")}
@@ -760,6 +813,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "눈"}
                 isChecked={selectedSite === "eyes"}
                 onClick={() => setSelectedSite("eyes")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("눈")}
@@ -768,6 +822,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "볼"}
                 isChecked={selectedSite === "cheek"}
                 onClick={() => setSelectedSite("cheek")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("볼")}
@@ -776,6 +831,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "볼"}
                 isChecked={selectedSite === "cheek"}
                 onClick={() => setSelectedSite("cheek")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("볼")}
@@ -784,6 +840,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "코"}
                 isChecked={selectedSite === "nose"}
                 onClick={() => setSelectedSite("nose")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("코")}
@@ -792,6 +849,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "입"}
                 isChecked={selectedSite === "mouth"}
                 onClick={() => setSelectedSite("mouth")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("입")}
@@ -800,6 +858,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "턱"}
                 isChecked={selectedSite === "chin"}
                 onClick={() => setSelectedSite("chin")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("턱")}
@@ -808,6 +867,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "귀"}
                 isChecked={selectedSite === "ears"}
                 onClick={() => setSelectedSite("ears")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("귀")}
@@ -816,6 +876,7 @@ const BodyNavigator = ({
                 fill="#D9DEFF"
               />
               <HoverPath
+                isHover={hoveredSite === "귀"}
                 isChecked={selectedSite === "ears"}
                 onClick={() => setSelectedSite("ears")}
                 onMouseEnter={() => setHoveredSite && setHoveredSite("귀")}
@@ -938,17 +999,18 @@ const ButtonsBox = styled.div`
   bottom: 0;
 `;
 
-const HoverPath = styled.path<{ isChecked: boolean }>`
-  ${({ isChecked }) =>
+const HoverPath = styled.path<{ isChecked: boolean; isHover?: boolean }>`
+  ${({ isChecked, isHover }) =>
     isChecked
       ? css`
           fill: rgb(3, 231, 203);
         `
+      : isHover
+      ? css`
+          fill: rgb(178, 189, 255);
+        `
       : css`
           fill: rgb(217, 222, 255);
-          &:hover {
-            fill: rgb(178, 189, 255);
-          }
         `}
 `;
 

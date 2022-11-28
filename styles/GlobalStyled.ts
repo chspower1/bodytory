@@ -11,10 +11,13 @@ ${reset}
   html,
   body {
     background: ${props => props.theme.color.darkBg};
+    font-optical-sizing: auto;
     font-family: 'Noto Sans KR', sans-serif;
     font-size: ${props => props.theme.font.size.bodyText};
     font-weight: 400;
-    line-height: 1.5;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.6;
     color: ${props => props.theme.color.text};
   }
 
