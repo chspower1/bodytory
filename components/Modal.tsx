@@ -66,7 +66,7 @@ const showFrame = keyframes`
   }
 `;
 
-const Dim = styled.div`
+export const Dim = styled.div`
   position: fixed;
   width: 100%;
   height: 100%;
@@ -74,6 +74,8 @@ const Dim = styled.div`
   background: #00000042;
   display: flex;
   text-align: center;
+  justify-content: center;
+  align-items: center;
 `;
 const ModalBox = styled.div`
   width: 400px;
