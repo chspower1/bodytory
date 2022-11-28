@@ -60,6 +60,7 @@ const Button = styled.button<{
   height: ${props => props.height};
   padding: ${props => props.padding};
   font-size: ${props => props.fontSize};
+  font-weight: 500;
   background-color: ${props => props.bgColor};
   color: ${props => props.textColor};
   border-radius: ${props => props.borderRadius};

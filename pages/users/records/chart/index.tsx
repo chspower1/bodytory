@@ -7,6 +7,8 @@ import React, { useState, Suspense, useEffect } from "react";
 import { Record, RecordImage } from "@prisma/client";
 import ManageImage from "@components/ManageImage";
 import Image from "next/image";
+import SiteChart from "@components/records/SiteChart";
+import KeywordChart from "@components/records/KeywordChart";
 
 interface RecordWithImage extends Record {
   images: RecordImage[];

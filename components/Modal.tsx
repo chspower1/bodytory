@@ -1,6 +1,8 @@
+import { theme } from "@styles/theme";
 import React, { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import styled, { keyframes } from "styled-components";
+import { RoundButton } from "./button/Button";
 
 interface ModalType {
   show: boolean;
@@ -30,8 +32,8 @@ function Modal({ show, closingComment = false, onClose, activeFuction, children,
         </ModalTitle>
         <ModalContent>{children}</ModalContent>
         <ConfirmBtnBox>
-          <ConfirmBtn onClick={activeFuction}>확인</ConfirmBtn>
-          {!closingComment && <ConfirmBtn onClick={onClose}>취소</ConfirmBtn>}
+          <RoundButton size="sm"  onClick={activeFuction}>네</RoundButton>
+          {!closingComment && <RoundButton size="sm" bgColor={theme.color.error} onClick={onClose}>아니요</RoundButton>}
         </ConfirmBtnBox>
       </ModalBox>
     </Dim>
@@ -43,7 +45,18 @@ function Modal({ show, closingComment = false, onClose, activeFuction, children,
   }
 }
 
-const ConfirmBtnBox = styled.div``;
+const ConfirmBtnBox = styled.div`
+  margin-top: 30px;
+  button{
+    display:inline-block;
+    margin : 0 10px;
+    width:auto;
+    padding: 0 30px;
+    &:first-child:hover  {
+      background : ${({theme}) =>theme.color.mintBtn};
+    }
+  }
+`;
 
 const ConfirmBtn = styled.button``;
 
@@ -53,7 +66,7 @@ const showFrame = keyframes`
   }
 `;
 
-const Dim = styled.div`
+export const Dim = styled.div`
   position: fixed;
   width: 100%;
   height: 100%;
@@ -61,23 +74,29 @@ const Dim = styled.div`
   background: #00000042;
   display: flex;
   text-align: center;
+  justify-content: center;
+  align-items: center;
 `;
 const ModalBox = styled.div`
   width: 400px;
-  height: 400px;
   background: #fff;
   margin: auto;
   opacity: 0;
   animation: ${showFrame} 0.3s forwards;
   padding: 20px;
+  border-radius: 10px;
 `;
 
 const ModalTitle = styled.div`
   padding: 20px 0;
-  h3 {
-    font-size: 25px;
-  }
+  font-size: 30px;
+  
 `;
-const ModalContent = styled.div``;
+const ModalContent = styled.div`
+  font-size: 16px;
+  padding: 30px 10px;
+  border-radius: 10px;
+  background : ${({theme}) =>theme.color.lightBg};
+`;
 
 export default Modal;
