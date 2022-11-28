@@ -8,6 +8,7 @@ import { Record, RecordImage } from "@prisma/client";
 import ManageImage from "@components/ManageImage";
 import Image from "next/image";
 import SiteChart from "@components/records/SiteChart";
+import KeywordChart from "@components/records/KeywordChart";
 
 interface RecordWithImage extends Record {
   images: RecordImage[];
@@ -56,7 +57,8 @@ export default function ChartPage() {
       <br />
       <br />
       <Link href={"/users/records/write"}>작성하러 가기</Link>
-      <SiteChart />
+      {/* <SiteChart /> */}
+      <KeywordChart />
     </div>
   );
 }
