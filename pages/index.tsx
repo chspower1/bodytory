@@ -14,18 +14,11 @@ import mic from "/public/static/icon/mic.svg";
 import record from "/public/static/icon/record.svg";
 import hospital from "/public/static/icon/hospital.svg";
 import setting from "/public/static/icon/setting.svg";
-const Test = styled.div`
-  color: red;
-`;
+
 export default function Home() {
   const user = useUser();
-  const [test, setTest] = useState<User | RegisterForm | null>(null);
-  const [currentUser, setCurrentUser] = useRecoilState(loggedInUser);
-  useEffect(() => {
-    setTest(currentUser);
-  }, []);
 
-  return (
+  return user ? (
     <FlexContainer>
       <Col>
         <BlackToryText>
@@ -50,7 +43,7 @@ export default function Home() {
               기록 확인하기
             </RoundButton>
           </Link>
-          <Link href={`/hospital/${user?.id}`}>
+          <Link href={`/hospital/${user?.id!}`}>
             <RoundButton width="400px" height="70px" bgColor="rgb(108, 113, 240)">
               <BtnIcon src={hospital} alt="#" />내 병원 관리하기
             </RoundButton>
@@ -64,7 +57,7 @@ export default function Home() {
         </Link>
       </Col>
     </FlexContainer>
-  );
+  ) : null;
 }
 
 const ButtonBox = styled(Row)`
