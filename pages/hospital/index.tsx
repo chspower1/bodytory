@@ -47,7 +47,7 @@ const Hospital = () => {
             </Link>
           </RoundButton>
         </ButtonBox>
-        <HospitalList lists={undefined} add={false} />
+        <HospitalList lists={data?.hospitals} add={false} />
       </MainInnerContainer>
     </MainContainer>
   );

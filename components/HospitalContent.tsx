@@ -26,19 +26,21 @@ const HospitalContent = ({ list, add }: { list: Hospital; add: boolean }) => {
 
   return (
     <HospitalInfor add={add}>
-      <HospitalInforBox>
-        <HospitalDescriptionBox>
-          <span>로고</span>
-          <Text size="18px" weight="900" add={add}>
-            {sliceName(list.name)}
-          </Text>
-          <RectangleButton size="sm">정형외과</RectangleButton>
-        </HospitalDescriptionBox>
-        <HospitalPlaceBox>
-          <Text weight="200" size="17px" add={add}>
-            {list.address}
-          </Text>
-        </HospitalPlaceBox>
+      <HospitalInforContainer>
+        <HospitalInforBox>
+          <HospitalDescriptionBox>
+            <span>로고</span>
+            <Text size="18px" weight="900" add={add}>
+              {sliceName(list.name)}
+            </Text>
+            <RectangleButton size="sm">정형외과</RectangleButton>
+          </HospitalDescriptionBox>
+          <HospitalPlaceBox>
+            <Text weight="200" size="17px" add={add}>
+              {list.address}
+            </Text>
+          </HospitalPlaceBox>
+        </HospitalInforBox>
         {add ? (
           <AddButtonBox>
             <RectangleButton size="md">추가</RectangleButton>
@@ -53,7 +55,7 @@ const HospitalContent = ({ list, add }: { list: Hospital; add: boolean }) => {
             </ShareButton>
           </HospitalStatusBox>
         )}
-      </HospitalInforBox>
+      </HospitalInforContainer>
     </HospitalInfor>
   );
 };
@@ -99,13 +101,9 @@ const ShareStatus = styled(Text)<{ status: boolean }>`
     left: 0;
   }
 `;
-
-const HospitalContainer = styled.div<{ add: boolean }>`
-  width: 1700px;
-  height: 600px;
-  background-color: ${prop => (prop.add ? "rgb(242,243,255)" : "rgb(217,222,255)")};
-  border-radius: 40px;
-  padding: 30px;
+const HospitalInforBox = styled.div`
+  width: 900px;
+  display: flex;
 `;
 
 const HospitalInfor = styled.li<{ add: boolean }>`
@@ -121,30 +119,22 @@ const HospitalInfor = styled.li<{ add: boolean }>`
   }
 `;
 
-export const HospitalLists = styled.ul`
-  width: 98%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const HospitalInforBox = styled.div`
+const HospitalInforContainer = styled.div`
   height: 100%;
   width: 100%;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 `;
 
 const HospitalPlaceBox = styled.div`
-  position: absolute;
-  left: 600px;
-  color: white;
+  width: 500px;
 `;
 
 const HospitalDescriptionBox = styled.div`
   display: flex;
-  width: 500px;
   align-items: center;
+  width: 500px;
   & * {
     margin-right: 20px;
   }

@@ -38,11 +38,13 @@ const FindHospital = () => {
             </Pragraph>
           </DescriptionBox>
           <ButtonBox>
-            <RoundButton size="md">지도에서 내 주변 병원 찾기</RoundButton>
+            <RoundButton size="md" bgColor={theme.color.mintBtn}>
+              지도에서 내 주변 병원 찾기
+            </RoundButton>
           </ButtonBox>
           <SearchBox>
             <Input name="search-hospital" width="700px" bgcolor="#fff" color="black" />
-            <RoundButton size="custom" height="60px">
+            <RoundButton size="custom" height="60px" bgColor="rgb(100,106,235)">
               검색
             </RoundButton>
           </SearchBox>

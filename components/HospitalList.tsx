@@ -55,7 +55,7 @@ const InnerContainer = styled.div<{ add: boolean }>`
 `;
 
 const HospitalContainer = styled.div<{ add: boolean }>`
-  width: 1700px;
+  width: 1600px;
   height: 600px;
   background-color: ${prop => (prop.add ? "#f2f3ff" : "#d9deff")};
   border-radius: 40px;
@@ -63,7 +63,7 @@ const HospitalContainer = styled.div<{ add: boolean }>`
 `;
 
 const HospitalLists = styled.ul`
-  width: 98%;
+  width: 1500px;
   display: flex;
   flex-direction: column;
   align-items: center;
