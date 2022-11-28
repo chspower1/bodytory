@@ -52,7 +52,8 @@ const SideMenu = () => {
     <>
       <HamburgerMenuButton isOpen={isOpen} setIsOpen={setIsOpen} isActive={isActive} setIsActive={setIsActive} />
       {isActive && (
-        <Dim isOpen={isOpen}>
+        <SideMenuWrap>
+          <Dim isOpen={isOpen} onClick={handleClickCloseMenu} />
           <SideMenuBox>
             <InnerBox>
               <ContentsBox>
@@ -60,7 +61,7 @@ const SideMenu = () => {
                   <div className="logoBg"></div>
                 </LogoBox>
                 <div className="goEdit">
-                  <Link href="/auth/profile/edit">
+                  <Link href="/users/profile/edit">
                     <i></i>계정 설정
                   </Link>
                 </div>
@@ -77,9 +78,23 @@ const SideMenu = () => {
                   </ul>
                 </Nav>
               </ContentsBox>
+              <ButtonBox>
+                <LogoutBtn />
+              </ButtonBox>
             </InnerBox>
+            <Footer>
+              <FooterUl>
+                <li>
+                  <Link href="">바디토리 소개</Link>
+                </li>
+                <li>
+                  <Link href="">팀 소개</Link>
+                </li>
+                <li>© 2022. BODYTORY</li>
+              </FooterUl>
+            </Footer>
           </SideMenuBox>
-        </Dim>
+        </SideMenuWrap>
       )}
     </>
   );
@@ -120,8 +135,8 @@ const Dim = styled.div<{ isOpen: boolean }>`
   ${({ isOpen }) =>
     isOpen &&
     css`
-      & > div {
-        transform: translateX(0%);
+      & + div {
+        right: 0;
       }
     `}
 `;
@@ -136,10 +151,9 @@ const SideMenuBox = styled.div`
   height: 97%;
   flex-direction: column;
   background: ${({ theme }) => theme.color.darkBg};
-  border-radius: 50px 0 0 50px;
-  transform: translateX(100%);
-  transition: transform 0.6s;
-
+  border-radius: 30px 0 0 30px;
+  transition: right 0.6s;
+  overflow: hidden;
   color: #fff;
   a {
     color: #fff;
