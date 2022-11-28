@@ -1,8 +1,21 @@
 import { Hospital } from "@prisma/client";
 import { theme } from "@styles/theme";
+import sliceName from "@utils/client/sliceHospitalName";
 import { useState } from "react";
 import styled from "styled-components";
 import { RectangleButton, RoundButton } from "./button/Button";
+
+const ChangeToHoverColor = (color: string) => {
+  if (color.includes("rgb")) {
+    const colorArr = color.split(",");
+    const redValue = parseInt(colorArr[0].split("(")[1]);
+    const greenValue = parseInt(colorArr[1]);
+    const blueValue = parseInt(colorArr[2].replace(")", ""));
+    const newColor = `rgb(${redValue - 15},${greenValue - 15},${blueValue - 15})`;
+    return newColor;
+  }
+  return color;
+};
 
 const HospitalContent = ({ list, add }: { list: Hospital; add: boolean }) => {
   const [onShare, setOnShare] = useState<boolean>(false);
@@ -10,13 +23,14 @@ const HospitalContent = ({ list, add }: { list: Hospital; add: boolean }) => {
     setOnShare(!onShare);
     console.log(list.id);
   };
+
   return (
     <HospitalInfor add={add}>
       <HospitalInforBox>
         <HospitalDescriptionBox>
           <span>로고</span>
           <Text size="18px" weight="900" add={add}>
-            {list.name}
+            {sliceName(list.name)}
           </Text>
           <RectangleButton size="sm">정형외과</RectangleButton>
         </HospitalDescriptionBox>
@@ -51,6 +65,10 @@ const ShareButton = styled.button<{ status: boolean }>`
   height: 50px;
   font-size: 18px;
   padding: 0 50px;
+  transition: background-color 0.5s ease;
+  &:hover {
+    background-color: ${props => ChangeToHoverColor(props.status ? "rgb(128,133,251)" : "rgb(18, 212, 201)")};
+  }
   background-color: ${prop => (prop.status ? "#8085fb" : theme.color.mintBtn)};
   border-radius: 50px;
   color: white;
