@@ -1,8 +1,11 @@
-import { RoundButton } from "@components/button/Button";
+import { RectangleButton, RoundButton } from "@components/button/Button";
+import ToryIcon from "@components/ToryIcon";
+import { Box, BtnBox, Col, Container, FlexContainer, Row, ToryText } from "@styles/Common";
 import { useRouter } from "next/router";
 import { SiteType } from "pages/users/records/write";
 import { Dispatch, SetStateAction } from "react";
 import styled from "styled-components";
+import { KoreanPosition } from "types/write";
 
 interface SiteCheckerProps {
   hoveredSite: string;
@@ -14,89 +17,55 @@ const SiteChecker = ({ hoveredSite, selectedSite, setSelectedSite }: SiteChecker
   const router = useRouter();
 
   return (
-    <CheckerContainer>
-      <ToriBox></ToriBox>
-      {selectedSite === null ? (
-        <TestText>증상을 기록할 부위를 선택해주세요</TestText>
-      ) : (
-        <TestText>{hoveredSite}에 대한 증상을 기록할까요?</TestText>
-      )}
-      {selectedSite === null ? (
-        <Displayer>{hoveredSite}</Displayer>
-      ) : (
-        <ButtonsBox>
-          <RoundButton width="auto" height="60px" onClick={() => router.push(`./write/${selectedSite}`)}>
-            네
-          </RoundButton>
-          <RoundButton width="auto" height="60px" onClick={() => setSelectedSite(null)}>
-            아니요, 다시 선택할래요
-          </RoundButton>
-        </ButtonsBox>
-      )}
-    </CheckerContainer>
+    <FlexContainer>
+      <Col style={{ height: "100vh" }}>
+        <ToryBox>
+          <ToryIcon />
+        </ToryBox>
+        <TextBox>
+          {!selectedSite ? (
+            <ToryText>증상을 기록할 부위를 선택해주세요</ToryText>
+          ) : (
+            <ToryText>
+              <PositionBoxText>{KoreanPosition[selectedSite]}</PositionBoxText>에 대한 증상을 기록할까요?
+            </ToryText>
+          )}
+        </TextBox>
+        <CreateBtnBox>
+          {selectedSite && (
+            <BtnBox>
+              <RoundButton
+                width="250px"
+                height="60px"
+                bgColor="rgb(83, 89, 233)"
+                onClick={() => router.push(`./write/${selectedSite}`)}
+              >
+                네, 기록할게요!
+              </RoundButton>
+            </BtnBox>
+          )}
+        </CreateBtnBox>
+      </Col>
+    </FlexContainer>
   );
 };
 
-const CheckerContainer = styled.div`
-  width: 50%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  padding: 150px 0;
-`;
-
-const ToriBox = styled.div`
-  width: 150px;
-  height: 150px;
-  margin-left: auto;
-  margin-right: auto;
-`;
-
-const TestText = styled.div`
-  margin-left: auto;
-  margin-right: auto;
-  height: 64px;
-
-  font-family: "Noto Sans KR";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 36px;
-  line-height: 64px;
-  /* identical to box height, or 178% */
-
-  text-align: center;
-
-  color: #2b2d64;
-`;
-
-const Displayer = styled.div`
-  width: 200px;
-  height: 70px;
-  margin-left: auto;
-  margin-right: auto;
-
-  background: #d0eef7;
-  border-radius: 15px;
-
-  font-family: "Noto Sans KR";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 30px;
-  line-height: 70px;
-  /* identical to box height, or 233% */
-
-  text-align: center;
-
-  color: #12d4c9;
-`;
-
-const ButtonsBox = styled.div`
-  margin-left: auto;
-  margin-right: auto;
-  width: 472px;
-  height: 60px;
-  display: flex;
-`;
-
 export default SiteChecker;
+
+export const PositionBoxText = styled.span`
+  border-radius: 10px;
+  background-color: #e8e9ff;
+  padding: 5px 20px;
+  margin-right: 10px;
+  color: ${({ theme }) => theme.color.darkBg};
+  font-weight: 800;
+`;
+export const ToryBox = styled(Box)`
+  height: 45%;
+`;
+export const TextBox = styled(Box)`
+  height: 10%;
+`;
+export const CreateBtnBox = styled(BtnBox)`
+  height: 45%;
+`;

@@ -36,6 +36,7 @@ interface ButtonProps {
   onClick?: (() => void) | (() => Promise<void>);
   nonSubmit?: boolean;
   disable?: boolean;
+  boxShadow?: boolean;
 }
 type SocailType = "kakao" | "naver" | "origin";
 export type ButtonSize = "sm" | "md" | "lg" | "xl" | "custom";
@@ -49,6 +50,7 @@ const Button = styled.button<{
   textColor: string;
   disable: boolean;
   borderRadius: string;
+  boxShadow: boolean;
 }>`
   position: relative;
   display: flex;
@@ -62,7 +64,7 @@ const Button = styled.button<{
   background-color: ${props => props.bgColor};
   color: ${props => props.textColor};
   border-radius: ${props => props.borderRadius};
-  box-shadow: 8px 8px 24px rgb(49, 54, 167, 0.2);
+  box-shadow: ${props => (props.boxShadow ? "8px 8px 24px rgb(49, 54, 167, 0.2)" : "none")};
   /* box-shadow: ${({ theme }) => theme.boxShadow}; */
   &:hover {
     background-color: ${props => ChangeToHoverColor(props.bgColor)};
@@ -86,6 +88,7 @@ export const CircleButton = ({
   nonSubmit = false,
   disable = false,
   onClick,
+  boxShadow = true,
 }: ButtonProps) => {
   return (
     <Button
@@ -99,6 +102,7 @@ export const CircleButton = ({
       type={nonSubmit ? "button" : "submit"}
       disable={disable}
       onClick={onClick}
+      boxShadow={boxShadow}
     >
       {children}
     </Button>
@@ -117,6 +121,7 @@ export const RoundButton = ({
   nonSubmit = false,
   disable = false,
   onClick,
+  boxShadow = true,
 }: ButtonProps) => {
   if (size === "sm") {
     [width, height, fontSize, padding] = ["140px", "40px", "16px", "auto"];
@@ -143,6 +148,7 @@ export const RoundButton = ({
       type={nonSubmit ? "button" : "submit"}
       disable={disable}
       onClick={onClick}
+      boxShadow={boxShadow}
     >
       {children}
     </Button>
@@ -162,6 +168,7 @@ export const SocialButton = ({
   onClick,
   nonSubmit = false,
   disable = false,
+  boxShadow = true,
 }: ButtonProps) => {
   if (size === "sm") {
     [width, height, fontSize] = ["240px", "60px", "20px"];
@@ -180,6 +187,7 @@ export const SocialButton = ({
       style={{ justifyContent: "flex-start" }}
       type={nonSubmit ? "button" : "submit"}
       disable={disable}
+      boxShadow={boxShadow}
     >
       <Image
         src={social === "naver" ? naver : social === "kakao" ? kakao : origin}
@@ -204,6 +212,7 @@ export const RectangleButton = ({
   nonSubmit = false,
   disable = false,
   onClick,
+  boxShadow = true,
 }: ButtonProps) => {
   if (size === "sm") {
     [width, height, fontSize] = ["87px", "29px", "14px"];
@@ -221,6 +230,7 @@ export const RectangleButton = ({
       type={nonSubmit ? "button" : "submit"}
       disable={disable}
       onClick={onClick}
+      boxShadow={boxShadow}
     >
       {children}
     </Button>
