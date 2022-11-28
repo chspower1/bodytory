@@ -1,10 +1,15 @@
 import { RoundButton } from "@components/button/Button";
 import { Dim } from "@components/Modal";
-import { BodyText, Box, BtnBox, Col, FlexContainer, Row, ToryText } from "@styles/Common";
+import { BodyText, Box, BtnBox, Col, FlexContainer, Row, ToryText, WhiteBoldText, WhiteText } from "@styles/Common";
 import Image from "next/image";
-import { CustomOverlayMap, Map, MapInfoWindow } from "react-kakao-maps-sdk";
+import { CustomOverlayMap, Map, MapInfoWindow, MapMarker } from "react-kakao-maps-sdk";
 import styled from "styled-components";
 import kakaomap from "/public/static/icon/kakao_map.svg";
+import pointer from "/public/static/icon/pointer.svg";
+import phone from "/public/static/icon/phone.svg";
+import cross from "/public/static/icon/cross.svg";
+import triangle from "/public/static/icon/triangle.png";
+import marker from "/public/static/icon/map_marker.png";
 const Test = () => {
   return (
     <Dim>
@@ -21,34 +26,56 @@ const Test = () => {
             width: "100%",
             height: "560px",
           }}
-          level={3} // 지도의 확대 레벨
+          level={3}
         >
-          <CustomOverlayMap
+          <MapMarker // 마커를 생성합니다
+            position={{ lat: 33.450701, lng: 126.570667 }}
+            image={{
+              src: {``}, // 마커이미지의 주소입니다
+              size: {
+                width: 64,
+                height: 69,
+              }, // 마커이미지의 크기입니다
+              options: {
+                offset: {
+                  x: 27,
+                  y: 69,
+                }, // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+              },
+            }}
+          />
+          {/* <CustomOverlayMap
             position={{
               lat: 33.450701,
               lng: 126.570667,
             }}
           >
-            {/* 인포윈도우에 표출될 내용으로 HTML 문자열이나 React Component가 가능합니다 */}
             <InfoWindowBox>
-              <Col>
-                <Row>
-                  <Image src={kakaomap} alt="사진" />
-                  <Name>삼성본정형외과의원</Name>
-                  <Department>정형외과</Department>
-                </Row>
-                <BodyText>서울 성북구 아리랑로 7 농혁 건물,2층</BodyText>
-                <Phone>02-951-5863</Phone>
-                <Row>
+              <TopArea>
+                <Image src={kakaomap} alt="사진" />
+                <Name fontSize="20px">삼성본정형외과의원</Name>
+              </TopArea>
+              <ContentBox>
+                <AdressBox>
+                  <Image src={pointer} alt="사진" />
+                  <BodyText>서울 성북구 아리랑로 7 농혁 건물,2층</BodyText>
                   <Image src={kakaomap} alt="kakao" />
-                  <BodyText fontSize="16px">카카오맵에서 길찾기</BodyText>
-                </Row>
-                <RoundButton width="88px" height="40px" bgColor="rgb(18, 212, 201)" boxShadow={false}>
-                  추가
-                </RoundButton>
-              </Col>
+                </AdressBox>
+                <PhoneBox>
+                  <Image src={phone} alt="사진" />
+                  <BodyText>02-951-5863</BodyText>
+                </PhoneBox>
+                <DepartmentBox>
+                  <Image src={cross} alt="사진" />
+                  <BodyText>정형외과, 이비인후과</BodyText>
+                </DepartmentBox>
+              </ContentBox>
+              <RoundButton width="88px" height="40px" bgColor="rgb(18, 212, 201)" fontSize="16px" boxShadow={false}>
+                추가
+              </RoundButton>
+              <Tail src={triangle} alt="사진" />
             </InfoWindowBox>
-          </CustomOverlayMap>
+          </CustomOverlayMap> */}
         </Map>
         <BtnBox width="460px">
           <RoundButton>확인했어요!</RoundButton>
@@ -63,29 +90,45 @@ const InfoWindowBox = styled(Col)`
   background-color: white;
   border: none;
   border-radius: 20px;
-  width: 465px;
-  height: 272px;
+  width: 420px;
+  height: 274px;
+  justify-content: space-between;
+  position: relative;
+  box-shadow: ${props => props.theme.boxShadow.normal};
+  padding-bottom: 10px;
 `;
-const Name = styled.div`
-  font-size: 20px;
-  font-weight: 600;
-`;
-const Department = styled(Box)`
-  padding: 10px;
-  height: 26px;
+const TopArea = styled(Row)`
+  border-radius: 20px 20px 0px 0px;
   background-color: #363cbf;
-  border-radius: 5px;
-  color: white;
-  font-weight: 600;
+  width: 100%;
+  height: 70px;
+  justify-content: flex-start;
+  padding-left: 30px;
 `;
-const Phone = styled(BodyText)`
-  color: ${({ theme }) => theme.color.darkBg};
-  font-weight: 800;
+const Name = styled(WhiteBoldText)`
+  margin-left: 20px;
 `;
+const ContentBox = styled(Col)`
+  width: 100%;
+  height: 120px;
+  justify-content: space-between;
+`;
+const AdressBox = styled(Box)`
+  margin-left: 30px;
+  gap: 10px;
+  justify-content: flex-start;
+  width: 100%;
+`;
+const PhoneBox = styled(AdressBox)``;
+const DepartmentBox = styled(AdressBox)``;
 const MapContainer = styled(FlexContainer)`
   background-color: white;
   width: 1450px;
   height: 760px;
   flex-direction: column;
   border-radius: 30px;
+`;
+const Tail = styled(Image)`
+  position: absolute;
+  bottom: -37px;
 `;
