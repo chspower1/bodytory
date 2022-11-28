@@ -69,7 +69,7 @@ const ShareButton = styled.button<{ status: boolean }>`
   &:hover {
     background-color: ${props => ChangeToHoverColor(props.status ? "rgb(128,133,251)" : "rgb(18, 212, 201)")};
   }
-  background-color: ${prop => (prop.status ? "#8085fb" : theme.color.mintBtn)};
+  background-color: ${prop => (prop.status ? "rgb(128,133,251)" : theme.color.mintBtn)};
   border-radius: 50px;
   color: white;
 `;
@@ -103,7 +103,7 @@ const ShareStatus = styled(Text)<{ status: boolean }>`
 const HospitalContainer = styled.div<{ add: boolean }>`
   width: 1700px;
   height: 600px;
-  background-color: ${prop => (prop.add ? "#f2f3ff" : "#d9deff")};
+  background-color: ${prop => (prop.add ? "rgb(242,243,255)" : "rgb(217,222,255)")};
   border-radius: 40px;
   padding: 30px;
 `;
@@ -114,7 +114,7 @@ const HospitalInfor = styled.li<{ add: boolean }>`
   padding: 30px;
   width: 100%;
   height: 80px;
-  background-color: ${prop => (prop.add ? "#e1e3ff" : "#646aeb")};
+  background-color: ${prop => (prop.add ? "rgb(225,227,255)" : "rgb(100,106,235)")};
   border-radius: 20px;
   & + & {
     margin-top: 20px;

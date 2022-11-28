@@ -1,5 +1,5 @@
 import { RectangleButton, RoundButton } from "@components/button/Button";
-import HospitalList, { HospitalLists } from "@components/HospitalList";
+import HospitalList from "@components/HospitalList";
 import { User } from "@prisma/client";
 import { Container } from "@styles/Common";
 import { theme } from "@styles/theme";
@@ -7,6 +7,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
 import { loggedInUser } from "atoms/atoms";
 import Image from "next/image";
+import Link from "next/link";
 import { RegisterForm } from "pages/auth/register";
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
@@ -18,7 +19,6 @@ const Hospital = () => {
   const { data } = useQuery(["hospital"], getApi);
   const currentUser = useRecoilValue(loggedInUser);
   const [user, setUser] = useState<User | RegisterForm | null>();
-  const log = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
   useEffect(() => {
     document.body.style.backgroundColor = theme.color.lightBg;
@@ -42,7 +42,9 @@ const Hospital = () => {
         </DescriptionBox>
         <ButtonBox>
           <RoundButton size="custom" width="260px" height="50px">
-            <ImageIcon src={medicalIcon} width={20} height={20} alt="병원" /> 병원 추가하기
+            <Link href={"/hospital/find"}>
+              <ImageIcon src={medicalIcon} width={20} height={20} alt="병원" /> 병원 추가하기
+            </Link>
           </RoundButton>
         </ButtonBox>
         <HospitalList lists={data?.hospitals} add={false} />
@@ -72,40 +74,27 @@ export const MainInnerContainer = styled.div`
   justify-content: space-between;
 `;
 
-const Pragraph = styled.p`
+export const Pragraph = styled.p`
   font-size: 32px;
 `;
-const HighlightText = styled.span`
+export const HighlightText = styled.span`
   color: rgb(100, 106, 235);
   font-size: 32px;
   font-weight: 700;
 `;
 
-const InnerContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  overflow-y: scroll;
-  &::-webkit-scrollbar {
-    width: 10px;
-  }
-  &::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background-color: rgb(188, 197, 255);
-  }
-`;
-
-const DescriptionBox = styled.div`
+export const DescriptionBox = styled.div`
   width: 100%;
   height: 200px;
   text-align: left;
   padding: 50px;
 `;
 
-const ImageIcon = styled(Image)`
+export const ImageIcon = styled(Image)`
   margin-right: 20px;
 `;
 
-const ButtonBox = styled.div`
+export const ButtonBox = styled.div`
   display: flex;
   justify-content: center;
   height: 100px;

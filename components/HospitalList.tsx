@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { RectangleButton, RoundButton } from "./button/Button";
 import HospitalContent from "./HospitalContent";
 
-const HospitalList = ({ lists, add }: { lists: Hospital[]; add: boolean }) => {
+const HospitalList = ({ lists, add }: { lists?: Hospital[]; add: boolean }) => {
   console.log(lists);
   return (
     <HospitalContainer add={add}>
