@@ -6,12 +6,19 @@ import settingIcon from "@public/settingIcon.png";
 import HamburgerMenuButton from "./HamburgerMenuButton";
 import { useRouter } from "next/router";
 import LogoutBtn from "@components/LogoutBtn";
+import toriLink from "@public/toriLink.png";
+import menuLogo from "@public/menuLogo.png";
+
 const SideMenu = () => {
   const router = useRouter();
   const dimRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [menuList, _] = useState([
+    {
+      subject: "홈으로",
+      link: "/",
+    },
     {
       subject: "오늘 기록하기",
       link: "/users/records/write",
@@ -50,6 +57,9 @@ const SideMenu = () => {
           <SideMenuBox>
             <InnerBox>
               <ContentsBox>
+                <LogoBox>
+                  <div className="logoBg"></div>
+                </LogoBox>
                 <div className="goEdit">
                   <Link href="/users/profile/edit">
                     <i></i>계정 설정
@@ -59,7 +69,8 @@ const SideMenu = () => {
                   <ul>
                     {menuList.map(({ subject, link }) => (
                       <li key={subject}>
-                        <Link href={link} className={router.asPath === link ? "active" : ""}>
+                        {router.asPath === link && <i></i>}
+                        <Link href={link}>
                           {subject}
                         </Link>
                       </li>
@@ -99,6 +110,17 @@ const SideMenuWrap = styled.div`
   height: 100%;
   z-index: 1000;
 `;
+
+
+const LogoBox =styled.div`
+
+  .logoBg{
+    width:190px;
+    height:70px;
+    background: url(${menuLogo.src}) no-repeat center center;
+
+  }
+`
 
 const Dim = styled.div<{ isOpen: boolean }>`
   position: absolute;
@@ -141,7 +163,7 @@ const SideMenuBox = styled.div`
 const InnerBox = styled(Col)`
   width: 100%;
   height: 100%;
-  padding: 87px 40px 56px;
+  padding: 30px 40px 40px;
   justify-content: space-between;
 `;
 
@@ -173,9 +195,19 @@ const Nav = styled.nav`
   ul {
     margin-left: 36px;
     li {
+        display:flex;
+        align-items:center;
+      i{
+        background: url(${toriLink.src}) no-repeat center center;
+        width: 50px;
+        height: 50px;
+      }
+      & + li {
+        margin-top: 50px;
+      }
       a {
         position: relative;
-        font-size: 35px;
+        font-size: 32px;
         font-weight: bolder;
         padding-bottom: 10px;
         letter-spacing: -2px;
@@ -190,16 +222,11 @@ const Nav = styled.nav`
           transform: scaleX(0);
           transition: transform 0.6s;
         }
-        &.active::after {
-          transform: scaleX(1);
-        }
-        &:hover::after {
+        &:not(.active):hover::after {
           transform: scaleX(1);
         }
       }
-      & + li {
-        margin-top: 50px;
-      }
+      
     }
   }
 `;
