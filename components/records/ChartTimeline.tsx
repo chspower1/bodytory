@@ -1,20 +1,23 @@
 import { Record } from '@prisma/client';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { QueryClient, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import customApi from '@utils/client/customApi';
-import { RECORDS_READ } from 'constant/queryKeys';
-import React, { RefObject, useEffect, useRef, useState } from 'react'
+import { RECORDS_DELETE, RECORDS_READ } from 'constant/queryKeys';
+import React, {  useEffect, useRef, useState } from 'react'
 import styled from 'styled-components';
 import { format } from 'date-fns';
 import {ko} from "date-fns/locale";
-import { useOutsideClick } from './Customhook';
-
-
 
 function ChartTimeline() {
 
-  const { getApi } = customApi("/api/users/records");
+  const { getApi, deleteApi } = customApi("/api/users/records");
   const { isLoading, data: records } = useQuery<Record[] | undefined>([RECORDS_READ], getApi);
 
+  const queryClient = useQueryClient();
+  const { mutate } = useMutation([RECORDS_DELETE], deleteApi, {
+    onSuccess() {
+      queryClient.invalidateQueries([RECORDS_READ]);
+    },
+  });
 
   const [confirmDelete, setConfirmDelete] = useState(-1);  // 삭제버튼이 한번 클릭되었는지 확인 (삭제버튼 빨갛게 변함. 그 상테에서 한번더 누르면 진짜 삭제)
   const DelButtonRef = React.useRef() as React.MutableRefObject<HTMLButtonElement>;
@@ -22,7 +25,7 @@ function ChartTimeline() {
   useEffect(() => {
     // 삭제버튼 바깥 클릭
     function handleOutsideClick(event: React.BaseSyntheticEvent | MouseEvent) {
-      console.log(DelButtonRef.current, event.target);
+      // console.log(DelButtonRef.current, event.target);
 
       if (DelButtonRef.current && !DelButtonRef.current.contains(event.target)) {
         setConfirmDelete(-1);
@@ -35,24 +38,26 @@ function ChartTimeline() {
     return () => {
       document.removeEventListener("click", handleOutsideClick, true);
     };
+
   }, [DelButtonRef]);
 
+
+  useEffect(() => {
+    console.log(confirmDelete);
+  }, [confirmDelete])
   
   // 삭제버튼 클릭
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>, index: number) => {
-    if (confirmDelete) {
-      // 해당 레코드 삭제하기
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>, recordId: number) => {
+    console.log(recordId);
+    if (confirmDelete !== -1) {
+      mutate({ id: recordId });
+
     } else {
-      setConfirmDelete(index);
+      // 해당 레코드 삭제하기
+      setConfirmDelete(recordId);
     }
   }
 
-
-
-
-
-
-  
 
   return (
     <TimelineContainer>
@@ -73,7 +78,7 @@ function ChartTimeline() {
                   </Text>
                   <Image></Image>
                 </Description>
-                <DeleteButton onClick={(e) => handleClick(e, index)} ref={DelButtonRef} eleIndex={index} className={confirmDelete === index ? "delActive" : ""}>
+                <DeleteButton onClick={(e) => handleClick(e, record.id)} ref={DelButtonRef} recordId={record.id} className={confirmDelete === record.id ? "delActive" : ""}>
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                     <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
                   </svg>
@@ -164,7 +169,7 @@ const Text = styled.div`
 const Image = styled.div`
 `;
 
-const DeleteButton = styled.button<{eleIndex: number}>`
+const DeleteButton = styled.button<{recordId: number}>`
   position: absolute;
   top: 0;
   right: 0;

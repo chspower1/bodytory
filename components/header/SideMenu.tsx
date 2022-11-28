@@ -75,16 +75,6 @@ const SideMenu = () => {
 export default SideMenu;
 
 const Dim = styled.div<{ isOpen: boolean }>`
-  display: flex;
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 10;
-`;
-
-const Dim = styled.div<{ isOpen: boolean }>`
   position: absolute;
   left: 0;
   top: 0;
