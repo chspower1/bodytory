@@ -15,7 +15,7 @@ import record from "/public/static/icon/record.svg";
 import hospital from "/public/static/icon/hospital.svg";
 import setting from "/public/static/icon/setting.svg";
 
-export default function Home() {
+const Home = () => {
   const user = useUser();
 
   return user ? (
@@ -26,7 +26,7 @@ export default function Home() {
         </BlackToryText>
         <BlackToryText>어떤 서비스를 이용하실 건가요?</BlackToryText>
         <Link href="users/records/write">
-          <RectangleButton width="860px" height="280px" bgColor="rgb(217, 222, 255)">
+          <WriteBox>
             <Col>
               <CircleButton>
                 <Image src={mic} alt="마이크" />
@@ -34,7 +34,7 @@ export default function Home() {
               <BodyText>건강 관리를 위해 매일매일 잊지말고 기록해요!</BodyText>
               <Accent>오늘 기록하기</Accent>
             </Col>
-          </RectangleButton>
+          </WriteBox>
         </Link>
         <ButtonBox>
           <Link href="/users/records">
@@ -58,8 +58,14 @@ export default function Home() {
       </Col>
     </FlexContainer>
   ) : null;
-}
-
+};
+export default Home;
+const WriteBox = styled(Col)`
+  width: 860px;
+  height: 280px;
+  background-color: rgb(217, 222, 255);
+  border-radius: 20px;
+`;
 const ButtonBox = styled(Row)`
   width: 100%;
   justify-content: space-between;
