@@ -7,6 +7,7 @@ import { USER_WITHDRAW } from "constant/queryKeys";
 import { useRecoilState } from "recoil";
 import { loggedInUser } from "atoms/atoms";
 import Modal from "@components/Modal/Modal";
+import RecordModal from "@components/Modal/RecordModal";
 
 export interface WithdrawType {
   password: string;
@@ -80,7 +81,7 @@ export default function Withdraw() {
         )}
         <button type="submit">탈퇴하기</button>
       </form>
-      <Modal
+      {/* <Modal
         onClose={handleClickOnClose}
         activeFuction={handleClickActiveFuction}
         show={showModal}
@@ -96,7 +97,8 @@ export default function Withdraw() {
             홈으로 이동합니다
           </>
         )}
-      </Modal>
+      </Modal> */}
+      {showModal && <RecordModal><button type="button" onClick={()=> setShowModal(false)}>닫기</button></RecordModal>}
     </div>
   );
 }

@@ -8,7 +8,7 @@ import { ResponseType } from "@utils/server/withHandler";
 import Link from "next/link";
 import customApi from "utils/client/customApi";
 import { useMutation } from "@tanstack/react-query";
-import Modal from "@components/Modal";
+import Modal from "@components/Modal/Modal";
 import NaverLoginBtn from "@components/button/NaverBtn";
 import KakaoLoginBtn from "@components/button/KakaoBtn";
 import { USER_LOGIN } from "constant/queryKeys";
