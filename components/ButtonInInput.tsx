@@ -54,7 +54,7 @@ const ButtonInInput = ({
         disabled={disabled}
       />
       <div>
-        {!name.includes("token") ? (
+        {!name?.includes("token") ? (
           isToken ? (
             !isCertified && (
               <RoundButton size="sm" onClick={handleClickResetBtn} nonSubmit={nonSubmit}>
@@ -89,6 +89,7 @@ const InputBox = styled.div`
   display: flex;
   align-items: center;
   overflow: hidden;
+  box-shadow: 8px 8px 24px rgba(49, 54, 167, 0.2);
   &:not(.authenticationColumn):focus-within {
     border: 2px solid #8c9af3;
   }
@@ -135,5 +136,11 @@ const Input = styled.input`
   }
   &.error {
     border: 2px solid ${({ theme }) => theme.color.error};
+  }
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus,
+  &:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0px 1000px ${({theme}) => theme.color.input} inset !important;
   }
 `;
