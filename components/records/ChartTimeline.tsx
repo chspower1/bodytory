@@ -8,6 +8,8 @@ import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 import ManageImage from "@components/ManageImage";
 import { off } from "process";
+import { uploadImageApi } from "@utils/client/imageApi";
+import uploadImage from "@utils/client/uploadImage";
 
 interface RecordWithImage extends Record {
   images: RecordImage[];
@@ -15,7 +17,7 @@ interface RecordWithImage extends Record {
 
 function ChartTimeline() {
   const { getApi, deleteApi } = customApi("/api/users/records");
-  const { isLoading, data: records } = useQuery<Record[] | undefined>([RECORDS_READ], getApi);
+  const { isLoading, data: records } = useQuery<RecordWithImage[] | undefined>([RECORDS_READ], getApi);
 
   const queryClient = useQueryClient();
   const { mutate } = useMutation([RECORDS_DELETE], deleteApi, {
@@ -45,6 +47,16 @@ function ChartTimeline() {
   }
 
 
+  const uploadImageMutation = useMutation(uploadImageApi, {
+    onSuccess(data) {
+      queryClient.invalidateQueries([RECORDS_READ]);
+    },
+  });
+
+  const handleViewModal = () => {
+
+  }
+
   return (
     <TimelineContainer>
       <Filter>
@@ -58,11 +70,17 @@ function ChartTimeline() {
             <RecordBox key={index}>
               <Time>{format(new Date(record.createAt), "yyyy년 M월 d일 EEEE aaaa h시 m분", {locale: ko})}</Time>
               <Content>
-                <Description>
+                <Description onClick={handleViewModal}>
                   <Text>
                     {record.description}
                   </Text>
-                  <Image></Image>
+                  <Image>
+                    {
+                      record.images.length ? 
+                        <Thumbnail>+{record.images.length - 1}장</Thumbnail> : 
+                        <UploadImageButton onClick={() => uploadImage(String(record.id), uploadImageMutation.mutate)}>사진 추가</UploadImageButton>
+                    }
+                  </Image>
                 </Description>
                 <DeleteButton onClick={(e) => handleClick(e, record.id)} ref={DelButtonRef} recordId={record.id} className={confirmDelete === record.id ? "delActive" : ""} onBlur={() =>setConfirmDelete(-1)}>
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
@@ -147,6 +165,18 @@ const Description = styled.div`
 const Text = styled.div``;
 
 const Image = styled.div``;
+
+const UploadImageButton = styled.button`
+  width: 100px;
+  height: 50px;
+  background-color: white;
+  cursor: pointer;
+`;
+
+const Thumbnail = styled.div`
+
+`;
+
 
 const DeleteButton = styled.button<{ recordId: number }>`
   position: absolute;
