@@ -1,19 +1,19 @@
-import { Record, RecordImage } from '@prisma/client';
-import { QueryClient, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import customApi from '@utils/client/customApi';
-import { RECORDS_DELETE, RECORDS_READ } from 'constant/queryKeys';
-import React, {  useEffect, useRef, useState } from 'react'
-import styled from 'styled-components';
-import { format } from 'date-fns';
-import {ko} from "date-fns/locale";
-import ManageImage from '@components/ManageImage';
+import { Record, RecordImage } from "@prisma/client";
+import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import customApi from "@utils/client/customApi";
+import { RECORDS_DELETE, RECORDS_READ } from "constant/queryKeys";
+import React, { useEffect, useRef, useState } from "react";
+import styled from "styled-components";
+import { format } from "date-fns";
+import { ko } from "date-fns/locale";
+import ManageImage from "@components/ManageImage";
+import { off } from "process";
 
 interface RecordWithImage extends Record {
   images: RecordImage[];
 }
 
 function ChartTimeline() {
-
   const { getApi, deleteApi } = customApi("/api/users/records");
   const { isLoading, data: records } = useQuery<Record[] | undefined>([RECORDS_READ], getApi);
 
@@ -60,11 +60,18 @@ function ChartTimeline() {
     }
   },[currentIdx])
 
+  //   // Add event after component rendering
+  //   document.addEventListener("click", handleOutsideClick, true);
+  //   // Remove event when component unmount
+  //   return () => {
+  //     document.removeEventListener("click", handleOutsideClick, true);
+  //   };
+  // }, [DelButtonRef]);
 
   // useEffect(() => {
   //   console.log("삭제할 레코드 번호", confirmDelete);
   // }, [confirmDelete])
-  
+
   // 삭제버튼 클릭
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>, recordId: number) => {
     if(confirmDelete !== -1){
@@ -106,11 +113,11 @@ function ChartTimeline() {
         }
       </Timeline>
     </TimelineContainer>
-  )
+  );
 }
 
 const TimelineContainer = styled.div`
-  background: #F4F5FF;
+  background: #f4f5ff;
   padding: 30px 40px;
   border-radius: 40px;
 `;
@@ -121,10 +128,7 @@ const Filter = styled.div`
   margin-bottom: 30px;
 `;
 
-
-const Timeline = styled.div`
-
-`;
+const Timeline = styled.div``;
 
 const RecordBox = styled.div`
   position: relative;
@@ -137,7 +141,7 @@ const RecordBox = styled.div`
     left: 0;
     width: 1px;
     height: calc(100% + 40px);
-    background: #363CBF;
+    background: #363cbf;
   }
 
   &:last-child:before {
@@ -149,21 +153,20 @@ const RecordBox = styled.div`
   }
 `;
 
-
 const Time = styled.div`
   position: relative;
   padding: 10px;
   font-size: 16px;
-    
+
   &:after {
     content: "";
     position: absolute;
     top: calc(10px + 6px);
     left: calc(-20px - 8px);
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      background: ${({ theme }) => theme.color.darkBg}
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: ${({ theme }) => theme.color.darkBg};
   }
 `;
 
@@ -171,38 +174,35 @@ const Content = styled.div`
   position: relative;
 `;
 
-
 const Description = styled.div`
   min-height: 140px;
-  background: #EBECFC;
+  background: #ebecfc;
   padding: 20px 30px;
   border-radius: 20px;
 `;
 
-const Text = styled.div`
-`;
+const Text = styled.div``;
 
-const Image = styled.div`
-`;
+const Image = styled.div``;
 
-const DeleteButton = styled.button<{recordId: number}>`
+const DeleteButton = styled.button<{ recordId: number }>`
   position: absolute;
   top: 0;
   right: 0;
   width: 40px;
   min-height: 140px;
-  background: #D9DEFF;
+  background: #d9deff;
   border-radius: 0 20px 20px 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: background .4s, width .4s;
-  
+  transition: background 0.4s, width 0.4s;
+
   svg {
     width: 22px;
     height: 22px;
-    fill: #8C9AF3; 
-    transition: transform .4s;
+    fill: #8c9af3;
+    transition: transform 0.4s;
   }
 
   span {
@@ -214,23 +214,23 @@ const DeleteButton = styled.button<{recordId: number}>`
     z-index: -1;
     font-size: 14px;
     font-weight: 700;
-    color: ${({theme}) => theme.color.white};
+    color: ${({ theme }) => theme.color.white};
     margin-top: 7px;
     opacity: 0;
-    transition: opacity .4s, zIndex .4s, transform .4s;
+    transition: opacity 0.4s, zIndex 0.4s, transform 0.4s;
   }
-  
+
   &:hover {
-    background: #C6CDFA;
-    
+    background: #c6cdfa;
+
     svg {
-      fill: #5359E9; 
+      fill: #5359e9;
     }
   }
 
   &.delActive {
     width: 70px;
-    background: ${({theme}) => theme.color.error};
+    background: ${({ theme }) => theme.color.error};
 
     svg {
       transform: translate(0, -5px);
@@ -244,7 +244,5 @@ const DeleteButton = styled.button<{recordId: number}>`
     }
   }
 `;
-  
 
-
-export default ChartTimeline
+export default ChartTimeline;
