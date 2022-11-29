@@ -126,7 +126,7 @@ const ModalContent = styled.div`
     }
   }
 `;
-const Subject = styled.div`
+export const Subject = styled.div`
   flex-shrink: 0;
   font-weight: 600;
   margin-right: 60px;
