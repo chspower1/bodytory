@@ -8,6 +8,7 @@ ${reset}
     box-sizing: border-box;
   }
 
+
   html,
   body {
     background: ${props => props.theme.color.darkBg};
