@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const Wrapper = styled.div<{ bgColor?: string }>`
+  position:relative;
   height: 100vh;
   width: 100%;
   overflow: hidden;
