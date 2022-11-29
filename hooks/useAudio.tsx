@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 
 import customApi from "@utils/client/customApi";
 import { useMutation } from "@tanstack/react-query";
+import { json } from "stream/consumers";
 
 const useAudio = () => {
   const [stream, setStream] = useState<MediaStream>();
@@ -22,7 +23,7 @@ const useAudio = () => {
 
   const onRecAudio = () => {
     // 음원정보를 담은 노드를 생성하거나 음원을 실행또는 디코딩 시키는 일을 한다
-    const audioCtx = new window.AudioContext();
+    const audioCtx = new window.AudioContext({ sampleRate: 16000 });
 
     // 자바스크립트를 통해 음원의 진행상태에 직접접근에 사용된다.
     const analyser = audioCtx.createScriptProcessor(0, 1, 1);
@@ -40,7 +41,10 @@ const useAudio = () => {
 
     // 마이크 사용 권한 획득 후 녹음 시작
     navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
-      const mediaRecorder = new MediaRecorder(stream);
+      const mediaRecorder = new MediaRecorder(stream, {
+        audioBitsPerSecond: 16000,
+        mimeType: "audio/webm",
+      });
       mediaRecorder.start();
       setStream(stream);
       setMedia(mediaRecorder);
@@ -93,42 +97,44 @@ const useAudio = () => {
       console.log(audioBlobUrl); // 출력된 링크에서 녹음된 오디오 확인 가능
     }
     const reader = new FileReader();
-    console.log(audioUrl);
-    const sound = new File([audioUrl as BlobPart], "soundBlob", {
-      lastModified: new Date().getTime(),
-      type: "audio",
-    });
+    const sound = new Blob([audioUrl as BlobPart], { type: "audio/mpeg3" });
+    const audioBlobUrl = URL.createObjectURL(sound);
+    setAudioBlobUrl(audioBlobUrl);
 
-    console.log("리더기", reader.readAsArrayBuffer(sound));
+    // console.log("리더기", reader.readAsArrayBuffer(sound));
     // const aad = new Audio(sound.toString("base64"));
-    reader.readAsArrayBuffer(sound);
+    reader.readAsDataURL(sound);
 
-    reader.onload = async () => {
-      const audioContext = new AudioContext();
+    reader.onloadend = async () => {
+      // const audioContext = new AudioContext();
       const arrayBuffer = reader.result;
       // const bufferedSound = await audioContext.decodeAudioData(arrayBuffer as ArrayBuffer);
 
-      console.log(arrayBuffer); // File 정보 출력
-      console.log(bufferToBase64(arrayBuffer as ArrayBuffer));
-      setAudioFile(sound);
+      const soundString = arrayBuffer!.toString(); // File 정보 출력
+      console.log(soundString.slice(24));
+      // console.log(bufferedSound);
+
+      // const newBase64 = arrayBuffer?.toString();
+      // console.log(newBase64?.slice(18));
 
       const PostAudio = async () => {
-        const aa = await (
-          await fetch("http://aiopen.etri.re.kr:8000/WiseASR/Recognition", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "8b10a352-acfc-483c-9816-52dbdc37181a",
+        const aa = await fetch("http://aiopen.etri.re.kr:8000/WiseASR/Recognition", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "8b10a352-acfc-483c-9816-52dbdc37181a",
+          },
+          body: JSON.stringify({
+            request_id: "chspower1@naver.com",
+            argument: {
+              language_code: "korean",
+              audio: soundString.slice(24),
             },
-            body: JSON.stringify({
-              request_id: "chspower1@naver.com",
-              argument: {
-                language_code: "korean",
-                audio: bufferToBase64(arrayBuffer as ArrayBuffer),
-              },
-            }),
-          })
-        ).json();
+          }),
+        })
+          .then(data => data.json())
+          .catch(err => console.log(err));
+        console.log(aa);
       };
       PostAudio();
       // mutate({ url: audioBlobUrl });
