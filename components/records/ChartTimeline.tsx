@@ -24,22 +24,25 @@ function ChartTimeline() {
     },
   });
 
+  const [currentIdx, setCurrentIdx] = useState(-1);  // 삭제버튼이 한번 클릭되었는지 확인 (삭제버튼 빨갛게 변함. 그 상테에서 한번더 누르면 진짜 삭제)
   const [confirmDelete, setConfirmDelete] = useState(-1);  // 삭제버튼이 한번 클릭되었는지 확인 (삭제버튼 빨갛게 변함. 그 상테에서 한번더 누르면 진짜 삭제)
   const DelButtonRef = React.useRef() as React.MutableRefObject<HTMLButtonElement>;
   
-  useEffect(() => {
+  /* useEffect(() => {
     function handleOutsideClick(event: React.BaseSyntheticEvent | MouseEvent) {
-      console.log(DelButtonRef.current, event.target);
-      console.log(DelButtonRef.current.contains(event.target));
 
-      if (  // 삭제버튼 바깥 클릭
-        DelButtonRef.current && 
-        !DelButtonRef.current.contains(event.target)
-      ) {
-        setConfirmDelete(-1);
-      } else {  // 삭제 버튼 한번 더 누름
-        mutate({ id: confirmDelete });
-      }
+      
+    //   console.log(DelButtonRef.current, event.target);
+    //   console.log(DelButtonRef.current.contains(event.target));
+
+    //   if (  // 삭제버튼 바깥 클릭
+    //     DelButtonRef.current && 
+    //     !DelButtonRef.current.contains(event.target)
+    //   ) {
+    //     setConfirmDelete(-1);
+    //   } else {  // 삭제 버튼 한번 더 누름
+    //     mutate({ id: confirmDelete });
+    //   }
     }
 
     // Add event after component rendering
@@ -49,7 +52,13 @@ function ChartTimeline() {
       document.removeEventListener("click", handleOutsideClick, true);
     };
 
-  }, [DelButtonRef]);
+  }, []); */
+
+  useEffect(()=>{
+    if(currentIdx === confirmDelete){
+      mutate({ id: confirmDelete });
+    }
+  },[currentIdx])
 
 
   // useEffect(() => {
@@ -58,7 +67,11 @@ function ChartTimeline() {
   
   // 삭제버튼 클릭
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>, recordId: number) => {
-    setConfirmDelete(recordId);
+    if(confirmDelete !== -1){
+      setCurrentIdx(recordId)
+    }else{
+      setConfirmDelete(recordId);
+    }
   }
 
 
@@ -81,7 +94,7 @@ function ChartTimeline() {
                   </Text>
                   <Image></Image>
                 </Description>
-                <DeleteButton onClick={(e) => handleClick(e, record.id)} ref={DelButtonRef} recordId={record.id} className={confirmDelete === record.id ? "delActive" : ""}>
+                <DeleteButton onClick={(e) => handleClick(e, record.id)} ref={DelButtonRef} recordId={record.id} className={confirmDelete === record.id ? "delActive" : ""} onBlur={() =>setConfirmDelete(-1)}>
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                     <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
                   </svg>
