@@ -69,8 +69,8 @@ const SideMenu = () => {
                   <ul>
                     {menuList.map(({ subject, link }) => (
                       <li key={subject}>
-                        {router.asPath === link && <i></i>}
                         <Link href={link}>{subject}</Link>
+                        {router.asPath === link && <i></i>}
                       </li>
                     ))}
                   </ul>
@@ -196,6 +196,7 @@ const Nav = styled.nav`
         background: url(${toriLink.src}) no-repeat center center;
         width: 50px;
         height: 50px;
+        margin-bottom: 10px;
       }
       & + li {
         margin-top: 50px;
