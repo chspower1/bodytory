@@ -65,6 +65,8 @@ const ModalBox = styled.div`
   height: 100%;
   display: flex;
   z-index: 100;
+  opacity:0;
+  animation: ${showFrame} 0.3s forwards;
 `;
 
 const Dim = styled.div`
@@ -84,8 +86,7 @@ const Modal = styled.div`
   border-radius: 40px;
   margin: auto;
   overflow: hidden;
-  opacity:0;
-  animation: ${showFrame} 0.3s forwards;
+
 `;
 
 const ModalHead = styled.div`
