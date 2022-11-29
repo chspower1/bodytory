@@ -25,11 +25,11 @@ const SideMenu = () => {
     },
     {
       subject: "기록 확인하기",
-      link: "/users/records/chart",
+      link: "/users/records",
     },
     {
       subject: "내 병원 관리하기",
-      link: "",
+      link: "/users/my-hospital",
     },
   ]);
   /* /auth/hospital */
