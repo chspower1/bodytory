@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 
 import customApi from "@utils/client/customApi";
 import { useMutation } from "@tanstack/react-query";
+import { fileURLToPath } from "url";
 
 const useAudio = () => {
   const [stream, setStream] = useState<MediaStream>();
@@ -9,9 +10,9 @@ const useAudio = () => {
 
   const [source, setSource] = useState<MediaStreamAudioSourceNode>();
   const [analyser, setAnalyser] = useState<ScriptProcessorNode>();
-  const [audioUrl, setAudioUrl] = useState<Blob | MediaSource>();
+  const [audioUrl, setAudioUrl] = useState<Blob>();
   const [audioBlobUrl, setAudioBlobUrl] = useState("");
-  const [audioFile, setAudioFile] = useState<File>();
+  const [audioFile, setAudioFile] = useState<string>();
   const [isRecording, setIsRecording] = useState(false);
   const { postApi } = customApi("/api/users/records/voice");
   const { mutate } = useMutation(["voice"], postApi, {
@@ -90,7 +91,8 @@ const useAudio = () => {
     if (audioUrl) {
       const audioBlobUrl = URL.createObjectURL(audioUrl);
       setAudioBlobUrl(audioBlobUrl);
-      console.log(audioBlobUrl); // 출력된 링크에서 녹음된 오디오 확인 가능
+      setAudioFile(audioBlobUrl); // 출력된 링크에서 녹음된 오디오 확인 가능
+      console.log("asdasdasd", await audioUrl.arrayBuffer());
     }
     const reader = new FileReader();
     console.log(audioUrl);
@@ -99,7 +101,7 @@ const useAudio = () => {
       type: "audio",
     });
 
-    console.log("리더기", reader.readAsArrayBuffer(sound));
+    // console.log("리더기", reader.readAsArrayBuffer(sound));
     // const aad = new Audio(sound.toString("base64"));
     reader.readAsArrayBuffer(sound);
 
@@ -108,9 +110,12 @@ const useAudio = () => {
       const arrayBuffer = reader.result;
       // const bufferedSound = await audioContext.decodeAudioData(arrayBuffer as ArrayBuffer);
 
-      console.log(arrayBuffer); // File 정보 출력
+      // console.log(arrayBuffer); // File 정보 출력
       console.log(bufferToBase64(arrayBuffer as ArrayBuffer));
-      setAudioFile(sound);
+
+      const audio = new Audio(bufferToBase64(arrayBuffer as ArrayBuffer));
+      audio.load();
+      console.log(audio);
 
       const PostAudio = async () => {
         const aa = await (
@@ -129,6 +134,8 @@ const useAudio = () => {
             }),
           })
         ).json();
+
+        console.log(aa);
       };
       PostAudio();
       // mutate({ url: audioBlobUrl });
@@ -141,7 +148,7 @@ const useAudio = () => {
         <button onClick={isRecording ? offRecAudio : onRecAudio}>녹음</button>
         <div>{isRecording ? "녹음중" : "대기"}</div>
         <button onClick={onSubmitAudioFile}>결과 확인</button>
-        <audio controls src={audioBlobUrl} />
+        <audio controls src={audioFile} />
       </div>
     );
   };
