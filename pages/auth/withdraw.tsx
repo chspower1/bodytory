@@ -85,7 +85,6 @@ export default function Withdraw() {
         activeFuction={handleClickActiveFuction}
         show={showModal}
         closingComment={closingComment}
-        title={"시스템"}
       >
         {!closingComment ? (
           <>회원탈퇴를 하시겠습니까?</>
