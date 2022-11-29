@@ -2,7 +2,7 @@ import { theme } from "@styles/theme";
 import React, { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import styled, { keyframes } from "styled-components";
-import { RoundButton } from "./button/Button";
+import { RoundButton } from "../button/Button";
 
 interface ModalType {
   show: boolean;
@@ -11,12 +11,13 @@ interface ModalType {
   activeFuction: () => void;
   title?: string;
   children?: string | JSX.Element;
+  agreeType ?: boolean;
 }
 /**
  * @show 필수 입니다.
  * @closingComment false가 기본값입니다.
  */
-function Modal({ show, closingComment = false, onClose, activeFuction, children, title }: ModalType) {
+function Modal({ show, closingComment = false, onClose, activeFuction, children, title , agreeType = false }: ModalType) {
   const [isBrowser, setIsBrowser] = useState(false);
 
   useEffect(() => {
@@ -25,15 +26,15 @@ function Modal({ show, closingComment = false, onClose, activeFuction, children,
   }, []);
 
   const modalContent = show ? (
-    <Dim>
+    <Dim> 
       <ModalBox>
         <ModalTitle>
           <h3>{title}</h3>
         </ModalTitle>
         <ModalContent>{children}</ModalContent>
         <ConfirmBtnBox>
-          <RoundButton size="sm"  onClick={activeFuction}>네</RoundButton>
-          {!closingComment && <RoundButton size="sm" bgColor={theme.color.error} onClick={onClose}>아니요</RoundButton>}
+          <RoundButton size="sm"  onClick={activeFuction}>{agreeType ? `동의합니다` : "네"}</RoundButton>
+          {!closingComment && <RoundButton size="sm" bgColor={`rgba(188, 197, 255, 1)`} onClick={onClose}>{agreeType ? `동의하지 않습니다` : "아니요"}</RoundButton>}
         </ConfirmBtnBox>
       </ModalBox>
     </Dim>
@@ -52,15 +53,12 @@ const ConfirmBtnBox = styled.div`
     margin : 0 10px;
     width:auto;
     padding: 0 30px;
-    &:first-child:hover  {
-      background : ${({theme}) =>theme.color.mintBtn};
-    }
+    
   }
 `;
 
-const ConfirmBtn = styled.button``;
 
-const showFrame = keyframes`
+export const showFrame = keyframes`
   100%{
     opacity: 1;
   }
@@ -78,7 +76,8 @@ export const Dim = styled.div`
   align-items: center;
 `;
 const ModalBox = styled.div`
-  width: 400px;
+  display:inline-block;
+  min-width: 400px;
   background: #fff;
   margin: auto;
   opacity: 0;
@@ -97,6 +96,7 @@ const ModalContent = styled.div`
   padding: 30px 10px;
   border-radius: 10px;
   background : ${({theme}) =>theme.color.lightBg};
+  line-height: 1.5; 
 `;
 
 export default Modal;
