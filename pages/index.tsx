@@ -27,7 +27,7 @@ const Home = () => {
           <Col>
             <BlackToryText>
               <Accent>
-                <strong>{user?.name}님,</strong>
+                <strong>{user?.name}님, </strong>
               </Accent>
               건강한 하루에요!
             </BlackToryText>
