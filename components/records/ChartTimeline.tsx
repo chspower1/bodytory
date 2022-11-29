@@ -24,58 +24,21 @@ function ChartTimeline() {
     },
   });
 
-  const [currentIdx, setCurrentIdx] = useState(-1);  // 삭제버튼이 한번 클릭되었는지 확인 (삭제버튼 빨갛게 변함. 그 상테에서 한번더 누르면 진짜 삭제)
-  const [confirmDelete, setConfirmDelete] = useState(-1);  // 삭제버튼이 한번 클릭되었는지 확인 (삭제버튼 빨갛게 변함. 그 상테에서 한번더 누르면 진짜 삭제)
+  const [confirmDelete, setConfirmDelete] = useState(-1);  // 처음 누른거
+  const [currentIdx, setCurrentIdx] = useState(-1);  // 두번째 누른거
   const DelButtonRef = React.useRef() as React.MutableRefObject<HTMLButtonElement>;
   
-  /* useEffect(() => {
-    function handleOutsideClick(event: React.BaseSyntheticEvent | MouseEvent) {
-
-      
-    //   console.log(DelButtonRef.current, event.target);
-    //   console.log(DelButtonRef.current.contains(event.target));
-
-    //   if (  // 삭제버튼 바깥 클릭
-    //     DelButtonRef.current && 
-    //     !DelButtonRef.current.contains(event.target)
-    //   ) {
-    //     setConfirmDelete(-1);
-    //   } else {  // 삭제 버튼 한번 더 누름
-    //     mutate({ id: confirmDelete });
-    //   }
-    }
-
-    // Add event after component rendering
-    document.addEventListener("click", handleOutsideClick, true);
-    // Remove event when component unmount
-    return () => {
-      document.removeEventListener("click", handleOutsideClick, true);
-    };
-
-  }, []); */
-
   useEffect(()=>{
     if(currentIdx === confirmDelete){
       mutate({ id: confirmDelete });
+      setConfirmDelete(-1);
     }
   },[currentIdx])
-
-  //   // Add event after component rendering
-  //   document.addEventListener("click", handleOutsideClick, true);
-  //   // Remove event when component unmount
-  //   return () => {
-  //     document.removeEventListener("click", handleOutsideClick, true);
-  //   };
-  // }, [DelButtonRef]);
-
-  // useEffect(() => {
-  //   console.log("삭제할 레코드 번호", confirmDelete);
-  // }, [confirmDelete])
 
   // 삭제버튼 클릭
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>, recordId: number) => {
     if(confirmDelete !== -1){
-      setCurrentIdx(recordId)
+      setCurrentIdx(recordId);
     }else{
       setConfirmDelete(recordId);
     }
