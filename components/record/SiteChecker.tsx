@@ -2,15 +2,15 @@ import { RectangleButton, RoundButton } from "@components/button/Button";
 import ToryIcon from "@components/ToryIcon";
 import { Box, BtnBox, Col, Container, FlexContainer, Row, ToryText } from "@styles/Common";
 import { useRouter } from "next/router";
-import { SiteType } from "pages/users/records/write";
 import { Dispatch, SetStateAction } from "react";
 import styled from "styled-components";
+import { bodyPartType } from "types/bodyParts";
 import { KoreanPosition } from "types/write";
 
 interface SiteCheckerProps {
   hoveredSite: string;
-  selectedSite: SiteType;
-  setSelectedSite: Dispatch<SetStateAction<SiteType>>;
+  selectedSite: bodyPartType;
+  setSelectedSite: Dispatch<SetStateAction<bodyPartType>>;
 }
 
 const SiteChecker = ({ hoveredSite, selectedSite, setSelectedSite }: SiteCheckerProps) => {

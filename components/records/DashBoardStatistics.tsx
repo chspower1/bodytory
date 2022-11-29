@@ -1,9 +1,12 @@
+import useUser from "@hooks/useUser";
 import styled from "styled-components";
 
 function Statistics() {
-  return (
+  const user = useUser();
+
+  return user ? (
     <StatisticsContainer>
-      <Title>최근 3개월 동안 $소희님의 건강상태를 분석했어요</Title>
+      <Title>최근 3개월 동안 {user?.name}님의 건강상태를 분석했어요</Title>
       <FlexContainer>
         <ChartBox>
           <p>가장 많은 기록을 남긴 부위는 <strong>$손목</strong>이에요</p>
@@ -13,7 +16,7 @@ function Statistics() {
         </ChartBox>
       </FlexContainer>
     </StatisticsContainer>
-  )
+  ) : null;
 }
 
 const StatisticsContainer = styled.div`

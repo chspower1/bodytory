@@ -3,17 +3,22 @@ import { RoundButton } from "@components/button/Button";
 import ToryRecommendPart from './ToryRecommendPart';
 import ChartTimeline from "./ChartTimeline";
 import ChartKeyword from "./ChartKeyword";
+import { SelectBodyPartProps } from "types/selectBodyPart";
+import { KoreanPosition } from "types/write";
+import Link from "next/link";
 
 
-function Chart() {
+function Chart({ selectedSite }: SelectBodyPartProps) {
   return (
     <ChartWrap>
       <ChartContainer>
         <TitleBox>
           <Title>
-            <strong>$손목</strong> 건강기록
+            <strong>{KoreanPosition[selectedSite!]}</strong> 건강기록
           </Title>
-          <RoundButton size="md" bgColor="rgb(244,245,255)" textColor="rgb(83,89,233)">기록 추가하기</RoundButton>
+          <Link href={`/users/records/write/${selectedSite}`}>
+            <RoundButton size="md" bgColor="rgb(244,245,255)" textColor="rgb(83,89,233)">기록 추가하기</RoundButton>
+          </Link>
         </TitleBox>
         <ToryRecommendPart />
         <ChartKeyword />

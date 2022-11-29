@@ -1,26 +1,37 @@
 import { RoundButton } from "@components/button/Button";
-import { SiteType } from "pages/users/records/write";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import styled, { css } from "styled-components";
+import { bodyPartType } from "types/bodyParts";
 
 interface BodyNavigator {
-  selectedSite: SiteType;
-  setSelectedSite: Dispatch<SetStateAction<SiteType>>;
+  selectedSite: bodyPartType;
+  setSelectedSite: Dispatch<SetStateAction<bodyPartType>>;
   setHoveredSite?: Dispatch<SetStateAction<string>>;
   isWritePage: boolean;
   hoveredSite?: string;
+  isSelected?: boolean;
+  setIsSelected?: Dispatch<SetStateAction<boolean>>;
 }
 
 type CurrentBodyPosition = "front" | "back" | "face";
 
-const face: SiteType[] = ["head", "forehead", "eyes", "nose", "mouth", "cheek", "chin", "ears"];
+const face: bodyPartType[] = ["head", "forehead", "eyes", "nose", "mouth", "cheek", "chin", "ears"];
 
-const back: SiteType[] = ["back", "waist", "hip"];
+const back: bodyPartType[] = ["back", "waist", "hip"];
 
-const BodyNavigator = ({ selectedSite, setSelectedSite, setHoveredSite, isWritePage, hoveredSite }: BodyNavigator) => {
+const BodyNavigator = ({ selectedSite, setSelectedSite, setHoveredSite, isWritePage, hoveredSite, isSelected, setIsSelected }: BodyNavigator) => {
   const [currentBodyPosition, setCurrentBodyPosition] = useState<CurrentBodyPosition>(
     face.includes(selectedSite) ? "face" : back.includes(selectedSite) ? "back" : "front",
   );
+
+
+  // 부위가 선택되었는지 안되었는지 판단하는거
+  useEffect(() => {
+    if (selectedSite !== null) {
+      setIsSelected && setIsSelected(true);
+    }
+    // console.log(selectedSite, isSelected);
+  }, [selectedSite])
 
   return (
     <CustomContainer isWritePage={isWritePage}>
@@ -30,7 +41,7 @@ const BodyNavigator = ({ selectedSite, setSelectedSite, setHoveredSite, isWriteP
             width="90px"
             height="50px"
             onClick={() => setCurrentBodyPosition("front")}
-            bgColor={currentBodyPosition !== "front" ? "rgb(198, 205, 250)" : undefined}
+            bgColor={currentBodyPosition !== "front" ? "rgb(188, 197, 255)" : undefined}
           >
             앞
           </RoundButton>
@@ -39,7 +50,7 @@ const BodyNavigator = ({ selectedSite, setSelectedSite, setHoveredSite, isWriteP
             width="90px"
             height="50px"
             onClick={() => setCurrentBodyPosition("back")}
-            bgColor={currentBodyPosition !== "back" ? "rgb(198, 205, 250)" : undefined}
+            bgColor={currentBodyPosition !== "back" ? "rgb(188, 197, 255)" : undefined}
           >
             뒤
           </RoundButton>
@@ -50,7 +61,7 @@ const BodyNavigator = ({ selectedSite, setSelectedSite, setHoveredSite, isWriteP
             <RoundButton
               width="90px"
               height="50px"
-              bgColor={currentBodyPosition === "face" ? "rgb(198, 205, 250)" : undefined}
+              bgColor={currentBodyPosition === "face" ? "rgb(188, 197, 255)" : undefined}
               onClick={() => setCurrentBodyPosition("front")}
             >
               몸
@@ -325,7 +336,7 @@ const BodyNavigator = ({ selectedSite, setSelectedSite, setHoveredSite, isWriteP
                 fill="#D9DEFF"
               />
             </g>
-            <g clip-path="url(#clip1_200_1219)">
+            {/* <g clip-path="url(#clip1_200_1219)">
               <path
                 d="M182.173 99.8877V119.152C182.173 119.152 182.198 125.829 174.827 131.094C167.457 136.359 160.78 143.557 150.077 143.916C139.374 144.275 115.49 147.422 105.655 176.398C95.8187 205.374 100.216 213.625 97.0575 222.582C93.8986 231.539 92.1395 248.387 92.1395 251.199C92.1395 254.011 88.448 259.45 80.3712 270.686C72.2945 281.922 64.5646 295.797 61.9384 313.004C59.3122 330.212 31.3904 376.569 31.3904 376.569"
                 stroke="#363CBF"
@@ -431,7 +442,7 @@ const BodyNavigator = ({ selectedSite, setSelectedSite, setHoveredSite, isWriteP
                 stroke-linecap="round"
                 stroke-linejoin="round"
               />
-            </g>
+            </g> */}
             <defs>
               <clipPath id="clip0_200_1219">
                 <rect width="410.349" height="781.918" fill="white" transform="translate(0.900635 8.11719)" />
@@ -963,13 +974,15 @@ BodyNavigator.defaultProps = {
 };
 
 const CustomContainer = styled.div<{ isWritePage: boolean }>`
-  display: flex;
-  width: 50%;
-  aspect-ratio: 1/1;
   position: relative;
+  display: flex;
+  aspect-ratio: 1/1.2;
+
   ${({ isWritePage }) =>
     isWritePage
       ? css`
+          aspect-ratio: 1/1;
+          width: 50%;
           background-color: #ebecfc;
           box-shadow: 8px 8px 18px rgba(174, 178, 228, 0.25);
           border-radius: 30px;
@@ -981,6 +994,7 @@ const PathBox = styled.div<{ isViewMode?: boolean }>`
   display: flex;
   margin: auto;
   width: 46%;
+  min-width: 390px;
   z-index: 100;
   ${({ isViewMode }) =>
     isViewMode &&
@@ -1000,6 +1014,8 @@ const ButtonsBox = styled.div`
 `;
 
 const HoverPath = styled.path<{ isChecked: boolean; isHover?: boolean }>`
+  cursor: pointer;
+
   ${({ isChecked, isHover }) =>
     isChecked
       ? css`

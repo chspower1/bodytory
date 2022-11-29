@@ -14,43 +14,14 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import BodyNavigator from "@components/record/BodyNavigator";
 import styled from "styled-components";
 import SiteChecker from "@components/record/SiteChecker";
+import { bodyPartType } from "types/bodyParts";
 
 interface WriteType {
   write: string;
 }
 
-export type SiteType =
-  | "head"
-  | "forehead"
-  | "eyes"
-  | "nose"
-  | "mouth"
-  | "cheek"
-  | "chin"
-  | "ears"
-  | "back"
-  | "waist"
-  | "hip"
-  | "neck"
-  | "chest"
-  | "stomach"
-  | "pelvis"
-  | "sexOrgan"
-  | "shoulder"
-  | "upperArm"
-  | "albow"
-  | "forearm"
-  | "wrist"
-  | "hand"
-  | "thigh"
-  | "knee"
-  | "calf"
-  | "ankle"
-  | "foot"
-  | null;
-
 export default function WritePage() {
-  const [selectedSite, setSelectedSite] = useState<SiteType>(null);
+  const [selectedSite, setSelectedSite] = useState<bodyPartType>(null);
   const [hoveredSite, setHoveredSite] = useState<string>("");
 
   return (

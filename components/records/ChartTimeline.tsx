@@ -1,4 +1,4 @@
-import { Record } from '@prisma/client';
+import { Record, RecordImage } from '@prisma/client';
 import { QueryClient, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import customApi from '@utils/client/customApi';
 import { RECORDS_DELETE, RECORDS_READ } from 'constant/queryKeys';
@@ -6,6 +6,11 @@ import React, {  useEffect, useRef, useState } from 'react'
 import styled from 'styled-components';
 import { format } from 'date-fns';
 import {ko} from "date-fns/locale";
+import ManageImage from '@components/ManageImage';
+
+interface RecordWithImage extends Record {
+  images: RecordImage[];
+}
 
 function ChartTimeline() {
 
@@ -23,12 +28,17 @@ function ChartTimeline() {
   const DelButtonRef = React.useRef() as React.MutableRefObject<HTMLButtonElement>;
   
   useEffect(() => {
-    // 삭제버튼 바깥 클릭
     function handleOutsideClick(event: React.BaseSyntheticEvent | MouseEvent) {
-      // console.log(DelButtonRef.current, event.target);
+      console.log(DelButtonRef.current, event.target);
+      console.log(DelButtonRef.current.contains(event.target));
 
-      if (DelButtonRef.current && !DelButtonRef.current.contains(event.target)) {
+      if (  // 삭제버튼 바깥 클릭
+        DelButtonRef.current && 
+        !DelButtonRef.current.contains(event.target)
+      ) {
         setConfirmDelete(-1);
+      } else {  // 삭제 버튼 한번 더 누름
+        mutate({ id: confirmDelete });
       }
     }
 
@@ -42,20 +52,13 @@ function ChartTimeline() {
   }, [DelButtonRef]);
 
 
-  useEffect(() => {
-    console.log(confirmDelete);
-  }, [confirmDelete])
+  // useEffect(() => {
+  //   console.log("삭제할 레코드 번호", confirmDelete);
+  // }, [confirmDelete])
   
   // 삭제버튼 클릭
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>, recordId: number) => {
-    console.log(recordId);
-    if (confirmDelete !== -1) {
-      mutate({ id: recordId });
-
-    } else {
-      // 해당 레코드 삭제하기
-      setConfirmDelete(recordId);
-    }
+    setConfirmDelete(recordId);
   }
 
 
