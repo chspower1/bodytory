@@ -35,12 +35,6 @@ const ClinicList = () => {
 
 export default ClinicList;
 
-const ToryIcon = styled.div`
-  width:100%;
-  height:100%;
-  background : url(${tory.src}) no-repeat center center;
-  background-size:cover;
-`
 
 const ClinicListWrap = styled.div`
   display:flex;
@@ -65,6 +59,14 @@ const ToriBox = styled.div`
   width: 120px;
   height: 190px;
 `;
+
+export const ToryIcon = styled.div`
+  width:100%;
+  height:100%;
+  background : url(${tory.src}) no-repeat center center;
+  background-size:cover;
+`
+
 const ButtonBox = styled(Row)`
   margin : 20px 0 ;
 `;
