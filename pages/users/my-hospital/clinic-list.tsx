@@ -1,9 +1,8 @@
 import { RoundButton } from "@components/button/Button";
-import ClinicSlide from "@components/ClinicSlide";
-import SlideCopy from "@components/SlideCopy";
 import SwiperBox from "@components/SwiperBox";
 import { Container, InnerContainer, Row } from "@styles/Common";
 import { theme } from "@styles/theme";
+import { DescriptionBox, HighlightText, Pragraph } from "pages/hospital";
 import React from "react";
 import styled from "styled-components";
 
@@ -14,12 +13,12 @@ const ClinicList = () => {
         <PageHeadBox>
           <PageHead>
             <ToriBox></ToriBox>
-            <ToriTextBox>
-              <p>
-                <strong>$% 정형외과</strong> 진료목록이에요
-              </p>
-              <p>자세한 진료내역은 각 날짜를 클릭해서 볼 수 있어요</p>
-            </ToriTextBox>
+            <DescriptionBox>
+              <Pragraph>
+                <strong>$$ 정형외과</strong> 진료목록이에요 <br />
+                자세한 진료내역은 각 날짜를 클릭해서 볼 수 있어요
+              </Pragraph>
+            </DescriptionBox>
           </PageHead>
           <ButtonBox>
             <RoundButton nonSubmit bgColor={theme.color.mintBtn}>
@@ -27,9 +26,7 @@ const ClinicList = () => {
             </RoundButton>
           </ButtonBox>
         </PageHeadBox>
-        <ClinicSlide />
-        {/* <SlideCopy /> */}
-        {/* <SwiperBox /> */}
+        <SwiperBox />
       </ClinicContainer>
     </ClinicListWrap>
   );
@@ -61,15 +58,6 @@ const ToriBox = styled.div`
   height: 190px;
   background: #fff;
 `;
-const ToriTextBox = styled.div`
-  margin-left: 96px;
-  p {
-    line-height: 2;
-    font-size: 30px;
-    strong {
-    }
-  }
-`;
 const ButtonBox = styled(Row)`
-  margin : 60px 0;
+  margin : 30px 0;
 `;
