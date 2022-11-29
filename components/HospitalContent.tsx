@@ -29,16 +29,16 @@ const HospitalContent = ({ list, add }: { list: Hospital; add: boolean }) => {
       <HospitalInforContainer>
         <HospitalInforBox>
           <HospitalDescriptionBox>
-            <span>로고</span>
-            <Text size="18px" weight="900" add={add}>
+            <span style={{ width: "40px" }}>로고</span>
+            <NameText size="18px" weight="900" add={add}>
               {sliceName(list.name)}
-            </Text>
+            </NameText>
             <RectangleButton size="sm">정형외과</RectangleButton>
           </HospitalDescriptionBox>
           <HospitalPlaceBox>
-            <Text weight="200" size="17px" add={add}>
+            <SpaceText weight="200" size="17px" add={add}>
               {list.address}
-            </Text>
+            </SpaceText>
           </HospitalPlaceBox>
         </HospitalInforBox>
         {add ? (
@@ -88,6 +88,21 @@ const Text = styled.span<{ size?: string; weight?: string; add: boolean }>`
   color: ${prop => (prop.add ? "#000" : "#fff")};
 `;
 
+const NameText = styled(Text)`
+  display: inline-block;
+  white-space: nowrap;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
+const SpaceText = styled(Text)`
+  display: inline-block;
+  white-space: nowrap;
+  max-width: 700px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
 const ShareStatus = styled(Text)<{ status: boolean }>`
   padding-left: 20px;
   &::after {
@@ -128,13 +143,17 @@ const HospitalInforContainer = styled.div`
 `;
 
 const HospitalPlaceBox = styled.div`
-  width: 500px;
+  display: flex;
+  align-items: center;
+  min-width: 600px;
+  max-width: 700px;
 `;
 
 const HospitalDescriptionBox = styled.div`
   display: flex;
   align-items: center;
-  width: 500px;
+  min-width: 400px;
+  max-width: 500px;
   & * {
     margin-right: 20px;
   }

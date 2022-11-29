@@ -70,9 +70,7 @@ const SideMenu = () => {
                     {menuList.map(({ subject, link }) => (
                       <li key={subject}>
                         {router.asPath === link && <i></i>}
-                        <Link href={link}>
-                          {subject}
-                        </Link>
+                        <Link href={link}>{subject}</Link>
                       </li>
                     ))}
                   </ul>
@@ -111,16 +109,13 @@ const SideMenuWrap = styled.div`
   z-index: 1000;
 `;
 
-
-const LogoBox =styled.div`
-
-  .logoBg{
-    width:190px;
-    height:70px;
+const LogoBox = styled.div`
+  .logoBg {
+    width: 190px;
+    height: 70px;
     background: url(${menuLogo.src}) no-repeat center center;
-
   }
-`
+`;
 
 const Dim = styled.div<{ isOpen: boolean }>`
   position: absolute;
@@ -195,9 +190,9 @@ const Nav = styled.nav`
   ul {
     margin-left: 36px;
     li {
-        display:flex;
-        align-items:center;
-      i{
+      display: flex;
+      align-items: center;
+      i {
         background: url(${toriLink.src}) no-repeat center center;
         width: 50px;
         height: 50px;
@@ -226,7 +221,6 @@ const Nav = styled.nav`
           transform: scaleX(1);
         }
       }
-      
     }
   }
 `;
