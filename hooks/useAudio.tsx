@@ -85,7 +85,7 @@ const useAudio = () => {
       type: "audio",
     });
 
-    console.log("리더기", reader.readAsDataURL(audioUrl as Blob));
+    console.log("리더기", reader.readAsArrayBuffer(sound));
     // const aad = new Audio(sound.toString("base64"));
 
     setAudioFile(sound);
