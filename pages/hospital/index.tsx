@@ -72,6 +72,9 @@ export const MainInnerContainer = styled.div`
 
 export const Pragraph = styled.p`
   font-size: 32px;
+  strong{
+    font-weight :700;
+  }
 `;
 export const HighlightText = styled.span`
   color: rgb(100, 106, 235);
