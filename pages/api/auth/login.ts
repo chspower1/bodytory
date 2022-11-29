@@ -37,7 +37,7 @@ async function loginByOrigin(req: NextApiRequest, res: NextApiResponse) {
   if (!foundUser) {
     throw new Error("회원정보를 확인해주세요");
   }
-  const {type, id, email, phone, name, birth, gender} = foundUser
+  const { type, id, email, phone, name, birth, gender } = foundUser;
   const isPasswordCorrect = await passwordCompare(password, foundUser.password!);
   if (!isPasswordCorrect) {
     throw new Error("회원정보를 확인해주세요");
@@ -54,7 +54,7 @@ async function loginBySocial(req: NextApiRequest, res: NextApiResponse) {
   const { accountId, email, phone, name, birth, gender, type } = req.body;
   const foundUser = await client.user.findFirst({
     where: {
-      accountId: accountId + "",
+      accountId: String(accountId),
       type,
     },
   });

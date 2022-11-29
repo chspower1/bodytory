@@ -11,6 +11,15 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   if (!user) return res.status(401).send("회원 정보를 확인해주세요");
 
+  if (type !== "origin") {
+    await client.user.delete({
+      where: {
+        id: user?.id,
+      },
+    });
+    return res.status(204).end();
+  }
+
   const foundUser = await client.user.findUnique({
     where: {
       id: user?.id!,
@@ -23,24 +32,17 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   if (type === "origin") {
     const isPasswordCorrect = await passwordCompare(password, foundUser.password!);
-    if (isPasswordCorrect) {
-      await client.user.delete({
-        where: {
-          id: user?.id,
-        },
-      });
-      return res.status(204).end();
+
+    if (!isPasswordCorrect) {
+      return res.status(401).send("현재 비밀번호를 적어주세요");
     }
 
-    return res.status(401).send("현재 비밀번호를 적어주세요");
-  }
-
-  if (type !== "origin") {
     await client.user.delete({
       where: {
         id: user?.id,
       },
     });
+
     return res.status(204).end();
   }
 
