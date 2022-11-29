@@ -3,20 +3,23 @@ import { RoundButton } from "@components/button/Button";
 import ToryRecommendPart from './ToryRecommendPart';
 import ChartTimeline from "./ChartTimeline";
 import ChartKeyword from "./ChartKeyword";
-import { SelectBodyPartProps } from "types/selectBodyPart";
 import { KoreanPosition } from "types/write";
 import Link from "next/link";
+import { useRecoilValue } from "recoil";
+import { selectedBodyPart } from "atoms/atoms";
 
 
-function Chart({ selectedSite }: SelectBodyPartProps) {
+function Chart() {
+  const selectedPart = useRecoilValue(selectedBodyPart);
+
   return (
     <ChartWrap>
       <ChartContainer>
         <TitleBox>
           <Title>
-            <strong>{KoreanPosition[selectedSite!]}</strong> 건강기록
+            <strong>{KoreanPosition[selectedPart!]}</strong> 건강기록
           </Title>
-          <Link href={`/users/records/write/${selectedSite}`}>
+          <Link href={`/users/records/write/${selectedPart}`}>
             <RoundButton size="md" bgColor="rgb(244,245,255)" textColor="rgb(83,89,233)">기록 추가하기</RoundButton>
           </Link>
         </TitleBox>

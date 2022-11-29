@@ -1,41 +1,26 @@
 import BodyNavigator from '@components/record/BodyNavigator';
-import { Dispatch, SetStateAction, useState } from 'react';
 import styled from 'styled-components';
 import IconArrowLeft from "@public/icon_arrow_left.png";
-import { SelectBodyPartProps } from 'types/selectBodyPart';
+import { useRecoilState } from 'recoil';
+import { selectedBodyPart } from 'atoms/atoms';
 
 
-function SelectPart({ isSelected, setIsSelected, selectedSite, setSelectedSite, hoveredSite, setHoveredSite}: SelectBodyPartProps) {
+function SelectPart() {
 
-  const handleClick = () => {
-    setIsSelected!(false);
-    setSelectedSite!(null);
-  }
+  const [selectedPart, setSelectedPart] = useRecoilState(selectedBodyPart);
 
   return (
     <SelectPartWarp>
       <SelectPartContainer>
         {
-          isSelected && (
-            <BackButton onClick={handleClick}>
+          selectedPart && (
+            <BackButton onClick={() => setSelectedPart(null)}>
               <span>대시보드</span>
             </BackButton>
           )
         }
         <GuideText>자세한 기록을 확인하고 싶은 부위를 선택해주세요</GuideText>
-        {
-          (selectedSite !== undefined) && setSelectedSite && (
-            <BodyNavigator
-              selectedSite={selectedSite}
-              setSelectedSite={setSelectedSite}
-              setHoveredSite={setHoveredSite}
-              hoveredSite={hoveredSite}
-              isWritePage={false}
-              isSelected={isSelected}
-              setIsSelected={setIsSelected}
-            />
-          )
-        }
+        <BodyNavigator isWritePage={false} />
       </SelectPartContainer>
     </SelectPartWarp>
     
