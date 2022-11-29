@@ -5,6 +5,10 @@ import { useState } from "react";
 import styled from "styled-components";
 import { RectangleButton, RoundButton } from "./button/Button";
 
+export interface HospitalListT extends Hospital {
+  medicalDepartments: [{ id: number; department: string }];
+}
+
 const ChangeToHoverColor = (color: string) => {
   if (color.includes("rgb")) {
     const colorArr = color.split(",");
@@ -16,8 +20,7 @@ const ChangeToHoverColor = (color: string) => {
   }
   return color;
 };
-
-const HospitalContent = ({ list, add }: { list: Hospital; add: boolean }) => {
+const HospitalContent = ({ list, add }: { list: HospitalList; add: boolean }) => {
   const [onShare, setOnShare] = useState<boolean>(false);
   const handleShare = () => {
     setOnShare(!onShare);
@@ -33,10 +36,10 @@ const HospitalContent = ({ list, add }: { list: Hospital; add: boolean }) => {
             <NameText size="18px" weight="900" add={add}>
               {sliceName(list.name)}
             </NameText>
-            <RectangleButton size="sm">정형외과</RectangleButton>
+            <Department>{list?.medicalDepartments[0].department}</Department>
           </HospitalDescriptionBox>
           <HospitalPlaceBox>
-            <SpaceText weight="200" size="17px" add={add}>
+            <SpaceText weight="200" size="17px" add={add} title={list.address}>
               {list.address}
             </SpaceText>
           </HospitalPlaceBox>
@@ -99,7 +102,7 @@ const NameText = styled(Text)`
 const SpaceText = styled(Text)`
   display: inline-block;
   white-space: nowrap;
-  max-width: 700px;
+  max-width: 600px;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
@@ -145,14 +148,14 @@ const HospitalInforContainer = styled.div`
 const HospitalPlaceBox = styled.div`
   display: flex;
   align-items: center;
-  min-width: 600px;
-  max-width: 700px;
+  min-width: 500px;
+  max-width: 500px;
 `;
 
 const HospitalDescriptionBox = styled.div`
   display: flex;
   align-items: center;
-  min-width: 400px;
+  min-width: 500px;
   max-width: 500px;
   & * {
     margin-right: 20px;
@@ -166,4 +169,17 @@ const HospitalStatusBox = styled.div`
   align-items: center;
   width: 350px;
   justify-content: space-between;
+`;
+
+const Department = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(54, 60, 191);
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  height: 29px;
+  width: auto;
+  min-width: 87px;
 `;
