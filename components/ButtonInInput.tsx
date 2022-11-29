@@ -89,7 +89,9 @@ const InputBox = styled.div`
   display: flex;
   align-items: center;
   overflow: hidden;
-  box-shadow: 8px 8px 24px rgba(49, 54, 167, 0.2);
+  &:not(.authenticationColumn){
+    box-shadow: 8px 8px 24px rgba(49, 54, 167, 0.2);
+  }
   &:not(.authenticationColumn):focus-within {
     border: 2px solid #8c9af3;
   }
@@ -106,6 +108,12 @@ const InputBox = styled.div`
       width:190px;
       height: 50px;
       border-bottom: 2px solid #fff;
+      &:-webkit-autofill,
+      &:-webkit-autofill:hover,
+      &:-webkit-autofill:focus,
+      &:-webkit-autofill:active {
+        -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
+      }
       &:focus {
         border-bottom: 2px solid #fff;
       }
