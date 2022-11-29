@@ -95,7 +95,7 @@ const ModalContent = styled.div`
   font-size: 16px;
   padding: 30px 10px;
   border-radius: 10px;
-  background : ${({theme}) =>theme.color.lightBg};
+  // background : ${({theme}) =>theme.color.lightBg};
   line-height: 1.5; 
 `;
 
