@@ -105,41 +105,7 @@ const useAudio = () => {
     // const aad = new Audio(sound.toString("base64"));
     reader.readAsArrayBuffer(sound);
 
-    reader.onload = async () => {
-      const audioContext = new AudioContext();
-      const arrayBuffer = reader.result;
-      // const bufferedSound = await audioContext.decodeAudioData(arrayBuffer as ArrayBuffer);
-
-      // console.log(arrayBuffer); // File 정보 출력
-      console.log(bufferToBase64(arrayBuffer as ArrayBuffer));
-
-      const audio = new Audio(bufferToBase64(arrayBuffer as ArrayBuffer));
-      audio.load();
-      console.log(audio);
-
-      const PostAudio = async () => {
-        const aa = await (
-          await fetch("http://aiopen.etri.re.kr:8000/WiseASR/Recognition", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "8b10a352-acfc-483c-9816-52dbdc37181a",
-            },
-            body: JSON.stringify({
-              request_id: "chspower1@naver.com",
-              argument: {
-                language_code: "korean",
-                audio: bufferToBase64(arrayBuffer as ArrayBuffer),
-              },
-            }),
-          })
-        ).json();
-
-        console.log(aa);
-      };
-      PostAudio();
-      // mutate({ url: audioBlobUrl });
-    };
+    mutate({ audio: sound });
   }, [audioUrl]);
 
   const RecordBtn = () => {
