@@ -11,7 +11,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       id: user?.id,
     },
     select: {
-      hospitals: true,
+      hospitals: {
+        include: {
+          medicalDepartments: true,
+        },
+      },
     },
   });
 
