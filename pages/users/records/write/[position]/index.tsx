@@ -1,89 +1,86 @@
-import { CircleButton, RectangleButton, RoundButton } from "@components/button/Button";
-import { Position } from "@prisma/client";
-import { BlackToryText, Box, BtnBox, Col, FlexContainer, WhiteWrapper } from "@styles/Common";
-import { theme } from "@styles/theme";
-import Image from "next/image";
-import { useRouter } from "next/router";
-import styled from "styled-components";
-import { KoreanPosition } from "types/write";
-import mic from "/public/static/icon/mic.svg";
-import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import { useMutation } from "@tanstack/react-query";
-import customApi from "@utils/client/customApi";
-import { CreateBtnBox, PositionBoxText, TextBox, ToryBox } from "@components/record/SiteChecker";
-import ToryIcon from "@components/ToryIcon";
-export default function WritePositionPage() {
-  const router = useRouter();
-  const { postApi } = customApi("/api/users/records");
-  const position = router.query.position as Position;
-  const { transcript, listening, resetTranscript, browserSupportsSpeechRecognition } = useSpeechRecognition();
-  const [error, setError] = useState(false);
-  const { mutate } = useMutation(["records", "write"], postApi, {
-    onSuccess() {
-      router.push("/users/records/write/add");
-    },
-  });
-  const handleClickStopListening = () => {
-    SpeechRecognition.stopListening();
-  };
-  const handleClickStartListening = () => {
-    setError(false);
-    resetTranscript();
-    SpeechRecognition.startListening({ language: "ko", continuous: true });
-  };
+import React, { useCallback, useState } from "react";
 
-  const hadleClickCreateRecord = () => {
-    if (transcript !== "") {
-      setError(false);
-      SpeechRecognition.stopListening();
-      mutate({ type: "user", position, description: transcript });
-      router.replace("/users/records/write/analysis");
-    } else setError(true);
-  };
+const PositionPage = () => {
+  const [stream, setStream] = useState<MediaStream>();
+  const [media, setMedia] = useState<MediaRecorder>();
+  const [onRec, setOnRec] = useState(true);
+  const [source, setSource] = useState<MediaStreamAudioSourceNode>();
+  const [analyser, setAnalyser] = useState<ScriptProcessorNode>();
+  const [audioUrl, setAudioUrl] = useState<Blob | MediaSource>();
+  const [audioFile, setAudioFile] = useState("");
+  const [isRecording, setIsRecording] = useState(false);
+  const onRecAudio = () => {
+    setIsRecording(true);
+    // 음원정보를 담은 노드를 생성하거나 음원을 실행또는 디코딩 시키는 일을 한다
+    const audioCtx = new window.AudioContext();
 
-  if (!browserSupportsSpeechRecognition) {
-    return <span>지원안됨</span>;
-  }
+    // 자바스크립트를 통해 음원의 진행상태에 직접접근에 사용된다.
+    const analyser = audioCtx.createScriptProcessor(0, 1, 1);
+    setAnalyser(analyser);
+
+    function makeSound(stream: MediaStream) {
+      // 내 컴퓨터의 마이크나 다른 소스를 통해 발생한 오디오 스트림의 정보를 보여준다.
+      const source = audioCtx.createMediaStreamSource(stream);
+      setSource(source);
+
+      // AudioBufferSourceNode 연결
+      source.connect(analyser);
+      analyser.connect(audioCtx.destination);
+    }
+
+    // 마이크 사용 권한 획득 후 녹음 시작
+    navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+      const mediaRecorder = new MediaRecorder(stream);
+      mediaRecorder.start();
+      setStream(stream);
+      setMedia(mediaRecorder);
+      makeSound(stream);
+      // 음성 녹음이 시작됐을 때 onRec state값을 false로 변경
+      analyser.onaudioprocess = function (e) {
+        setOnRec(false);
+      };
+    });
+  };
+  const offRecAudio = () => {
+    setIsRecording(false);
+    if (media) {
+      // dataavailable 이벤트로 Blob 데이터에 대한 응답을 받을 수 있음
+      media.ondataavailable = function (e) {
+        setAudioUrl(e.data);
+        setOnRec(true);
+      };
+
+      // 모든 트랙에서 stop()을 호출해 오디오 스트림을 정지
+      stream?.getAudioTracks().forEach(function (track) {
+        track.stop();
+      });
+
+      // 미디어 캡처 중지
+      media.stop();
+
+      // 메서드가 호출 된 노드 연결 해제
+      analyser?.disconnect();
+      source?.disconnect();
+    }
+  };
+  const onSubmitAudioFile = useCallback(() => {
+    console.log("audioUrl", audioUrl);
+    if (audioUrl) {
+      console.log("녹음완료");
+      const audioBlobUrl = URL.createObjectURL(audioUrl);
+      setAudioFile(audioBlobUrl);
+      console.log(audioBlobUrl); // 출력된 링크에서 녹음된 오디오 확인 가능
+    }
+    const sound = new File([audioUrl as BlobPart], "soundBlob", { lastModified: new Date().getTime(), type: "audio" });
+    console.log(sound); // File 정보 출력
+  }, [audioUrl]);
   return (
-    <WhiteWrapper>
-      <FlexContainer>
-        <Col height="100vh">
-          <Box height="20%">
-            <ToryIcon />
-          </Box>
-          <Box height="30%">
-            <BlackToryText>
-              <PositionBoxText>{KoreanPosition[position]}</PositionBoxText>에 어떤 증상이 있나요?
-            </BlackToryText>
-          </Box>
-          <VoiceBox height="30%">
-            <RectangleButton
-              size="custom"
-              width="640px"
-              height="100px"
-              bgColor="rgb(209, 239, 247)"
-              textColor={theme.color.mintBtn}
-              onClick={hadleClickCreateRecord}
-              fontSize="30px"
-              boxShadow={false}
-            >
-              {transcript ? transcript : "증상을 말해주세요!"}
-            </RectangleButton>
-            <CircleButton
-              bgColor={listening ? theme.color.mintBtn : theme.color.darkBg}
-              onClick={listening ? handleClickStopListening : handleClickStartListening}
-              boxShadow={false}
-            >
-              <Image src={mic} alt="마이크" />
-            </CircleButton>
-          </VoiceBox>
-        </Col>
-      </FlexContainer>
-    </WhiteWrapper>
+    <>
+      <button onClick={isRecording ? offRecAudio : onRecAudio}>녹음</button>
+      <button onClick={onSubmitAudioFile}>결과 확인</button>
+      <audio src={audioFile}></audio>
+    </>
   );
-}
-const VoiceBox = styled(Col)`
-  gap: 60px;
-`;
+};
+
+export default PositionPage;

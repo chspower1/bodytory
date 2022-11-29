@@ -1,11 +1,6 @@
 // import fs from "fs";
-import test from "../data/hospital/hospital_수정03.json";
-import areaCode from "../data/hospital/area_code.json";
-import medicalCode from "../data/hospital/진료과목코드_수정02.json";
-import hospitals from "../data/hospital/hospital_수정05.json";
-import hospitals2 from "../data/hospital/hospital_수정06.json";
-import hospitals3 from "../data/hospital/hospital_수정07.json";
-import coordsData from "../data/hospital/coords.json";
+import hospital from "../data/new-hospital/newhospital.csv";
+
 import { PrismaClient } from "@prisma/client";
 const client = new PrismaClient();
 interface Hospital {
@@ -152,11 +147,22 @@ interface Coord {
 // DeleteRecords();
 
 // 병원 데이터 심기
-async function SeedCoords() {
-  console.log(coordsData);
-  // const newCoords = coordsData.map((coord: Coord, index) => ({ x: coord.Ma, y: coord.La, hospitalId: index + 1 }));
-  // await client.coords.createMany({
-  //   data: newCoords,
-  // });
+
+// 좌표값 넣기
+// async function SeedCoords() {
+//   console.log(coordsData);
+//   // const newCoords = coordsData.map((coord: Coord, index) => ({ x: coord.Ma, y: coord.La, hospitalId: index + 1 }));
+//   // await client.coords.createMany({
+//   //   data: newCoords,
+//   // });
+// }
+// SeedCoords();
+
+// async function DeleteHospital() {
+//   await client.hospital.deleteMany({});
+// }
+// DeleteHospital();
+
+async function CreateHospital() {
+  await client.hospital.createMany({});
 }
-SeedCoords();
