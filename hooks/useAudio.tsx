@@ -1,4 +1,7 @@
-import React, { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
+
+import customApi from "@utils/client/customApi";
+import { useMutation } from "@tanstack/react-query";
 
 const useAudio = () => {
   const [stream, setStream] = useState<MediaStream>();
@@ -10,6 +13,12 @@ const useAudio = () => {
   const [audioBlobUrl, setAudioBlobUrl] = useState("");
   const [audioFile, setAudioFile] = useState<File>();
   const [isRecording, setIsRecording] = useState(false);
+  const { postApi } = customApi("/api/users/records/voice");
+  const { mutate } = useMutation(["voice"], postApi, {
+    onSettled(data) {
+      console.log(data);
+    },
+  });
   const onRecAudio = () => {
     // 음원정보를 담은 노드를 생성하거나 음원을 실행또는 디코딩 시키는 일을 한다
     const audioCtx = new window.AudioContext();
@@ -47,6 +56,7 @@ const useAudio = () => {
       // dataavailable 이벤트로 Blob 데이터에 대한 응답을 받을 수 있음
       media.ondataavailable = function (e) {
         setAudioUrl(e.data);
+
         setIsRecording(false);
       };
 
@@ -63,23 +73,53 @@ const useAudio = () => {
       source?.disconnect();
     }
   };
-  const onSubmitAudioFile = useCallback(() => {
+  const onSubmitAudioFile = useCallback(async () => {
     if (audioUrl) {
       const audioBlobUrl = URL.createObjectURL(audioUrl);
       setAudioBlobUrl(audioBlobUrl);
       console.log(audioBlobUrl); // 출력된 링크에서 녹음된 오디오 확인 가능
     }
-    const sound = new File([audioUrl as BlobPart], "soundBlob", { lastModified: new Date().getTime(), type: "audio" });
+    const reader = new FileReader();
+    const sound = new File([audioUrl as BlobPart], "soundBlob", {
+      lastModified: new Date().getTime(),
+      type: "audio",
+    });
+
+    console.log("리더기", reader.readAsDataURL(audioUrl as Blob));
+    // const aad = new Audio(sound.toString("base64"));
+
     setAudioFile(sound);
     console.log(sound); // File 정보 출력
+    const PostAudio = async () => {
+      const aa = await (
+        await fetch("http://aiopen.etri.re.kr:8000/WiseASR/Recognition", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "8b10a352-acfc-483c-9816-52dbdc37181a",
+          },
+          body: JSON.stringify({
+            request_id: "chspower1@naver.com",
+            argument: {
+              language_code: "korean",
+              audio: sound,
+            },
+          }),
+        })
+      ).json();
+    };
+    mutate({ url: audioBlobUrl });
+    // PostAudio();
   }, [audioUrl]);
+
   const RecordBtn = () => {
     return (
-      <>
+      <div style={{ margin: "400px" }}>
         <button onClick={isRecording ? offRecAudio : onRecAudio}>녹음</button>
+        <div>{isRecording ? "녹음중" : "대기"}</div>
         <button onClick={onSubmitAudioFile}>결과 확인</button>
-        <audio src={audioBlobUrl}></audio>
-      </>
+        <audio controls src={audioBlobUrl} />
+      </div>
     );
   };
   return { RecordBtn, audioFile, audioBlobUrl };
