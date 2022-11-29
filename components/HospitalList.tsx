@@ -10,7 +10,7 @@ const HospitalList = ({ lists, add }: { lists?: HospitalListT[]; add: boolean })
   return (
     <HospitalContainer add={add}>
       <InnerContainer add={add}>
-        {lists ? (
+        {lists !== undefined && lists.length !== 0 ? (
           <HospitalLists>
             {lists.map((list: HospitalListT) => (
               <HospitalContent list={list} add={add} key={list.id} />
