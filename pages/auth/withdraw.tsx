@@ -86,7 +86,6 @@ export default function Withdraw() {
         show={showModal}
         closingComment={closingComment}
         title={"시스템"}
-        agreeType
       >
         {!closingComment ? (
           <>회원탈퇴를 하시겠습니까?</>
