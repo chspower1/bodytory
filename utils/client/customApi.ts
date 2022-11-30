@@ -14,6 +14,11 @@ const basicApi = () => {
       throw error.response;
     },
   );
+  axiosBase.interceptors.request.use(request => {
+
+    request.data.audio === typeof File;
+    
+  });
 
   return axiosBase;
 };

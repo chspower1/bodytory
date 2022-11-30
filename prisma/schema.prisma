@@ -1,9 +1,6 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["referentialIntegrity", "filteredRelationCount"]
+  previewFeatures = ["filteredRelationCount"]
 }
 
 generator erd {
@@ -12,9 +9,104 @@ generator erd {
 }
 
 datasource db {
-  provider             = "mysql"
-  url                  = env("DATABASE_URL")
-  referentialIntegrity = "prisma"
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "foreignKeys"
+}
+
+model User {
+  id            Int             @id @default(autoincrement())
+  createAt      DateTime        @default(now())
+  email         String
+  gender        Gender
+  name          String
+  password      String
+  phone         String?
+  updateAt      DateTime        @updatedAt
+  type          UserType        @default(origin)
+  birth         String          @default("1993-10-23")
+  accountId     String          @unique
+  Certification Certification[]
+  records       Record[]
+  hospitals     Hospital[]
+}
+
+model Certification {
+  id       Int      @id @default(autoincrement())
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+  number   String
+  userId   Int?
+  email    String?
+  user     User?    @relation(fields: [userId], references: [id])
+}
+
+model Record {
+  id           Int           @id @default(autoincrement())
+  createAt     DateTime      @default(now())
+  updateAt     DateTime      @updatedAt
+  type         RecordType
+  position     Position
+  description  String
+  userId       Int
+  hospitalId   Int?
+  diagnosis    String?
+  prescription String?
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  hospital     Hospital?     @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
+  recommend    Recommend[]
+  images       RecordImage[]
+}
+
+model Recommend {
+  id                Int      @id @default(autoincrement())
+  createAt          DateTime @default(now())
+  updateAt          DateTime @updatedAt
+  MedicalDepartment String
+  recordId          Int
+  Record            Record   @relation(fields: [recordId], references: [id])
+}
+
+model RecordImage {
+  id       Int      @id @default(autoincrement())
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+  recordId Int
+  url      String
+  record   Record   @relation(fields: [recordId], references: [id], onDelete: Cascade)
+}
+
+model MedicalDepartment {
+  id                                    Int                                    @id
+  department                            String
+  hospitalToMedicalDepartMentConnectors HospitalToMedicalDepartMentConnector[]
+}
+
+model Hospital {
+  id                                    Int                                    @id @default(autoincrement())
+  createAt                              DateTime                               @default(now())
+  updateAt                              DateTime                               @updatedAt
+  password                              String                                 @default("123456")
+  name                                  String
+  area                                  String
+  userId                                Int?
+  address                               String
+  city                                  String
+  class                                 String
+  homepage                              String?
+  user                                  User?                                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Record                                Record[]
+  x                                     Float?                                 @db.Double
+  y                                     Float?                                 @db.Double
+  hospitalToMedicalDepartMentConnectors HospitalToMedicalDepartMentConnector[]
+}
+
+model HospitalToMedicalDepartMentConnector {
+  id                  Int               @id @default(autoincrement())
+  medicalDepartment   MedicalDepartment @relation(fields: [medicalDepartmentId], references: [id])
+  hospital            Hospital          @relation(fields: [hospitalId], references: [id])
+  medicalDepartmentId Int
+  hospitalId          Int
 }
 
 enum Gender {
@@ -26,33 +118,6 @@ enum UserType {
   naver
   kakao
   origin
-}
-
-model User {
-  id            Int             @id @default(autoincrement())
-  type          UserType        @default(origin)
-  createAt      DateTime        @default(now())
-  updateAt      DateTime        @updatedAt
-  accountId     String          @unique
-  password      String
-  email         String
-  phone         String?
-  name          String
-  birth         String          @default("1993-10-23")
-  gender        Gender
-  records       Record[]
-  hospitals     Hospital[]
-  Certification Certification[]
-}
-
-model Certification {
-  id       Int      @id @default(autoincrement())
-  createAt DateTime @default(now())
-  updateAt DateTime @updatedAt
-  number   String
-  user     User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId   Int?
-  email    String?
 }
 
 enum Position {
@@ -88,69 +153,4 @@ enum Position {
 enum RecordType {
   user
   hospital
-}
-
-model Record {
-  id           Int           @id @default(autoincrement())
-  createAt     DateTime      @default(now())
-  updateAt     DateTime      @updatedAt
-  type         RecordType
-  position     Position
-  diagnosis    String?
-  prescription String?
-  description  String
-  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId       Int
-  hospital     Hospital?     @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
-  hospitalId   Int?
-  images       RecordImage[]
-  recommend    Recommend[]
-}
-
-model Recommend {
-  id                Int      @id @default(autoincrement())
-  createAt          DateTime @default(now())
-  updateAt          DateTime @updatedAt
-  MedicalDepartment String
-  Record            Record   @relation(fields: [recordId], references: [id])
-  recordId          Int
-}
-
-model RecordImage {
-  id       Int      @id @default(autoincrement())
-  createAt DateTime @default(now())
-  updateAt DateTime @updatedAt
-  record   Record   @relation(fields: [recordId], references: [id], onDelete: Cascade)
-  recordId Int
-  url      String
-}
-
-model MedicalDepartment {
-  id         Int        @id
-  department String
-  hospitals  Hospital[]
-}
-
-model Hospital {
-  id                 Int                 @id @default(autoincrement())
-  createAt           DateTime            @default(now())
-  updateAt           DateTime            @updatedAt
-  password           String              @default("123456")
-  name               String
-  area               String
-  user               User?               @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId             Int?
-  phone              String?
-  address            String
-  medicalDepartments MedicalDepartment[]
-  Record             Record[]
-  coords             Coords[]
-}
-
-model Coords {
-  id         Int      @id @default(autoincrement())
-  x          Float
-  y          Float
-  Hospital   Hospital @relation(fields: [hospitalId], references: [id])
-  hospitalId Int
 }
