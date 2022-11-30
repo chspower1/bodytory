@@ -11,7 +11,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       accountId,
     },
   });
-
+  console.log(foundUser);
   if (!foundUser) return res.status(200).send("사용가능한 아이디입니다.");
 
   return res.status(401).send("중복된 아이디입니다");
