@@ -7,6 +7,7 @@ import React, { useEffect, useRef } from "react";
 import styled, { keyframes } from "styled-components";
 import { loggedInUser } from "atoms/atoms";
 import { useSetRecoilState } from "recoil";
+import Header from "@components/header/Header";
 
 const LoadingBox = styled.div`
   width: 100%;
@@ -64,6 +65,7 @@ const Loading = () => {
   }, []);
   return (
     <LoadingBox>
+      <Header />
       <div>
         유저 정보 조회중입니다<i ref={iRef}></i>
       </div>

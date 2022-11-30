@@ -1,6 +1,7 @@
 import { RoundButton } from "@components/button/Button";
+import Header from "@components/header/Header";
 import MessageBox from "@components/MessageBox";
-import { Col,  FlexContainer, InnerContainer, WhiteText } from "@styles/Common";
+import { Col, FlexContainer, InnerContainer, WhiteText } from "@styles/Common";
 import { theme } from "@styles/theme";
 import { NextPage } from "next";
 import Link from "next/link";
@@ -9,6 +10,7 @@ import { FinalCommentBox } from "../help/find-id";
 const SuccessPage: NextPage = () => {
   return (
     <FlexContainer>
+      <Header />
       <InnerContainer>
         <FinalCommentBox>
           <div className="innerBox">
@@ -27,7 +29,6 @@ const SuccessPage: NextPage = () => {
         </FinalCommentBox>
       </InnerContainer>
     </FlexContainer>
-    
   );
 };
 export default SuccessPage;

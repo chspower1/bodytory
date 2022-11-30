@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import LogoutBtn from "@components/LogoutBtn";
 import toriLink from "@public/toriLink.png";
 import menuLogo from "@public/menuLogo.png";
+import useUser from "@hooks/useUser";
 
 const SideMenu = () => {
   const router = useRouter();
@@ -32,7 +33,7 @@ const SideMenu = () => {
       link: "/users/my-hospital",
     },
   ]);
-  /* /auth/hospital */
+  const user = useUser();
 
   const handleClickCloseMenu = () => {
     if (isOpen === isActive) {
@@ -48,7 +49,7 @@ const SideMenu = () => {
     handleClickCloseMenu();
   }, [router.asPath]);
 
-  return (
+  return user ? (
     <>
       <HamburgerMenuButton isOpen={isOpen} setIsOpen={setIsOpen} isActive={isActive} setIsActive={setIsActive} />
       {isActive && (
@@ -98,7 +99,7 @@ const SideMenu = () => {
         </SideMenuWrap>
       )}
     </>
-  );
+  ) : null;
 };
 
 export default SideMenu;

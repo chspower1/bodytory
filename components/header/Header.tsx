@@ -13,47 +13,35 @@ import { RegisterForm } from "pages/auth/register";
 
 const Header = () => {
   const router = useRouter();
-  const [isLogin, setIsLogin] = useState<boolean>();
-  const user = useUser();
-  const currentUser = useRecoilValue(loggedInUser);
 
-  useEffect(() => {
-    currentUser === null ? setIsLogin(true) : setIsLogin(false);
-  }, [currentUser]);
   return (
-    <>
-      {isLogin ? (
-        <HeaderWrap>
-          <HeaderContainer>
-            <HeaderInnerBox>
-              <HeaderUl>
-                <li>
-                  <Link href="/">서비스 소개</Link>
-                </li>
-                <li>
-                  {router.asPath.includes("login") ? (
-                    <Link href="/auth/register" title="회원가입">
-                      회원가입
-                    </Link>
-                  ) : (
-                    <Link href="/auth/login" title="로그인">
-                      로그인
-                    </Link>
-                  )}
-                </li>
-              </HeaderUl>
-              <HeaderLogoBox>
-                <Link href="/auth/login" title="바디토리">
-                  <span>바디토리</span>
+    <HeaderWrap>
+      <HeaderContainer>
+        <HeaderInnerBox>
+          <HeaderUl>
+            <li>
+              <Link href="/">서비스 소개</Link>
+            </li>
+            <li>
+              {router.asPath.includes("login") ? (
+                <Link href="/auth/register" title="회원가입">
+                  회원가입
                 </Link>
-              </HeaderLogoBox>
-            </HeaderInnerBox>
-          </HeaderContainer>
-        </HeaderWrap>
-      ) : (
-        <SideMenu />
-      )}
-    </>
+              ) : (
+                <Link href="/auth/login" title="로그인">
+                  로그인
+                </Link>
+              )}
+            </li>
+          </HeaderUl>
+          <HeaderLogoBox>
+            <Link href="/auth/login" title="바디토리">
+              <span>바디토리</span>
+            </Link>
+          </HeaderLogoBox>
+        </HeaderInnerBox>
+      </HeaderContainer>
+    </HeaderWrap>
   );
 };
 

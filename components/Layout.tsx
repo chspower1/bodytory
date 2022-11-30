@@ -2,6 +2,7 @@ import { Wrapper } from "@styles/Common";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Header from "./header/Header";
+import SideMenu from "./header/SideMenu";
 
 interface LayoutProps {
   children?: React.ReactNode;
@@ -15,10 +16,13 @@ const Layout = ({ children }: LayoutProps) => {
   }, [router]);
   return (
     <Wrapper bgColor={bgColor}>
-      <Header />
+      <SideMenu />
       {children}
     </Wrapper>
   );
 };
 
 export default Layout;
+const getServerSideProps = () => {
+  return { props: {} };
+};
