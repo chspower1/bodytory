@@ -1,5 +1,5 @@
-// import hospitalsSample from "../data/new-hospital/hospital_final.json";
-import asd from "./dd3.json";
+import hospitalsSample from "../data/new-hospital/hospital_final.json";
+import departmentMatch from "./dd.json";
 // import DepartmentsSample from "../data/new-hospital/code_final.json";
 // import type { Hospital, MedicalDepartment } from "prisma/prisma-client";
 // import fs from "fs";
@@ -53,10 +53,11 @@ interface Match {
 // }
 // DeleteRecords();
 
-async function DeleteMedicalDepartment() {
-  await client.hospitalToMedicalDepartMentConnector.deleteMany({});
-}
-DeleteMedicalDepartment();
+// async function DeleteMedicalDepartment() {
+//   await client.hospitalToMedicalDepartMentConnector.deleteMany({});
+// }
+// DeleteMedicalDepartment();
+
 // async function DeleteHospital() {
 //   await client.hospital.deleteMany({});
 // }
@@ -65,7 +66,7 @@ DeleteMedicalDepartment();
 // async function FindMedicalDepartMent() {
 //   const result = await client.medicalDepartment.findMany({
 //     select: {
-//       id: true, 
+//       id: true,
 //       department: true,
 //       _count: true,
 //     },
@@ -73,18 +74,52 @@ DeleteMedicalDepartment();
 //   console.log(result);
 // }
 // FindMedicalDepartMent();
-
-async function CreateHospitals2(){
+interface Hospital {
+  name: string;
+  classCode: number;
+  class: string;
+  areaCode: number;
+  area: string;
+  city: number;
+  cityCode: string;
+  address: string;
+  homepage: string;
+  coords: {
+    x: number;
+    y: number;
+  };
+  departmentCodes: string;
+}
+// async function CreateHospitals2() {
+//   const hospitals: Hospital[] = hospitalsSample.value.slice(0, 10);
+//   const department: Match[] = departmentMatch.value.slice(0, 10);
+//   await client.hospital.createMany({
+//     data: hospitals.map((hospital, index) => ({
+//       address: hospital.address,
+//       area: hospital.area,
+//       city: hospital.cityCode,
+//       class: hospital.class,
+//       name: hospital.name,
+//       homepage: hospital.homepage,
+//     })),
+//   });
+// }
+// CreateHospitals2();
+async function CreateHospitals2() {
+  const hospitals: Hospital[] = hospitalsSample.value.slice(0, 10);
+  const department: Match[] = departmentMatch.value.slice(0, 10);
   await client.hospital.createMany({
-    data:[{
-      address:"",
-      city:"",
-      area:"",
-      class:"",
-      name:"",
-      hospitalToMedicalDepartMentConnectors:{
-        
-      }
-    }]
-  })
+    data: [
+      {
+        address: "hospital",
+        area: "hospital",
+        city: "hospital",
+        class: "hospital",
+        name: "hospital",
+        homepage: "hospital",
+      },
+    ],
+
+    skipDuplicates: true,
+  });
 }

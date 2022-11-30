@@ -1,6 +1,6 @@
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["filteredRelationCount"]
+  previewFeatures = ["referentialIntegrity", "filteredRelationCount"]
 }
 
 generator erd {
@@ -11,7 +11,7 @@ generator erd {
 datasource db {
   provider     = "mysql"
   url          = env("DATABASE_URL")
-  relationMode = "foreignKeys"
+  relationMode = "prisma"
 }
 
 model User {
@@ -42,29 +42,20 @@ model Certification {
 }
 
 model Record {
-  id           Int           @id @default(autoincrement())
-  createAt     DateTime      @default(now())
-  updateAt     DateTime      @updatedAt
+  id           Int                 @id @default(autoincrement())
+  createAt     DateTime            @default(now())
+  updateAt     DateTime            @updatedAt
   type         RecordType
   position     Position
   description  String
   userId       Int
   diagnosis    String?
   prescription String?
-  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  hospital     Hospital?     @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
+  user         User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  hospital     Hospital?           @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
   hospitalId   Int?
-  recommend    Recommend[]
+  recommend    MedicalDepartment[]
   images       RecordImage[]
-}
-
-model Recommend {
-  id                Int      @id @default(autoincrement())
-  createAt          DateTime @default(now())
-  updateAt          DateTime @updatedAt
-  MedicalDepartment String
-  recordId          Int
-  Record            Record   @relation(fields: [recordId], references: [id])
 }
 
 model RecordImage {
@@ -77,31 +68,31 @@ model RecordImage {
 }
 
 model MedicalDepartment {
-  id                                    Int                                    @id
-  department                            String
-  hospitalToMedicalDepartMentConnectors HospitalToMedicalDepartMentConnector[]
+  id         Int                                  @id
+  department String
+  hospitals  HospitalMedicalDepartmentConnector[]
+  Record     Record[]
 }
 
 model Hospital {
-  id                                    Int                                    @id @default(autoincrement())
-  createAt                              DateTime                               @default(now())
-  updateAt                              DateTime                               @updatedAt
-  password                              String                                 @default("123456")
-  name                                  String
-  area                                  String
-  userId                                Int?
-  address                               String
-  city                                  String
-  class                                 String
-  homepage                              String?
-  user                                  User[]
-  Record                                Record[]
-  x                                     Float?                                 @db.Double
-  y                                     Float?                                 @db.Double
-  hospitalToMedicalDepartMentConnectors HospitalToMedicalDepartMentConnector[]
+  id                 Int                                  @id @default(autoincrement())
+  createAt           DateTime                             @default(now())
+  updateAt           DateTime                             @updatedAt
+  password           String                               @default("123456")
+  name               String
+  area               String
+  address            String
+  city               String
+  class              String
+  homepage           String?
+  user               User[]
+  Record             Record[]
+  x                  Float?                               @db.Double
+  y                  Float?                               @db.Double
+  medicalDepartments HospitalMedicalDepartmentConnector[]
 }
 
-model HospitalToMedicalDepartMentConnector {
+model HospitalMedicalDepartmentConnector {
   id                  Int               @id @default(autoincrement())
   medicalDepartment   MedicalDepartment @relation(fields: [medicalDepartmentId], references: [id], onDelete: Cascade)
   hospital            Hospital          @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
