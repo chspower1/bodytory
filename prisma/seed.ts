@@ -19,26 +19,26 @@ interface Match {
   departmentCodes: number[];
 }
 
-async function ConnectHospitalToDepartment() {
-  const matchDepartment: Match[] = asd.value;
-  // const matchDepartment = fs.readFileSync("../data/new-hospital/code_final.json");
-  // console.log(matchDepartment);
-  console.log("dfdsfd");
-  const ASDF = (a: Match[]) => {
-    const arr: { hospitalId: number; medicalDepartmentId: number }[] = [];
-    for (let i = 0; i < a.length; i++) {
-      a[i].departmentCodes.forEach(j => {
-        arr.push({ hospitalId: a[i].index, medicalDepartmentId: j });
-      });
-    }
-    return arr;
-  };
-  ASDF(matchDepartment);
-  await client.hospitalToMedicalDepartMentConnector.createMany({
-    data: ASDF(matchDepartment),
-  });
-}
-ConnectHospitalToDepartment();
+// async function ConnectHospitalToDepartment() {
+//   const matchDepartment: Match[] = asd.value;
+//   // const matchDepartment = fs.readFileSync("../data/new-hospital/code_final.json");
+//   // console.log(matchDepartment);
+//   console.log("dfdsfd");
+//   const ASDF = (a: Match[]) => {
+//     const arr: { hospitalId: number; medicalDepartmentId: number }[] = [];
+//     for (let i = 0; i < a.length; i++) {
+//       a[i].departmentCodes.forEach(j => {
+//         arr.push({ hospitalId: a[i].index, medicalDepartmentId: j });
+//       });
+//     }
+//     return arr;
+//   };
+//   ASDF(matchDepartment);
+//   await client.hospitalToMedicalDepartMentConnector.createMany({
+//     data: ASDF(matchDepartment),
+//   });
+// }
+// ConnectHospitalToDepartment();
 
 // 병원 데이터 지우기
 // async function Deletehospitals() {
@@ -53,11 +53,23 @@ ConnectHospitalToDepartment();
 // }
 // DeleteRecords();
 
+async function DeleteMedicalDepartment() {
+  await client.hospitalToMedicalDepartMentConnector.deleteMany({});
+}
+DeleteMedicalDepartment();
 // async function DeleteHospital() {
 //   await client.hospital.deleteMany({});
 // }
 // DeleteHospital();
-async function DeleteMedicalDepartMent() {
-  await client.medicalDepartment.deleteMany({});
-}
-DeleteMedicalDepartMent();
+
+// async function FindMedicalDepartMent() {
+//   const result = await client.medicalDepartment.findMany({
+//     select: {
+//       id: true, 
+//       department: true,
+//       _count: true,
+//     },
+//   });
+//   console.log(result);
+// }
+// FindMedicalDepartMent();

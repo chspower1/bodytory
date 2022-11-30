@@ -49,11 +49,11 @@ model Record {
   position     Position
   description  String
   userId       Int
-  hospitalId   Int?
   diagnosis    String?
   prescription String?
   user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   hospital     Hospital?     @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
+  hospitalId   Int?
   recommend    Recommend[]
   images       RecordImage[]
 }
@@ -94,7 +94,7 @@ model Hospital {
   city                                  String
   class                                 String
   homepage                              String?
-  user                                  User?                                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user                                  User[]
   Record                                Record[]
   x                                     Float?                                 @db.Double
   y                                     Float?                                 @db.Double
@@ -103,8 +103,8 @@ model Hospital {
 
 model HospitalToMedicalDepartMentConnector {
   id                  Int               @id @default(autoincrement())
-  medicalDepartment   MedicalDepartment @relation(fields: [medicalDepartmentId], references: [id])
-  hospital            Hospital          @relation(fields: [hospitalId], references: [id])
+  medicalDepartment   MedicalDepartment @relation(fields: [medicalDepartmentId], references: [id], onDelete: Cascade)
+  hospital            Hospital          @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
   medicalDepartmentId Int
   hospitalId          Int
 }
