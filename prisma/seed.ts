@@ -1,5 +1,5 @@
 import hospitalsSample from "../data/new-hospital/hospital_final.json";
-import departmentMatch from "./dd.json";
+import departmentMatch from "./dd2.json";
 // import DepartmentsSample from "../data/new-hospital/code_final.json";
 // import type { Hospital, MedicalDepartment } from "prisma/prisma-client";
 // import fs from "fs";
@@ -18,28 +18,58 @@ interface Match {
   name: string;
   departmentCodes: number[];
 }
-
-async function ConnectHospitalToDepartment() {
-  const matchDepartment: Match[] = departmentMatch.value;
-  // const matchDepartment = fs.readFileSync("../data/new-hospital/code_final.json");
-  // console.log(matchDepartment);
-  console.log("dfdsfd");
-  const ASDF = (a: Match[]) => {
-    const arr: { hospitalId: number; medicalDepartmentId: number }[] = [];
-    for (let i = 0; i < a.length; i++) {
-      a[i].departmentCodes.forEach(j => {
-        arr.push({ hospitalId: a[i].index, medicalDepartmentId: j });
-      });
-    }
-    return arr;
+interface Hospital {
+  name: string;
+  classCode: number;
+  class: string;
+  areaCode: number;
+  area: string;
+  city: number;
+  cityCode: string;
+  address: string;
+  homepage: string;
+  coords: {
+    x: number;
+    y: number;
   };
-  ASDF(matchDepartment);
-  await client.hospitalToMedicalDepartMentConnector.createMany({
-    data: ASDF(matchDepartment),
+  departmentCodes: string;
+}
+// async function ConnectHospitalToDepartment() {
+//   const matchDepartment: Match[] = departmentMatch.value.slice(35000);
+//   // const matchDepartment = fs.readFileSync("../data/new-hospital/code_final.json");
+//   // console.log(matchDepartment);
+//   console.log("dfdsfd");
+//   const ASDF = (a: Match[]) => {
+//     const arr: { hospitalId: number; medicalDepartmentId: number }[] = [];
+//     for (let i = 0; i < a.length; i++) {
+//       a[i].departmentCodes.forEach(j => {
+//         arr.push({ hospitalId: a[i].index, medicalDepartmentId: j });
+//       });
+//     }
+//     return arr;
+//   };
+//   ASDF(matchDepartment);
+//   await client.hospitalMedicalDepartmentConnector.createMany({
+//     data: ASDF(matchDepartment),
+//   });
+// }
+// ConnectHospitalToDepartment();
+
+async function ConnectLastHospital() {
+  await client.hospitalMedicalDepartmentConnector.createMany({
+    data: [
+      {
+        hospitalId: 76032,
+        medicalDepartmentId: 80,
+      },
+      {
+        hospitalId: 76032,
+        medicalDepartmentId: 81,
+      },
+    ],
   });
 }
-ConnectHospitalToDepartment();
-
+ConnectLastHospital();
 // 병원 데이터 지우기
 // async function Deletehospitals() {
 //   console.log("dddd");
@@ -74,22 +104,7 @@ ConnectHospitalToDepartment();
 //   console.log(result);
 // }
 // FindMedicalDepartMent();
-interface Hospital {
-  name: string;
-  classCode: number;
-  class: string;
-  areaCode: number;
-  area: string;
-  city: number;
-  cityCode: string;
-  address: string;
-  homepage: string;
-  coords: {
-    x: number;
-    y: number;
-  };
-  departmentCodes: string;
-}
+
 // async function CreateHospitals2() {
 //   const hospitals: Hospital[] = hospitalsSample.value.slice(60000);
 //   await client.hospital.createMany({
