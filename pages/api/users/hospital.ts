@@ -15,7 +15,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     },
   });
 
-  return res.status(200).json(data);
+  return res.status(200).json(data?.hospitals);
 }
 
 export default withApiSession(withHandler({ methods: ["GET"], handler, isPrivate: false }));

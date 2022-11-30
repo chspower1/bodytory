@@ -1,10 +1,11 @@
-import fs from "fs";
+// import fs from "fs";
 import test from "../data/hospital/hospital_수정03.json";
 import areaCode from "../data/hospital/area_code.json";
 import medicalCode from "../data/hospital/진료과목코드_수정02.json";
 import hospitals from "../data/hospital/hospital_수정05.json";
 import hospitals2 from "../data/hospital/hospital_수정06.json";
 import hospitals3 from "../data/hospital/hospital_수정07.json";
+import coordsData from "../data/hospital/coords.json";
 import { PrismaClient } from "@prisma/client";
 const client = new PrismaClient();
 interface Hospital {
@@ -23,7 +24,10 @@ interface AreaCode {
   areaCode: string;
   areaCode2?: string;
 }
-
+interface Coord {
+  La: number;
+  Ma: number;
+}
 // 진료목록 string => list
 // function ConvertHospital() {
 //   const data = test as Hospital[];
@@ -146,3 +150,13 @@ interface AreaCode {
 //   await client.record.deleteMany({});
 // }
 // DeleteRecords();
+
+// 병원 데이터 심기
+async function SeedCoords() {
+  console.log(coordsData);
+  // const newCoords = coordsData.map((coord: Coord, index) => ({ x: coord.Ma, y: coord.La, hospitalId: index + 1 }));
+  // await client.coords.createMany({
+  //   data: newCoords,
+  // });
+}
+SeedCoords();

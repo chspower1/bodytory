@@ -1,11 +1,11 @@
 import { RoundButton } from "@components/button/Button";
-import ClinicSlide from "@components/ClinicSlide";
-import SlideCopy from "@components/SlideCopy";
 import SwiperBox from "@components/SwiperBox";
 import { Container, InnerContainer, Row } from "@styles/Common";
 import { theme } from "@styles/theme";
+import { DescriptionBox, HighlightText, Pragraph } from "pages/hospital";
 import React from "react";
 import styled from "styled-components";
+import tory from "@public/static/icon/tory.png";
 
 const ClinicList = () => {
   return (
@@ -13,13 +13,13 @@ const ClinicList = () => {
       <ClinicContainer>
         <PageHeadBox>
           <PageHead>
-            <ToriBox></ToriBox>
-            <ToriTextBox>
-              <p>
-                <strong>$% 정형외과</strong> 진료목록이에요
-              </p>
-              <p>자세한 진료내역은 각 날짜를 클릭해서 볼 수 있어요</p>
-            </ToriTextBox>
+            <ToriBox><ToryIcon/></ToriBox>
+            <DescriptionBox>
+              <Pragraph>
+                <strong>OO 정형외과</strong> 진료목록이에요 <br />
+                자세한 진료내역은 각 날짜를 클릭해서 볼 수 있어요
+              </Pragraph>
+            </DescriptionBox>
           </PageHead>
           <ButtonBox>
             <RoundButton nonSubmit bgColor={theme.color.mintBtn}>
@@ -27,9 +27,7 @@ const ClinicList = () => {
             </RoundButton>
           </ButtonBox>
         </PageHeadBox>
-        <ClinicSlide />
-        {/* <SlideCopy /> */}
-        {/* <SwiperBox /> */}
+        <SwiperBox />
       </ClinicContainer>
     </ClinicListWrap>
   );
@@ -48,7 +46,7 @@ const ClinicListWrap = styled.div`
 const PageHeadBox = styled(Container)``
 
 const ClinicContainer = styled.div`
-  margin: auto 0;
+  margin: auto 0 0;
 `
 
 const PageHead = styled.div`
@@ -57,19 +55,18 @@ const PageHead = styled.div`
 `;
 
 const ToriBox = styled.div`
+  flex-shrink: 0;
   width: 120px;
   height: 190px;
-  background: #fff;
 `;
-const ToriTextBox = styled.div`
-  margin-left: 96px;
-  p {
-    line-height: 2;
-    font-size: 30px;
-    strong {
-    }
-  }
-`;
+
+export const ToryIcon = styled.div`
+  width:100%;
+  height:100%;
+  background : url(${tory.src}) no-repeat center center;
+  background-size:cover;
+`
+
 const ButtonBox = styled(Row)`
-  margin : 60px 0;
+  margin : 20px 0 ;
 `;

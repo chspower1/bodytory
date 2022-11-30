@@ -30,6 +30,7 @@ const InputBox = styled.div`
   background-color: ${({ theme }) => theme.color.input};
   border-radius: 50%;
   overflow: hidden;
+  box-shadow: 8px 8px 24px rgba(49, 54, 167, 0.2);
   user-select: none;
   &.error {
     border: 2px solid ${({ theme }) => theme.color.error};

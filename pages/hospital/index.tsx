@@ -1,11 +1,12 @@
 import { RectangleButton, RoundButton } from "@components/button/Button";
 import HospitalList from "@components/HospitalList";
-import { User } from "@prisma/client";
+import { Hospital, User } from "@prisma/client";
 import { Container } from "@styles/Common";
 import { theme } from "@styles/theme";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
 import { loggedInUser } from "atoms/atoms";
+import { HOSPITALS } from "constant/queryKeys";
 import Image from "next/image";
 import Link from "next/link";
 import { RegisterForm } from "pages/auth/register";
@@ -14,11 +15,10 @@ import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import medicalIcon from "../../public/medical.png";
 
-const Hospital = () => {
+const Hospitals = () => {
   const { getApi } = customApi("/api/users/hospital");
-  const { data } = useQuery(["hospital"], getApi);
+  const { data } = useQuery([HOSPITALS], getApi);
   const currentUser = useRecoilValue(loggedInUser);
-  const [user, setUser] = useState<User | RegisterForm | null>();
 
   useEffect(() => {
     document.body.style.backgroundColor = theme.color.lightBg;
@@ -27,16 +27,12 @@ const Hospital = () => {
     };
   }, []);
 
-  useEffect(() => {
-    setUser(currentUser);
-  }, [currentUser]);
-
-  return (
+  return currentUser && data ? (
     <MainContainer>
       <MainInnerContainer>
         <DescriptionBox>
           <Pragraph>
-            <HighlightText>{user?.name}님</HighlightText>의 기록을 공유받고 있는 병원 목록이에요
+            <HighlightText>{currentUser.name}님</HighlightText>의 기록을 공유받고 있는 병원 목록이에요
             <br /> 병원을 클릭하면 해당 병원에서의 진료내역을 확인할 수 있어요
           </Pragraph>
         </DescriptionBox>
@@ -47,13 +43,13 @@ const Hospital = () => {
             </Link>
           </RoundButton>
         </ButtonBox>
-        <HospitalList lists={data?.hospitals} add={false} />
+        <HospitalList lists={data} add={false} />
       </MainInnerContainer>
     </MainContainer>
-  );
+  ) : null;
 };
 
-export default Hospital;
+export default Hospitals;
 
 export const MainContainer = styled.div`
   height: 100%;
@@ -76,6 +72,9 @@ export const MainInnerContainer = styled.div`
 
 export const Pragraph = styled.p`
   font-size: 32px;
+  strong{
+    font-weight :700;
+  }
 `;
 export const HighlightText = styled.span`
   color: rgb(100, 106, 235);

@@ -6,7 +6,7 @@ import { theme } from "@styles/theme";
 
 export interface InputProps {
   label?: string;
-  name: string;
+  name ?: string;
   register?: UseFormRegisterReturn;
   type?: string;
   placeholder?: string;

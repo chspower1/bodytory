@@ -132,7 +132,7 @@ model MedicalDepartment {
 }
 
 model Hospital {
-  id                 Int                 @id
+  id                 Int                 @id @default(autoincrement())
   createAt           DateTime            @default(now())
   updateAt           DateTime            @updatedAt
   password           String              @default("123456")
@@ -144,4 +144,13 @@ model Hospital {
   address            String
   medicalDepartments MedicalDepartment[]
   Record             Record[]
+  coords             Coords[]
+}
+
+model Coords {
+  id         Int      @id @default(autoincrement())
+  x          Float
+  y          Float
+  Hospital   Hospital @relation(fields: [hospitalId], references: [id])
+  hospitalId Int
 }
