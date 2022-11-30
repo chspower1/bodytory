@@ -1,6 +1,6 @@
 import BodyNavigator from '@components/record/BodyNavigator';
 import styled from 'styled-components';
-import IconArrowLeft from "@public/icon_arrow_left.png";
+import IconArrowLeft from "@public/static/icon/icon_arrow_left.png";
 import { useRecoilState } from 'recoil';
 import { selectedBodyPart } from 'atoms/atoms';
 

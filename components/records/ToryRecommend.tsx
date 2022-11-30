@@ -1,7 +1,7 @@
 import { RoundButton } from "@components/button/Button";
 import styled, { css } from "styled-components";
-import IconHospital from "@public/icon_hospital.png"
-import IconWarning from "@public/icon_warning.png"
+import IconHospital from "@public/static/icon/icon_hospital.png"
+import IconWarning from "@public/static/icon/icon_warning.png"
 import { useState } from "react";
 import Modal from "@components/Modal/Modal";
 
