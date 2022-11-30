@@ -1,3 +1,6 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["filteredRelationCount"]
@@ -11,7 +14,6 @@ generator erd {
 datasource db {
   provider     = "mysql"
   url          = env("DATABASE_URL")
-  relationMode = "foreignKeys"
 }
 
 model User {
@@ -38,7 +40,7 @@ model Certification {
   number   String
   userId   Int?
   email    String?
-  user     User?    @relation(fields: [userId], references: [id])
+  user     User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Record {
