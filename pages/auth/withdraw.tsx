@@ -2,13 +2,12 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import axios from "axios";
 import customApi from "utils/client/customApi";
-import Modal from "@components/Modal";
-import useUser from "hooks/useUser";
 import { USER_WITHDRAW } from "constant/queryKeys";
 import { useRecoilState } from "recoil";
 import { loggedInUser } from "atoms/atoms";
+import Modal from "@components/Modal/Modal";
+import RecordModal from "@components/Modal/RecordModal";
 
 export interface WithdrawType {
   password: string;
@@ -82,7 +81,7 @@ export default function Withdraw() {
         )}
         <button type="submit">탈퇴하기</button>
       </form>
-      <Modal
+      {/* <Modal
         onClose={handleClickOnClose}
         activeFuction={handleClickActiveFuction}
         show={showModal}
@@ -98,14 +97,8 @@ export default function Withdraw() {
             홈으로 이동합니다
           </>
         )}
-      </Modal>
-      {/* {isModal && (
-        <div>
-          <h3>삭제완료!</h3>
-          <p>이제 아프지 말고 다신 보지 맙시다~!</p>
-          <button onClick={handleClickConfirm}>확인</button>
-        </div>
-      )} */}
+      </Modal> */}
+      {showModal && <RecordModal><button type="button" onClick={()=> setShowModal(false)}>닫기</button></RecordModal>}
     </div>
   );
 }

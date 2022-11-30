@@ -1,5 +1,5 @@
 import Input from "@components/Input";
-import Modal from "@components/Modal";
+import Modal from "@components/Modal/Modal";
 import customApi from "utils/client/customApi";
 import { useMutation } from "@tanstack/react-query";
 import { USER_CHANGE_PASSWORD } from "constant/queryKeys";

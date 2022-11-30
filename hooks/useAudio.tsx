@@ -11,9 +11,9 @@ const useAudio = () => {
 
   const [source, setSource] = useState<MediaStreamAudioSourceNode>();
   const [analyser, setAnalyser] = useState<ScriptProcessorNode>();
-  const [audioUrl, setAudioUrl] = useState<Blob | MediaSource>();
+  const [audioUrl, setAudioUrl] = useState<Blob>();
   const [audioBlobUrl, setAudioBlobUrl] = useState("");
-  const [audioFile, setAudioFile] = useState<File>();
+  const [audioFile, setAudioFile] = useState<string>();
   const [isRecording, setIsRecording] = useState(false);
   const { postApi } = customApi("/api/users/records/voice");
   const { mutate } = useMutation(["voice"], postApi, {
