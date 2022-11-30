@@ -105,15 +105,6 @@ model HospitalToUser {
   @@map("_HospitalToUser")
 }
 
-model MedicalDepartmentToRecord {
-  A Int
-  B Int
-
-  @@unique([A, B], map: "_MedicalDepartmentToRecord_AB_unique")
-  @@index([B], map: "_MedicalDepartmentToRecord_B_index")
-  @@map("_MedicalDepartmentToRecord")
-}
-
 enum Gender {
   male
   female
