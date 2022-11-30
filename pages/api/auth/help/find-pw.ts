@@ -13,6 +13,7 @@ const checkId = async (accountId: string) => {
       type: "origin",
     },
   });
+
   if (!foundUser) throw new Error("아이디를 확인해주세요");
 
   return foundUser;
@@ -21,6 +22,10 @@ const checkId = async (accountId: string) => {
 const createToken = async (accountId: string) => {
   const foundUser = await checkId(accountId);
   const payload = getPayload();
+
+  await client.certification.deleteMany({
+    where: { user: { id: foundUser.id } },
+  });
 
   await client.certification.create({
     data: {
@@ -79,6 +84,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       const { email } = await createToken(accountId);
       res.status(200).json({ email, accountId });
     } catch (error) {
+      console.log(error);
       const errorMessage = error instanceof Error ? error.message : (<Object>error).toString();
       res.status(403).send(errorMessage);
     }

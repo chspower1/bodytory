@@ -23,6 +23,10 @@ const createToken = async (email: string) => {
   const user = await haveUser(email);
   const payload = getPayload();
 
+  await client.certification.deleteMany({
+    where: { user: { id: user.id } },
+  });
+
   await client.certification.create({
     data: {
       number: payload,
