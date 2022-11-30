@@ -274,7 +274,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                 />
               )
             ) : (
-              <CheckBoxInput label="인증 완료되었습니다" name="completion" checked />
+              <CheckBoxInput  label="인증 완료되었습니다" name="completion" checked disabled />
             )}
           </ThirdPageFormContents>
             <PrevNextButtonBox>

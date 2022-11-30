@@ -12,10 +12,11 @@ const CheckBoxInput = ({
   register,
   error,
   checked,
+  disabled
 }: RadioProps) => {
   return (
     <InputBox className={`${error ? "error" : ""} ${checked ? "completion" : ""}`}>
-      <Input type="checkbox" id={name} {...register} checked={checked}  />
+      <Input type="checkbox" id={name} {...register} checked={checked} disabled={disabled}  />
       <Label htmlFor={name}><i></i>{label}</Label>
     </InputBox>
   )

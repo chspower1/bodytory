@@ -90,13 +90,11 @@ export default function Edit() {
           <SeperationBox>
             <Name>{test?.name}</Name>
           </SeperationBox>
-          <SeperationBox>
-            <UserInfo>
-              <span>
-                {test?.gender === "male" ? "남" : "여"},{` 만 ${americanAge}세`}
-              </span>
-            </UserInfo>
-          </SeperationBox>
+          <UserInfo>
+            <span>
+              {test?.gender === "male" ? "남" : "여"},{` 만 ${americanAge}세`}
+            </span>
+          </UserInfo>
           <LoginStatusBox>
             <Image
               src={test?.type === "naver" ? naver : test?.type === "kakao" ? kakao : origin}
@@ -111,39 +109,34 @@ export default function Edit() {
         </div>
         <div>
           <form onSubmit={handleSubmit(onValid)}>
+            <h2>비밀번호 변경</h2>
             <SeperationBox>
               <Input
+                light
                 name="oldPassword"
-                label="현재 비밀번호"
                 type="password"
                 register={register("oldPassword", { required: "필수값입니다" })}
                 placeholder="현재 비밀번호를 입력해주세요."
                 error={errors.oldPassword?.message}
-                align="left"
-                bgcolor="rgb(217,222,255)"
-                color="#aaa"
+                align='left'
               />
               <Input
+                light
                 name="newPassword"
-                label="새 비밀번호"
                 type="password"
                 register={register("newPassword", { required: "필수값입니다" })}
                 placeholder="새로운 비밀번호를 입력해주세요."
                 error={errors.newPassword?.message}
-                align="left"
-                bgcolor="rgb(217,222,255)"
-                color="#aaa"
+                align='left'
               />
               <Input
+                light
                 name="newPasswordConfirm"
-                label="새 비밀번호 확인"
                 type="password"
                 register={register("newPasswordConfirm", { required: "필수값입니다" })}
                 placeholder="새로운 비밀번호확인을 입력해주세요."
                 error={errors.newPasswordConfirm?.message}
-                align="left"
-                bgcolor="rgb(217,222,255)"
-                color="#aaa"
+                align='left'
               />
             </SeperationBox>
             <SeperationBox style={{ display: "flex", justifyContent: "center" }}>
@@ -185,6 +178,23 @@ const InContainer = styled(InnerContainer)`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  form{
+    h2{
+      margin-bottom: 20px;
+      font-weight:600;
+    }
+    > div:nth-of-type(1){
+      div{
+        input[type="password"]::placeholder{
+          letter-spacing: -.2px;
+          font-size: 14px;
+        }
+      }
+      div + div{
+        margin: 20px auto 0;
+      }
+    }
+  }
 `;
 
 const Name = styled.h1`
@@ -194,6 +204,7 @@ const Name = styled.h1`
 
 const UserInfo = styled.div`
   font-size: 24px;
+  margin-top: 14px;
 `;
 
 const SeperationBox = styled.div`

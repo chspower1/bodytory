@@ -8,6 +8,7 @@ ${reset}
     box-sizing: border-box;
   }
 
+
   html,
   body {
     background: ${props => props.theme.color.darkBg};
@@ -96,6 +97,16 @@ ${reset}
 
   img {
     max-width: 100%;
+  }
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+    -webkit-transition: background-color 9999s ease-out;
+    -webkit-box-shadow: 0 0 0px 1000px transparent inset,  8px 8px 24px rgba(49, 54, 167, 0.2) !important;
+    -webkit-text-fill-color: #fff !important;
   }
 
   ::-webkit-scrollbar {

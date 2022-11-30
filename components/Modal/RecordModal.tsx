@@ -26,6 +26,8 @@ const ModalBox = styled.div`
   height: 100%;
   z-index: 100;
   display:flex;
+  opacity:0;
+  animation: ${showFrame} 0.3s forwards;
 `;
 
 const Dim = styled.div`
@@ -47,6 +49,4 @@ const Modal = styled.div`
   margin: auto;
   overflow: hidden;
   background: ${({ theme }) => theme.color.white};
-  opacity:0;
-  animation: ${showFrame} 0.3s forwards;
 `;

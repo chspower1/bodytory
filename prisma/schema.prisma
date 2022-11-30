@@ -15,20 +15,19 @@ datasource db {
 }
 
 model User {
-  id             Int             @id @default(autoincrement())
-  createAt       DateTime        @default(now())
-  email          String
-  gender         Gender
-  name           String
-  password       String
-  phone          String?
-  updateAt       DateTime        @updatedAt
-  type           UserType        @default(origin)
-  birth          String          @default("1993-10-23")
-  accountId      String          @unique
-  certifications Certification[]
-  records        Record[]
-  hsospitals     Hospital[]
+  id            Int             @id @default(autoincrement())
+  createAt      DateTime        @default(now())
+  email         String
+  gender        Gender
+  name          String
+  password      String
+  phone         String?
+  updateAt      DateTime        @updatedAt
+  type          UserType        @default(origin)
+  birth         String          @default("1993-10-23")
+  accountId     String          @unique
+  certification Certification[]
+  records       Record[]
 }
 
 model Certification {
@@ -86,7 +85,6 @@ model Hospital {
   x                  Float?
   y                  Float?
   Record             Record[]
-  users              User[]
   medicalDepartments HospitalMedicalDepartmentConnector[]
 }
 
@@ -96,6 +94,24 @@ model HospitalMedicalDepartmentConnector {
   hospitalId          Int?
   medicalDepartment   MedicalDepartment? @relation(fields: [medicalDepartmentId], references: [id], onDelete: Cascade)
   hospital            Hospital?          @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
+}
+
+model HospitalToUser {
+  A Int
+  B Int
+
+  @@unique([A, B], map: "_HospitalToUser_AB_unique")
+  @@index([B], map: "_HospitalToUser_B_index")
+  @@map("_HospitalToUser")
+}
+
+model MedicalDepartmentToRecord {
+  A Int
+  B Int
+
+  @@unique([A, B], map: "_MedicalDepartmentToRecord_AB_unique")
+  @@index([B], map: "_MedicalDepartmentToRecord_B_index")
+  @@map("_MedicalDepartmentToRecord")
 }
 
 enum Gender {

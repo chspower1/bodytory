@@ -19,7 +19,7 @@ export default SpeakMotion
 
 const speakingMotion = keyframes`
   0%{transform : translate(-50%,-50%) scale(0.8);opacity: 1;}
-  100%{transform : translate(-50%,-50%) scale(2); opacity: 0;}
+  100%{transform : translate(-50%,-50%) scale(3); opacity: 0;}
 `
 
 
@@ -31,7 +31,7 @@ const MotionBox= styled.div<{right ?: boolean}>`
   top: 50%;
   transform: translateY(-50%) scale(0);
   opacity: 0;
-  transition: opacity .6s, transform 1.8s, right 1.8s, left 1.8s;
+  transition: opacity .6s, transform 1.5s, right 1.5s, left 1.5s;
   &.active{
     ${({right}) => right ? `right: -300px` : `left: -300px`};
     transform: translateY(-50%) scale(1);
@@ -58,20 +58,20 @@ const MotionBox= styled.div<{right ?: boolean}>`
     &:nth-child(2){
       
       background: rgba(83, 89, 233, 0.1);
-      animation-delay: .2s;
+      animation-delay: .8s;
     }
     &:nth-child(3){
       
       background:  rgba(83, 89, 233, 0.1);
-      animation-delay: .6s;
+      animation-delay: 1.6s;
     }
     &:nth-child(4){
       background: rgba(83, 89, 233, 0.1);
-      animation-delay: 1s;
+      animation-delay: 2.4s;
     }
     &:nth-child(5){
       background:  rgba(83, 89, 233, 0.1);
-      animation-delay: 1.4s;
+      animation-delay: 3.2s;
     }
     
   }

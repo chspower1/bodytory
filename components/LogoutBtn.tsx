@@ -26,7 +26,7 @@ const LogoutBtn = () => {
         },
       });
       setCurrentUser(null);
-      LogoutApi({});
+      await LogoutApi({});
       router.push("/auth/login");      
     }catch(err){
       console.log("logout Err");

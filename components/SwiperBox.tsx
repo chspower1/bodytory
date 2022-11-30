@@ -1,24 +1,28 @@
 import React, { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import styled from "styled-components";
-
-import "swiper/css";
-import "swiper/css/pagination";
-import { Pagination } from "swiper";
+import { Pagination, Scrollbar } from "swiper";
 import { RectangleButton } from "./button/Button";
 import ClinicModal from "./Modal/ClinicModal";
 
+
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
+
 const SwiperBox = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  
   return (
     <SwiperWrap
       grabCursor={true}
       slidesPerView={"auto"}
       centeredSlides={true}
-      pagination={{
-        type: "progressbar",
+      scrollbar={{
+        hide: false,draggable: true
       }}
-      modules={[Pagination]}
+      
+      modules={[Pagination, Scrollbar]}
       className="mySwiper"
     >
       {[1, 2, 3, 4, 5, 6, 7, 8].map((ele, idx) => (
@@ -59,30 +63,28 @@ const SwiperBox = () => {
 
 export default SwiperBox;
 
-const Text = styled.div`
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  left: 0;
-  top: 0;
-  background: #000;
-`;
-
 const SwiperWrap = styled(Swiper)`
-  padding: 50px 0;
-  .swiper-pagination {
-    position: fixed;
+  padding: 30px 0 ;
+  .swiper-scrollbar {
     z-index: 10;
-    height: 15px;
+    height: 8px;
     top: auto;
-    bottom: 0px;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    background: rgba(49, 54, 167, 0.15);
+    .swiper-scrollbar-drag{
+      background: rgba(188, 197, 255, 1);
+    }
   }
 `;
 const SwiperSlideItem = styled(SwiperSlide)`
-  width: 600px;
+  width: 660px;
   height: 500px;
   opacity: 0.5;
   transition: opacity 0.6s;
+  margin: 0 50px;
   &.swiper-slide-active {
     opacity: 1;
     > div {
@@ -101,6 +103,7 @@ const SlideItemInnerBox = styled.div`
   flex-direction: column;
   box-shadow: 8px 8px 16px rgba(49, 54, 167, 0.15);
   overflow: hidden;
+  user-select:none;
 `;
 const ItemHeader = styled.div`
   display: flex;

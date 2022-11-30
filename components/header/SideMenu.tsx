@@ -25,11 +25,11 @@ const SideMenu = () => {
     },
     {
       subject: "기록 확인하기",
-      link: "/users/records/chart",
+      link: "/users/records",
     },
     {
       subject: "내 병원 관리하기",
-      link: "",
+      link: "/users/my-hospital",
     },
   ]);
   /* /auth/hospital */
@@ -69,8 +69,8 @@ const SideMenu = () => {
                   <ul>
                     {menuList.map(({ subject, link }) => (
                       <li key={subject}>
-                        {router.asPath === link && <i></i>}
                         <Link href={link}>{subject}</Link>
+                        {router.asPath === link && <i></i>}
                       </li>
                     ))}
                   </ul>
@@ -196,6 +196,7 @@ const Nav = styled.nav`
         background: url(${toriLink.src}) no-repeat center center;
         width: 50px;
         height: 50px;
+        margin-bottom: 10px;
       }
       & + li {
         margin-top: 50px;
