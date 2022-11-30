@@ -174,13 +174,15 @@ const Test = () => {
                               href={`https://map.kakao.com/link/to/${hospital.name},${hospital.y},${hospital.x}`}
                               target="_blank"
                             >
-                              <Image src={kakaomap} alt="kakao" />
+                              <Box>
+                                <Image src={kakaomap} alt="kakao" width={20} height={20} />
+                              </Box>
                             </Link>
                           </AdressBox>
 
                           <DepartmentBox>
                             <Image src={cross} alt="사진" />
-                            <BodyText>
+                            <BodyText title={`${hospital.medicalDepartments.map(i => i.medicalDepartment.department)}`}>
                               {/* {hospital.medicalDepartments?.map(({ medicalDepartment }, index) => (
                             <span key={index}>{medicalDepartment.department}</span>
                           ))} */}
@@ -190,7 +192,7 @@ const Test = () => {
                           <HomepageBox>
                             <Image src={web} alt="사진" />
                             {hospital.homepage ? (
-                              <Link href={hospital.homepage} target="_blank">
+                              <Link href={hospital.homepage} target="_blank" title={hospital.homepage}>
                                 {hospital.name} 홈페이지 바로가기
                               </Link>
                             ) : (
