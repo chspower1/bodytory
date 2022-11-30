@@ -15,20 +15,20 @@ datasource db {
 }
 
 model User {
-  id            Int             @id @default(autoincrement())
-  createAt      DateTime        @default(now())
-  email         String
-  gender        Gender
-  name          String
-  password      String
-  phone         String?
-  updateAt      DateTime        @updatedAt
-  type          UserType        @default(origin)
-  birth         String          @default("1993-10-23")
-  accountId     String          @unique
-  Certification Certification[]
-  records       Record[]
-  hospitals     Hospital[]
+  id             Int             @id @default(autoincrement())
+  createAt       DateTime        @default(now())
+  email          String
+  gender         Gender
+  name           String
+  password       String
+  phone          String?
+  updateAt       DateTime        @updatedAt
+  type           UserType        @default(origin)
+  birth          String          @default("1993-10-23")
+  accountId      String          @unique
+  certifications Certification[]
+  records        Record[]
+  hsospitals     Hospital[]
 }
 
 model Certification {
@@ -42,19 +42,18 @@ model Certification {
 }
 
 model Record {
-  id           Int                 @id @default(autoincrement())
-  createAt     DateTime            @default(now())
-  updateAt     DateTime            @updatedAt
+  id           Int           @id @default(autoincrement())
+  createAt     DateTime      @default(now())
+  updateAt     DateTime      @updatedAt
   type         RecordType
   position     Position
   description  String
   userId       Int
   diagnosis    String?
   prescription String?
-  user         User                @relation(fields: [userId], references: [id], onDelete: Cascade)
-  hospital     Hospital?           @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
   hospitalId   Int?
-  recommend    MedicalDepartment[]
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  hospital     Hospital?     @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
   images       RecordImage[]
 }
 
@@ -71,7 +70,6 @@ model MedicalDepartment {
   id         Int                                  @id
   department String
   hospitals  HospitalMedicalDepartmentConnector[]
-  Record     Record[]
 }
 
 model Hospital {
@@ -85,19 +83,19 @@ model Hospital {
   city               String
   class              String
   homepage           String?
-  user               User[]
+  x                  Float?
+  y                  Float?
   Record             Record[]
-  x                  Float?                               @db.Double
-  y                  Float?                               @db.Double
+  users              User[]
   medicalDepartments HospitalMedicalDepartmentConnector[]
 }
 
 model HospitalMedicalDepartmentConnector {
   id                  Int                @id @default(autoincrement())
-  medicalDepartment   MedicalDepartment? @relation(fields: [medicalDepartmentId], references: [id], onDelete: Cascade)
-  hospital            Hospital?          @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
   medicalDepartmentId Int?
   hospitalId          Int?
+  medicalDepartment   MedicalDepartment? @relation(fields: [medicalDepartmentId], references: [id], onDelete: Cascade)
+  hospital            Hospital?          @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
 }
 
 enum Gender {
