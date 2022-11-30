@@ -5,7 +5,7 @@ import departmentMatch from "./dd.json";
 // import fs from "fs";
 import { PrismaClient } from "@prisma/client";
 // import hospital from "@api/users/hospital";
-// import d from "../data/hospital/진료과목코드_수정02.json";
+import medicalDepartmentData from "../data/hospital/진료과목코드_수정02.json";
 const client = new PrismaClient();
 
 interface Department {
@@ -19,31 +19,31 @@ interface Match {
   departmentCodes: number[];
 }
 
-// async function ConnectHospitalToDepartment() {
-//   const matchDepartment: Match[] = asd.value;
-//   // const matchDepartment = fs.readFileSync("../data/new-hospital/code_final.json");
-//   // console.log(matchDepartment);
-//   console.log("dfdsfd");
-//   const ASDF = (a: Match[]) => {
-//     const arr: { hospitalId: number; medicalDepartmentId: number }[] = [];
-//     for (let i = 0; i < a.length; i++) {
-//       a[i].departmentCodes.forEach(j => {
-//         arr.push({ hospitalId: a[i].index, medicalDepartmentId: j });
-//       });
-//     }
-//     return arr;
-//   };
-//   ASDF(matchDepartment);
-//   await client.hospitalToMedicalDepartMentConnector.createMany({
-//     data: ASDF(matchDepartment),
-//   });
-// }
-// ConnectHospitalToDepartment();
+async function ConnectHospitalToDepartment() {
+  const matchDepartment: Match[] = departmentMatch.value;
+  // const matchDepartment = fs.readFileSync("../data/new-hospital/code_final.json");
+  // console.log(matchDepartment);
+  console.log("dfdsfd");
+  const ASDF = (a: Match[]) => {
+    const arr: { hospitalId: number; medicalDepartmentId: number }[] = [];
+    for (let i = 0; i < a.length; i++) {
+      a[i].departmentCodes.forEach(j => {
+        arr.push({ hospitalId: a[i].index, medicalDepartmentId: j });
+      });
+    }
+    return arr;
+  };
+  ASDF(matchDepartment);
+  await client.hospitalToMedicalDepartMentConnector.createMany({
+    data: ASDF(matchDepartment),
+  });
+}
+ConnectHospitalToDepartment();
 
 // 병원 데이터 지우기
 // async function Deletehospitals() {
 //   console.log("dddd");
-//   // await client.hospital.deleteMany({});
+//   await client.hospital.deleteMany({});
 // }
 // Deletehospitals();
 
@@ -91,8 +91,7 @@ interface Hospital {
   departmentCodes: string;
 }
 // async function CreateHospitals2() {
-//   const hospitals: Hospital[] = hospitalsSample.value.slice(0, 10);
-//   const department: Match[] = departmentMatch.value.slice(0, 10);
+//   const hospitals: Hospital[] = hospitalsSample.value.slice(60000);
 //   await client.hospital.createMany({
 //     data: hospitals.map((hospital, index) => ({
 //       address: hospital.address,
@@ -101,25 +100,22 @@ interface Hospital {
 //       class: hospital.class,
 //       name: hospital.name,
 //       homepage: hospital.homepage,
+//       x: hospital.coords.x,
+//       y: hospital.coords.y,
 //     })),
+//     skipDuplicates: true,
 //   });
 // }
 // CreateHospitals2();
-async function CreateHospitals2() {
-  const hospitals: Hospital[] = hospitalsSample.value.slice(0, 10);
-  const department: Match[] = departmentMatch.value.slice(0, 10);
-  await client.hospital.createMany({
-    data: [
-      {
-        address: "hospital",
-        area: "hospital",
-        city: "hospital",
-        class: "hospital",
-        name: "hospital",
-        homepage: "hospital",
-      },
-    ],
 
-    skipDuplicates: true,
-  });
-}
+// async function CreateMedicalDepartment() {
+//   const id = Object.keys(medicalDepartmentData);
+//   const value = Object.values(medicalDepartmentData);
+//   await client.medicalDepartment.createMany({
+//     data: id.map((id, index) => ({
+//       id: parseInt(id),
+//       department: value[index],
+//     })),
+//   });
+// }
+// CreateMedicalDepartment();
