@@ -35,18 +35,8 @@ export default function WritePositionPage() {
     SpeechRecognition.startListening({ language: "ko", continuous: true });
   };
 
-  const hadleClickCreateRecord = () => {
-    if (transcript !== "") {
-      setError(false);
-      SpeechRecognition.stopListening();
-      mutate({ type: "user", position, description: transcript });
-      router.replace("/users/records/write/analysis");
-    } else setError(true);
-  };
-
-  if (!browserSupportsSpeechRecognition) {
-    return <span>지원안됨</span>;
-  }
+const PositionPage = () => {
+  const { RecordBtn, audioBlobUrl, audioFile } = useAudio();
   return (
     <WhiteWrapper>
       <SpeakMotion listening={listening}/>
@@ -86,7 +76,6 @@ export default function WritePositionPage() {
       <SpeakMotion right listening={listening}/>
     </WhiteWrapper>
   );
-}
-const VoiceBox = styled(Col)`
-  gap: 60px;
-`;
+};
+
+export default PositionPage;

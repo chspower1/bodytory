@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es6",
     "lib": [
       "dom",
       "dom.iterable",
@@ -47,6 +47,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
+    "data/new-hospital/test.js",
   ],
   "exclude": [
     "node_modules"
