@@ -28,10 +28,21 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         name: true,
         x: true,
         y: true,
+        address: true,
+        homepage: true,
+        medicalDepartments: {
+          select: {
+            medicalDepartment: {
+              select: {
+                department: true,
+              },
+            },
+          },
+        },
       },
       take: 200,
     });
-    console.log(hospitals.length, x, y);
+    console.log(hospitals, hospitals.length, x, y);
     return res.status(200).json({ hospitals });
   }
 }
