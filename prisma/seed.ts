@@ -73,3 +73,18 @@ DeleteMedicalDepartment();
 //   console.log(result);
 // }
 // FindMedicalDepartMent();
+
+async function CreateHospitals2(){
+  await client.hospital.createMany({
+    data:[{
+      address:"",
+      city:"",
+      area:"",
+      class:"",
+      name:"",
+      hospitalToMedicalDepartMentConnectors:{
+        
+      }
+    }]
+  })
+}

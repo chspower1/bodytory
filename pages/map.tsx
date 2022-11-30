@@ -15,39 +15,35 @@ import { useMutation } from "@tanstack/react-query";
 const Test = () => {
   const { postApi } = customApi("/api/users/hospital");
   const { mutate } = useMutation([], postApi);
-  const handleClickAddHospital=()=>{
-    mutate()
-  }
+  const handleClickAddHospital = () => {};
   return (
     <Dim>
       <MapContainer>
         <ToryText>현재 소희님의 위치를 기준으로 주변 정형외과들을 찾았어요!</ToryText>
         <Map
           center={{
-            // 지도의 중심좌표
             lat: 33.450701,
             lng: 126.570667,
           }}
           style={{
-            // 지도의 크기
             width: "100%",
             height: "560px",
           }}
           level={3}
         >
-          <MapMarker // 마커를 생성합니다
+          <MapMarker
             position={{ lat: 33.450701, lng: 126.573667 }}
             image={{
               src: "https://imagedelivery.net/AbuMCvvnFZBtmCKKJV_e6Q/ba695e48-c89f-4e8d-febb-10018a877600/avatar", // 마커이미지의 주소입니다
               size: {
                 width: 45,
                 height: 45,
-              }, // 마커이미지의 크기입니다
+              },
               options: {
                 offset: {
                   x: 23,
                   y: 45,
-                }, // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+                },
               },
             }}
           />
