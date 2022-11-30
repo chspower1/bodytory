@@ -26,12 +26,10 @@ export default function ManageImage({ recordId, recordImage }: { recordId: strin
       <UploadImageButton onClick={() => uploadImage(recordId, uploadImageMutation.mutate)}>사진 추가</UploadImageButton>
       <ImageContainer>
         {recordImage.map((elem, key) => (
-          <>
-            <ImageBox key={key}>
-              <Image src={elem.url} alt="이미지" width={100} height={100} />
-              <DeleteButton onClick={() => deleteImageMutation.mutate(elem.id)}></DeleteButton>
-            </ImageBox>
-          </>
+          <ImageBox key={key}>
+            <Image src={elem.url} alt="이미지" width={100} height={100} />
+            <DeleteButton onClick={() => deleteImageMutation.mutate(elem.id)}></DeleteButton>
+          </ImageBox>
         ))}
       </ImageContainer>
     </div>
