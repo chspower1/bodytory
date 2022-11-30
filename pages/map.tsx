@@ -12,18 +12,46 @@ import triangle from "/public/static/icon/triangle.png";
 import marker from "/public/static/icon/map_marker.png";
 import customApi from "@utils/client/customApi";
 import { useMutation } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import { HospitalsForMap } from "@api/users/my-hospitals/map";
+import { AxiosError } from "axios";
+
+interface Coords {
+  lat: number;
+  lng: number;
+}
 const Test = () => {
-  const { postApi } = customApi("/api/users/hospital");
-  const { mutate } = useMutation([], postApi);
+  const { postApi, getApi } = customApi("/api/users/my-hospitals/map");
+  const { mutate, data: hospitals } = useMutation<HospitalsForMap[], AxiosError, { x: number; y: number }>(
+    [],
+    postApi,
+    {
+      onSuccess(data) {},
+    },
+  );
   const handleClickAddHospital = () => {};
-  return (
+  const [coords, setCoords] = useState<Coords>({
+    lat: 0,
+    lng: 0,
+  });
+  // console.log(geolocation.getCurrentPosition);
+  useEffect(() => {
+    const { geolocation } = navigator;
+    geolocation.getCurrentPosition(position => {
+      console.log("x", position.coords.latitude);
+      console.log("y", position.coords.longitude);
+      setCoords({ lat: position.coords.latitude, lng: position.coords.longitude });
+      mutate({ x: position.coords.latitude, y: position.coords.longitude });
+    });
+  }, []);
+  return hospitals ? (
     <Dim>
       <MapContainer>
         <ToryText>현재 소희님의 위치를 기준으로 주변 정형외과들을 찾았어요!</ToryText>
         <Map
           center={{
-            lat: 33.450701,
-            lng: 126.570667,
+            lat: coords.lat,
+            lng: coords.lng,
           }}
           style={{
             width: "100%",
@@ -31,22 +59,26 @@ const Test = () => {
           }}
           level={3}
         >
-          <MapMarker
-            position={{ lat: 33.450701, lng: 126.573667 }}
-            image={{
-              src: "https://imagedelivery.net/AbuMCvvnFZBtmCKKJV_e6Q/ba695e48-c89f-4e8d-febb-10018a877600/avatar", // 마커이미지의 주소입니다
-              size: {
-                width: 45,
-                height: 45,
-              },
-              options: {
-                offset: {
-                  x: 23,
-                  y: 45,
+          {hospitals?.map((hospital, index) => (
+            <MapMarker
+              key={index}
+              position={{ lat: hospital.x!, lng: hospital.y! }}
+              image={{
+                src: "https://imagedelivery.net/AbuMCvvnFZBtmCKKJV_e6Q/ba695e48-c89f-4e8d-febb-10018a877600/avatar", // 마커이미지의 주소입니다
+                size: {
+                  width: 45,
+                  height: 45,
                 },
-              },
-            }}
-          />
+                options: {
+                  offset: {
+                    x: 23,
+                    y: 45,
+                  },
+                },
+              }}
+            />
+          ))}
+
           <CustomOverlayMap
             position={{
               lat: 33.450701,
@@ -97,7 +129,7 @@ const Test = () => {
         </BtnBox>
       </MapContainer>
     </Dim>
-  );
+  ) : null;
 };
 export default Test;
 const InfoWindowBox = styled(Col)`
