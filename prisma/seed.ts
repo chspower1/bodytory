@@ -1,5 +1,5 @@
 import hospitalsSample from "../data/new-hospital/hospital_final.json";
-import departmentMatch from "./dd2.json";
+import departmentMatch from "./dd3.json";
 // import DepartmentsSample from "../data/new-hospital/code_final.json";
 // import type { Hospital, MedicalDepartment } from "prisma/prisma-client";
 // import fs from "fs";
@@ -34,42 +34,27 @@ interface Hospital {
   };
   departmentCodes: string;
 }
-// async function ConnectHospitalToDepartment() {
-//   const matchDepartment: Match[] = departmentMatch.value.slice(35000);
-//   // const matchDepartment = fs.readFileSync("../data/new-hospital/code_final.json");
-//   // console.log(matchDepartment);
-//   console.log("dfdsfd");
-//   const ASDF = (a: Match[]) => {
-//     const arr: { hospitalId: number; medicalDepartmentId: number }[] = [];
-//     for (let i = 0; i < a.length; i++) {
-//       a[i].departmentCodes.forEach(j => {
-//         arr.push({ hospitalId: a[i].index, medicalDepartmentId: j });
-//       });
-//     }
-//     return arr;
-//   };
-//   ASDF(matchDepartment);
-//   await client.hospitalMedicalDepartmentConnector.createMany({
-//     data: ASDF(matchDepartment),
-//   });
-// }
-// ConnectHospitalToDepartment();
-
-async function ConnectLastHospital() {
+async function ConnectHospitalToDepartment() {
+  const matchDepartment: Match[] = departmentMatch.value;
+  // const matchDepartment = fs.readFileSync("../data/new-hospital/code_final.json");
+  // console.log(matchDepartment);
+  console.log("dfdsfd");
+  const ASDF = (a: Match[]) => {
+    const arr: { hospitalId: number; medicalDepartmentId: number }[] = [];
+    for (let i = 0; i < a.length; i++) {
+      a[i].departmentCodes.forEach(j => {
+        arr.push({ hospitalId: a[i].index + 1, medicalDepartmentId: j });
+      });
+    }
+    return arr;
+  };
+  ASDF(matchDepartment);
   await client.hospitalMedicalDepartmentConnector.createMany({
-    data: [
-      {
-        hospitalId: 76032,
-        medicalDepartmentId: 80,
-      },
-      {
-        hospitalId: 76032,
-        medicalDepartmentId: 81,
-      },
-    ],
+    data: ASDF(matchDepartment),
   });
 }
-ConnectLastHospital();
+ConnectHospitalToDepartment();
+
 // 병원 데이터 지우기
 // async function Deletehospitals() {
 //   console.log("dddd");

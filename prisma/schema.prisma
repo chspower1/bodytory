@@ -93,11 +93,11 @@ model Hospital {
 }
 
 model HospitalMedicalDepartmentConnector {
-  id                  Int               @id @default(autoincrement())
-  medicalDepartment   MedicalDepartment @relation(fields: [medicalDepartmentId], references: [id], onDelete: Cascade)
-  hospital            Hospital          @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
-  medicalDepartmentId Int
-  hospitalId          Int
+  id                  Int                @id @default(autoincrement())
+  medicalDepartment   MedicalDepartment? @relation(fields: [medicalDepartmentId], references: [id], onDelete: Cascade)
+  hospital            Hospital?          @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
+  medicalDepartmentId Int?
+  hospitalId          Int?
 }
 
 enum Gender {
