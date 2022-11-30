@@ -9,6 +9,7 @@ export interface RadioProps {
   error?: FieldError | string;
   value?: string;
   checked?: boolean;
+  disabled?:boolean;
 }
 
 function RadioInput({ label, name, register, error, value }: RadioProps) {
