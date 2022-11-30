@@ -10,6 +10,7 @@ import { theme } from "@styles/theme";
 import { ThemeProvider } from "styled-components";
 import Header from "@components/header/Header";
 import { RecoilRoot } from "recoil";
+import "@public/static/fonts/pretendardvariable.css";
 
 const queryClient = new QueryClient({
   defaultOptions: {
