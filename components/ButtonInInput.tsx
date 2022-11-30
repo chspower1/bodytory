@@ -108,12 +108,6 @@ const InputBox = styled.div`
       width:190px;
       height: 50px;
       border-bottom: 2px solid #fff;
-      &:-webkit-autofill,
-      &:-webkit-autofill:hover,
-      &:-webkit-autofill:focus,
-      &:-webkit-autofill:active {
-        -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
-      }
       &:focus {
         border-bottom: 2px solid #fff;
       }
@@ -149,6 +143,6 @@ const Input = styled.input`
   &:-webkit-autofill:hover,
   &:-webkit-autofill:focus,
   &:-webkit-autofill:active {
-    -webkit-box-shadow: 0 0 0px 1000px ${({theme}) => theme.color.input} inset !important;
+    -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
   }
 `;
