@@ -10,7 +10,14 @@ import phone from "/public/static/icon/phone.svg";
 import cross from "/public/static/icon/cross.svg";
 import triangle from "/public/static/icon/triangle.png";
 import marker from "/public/static/icon/map_marker.png";
+import customApi from "@utils/client/customApi";
+import { useMutation } from "@tanstack/react-query";
 const Test = () => {
+  const { postApi } = customApi("/api/users/hospital");
+  const { mutate } = useMutation([], postApi);
+  const handleClickAddHospital=()=>{
+    mutate()
+  }
   return (
     <Dim>
       <MapContainer>
@@ -29,22 +36,22 @@ const Test = () => {
           level={3}
         >
           <MapMarker // 마커를 생성합니다
-            position={{ lat: 33.450701, lng: 126.570667 }}
+            position={{ lat: 33.450701, lng: 126.573667 }}
             image={{
-              src: "#", // 마커이미지의 주소입니다
+              src: "https://imagedelivery.net/AbuMCvvnFZBtmCKKJV_e6Q/ba695e48-c89f-4e8d-febb-10018a877600/avatar", // 마커이미지의 주소입니다
               size: {
-                width: 64,
-                height: 69,
+                width: 45,
+                height: 45,
               }, // 마커이미지의 크기입니다
               options: {
                 offset: {
-                  x: 27,
-                  y: 69,
+                  x: 23,
+                  y: 45,
                 }, // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
               },
             }}
           />
-          {/* <CustomOverlayMap
+          <CustomOverlayMap
             position={{
               lat: 33.450701,
               lng: 126.570667,
@@ -75,11 +82,22 @@ const Test = () => {
               </RoundButton>
               <Tail src={triangle} alt="사진" />
             </InfoWindowBox>
-          </CustomOverlayMap> */}
+          </CustomOverlayMap>
         </Map>
+
         <BtnBox width="460px">
-          <RoundButton>확인했어요!</RoundButton>
-          <RoundButton>다른 병원들도 찾아볼래요</RoundButton>
+          <RoundButton fontSize="16px" width="220px" height="40px">
+            확인했어요!
+          </RoundButton>
+          <RoundButton
+            fontSize="16px"
+            width="220px"
+            height="40px"
+            bgColor="rgb(198, 205, 250)"
+            textColor="rgb(93, 107, 178)"
+          >
+            다른 병원들도 찾아볼래요
+          </RoundButton>
         </BtnBox>
       </MapContainer>
     </Dim>
@@ -127,6 +145,7 @@ const MapContainer = styled(FlexContainer)`
   height: 760px;
   flex-direction: column;
   border-radius: 30px;
+  justify-content: space-evenly;
 `;
 const Tail = styled(Image)`
   position: absolute;
