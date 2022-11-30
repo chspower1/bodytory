@@ -12,15 +12,7 @@ const useAudio = () => {
   const [source, setSource] = useState<MediaStreamAudioSourceNode>();
   const [analyser, setAnalyser] = useState<ScriptProcessorNode>();
   const [audioUrl, setAudioUrl] = useState<Blob>();
-  const [audioBlobUrl, setAudioBlobUrl] = useState("");
   const [audioFile, setAudioFile] = useState<string>();
-  const [isRecording, setIsRecording] = useState(false);
-  const { postApi } = customApi("/api/users/records/voice");
-  const { mutate } = useMutation(["voice"], postApi, {
-    onSettled(data) {
-      console.log("Mutated : ", data);
-    },
-  });
 
   const onRecAudio = () => {
     // 음원정보를 담은 노드를 생성하거나 음원을 실행또는 디코딩 시키는 일을 한다
@@ -51,20 +43,14 @@ const useAudio = () => {
       setMedia(mediaRecorder);
       makeSound(stream);
       // 음성 녹음이 시작됐을 때 onRec state값을 false로 변경
-      analyser.onaudioprocess = function (e) {
-        setIsRecording(true);
-      };
     });
   };
 
   const offRecAudio = () => {
-    setIsRecording(false);
     if (media) {
       // dataavailable 이벤트로 Blob 데이터에 대한 응답을 받을 수 있음
       media.ondataavailable = function (e) {
         setAudioUrl(e.data);
-
-        setIsRecording(false);
       };
 
       // 모든 트랙에서 stop()을 호출해 오디오 스트림을 정지
@@ -112,6 +98,27 @@ const useAudio = () => {
     s.start();
 
     return await c.startRendering();
+  };
+
+  const PostAudio = async (buffer: ArrayBuffer) => {
+    const aa = await fetch("http://aiopen.etri.re.kr:8000/WiseASR/Recognition", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "8b10a352-acfc-483c-9816-52dbdc37181a",
+      },
+      body: JSON.stringify({
+        request_id: "chspower1@naver.com",
+        argument: {
+          language_code: "korean",
+          audio: bufferToBase64(buffer),
+        },
+      }),
+    })
+      .then(data => data.json())
+      .then(json => json.return_object)
+      .catch(err => console.log(err));
+    return aa;
   };
 
   function audioBufferToWav(aBuffer: AudioBuffer) {
@@ -164,18 +171,8 @@ const useAudio = () => {
   }
 
   const onSubmitAudioFile = useCallback(async () => {
-    // if (audioUrl) {
-    //   const audioBlobUrl = URL.createObjectURL(audioUrl);
-    //   setAudioBlobUrl(audioBlobUrl);
-    //   console.log(audioBlobUrl); // 출력된 링크에서 녹음된 오디오 확인 가능
-    // }
     const reader = new FileReader();
     const sound = new Blob([audioUrl as BlobPart], { type: "audio/mpeg3" });
-    // const audioBlobUrl = URL.createObjectURL(sound);
-    // setAudioBlobUrl(audioBlobUrl);
-
-    // console.log("리더기", reader.readAsArrayBuffer(sound));
-    // const aad = new Audio(sound.toString("base64"));
     reader.readAsArrayBuffer(sound);
 
     reader.onloadend = async () => {
@@ -185,56 +182,25 @@ const useAudio = () => {
       const resampled = await resample(bufferedSound, 16000);
       const reBlob = audioBufferToWav(resampled);
 
-      // const soundString = arrayBuffer!.toString(); // File 정보 출력
-      // console.log(soundString.slice(24));
-      console.log(reBlob);
-      // const newBase64 = arrayBuffer?.toString();
-      // console.log(newBase64?.slice(18));
+      const data = await PostAudio(reBlob);
 
-      const PostAudio = async () => {
-        const aa = await fetch("http://aiopen.etri.re.kr:8000/WiseASR/Recognition", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "8b10a352-acfc-483c-9816-52dbdc37181a",
-          },
-          body: JSON.stringify({
-            request_id: "chspower1@naver.com",
-            argument: {
-              language_code: "korean",
-              audio: bufferToBase64(reBlob),
-            },
-          }),
-        })
-          .then(data => data.json())
-          .catch(err => console.log(err));
-        console.log(aa);
-      };
-      PostAudio();
-      // mutate({ url: audioBlobUrl });
+      setAudioFile(data);
     };
   }, [audioUrl]);
 
   const { transcript, listening, resetTranscript, browserSupportsSpeechRecognition } = useSpeechRecognition();
 
-  const RecordBtn = () => {
-    return (
-      <div style={{ margin: "400px" }}>
-        {/* <button onClick={isRecording ? offRecAudio : onRecAudio}>녹음</button>
-        <div>{isRecording ? "녹음중" : "대기"}</div>
-        <button onClick={onSubmitAudioFile}>결과 확인</button>
-        <audio controls src={audioBlobUrl} /> */}
+  const startRecord = useCallback(() => {
+    onRecAudio();
+    SpeechRecognition.startListening({ continuous: true, language: "ko" });
+  }, []);
 
-        <p>Microphone: {listening ? "on" : "off"}</p>
-        <button onClick={() => (listening ? SpeechRecognition.stopListening() : SpeechRecognition.startListening())}>
-          {listening ? "End" : "Start"}
-        </button>
-        <button onClick={() => resetTranscript()}>Reset</button>
-        <p>{transcript}</p>
-      </div>
-    );
-  };
-  return { RecordBtn, audioFile, audioBlobUrl };
+  const endRecord = useCallback(() => {
+    offRecAudio();
+    SpeechRecognition.startListening();
+  }, []);
+
+  return { startRecord, endRecord, transcript, audioFile, listening };
 };
 
 export default useAudio;
