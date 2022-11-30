@@ -2,9 +2,9 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import client from "utils/server/client";
 import withHandler from "@utils/server/withHandler";
 import { withApiSession } from "@utils/server/withSession";
-import smtpTransport from "@utils/server/email";
 import { HelpForm } from "pages/auth/help/find-pw";
 import { getPayload } from "@utils/client/payload";
+import sendMail from "@utils/server/sendMail";
 
 const checkId = async (accountId: string) => {
   const foundUser = await client.user.findFirst({
@@ -38,7 +38,7 @@ const createToken = async (accountId: string) => {
     },
   });
   console.log(payload);
-  // sendMail(foundUser.email, payload);
+  sendMail(foundUser.email, payload, "비밀번호 찾기");
 
   return { email: foundUser.email };
 };
@@ -54,25 +54,6 @@ const checkToken = async (accountId: string, token: string) => {
   });
 
   if (findToken.count <= 0) throw new Error("인증번호를 확인해주세요");
-};
-
-const sendMail = (email: string, payload: string) => {
-  const mailOptions = {
-    from: process.env.MAIL_ID,
-    to: email,
-    subject: "비밀번호 찾기",
-    text: `인증코드 : ${payload}`,
-  };
-  smtpTransport.sendMail(mailOptions, (error, responses) => {
-    if (error) {
-      console.log(error);
-      return null;
-    } else {
-      console.log(responses);
-      return null;
-    }
-  });
-  smtpTransport.close();
 };
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {

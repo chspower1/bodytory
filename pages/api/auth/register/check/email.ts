@@ -1,11 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import client from "utils/server/client";
-import withHandler, { ResponseType } from "@utils/server/withHandler";
+import withHandler from "@utils/server/withHandler";
 import { withApiSession } from "@utils/server/withSession";
-import smtpTransport from "@utils/server/email";
 import { HelpForm } from "pages/auth/help/find-pw";
 import { UserType } from "@prisma/client";
 import { getPayload } from "@utils/client/payload";
+import sendMail from "@utils/server/sendMail";
 
 const createToken = async (email: string) => {
   const payload = getPayload();
@@ -20,7 +20,7 @@ const createToken = async (email: string) => {
       email,
     },
   });
-  // sendMail(email, payload);
+  sendMail(email, payload, "이메일 인증");
   console.log(payload);
 };
 
@@ -46,25 +46,6 @@ const checkToken = async (email: string, token: string) => {
   });
 
   if (deleteToken.count <= 0) throw new Error("인증번호를 확인해주세요");
-};
-
-const sendMail = (email: string, payload: string) => {
-  const mailOptions = {
-    from: process.env.MAIL_ID,
-    to: email,
-    subject: "이메일 인증",
-    text: `인증코드 : ${payload}`,
-  };
-  smtpTransport.sendMail(mailOptions, (error, responses) => {
-    if (error) {
-      console.log(error);
-      return null;
-    } else {
-      console.log(responses);
-      return null;
-    }
-  });
-  smtpTransport.close();
 };
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {

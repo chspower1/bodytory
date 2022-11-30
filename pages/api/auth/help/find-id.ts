@@ -2,9 +2,9 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import client from "utils/server/client";
 import withHandler from "@utils/server/withHandler";
 import { withApiSession } from "@utils/server/withSession";
-import smtpTransport from "@utils/server/email";
 import { HelpForm } from "pages/auth/help/find-pw";
 import { getPayload } from "@utils/client/payload";
+import sendMail from "@utils/server/sendMail";
 
 const haveUser = async (email: string) => {
   const user = await client.user.findFirst({
@@ -38,27 +38,27 @@ const createToken = async (email: string) => {
     },
   });
   console.log(payload);
-  // sendMail(email, payload);
+  sendMail(email, payload, "아이디 찾기");
 };
 
-const sendMail = (email: string, payload: string) => {
-  const mailOptions = {
-    from: process.env.MAIL_ID,
-    to: email,
-    subject: "아이디 찾기",
-    text: `인증코드 : ${payload}`,
-  };
-  smtpTransport.sendMail(mailOptions, (error, responses) => {
-    if (error) {
-      console.log(error);
-      return null;
-    } else {
-      console.log(responses);
-      return null;
-    }
-  });
-  smtpTransport.close();
-};
+// const sendMail = (email: string, payload: string) => {
+//   const mailOptions = {
+//     from: process.env.MAIL_ID,
+//     to: email,
+//     subject: "아이디 찾기",
+//     text: `인증코드 : ${payload}`,
+//   };
+//   smtpTransport.sendMail(mailOptions, (error, responses) => {
+//     if (error) {
+//       console.log(error);
+//       return null;
+//     } else {
+//       console.log(responses);
+//       return null;
+//     }
+//   });
+//   smtpTransport.close();
+// };
 
 const deleteToken = async (email: string, token: string) => {
   const findToken = await client.certification.deleteMany({
