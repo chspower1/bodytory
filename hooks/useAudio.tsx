@@ -3,6 +3,7 @@ import { useCallback, useState } from "react";
 import customApi from "@utils/client/customApi";
 import { useMutation } from "@tanstack/react-query";
 import { json } from "stream/consumers";
+import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
 
 const useAudio = () => {
   const [stream, setStream] = useState<MediaStream>();
@@ -90,29 +91,53 @@ const useAudio = () => {
     return window.btoa(binary);
   };
 
+  const resample = async (input_buffer: any, target_rate: any) => {
+    const len = input_buffer.length;
+    const src_rate = input_buffer.sampleRate;
+    // New sampleRate requires adjusted buffer length to retain duration
+    const target_len = len * (target_rate / src_rate);
+
+    // Until better support for `AudioContext({sampleRate}),
+    // use `OfflineAudioContext` which supports setting the sampleRate
+    const c = new OfflineAudioContext(1, target_len, target_rate);
+
+    // Copy the`AudioContext` buffer so `OfflineAudioContext` can use it
+    const b = c.createBuffer(1, len, src_rate);
+    b.copyToChannel(input_buffer.getChannelData(0), 0);
+
+    // Setup the audio graph to render (input buffer resampled into output buffer)
+    const s = c.createBufferSource();
+    s.buffer = b;
+    s.connect(c.destination);
+    s.start();
+
+    return await c.startRendering();
+  };
+
   const onSubmitAudioFile = useCallback(async () => {
-    if (audioUrl) {
-      const audioBlobUrl = URL.createObjectURL(audioUrl);
-      setAudioBlobUrl(audioBlobUrl);
-      console.log(audioBlobUrl); // 출력된 링크에서 녹음된 오디오 확인 가능
-    }
+    // if (audioUrl) {
+    //   const audioBlobUrl = URL.createObjectURL(audioUrl);
+    //   setAudioBlobUrl(audioBlobUrl);
+    //   console.log(audioBlobUrl); // 출력된 링크에서 녹음된 오디오 확인 가능
+    // }
     const reader = new FileReader();
     const sound = new Blob([audioUrl as BlobPart], { type: "audio/mpeg3" });
-    const audioBlobUrl = URL.createObjectURL(sound);
-    setAudioBlobUrl(audioBlobUrl);
+    // const audioBlobUrl = URL.createObjectURL(sound);
+    // setAudioBlobUrl(audioBlobUrl);
 
     // console.log("리더기", reader.readAsArrayBuffer(sound));
     // const aad = new Audio(sound.toString("base64"));
-    reader.readAsDataURL(sound);
+    reader.readAsArrayBuffer(sound);
 
     reader.onloadend = async () => {
-      // const audioContext = new AudioContext();
+      const audioContext = new AudioContext();
       const arrayBuffer = reader.result;
-      // const bufferedSound = await audioContext.decodeAudioData(arrayBuffer as ArrayBuffer);
+      const bufferedSound = await audioContext.decodeAudioData(arrayBuffer as ArrayBuffer);
+      const resampled = await resample(bufferedSound, 16000);
 
-      const soundString = arrayBuffer!.toString(); // File 정보 출력
-      console.log(soundString.slice(24));
-      // console.log(bufferedSound);
+      // const soundString = arrayBuffer!.toString(); // File 정보 출력
+      // console.log(soundString.slice(24));
+      console.log(resampled);
 
       // const newBase64 = arrayBuffer?.toString();
       // console.log(newBase64?.slice(18));
@@ -128,7 +153,7 @@ const useAudio = () => {
             request_id: "chspower1@naver.com",
             argument: {
               language_code: "korean",
-              audio: soundString.slice(24),
+              audio: bufferedSound,
             },
           }),
         })
@@ -141,6 +166,8 @@ const useAudio = () => {
     };
   }, [audioUrl]);
 
+  const { transcript, listening, resetTranscript, browserSupportsSpeechRecognition } = useSpeechRecognition();
+
   const RecordBtn = () => {
     return (
       <div style={{ margin: "400px" }}>
@@ -148,6 +175,12 @@ const useAudio = () => {
         <div>{isRecording ? "녹음중" : "대기"}</div>
         <button onClick={onSubmitAudioFile}>결과 확인</button>
         <audio controls src={audioBlobUrl} />
+        {/* <p>Microphone: {listening ? "on" : "off"}</p>
+        <button onClick={() => (listening ? SpeechRecognition.stopListening() : SpeechRecognition.startListening())}>
+          {listening ? "End" : "Start"}
+        </button>
+        <button onClick={() => resetTranscript()}>Reset</button>
+        <p>{transcript}</p> */}
       </div>
     );
   };
