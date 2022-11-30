@@ -1,4 +1,4 @@
-import { RoundButton } from "@components/button/Button";
+import { CircleButton, RoundButton } from "@components/button/Button";
 import { Dim } from "@components/Modal/Modal";
 import { BodyText, Box, BtnBox, Col, FlexContainer, Row, ToryText, WhiteBoldText, WhiteText } from "@styles/Common";
 import Image from "next/image";
@@ -9,6 +9,7 @@ import pointer from "/public/static/icon/pointer.svg";
 import web from "/public/static/icon/web.svg";
 import cross from "/public/static/icon/cross.svg";
 import triangle from "/public/static/icon/triangle.png";
+import x from "/public/static/icon/x.png";
 import marker from "/public/static/icon/map_marker.png";
 import customApi from "@utils/client/customApi";
 import { useMutation } from "@tanstack/react-query";
@@ -16,6 +17,7 @@ import { useEffect, useState } from "react";
 import { HospitalsForMap } from "@api/users/my-hospitals/map";
 import { AxiosError } from "axios";
 import Link from "next/link";
+import { theme } from "@styles/theme";
 
 interface Coords {
   lat: number;
@@ -53,8 +55,12 @@ const Test = () => {
     },
   );
   const handleClickMarker = ({ index, x, y }: { index: number; x: number; y: number }) => {
+    setHoverIndex(-1);
     setClickIndex(index);
     setCoords({ lat: y + 0.001, lng: x });
+  };
+  const handleMouseOutMarker = () => {
+    setHoverIndex(-1);
   };
   const handleClickAddHospital = () => {};
 
@@ -103,7 +109,7 @@ const Test = () => {
                   },
                 }}
                 onMouseOver={() => setHoverIndex(index)}
-                onMouseOut={() => setHoverIndex(-1)}
+                onMouseOut={handleMouseOutMarker}
                 onClick={() => handleClickMarker({ index, x: hospital.x, y: hospital.y })}
               />
               {hoverIndex === index && (
@@ -122,11 +128,21 @@ const Test = () => {
                     <TopArea>
                       <Image src={kakaomap} alt="사진" />
                       <Name fontSize="20px">{hospital.name}</Name>
+                      <Box style={{ position: "absolute", right: "20px" }}>
+                        <CircleButton
+                          width="30px"
+                          height="30px"
+                          bgColor={theme.color.error}
+                          onClick={() => setClickIndex(-1)}
+                        >
+                          <Image src={x} alt="x" style={{ placeSelf: "center" }} />
+                        </CircleButton>
+                      </Box>
                     </TopArea>
                     <ContentBox>
                       <AdressBox>
                         <Image src={pointer} alt="사진" />
-                        <BodyText>{hospital.address}</BodyText>
+                        <AddressText title={hospital.address}>{hospital.address}</AddressText>
                         <Image src={kakaomap} alt="kakao" />
                       </AdressBox>
 
@@ -142,9 +158,11 @@ const Test = () => {
                       <HomepageBox>
                         <Image src={web} alt="사진" />
                         {hospital.homepage ? (
-                          <Link href={hospital.homepage}>{hospital.name} 홈페이지 바로가기</Link>
+                          <Link href={hospital.homepage} target="_blank">
+                            {hospital.name} 홈페이지 바로가기
+                          </Link>
                         ) : (
-                          <BodyText>{hospital.homepage ? hospital.homepage : "홈페이지 없습니다."}</BodyText>
+                          <BodyText>홈페이지가 없습니다.</BodyText>
                         )}
                         {/*  */}
                       </HomepageBox>
@@ -171,6 +189,8 @@ const Test = () => {
             확인했어요!
           </RoundButton>
           <RoundButton
+            padding="0px 10px"
+            size="custom"
             fontSize="16px"
             width="220px"
             height="40px"
@@ -199,13 +219,14 @@ const InfoWindowBox = styled(Col)`
   transform: translateY(-170px);
 `;
 const HoverBox = styled(Box)`
-  border: 2px ${props => props.theme.color.darkBg} solid;
+  border: 3px ${props => props.theme.color.weekPurple} solid;
   border-radius: 5px;
   background-color: white;
   padding: 5px 10px;
   transform: translateY(-60%);
 `;
 const TopArea = styled(Row)`
+  position: relative;
   border-radius: 20px 20px 0px 0px;
   background-color: #363cbf;
   width: 100%;
@@ -230,7 +251,17 @@ const AdressBox = styled(Box)`
   justify-content: flex-start;
   width: 100%;
 `;
-const HomepageBox = styled(AdressBox)``;
+const AddressText = styled(BodyText)`
+  max-width: 80%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+const HomepageBox = styled(AdressBox)`
+  transition: color 0.3s ease;
+  &:hover {
+    color: ${({ theme }) => theme.color.darkBg};
+  }
+`;
 const DepartmentBox = styled(AdressBox)``;
 const MapContainer = styled(FlexContainer)`
   background-color: white;
