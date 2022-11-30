@@ -29,8 +29,8 @@ const LogoutBtn = () => {
         },
       });
       setCurrentUser(null);
+      queryClient.removeQueries({ queryKey: USER_LOGIN, exact: true });
       await LogoutApi({});
-      queryClient.removeQueries(USER_LOGIN);
       router.push("/auth/login");
     } catch (err) {
       console.log("logout Err");

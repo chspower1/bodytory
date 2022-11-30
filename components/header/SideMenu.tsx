@@ -72,7 +72,7 @@ const SideMenu = () => {
                 <Nav>
                   <ul>
                     {menuList.map(({ subject, link }) => (
-                      <li key={subject}>
+                      <li key={subject} onClick={handleClickCloseMenu}>
                         <Link href={link}>{subject}</Link>
                         {router.asPath === link && <i></i>}
                       </li>
