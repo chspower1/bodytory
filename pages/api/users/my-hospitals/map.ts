@@ -15,12 +15,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     const hospitals: HospitalsForMap[] = await client.hospital.findMany({
       where: {
         x: {
-          lt: x + 0.000001,
-          gt: x - 0.000001,
+          gte: x - 0.005,
+          lte: x + 0.005,
         },
+
         y: {
-          lt: y + 0.000001,
-          gt: y - 0.000001,
+          gte: y - 0.005,
+          lte: y + 0.005,
         },
       },
       select: {
@@ -28,9 +29,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         x: true,
         y: true,
       },
-      take:
+      take: 200,
     });
-    console.log(hospitals, x, y);
+    console.log(hospitals.length, x, y);
     return res.status(200).json({ hospitals });
   }
 }

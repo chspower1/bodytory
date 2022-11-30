@@ -86,7 +86,9 @@ const Test = () => {
                 onMouseOut={() => setTargetIndex(-1)}
               />
               {targetIndex === index && (
-                <CustomOverlayMap position={{ lat: hospital.y!, lng: hospital.x! }}>{hospital.name}</CustomOverlayMap>
+                <CustomOverlayMap position={{ lat: hospital.y!, lng: hospital.x! }}>
+                  <HoverBox>{hospital.name}</HoverBox>
+                </CustomOverlayMap>
               )}
             </div>
           ))}
@@ -154,6 +156,11 @@ const InfoWindowBox = styled(Col)`
   position: relative;
   box-shadow: ${props => props.theme.boxShadow.normal};
   padding-bottom: 10px;
+`;
+const HoverBox = styled(Box)`
+  border: 2px ${props => props.theme.color.darkBg} solid;
+  border-radius: 5px;
+  background-color: white;
 `;
 const TopArea = styled(Row)`
   border-radius: 20px 20px 0px 0px;
