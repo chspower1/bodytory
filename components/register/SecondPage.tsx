@@ -174,7 +174,9 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                   <RoundButton
                     nonSubmit
                     size="sm"
-                    bgColor={errors.accountId?.message?.includes("다른아이디") ? theme.color.error : theme.color.mintBtn}
+                    bgColor={
+                      errors.accountId?.message?.includes("다른아이디") ? theme.color.error : theme.color.mintBtn
+                    }
                     disable={Boolean(!currentComment.includes("중복확인"))}
                     onClick={handleClickCheckAccountId}
                   >
@@ -196,7 +198,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                         "비밀번호는 6자리 이상\n영문 대소문자, 숫자를 조합해서 입력해주세요",
                     },
                     onChange() {
-                      if (watch("password").length < 6 ) {
+                      if (watch("password").length < 6) {
                         setValue("passwordConfirm", "");
                         setCurrentInputIdx(2);
                       } else {
@@ -242,7 +244,10 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
             >
               이전 단계
             </CircleButton>
-            <CircleButton bgColor={theme.color.mintBtn} disable={/* !checkEmptyObj(error) */(currentInputIdx !== 4) || Boolean(isErrorsMessage)}>
+            <CircleButton
+              bgColor={theme.color.mintBtn}
+              disable={/* !checkEmptyObj(error) */ currentInputIdx !== 4 || Boolean(isErrorsMessage)}
+            >
               다음 단계
             </CircleButton>
           </PrevNextButtonBox>
@@ -254,7 +259,6 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
 
 export default SecondPage;
 
-
 const ButtonBox = styled(Row)`
   margin-top: 80px;
-`
+`;

@@ -13,13 +13,12 @@ import { RegisterForm } from "pages/auth/register";
 
 const Header = () => {
   const router = useRouter();
-  const [ isLogin, setIsLogin ] = useState<boolean>();
+  const [isLogin, setIsLogin] = useState<boolean>();
   const currentUser = useRecoilValue(loggedInUser);
-  
-  
-  useEffect(()=>{
-    currentUser === null ? setIsLogin(true) : setIsLogin(false)
-  },[currentUser])
+
+  useEffect(() => {
+    currentUser === null ? setIsLogin(true) : setIsLogin(false);
+  }, [currentUser]);
   return (
     <>
       {isLogin ? (
@@ -43,7 +42,7 @@ const Header = () => {
                 </li>
               </HeaderUl>
               <HeaderLogoBox>
-                <Link href="" title="바디토리">
+                <Link href="/auth/login" title="바디토리">
                   <span>바디토리</span>
                 </Link>
               </HeaderLogoBox>

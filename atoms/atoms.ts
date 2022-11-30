@@ -6,7 +6,7 @@ import { recoilPersist } from "recoil-persist";
 const { persistAtom } = recoilPersist();
 
 export const loggedInUser = atom<User | RegisterForm | null>({
-  key: "loggedInUserKey",
+  key: Math.floor(10000 + Math.random() * 1000000) + "",
   default: null,
   effects_UNSTABLE: [persistAtom],
 });
