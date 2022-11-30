@@ -14,6 +14,7 @@ import { RegisterForm } from "pages/auth/register";
 const Header = () => {
   const router = useRouter();
   const [isLogin, setIsLogin] = useState<boolean>();
+  const user = useUser();
   const currentUser = useRecoilValue(loggedInUser);
 
   useEffect(() => {
@@ -27,7 +28,7 @@ const Header = () => {
             <HeaderInnerBox>
               <HeaderUl>
                 <li>
-                  <Link href="">서비스 소개</Link>
+                  <Link href="/">서비스 소개</Link>
                 </li>
                 <li>
                   {router.asPath.includes("login") ? (

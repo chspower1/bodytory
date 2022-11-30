@@ -57,12 +57,15 @@ const SideMenu = () => {
           <SideMenuBox>
             <InnerBox>
               <ContentsBox>
-                <LogoBox>
-                  <div className="logoBg"></div>
-                </LogoBox>
+                <Link href="/">
+                  <LogoBox>
+                    <div className="logoBg"></div>
+                  </LogoBox>
+                </Link>
                 <div className="goEdit">
                   <Link href="/users/profile/edit">
-                    <i></i>계정 설정
+                    <i />
+                    계정 설정
                   </Link>
                 </div>
                 <Nav>
