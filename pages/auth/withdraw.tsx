@@ -81,22 +81,22 @@ export default function Withdraw() {
           isErrorsMessage={isErrorsMessage}
           currentComment={`${isOrigin ? `비밀번호를 입력하고 확인을` : `탈퇴하기를`} 누르시면\n회원탈퇴가 진행 됩니다`}
         ></MessageBox>
-        {/* {isOrigin && (
-            )} */}
-        <Input
-          light
-          type="password"
-          register={register("password", {
-            required: "회원탈퇴를 하시려면\n비밀번호로 인증 해주셔야해요",
-            validate: {
-              regexPassword: value =>
-                PASSWORD_REGEX.test(value) ||
-                "비밀번호는 6자리 이상\n영문 대소문자, 숫자를 조합해서 입력해주세요",
-            },
-          })}
-          placeholder="●●●●●●"
-          error={errors.password}
-        />
+        {isOrigin && (
+            <Input
+              light
+              type="password"
+              register={register("password", {
+                required: "회원탈퇴를 하시려면\n비밀번호로 인증 해주셔야해요",
+                validate: {
+                  regexPassword: value =>
+                    PASSWORD_REGEX.test(value) ||
+                    "비밀번호는 6자리 이상\n영문 대소문자, 숫자를 조합해서 입력해주세요",
+                },
+              })}
+              placeholder="●●●●●●"
+              error={errors.password}
+            />
+            )}
         <ButtonBox>
           <RectangleButton>탈퇴하기</RectangleButton>
         </ButtonBox>
