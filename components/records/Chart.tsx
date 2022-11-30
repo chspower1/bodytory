@@ -14,28 +14,36 @@ function Chart() {
 
   return (
     <ChartWrap>
-      <ChartContainer>
-        <TitleBox>
-          <Title>
-            <strong>{KoreanPosition[selectedPart!]}</strong> 건강기록
-          </Title>
-          <Link href={`/users/records/write/${selectedPart}`}>
-            <RoundButton size="md" bgColor="rgb(244,245,255)" textColor="rgb(83,89,233)">기록 추가하기</RoundButton>
-          </Link>
-        </TitleBox>
-        <ToryRecommendPart />
-        <ChartKeyword />
-        <ChartTimeline />
-      </ChartContainer>
+      <ScrollContainer>
+        <ChartContainer>
+          <TitleBox>
+            <Title>
+              <strong>{KoreanPosition[selectedPart!]}</strong> 건강기록
+            </Title>
+            <Link href={`/users/records/write/${selectedPart}`}>
+              <RoundButton size="md" bgColor="rgb(244,245,255)" textColor="rgb(83,89,233)">기록 추가하기</RoundButton>
+            </Link>
+          </TitleBox>
+          <ToryRecommendPart />
+          <ChartKeyword />
+          <ChartTimeline />
+        </ChartContainer>
+      </ScrollContainer>
     </ChartWrap>
   )
 }
 
 
 const ChartWrap = styled.div`
+  position: relative;
   width: 62.5%;
   height: 100%;
   background: ${({ theme }) => theme.color.darkBg};
+`;
+
+const ScrollContainer = styled.div`
+  width: 100%;
+  height: 100%;
   overflow-y: scroll;
 
   &::-webkit-scrollbar {
