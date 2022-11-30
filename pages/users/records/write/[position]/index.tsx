@@ -14,6 +14,7 @@ import { useMutation } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
 import { CreateBtnBox, PositionBoxText, TextBox, ToryBox } from "@components/record/SiteChecker";
 import ToryIcon from "@components/ToryIcon";
+import SpeakMotion from "@components/SpeakMotion";
 export default function WritePositionPage() {
   const router = useRouter();
   const { postApi } = customApi("/api/users/records");
@@ -48,6 +49,7 @@ export default function WritePositionPage() {
   }
   return (
     <WhiteWrapper>
+      <SpeakMotion listening={listening}/>
       <FlexContainer>
         <Col height="100vh">
           <Box height="20%">
@@ -81,6 +83,7 @@ export default function WritePositionPage() {
           </VoiceBox>
         </Col>
       </FlexContainer>
+      <SpeakMotion right listening={listening}/>
     </WhiteWrapper>
   );
 }

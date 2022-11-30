@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const Wrapper = styled.div<{ bgColor?: string }>`
+  position:relative;
   height: 100vh;
   width: 100%;
   overflow: hidden;
@@ -29,11 +30,12 @@ export const InnerContainer = styled.div`
   padding-top: 70px;
 `;
 
-export const Box = styled.div<{ height?: string }>`
+export const Box = styled.div<{ height?: string; width?: string }>`
   display: flex;
   justify-content: center;
   align-items: center;
   height: ${props => (props.height ? props.height : "auto")};
+  width: ${props => (props.width ? props.width : "auto")};
 `;
 
 export const Row = styled(Box)``;
@@ -49,6 +51,9 @@ export const BtnBox = styled(Row)<{ width?: string }>`
 export const WhiteText = styled.span<{ fontSize?: string }>`
   color: white;
   font-size: ${({ fontSize }) => fontSize || "18px"};
+  strong {
+    font-weight: 700;
+  }
 `;
 export const BodyText = styled(WhiteText)`
   color: ${({ theme }) => theme.color.text};
@@ -62,10 +67,8 @@ export const ToryText = styled(WhiteText)<{ color?: string }>`
     font-weight: 700;
   }
 `;
-export const BlackToryText = styled.div`
-  /* color: ${({ theme }) => theme.color.text}; */
-  font-size: 36px;
-  width: auto;
+export const BlackToryText = styled(ToryText)`
+  color: ${({ theme }) => theme.color.text};
 `;
 
 export const ToryText26 = styled(ToryText)`

@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 import IconHospital from "@public/icon_hospital.png"
 import IconWarning from "@public/icon_warning.png"
 import { useState } from "react";
-import Modal from "@components/Modal";
+import Modal from "@components/Modal/Modal";
 
 
 function ToryRecommend() {
