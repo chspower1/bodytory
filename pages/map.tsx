@@ -6,7 +6,7 @@ import { CustomOverlayMap, Map, MapInfoWindow, MapMarker } from "react-kakao-map
 import styled from "styled-components";
 import kakaomap from "/public/static/icon/kakao_map.svg";
 import pointer from "/public/static/icon/pointer.svg";
-import phone from "/public/static/icon/phone.svg";
+import web from "/public/static/icon/web.svg";
 import cross from "/public/static/icon/cross.svg";
 import triangle from "/public/static/icon/triangle.png";
 import marker from "/public/static/icon/map_marker.png";
@@ -15,6 +15,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { HospitalsForMap } from "@api/users/my-hospitals/map";
 import { AxiosError } from "axios";
+import Link from "next/link";
 
 interface Coords {
   lat: number;
@@ -25,7 +26,7 @@ interface Hospital {
   x: number;
   y: number;
   address: string;
-  hompage: string | null;
+  homepage: string | null;
   medicalDepartments: medicalDepartment[];
 }
 interface medicalDepartment {
@@ -37,6 +38,10 @@ interface AroundHospitalsResponse {
 const Test = () => {
   const [hoverIndex, setHoverIndex] = useState(-1);
   const [clickIndex, setClickIndex] = useState(-1);
+  const [coords, setCoords] = useState<Coords>({
+    lat: 0,
+    lng: 0,
+  });
   const { postApi, getApi } = customApi("/api/users/my-hospitals/map");
   const { mutate, data } = useMutation<AroundHospitalsResponse, AxiosError, { x: number; y: number }>(
     ["hospitals", "map"],
@@ -47,11 +52,12 @@ const Test = () => {
       },
     },
   );
+  const handleClickMarker = ({ index, x, y }: { index: number; x: number; y: number }) => {
+    setClickIndex(index);
+    setCoords({ lat: y + 0.001, lng: x });
+  };
   const handleClickAddHospital = () => {};
-  const [coords, setCoords] = useState<Coords>({
-    lat: 0,
-    lng: 0,
-  });
+
   // console.log(geolocation.getCurrentPosition);
   useEffect(() => {
     const { geolocation } = navigator;
@@ -71,11 +77,13 @@ const Test = () => {
             lat: coords.lat,
             lng: coords.lng,
           }}
+          isPanto={true}
           style={{
             width: "100%",
             height: "560px",
           }}
           level={3}
+          // onClick={() => setClickIndex(-1)}
         >
           {data.hospitals?.map((hospital, index) => (
             <MarkerBox key={index}>
@@ -96,7 +104,7 @@ const Test = () => {
                 }}
                 onMouseOver={() => setHoverIndex(index)}
                 onMouseOut={() => setHoverIndex(-1)}
-                onClick={() => setClickIndex(index)}
+                onClick={() => handleClickMarker({ index, x: hospital.x, y: hospital.y })}
               />
               {hoverIndex === index && (
                 <CustomOverlayMap position={{ lat: hospital.y!, lng: hospital.x! }}>
@@ -121,18 +129,25 @@ const Test = () => {
                         <BodyText>{hospital.address}</BodyText>
                         <Image src={kakaomap} alt="kakao" />
                       </AdressBox>
-                      <PhoneBox>
-                        <Image src={phone} alt="사진" />
-                        <BodyText>{hospital?.hompage}</BodyText>
-                      </PhoneBox>
+
                       <DepartmentBox>
                         <Image src={cross} alt="사진" />
                         <BodyText>
-                          {hospital.medicalDepartments?.map(({ medicalDepartment }, index) => (
+                          {/* {hospital.medicalDepartments?.map(({ medicalDepartment }, index) => (
                             <span key={index}>{medicalDepartment.department}</span>
-                          ))}
+                          ))} */}
+                          {`${hospital.medicalDepartments[0].medicalDepartment.department} 외 ${hospital.medicalDepartments.length}개`}
                         </BodyText>
                       </DepartmentBox>
+                      <HomepageBox>
+                        <Image src={web} alt="사진" />
+                        {hospital.homepage ? (
+                          <Link href={hospital.homepage}>{hospital.name} 홈페이지 바로가기</Link>
+                        ) : (
+                          <BodyText>{hospital.homepage ? hospital.homepage : "홈페이지 없습니다."}</BodyText>
+                        )}
+                        {/*  */}
+                      </HomepageBox>
                     </ContentBox>
                     <RoundButton
                       width="88px"
@@ -171,15 +186,17 @@ const Test = () => {
 };
 export default Test;
 const InfoWindowBox = styled(Col)`
+  z-index: 1000;
   background-color: white;
   border: none;
   border-radius: 20px;
-  width: 420px;
+  width: 650px;
   height: 274px;
   justify-content: space-between;
   position: relative;
   box-shadow: ${props => props.theme.boxShadow.normal};
   padding-bottom: 10px;
+  transform: translateY(-170px);
 `;
 const HoverBox = styled(Box)`
   border: 2px ${props => props.theme.color.darkBg} solid;
@@ -213,7 +230,7 @@ const AdressBox = styled(Box)`
   justify-content: flex-start;
   width: 100%;
 `;
-const PhoneBox = styled(AdressBox)``;
+const HomepageBox = styled(AdressBox)``;
 const DepartmentBox = styled(AdressBox)``;
 const MapContainer = styled(FlexContainer)`
   background-color: white;
