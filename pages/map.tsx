@@ -20,13 +20,19 @@ interface Coords {
   lat: number;
   lng: number;
 }
+interface AroundHospitalsResponse {
+  hospitals: HospitalsForMap[];
+}
 const Test = () => {
+  const [targetIndex, setTargetIndex] = useState(-1);
   const { postApi, getApi } = customApi("/api/users/my-hospitals/map");
-  const { mutate, data: hospitals } = useMutation<HospitalsForMap[], AxiosError, { x: number; y: number }>(
-    [],
+  const { mutate, data } = useMutation<AroundHospitalsResponse, AxiosError, { x: number; y: number }>(
+    ["hospitals", "map"],
     postApi,
     {
-      onSuccess(data) {},
+      onSuccess(data) {
+        console.log(data);
+      },
     },
   );
   const handleClickAddHospital = () => {};
@@ -38,13 +44,13 @@ const Test = () => {
   useEffect(() => {
     const { geolocation } = navigator;
     geolocation.getCurrentPosition(position => {
-      console.log("x", position.coords.latitude);
-      console.log("y", position.coords.longitude);
+      console.log("x", position.coords.longitude);
+      console.log("y", position.coords.latitude);
       setCoords({ lat: position.coords.latitude, lng: position.coords.longitude });
-      mutate({ x: position.coords.latitude, y: position.coords.longitude });
+      mutate({ x: position.coords.longitude, y: position.coords.latitude });
     });
   }, []);
-  return hospitals ? (
+  return data ? (
     <Dim>
       <MapContainer>
         <ToryText>현재 소희님의 위치를 기준으로 주변 정형외과들을 찾았어요!</ToryText>
@@ -59,24 +65,30 @@ const Test = () => {
           }}
           level={3}
         >
-          {hospitals?.map((hospital, index) => (
-            <MapMarker
-              key={index}
-              position={{ lat: hospital.x!, lng: hospital.y! }}
-              image={{
-                src: "https://imagedelivery.net/AbuMCvvnFZBtmCKKJV_e6Q/ba695e48-c89f-4e8d-febb-10018a877600/avatar", // 마커이미지의 주소입니다
-                size: {
-                  width: 45,
-                  height: 45,
-                },
-                options: {
-                  offset: {
-                    x: 23,
-                    y: 45,
+          {data.hospitals?.map((hospital, index) => (
+            <div key={index}>
+              <MapMarker
+                position={{ lat: hospital.y!, lng: hospital.x! }}
+                image={{
+                  src: "https://imagedelivery.net/AbuMCvvnFZBtmCKKJV_e6Q/ba695e48-c89f-4e8d-febb-10018a877600/avatar", // 마커이미지의 주소입니다
+                  size: {
+                    width: 45,
+                    height: 45,
                   },
-                },
-              }}
-            />
+                  options: {
+                    offset: {
+                      x: 0,
+                      y: 0,
+                    },
+                  },
+                }}
+                onMouseOver={() => setTargetIndex(index)}
+                onMouseOut={() => setTargetIndex(-1)}
+              />
+              {targetIndex === index && (
+                <CustomOverlayMap position={{ lat: hospital.y!, lng: hospital.x! }}>{hospital.name}</CustomOverlayMap>
+              )}
+            </div>
           ))}
 
           <CustomOverlayMap
