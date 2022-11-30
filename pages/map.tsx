@@ -20,11 +20,23 @@ interface Coords {
   lat: number;
   lng: number;
 }
+interface Hospital {
+  name: string;
+  x: number;
+  y: number;
+  address: string;
+  hompage: string | null;
+  medicalDepartments: medicalDepartment[];
+}
+interface medicalDepartment {
+  medicalDepartment: { department: string };
+}
 interface AroundHospitalsResponse {
-  hospitals: HospitalsForMap[];
+  hospitals: Hospital[];
 }
 const Test = () => {
-  const [targetIndex, setTargetIndex] = useState(-1);
+  const [hoverIndex, setHoverIndex] = useState(-1);
+  const [clickIndex, setClickIndex] = useState(-1);
   const { postApi, getApi } = customApi("/api/users/my-hospitals/map");
   const { mutate, data } = useMutation<AroundHospitalsResponse, AxiosError, { x: number; y: number }>(
     ["hospitals", "map"],
@@ -66,7 +78,7 @@ const Test = () => {
           level={3}
         >
           {data.hospitals?.map((hospital, index) => (
-            <div key={index}>
+            <MarkerBox key={index}>
               <MapMarker
                 position={{ lat: hospital.y!, lng: hospital.x! }}
                 image={{
@@ -77,54 +89,66 @@ const Test = () => {
                   },
                   options: {
                     offset: {
-                      x: 0,
+                      x: 23,
                       y: 0,
                     },
                   },
                 }}
-                onMouseOver={() => setTargetIndex(index)}
-                onMouseOut={() => setTargetIndex(-1)}
+                onMouseOver={() => setHoverIndex(index)}
+                onMouseOut={() => setHoverIndex(-1)}
+                onClick={() => setClickIndex(index)}
               />
-              {targetIndex === index && (
+              {hoverIndex === index && (
                 <CustomOverlayMap position={{ lat: hospital.y!, lng: hospital.x! }}>
                   <HoverBox>{hospital.name}</HoverBox>
                 </CustomOverlayMap>
               )}
-            </div>
+              {clickIndex === index && (
+                <CustomOverlayMap
+                  position={{
+                    lat: hospital.y!,
+                    lng: hospital.x!,
+                  }}
+                >
+                  <InfoWindowBox>
+                    <TopArea>
+                      <Image src={kakaomap} alt="사진" />
+                      <Name fontSize="20px">{hospital.name}</Name>
+                    </TopArea>
+                    <ContentBox>
+                      <AdressBox>
+                        <Image src={pointer} alt="사진" />
+                        <BodyText>{hospital.address}</BodyText>
+                        <Image src={kakaomap} alt="kakao" />
+                      </AdressBox>
+                      <PhoneBox>
+                        <Image src={phone} alt="사진" />
+                        <BodyText>{hospital?.hompage}</BodyText>
+                      </PhoneBox>
+                      <DepartmentBox>
+                        <Image src={cross} alt="사진" />
+                        <BodyText>
+                          {hospital.medicalDepartments?.map(({ medicalDepartment }, index) => (
+                            <span key={index}>{medicalDepartment.department}</span>
+                          ))}
+                        </BodyText>
+                      </DepartmentBox>
+                    </ContentBox>
+                    <RoundButton
+                      width="88px"
+                      height="40px"
+                      bgColor="rgb(18, 212, 201)"
+                      fontSize="16px"
+                      boxShadow={false}
+                    >
+                      추가
+                    </RoundButton>
+                    <Tail src={triangle} alt="사진" />
+                  </InfoWindowBox>
+                </CustomOverlayMap>
+              )}
+            </MarkerBox>
           ))}
-
-          <CustomOverlayMap
-            position={{
-              lat: 33.450701,
-              lng: 126.570667,
-            }}
-          >
-            <InfoWindowBox>
-              <TopArea>
-                <Image src={kakaomap} alt="사진" />
-                <Name fontSize="20px">삼성본정형외과의원</Name>
-              </TopArea>
-              <ContentBox>
-                <AdressBox>
-                  <Image src={pointer} alt="사진" />
-                  <BodyText>서울 성북구 아리랑로 7 농혁 건물,2층</BodyText>
-                  <Image src={kakaomap} alt="kakao" />
-                </AdressBox>
-                <PhoneBox>
-                  <Image src={phone} alt="사진" />
-                  <BodyText>02-951-5863</BodyText>
-                </PhoneBox>
-                <DepartmentBox>
-                  <Image src={cross} alt="사진" />
-                  <BodyText>정형외과, 이비인후과</BodyText>
-                </DepartmentBox>
-              </ContentBox>
-              <RoundButton width="88px" height="40px" bgColor="rgb(18, 212, 201)" fontSize="16px" boxShadow={false}>
-                추가
-              </RoundButton>
-              <Tail src={triangle} alt="사진" />
-            </InfoWindowBox>
-          </CustomOverlayMap>
         </Map>
 
         <BtnBox width="460px">
@@ -161,6 +185,8 @@ const HoverBox = styled(Box)`
   border: 2px ${props => props.theme.color.darkBg} solid;
   border-radius: 5px;
   background-color: white;
+  padding: 5px 10px;
+  transform: translateY(-60%);
 `;
 const TopArea = styled(Row)`
   border-radius: 20px 20px 0px 0px;
@@ -169,6 +195,9 @@ const TopArea = styled(Row)`
   height: 70px;
   justify-content: flex-start;
   padding-left: 30px;
+`;
+const MarkerBox = styled(Box)`
+  position: absolute;
 `;
 const Name = styled(WhiteBoldText)`
   margin-left: 20px;
