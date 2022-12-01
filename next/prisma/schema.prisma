@@ -1,6 +1,6 @@
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["filteredRelationCount"]
+  previewFeatures = ["orderByNulls", "filteredRelationCount"]
 }
 
 generator erd {

@@ -23,6 +23,7 @@ const queryClient = new QueryClient({
       cacheTime: 1000 * 60 * 5,
     },
     mutations: {
+      retry: false,
       // useErrorBoundary: true,
       onError(error: any) {},
     },
