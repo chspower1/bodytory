@@ -14,7 +14,7 @@ import KakaoLoginBtn from "@components/buttons/KakaoBtn";
 import { USER_LOGIN } from "constant/queryKeys";
 import { RoundButton } from "@components/buttons/Button";
 import Image from "next/image";
-import naver from "/public/static/naver.svg";
+import naver from "@public/static/icon/naver.svg";
 import {
   Box,
   Col,

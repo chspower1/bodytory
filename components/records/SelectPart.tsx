@@ -1,30 +1,25 @@
-import BodyNavigator from '@components/record/BodyNavigator';
-import styled from 'styled-components';
+import BodyNavigator from "@components/records/BodyNavigator";
+import styled from "styled-components";
 import IconArrowLeft from "@public/static/icon/icon_arrow_left.png";
-import { useRecoilState } from 'recoil';
-import { selectedBodyPart } from 'atoms/atoms';
-
+import { useRecoilState } from "recoil";
+import { selectedBodyPart } from "atoms/atoms";
 
 function SelectPart() {
-
   const [selectedPart, setSelectedPart] = useRecoilState(selectedBodyPart);
 
   return (
     <SelectPartWarp>
       <SelectPartContainer>
-        {
-          selectedPart && (
-            <BackButton onClick={() => setSelectedPart(null)}>
-              <span>대시보드</span>
-            </BackButton>
-          )
-        }
+        {selectedPart && (
+          <BackButton onClick={() => setSelectedPart(null)}>
+            <span>대시보드</span>
+          </BackButton>
+        )}
         <GuideText>자세한 기록을 확인하고 싶은 부위를 선택해주세요</GuideText>
         <BodyNavigator isWritePage={false} />
       </SelectPartContainer>
     </SelectPartWarp>
-    
-  )
+  );
 }
 
 const SelectPartWarp = styled.div`
@@ -52,9 +47,9 @@ const BackButton = styled.button`
   height: 50px;
   border-radius: 50px;
   background: url(${IconArrowLeft.src}) no-repeat 10px 50%/26px;
-  background-color: #5155BA;
+  background-color: #5155ba;
   overflow: hidden;
-  transition: width .4s;
+  transition: width 0.4s;
 
   span {
     display: block;
@@ -64,7 +59,7 @@ const BackButton = styled.button`
     width: 130px;
     padding-left: 20px;
     opacity: 0;
-    transition: opacity .4s;
+    transition: opacity 0.4s;
   }
 
   &:hover {
@@ -78,11 +73,8 @@ const BackButton = styled.button`
 
 const GuideText = styled.div`
   text-align: center;
-  color: #5155BA;
+  color: #5155ba;
   margin: 40px 0 20px;
 `;
 
-
-
-
-export default SelectPart
+export default SelectPart;

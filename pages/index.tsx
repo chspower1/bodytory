@@ -9,10 +9,10 @@ import useUser from "@hooks/useUser";
 import { Accent, BlackToryText, BodyText, Box, Col, Container, FlexContainer, Row, ToryText } from "@styles/Common";
 import { CircleButton, RectangleButton, RoundButton } from "@components/buttons/Button";
 import Image from "next/image";
-import mic from "/public/static/icon/mic.svg";
-import record from "/public/static/icon/record.svg";
-import hospital from "/public/static/icon/hospital.svg";
-import setting from "/public/static/icon/setting.svg";
+import mic from "@public/static/icon/mic.svg";
+import record from "@public/static/icon/record.svg";
+import hospital from "@public/static/icon/hospital.svg";
+import setting from "@public/static/icon/setting.svg";
 import ToryIcon from "@components/ToryIcon";
 
 const Home = () => {

@@ -4,9 +4,9 @@
 import Image from "next/image";
 import { useEffect } from "react";
 import styled, { css } from "styled-components";
-import naver from "/public/static/naver.svg";
-import kakao from "/public/static/kakao.svg";
-import origin from "/public/static/origin.svg";
+import naver from "@public/static/icon/naver.svg";
+import kakao from "@public/static/icon/kakao.svg";
+import origin from "@public/static/icon/origin.svg";
 import { theme } from "@styles/theme";
 import { Box, Col } from "@styles/Common";
 
@@ -74,9 +74,9 @@ const Button = styled.button<{
   button {
     color: ${props => props.textColor};
   }
-  &:disabled{
+  &:disabled {
     background: rgb(107, 114, 142);
-    cursor:not-allowed;
+    cursor: not-allowed;
   }
 `;
 

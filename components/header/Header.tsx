@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import LogoImg from "@public/Logo.png";
+import LogoImg from "@public/static/icon/Logo.png";
 import useUser from "@hooks/useUser";
 import SideMenu from "./SideMenu";
 import { User } from "@prisma/client";

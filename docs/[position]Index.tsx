@@ -6,13 +6,13 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import { KoreanPosition } from "types/write";
-import mic from "/public/static/icon/mic.svg";
+import mic from "@public/static/icon/mic.svg";
 import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useMutation } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
-import { CreateBtnBox, PositionBoxText, TextBox, ToryBox } from "@components/record/SiteChecker";
+import { CreateBtnBox, PositionBoxText, TextBox, ToryBox } from "@components/records/SiteChecker";
 import ToryIcon from "@components/ToryIcon";
 export default function WritePositionPage() {
   const router = useRouter();

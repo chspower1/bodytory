@@ -37,6 +37,9 @@
       ],
       "@public/*": [
         "public/*"
+      ],
+      "@src/*": [
+        "src/*"
       ]
     },
     "types": [

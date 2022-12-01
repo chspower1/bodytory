@@ -16,7 +16,7 @@ import { useForm } from "react-hook-form";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { ButtonBox, DescriptionBox, ImageIcon, MainContainer, MainInnerContainer, Pragraph } from ".";
-import mapIcon from "../../../public/static/icon/mapIcon.svg";
+import mapIcon from "@public/static/icon/mapIcon.svg";
 
 interface SearchForm {
   search: string;
