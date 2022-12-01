@@ -35,11 +35,9 @@ model Certification {
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
   number   String
+  userId   Int?
   email    String?
   user     User?    @relation(fields: [userId], references: [id])
-  userId   Int?
-
-  @@index([userId])
 }
 
 model Record {
@@ -49,27 +47,22 @@ model Record {
   type         RecordType
   position     Position
   description  String
+  userId       Int
   diagnosis    String?
   prescription String?
-  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId       Int
-  hospital     Hospital?     @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
   hospitalId   Int?
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  hospital     Hospital?     @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
   images       RecordImage[]
-
-  @@index([userId])
-  @@index([hospitalId])
 }
 
 model RecordImage {
   id       Int      @id @default(autoincrement())
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
+  recordId Int
   url      String
   record   Record   @relation(fields: [recordId], references: [id], onDelete: Cascade)
-  recordId Int
-
-  @@index([recordId])
 }
 
 model MedicalDepartment {
@@ -97,13 +90,10 @@ model Hospital {
 
 model HospitalMedicalDepartmentConnector {
   id                  Int                @id @default(autoincrement())
-  medicalDepartment   MedicalDepartment? @relation(fields: [medicalDepartmentId], references: [id], onDelete: Cascade)
   medicalDepartmentId Int?
-  hospital            Hospital?          @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
   hospitalId          Int?
-
-  @@index([medicalDepartmentId])
-  @@index([hospitalId])
+  medicalDepartment   MedicalDepartment? @relation(fields: [medicalDepartmentId], references: [id], onDelete: Cascade)
+  hospital            Hospital?          @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
 }
 
 model HospitalToUser {

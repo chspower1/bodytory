@@ -40,11 +40,11 @@ function ChartTimeline() {
       queryClient.invalidateQueries([RECORDS_READ]);
     },
   });
-  const { mutate: editMutate } = useMutation([RECORDS_UPDATE], putApi, {
-    onSuccess(data, variables, context) {
-      queryClient.invalidateQueries([RECORDS_READ]);
-    },
-  });
+  // const { mutate: editMutate } = useMutation([RECORDS_UPDATE], putApi, {
+  //   onSuccess(data, variables, context) {
+  //     queryClient.invalidateQueries([RECORDS_READ]);
+  //   },
+  // });
 
   const {
     register,
@@ -55,28 +55,17 @@ function ChartTimeline() {
     reValidateMode: "onSubmit",
   });
   const onValid: SubmitHandler<RecordUpdateType> = ({ updateText }) => {
-    editMutate({ id: recordDetail.id, position: recordDetail.position, description: updateText });
-    setCurrentIdx(-1);
+    setConfirmDelete(-1);
   };
 
-  const [confirmDelete, setConfirmDelete] = useState(-1);  // 삭제 버튼 한번 눌렀을때
-  const [currentIdx, setCurrentIdx] = useState(-1);  // 삭제버튼 두번 눌렀을때
-  
+  const [confirmDelete, setConfirmDelete] = useState(-1);
   const [showModal, setShowModal] = useState(false);
   const [recordDetail, setRecordDetail] = useState<any>(null);
 
-
-  useEffect(()=>{
-    if(currentIdx === confirmDelete){
-      mutate({ id: confirmDelete });
-      setConfirmDelete(-1);
-    }
-  },[currentIdx]);
-
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>, recordId: number) => {
     if(confirmDelete !== -1){
-      setCurrentIdx(recordId);
-    }else{
+      mutate({ id: confirmDelete });
+    } else{
       setConfirmDelete(recordId);
     }
   }
