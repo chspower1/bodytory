@@ -48,7 +48,11 @@ async function findRecord(req: NextApiRequest, res: NextApiResponse) {
         },
       },
     },
+    orderBy: {
+      createAt: "desc",
+    },
   });
+
   return res.status(200).json(data);
 }
 
