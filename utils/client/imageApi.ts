@@ -11,5 +11,5 @@ export async function uploadImageApi(formData: any) {
 export async function deleteImageApi(id: number) {
   const form = new FormData();
   form.append("id", String(id));
-  return await axios.delete(`/api/users/records/${id}`);
+  return await axios.delete(`/api/users/records/picture/${id}`);
 }
