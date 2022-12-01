@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Wrapper = styled.div<{ bgColor?: string }>`
-  position:relative;
+  position: relative;
   height: 100vh;
   width: 100%;
   overflow: hidden;
@@ -59,7 +59,7 @@ export const BodyText = styled(WhiteText)`
   color: ${({ theme }) => theme.color.text};
 `;
 export const ToryText = styled(WhiteText)<{ color?: string }>`
-  font-size: 36px;
+  font-size: ${props => (props.fontSize ? props.fontSize : "36px")};
   color: ${props => (props.color ? props.color : props.theme.color.text)};
   line-height: 1.8;
 

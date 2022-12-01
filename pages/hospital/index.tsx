@@ -16,10 +16,12 @@ import styled from "styled-components";
 import medicalIcon from "../../public/medical.png";
 
 const Hospitals = () => {
-  const { getApi } = customApi("/api/users/hospital");
-  const { data } = useQuery([HOSPITALS], getApi);
-  const currentUser = useRecoilValue(loggedInUser);
 
+  const { getApi } = customApi("/api/users/my-hospitals");
+  const { data } = useQuery([HOSPITALS], getApi);
+  console.log(data);
+  
+  const currentUser = useRecoilValue(loggedInUser);
   useEffect(() => {
     document.body.style.backgroundColor = theme.color.lightBg;
     return () => {

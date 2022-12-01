@@ -13,7 +13,7 @@ ${reset}
   body {
     background: ${props => props.theme.color.darkBg};
     font-optical-sizing: auto;
-    font-family: 'Noto Sans KR', sans-serif;
+    font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
     font-size: ${props => props.theme.font.size.bodyText};
     font-weight: 400;
     font-style: normal;
@@ -51,7 +51,7 @@ ${reset}
   textarea {
     font-family: inherit;
     font-size: 100%;
-    line-height: 1.15;
+    line-height: 1;
     margin: 0;
   }
   
@@ -111,14 +111,16 @@ ${reset}
 
   ::-webkit-scrollbar {
     width: 10px;
-    height: 10px;
-  }
-  ::-webkit-scrollbar-thumb {
-    background-color: #e0d6be;
   }
 
-  ::-webkit-scrollbar-thumb:hover {
-    background: #AFA58D;
+  ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: rgb(188, 197, 255);
+  }
+  
+  ::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background-color: ${prop => prop.add && "#e2e6ff"};
   }
 
 `;

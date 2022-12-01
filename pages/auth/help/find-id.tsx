@@ -17,6 +17,7 @@ import ButtonInInput from "@components/ButtonInInput";
 import MessageBox from "@components/MessageBox";
 import styled from "styled-components";
 import { FlexContainer, InnerContainer, Row } from "@styles/Common";
+import Header from "@components/header/Header";
 
 const HelpFindId: NextPage = () => {
   const router = useRouter();
@@ -78,6 +79,7 @@ const HelpFindId: NextPage = () => {
 
   return (
     <FlexContainer>
+      <Header />
       <InnerContainer>
         {!foundAccountId ? (
           <>
@@ -144,13 +146,14 @@ export default HelpFindId;
 
 export const FindForm = styled.form`
   margin-top: 100px;
-`
+`;
 
 export const Seperation = styled(Row)`
   & + & {
     padding-top: 30px;
-    
-    > button, > div{
+
+    > button,
+    > div {
       margin-top: 30px;
     }
   }

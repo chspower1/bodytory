@@ -35,13 +35,11 @@ const Home = () => {
         </ToryBox>
         <Link href="users/records/write">
           <WriteBox>
-            <Col>
-              <CircleButton>
-                <Image src={mic} alt="마이크" />
-              </CircleButton>
-              <BodyText>건강 관리를 위해 매일매일 잊지말고 기록해요!</BodyText>
-              <Accent>오늘 기록하기</Accent>
-            </Col>
+            <CircleButton>
+              <Image src={mic} alt="마이크" />
+            </CircleButton>
+            <BodyText>건강 관리를 위해 매일매일 잊지말고 기록해요!</BodyText>
+            <Accent fontSize="26px">오늘 기록하기</Accent>
           </WriteBox>
         </Link>
         <ButtonBox>
@@ -60,7 +58,7 @@ const Home = () => {
         <Link href="/users/profile/edit">
           <AccountBtnBox>
             <BtnIcon src={setting} alt="#" />
-            <BodyText>계정 설정</BodyText>
+            계정 설정
           </AccountBtnBox>
         </Link>
       </Col>
@@ -79,6 +77,7 @@ const WriteBox = styled(Col)`
   background-color: rgb(217, 222, 255);
   border-radius: 20px;
   margin-bottom: 50px;
+  gap: 20px;
 `;
 const ButtonBox = styled(Row)`
   width: 100%;
@@ -88,5 +87,9 @@ const BtnIcon = styled(Image)`
   margin-right: 20px;
 `;
 const AccountBtnBox = styled(Box)`
+  transition: color 0.3s ease;
+  &:hover {
+    color: ${({ theme }) => theme.color.darkBg};
+  }
   margin-top: 100px;
 `;

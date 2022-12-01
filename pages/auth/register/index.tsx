@@ -13,6 +13,7 @@ import useReset from "@hooks/useReset";
 import FirstPage from "@components/register/FirstPage";
 import ThirdPage from "@components/register/ThirdPage";
 import SecondPage from "@components/register/SecondPage";
+import Header from "@components/header/Header";
 
 export interface RegisterForm {
   agree: boolean;
@@ -83,6 +84,7 @@ function RegisterPage() {
 
   return (
     <>
+      <Header />
       {page === 1 && <FirstPage user={user} setUser={setUser} setPage={setPage} />}
       {page === 2 && <SecondPage user={user} setUser={setUser} setPage={setPage} />}
       {page === 3 && <ThirdPage user={user} setUser={setUser} setPage={setPage} />}

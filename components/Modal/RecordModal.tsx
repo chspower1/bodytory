@@ -4,10 +4,10 @@ import { showFrame } from "./Modal";
 
 
 
-const RecordModal = ({children} : {children ?: React.ReactNode}) => {
+const RecordModal = ({children , setShowModal} : {children ?: React.ReactNode, setShowModal: React.Dispatch<React.SetStateAction<boolean>>}) => {
   return (
     <ModalBox>
-      <Dim />
+      <Dim onClick={()=> setShowModal(false)} />
       <Modal>
         {children}
       </Modal>

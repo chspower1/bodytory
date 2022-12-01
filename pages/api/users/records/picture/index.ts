@@ -17,7 +17,7 @@ const handler = nextconnect<NextApiRequest, NextApiResponse>({
     res.status(500).end("something broke");
   },
   onNoMatch: (req, res) => {
-    res.status(404).end("not fiund");
+    res.status(404).end("not found");
   },
 });
 

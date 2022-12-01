@@ -76,6 +76,10 @@ const MainInput = styled.input<{ align?: string; bgColor?: string; color?: strin
       letter-spacing: 7.2px;
       font-size: 12px;
     }
+    &:disabled{
+      background: rgb(107, 114, 142);
+      cursor:not-allowed;
+    }
   }
   width: 100%;
   height: 100%;
@@ -97,7 +101,7 @@ const MainInput = styled.input<{ align?: string; bgColor?: string; color?: strin
   &::placeholder {
     color: #aaa;
   }
-  ${(props) => props.light ? css`
+  ${(props) => props.light && css`
   background: rgba(217, 222, 255, 1);
   color:#232323;
   :-webkit-autofill,
@@ -106,5 +110,6 @@ const MainInput = styled.input<{ align?: string; bgColor?: string; color?: strin
   :-webkit-autofill:active {
     -webkit-text-fill-color: #232323 !important;
   }
-  ` : css``}
+  `}
+  
 `;

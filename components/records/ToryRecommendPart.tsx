@@ -1,18 +1,14 @@
 import { RoundButton } from "@components/button/Button";
 import styled, { css } from "styled-components";
-import IconHospital from "@public/icon_hospital.png"
-import IconWarning from "@public/icon_warning.png"
+import IconHospital from "@public/static/icon/icon_hospital.png";
 import { useState } from "react";
 import Modal from "@components/Modal/Modal";
-
+import ArroundMap from "@components/Modal/ArroundMap";
 
 function ToryRecommend() {
-
   const [showModal, setShowModal] = useState(false);
 
-  const handleClickLogout = async () => {
-
-  };
+  const handleClickLogout = async () => {};
 
   return (
     <>
@@ -21,20 +17,19 @@ function ToryRecommend() {
           <RecommendText>
             <Tag>Ai 토리추천</Tag>
             <Text>
-              <strong>$손목 $통증</strong>이 많으시네요. <strong>$정형외과</strong>에 한번 방문해보시는 건 어떠신가요?
+              {/* <strong>$손목 $통증</strong>이 많으시네요.  */}
+              <strong>$정형외과</strong>에 한번 방문해보시는 건 어떠신가요?
             </Text>
           </RecommendText>
-          <RoundButton size="md" onClick={() => setShowModal(true)}>내 주변 해당 병원 찾기</RoundButton>
+          <RoundButton size="md" onClick={() => setShowModal(true)}>
+            내 주변 해당 병원 찾기
+          </RoundButton>
         </ToryRecommendBox>
       </ToryRecommendContainer>
-      
-      <Modal onClose={() => setShowModal(false)} activeFuction={handleClickLogout} show={showModal} title={""}>
-        <MapContainer>
-          <h2>현재 <strong>$소희님</strong>의 위치를 기준으로 주변 <strong>$정형외과</strong>들을 찾았어요!</h2>
-        </MapContainer>
-      </Modal>
+
+      {showModal && <ArroundMap setShowModal={setShowModal} />}
     </>
-  )
+  );
 }
 
 const ToryRecommendContainer = styled.div`
@@ -60,7 +55,7 @@ const RecommendText = styled.div`
 const Tag = styled.span`
   position: relative;
   background: url(${IconHospital.src}) no-repeat 8px 8px/20px;
-  background-color: #F2F3FF;
+  background-color: #f2f3ff;
   border-radius: 10px;
   padding: 10px 10px 10px 22px;
   margin-right: 20px;
@@ -77,7 +72,6 @@ const Text = styled.div`
   }
 `;
 
-const MapContainer = styled.div`
-`;
+const MapContainer = styled.div``;
 
-export default ToryRecommend
+export default ToryRecommend;

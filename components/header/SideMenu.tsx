@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import LogoutBtn from "@components/LogoutBtn";
 import toriLink from "@public/toriLink.png";
 import menuLogo from "@public/menuLogo.png";
+import useUser from "@hooks/useUser";
 
 const SideMenu = () => {
   const router = useRouter();
@@ -32,7 +33,7 @@ const SideMenu = () => {
       link: "/users/my-hospital",
     },
   ]);
-  /* /auth/hospital */
+  const user = useUser();
 
   const handleClickCloseMenu = () => {
     if (isOpen === isActive) {
@@ -48,7 +49,7 @@ const SideMenu = () => {
     handleClickCloseMenu();
   }, [router.asPath]);
 
-  return (
+  return user ? (
     <>
       <HamburgerMenuButton isOpen={isOpen} setIsOpen={setIsOpen} isActive={isActive} setIsActive={setIsActive} />
       {isActive && (
@@ -57,18 +58,21 @@ const SideMenu = () => {
           <SideMenuBox>
             <InnerBox>
               <ContentsBox>
-                <LogoBox>
-                  <div className="logoBg"></div>
-                </LogoBox>
+                <Link href="/">
+                  <LogoBox>
+                    <div className="logoBg"></div>
+                  </LogoBox>
+                </Link>
                 <div className="goEdit">
                   <Link href="/users/profile/edit">
-                    <i></i>계정 설정
+                    <i />
+                    계정 설정
                   </Link>
                 </div>
                 <Nav>
                   <ul>
                     {menuList.map(({ subject, link }) => (
-                      <li key={subject}>
+                      <li key={subject} onClick={handleClickCloseMenu}>
                         <Link href={link}>{subject}</Link>
                         {router.asPath === link && <i></i>}
                       </li>
@@ -95,7 +99,7 @@ const SideMenu = () => {
         </SideMenuWrap>
       )}
     </>
-  );
+  ) : null;
 };
 
 export default SideMenu;

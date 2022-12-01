@@ -36,6 +36,7 @@ interface ButtonProps {
   onClick?: (() => void) | (() => Promise<void>);
   nonSubmit?: boolean;
   disable?: boolean;
+  disabled?: boolean;
   boxShadow?: boolean;
 }
 type SocailType = "kakao" | "naver" | "origin";
@@ -73,6 +74,10 @@ const Button = styled.button<{
   button {
     color: ${props => props.textColor};
   }
+  &:disabled{
+    background: rgb(107, 114, 142);
+    cursor:not-allowed;
+  }
 `;
 
 export const CircleButton = ({
@@ -87,6 +92,7 @@ export const CircleButton = ({
   children,
   nonSubmit = false,
   disable = false,
+  disabled = false,
   onClick,
   boxShadow = true,
 }: ButtonProps) => {
@@ -102,6 +108,7 @@ export const CircleButton = ({
       type={nonSubmit ? "button" : "submit"}
       disable={disable}
       onClick={onClick}
+      disabled={disabled}
       boxShadow={boxShadow}
     >
       {children}
@@ -120,6 +127,7 @@ export const RoundButton = ({
   children,
   nonSubmit = false,
   disable = false,
+  disabled = false,
   onClick,
   boxShadow = true,
 }: ButtonProps) => {
@@ -148,6 +156,7 @@ export const RoundButton = ({
       type={nonSubmit ? "button" : "submit"}
       disable={disable}
       onClick={onClick}
+      disabled={disabled}
       boxShadow={boxShadow}
     >
       {children}
@@ -168,6 +177,7 @@ export const SocialButton = ({
   onClick,
   nonSubmit = false,
   disable = false,
+  disabled = false,
   boxShadow = true,
 }: ButtonProps) => {
   if (size === "sm") {
@@ -187,6 +197,7 @@ export const SocialButton = ({
       style={{ justifyContent: "flex-start" }}
       type={nonSubmit ? "button" : "submit"}
       disable={disable}
+      disabled={disabled}
       boxShadow={boxShadow}
     >
       <Image
@@ -211,6 +222,7 @@ export const RectangleButton = ({
   size = "md",
   nonSubmit = false,
   disable = false,
+  disabled = false,
   onClick,
   boxShadow = true,
 }: ButtonProps) => {
@@ -229,6 +241,7 @@ export const RectangleButton = ({
       borderRadius={borderRadius}
       type={nonSubmit ? "button" : "submit"}
       disable={disable}
+      disabled={disabled}
       onClick={onClick}
       boxShadow={boxShadow}
     >
