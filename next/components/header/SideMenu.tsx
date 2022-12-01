@@ -2,12 +2,12 @@ import { Col, Row } from "@styles/Common";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import styled, { css } from "styled-components";
-import settingIcon from "@public/static/icon/settingIcon.png";
+import settingIcon from "@public/settingIcon.png";
 import HamburgerMenuButton from "./HamburgerMenuButton";
 import { useRouter } from "next/router";
 import LogoutBtn from "@components/LogoutBtn";
-import toriLink from "@public/static/icon/toriLink.png";
-import menuLogo from "@public/static/icon/menuLogo.png";
+import toriLink from "@public/toriLink.png";
+import menuLogo from "@public/menuLogo.png";
 import useUser from "@hooks/useUser";
 
 const SideMenu = () => {
@@ -72,8 +72,8 @@ const SideMenu = () => {
                 <Nav>
                   <ul>
                     {menuList.map(({ subject, link }) => (
-                      <li key={subject} onClick={handleClickCloseMenu}>
-                        <Link href={link}>{subject}</Link>
+                      <li key={subject}>
+                        <Link href={link} onClick={handleClickCloseMenu}>{subject}</Link>
                         {router.asPath === link && <i></i>}
                       </li>
                     ))}

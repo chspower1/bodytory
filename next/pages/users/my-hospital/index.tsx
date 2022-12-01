@@ -1,23 +1,22 @@
-import { RoundButton } from "@components/buttons/Button";
-import { theme } from "@styles/theme";
-import { useQuery } from "@tanstack/react-query";
-import customApi from "@utils/client/customApi";
-import { loggedInUser } from "atoms/atoms";
-import { HOSPITALS } from "constant/queryKeys";
-import Link from "next/link";
-import React, { useEffect } from "react";
-import { useRecoilValue } from "recoil";
-import styled from "styled-components";
-import medicalIcon from "@public/static/icon/medical.png";
-import HospitalList from "@components/HospitalList";
-import Image from "next/image";
+import { RoundButton } from '@components/buttons/Button';
+import { theme } from '@styles/theme';
+import { useQuery } from '@tanstack/react-query';
+import customApi from '@utils/client/customApi';
+import { HOSPITALS } from 'constant/queryKeys';
+import Link from 'next/link';
+import React, { useEffect } from 'react'
+import styled from 'styled-components';
+import medicalIcon from "@public/medical.png";
+import HospitalList from '@components/HospitalList';
+import Image from 'next/image';
+import useUser from '@hooks/useUser';
 
 const MyHospitalPage = () => {
   const { getApi } = customApi("/api/users/my-hospitals");
   const { data } = useQuery([HOSPITALS], getApi);
   console.log(data);
+  const user = useUser();
 
-  const currentUser = useRecoilValue(loggedInUser);
   useEffect(() => {
     document.body.style.backgroundColor = theme.color.lightBg;
     return () => {
@@ -25,12 +24,12 @@ const MyHospitalPage = () => {
     };
   }, []);
 
-  return currentUser ? (
+  return user ? (
     <MainContainer>
       <MainInnerContainer>
         <DescriptionBox>
           <Pragraph>
-            <HighlightText>{currentUser.name}님</HighlightText>의 기록을 공유받고 있는 병원 목록이에요
+            <HighlightText>{user.name}님</HighlightText>의 기록을 공유받고 있는 병원 목록이에요
             <br /> 병원을 클릭하면 해당 병원에서의 진료내역을 확인할 수 있어요
           </Pragraph>
         </DescriptionBox>
@@ -41,13 +40,14 @@ const MyHospitalPage = () => {
             </Link>
           </RoundButton>
         </ButtonBox>
-        {data && <HospitalList lists={data} add={false} />}
+        <HospitalList lists={data} add={false} />
       </MainInnerContainer>
     </MainContainer>
   ) : null;
 };
 
-export default MyHospitalPage;
+
+export default MyHospitalPage
 
 export const MainContainer = styled.div`
   height: 100%;
@@ -70,8 +70,8 @@ export const MainInnerContainer = styled.div`
 
 export const Pragraph = styled.p`
   font-size: 32px;
-  strong {
-    font-weight: 700;
+  strong{
+    font-weight :700;
   }
 `;
 export const HighlightText = styled.span`

@@ -2,7 +2,6 @@ import { Hospital } from "@prisma/client";
 import { theme } from "@styles/theme";
 import { MouseEvent } from "react";
 import styled from "styled-components";
-import { RectangleButton, RoundButton } from "./buttons/Button";
 import HospitalContent, { HospitalListT } from "./HospitalContent";
 
 const HospitalList = ({ lists, add }: { lists?: HospitalListT[]; add: boolean }) => {
@@ -10,9 +9,9 @@ const HospitalList = ({ lists, add }: { lists?: HospitalListT[]; add: boolean })
   return (
     <HospitalContainer add={add}>
       <InnerContainer add={add}>
-        {lists ? (
+        {lists && lists.length >= 1 ? (
           <HospitalLists>
-            {lists.map(list => (
+            {lists.map((list) => (
               <HospitalContent list={list} add={add} key={list.id} />
             ))}
           </HospitalLists>

@@ -4,12 +4,13 @@ import styled from "styled-components";
 import { Pagination } from "swiper";
 import { RectangleButton } from "./buttons/Button";
 import ClinicModal from "./modals/ClinicModal";
-
-import "swiper/css";
-import "swiper/css/pagination";
 import customApi from "@utils/client/customApi";
 import { useQuery } from "@tanstack/react-query";
 import { Record } from "@prisma/client";
+import { changeDate } from "@utils/client/changeDate";
+
+import "swiper/css";
+import "swiper/css/pagination";
 
 const SwiperBox = ({
   setCurrentHospitalName,
@@ -17,14 +18,21 @@ const SwiperBox = ({
   setCurrentHospitalName: React.Dispatch<React.SetStateAction<number>>;
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentIdx, setCurrentIdx] = useState(-1);
   const [currentContent, setCurrentContent] = useState({});
   const { getApi } = customApi("/api/users/my-hospitals/clinic-list");
   const { isLoading, data, error } = useQuery(["clinicListKey"], getApi, {
     onSuccess(data) {
       setCurrentHospitalName(data[0]?.name);
+      console.log(data[0].Record);
     },
   });
-  console.log(data);
+
+  const handleClickModalOpen = (obj: Record, name: string) => () => {
+    setIsModalOpen(true);
+    setCurrentContent({ ...obj, name });
+  };
+  console.log("hi", currentContent);
 
   return (
     <SwiperWrap
@@ -38,23 +46,29 @@ const SwiperBox = ({
       className="mySwiper"
       onSlideChange={e => {
         const currentIdx = e.activeIndex;
+        setCurrentIdx(currentIdx);
         setCurrentHospitalName(data[currentIdx]?.name);
       }}
     >
       {data &&
         data.map((ele: { name: string; address: string; Record: Record[] }, idx: number) => (
-          <SwiperSlideItem key={ele.name + ele.address}>
+          <SwiperSlideItem key={ele.name + ele.address + Date.now()}>
             <SlideItemInnerBox>
               <ItemHeader>
-                <HospitalName title="">{ele.name}</HospitalName>
-                <HospitalAddress title="">{ele.address}</HospitalAddress>
+                <HospitalName title={ele.name}>{ele.name}</HospitalName>
+                <HospitalAddress title={ele.address}>{ele.address}</HospitalAddress>
               </ItemHeader>
               <ClinicListBox>
                 {ele.Record.map((obj, idx) => (
-                  <ClinicItem>
-                    <ClinicDate>2022년 11월 09일 일요일 오후 5시 52분</ClinicDate>
+                  <ClinicItem key={`${obj.userId} + ${obj.id} + ${Date.now()}`}>
+                    <ClinicDate>{changeDate(obj.createAt)}</ClinicDate>
                     <ClinicDetailButtonBox>
-                      <RectangleButton width="90px" nonSubmit fontSize="16px" onClick={() => setIsModalOpen(true)}>
+                      <RectangleButton
+                        width="90px"
+                        nonSubmit
+                        fontSize="16px"
+                        onClick={handleClickModalOpen(obj, ele.name)}
+                      >
                         진료내역
                       </RectangleButton>
                     </ClinicDetailButtonBox>
@@ -64,16 +78,7 @@ const SwiperBox = ({
             </SlideItemInnerBox>
           </SwiperSlideItem>
         ))}
-      {isModalOpen && (
-        <ClinicModal
-          name={"정형외과정형외과"}
-          date={"2022년 11월 09일 일요일  오후 5시 52분"}
-          result={"없음"}
-          content={"없음"}
-          detail={"없음"}
-          setIsModalOpen={setIsModalOpen}
-        />
-      )}
+      {currentContent && <ClinicModal {...currentContent} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />}
     </SwiperWrap>
   );
 };

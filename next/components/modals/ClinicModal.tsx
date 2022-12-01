@@ -1,26 +1,44 @@
-import React from "react";
+import { Position, RecordType } from "@prisma/client";
+import { changeDate } from "@utils/client/changeDate";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import ReactDOM from "react-dom";
 import { RoundButton } from "../buttons/Button";
 import { showFrame } from "./Modal";
 
 interface ClinicModalProps {
-  name: string;
-  date: string;
-  result?: string;
-  content?: string;
-  detail?: string;
+  id ?: number;
+  createAt ?: Date;
+  updateAt ?: Date;
+  type ?: RecordType;
+  position ?: Position;
+  description ?: string;
+  userId ?: number;
+  diagnosis ?: string;
+  prescription?: string;
+  hospitalId ?: number;
+  name ?: string;
+  isModalOpen : boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ClinicModal = ({
   name,
-  date,
-  result = "없음",
-  content = "없음",
-  detail = "없음",
+  createAt,
+  diagnosis = "없음",
+  prescription = "없음",
+  description = "없음",
+  isModalOpen,
   setIsModalOpen,
 }: ClinicModalProps) => {
-  return (
+  const [isBrowser, setIsBrowser] = useState(false);
+  
+  useEffect(() => {
+    setIsBrowser(true);
+    return setIsBrowser(true);
+  }, []);
+
+  const modalContent = isModalOpen ? (
     <ModalBox>
       <Dim />
       <Modal>
@@ -28,22 +46,22 @@ const ClinicModal = ({
           <h3>{name}</h3>
           <p>
             <span>진료일시</span>
-            {date}
+            {changeDate(createAt!)}
           </p>
         </ModalHead>
         <ModalContent>
           <ul>
             <li>
               <Subject>진단결과</Subject>
-              <div>{result}</div>
+              <div>{diagnosis}</div>
             </li>
             <li>
               <Subject>처방내용</Subject>
-              <div>{content}</div>
+              <div>{prescription}</div>
             </li>
             <li>
               <Subject>상세소견</Subject>
-              <div>{detail}</div>
+              <div>{description}</div>
             </li>
           </ul>
           <RoundButton size="sm" nonSubmit onClick={() => setIsModalOpen(false)}>
@@ -52,7 +70,12 @@ const ClinicModal = ({
         </ModalContent>
       </Modal>
     </ModalBox>
-  );
+  ) : null;
+  if (isBrowser) {
+    return ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement);
+  } else {
+    return null;
+  }
 };
 
 export default ClinicModal;
@@ -64,8 +87,8 @@ const ModalBox = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
-  z-index: 100;
-  opacity: 0;
+  z-index: 1000;
+  opacity:0;
   animation: ${showFrame} 0.3s forwards;
 `;
 
@@ -75,7 +98,7 @@ const Dim = styled.div`
   top: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0,0,0,.2);
   z-index: 2;
 `;
 
@@ -86,6 +109,7 @@ const Modal = styled.div`
   border-radius: 40px;
   margin: auto;
   overflow: hidden;
+
 `;
 
 const ModalHead = styled.div`
