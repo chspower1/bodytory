@@ -113,6 +113,7 @@ const useAudio = () => {
   }, []);
 
   const offRecAudio = useCallback(async () => {
+    setAudioRecognized("");
     if (media) {
       media.ondataavailable = async e => {
         await onSubmitAudioFile(e.data);

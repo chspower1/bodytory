@@ -17,11 +17,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 }
 
 async function createRecord(req: NextApiRequest, res: NextApiResponse) {
-  const { type, position, description } = req.body;
+  const { position, description } = req.body;
   const { user } = req.session;
+  if (!user) return res.status(400).end();
+  console.log(position, description);
   await client.record.create({
     data: {
-      type,
+      type: "user",
       position,
       description,
       user: {
@@ -31,7 +33,8 @@ async function createRecord(req: NextApiRequest, res: NextApiResponse) {
       },
     },
   });
-  return res.status(200).end();
+  // // NextResponse.redirect(new URL("/", req.url));
+  // return res.status(200).redirect(new URL("/"));
 }
 
 async function findRecord(req: NextApiRequest, res: NextApiResponse) {
