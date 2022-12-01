@@ -11,6 +11,7 @@ import { changeDate } from "@utils/client/changeDate";
 
 import "swiper/css";
 import "swiper/css/pagination";
+import { Row } from "@styles/Common";
 
 const SwiperBox = ({
   setCurrentHospitalName,
@@ -59,7 +60,7 @@ const SwiperBox = ({
                 <HospitalAddress title={ele.address}>{ele.address}</HospitalAddress>
               </ItemHeader>
               <ClinicListBox>
-                {ele.Record.map((obj, idx) => (
+                {ele.Record.length >=1 ?  ele.Record.map((obj, idx) => (
                   <ClinicItem key={`${obj.userId} + ${obj.id} + ${Date.now()}`}>
                     <ClinicDate>{changeDate(obj.createAt)}</ClinicDate>
                     <ClinicDetailButtonBox>
@@ -73,7 +74,11 @@ const SwiperBox = ({
                       </RectangleButton>
                     </ClinicDetailButtonBox>
                   </ClinicItem>
-                ))}
+                )) :
+                  <BlankCommentBox>
+                    <p>진료 내역이 없어요!</p>
+                  </BlankCommentBox>
+                }
               </ClinicListBox>
             </SlideItemInnerBox>
           </SwiperSlideItem>
@@ -192,3 +197,10 @@ const ClinicDate = styled.div`
 `;
 
 const ClinicDetailButtonBox = styled.div``;
+
+
+const BlankCommentBox = styled(Row)`
+  width:100%;
+  height:100%;
+`;
+
