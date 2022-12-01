@@ -88,7 +88,7 @@ const RecordModal = ({ setShowRecordModal, record }: RecordModalProps) => {
   }, []);
   const modalContent = (
     <ModalBox>
-      <Dim onClick={() => setShowRecordModal(false)} />
+      <Dim onClick={() => setShowRecordModal(-1)} />
       <Modal>
         <ScrollContainer>
           <RecordDetailContainer>
@@ -105,7 +105,7 @@ const RecordModal = ({ setShowRecordModal, record }: RecordModalProps) => {
                 <span>삭제하시겠습니까?</span>
               </CircleDeleteButton>
               <RoundButton
-                onClick={() => setShowRecordModal(false)}
+                onClick={() => setShowRecordModal(-1)}
                 size="custom"
                 bgColor="rgb(198,205,250)"
                 textColor="#5D6BB2"
