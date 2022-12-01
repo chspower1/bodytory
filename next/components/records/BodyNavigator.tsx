@@ -26,8 +26,13 @@ const bodyBack = [...common, ...back];
 const BodyNavigator = ({ isWritePage }: BodyNavigator) => {
   const [selectedPart, setSelectedPart] = useRecoilState(selectedBodyPart);
   const [currentBodyPosition, setCurrentBodyPosition] = useState<CurrentBodyPosition>("front");
-
   const [hoveredPart, setHoveredPart] = useState("");
+
+  useEffect(() => {
+    if(selectedPart === null) {
+      setCurrentBodyPosition("front");
+    }
+  }, [selectedPart]);
 
   return (
     <CustomContainer isWritePage={isWritePage}>
