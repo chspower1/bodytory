@@ -16,9 +16,7 @@ async function myClinicList(req: NextApiRequest, res: NextApiResponse) {
     where: {
       id: user.id,
     },
-    include: {
-      
-    },
+    include: {},
   });
   return res.status(200).json(data);
 }

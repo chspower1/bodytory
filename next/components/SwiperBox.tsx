@@ -51,7 +51,7 @@ const SwiperBox = ({
               </ItemHeader>
               <ClinicListBox>
                 {ele.Record.map((obj, idx) => (
-                  <ClinicItem>
+                  <ClinicItem key={idx}>
                     <ClinicDate>2022년 11월 09일 일요일 오후 5시 52분</ClinicDate>
                     <ClinicDetailButtonBox>
                       <RectangleButton width="90px" nonSubmit fontSize="16px" onClick={() => setIsModalOpen(true)}>
