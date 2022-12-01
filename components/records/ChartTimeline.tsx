@@ -155,7 +155,7 @@ function ChartTimeline() {
       </TimelineContainer>
 
       { showModal && recordDetail && (
-        <RecordModal>
+        <RecordModal setShowModal={setShowModal}>
           <ScrollContainer>
             <RecordDetailContainer>
               <ButtonBox>
