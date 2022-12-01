@@ -5,26 +5,30 @@ import { withApiSession } from "@utils/server/withSession";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
 
-  
-  if (req.method === "GET") return await findHospital(req, res);
+  if (req.method === "GET") return await myClinicList(req, res);
 
   // if (req.method === "DELETE") return await deleteHospital(req, res);
+  
 }
 
 
-async function findHospital(req: NextApiRequest, res: NextApiResponse) {
-  const { search } = req.body;
+async function myClinicList(req: NextApiRequest, res: NextApiResponse) {
   const { user } = req.session;
   if (!user) return res.status(401).send("회원 정보를 확인해주세요");
-  const data = await client.hospital.findMany({
+  const data = await client.user.findFirst({
     where: {
-      name:{
-        contains: search
+      id : user.id
+    },
+    select:{
+      hospitals:{
+        include:{
+          Record:true
+        }
       }
     },
-    take: 10
+    
   });
-  return res.status(200).json( data );
+  return res.status(200).json( data?.hospitals );
 }
 
 /* async function deleteHospital(req: NextApiRequest, res: NextApiResponse) {
