@@ -17,7 +17,21 @@ import SpeakMotion from "@components/SpeakMotion";
 import useAudio from "@hooks/useAudio";
 
 const PositionPage = () => {
-  const { startRecord, endRecord, transcript, listening, RecordBtn } = useAudio();
+  const { offRecAudio, onRecAudio, onSubmitAudioFile, audioRecognized, isRecording } = useAudio();
+  const { transcript, listening, resetTranscript, browserSupportsSpeechRecognition } = useSpeechRecognition();
+
+  const startRecord = () => {
+    onRecAudio();
+    SpeechRecognition.startListening({ continuous: true, language: "ko" });
+  };
+
+  const endRecord = () => {
+    offRecAudio();
+    SpeechRecognition.stopListening();
+    onSubmitAudioFile();
+    resetTranscript();
+  };
+
   return (
     <WhiteWrapper>
       <SpeakMotion listening={listening} />
@@ -42,7 +56,7 @@ const PositionPage = () => {
               fontSize="30px"
               boxShadow={false}
             >
-              {listening ? transcript : "증상을 말해주세요!"}
+              {listening ? "test" : "증상을 말해주세요!"}
             </RectangleButton>
             <CircleButton
               bgColor={listening ? theme.color.mintBtn : theme.color.darkBg}
@@ -51,7 +65,6 @@ const PositionPage = () => {
             >
               <Image src={mic} alt="마이크" />
             </CircleButton>
-            <RecordBtn />
           </VoiceBox>
         </Col>
       </FlexContainer>
