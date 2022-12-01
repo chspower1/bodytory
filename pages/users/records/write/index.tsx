@@ -1,67 +1,22 @@
-import { RectangleButton, RoundButton } from "@components/button/Button";
-
-import Confirm from "@components/records/write/Confirm";
-import Select from "@components/records/write/Select";
-import { Box, Col, Row, ToryText } from "@styles/Common";
-import { theme } from "@styles/theme";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import customApi from "@utils/client/customApi";
-import { RECORDS_CREATE, RECORDS_READ } from "constant/queryKeys";
-import Input from "@components/Input";
-import Link from "next/link";
-import React, { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
 import BodyNavigator from "@components/record/BodyNavigator";
 import styled from "styled-components";
 import SiteChecker from "@components/record/SiteChecker";
-
-interface WriteType {
-  write: string;
-}
-
-export type SiteType =
-  | "head"
-  | "forehead"
-  | "eyes"
-  | "nose"
-  | "mouth"
-  | "cheek"
-  | "chin"
-  | "ears"
-  | "back"
-  | "waist"
-  | "hip"
-  | "neck"
-  | "chest"
-  | "stomach"
-  | "pelvis"
-  | "sexOrgan"
-  | "shoulder"
-  | "upperArm"
-  | "albow"
-  | "forearm"
-  | "wrist"
-  | "hand"
-  | "thigh"
-  | "knee"
-  | "calf"
-  | "ankle"
-  | "foot"
-  | null;
+import { useEffect } from "react";
+import { useSetRecoilState } from "recoil";
+import { selectedBodyPart } from "atoms/atoms";
 
 export default function WritePage() {
-  const [selectedSite, setSelectedSite] = useState<SiteType>(null);
-  const [hoveredSite, setHoveredSite] = useState<string>("");
+
+  const setSelectedPart = useSetRecoilState(selectedBodyPart); 
+
+  useEffect(() => {
+    setSelectedPart(null);
+  }, []);
 
   return (
     <RecordContainer>
-      <SiteChecker hoveredSite={hoveredSite} selectedSite={selectedSite} setSelectedSite={setSelectedSite} />
-      <BodyNavigator
-        selectedSite={selectedSite}
-        setSelectedSite={setSelectedSite}
-        setHoveredSite={setHoveredSite}
-        hoveredSite={hoveredSite}
-      />
+      <SiteChecker />
+      <BodyNavigator />
     </RecordContainer>
   );
 }

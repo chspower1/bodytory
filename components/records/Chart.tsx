@@ -3,31 +3,47 @@ import { RoundButton } from "@components/button/Button";
 import ToryRecommendPart from './ToryRecommendPart';
 import ChartTimeline from "./ChartTimeline";
 import ChartKeyword from "./ChartKeyword";
+import { KoreanPosition } from "types/write";
+import Link from "next/link";
+import { useRecoilValue } from "recoil";
+import { selectedBodyPart } from "atoms/atoms";
 
 
 function Chart() {
+  const selectedPart = useRecoilValue(selectedBodyPart);
+
   return (
     <ChartWrap>
-      <ChartContainer>
-        <TitleBox>
-          <Title>
-            <strong>$손목</strong> 건강기록
-          </Title>
-          <RoundButton size="md" bgColor="rgb(244,245,255)" textColor="rgb(83,89,233)">기록 추가하기</RoundButton>
-        </TitleBox>
-        <ToryRecommendPart />
-        <ChartKeyword />
-        <ChartTimeline />
-      </ChartContainer>
+      <ScrollContainer>
+        <ChartContainer>
+          <TitleBox>
+            <Title>
+              <strong>{KoreanPosition[selectedPart!]}</strong> 건강기록
+            </Title>
+            <Link href={`/users/records/write/${selectedPart}`}>
+              <RoundButton size="md" bgColor="rgb(244,245,255)" textColor="rgb(83,89,233)">기록 추가하기</RoundButton>
+            </Link>
+          </TitleBox>
+          <ToryRecommendPart />
+          <ChartKeyword />
+          <ChartTimeline />
+        </ChartContainer>
+      </ScrollContainer>
     </ChartWrap>
   )
 }
 
 
 const ChartWrap = styled.div`
+  position: relative;
   width: 62.5%;
   height: 100%;
   background: ${({ theme }) => theme.color.darkBg};
+`;
+
+const ScrollContainer = styled.div`
+  width: 100%;
+  height: 100%;
   overflow-y: scroll;
 
   &::-webkit-scrollbar {
