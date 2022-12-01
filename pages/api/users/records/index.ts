@@ -43,8 +43,19 @@ async function findRecord(req: NextApiRequest, res: NextApiResponse) {
     where: {
       userId: user!.id,
     },
-    include: { images: true },
+    include: {
+      images: true,
+      hospital: {
+        select: {
+          name: true,
+        },
+      },
+    },
+    orderBy: {
+      createAt: "desc",
+    },
   });
+
   return res.status(200).json(data);
 }
 

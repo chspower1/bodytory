@@ -123,6 +123,16 @@ ${reset}
     background-color: ${prop => prop.add && "#e2e6ff"};
   }
 
+  .blind {
+    overflow: hidden;
+    border: 0;
+    width: 1px;
+    height: 1px;
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
+    display: inline-block;
+  }
+
 `;
 
 export default GlobalStyled;

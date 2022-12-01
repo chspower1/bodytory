@@ -18,9 +18,7 @@ type CurrentBodyPosition = "front" | "back" | "face";
 const face: bodyPartType[] = ["head", "forehead", "eyes", "nose", "mouth", "cheek", "chin", "ears"];
 const back: bodyPartType[] = ["back", "waist", "hip"];
 
-
 const BodyNavigator = ({ isWritePage }: BodyNavigator) => {
-
   const [selectedPart, setSelectedPart] = useRecoilState(selectedBodyPart);
   const [currentBodyPosition, setCurrentBodyPosition] = useState<CurrentBodyPosition>("front");
 
@@ -138,7 +136,6 @@ const BodyNavigator = ({ isWritePage }: BodyNavigator) => {
                 isChecked={selectedPart === "pelvis"}
                 onClick={() => setSelectedPart("pelvis")}
                 d={SvgPathFront.PELVIS_RIGHT}
-
               />
               <HoverPath
                 isChecked={selectedPart === "sexOrgan"}
@@ -214,7 +211,7 @@ const BodyNavigator = ({ isWritePage }: BodyNavigator) => {
             <OutlineFront />
           </svg>
         )}
-        
+
         {currentBodyPosition === "back" && (
           <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 409 769" fill="none">
             <g id="partArea__back">
@@ -475,7 +472,7 @@ const ButtonsBox = styled.div`
   bottom: 0;
 `;
 
-const HoverPath = styled.path<{ isChecked: boolean; }>`
+const HoverPath = styled.path<{ isChecked: boolean }>`
   cursor: pointer;
 
   &:hover {
