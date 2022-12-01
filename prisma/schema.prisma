@@ -56,6 +56,9 @@ model Record {
   user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   hospital     Hospital?     @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
   images       RecordImage[]
+
+  @@index([userId])
+  @@index([hospitalId])
 }
 
 model RecordImage {

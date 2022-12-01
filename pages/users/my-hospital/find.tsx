@@ -1,6 +1,7 @@
 import { RoundButton } from "@components/button/Button";
 import HospitalList from "@components/HospitalList";
 import Input from "@components/Input";
+import ArroundMap from "@components/Modal/ArroundMap";
 import { User } from "@prisma/client";
 import { FlexContainer, InnerContainer } from "@styles/Common";
 import { theme } from "@styles/theme";
@@ -24,6 +25,7 @@ interface SearchForm {
 const FindHospital = () => {
   const { getApi } = customApi("/api/users/my-hospitals");
   const { data } = useQuery(["hospital"], getApi);
+  const [showModal, setShowModal] = useState(false);
   const [findState, setFindState] = useState<any>(undefined);
   const findData = useMutation(["findHospital"], getTest, {
     onSuccess(data) {
@@ -71,7 +73,7 @@ const FindHospital = () => {
             </Pragraph>
           </DescriptionBox>
           <ButtonBox>
-            <RoundButton size="md" bgColor={theme.color.mintBtn} nonSubmit>
+            <RoundButton size="md" bgColor={theme.color.mintBtn} nonSubmit onClick={() => setShowModal(true)}>
               <ImageIcon src={mapIcon} width={30} height={30} alt="map" />
               지도에서 내 주변 병원 찾기
             </RoundButton>
@@ -87,6 +89,7 @@ const FindHospital = () => {
         </DescriptionContainer>
         {<HospitalList lists={findState} add={true} />}
       </MainInnerContainer>
+      {showModal && <ArroundMap setShowModal={setShowModal} />}
     </MainContainer>
   );
 };

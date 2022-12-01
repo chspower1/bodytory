@@ -1,22 +1,22 @@
-import { RoundButton } from '@components/button/Button';
-import { theme } from '@styles/theme';
-import { useQuery } from '@tanstack/react-query';
-import customApi from '@utils/client/customApi';
-import { loggedInUser } from 'atoms/atoms';
-import { HOSPITALS } from 'constant/queryKeys';
-import Link from 'next/link';
-import React, { useEffect } from 'react'
-import { useRecoilValue } from 'recoil';
-import styled from 'styled-components';
+import { RoundButton } from "@components/button/Button";
+import { theme } from "@styles/theme";
+import { useQuery } from "@tanstack/react-query";
+import customApi from "@utils/client/customApi";
+import { loggedInUser } from "atoms/atoms";
+import { HOSPITALS } from "constant/queryKeys";
+import Link from "next/link";
+import React, { useEffect } from "react";
+import { useRecoilValue } from "recoil";
+import styled from "styled-components";
 import medicalIcon from "@public/medical.png";
-import HospitalList from '@components/HospitalList';
-import Image from 'next/image';
+import HospitalList from "@components/HospitalList";
+import Image from "next/image";
 
 const MyHospitalPage = () => {
   const { getApi } = customApi("/api/users/my-hospitals");
   const { data } = useQuery([HOSPITALS], getApi);
   console.log(data);
-  
+
   const currentUser = useRecoilValue(loggedInUser);
   useEffect(() => {
     document.body.style.backgroundColor = theme.color.lightBg;
@@ -25,7 +25,7 @@ const MyHospitalPage = () => {
     };
   }, []);
 
-  return currentUser && data ? (
+  return currentUser ? (
     <MainContainer>
       <MainInnerContainer>
         <DescriptionBox>
@@ -41,14 +41,13 @@ const MyHospitalPage = () => {
             </Link>
           </RoundButton>
         </ButtonBox>
-        <HospitalList lists={data} add={false} />
+        {data && <HospitalList lists={data} add={false} />}
       </MainInnerContainer>
     </MainContainer>
   ) : null;
 };
 
-
-export default MyHospitalPage
+export default MyHospitalPage;
 
 export const MainContainer = styled.div`
   height: 100%;
@@ -71,8 +70,8 @@ export const MainInnerContainer = styled.div`
 
 export const Pragraph = styled.p`
   font-size: 32px;
-  strong{
-    font-weight :700;
+  strong {
+    font-weight: 700;
   }
 `;
 export const HighlightText = styled.span`
