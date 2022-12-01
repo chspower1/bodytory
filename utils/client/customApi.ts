@@ -1,20 +1,18 @@
 import axios from "axios";
 import { ErrorInfo, useState } from "react";
 
+const axiosBase = axios.create({
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
 const basicApi = () => {
-  const axiosBase = axios.create({
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-
   axiosBase.interceptors.response.use(
     response => response,
     error => {
       throw error.response;
     },
   );
-
 
   return axiosBase;
 };

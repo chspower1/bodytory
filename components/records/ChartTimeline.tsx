@@ -22,15 +22,19 @@ export interface RecordWithImageAndHospital extends Record {
 }
 
 function ChartTimeline() {
+  const queryClient = useQueryClient();
   const { getApi, putApi, deleteApi } = customApi("/api/users/records");
+  const [records, setRecords] = useState<RecordWithImageAndHospital[] | undefined>();
 
   // 기록 조회
-  const { isLoading, data: records } = useQuery<RecordWithImageAndHospital[] | undefined>([RECORDS_READ], getApi);
-
+  const { isLoading, data } = useQuery<RecordWithImageAndHospital[] | undefined>([RECORDS_READ], getApi, {
+    onSuccess(data) {
+      setRecords(data);
+    },
+  });
   const selectedPart = useRecoilValue(selectedBodyPart);
   const recordsByPosition = records?.filter((record, index) => record.position === selectedPart);
 
-  const queryClient = useQueryClient();
   const { mutate } = useMutation([RECORDS_DELETE], deleteApi, {
     onSuccess() {
       queryClient.invalidateQueries([RECORDS_READ]);
@@ -120,7 +124,7 @@ function ChartTimeline() {
                     <Content>
                       <Description cursorType={"pointer"}>
                         <Text onClick={() => handleRecordModal(record)}>{record.description}</Text>
-                        <Image>
+                        <ImageBox>
                           {record.images.length ? (
                             <Thumbnail onClick={() => handleRecordModal(record)}>
                               <ThumbnailImage src={record.images[0].url} />
@@ -133,7 +137,7 @@ function ChartTimeline() {
                               <span className="blind">사진 추가</span>
                             </UploadImageButton>
                           )}
-                        </Image>
+                        </ImageBox>
                       </Description>
 
                       <DeleteButton
@@ -294,7 +298,7 @@ const Text = styled.div`
   padding: 20px 200px 20px 30px;
 `;
 
-const Image = styled.div`
+const ImageBox = styled.div`
   position: absolute;
   top: 50%;
   right: 90px;
