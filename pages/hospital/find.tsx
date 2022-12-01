@@ -7,17 +7,30 @@ import { theme } from "@styles/theme";
 import { useQuery } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
 import { loggedInUser } from "atoms/atoms";
+import Image from "next/image";
 import { RegisterForm } from "pages/auth/register";
 import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { ButtonBox, DescriptionBox, MainContainer, MainInnerContainer, Pragraph } from ".";
+import { ButtonBox, DescriptionBox, ImageIcon, MainContainer, MainInnerContainer, Pragraph } from ".";
+import mapIcon from "../../public/static/icon/mapIcon.svg";
+
+interface SearchForm {
+  search: string;
+}
 
 const FindHospital = () => {
-  const { getApi } = customApi("/api/users/hospital");
+  const { getApi } = customApi("/api/users/my-hospitals");
   const { data } = useQuery(["hospital"], getApi);
   const currentUser = useRecoilValue(loggedInUser);
-  const [user, setUser] = useState<User | RegisterForm | null>();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    setError,
+    formState: { errors },
+  } = useForm<SearchForm>({ mode: "onChange" });
 
   useEffect(() => {
     document.body.style.backgroundColor = theme.color.lightBg;
@@ -25,6 +38,11 @@ const FindHospital = () => {
       document.body.style.backgroundColor = theme.color.darkBg;
     };
   }, []);
+
+  const onValid = (input: SearchForm) => {
+    setValue("search", "");
+    console.log(input);
+  };
 
   return (
     <MainContainer>
@@ -38,24 +56,34 @@ const FindHospital = () => {
             </Pragraph>
           </DescriptionBox>
           <ButtonBox>
-            <RoundButton size="md" bgColor={theme.color.mintBtn}>
+            <RoundButton size="md" bgColor={theme.color.mintBtn} nonSubmit>
+              <ImageIcon src={mapIcon} width={30} height={30} alt="map" />
               지도에서 내 주변 병원 찾기
             </RoundButton>
           </ButtonBox>
           <SearchBox>
-            <Input name="search-hospital" width="700px" bgcolor="#fff" color="black" />
-            <RoundButton size="custom" height="60px" bgColor="rgb(100,106,235)">
-              검색
-            </RoundButton>
+            <SearchForm onSubmit={handleSubmit(onValid)}>
+              <Input name="search" width="700px" bgcolor="#fff" color="black" register={register("search")} />
+              <RoundButton size="custom" height="60px" bgColor="rgb(100,106,235)">
+                검색
+              </RoundButton>
+            </SearchForm>
           </SearchBox>
         </DescriptionContainer>
-        {<HospitalList lists={data?.hospitals} add={true} />}
+        {<HospitalList lists={data} add={true} />}
       </MainInnerContainer>
     </MainContainer>
   );
 };
 
 export default FindHospital;
+
+const SearchForm = styled.form`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+`;
 
 const SearchBox = styled.div`
   display: flex;
