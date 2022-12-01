@@ -119,6 +119,7 @@ export default function Edit() {
                 placeholder="현재 비밀번호를 입력해주세요."
                 error={errors.oldPassword?.message}
                 align='left'
+                disabled={test?.type !== "origin"}
               />
               <Input
                 light
@@ -128,6 +129,7 @@ export default function Edit() {
                 placeholder="새로운 비밀번호를 입력해주세요."
                 error={errors.newPassword?.message}
                 align='left'
+                disabled={test?.type !== "origin"}
               />
               <Input
                 light
@@ -137,10 +139,11 @@ export default function Edit() {
                 placeholder="새로운 비밀번호확인을 입력해주세요."
                 error={errors.newPasswordConfirm?.message}
                 align='left'
+                disabled={test?.type !== "origin"}
               />
             </SeperationBox>
             <SeperationBox style={{ display: "flex", justifyContent: "center" }}>
-              <RoundButton size="md" bgColor={theme.color.mintBtn}>
+              <RoundButton size="md" bgColor={theme.color.mintBtn} disabled={test?.type !== "origin"}>
                 비밀번호 변경하기
               </RoundButton>
             </SeperationBox>
