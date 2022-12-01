@@ -21,7 +21,7 @@ interface SearchForm {
 }
 
 const FindHospital = () => {
-  const { getApi } = customApi("/api/users/hospital");
+  const { getApi } = customApi("/api/users/my-hospitals");
   const { data } = useQuery(["hospital"], getApi);
   const currentUser = useRecoilValue(loggedInUser);
   const {
@@ -70,7 +70,7 @@ const FindHospital = () => {
             </SearchForm>
           </SearchBox>
         </DescriptionContainer>
-        {<HospitalList lists={data?.hospitals} add={true} />}
+        {<HospitalList lists={data} add={true} />}
       </MainInnerContainer>
     </MainContainer>
   );
