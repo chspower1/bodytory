@@ -87,13 +87,11 @@ const useAudio = () => {
   const [media, setMedia] = useState<MediaRecorder>();
 
   const [source, setSource] = useState<MediaStreamAudioSourceNode>();
-  const [analyser, setAnalyser] = useState<ScriptProcessorNode>();
   const [audioRecognized, setAudioRecognized] = useState<string>("");
 
   const onRecAudio = useCallback(() => {
     const audioCtx = new window.AudioContext({ sampleRate: 16000 });
     const analyser = audioCtx.createScriptProcessor(0, 1, 1);
-    setAnalyser(analyser);
     function makeSound(stream: MediaStream) {
       // 내 컴퓨터의 마이크나 다른 소스를 통해 발생한 오디오 스트림의 정보를 보여준다.
       const source = audioCtx.createMediaStreamSource(stream);
@@ -101,7 +99,6 @@ const useAudio = () => {
 
       // AudioBufferSourceNode 연결
       source.connect(analyser);
-      analyser.connect(audioCtx.destination);
     }
     navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
       const mediaRecorder = new MediaRecorder(stream, {
@@ -124,10 +121,9 @@ const useAudio = () => {
         track.stop();
       });
       media.stop();
-      analyser?.disconnect();
       source?.disconnect();
     }
-  }, [media, stream, analyser, source]);
+  }, [media, stream, source]);
 
   const onSubmitAudioFile = async (audioUrl: Blob) => {
     const reader = new FileReader();
