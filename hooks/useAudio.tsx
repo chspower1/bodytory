@@ -89,7 +89,6 @@ const useAudio = () => {
   const [source, setSource] = useState<MediaStreamAudioSourceNode>();
   const [analyser, setAnalyser] = useState<ScriptProcessorNode>();
   const [audioRecognized, setAudioRecognized] = useState<string>("");
-  const [isRecording, setIsRecording] = useState(false);
 
   const onRecAudio = useCallback(() => {
     const audioCtx = new window.AudioContext({ sampleRate: 16000 });
@@ -113,18 +112,13 @@ const useAudio = () => {
       setStream(stream);
       setMedia(mediaRecorder);
       makeSound(stream);
-      analyser.onaudioprocess = function (e) {
-        setIsRecording(true);
-      };
     });
   }, []);
 
   const offRecAudio = useCallback(async () => {
-    setIsRecording(false);
     if (media) {
-      media.ondataavailable = async function (e) {
+      media.ondataavailable = async e => {
         await onSubmitAudioFile(e.data);
-        setIsRecording(false);
       };
       stream?.getAudioTracks().forEach(function (track) {
         track.stop();
@@ -169,7 +163,7 @@ const useAudio = () => {
       PostAudio();
     };
   };
-  return { offRecAudio, onRecAudio, onSubmitAudioFile, audioRecognized, isRecording };
+  return { offRecAudio, onRecAudio, audioRecognized };
 };
 
 export default useAudio;

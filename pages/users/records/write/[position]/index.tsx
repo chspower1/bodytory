@@ -17,7 +17,7 @@ import SpeakMotion from "@components/SpeakMotion";
 import useAudio from "@hooks/useAudio";
 
 const PositionPage = () => {
-  const { offRecAudio, onRecAudio, onSubmitAudioFile, audioRecognized, isRecording } = useAudio();
+  const { offRecAudio, onRecAudio, audioRecognized } = useAudio();
   const { transcript, listening, resetTranscript, browserSupportsSpeechRecognition } = useSpeechRecognition();
 
   const startRecord = () => {
