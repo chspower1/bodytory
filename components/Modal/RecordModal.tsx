@@ -13,7 +13,6 @@ import { useRecoilValue } from "recoil";
 import styled, { css, keyframes } from "styled-components";
 import { showFrame } from "./Modal";
 
-
 interface RecordWithImage extends Record {
   images: RecordImage[];
 }
@@ -22,8 +21,12 @@ interface RecordUpdateType {
   updateWrite: string;
 }
 
-const RecordModal = ({setShowRecordModal} : {children ?: React.ReactNode, setShowRecordModal: React.Dispatch<React.SetStateAction<boolean>>}) => {
-
+const RecordModal = ({
+  setShowRecordModal,
+}: {
+  children?: React.ReactNode;
+  setShowRecordModal: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const { putApi, deleteApi } = customApi("/api/users/records");
 
   const queryClient = useQueryClient();
@@ -41,7 +44,6 @@ const RecordModal = ({setShowRecordModal} : {children ?: React.ReactNode, setSho
     },
   });
 
-
   // 기록 조회
   const selectRecord = useRecoilValue(selectedRecord);
 
@@ -49,79 +51,77 @@ const RecordModal = ({setShowRecordModal} : {children ?: React.ReactNode, setSho
   const [confirmDelete, setConfirmDelete] = useState(-1);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>, recordId: number) => {
-    if(confirmDelete !== -1){
+    if (confirmDelete !== -1) {
       deleteMutate.mutate({ id: confirmDelete });
-    } else{
+    } else {
       setConfirmDelete(recordId);
     }
-  }
-
+  };
 
   // 기록 수정
   const [textArea, setTextArea] = useState<string | undefined>("");
   const [showMsg, setShowMsg] = useState<boolean>(false);
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTextArea(e.target.value);
-  }
+  };
 
-  const { 
-    register, 
-    handleSubmit, 
+  const {
+    register,
+    handleSubmit,
     setError,
     watch,
-    formState: { errors, isSubmitSuccessful },
+    formState: { errors },
   } = useForm<RecordUpdateType>({
     reValidateMode: "onSubmit",
     defaultValues: {
-      updateWrite: selectRecord!.description
-    }
+      updateWrite: selectRecord!.description,
+    },
   });
 
   const onValid: SubmitHandler<RecordUpdateType> = ({ updateWrite }) => {
+    setShowMsg(true);
     updateMutate.mutate({ id: selectRecord.id, position: selectRecord!.position, description: updateWrite });
+    setTimeout(() => {
+      setShowMsg(false);
+    }, 2000);
   };
-
-  useEffect(() => {
-    if(isSubmitSuccessful) {
-      setShowMsg(isSubmitSuccessful);
-    }
-  }, [isSubmitSuccessful]);
-
 
   return (
     <ModalBox>
-      <Dim onClick={()=> setShowRecordModal(false)} />
+      <Dim onClick={() => setShowRecordModal(false)} />
       <Modal>
         <ScrollContainer>
           <RecordDetailContainer>
             <ButtonBox>
               <CircleDeleteButton
-                onClick={(e) => handleClick(e, selectRecord!.id)}
-                recordId={selectRecord!.id} 
-                className={confirmDelete === selectRecord!.id ? "active" : ""} 
+                onClick={e => handleClick(e, selectRecord!.id)}
+                recordId={selectRecord!.id}
+                className={confirmDelete === selectRecord!.id ? "active" : ""}
                 onBlur={() => setConfirmDelete(-1)}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                  <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+                  <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
                 </svg>
                 <span>삭제하시겠습니까?</span>
               </CircleDeleteButton>
-              <RoundButton 
+              <RoundButton
                 onClick={() => setShowRecordModal(false)}
-                size="custom" 
-                bgColor="rgb(198,205,250)" 
-                textColor="#5D6BB2" 
-                boxShadow={false} 
-                height="40px" 
+                size="custom"
+                bgColor="rgb(198,205,250)"
+                textColor="#5D6BB2"
+                boxShadow={false}
+                height="40px"
                 padding="0 40px"
-              >닫기</RoundButton>
+              >
+                닫기
+              </RoundButton>
             </ButtonBox>
             <Time byUser={selectRecord!.type === "user"}>
-              {format(new Date(selectRecord!.createAt), "yyyy년 M월 d일 EEEE aaaa h시 m분", {locale: ko})}
+              {format(new Date(selectRecord!.createAt), "yyyy년 M월 d일 EEEE aaaa h시 m분", { locale: ko })}
             </Time>
             <EditTextBox onSubmit={handleSubmit(onValid)}>
               <TextArea
-                {...register("updateWrite", { 
+                {...register("updateWrite", {
                   required: "증상을 입력해주세요",
                 })}
                 onChange={handleTextChange}
@@ -129,13 +129,11 @@ const RecordModal = ({setShowRecordModal} : {children ?: React.ReactNode, setSho
               >
                 {selectRecord!.description}
               </TextArea>
-              <RoundButton size="sm" bgColor="rgb(83,89,233)" boxShadow={false}>수정하기</RoundButton>
-              {
-                showMsg && (<SuccessMsg>수정이 완료되었습니다!</SuccessMsg>)
-              }
-              {
-                errors.updateWrite && (<ErrorMsg>{errors.updateWrite.message}</ErrorMsg>)
-              }
+              <RoundButton size="sm" bgColor="rgb(83,89,233)" boxShadow={false}>
+                수정하기
+              </RoundButton>
+              {showMsg && <SuccessMsg>수정이 완료되었습니다!</SuccessMsg>}
+              {errors.updateWrite && <ErrorMsg>{errors.updateWrite.message}</ErrorMsg>}
             </EditTextBox>
             <ManageImage recordId={String(selectRecord!.id)} recordImage={selectRecord!.images} />
           </RecordDetailContainer>
@@ -147,7 +145,6 @@ const RecordModal = ({setShowRecordModal} : {children ?: React.ReactNode, setSho
 
 export default RecordModal;
 
-
 const ModalBox = styled.div`
   position: fixed;
   left: 0;
@@ -155,8 +152,8 @@ const ModalBox = styled.div`
   width: 100%;
   height: 100%;
   z-index: 100;
-  display:flex;
-  opacity:0;
+  display: flex;
+  opacity: 0;
   animation: ${showFrame} 0.3s forwards;
 `;
 
@@ -181,8 +178,6 @@ const Modal = styled.div`
   background: ${({ theme }) => theme.color.white};
 `;
 
-
-
 const ScrollContainer = styled.div`
   width: 100%;
   height: 100%;
@@ -193,13 +188,13 @@ const ScrollContainer = styled.div`
   }
   &::-webkit-scrollbar-thumb {
     width: 10px;
-    background-color: #4449C2;
+    background-color: #4449c2;
     background-clip: content-box;
     border: 10px solid transparent;
     border-radius: 20px;
   }
   &::-webkit-scrollbar-thumb:hover {
-    background-color: #363CBF;
+    background-color: #363cbf;
     background-clip: content-box;
     border: 10px solid transparent;
   }
@@ -209,7 +204,7 @@ const RecordDetailContainer = styled.div`
   padding: 30px 40px 40px 70px;
 `;
 
-const Time = styled.div<{byUser: boolean}>`
+const Time = styled.div<{ byUser: boolean }>`
   position: relative;
   padding: 10px;
   margin-bottom: 10px;
@@ -223,15 +218,16 @@ const Time = styled.div<{byUser: boolean}>`
     width: 16px;
     height: 16px;
     border-radius: 50%;
-    ${({ byUser }) => (
-      byUser ? css`
-        box-sizing: border-box;
-        background: #fff;
-        border: 4px solid #5359E9;
-      ` : css`
-        background: #03E7CB;
-      `
-    )}
+    ${({ byUser }) =>
+      byUser
+        ? css`
+            box-sizing: border-box;
+            background: #fff;
+            border: 4px solid #5359e9;
+          `
+        : css`
+            background: #03e7cb;
+          `}
   }
 `;
 
@@ -245,7 +241,6 @@ const EditTextBox = styled.form`
 `;
 
 const TextArea = styled.textarea`
- 
   background: #ebecfc;
   border: 0;
   resize: none;
@@ -265,7 +260,7 @@ const SuccessMsg = styled.span`
   left: 20px;
   font-size: 14px;
   font-weight: 500;
-  color: #4449C2;
+  color: #4449c2;
 `;
 
 const ErrorMsg = styled(SuccessMsg)`
