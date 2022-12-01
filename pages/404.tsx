@@ -2,7 +2,7 @@ import { FlexContainer } from "@styles/Common";
 import styled from "styled-components";
 import { ToryIcon } from "./users/my-hospital/clinic-list";
 import toriQuestionIcon from "@public/static/icon/toriQuestion.png";
-import { CircleButton } from "@components/button/Button";
+import { CircleButton } from "@components/buttons/Button";
 import { theme } from "@styles/theme";
 import { useRouter } from "next/router";
 import Link from "next/link";

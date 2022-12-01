@@ -9,7 +9,7 @@ import Link from "next/link";
 import customApi from "utils/client/customApi";
 import { useMutation } from "@tanstack/react-query";
 import { HELP_FIND_PASSWORD } from "constant/queryKeys";
-import { RoundButton } from "@components/button/Button";
+import { RoundButton } from "@components/buttons/Button";
 import { PASSWORD_REGEX } from "constant/regex";
 import MessageBox from "@components/MessageBox";
 import { FinalCommentBox } from "./find-id";

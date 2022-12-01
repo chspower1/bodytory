@@ -1,26 +1,27 @@
-import { RoundButton } from "@components/button/Button";
+import { RoundButton } from "@components/buttons/Button";
 import Input from "@components/Input";
-import { Subject } from "@components/Modal/ClinicModal";
+import { Subject } from "@components/modals/ClinicModal";
 import Textarea from "@components/Textarea";
 import { theme } from "@styles/theme";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
 
-interface HospitalRecordType{
-  nowDate : string;
-  result : string;
-  content : string;
-  detail : string;
+interface HospitalRecordType {
+  nowDate: string;
+  result: string;
+  content: string;
+  detail: string;
 }
 
 const HospitalModalInner = () => {
-
-
-  const { register, handleSubmit, watch, formState: { errors } } = useForm<HospitalRecordType>();
-  const onValid: SubmitHandler<HospitalRecordType> = ({nowDate, result, content, detail}) => {
-
-  };
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<HospitalRecordType>();
+  const onValid: SubmitHandler<HospitalRecordType> = ({ nowDate, result, content, detail }) => {};
   return (
     <InnerBox>
       <Form onSubmit={handleSubmit(onValid)}>
@@ -80,15 +81,15 @@ const Form = styled.form`
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-`
+`;
 
 const SubjectName = styled(Subject)`
   display: flex;
   align-items: center;
   height: 62px;
-  & + .currentDate{
+  & + .currentDate {
     width: 500px;
-    margin:  auto;
+    margin: auto;
   }
 `;
 
@@ -108,11 +109,11 @@ const Auth = styled.div`
 const Position = styled.div`
   display: flex;
   align-items: center;
-  span{
+  span {
     padding: 3px 10px;
-    background: ${({theme}) => theme.color.darkBg};
+    background: ${({ theme }) => theme.color.darkBg};
     border-radius: 6px;
-    color: ${({theme}) => theme.color.white};
+    color: ${({ theme }) => theme.color.white};
     margin-right: 10px;
   }
 `;
@@ -125,7 +126,7 @@ const ContentLi = styled.li`
     text-align: left;
     color: #232323;
   }
-  
+
   & + & {
     margin-top: 30px;
   }

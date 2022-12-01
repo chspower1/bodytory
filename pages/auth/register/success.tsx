@@ -1,4 +1,4 @@
-import { RoundButton } from "@components/button/Button";
+import { RoundButton } from "@components/buttons/Button";
 import Header from "@components/header/Header";
 import MessageBox from "@components/MessageBox";
 import { Col, FlexContainer, InnerContainer, WhiteText } from "@styles/Common";

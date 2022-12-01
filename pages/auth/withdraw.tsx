@@ -6,13 +6,13 @@ import customApi from "utils/client/customApi";
 import { USER_WITHDRAW } from "constant/queryKeys";
 import { useRecoilState } from "recoil";
 import { loggedInUser } from "atoms/atoms";
-import Modal from "@components/Modal/Modal";
+import Modal from "@components/modals/Modal";
 import { FlexContainer, InnerContainer } from "@styles/Common";
 import MessageBox from "@components/MessageBox";
 import Input from "@components/Input";
-import { RectangleButton } from "@components/button/Button";
+import { RectangleButton } from "@components/buttons/Button";
 import styled from "styled-components";
-import HospitalModalInner from "@components/hospital/HospitalModalInner";
+import HospitalModalInner from "@components/hospitals/HospitalModalInner";
 import { PASSWORD_REGEX } from "constant/regex";
 import Header from "@components/header/Header";
 

@@ -2,7 +2,7 @@ import { theme } from "@styles/theme";
 import React, { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import styled, { keyframes } from "styled-components";
-import { RoundButton } from "../button/Button";
+import { RoundButton } from "../buttons/Button";
 
 interface ModalType {
   show: boolean;

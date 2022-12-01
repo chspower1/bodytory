@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { RegisterForm } from "pages/auth/register";
 import customApi from "utils/client/customApi";
-import { CircleButton, RoundButton } from "@components/button/Button";
+import { CircleButton, RoundButton } from "@components/buttons/Button";
 import { Box, Col, Container, FlexContainer, InnerContainer, Row } from "@styles/Common";
 import MessageBox from "@components/MessageBox";
 import { ACCOUNT_ID_REGEX, PASSWORD_REGEX } from "constant/regex";

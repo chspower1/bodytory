@@ -1,4 +1,4 @@
-import { RoundButton } from "@components/button/Button";
+import { RoundButton } from "@components/buttons/Button";
 import SwiperBox from "@components/SwiperBox";
 import { Container, InnerContainer, Row } from "@styles/Common";
 import { theme } from "@styles/theme";
@@ -27,7 +27,7 @@ const ClinicList = () => {
             </DescriptionBox>
           </PageHead>
           <ButtonBox>
-            <RoundButton nonSubmit bgColor={theme.color.mintBtn} onClick={()=> rounter.push('/users/my-hospital')} >
+            <RoundButton nonSubmit bgColor={theme.color.mintBtn} onClick={() => rounter.push("/users/my-hospital")}>
               나의 병원 전체 목록보기
             </RoundButton>
           </ButtonBox>
@@ -50,7 +50,7 @@ const ClinicListWrap = styled.div`
 const PageHeadBox = styled(Container)``;
 
 const ClinicContainer = styled.div`
-  margin: auto 0 ;
+  margin: auto 0;
 `;
 
 const PageHead = styled.div`

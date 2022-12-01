@@ -1,4 +1,4 @@
-import { RectangleButton, RoundButton } from "@components/button/Button";
+import { RectangleButton, RoundButton } from "@components/buttons/Button";
 import ToryIcon from "@components/ToryIcon";
 import { Box, BtnBox, Col, Container, FlexContainer, Row, ToryText } from "@styles/Common";
 import { selectedBodyPart } from "atoms/atoms";
@@ -9,9 +9,7 @@ import styled from "styled-components";
 import { bodyPartType } from "types/bodyParts";
 import { KoreanPosition } from "types/write";
 
-
 const SiteChecker = () => {
-
   const selectedPart = useRecoilValue(selectedBodyPart);
 
   const router = useRouter();

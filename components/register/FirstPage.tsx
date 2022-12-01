@@ -2,7 +2,7 @@ import Input from "@components/Input";
 import { useForm } from "react-hook-form";
 import { Dispatch, SetStateAction } from "react";
 import { RegisterForm } from "pages/auth/register";
-import { CircleButton, RectangleButton, RoundButton } from "@components/button/Button";
+import { CircleButton, RectangleButton, RoundButton } from "@components/buttons/Button";
 import { Box, Col, Container, FlexContainer, InnerContainer, Row, WhiteText, Wrapper } from "@styles/Common";
 import Link from "next/link";
 import CheckBoxInput from "@components/CheckBoxInput";
@@ -65,16 +65,16 @@ const FirstPage = ({ user, setUser, setPage }: RegisterPageProps) => {
               </TermsBox>
             </Col>
           </FormContents>
-            <PrevNextButtonBox>
-              <Link href="/auth/register/choice">
-                <CircleButton nonSubmit bgColor="rgb(75, 80, 211)">
-                  이전 단계
-                </CircleButton>
-              </Link>
-              <CircleButton bgColor={theme.color.mintBtn} disable={Boolean(errors.agree) || !watch("agree")}>
-                다음 단계
+          <PrevNextButtonBox>
+            <Link href="/auth/register/choice">
+              <CircleButton nonSubmit bgColor="rgb(75, 80, 211)">
+                이전 단계
               </CircleButton>
-            </PrevNextButtonBox>
+            </Link>
+            <CircleButton bgColor={theme.color.mintBtn} disable={Boolean(errors.agree) || !watch("agree")}>
+              다음 단계
+            </CircleButton>
+          </PrevNextButtonBox>
         </Form>
       </InnerContainer>
     </FlexContainer>
@@ -83,32 +83,28 @@ const FirstPage = ({ user, setUser, setPage }: RegisterPageProps) => {
 
 export default FirstPage;
 
-
-
 export const Form = styled.form`
-  display:flex;
-  height:100%;
-  flex-direction:column;
-  justify-content:space-between;
-`
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+`;
 const TermsBox = styled(Col)`
-  width:520px;
-  margin-top : 40px;
-`
+  width: 520px;
+  margin-top: 40px;
+`;
 const TermsRow = styled(Row)`
-  width:100%;
+  width: 100%;
   height: 70px;
   justify-content: space-between;
-  span{
+  span {
     font-size: 16px;
   }
-  & + &{
-    border-top : 1px solid #646AEB;
+  & + & {
+    border-top: 1px solid #646aeb;
   }
 `;
-export const FormContents = styled.div`
-  
-`;
+export const FormContents = styled.div``;
 export const PrevNextButtonBox = styled(Row)`
   gap: 65px;
 `;

@@ -10,7 +10,7 @@ import { useMutation } from "@tanstack/react-query";
 import { HelpForm } from "./find-pw";
 import { HELP_FIND_ID } from "constant/queryKeys";
 import useReset from "@hooks/useReset";
-import { RoundButton } from "@components/button/Button";
+import { RoundButton } from "@components/buttons/Button";
 import { theme } from "@styles/theme";
 import { EMAIL_REGEX } from "constant/regex";
 import ButtonInInput from "@components/ButtonInInput";

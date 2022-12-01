@@ -1,7 +1,7 @@
 import customApi from "utils/client/customApi";
 import axios from "axios";
 import { useRouter } from "next/router";
-import { RoundButton } from "./button/Button";
+import { RoundButton } from "./buttons/Button";
 import { loggedInUser } from "atoms/atoms";
 import { useSetRecoilState } from "recoil";
 import { useState } from "react";

@@ -1,4 +1,4 @@
-import { RoundButton } from "@components/button/Button";
+import { RoundButton } from "@components/buttons/Button";
 import ManageImage from "@components/ManageImage";
 import { RecordWithImageAndHospital } from "@components/records/ChartTimeline";
 import { Record, RecordImage } from "@prisma/client";

@@ -3,7 +3,7 @@ import { theme } from "@styles/theme";
 import sliceName from "@utils/client/sliceHospitalName";
 import { useState } from "react";
 import styled from "styled-components";
-import { RectangleButton, RoundButton } from "./button/Button";
+import { RectangleButton, RoundButton } from "./buttons/Button";
 
 export interface HospitalListT extends Hospital {
   medicalDepartments: [

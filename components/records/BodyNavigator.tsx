@@ -1,4 +1,4 @@
-import { RoundButton } from "@components/button/Button";
+import { RoundButton } from "@components/buttons/Button";
 import { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { bodyPartType } from "types/bodyParts";

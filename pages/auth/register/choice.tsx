@@ -1,13 +1,13 @@
 import ChoiceResiterBox from "@components/ChoiceResiterBox";
-import KakaoLoginBtn from "@components/button/KakaoBtn";
-import NaverLoginBtn from "@components/button/NaverBtn";
+import KakaoLoginBtn from "@components/buttons/KakaoBtn";
+import NaverLoginBtn from "@components/buttons/NaverBtn";
 import customApi from "utils/client/customApi";
 import { useMutation } from "@tanstack/react-query";
 import { USER_LOGIN } from "constant/queryKeys";
 import { useRouter } from "next/router";
 import React from "react";
-import { SocialButton } from "@components/button/Button";
-import OriginLoginBtn from "@components/button/OriginBtn";
+import { SocialButton } from "@components/buttons/Button";
+import OriginLoginBtn from "@components/buttons/OriginBtn";
 import { Box, Col, Container, FlexContainer, InnerContainer, ToryText, WhiteText } from "@styles/Common";
 import styled from "styled-components";
 import { ToryTextBox } from "../login";

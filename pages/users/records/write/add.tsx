@@ -1,4 +1,4 @@
-import { RoundButton } from "@components/button/Button";
+import { RoundButton } from "@components/buttons/Button";
 import { PositionBoxText } from "@components/record/SiteChecker";
 import { BtnBox, Col, FlexContainer, ToryText, WhiteText, Wrapper } from "@styles/Common";
 import { theme } from "@styles/theme";

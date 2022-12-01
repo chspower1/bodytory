@@ -1,5 +1,5 @@
-import { CircleButton, RoundButton } from "@components/button/Button";
-import { Dim } from "@components/Modal/Modal";
+import { CircleButton, RoundButton } from "@components/buttons/Button";
+import { Dim } from "@components/modals/Modal";
 import { BodyText, Box, BtnBox, Col, FlexContainer, Row, ToryText, WhiteBoldText, WhiteText } from "@styles/Common";
 import Image from "next/image";
 import { CustomOverlayMap, Map, MapInfoWindow, MapMarker } from "react-kakao-maps-sdk";

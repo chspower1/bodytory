@@ -1,7 +1,7 @@
-import { RoundButton } from "@components/button/Button";
+import { RoundButton } from "@components/buttons/Button";
 import HospitalList from "@components/HospitalList";
 import Input from "@components/Input";
-import ArroundMap from "@components/Modal/ArroundMap";
+import ArroundMap from "@components/modals/ArroundMap";
 import { User } from "@prisma/client";
 import { FlexContainer, InnerContainer } from "@styles/Common";
 import { theme } from "@styles/theme";

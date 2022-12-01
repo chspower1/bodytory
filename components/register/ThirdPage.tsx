@@ -13,7 +13,7 @@ import MessageBox from "@components/MessageBox";
 import RadioInput from "@components/RadioInput";
 import ButtonInInput from "@components/ButtonInInput";
 import CheckBoxInput from "@components/CheckBoxInput";
-import { RoundButton } from "@components/button/Button";
+import { RoundButton } from "@components/buttons/Button";
 import { Box, Col, Container, FlexContainer, InnerContainer, Row } from "@styles/Common";
 import { theme } from "@styles/theme";
 import { Form, FormContents, PrevNextButtonBox } from "./FirstPage";
@@ -43,7 +43,6 @@ const KoreanName = {
   birth: "생일",
 };
 const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
-
   const setCurrentUser = useSetRecoilState(loggedInUser);
 
   const { birth, email, gender, name, phone, type } = user!;
@@ -57,25 +56,29 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     setValue,
     clearErrors,
   } = useForm<ThirdRegisterForm>({ mode: "onChange", defaultValues: { birth, email, gender, name } });
-  const [currentComment, setCurrentComment] = useState("마지막 단계에요!\n이용자님의 이름, 생일, 성별, 이메일을 알려주세요");
+  const [currentComment, setCurrentComment] = useState(
+    "마지막 단계에요!\n이용자님의 이름, 생일, 성별, 이메일을 알려주세요",
+  );
   // const { isToken, setIsToken, ResetBtn } = useReset({ setValue });
   const [isToken, setIsToken] = useState(false);
   const { postApi: createUser } = customApi("/api/auth/register");
   const { postApi: checkEmailApi } = customApi("/api/auth/register/check/email");
-  const isTokenInData = isToken ? { email: watch("email"), token: watch("token"),  type } : { email: watch("email"),  type };
+  const isTokenInData = isToken
+    ? { email: watch("email"), token: watch("token"), type }
+    : { email: watch("email"), type };
   const { mutate } = useMutation([REGISTER_SIGNUP], createUser, {
     onError(error: any) {
       alert(`${error.data}`);
     },
     onSuccess() {
-      setCurrentUser(user!)
+      setCurrentUser(user!);
       router.replace("/auth/register/success");
     },
   });
   const handleClickCheckEmail = async () => {
     try {
-      console.log("errors",errors.email);
-      clearErrors(["email","token"]);
+      console.log("errors", errors.email);
+      clearErrors(["email", "token"]);
       if (!watch("email")) return setError("email", { message: "앗! 이메일 칸이 비어있어요!" });
       if (watch("email") && !EMAIL_REGEX.test(watch("email")))
         return setError("email", { message: "이메일 형식에 맞지 않습니다" });
@@ -91,7 +94,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
         clearErrors();
       }
       setIsToken(true);
-      
+
       // }
     } catch (err: any) {
       console.log(err);
@@ -109,10 +112,10 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
   };
 
   const onValid = (data: ThirdRegisterForm) => {
-    if(!isToken){
+    if (!isToken) {
       return setError("email", { type: "custom", message: "이메일 인증을 해주세요!" });
     }
-    if(user?.isCertified){
+    if (user?.isCertified) {
       mutate({ ...user, ...data });
     }
   };
@@ -140,7 +143,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
   useEffect(() => {
     if (user?.isCertified) {
       setIsToken(true);
-    } 
+    }
     // else setError("email", { type: "checkCertificate", message: "이메일 인증을 완료해주세요!" });
     createErrors<ThirdRegisterForm>({
       user: user!,
@@ -150,14 +153,14 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       KoreanName,
     });
   }, []);
-  
-  useEffect(()=>{
-    if(isToken){
+
+  useEffect(() => {
+    if (isToken) {
       setCurrentComment("이메일에서 인증번호 확인 후\n입력해주세요!");
-    }else{
+    } else {
       setCurrentComment("마지막 단계에요!\n이용자님의 이름, 생일, 성별, 이메일을 알려주세요");
     }
-  },[isToken])
+  }, [isToken]);
   return (
     <FlexContainer>
       <InnerContainer>
@@ -274,17 +277,22 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                 />
               )
             ) : (
-              <CheckBoxInput  label="인증 완료되었습니다" name="completion" checked disabled />
+              <CheckBoxInput label="인증 완료되었습니다" name="completion" checked disabled />
             )}
           </ThirdPageFormContents>
-            <PrevNextButtonBox>
-              <RoundButton nonSubmit size="custom" height="60px" bgColor="rgb(75, 80, 211)" onClick={handleClickPrevPage}>
-                이전 단계
-              </RoundButton>
-              <RoundButton size="custom" width="360px" bgColor={theme.color.mintBtn} disable={!checkEmptyObj(errors) || !user?.isCertified}>
-                {currentComment.includes("회원가입") ? "회원가입 완료" : "정보를 모두 입력해주세요"}
-              </RoundButton>
-            </PrevNextButtonBox>
+          <PrevNextButtonBox>
+            <RoundButton nonSubmit size="custom" height="60px" bgColor="rgb(75, 80, 211)" onClick={handleClickPrevPage}>
+              이전 단계
+            </RoundButton>
+            <RoundButton
+              size="custom"
+              width="360px"
+              bgColor={theme.color.mintBtn}
+              disable={!checkEmptyObj(errors) || !user?.isCertified}
+            >
+              {currentComment.includes("회원가입") ? "회원가입 완료" : "정보를 모두 입력해주세요"}
+            </RoundButton>
+          </PrevNextButtonBox>
         </Form>
       </InnerContainer>
     </FlexContainer>
@@ -300,12 +308,12 @@ const GenderBox = styled(Box)`
 `;
 
 const ThirdPageFormContents = styled(FormContents)`
-  > div + div{
+  > div + div {
     margin-top: 30px;
   }
-`
+`;
 
 const SpaceBetweenRowBox = styled(Row)`
   width: 500px;
   margin: 0 auto;
-`
+`;

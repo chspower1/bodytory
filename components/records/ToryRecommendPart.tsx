@@ -1,9 +1,9 @@
-import { RoundButton } from "@components/button/Button";
+import { RoundButton } from "@components/buttons/Button";
 import styled, { css } from "styled-components";
 import IconHospital from "@public/static/icon/icon_hospital.png";
 import { useState } from "react";
-import Modal from "@components/Modal/Modal";
-import ArroundMap from "@components/Modal/ArroundMap";
+import Modal from "@components/modals/Modal";
+import ArroundMap from "@components/modals/ArroundMap";
 
 function ToryRecommend() {
   const [showModal, setShowModal] = useState(false);

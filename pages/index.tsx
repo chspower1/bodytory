@@ -7,7 +7,7 @@ import { User } from "@prisma/client";
 import { RegisterForm } from "./auth/register";
 import useUser from "@hooks/useUser";
 import { Accent, BlackToryText, BodyText, Box, Col, Container, FlexContainer, Row, ToryText } from "@styles/Common";
-import { CircleButton, RectangleButton, RoundButton } from "@components/button/Button";
+import { CircleButton, RectangleButton, RoundButton } from "@components/buttons/Button";
 import Image from "next/image";
 import mic from "/public/static/icon/mic.svg";
 import record from "/public/static/icon/record.svg";

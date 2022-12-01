@@ -8,11 +8,11 @@ import { ResponseType } from "@utils/server/withHandler";
 import Link from "next/link";
 import customApi from "utils/client/customApi";
 import { useMutation } from "@tanstack/react-query";
-import Modal from "@components/Modal/Modal";
-import NaverLoginBtn from "@components/button/NaverBtn";
-import KakaoLoginBtn from "@components/button/KakaoBtn";
+import Modal from "@components/modals/Modal";
+import NaverLoginBtn from "@components/buttons/NaverBtn";
+import KakaoLoginBtn from "@components/buttons/KakaoBtn";
 import { USER_LOGIN } from "constant/queryKeys";
-import { RoundButton } from "@components/button/Button";
+import { RoundButton } from "@components/buttons/Button";
 import Image from "next/image";
 import naver from "/public/static/naver.svg";
 import {

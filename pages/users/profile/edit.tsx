@@ -1,5 +1,5 @@
 import Input from "@components/Input";
-import Modal from "@components/Modal/Modal";
+import Modal from "@components/modals/Modal";
 import customApi from "utils/client/customApi";
 import { useMutation } from "@tanstack/react-query";
 import { USER_CHANGE_PASSWORD } from "constant/queryKeys";
@@ -11,7 +11,7 @@ import useUser from "@hooks/useUser";
 import { FlexContainer, InnerContainer } from "@styles/Common";
 import styled from "styled-components";
 import { theme } from "@styles/theme";
-import { RoundButton } from "@components/button/Button";
+import { RoundButton } from "@components/buttons/Button";
 import naver from "/public/static/naver.svg";
 import kakao from "/public/static/kakao.svg";
 import origin from "/public/static/origin.svg";
@@ -33,9 +33,9 @@ export default function Edit() {
   const [showModal, setShowModal] = useState(false);
   const [closingComment, setClosingComment] = useState(false);
   const currentUser = useRecoilValue(loggedInUser);
-  const[test, setTest] = useState<User | RegisterForm | null>(null);
+  const [test, setTest] = useState<User | RegisterForm | null>(null);
   const americanAge = getAmericanAge(String(test?.birth!));
-  
+
   const [{ oldPassword, newPassword }, setChangePassword] = useState({ oldPassword: "", newPassword: "" });
   const { putApi } = customApi("/api/users/edit");
   const { mutate } = useMutation([USER_CHANGE_PASSWORD], putApi, {
@@ -76,7 +76,7 @@ export default function Edit() {
   };
   useEffect(() => {
     setTest(currentUser);
-  }, [])
+  }, []);
   useEffect(() => {
     document.body.style.backgroundColor = theme.color.lightBg;
     return () => {
@@ -118,7 +118,7 @@ export default function Edit() {
                 register={register("oldPassword", { required: "필수값입니다" })}
                 placeholder="현재 비밀번호를 입력해주세요."
                 error={errors.oldPassword?.message}
-                align='left'
+                align="left"
                 disabled={test?.type !== "origin"}
               />
               <Input
@@ -128,7 +128,7 @@ export default function Edit() {
                 register={register("newPassword", { required: "필수값입니다" })}
                 placeholder="새로운 비밀번호를 입력해주세요."
                 error={errors.newPassword?.message}
-                align='left'
+                align="left"
                 disabled={test?.type !== "origin"}
               />
               <Input
@@ -138,7 +138,7 @@ export default function Edit() {
                 register={register("newPasswordConfirm", { required: "필수값입니다" })}
                 placeholder="새로운 비밀번호확인을 입력해주세요."
                 error={errors.newPasswordConfirm?.message}
-                align='left'
+                align="left"
                 disabled={test?.type !== "origin"}
               />
             </SeperationBox>
@@ -181,19 +181,19 @@ const InContainer = styled(InnerContainer)`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  form{
-    h2{
+  form {
+    h2 {
       margin-bottom: 20px;
-      font-weight:600;
+      font-weight: 600;
     }
-    > div:nth-of-type(1){
-      div{
-        input[type="password"]::placeholder{
-          letter-spacing: -.2px;
+    > div:nth-of-type(1) {
+      div {
+        input[type="password"]::placeholder {
+          letter-spacing: -0.2px;
           font-size: 14px;
         }
       }
-      div + div{
+      div + div {
         margin: 20px auto 0;
       }
     }

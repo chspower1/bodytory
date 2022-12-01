@@ -11,7 +11,7 @@ import { useMutation } from "@tanstack/react-query";
 import { UserType } from "@prisma/client";
 import { HELP_FIND_PASSWORD } from "constant/queryKeys";
 import useReset from "@hooks/useReset";
-import { RoundButton } from "@components/button/Button";
+import { RoundButton } from "@components/buttons/Button";
 import { ACCOUNT_ID_REGEX, EMAIL_REGEX, PASSWORD_REGEX } from "constant/regex";
 import MessageBox from "@components/MessageBox";
 import ButtonInInput from "@components/ButtonInInput";

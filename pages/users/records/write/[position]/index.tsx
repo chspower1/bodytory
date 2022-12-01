@@ -1,4 +1,4 @@
-import { CircleButton, RectangleButton, RoundButton } from "@components/button/Button";
+import { CircleButton, RectangleButton, RoundButton } from "@components/buttons/Button";
 import { Position } from "@prisma/client";
 import { BlackToryText, Box, Col, FlexContainer, WhiteWrapper } from "@styles/Common";
 import { theme } from "@styles/theme";

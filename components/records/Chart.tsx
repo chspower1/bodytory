@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { RoundButton } from "@components/button/Button";
+import { RoundButton } from "@components/buttons/Button";
 import ToryRecommendPart from "./ToryRecommendPart";
 import ChartTimeline from "./ChartTimeline";
 import ChartKeyword from "./ChartKeyword";

@@ -1,4 +1,4 @@
-import { RoundButton } from "@components/button/Button";
+import { RoundButton } from "@components/buttons/Button";
 import { theme } from "@styles/theme";
 import { useQuery } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";

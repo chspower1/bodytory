@@ -2,9 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import styled from "styled-components";
 import { Pagination } from "swiper";
-import { RectangleButton } from "./button/Button";
-import ClinicModal from "./Modal/ClinicModal";
-
+import { RectangleButton } from "./buttons/Button";
+import ClinicModal from "./modals/ClinicModal";
 
 import "swiper/css";
 import "swiper/css/pagination";
@@ -12,17 +11,21 @@ import customApi from "@utils/client/customApi";
 import { useQuery } from "@tanstack/react-query";
 import { Record } from "@prisma/client";
 
-const SwiperBox = ({setCurrentHospitalName}:{setCurrentHospitalName: React.Dispatch<React.SetStateAction<number>>}) => {
+const SwiperBox = ({
+  setCurrentHospitalName,
+}: {
+  setCurrentHospitalName: React.Dispatch<React.SetStateAction<number>>;
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentContent, setCurrentContent] = useState({});
-  const {getApi} = customApi("/api/users/my-hospitals/clinic-list")
-  const { isLoading ,data  , error} = useQuery(["clinicListKey"], getApi,{
+  const { getApi } = customApi("/api/users/my-hospitals/clinic-list");
+  const { isLoading, data, error } = useQuery(["clinicListKey"], getApi, {
     onSuccess(data) {
-      setCurrentHospitalName(data[0]?.name)
+      setCurrentHospitalName(data[0]?.name);
     },
   });
   console.log(data);
-  
+
   return (
     <SwiperWrap
       grabCursor={true}
@@ -33,33 +36,34 @@ const SwiperBox = ({setCurrentHospitalName}:{setCurrentHospitalName: React.Dispa
       centeredSlides={true}
       modules={[Pagination]}
       className="mySwiper"
-      onSlideChange={(e)=> {
+      onSlideChange={e => {
         const currentIdx = e.activeIndex;
-        setCurrentHospitalName(data[currentIdx]?.name)
+        setCurrentHospitalName(data[currentIdx]?.name);
       }}
     >
-      {data && data.map((ele : {name :string; address: string; Record : Record[] }, idx: number) => (
-        <SwiperSlideItem key={ele.name + ele.address} >
-          <SlideItemInnerBox>
-            <ItemHeader>
-              <HospitalName title="">{ele.name}</HospitalName>
-              <HospitalAddress title="">{ele.address}</HospitalAddress>
-            </ItemHeader>
-            <ClinicListBox>
-              {ele.Record.map((obj, idx) => (
-                <ClinicItem>
-                  <ClinicDate>2022년 11월 09일 일요일 오후 5시 52분</ClinicDate>
-                  <ClinicDetailButtonBox>
-                    <RectangleButton width="90px" nonSubmit fontSize="16px" onClick={() => setIsModalOpen(true)}>
-                      진료내역
-                    </RectangleButton>
-                  </ClinicDetailButtonBox>
-                </ClinicItem>
-              ))}
-            </ClinicListBox>
-          </SlideItemInnerBox>
-        </SwiperSlideItem>
-      ))}
+      {data &&
+        data.map((ele: { name: string; address: string; Record: Record[] }, idx: number) => (
+          <SwiperSlideItem key={ele.name + ele.address}>
+            <SlideItemInnerBox>
+              <ItemHeader>
+                <HospitalName title="">{ele.name}</HospitalName>
+                <HospitalAddress title="">{ele.address}</HospitalAddress>
+              </ItemHeader>
+              <ClinicListBox>
+                {ele.Record.map((obj, idx) => (
+                  <ClinicItem>
+                    <ClinicDate>2022년 11월 09일 일요일 오후 5시 52분</ClinicDate>
+                    <ClinicDetailButtonBox>
+                      <RectangleButton width="90px" nonSubmit fontSize="16px" onClick={() => setIsModalOpen(true)}>
+                        진료내역
+                      </RectangleButton>
+                    </ClinicDetailButtonBox>
+                  </ClinicItem>
+                ))}
+              </ClinicListBox>
+            </SlideItemInnerBox>
+          </SwiperSlideItem>
+        ))}
       {isModalOpen && (
         <ClinicModal
           name={"정형외과정형외과"}
@@ -77,7 +81,7 @@ const SwiperBox = ({setCurrentHospitalName}:{setCurrentHospitalName: React.Dispa
 export default SwiperBox;
 
 const SwiperWrap = styled(Swiper)`
-  padding: 30px 0 40px; ;
+  padding: 30px 0 40px;
   .swiper-pagination {
     position: absolute;
     z-index: 10;
@@ -88,9 +92,9 @@ const SwiperWrap = styled(Swiper)`
     transform: translateX(-50%);
     width: 60%;
     border-radius: 10px;
-    overflow:hidden;
+    overflow: hidden;
     background: rgba(49, 54, 167, 0.15);
-    span{
+    span {
       background: rgba(188, 197, 255, 1);
     }
   }
@@ -119,7 +123,7 @@ const SlideItemInnerBox = styled.div`
   flex-direction: column;
   box-shadow: 8px 8px 16px rgba(49, 54, 167, 0.15);
   overflow: hidden;
-  user-select:none;
+  user-select: none;
 `;
 const ItemHeader = styled.div`
   display: flex;

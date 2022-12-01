@@ -1,4 +1,4 @@
-import NaverLoginBtn from "@components/button/NaverBtn";
+import NaverLoginBtn from "@components/buttons/NaverBtn";
 import { useMutation } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
 import { USER_LOGIN } from "constant/queryKeys";

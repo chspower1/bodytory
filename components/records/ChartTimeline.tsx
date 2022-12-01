@@ -10,11 +10,11 @@ import { uploadImageApi } from "@utils/client/imageApi";
 import uploadImage from "@utils/client/uploadImage";
 import IconAddImage from "@public/static/icon/icon_addImage.png";
 import ToriQuestion from "@public/static/icon/toriQuestion.png";
-import RecordModal, { RecordWithImage } from "@components/Modal/RecordModal";
+import RecordModal, { RecordWithImage } from "@components/modals/RecordModal";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { selectedBodyPart, selectedRecord } from "atoms/atoms";
 import { KoreanPosition } from "types/write";
-import ClinicModal from "@components/Modal/ClinicModal";
+import ClinicModal from "@components/modals/ClinicModal";
 
 export interface RecordWithImageAndHospital extends Record {
   images: RecordImage[];
