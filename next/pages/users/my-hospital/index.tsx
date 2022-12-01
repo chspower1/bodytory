@@ -6,7 +6,7 @@ import { HOSPITALS } from 'constant/queryKeys';
 import Link from 'next/link';
 import React, { useEffect } from 'react'
 import styled from 'styled-components';
-import medicalIcon from "@public/medical.png";
+import medicalIcon from "@public/static/icon/medical.png";
 import HospitalList from '@components/HospitalList';
 import Image from 'next/image';
 import useUser from '@hooks/useUser';
