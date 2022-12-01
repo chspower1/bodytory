@@ -54,7 +54,7 @@ async function loginBySocial(req: NextApiRequest, res: NextApiResponse) {
   const { accountId, email, phone, name, birth, gender, type } = req.body;
   const foundUser = await client.user.findFirst({
     where: {
-      accountId: accountId + "",
+      accountId: String(accountId),
       type,
     },
   });

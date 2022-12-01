@@ -3,16 +3,16 @@ import { theme } from "@styles/theme";
 import { MouseEvent } from "react";
 import styled from "styled-components";
 import { RectangleButton, RoundButton } from "./button/Button";
-import HospitalContent from "./HospitalContent";
+import HospitalContent, { HospitalListT } from "./HospitalContent";
 
-const HospitalList = ({ lists, add }: { lists?: Hospital[]; add: boolean }) => {
+const HospitalList = ({ lists, add }: { lists?: HospitalListT[]; add: boolean }) => {
   console.log(lists);
   return (
     <HospitalContainer add={add}>
       <InnerContainer add={add}>
-        {lists ? (
+        {lists !== undefined && lists.length !== 0 ? (
           <HospitalLists>
-            {lists.map((list: Hospital) => (
+            {lists.map((list: HospitalListT) => (
               <HospitalContent list={list} add={add} key={list.id} />
             ))}
           </HospitalLists>

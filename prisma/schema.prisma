@@ -1,3 +1,6 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["filteredRelationCount"]
@@ -52,9 +55,8 @@ model Record {
   diagnosis    String?
   prescription String?
   user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId       Int
   hospital     Hospital?     @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
-  hospitalId   Int?
+  recommend    Recommend[]
   images       RecordImage[]
 
   @@index([userId])
