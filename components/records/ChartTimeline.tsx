@@ -28,8 +28,6 @@ function ChartTimeline() {
   const { isLoading, data: records } = useQuery<RecordWithImageAndHospital[] | undefined>([RECORDS_READ], getApi);
 
   const selectedPart = useRecoilValue(selectedBodyPart);
-  const setSelectRecord = useSetRecoilState(selectedRecord);
-  const [modalRecord, setModalRecord] = useState<RecordWithImage>();
   const recordsByPosition = records?.filter((record, index) => record.position === selectedPart);
 
   const queryClient = useQueryClient();
@@ -58,11 +56,10 @@ function ChartTimeline() {
   });
 
   // 상세 모달
-  const [showRecordModal, setShowRecordModal] = useState(false);
+  const [showRecordModal, setShowRecordModal] = useState(-1);
 
   const handleRecordModal = (record: RecordWithImage) => {
-    setModalRecord(record);
-    setShowRecordModal(true);
+    setShowRecordModal(record.id);
   };
 
   // 모아보기 필터링
@@ -151,7 +148,9 @@ function ChartTimeline() {
                         <span>삭제</span>
                       </DeleteButton>
                     </Content>
-                    {showRecordModal && <RecordModal record={record} setShowRecordModal={setShowRecordModal} />}
+                    {showRecordModal === record.id && (
+                      <RecordModal record={record} setShowRecordModal={setShowRecordModal} />
+                    )}
                   </>
                 ) : (
                   <Content>

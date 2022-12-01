@@ -13,7 +13,7 @@ import { SubmitHandler, useController, useForm } from "react-hook-form";
 import { useRecoilValue } from "recoil";
 import styled, { css, keyframes } from "styled-components";
 import { showFrame } from "./Modal";
-
+import ReactDOM from "react-dom";
 export interface RecordWithImage extends Record {
   images: RecordImage[];
 }
@@ -22,10 +22,11 @@ interface RecordUpdateType {
   updateWrite: string;
 }
 interface RecordModalProps {
-  setShowRecordModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowRecordModal: React.Dispatch<React.SetStateAction<number>>;
   record: RecordWithImageAndHospital;
 }
 const RecordModal = ({ setShowRecordModal, record }: RecordModalProps) => {
+  const [isBrowser, setIsBrowser] = useState(false);
   const { putApi, deleteApi } = customApi("/api/users/records");
 
   const queryClient = useQueryClient();
@@ -33,7 +34,7 @@ const RecordModal = ({ setShowRecordModal, record }: RecordModalProps) => {
   const deleteMutate = useMutation([RECORDS_DELETE], deleteApi, {
     onSuccess() {
       queryClient.invalidateQueries([RECORDS_READ]);
-      setShowRecordModal(false);
+      setShowRecordModal(-1);
     },
   });
 
@@ -70,19 +71,22 @@ const RecordModal = ({ setShowRecordModal, record }: RecordModalProps) => {
   } = useForm<RecordUpdateType>({
     reValidateMode: "onSubmit",
     defaultValues: {
-      updateWrite: modalRecord!.description,
+      updateWrite: record!.description,
     },
   });
 
   const onValid: SubmitHandler<RecordUpdateType> = ({ updateWrite }) => {
     setShowMsg(true);
-    updateMutate.mutate({ id: modalRecord.id, position: modalRecord!.position, description: updateWrite });
+    updateMutate.mutate({ id: record.id, position: record!.position, description: updateWrite });
     setTimeout(() => {
       setShowMsg(false);
     }, 2000);
   };
-
-  return (
+  useEffect(() => {
+    setIsBrowser(true);
+    return setIsBrowser(true);
+  }, []);
+  const modalContent = (
     <ModalBox>
       <Dim onClick={() => setShowRecordModal(false)} />
       <Modal>
@@ -131,12 +135,17 @@ const RecordModal = ({ setShowRecordModal, record }: RecordModalProps) => {
               {showMsg && <SuccessMsg>수정이 완료되었습니다!</SuccessMsg>}
               {errors.updateWrite && <ErrorMsg>{errors.updateWrite.message}</ErrorMsg>}
             </EditTextBox>
-            <ManageImage recordId={String(record.id)} recordImage={record.images} />
+            <ManageImage recordId={String(record.id)} recordImages={record.images} />
           </RecordDetailContainer>
         </ScrollContainer>
       </Modal>
     </ModalBox>
   );
+  if (isBrowser) {
+    return ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement);
+  } else {
+    return null;
+  }
 };
 
 export default RecordModal;
