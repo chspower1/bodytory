@@ -1,13 +1,12 @@
 import styled from "styled-components";
 import { RoundButton } from "@components/button/Button";
-import ToryRecommendPart from './ToryRecommendPart';
+import ToryRecommendPart from "./ToryRecommendPart";
 import ChartTimeline from "./ChartTimeline";
 import ChartKeyword from "./ChartKeyword";
 import { KoreanPosition } from "types/write";
 import Link from "next/link";
 import { useRecoilValue } from "recoil";
 import { selectedBodyPart } from "atoms/atoms";
-
 
 function Chart() {
   const selectedPart = useRecoilValue(selectedBodyPart);
@@ -21,7 +20,9 @@ function Chart() {
               <strong>{KoreanPosition[selectedPart!]}</strong> 건강기록
             </Title>
             <Link href={`/users/records/write/${selectedPart}`}>
-              <RoundButton size="md" bgColor="rgb(244,245,255)" textColor="rgb(83,89,233)">기록 추가하기</RoundButton>
+              <RoundButton size="md" bgColor="rgb(244,245,255)" textColor="rgb(83,89,233)">
+                기록 추가하기
+              </RoundButton>
             </Link>
           </TitleBox>
           <ToryRecommendPart />
@@ -30,9 +31,8 @@ function Chart() {
         </ChartContainer>
       </ScrollContainer>
     </ChartWrap>
-  )
+  );
 }
-
 
 const ChartWrap = styled.div`
   position: relative;
@@ -51,13 +51,13 @@ const ScrollContainer = styled.div`
   }
   &::-webkit-scrollbar-thumb {
     width: 10px;
-    background-color: #4449C2;
+    background-color: #4449c2;
     background-clip: content-box;
     border: 10px solid transparent;
     border-radius: 20px;
   }
   &::-webkit-scrollbar-thumb:hover {
-    background-color: #363CBF;
+    background-color: #363cbf;
     background-clip: content-box;
     border: 10px solid transparent;
   }
@@ -87,4 +87,4 @@ const Title = styled.h2`
   }
 `;
 
-export default Chart
+export default Chart;

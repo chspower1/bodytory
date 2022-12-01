@@ -11,13 +11,21 @@ interface ModalType {
   activeFuction: () => void;
   title?: string;
   children?: string | JSX.Element;
-  agreeType ?: boolean;
+  agreeType?: boolean;
 }
 /**
  * @show 필수 입니다.
  * @closingComment false가 기본값입니다.
  */
-function Modal({ show, closingComment = false, onClose, activeFuction, children, title , agreeType = false }: ModalType) {
+function Modal({
+  show,
+  closingComment = false,
+  onClose,
+  activeFuction,
+  children,
+  title,
+  agreeType = false,
+}: ModalType) {
   const [isBrowser, setIsBrowser] = useState(false);
 
   useEffect(() => {
@@ -26,15 +34,21 @@ function Modal({ show, closingComment = false, onClose, activeFuction, children,
   }, []);
 
   const modalContent = show ? (
-    <Dim> 
+    <Dim>
       <ModalBox>
         <ModalTitle>
           <h3>{title}</h3>
         </ModalTitle>
         <ModalContent>{children}</ModalContent>
         <ConfirmBtnBox>
-          <RoundButton size="sm"  onClick={activeFuction}>{agreeType ? `동의합니다` : "네"}</RoundButton>
-          {!closingComment && <RoundButton size="sm" bgColor={`rgba(188, 197, 255, 1)`} onClick={onClose}>{agreeType ? `동의하지 않습니다` : "아니요"}</RoundButton>}
+          <RoundButton size="sm" onClick={activeFuction}>
+            {agreeType ? `동의합니다` : "네"}
+          </RoundButton>
+          {!closingComment && (
+            <RoundButton size="sm" bgColor={`rgba(188, 197, 255, 1)`} onClick={onClose}>
+              {agreeType ? `동의하지 않습니다` : "아니요"}
+            </RoundButton>
+          )}
         </ConfirmBtnBox>
       </ModalBox>
     </Dim>
@@ -48,15 +62,13 @@ function Modal({ show, closingComment = false, onClose, activeFuction, children,
 
 const ConfirmBtnBox = styled.div`
   margin-top: 30px;
-  button{
-    display:inline-block;
-    margin : 0 10px;
-    width:auto;
+  button {
+    display: inline-block;
+    margin: 0 10px;
+    width: auto;
     padding: 0 30px;
-    
   }
 `;
-
 
 export const showFrame = keyframes`
   100%{
@@ -76,7 +88,7 @@ export const Dim = styled.div`
   align-items: center;
 `;
 const ModalBox = styled.div`
-  display:inline-block;
+  display: inline-block;
   min-width: 400px;
   background: #fff;
   margin: auto;
@@ -89,14 +101,13 @@ const ModalBox = styled.div`
 const ModalTitle = styled.div`
   padding: 20px 0;
   font-size: 30px;
-  
 `;
 const ModalContent = styled.div`
   font-size: 16px;
   padding: 30px 10px;
   border-radius: 10px;
-  // background : ${({theme}) =>theme.color.lightBg};
-  line-height: 1.5; 
+  // background : ${({ theme }) => theme.color.lightBg};
+  line-height: 1.5;
 `;
 
 export default Modal;
