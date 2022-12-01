@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import styled from "styled-components";
 import { Pagination } from "swiper";
@@ -9,9 +9,10 @@ import ClinicModal from "./Modal/ClinicModal";
 import "swiper/css";
 import "swiper/css/pagination";
 
-const SwiperBox = () => {
+const SwiperBox = ({setCurrentHospitalName}:{setCurrentHospitalName: React.Dispatch<React.SetStateAction<number>>}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentContent, setCurrentContent] = useState({});
+
   return (
     <SwiperWrap
       grabCursor={true}
@@ -22,6 +23,14 @@ const SwiperBox = () => {
       centeredSlides={true}
       modules={[Pagination]}
       className="mySwiper"
+      onSlideChange={(e)=> {
+        const currentIdx = e.activeIndex;
+        setCurrentHospitalName([1, 2, 3, 4, 5, 6, 7, 8][currentIdx])
+      }}
+      onSwiper={(e)=>{
+        const currentIdx = e.activeIndex;
+        setCurrentHospitalName([1, 2, 3, 4, 5, 6, 7, 8][currentIdx])
+      }}
     >
       {[1, 2, 3, 4, 5, 6, 7, 8].map((ele, idx) => (
         <SwiperSlideItem >

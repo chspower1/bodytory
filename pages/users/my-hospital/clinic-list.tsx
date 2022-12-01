@@ -2,12 +2,13 @@ import { RoundButton } from "@components/button/Button";
 import SwiperBox from "@components/SwiperBox";
 import { Container, InnerContainer, Row } from "@styles/Common";
 import { theme } from "@styles/theme";
-import { DescriptionBox, HighlightText, Pragraph } from "pages/hospital";
-import React from "react";
+import { DescriptionBox, HighlightText, Pragraph } from "./";
+import React, { useState } from "react";
 import styled from "styled-components";
 import tory from "@public/static/icon/tory.png";
 
 const ClinicList = () => {
+  const [currentHospitalName, setCurrentHospitalName] = useState(0);
   return (
     <ClinicListWrap>
       <ClinicContainer>
@@ -16,7 +17,7 @@ const ClinicList = () => {
             <ToriBox><ToryIcon/></ToriBox>
             <DescriptionBox>
               <Pragraph>
-                <strong>OO 정형외과</strong> 진료목록이에요 <br />
+                <strong>{currentHospitalName}</strong> 진료목록이에요 <br />
                 자세한 진료내역은 각 날짜를 클릭해서 볼 수 있어요
               </Pragraph>
             </DescriptionBox>
@@ -27,7 +28,7 @@ const ClinicList = () => {
             </RoundButton>
           </ButtonBox>
         </PageHeadBox>
-        <SwiperBox />
+        <SwiperBox setCurrentHospitalName={setCurrentHospitalName} />
       </ClinicContainer>
     </ClinicListWrap>
   );

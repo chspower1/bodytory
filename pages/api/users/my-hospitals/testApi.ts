@@ -13,12 +13,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
 
 async function findHospital(req: NextApiRequest, res: NextApiResponse) {
-  const { name } = req.body;
+  const { search } = req.body;
   const { user } = req.session;
   if (!user) return res.status(401).send("회원 정보를 확인해주세요");
   const data = await client.hospital.findMany({
     where: {
-      name
+      name:{
+        contains: search
+      }
     },
     take: 10
   });

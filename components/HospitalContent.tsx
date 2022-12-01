@@ -6,7 +6,14 @@ import styled from "styled-components";
 import { RectangleButton, RoundButton } from "./button/Button";
 
 export interface HospitalListT extends Hospital {
-  medicalDepartments: [{ id: number; department: string }];
+  medicalDepartments: [
+    {
+      id: number;
+      medicalDepartmentId: number;
+      hospitalId: number;
+      medicalDepartment: { id: number; department: string };
+    },
+  ];
 }
 
 const ChangeToHoverColor = (color: string) => {
@@ -20,7 +27,7 @@ const ChangeToHoverColor = (color: string) => {
   }
   return color;
 };
-const HospitalContent = ({ list, add }: { list: HospitalList; add: boolean }) => {
+const HospitalContent = ({ list, add }: { list: HospitalListT; add: boolean }) => {
   const [onShare, setOnShare] = useState<boolean>(false);
   const handleShare = () => {
     setOnShare(!onShare);
@@ -36,7 +43,7 @@ const HospitalContent = ({ list, add }: { list: HospitalList; add: boolean }) =>
             <NameText size="18px" weight="900" add={add}>
               {sliceName(list.name)}
             </NameText>
-            <Department>{list?.medicalDepartments[0].department}</Department>
+            <Department>{list.medicalDepartments[0].medicalDepartment.department}</Department>
           </HospitalDescriptionBox>
           <HospitalPlaceBox>
             <SpaceText weight="200" size="17px" add={add} title={list.address}>

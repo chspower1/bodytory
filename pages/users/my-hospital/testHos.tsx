@@ -8,12 +8,15 @@ interface TestProps{
 }
 
 const TestHos = () => {
-  const {postApi, getApi} = customApi("/api/users/my-hospitals/testApi")
-  // const {mutate} = useMutation(["testKey"] , postApi,{
-  //   onSuccess(data, variables, context) {
-  //     console.log(data);
-  //   },
-  // })
+  const {postApi, getApi} = customApi("/api/users/my-hospitals")
+  const {mutate} = useMutation(["testKey"] , postApi,{
+    onError(error, variables, context) {
+      console.log("err");
+    },
+    onSuccess(data, variables, context) {
+      console.log(data);
+    },
+  })
   const { isLoading ,data  , error} = useQuery(["test2key"], getApi);
   console.log(data);
   
@@ -28,7 +31,7 @@ const TestHos = () => {
     formState: { errors },
   } = useForm<TestProps>({ mode: "onChange" });
   const onValid = (testData: TestProps) => {
-    // mutate({id:1});
+    mutate({id:3});
   };
   return (
     <div>
