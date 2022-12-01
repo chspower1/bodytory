@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import customApi from "@utils/client/customApi";
 import { useMutation } from "@tanstack/react-query";
@@ -36,6 +36,55 @@ const resample = async (input_buffer: any, target_rate: any) => {
   return await c.startRendering();
 };
 
+function audioBufferToWav(aBuffer: AudioBuffer) {
+  let numOfChan = aBuffer.numberOfChannels,
+    btwLength = aBuffer.length * numOfChan * 2 + 44,
+    btwArrBuff = new ArrayBuffer(btwLength),
+    btwView = new DataView(btwArrBuff),
+    btwChnls = [],
+    btwIndex,
+    btwSample,
+    btwOffset = 0,
+    btwPos = 0;
+  setUint32(0x46464952); // "RIFF"
+  setUint32(btwLength - 8); // file length - 8
+  setUint32(0x45564157); // "WAVE"
+  setUint32(0x20746d66); // "fmt " chunk
+  setUint32(16); // length = 16
+  setUint16(1); // PCM (uncompressed)
+  setUint16(numOfChan);
+  setUint32(aBuffer.sampleRate);
+  setUint32(aBuffer.sampleRate * 2 * numOfChan); // avg. bytes/sec
+  setUint16(numOfChan * 2); // block-align
+  setUint16(16); // 16-bit
+  setUint32(0x61746164); // "data" - chunk
+  setUint32(btwLength - btwPos - 4); // chunk length
+
+  for (btwIndex = 0; btwIndex < aBuffer.numberOfChannels; btwIndex++) btwChnls.push(aBuffer.getChannelData(btwIndex));
+
+  while (btwPos < btwLength) {
+    for (btwIndex = 0; btwIndex < numOfChan; btwIndex++) {
+      // interleave btwChnls
+      btwSample = Math.max(-1, Math.min(1, btwChnls[btwIndex][btwOffset])); // clamp
+      btwSample = (0.5 + btwSample < 0 ? btwSample * 32768 : btwSample * 32767) | 0; // scale to 16-bit signed int
+      btwView.setInt16(btwPos, btwSample, true); // write 16-bit sample
+      btwPos += 2;
+    }
+    btwOffset++; // next source sample
+  }
+
+  function setUint16(data: any) {
+    btwView.setUint16(btwPos, data, true);
+    btwPos += 2;
+  }
+
+  function setUint32(data: any) {
+    btwView.setUint32(btwPos, data, true);
+    btwPos += 4;
+  }
+  return btwArrBuff;
+}
+
 const useAudio = () => {
   const [stream, setStream] = useState<MediaStream>();
   const [media, setMedia] = useState<MediaRecorder>();
@@ -49,7 +98,6 @@ const useAudio = () => {
   const [isRecording, setIsRecording] = useState(false);
 
   const onRecAudio = useCallback(() => {
-    console.log(window);
     // 음원정보를 담은 노드를 생성하거나 음원을 실행또는 디코딩 시키는 일을 한다
     const audioCtx = new window.AudioContext({ sampleRate: 16000 });
 
@@ -84,13 +132,16 @@ const useAudio = () => {
     });
   }, []);
 
-  const offRecAudio = useCallback(() => {
+  useEffect(() => {
+    console.log(audioUrl);
+  }, [audioUrl]);
+
+  const offRecAudio = useCallback(async () => {
     setIsRecording(false);
     if (media) {
       // dataavailable 이벤트로 Blob 데이터에 대한 응답을 받을 수 있음
-      media.ondataavailable = function (e) {
-        setAudioUrl(e.data);
-
+      media.ondataavailable = async function (e) {
+        await onSubmitAudioFile(e.data);
         setIsRecording(false);
       };
 
@@ -108,56 +159,7 @@ const useAudio = () => {
     }
   }, [media, stream, analyser, source]);
 
-  function audioBufferToWav(aBuffer: AudioBuffer) {
-    let numOfChan = aBuffer.numberOfChannels,
-      btwLength = aBuffer.length * numOfChan * 2 + 44,
-      btwArrBuff = new ArrayBuffer(btwLength),
-      btwView = new DataView(btwArrBuff),
-      btwChnls = [],
-      btwIndex,
-      btwSample,
-      btwOffset = 0,
-      btwPos = 0;
-    setUint32(0x46464952); // "RIFF"
-    setUint32(btwLength - 8); // file length - 8
-    setUint32(0x45564157); // "WAVE"
-    setUint32(0x20746d66); // "fmt " chunk
-    setUint32(16); // length = 16
-    setUint16(1); // PCM (uncompressed)
-    setUint16(numOfChan);
-    setUint32(aBuffer.sampleRate);
-    setUint32(aBuffer.sampleRate * 2 * numOfChan); // avg. bytes/sec
-    setUint16(numOfChan * 2); // block-align
-    setUint16(16); // 16-bit
-    setUint32(0x61746164); // "data" - chunk
-    setUint32(btwLength - btwPos - 4); // chunk length
-
-    for (btwIndex = 0; btwIndex < aBuffer.numberOfChannels; btwIndex++) btwChnls.push(aBuffer.getChannelData(btwIndex));
-
-    while (btwPos < btwLength) {
-      for (btwIndex = 0; btwIndex < numOfChan; btwIndex++) {
-        // interleave btwChnls
-        btwSample = Math.max(-1, Math.min(1, btwChnls[btwIndex][btwOffset])); // clamp
-        btwSample = (0.5 + btwSample < 0 ? btwSample * 32768 : btwSample * 32767) | 0; // scale to 16-bit signed int
-        btwView.setInt16(btwPos, btwSample, true); // write 16-bit sample
-        btwPos += 2;
-      }
-      btwOffset++; // next source sample
-    }
-
-    function setUint16(data: any) {
-      btwView.setUint16(btwPos, data, true);
-      btwPos += 2;
-    }
-
-    function setUint32(data: any) {
-      btwView.setUint32(btwPos, data, true);
-      btwPos += 4;
-    }
-    return btwArrBuff;
-  }
-
-  const onSubmitAudioFile = useCallback(async () => {
+  const onSubmitAudioFile = async (audioUrl: Blob) => {
     // if (audioUrl) {
     //   const audioBlobUrl = URL.createObjectURL(audioUrl);
     //   setAudioBlobUrl(audioBlobUrl);
@@ -165,6 +167,7 @@ const useAudio = () => {
     // }
     const reader = new FileReader();
     const sound = new Blob([audioUrl as BlobPart], { type: "audio/mpeg3" });
+    console.log(sound);
     // const audioBlobUrl = URL.createObjectURL(sound);
     // setAudioBlobUrl(audioBlobUrl);
 
@@ -208,25 +211,25 @@ const useAudio = () => {
       PostAudio();
       // mutate({ url: audioBlobUrl });
     };
-  }, [audioUrl]);
-
-  const RecordBtn = () => {
-    return (
-      <div style={{ margin: "400px" }}>
-        <button onClick={isRecording ? offRecAudio : onRecAudio}>녹음</button>
-        <div>{isRecording ? "녹음중" : "대기"}</div>
-        <button onClick={onSubmitAudioFile}>결과 확인</button>
-        <audio controls src={audioBlobUrl} />
-
-        {/* <p>Microphone: {listening ? "on" : "off"}</p>
-        <button onClick={() => (listening ? SpeechRecognition.stopListening() : SpeechRecognition.startListening())}>
-          {listening ? "End" : "Start"}
-        </button>
-        <button onClick={() => resetTranscript()}>Reset</button>
-        <p>{transcript}</p> */}
-      </div>
-    );
   };
+
+  // const RecordBtn = () => {
+  //   return (
+  //     <div style={{ margin: "400px" }}>
+  //       <button onClick={isRecording ? offRecAudio : onRecAudio}>녹음</button>
+  //       <div>{isRecording ? "녹음중" : "대기"}</div>
+  //       <button onClick={onSubmitAudioFile}>결과 확인</button>
+  //       <audio controls src={audioBlobUrl} />
+
+  //       {/* <p>Microphone: {listening ? "on" : "off"}</p>
+  //       <button onClick={() => (listening ? SpeechRecognition.stopListening() : SpeechRecognition.startListening())}>
+  //         {listening ? "End" : "Start"}
+  //       </button>
+  //       <button onClick={() => resetTranscript()}>Reset</button>
+  //       <p>{transcript}</p> */}
+  //     </div>
+  //   );
+  // };
   return { offRecAudio, onRecAudio, onSubmitAudioFile, audioRecognized, isRecording };
 };
 

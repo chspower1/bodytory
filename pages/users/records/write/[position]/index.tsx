@@ -21,15 +21,14 @@ const PositionPage = () => {
   const { transcript, listening, resetTranscript, browserSupportsSpeechRecognition } = useSpeechRecognition();
 
   const startRecord = () => {
+    resetTranscript();
     onRecAudio();
     SpeechRecognition.startListening({ continuous: true, language: "ko" });
   };
 
-  const endRecord = () => {
+  const endRecord = async () => {
     offRecAudio();
     SpeechRecognition.stopListening();
-    onSubmitAudioFile();
-    resetTranscript();
   };
 
   return (
@@ -56,7 +55,7 @@ const PositionPage = () => {
               fontSize="30px"
               boxShadow={false}
             >
-              {listening ? "test" : "증상을 말해주세요!"}
+              {transcript ? transcript : audioRecognized ? audioRecognized : "증상을 말해주세요"}
             </RectangleButton>
             <CircleButton
               bgColor={listening ? theme.color.mintBtn : theme.color.darkBg}
