@@ -13,7 +13,7 @@ import { Pagination, Navigation, Mousewheel } from "swiper";
 import { useState } from "react";
 import IconAddImage from "@public/static/icon/icon_addImage.png";
 
-export default function ManageImage({ recordId, recordImage }: { recordId: string; recordImage: RecordImage[] }) {
+export default function ManageImage({ recordId, recordImages }: { recordId: string; recordImages: RecordImage[] }) {
   const queryClient = useQueryClient();
 
   const uploadImageMutation = useMutation(uploadImageApi, {
@@ -33,7 +33,7 @@ export default function ManageImage({ recordId, recordImage }: { recordId: strin
   return (
     <div>
       <UploadImageButton onClick={() => uploadImage(recordId, uploadImageMutation.mutate)}>사진 추가</UploadImageButton>
-      {recordImage.length !== 0 ? (
+      {recordImages.length !== 0 ? (
         <ImageSlideContainer>
           <Swiper
             pagination={{
@@ -46,7 +46,7 @@ export default function ManageImage({ recordId, recordImage }: { recordId: strin
             modules={[Pagination, Navigation, Mousewheel]}
             className="mySwiper"
           >
-            {recordImage.map((elem, key) => (
+            {recordImages.map((elem, key) => (
               <SwiperSlide key={key}>
                 <ImageBox onMouseEnter={() => setIsHover(key)} onMouseLeave={() => setIsHover(-1)}>
                   <Image src={elem.url} alt="증상 이미지" width={100} height={100} />

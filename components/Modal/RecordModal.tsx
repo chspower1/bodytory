@@ -1,5 +1,6 @@
 import { RoundButton } from "@components/button/Button";
 import ManageImage from "@components/ManageImage";
+import { RecordWithImageAndHospital } from "@components/records/ChartTimeline";
 import { Record, RecordImage } from "@prisma/client";
 import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
@@ -13,20 +14,18 @@ import { useRecoilValue } from "recoil";
 import styled, { css, keyframes } from "styled-components";
 import { showFrame } from "./Modal";
 
-interface RecordWithImage extends Record {
+export interface RecordWithImage extends Record {
   images: RecordImage[];
 }
 
 interface RecordUpdateType {
   updateWrite: string;
 }
-
-const RecordModal = ({
-  setShowRecordModal,
-}: {
-  children?: React.ReactNode;
+interface RecordModalProps {
   setShowRecordModal: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
+  record: RecordWithImageAndHospital;
+}
+const RecordModal = ({ setShowRecordModal, record }: RecordModalProps) => {
   const { putApi, deleteApi } = customApi("/api/users/records");
 
   const queryClient = useQueryClient();
@@ -43,9 +42,6 @@ const RecordModal = ({
       queryClient.invalidateQueries([RECORDS_READ]);
     },
   });
-
-  // 기록 조회
-  const selectRecord = useRecoilValue(selectedRecord);
 
   // 기록 삭제
   const [confirmDelete, setConfirmDelete] = useState(-1);
@@ -74,13 +70,13 @@ const RecordModal = ({
   } = useForm<RecordUpdateType>({
     reValidateMode: "onSubmit",
     defaultValues: {
-      updateWrite: selectRecord!.description,
+      updateWrite: modalRecord!.description,
     },
   });
 
   const onValid: SubmitHandler<RecordUpdateType> = ({ updateWrite }) => {
     setShowMsg(true);
-    updateMutate.mutate({ id: selectRecord.id, position: selectRecord!.position, description: updateWrite });
+    updateMutate.mutate({ id: modalRecord.id, position: modalRecord!.position, description: updateWrite });
     setTimeout(() => {
       setShowMsg(false);
     }, 2000);
@@ -94,9 +90,9 @@ const RecordModal = ({
           <RecordDetailContainer>
             <ButtonBox>
               <CircleDeleteButton
-                onClick={e => handleClick(e, selectRecord!.id)}
-                recordId={selectRecord!.id}
-                className={confirmDelete === selectRecord!.id ? "active" : ""}
+                onClick={e => handleClick(e, record!.id)}
+                recordId={record!.id}
+                className={confirmDelete === record!.id ? "active" : ""}
                 onBlur={() => setConfirmDelete(-1)}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
@@ -116,8 +112,8 @@ const RecordModal = ({
                 닫기
               </RoundButton>
             </ButtonBox>
-            <Time byUser={selectRecord!.type === "user"}>
-              {format(new Date(selectRecord!.createAt), "yyyy년 M월 d일 EEEE aaaa h시 m분", { locale: ko })}
+            <Time byUser={record!.type === "user"}>
+              {format(new Date(record!.createAt), "yyyy년 M월 d일 EEEE aaaa h시 m분", { locale: ko })}
             </Time>
             <EditTextBox onSubmit={handleSubmit(onValid)}>
               <TextArea
@@ -127,7 +123,7 @@ const RecordModal = ({
                 onChange={handleTextChange}
                 onFocus={() => setShowMsg(false)}
               >
-                {selectRecord!.description}
+                {record!.description}
               </TextArea>
               <RoundButton size="sm" bgColor="rgb(83,89,233)" boxShadow={false}>
                 수정하기
@@ -135,7 +131,7 @@ const RecordModal = ({
               {showMsg && <SuccessMsg>수정이 완료되었습니다!</SuccessMsg>}
               {errors.updateWrite && <ErrorMsg>{errors.updateWrite.message}</ErrorMsg>}
             </EditTextBox>
-            <ManageImage recordId={String(selectRecord!.id)} recordImage={selectRecord!.images} />
+            <ManageImage recordId={String(record.id)} recordImage={record.images} />
           </RecordDetailContainer>
         </ScrollContainer>
       </Modal>
