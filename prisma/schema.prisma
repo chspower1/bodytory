@@ -1,6 +1,6 @@
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["referentialIntegrity", "filteredRelationCount"]
+  previewFeatures = ["filteredRelationCount"]
 }
 
 generator erd {
@@ -11,6 +11,7 @@ generator erd {
 datasource db {
   provider     = "mysql"
   url          = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
 model User {
@@ -27,7 +28,6 @@ model User {
   accountId     String          @unique
   Certification Certification[]
   records       Record[]
-  hospitals     Hospital[]
 }
 
 model Certification {
@@ -38,23 +38,27 @@ model Certification {
   userId   Int?
   email    String?
   user     User?    @relation(fields: [userId], references: [id])
+
+  @@index([userId])
 }
 
 model Record {
-  id           Int                 @id @default(autoincrement())
-  createAt     DateTime            @default(now())
-  updateAt     DateTime            @updatedAt
+  id           Int           @id @default(autoincrement())
+  createAt     DateTime      @default(now())
+  updateAt     DateTime      @updatedAt
   type         RecordType
   position     Position
   description  String
   userId       Int
   diagnosis    String?
   prescription String?
-  user         User                @relation(fields: [userId], references: [id], onDelete: Cascade)
-  hospital     Hospital?           @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
   hospitalId   Int?
-  recommend    MedicalDepartment[]
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  hospital     Hospital?     @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
   images       RecordImage[]
+
+  @@index([userId])
+  @@index([hospitalId])
 }
 
 model RecordImage {
@@ -64,13 +68,14 @@ model RecordImage {
   recordId Int
   url      String
   record   Record   @relation(fields: [recordId], references: [id], onDelete: Cascade)
+
+  @@index([recordId])
 }
 
 model MedicalDepartment {
   id         Int                                  @id
   department String
   hospitals  HospitalMedicalDepartmentConnector[]
-  Record     Record[]
 }
 
 model Hospital {
@@ -84,19 +89,39 @@ model Hospital {
   city               String
   class              String
   homepage           String?
-  user               User[]
+  x                  Float?
+  y                  Float?
   Record             Record[]
-  x                  Float?                               @db.Double
-  y                  Float?                               @db.Double
   medicalDepartments HospitalMedicalDepartmentConnector[]
 }
 
 model HospitalMedicalDepartmentConnector {
   id                  Int                @id @default(autoincrement())
-  medicalDepartment   MedicalDepartment? @relation(fields: [medicalDepartmentId], references: [id], onDelete: Cascade)
-  hospital            Hospital?          @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
   medicalDepartmentId Int?
   hospitalId          Int?
+  medicalDepartment   MedicalDepartment? @relation(fields: [medicalDepartmentId], references: [id], onDelete: Cascade)
+  hospital            Hospital?          @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
+
+  @@index([medicalDepartmentId])
+  @@index([hospitalId])
+}
+
+model HospitalToUser {
+  A Int
+  B Int
+
+  @@unique([A, B], map: "_HospitalToUser_AB_unique")
+  @@index([B], map: "_HospitalToUser_B_index")
+  @@map("_HospitalToUser")
+}
+
+model MedicalDepartmentToRecord {
+  A Int
+  B Int
+
+  @@unique([A, B], map: "_MedicalDepartmentToRecord_AB_unique")
+  @@index([B], map: "_MedicalDepartmentToRecord_B_index")
+  @@map("_MedicalDepartmentToRecord")
 }
 
 enum Gender {
