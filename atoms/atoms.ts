@@ -1,4 +1,4 @@
-import { Position, User } from "@prisma/client";
+import { Position, Record, RecordImage, User } from "@prisma/client";
 import { RegisterForm } from "pages/auth/register";
 import { atom } from "recoil";
 import { recoilPersist } from "recoil-persist";
@@ -13,5 +13,10 @@ export const loggedInUser = atom<User | RegisterForm | null>({
 
 export const selectedBodyPart = atom<Position | null>({
   key: "selectedBodyPartKey",
+  default: null
+});
+
+export const selectedRecord = atom<any>({
+  key: "selectedRecordKey",
   default: null
 });

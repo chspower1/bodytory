@@ -66,7 +66,7 @@ export default function ManageImage({ recordId, recordImage }: { recordId: strin
             </Swiper>
           </ImageSlideContainer>
         ) : (
-          <div>이미지가 없습</div>
+          <NoImage>증상과 관련된 이미지를 추가해주세요</NoImage>
         )
       }
   
@@ -168,4 +168,16 @@ const UploadImageButton = styled.button`
   font-weight: 500;
   color: #fff;
   cursor: pointer;
+`;
+
+const NoImage = styled.div`
+  width: 100%;
+  height: 300px;
+  background: #f4f7f9;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  color: #a9a9a9;
 `;
