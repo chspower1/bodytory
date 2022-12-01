@@ -4,9 +4,10 @@ import Input from "@components/Input";
 import { User } from "@prisma/client";
 import { FlexContainer, InnerContainer } from "@styles/Common";
 import { theme } from "@styles/theme";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
 import { loggedInUser } from "atoms/atoms";
+import axios from "axios";
 import Image from "next/image";
 import { RegisterForm } from "pages/auth/register";
 import { useEffect, useState } from "react";
@@ -14,7 +15,7 @@ import { useForm } from "react-hook-form";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { ButtonBox, DescriptionBox, ImageIcon, MainContainer, MainInnerContainer, Pragraph } from ".";
-import mapIcon from "../../public/static/icon/mapIcon.svg";
+import mapIcon from "../../../public/static/icon/mapIcon.svg";
 
 interface SearchForm {
   search: string;
@@ -23,6 +24,14 @@ interface SearchForm {
 const FindHospital = () => {
   const { getApi } = customApi("/api/users/my-hospitals");
   const { data } = useQuery(["hospital"], getApi);
+  const [findState, setFindState] = useState<any>(undefined);
+  const findData = useMutation(["findHospital"], getTest, {
+    onSuccess(data) {
+      console.log("asdasdsa");
+      console.log(data);
+      setFindState(data);
+    },
+  });
   const currentUser = useRecoilValue(loggedInUser);
   const {
     register,
@@ -39,9 +48,15 @@ const FindHospital = () => {
     };
   }, []);
 
+  async function getTest(data: any) {
+    const result = await axios.post("/api/users/my-hospitals/find", data);
+    return result.data;
+  }
+
   const onValid = (input: SearchForm) => {
     setValue("search", "");
     console.log(input);
+    findData.mutate(input);
   };
 
   return (
@@ -70,7 +85,7 @@ const FindHospital = () => {
             </SearchForm>
           </SearchBox>
         </DescriptionContainer>
-        {<HospitalList lists={data} add={true} />}
+        {<HospitalList lists={findState} add={true} />}
       </MainInnerContainer>
     </MainContainer>
   );

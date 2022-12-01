@@ -4,9 +4,8 @@ import withHandler from "@utils/server/withHandler";
 import { withApiSession } from "@utils/server/withSession";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-
   if (req.method === "POST") return await addHospital(req, res);
-  
+
   if (req.method === "GET") return await myHospitalList(req, res);
 
   // if (req.method === "DELETE") return await deleteHospital(req, res);
@@ -21,11 +20,11 @@ async function addHospital(req: NextApiRequest, res: NextApiResponse) {
       id,
     },
     data: {
-      user:{
-        connect:{
-          id: user.id
-        }
-      }
+      user: {
+        connect: {
+          id: user.id,
+        },
+      },
     },
   });
   return res.status(200).end();

@@ -1,9 +1,9 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
-import customApi from '@utils/client/customApi';
-import React from 'react'
-import { useForm } from 'react-hook-form';
+import { useMutation, useQuery } from "@tanstack/react-query";
+import customApi from "@utils/client/customApi";
+import React from "react";
+import { useForm } from "react-hook-form";
 
-interface TestProps{
+interface TestProps {
   test: string;
 }
 
@@ -19,7 +19,7 @@ const TestHos = () => {
   })
   const { isLoading ,data  , error} = useQuery(["test2key"], getApi);
   console.log(data);
-  
+
   const {
     register,
     handleSubmit,
@@ -31,7 +31,7 @@ const TestHos = () => {
     formState: { errors },
   } = useForm<TestProps>({ mode: "onChange" });
   const onValid = (testData: TestProps) => {
-    mutate({id:3});
+    mutate({ id: 1 });
   };
   return (
     <div>
@@ -40,7 +40,7 @@ const TestHos = () => {
         <button>제출</button>
       </form>
     </div>
-  )
-}
+  );
+};
 
 export default TestHos;
