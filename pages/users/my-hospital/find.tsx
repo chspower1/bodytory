@@ -11,7 +11,7 @@ import { RegisterForm } from "pages/auth/register";
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { ButtonBox, DescriptionBox, MainContainer, MainInnerContainer, Pragraph } from ".";
+import { ButtonBox, DescriptionBox, MainContainer, MainInnerContainer, Pragraph } from "../../hospital";
 
 const FindHospital = () => {
   const { getApi } = customApi("/api/users/my-hospitals");
