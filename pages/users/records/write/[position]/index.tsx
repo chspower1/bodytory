@@ -17,7 +17,7 @@ import SpeakMotion from "@components/SpeakMotion";
 import useAudio from "@hooks/useAudio";
 
 const PositionPage = () => {
-  const { startRecord, endRecord, transcript, listening, audioFile } = useAudio();
+  const { startRecord, endRecord, transcript, listening, RecordBtn } = useAudio();
   return (
     <WhiteWrapper>
       <SpeakMotion listening={listening} />
@@ -42,7 +42,7 @@ const PositionPage = () => {
               fontSize="30px"
               boxShadow={false}
             >
-              {transcript ? transcript : "증상을 말해주세요!"}
+              {listening ? transcript : "증상을 말해주세요!"}
             </RectangleButton>
             <CircleButton
               bgColor={listening ? theme.color.mintBtn : theme.color.darkBg}
@@ -51,6 +51,7 @@ const PositionPage = () => {
             >
               <Image src={mic} alt="마이크" />
             </CircleButton>
+            <RecordBtn />
           </VoiceBox>
         </Col>
       </FlexContainer>
