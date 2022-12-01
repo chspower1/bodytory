@@ -13,18 +13,16 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
 
 async function findHospital(req: NextApiRequest, res: NextApiResponse) {
-  const { id } = req.body;
+  const { name } = req.body;
   const { user } = req.session;
   if (!user) return res.status(401).send("회원 정보를 확인해주세요");
-  const data = await client.hospital.findFirst({
+  const data = await client.hospital.findMany({
     where: {
-      id : 1
+      name
     },
-    select:{
-      user: true
-    }
+    take: 10
   });
-  return res.status(200).json( data?.user );
+  return res.status(200).json( data );
 }
 
 /* async function deleteHospital(req: NextApiRequest, res: NextApiResponse) {

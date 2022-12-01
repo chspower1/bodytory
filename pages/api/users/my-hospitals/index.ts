@@ -7,7 +7,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   if (req.method === "POST") return await addHospital(req, res);
   
-  if (req.method === "GET") return await findHospital(req, res);
+  if (req.method === "GET") return await myHospitalList(req, res);
 
   // if (req.method === "DELETE") return await deleteHospital(req, res);
 }
@@ -31,7 +31,7 @@ async function addHospital(req: NextApiRequest, res: NextApiResponse) {
   return res.status(200).end();
 }
 
-async function findHospital(req: NextApiRequest, res: NextApiResponse) {
+async function myHospitalList(req: NextApiRequest, res: NextApiResponse) {
   const { user } = req.session;
   if (!user) return res.status(401).send("회원 정보를 확인해주세요");
   const data = await client.user.findFirst({
