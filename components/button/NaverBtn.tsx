@@ -17,8 +17,8 @@ const NaverLoginBtn = ({ mutate, size, kind }: SocialBtnProps) => {
   const handleNaverLogin = () => {
     naverRef?.current!.children[0].click();
   };
-  
-  const loadedNaverSdk = useCallback(() =>{
+
+  const loadedNaverSdk = useCallback(() => {
     const naver = (window as any).naver;
     let naverLogin: any;
     const login = () => {
@@ -63,22 +63,20 @@ const NaverLoginBtn = ({ mutate, size, kind }: SocialBtnProps) => {
     };
     login();
     getToken();
-  },[mutate, router.asPath]) 
-  
+  }, [mutate, router.asPath]);
+
   useEffect(() => {
     const naverSdkScript = document.createElement("script");
     naverSdkScript.src = "https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js";
 
     document.head.appendChild(naverSdkScript);
-    naverSdkScript.addEventListener("load",loadedNaverSdk)
-    naverSdkScript.defer = true
-    naverSdkScript.async = true
+    naverSdkScript.addEventListener("load", loadedNaverSdk);
+    naverSdkScript.defer = true;
+    naverSdkScript.async = true;
 
-
-    return ()=>{
-      naverSdkScript.removeEventListener("load",loadedNaverSdk)
-    }
-
+    return () => {
+      naverSdkScript.removeEventListener("load", loadedNaverSdk);
+    };
   }, []);
   return (
     <div>

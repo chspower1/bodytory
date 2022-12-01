@@ -5,7 +5,7 @@ import { withApiSession } from "@utils/server/withSession";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { user } = req.session;
-  if (!user) return res.status(400).end();
+  if (!user) return res.status(403).end();
   const foundUser = await client.user.findFirst({
     where: {
       id: user?.id,

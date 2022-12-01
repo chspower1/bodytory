@@ -18,6 +18,7 @@ import ButtonInInput from "@components/ButtonInInput";
 import styled from "styled-components";
 import { FlexContainer, InnerContainer } from "@styles/Common";
 import { FindForm, Seperation } from "./find-id";
+import Header from "@components/header/Header";
 export interface HelpForm {
   type: UserType;
   accountId?: string;
@@ -94,6 +95,7 @@ const HelpPage: NextPage = () => {
   }, [isToken]);
   return (
     <Container>
+      <Header />
       <InnerContainer>
         <MessageBox isErrorsMessage={isErrorsMessage} currentComment={currentComment} />
         <FindForm onSubmit={handleSubmit(onValid)}>

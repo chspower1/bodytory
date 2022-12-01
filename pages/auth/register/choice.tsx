@@ -12,6 +12,7 @@ import { Box, Col, Container, FlexContainer, InnerContainer, ToryText, WhiteText
 import styled from "styled-components";
 import { ToryTextBox } from "../login";
 import MessageBox from "@components/MessageBox";
+import Header from "@components/header/Header";
 const ChoicePage = () => {
   const router = useRouter();
   const { postApi } = customApi("/api/auth/login");
@@ -34,6 +35,7 @@ const ChoicePage = () => {
   });
   return (
     <FlexContainer>
+      <Header />
       <InnerContainer>
         <MessageBox>어떤 방식으로 회원가입할까요?</MessageBox>
         <ButtonBox>

@@ -1,7 +1,6 @@
 import { RoundButton } from "@components/button/Button";
 import styled, { css } from "styled-components";
-import IconHospital from "@public/icon_hospital.png"
-import IconWarning from "@public/icon_warning.png"
+import IconHospital from "@public/static/icon/icon_hospital.png";
 import { useState } from "react";
 import Modal from "@components/Modal/Modal";
 
@@ -21,7 +20,8 @@ function ToryRecommend() {
           <RecommendText>
             <Tag>Ai 토리추천</Tag>
             <Text>
-              <strong>$손목 $통증</strong>이 많으시네요. <strong>$정형외과</strong>에 한번 방문해보시는 건 어떠신가요?
+              {/* <strong>$손목 $통증</strong>이 많으시네요.  */}
+              <strong>$정형외과</strong>에 한번 방문해보시는 건 어떠신가요?
             </Text>
           </RecommendText>
           <RoundButton size="md" onClick={() => setShowModal(true)}>내 주변 해당 병원 찾기</RoundButton>

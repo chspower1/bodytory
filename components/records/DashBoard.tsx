@@ -2,22 +2,25 @@ import styled from 'styled-components';
 import { ToryText26 } from '@styles/Common';
 import Statistics from './DashBoardStatistics';
 import ToryRecommend from './ToryRecommend';
+import useUser from '@hooks/useUser';
 
 function DashBoard() {
-  return (
+  const user = useUser();
+
+  return user ? (
     <DashBoardWarp>
       <DashBoardContainer>
         <ToryTextBox>
-          <Tory24 />
-          <ToryText26>
-            <strong>$소희님</strong> 최근 한달간 <strong>$손목</strong>에서 증상이 많이 발생하셨네요
-          </ToryText26>
+          <Tory26 />
+          <ToryText26White>
+            <strong>{user?.name}님</strong> 최근 한달간 <strong>$손목</strong>에서 증상이 많이 발생하셨네요
+          </ToryText26White>
         </ToryTextBox>
         <ToryRecommend />
         <Statistics />
       </DashBoardContainer>
     </DashBoardWarp>
-  )
+  ) : null;
 }
 
 const DashBoardWarp = styled.div`
@@ -40,12 +43,16 @@ const ToryTextBox = styled.div`
   margin-bottom: 20px;
 `;
 
-const Tory24 = styled.div`
+const Tory26 = styled.div`
   // 추후 토리로 변경
   background: #fff;
   width: 120px;
   height: 120px;
   margin-right: 30px;
+`;
+
+const ToryText26White = styled(ToryText26)` // 토리텍스트 추후 정리필요
+  color: ${({ theme }) => theme.color.white};
 `;
 
 

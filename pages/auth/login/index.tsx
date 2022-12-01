@@ -34,6 +34,7 @@ import MessageBox from "@components/MessageBox";
 import { ACCOUNT_ID_REGEX, PASSWORD_REGEX } from "constant/regex";
 import { loggedInUser } from "atoms/atoms";
 import { useSetRecoilState } from "recoil";
+import Header from "@components/header/Header";
 
 export interface LoginForm {
   accountId: string;
@@ -65,9 +66,10 @@ const LoginPage: NextPage = () => {
           },
           "/auth/register",
         );
-      } else{
-        setCurrentUser(data)
-        return router.push("/");}
+      } else {
+        setCurrentUser(data);
+        return router.push("/");
+      }
     },
   });
   const {
@@ -92,10 +94,11 @@ const LoginPage: NextPage = () => {
       setIsCompletion(false);
     }
     setIsError(false);
-  }, [watch("accountId"), watch("password"),isErrorsMessage]);
-  
+  }, [watch("accountId"), watch("password"), isErrorsMessage]);
+
   return (
     <FlexContainer>
+      <Header />
       <InnerContainer>
         <MessageBox isErrorsMessage={isErrorsMessage}>
           {!isErrorsMessage &&
@@ -173,7 +176,6 @@ const LoginPage: NextPage = () => {
   );
 };
 export default LoginPage;
-
 
 export const ToryTextBox = styled.div`
   text-align: center;

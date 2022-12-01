@@ -17,6 +17,7 @@ import { theme } from "@styles/theme";
 import { checkEmptyObj } from "@utils/client/checkEmptyObj";
 import styled from "styled-components";
 import { FlexContainer, InnerContainer } from "@styles/Common";
+import Header from "@components/header/Header";
 
 interface ResetForm {
   password: string;
@@ -65,6 +66,7 @@ const Reset: NextPage = () => {
   }, [router]);
   return (
     <Container>
+      <Header />
       <InnerContainer>
         {!isSuccess ? (
           <>

@@ -26,7 +26,7 @@ const SwiperBox = () => {
       className="mySwiper"
     >
       {[1, 2, 3, 4, 5, 6, 7, 8].map((ele, idx) => (
-        <SwiperSlideItem>
+        <SwiperSlideItem >
           <SlideItemInnerBox>
             <ItemHeader>
               <HospitalName title="">@@ 정형외과정형외과</HospitalName>
