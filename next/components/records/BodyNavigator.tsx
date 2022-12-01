@@ -79,7 +79,7 @@ const BodyNavigator = ({ isWritePage }: BodyNavigator) => {
                           onClick={() => setSelectedPart(part)}
                           isHover={hoveredPart === part}
                           onMouseEnter={() => setHoveredPart(part!)}
-                          onMouseDown={() => setHoveredPart("")}
+                          onMouseLeave={() => setHoveredPart("")}
                           d={FrontPaths[part!][0]}
                         />
                         <HoverPath
@@ -87,7 +87,7 @@ const BodyNavigator = ({ isWritePage }: BodyNavigator) => {
                           onClick={() => setSelectedPart(part)}
                           isHover={hoveredPart === part}
                           onMouseEnter={() => setHoveredPart(part!)}
-                          onMouseDown={() => setHoveredPart("")}
+                          onMouseLeave={() => setHoveredPart("")}
                           d={FrontPaths[part!][1]}
                         />
                       </>
@@ -99,7 +99,7 @@ const BodyNavigator = ({ isWritePage }: BodyNavigator) => {
                         onClick={() => part === "head" ? setCurrentBodyPosition("face") : setSelectedPart(part)}
                         isHover={hoveredPart === part}
                         onMouseEnter={() => setHoveredPart(part!)}
-                        onMouseDown={() => setHoveredPart("")}
+                        onMouseLeave={() => setHoveredPart("")}
                         d={FrontPaths[part!]}
                       />
                     )
@@ -124,7 +124,7 @@ const BodyNavigator = ({ isWritePage }: BodyNavigator) => {
                           onClick={() => setSelectedPart(part)}
                           isHover={hoveredPart === part}
                           onMouseEnter={() => setHoveredPart(part!)}
-                          onMouseDown={() => setHoveredPart("")}
+                          onMouseLeave={() => setHoveredPart("")}
                           d={BackPaths[part!][0]}
                         />
                         <HoverPath
@@ -132,7 +132,7 @@ const BodyNavigator = ({ isWritePage }: BodyNavigator) => {
                           onClick={() => setSelectedPart(part)}
                           isHover={hoveredPart === part}
                           onMouseEnter={() => setHoveredPart(part!)}
-                          onMouseDown={() => setHoveredPart("")}
+                          onMouseLeave={() => setHoveredPart("")}
                           d={BackPaths[part!][1]}
                         />
                       </>
@@ -144,7 +144,7 @@ const BodyNavigator = ({ isWritePage }: BodyNavigator) => {
                         onClick={() => part === "head" ? setCurrentBodyPosition("face") : setSelectedPart(part)}
                         isHover={hoveredPart === part}
                         onMouseEnter={() => setHoveredPart(part!)}
-                        onMouseDown={() => setHoveredPart("")}
+                        onMouseLeave={() => setHoveredPart("")}
                         d={BackPaths[part!]}
                       />
                     )
@@ -169,7 +169,7 @@ const BodyNavigator = ({ isWritePage }: BodyNavigator) => {
                           onClick={() => setSelectedPart(part)}
                           isHover={hoveredPart === part}
                           onMouseEnter={() => setHoveredPart(part!)}
-                          onMouseDown={() => setHoveredPart("")}
+                          onMouseLeave={() => setHoveredPart("")}
                           d={FacePaths[part!][0]}
                         />
                         <HoverPath
@@ -177,7 +177,7 @@ const BodyNavigator = ({ isWritePage }: BodyNavigator) => {
                           onClick={() => setSelectedPart(part)}
                           isHover={hoveredPart === part}
                           onMouseEnter={() => setHoveredPart(part!)}
-                          onMouseDown={() => setHoveredPart("")}
+                          onMouseLeave={() => setHoveredPart("")}
                           d={FacePaths[part!][1]}
                         />
                       </>
@@ -189,7 +189,7 @@ const BodyNavigator = ({ isWritePage }: BodyNavigator) => {
                         onClick={() => setSelectedPart(part)}
                         isHover={hoveredPart === part}
                         onMouseEnter={() => setHoveredPart(part!)}
-                        onMouseDown={() => setHoveredPart("")}
+                        onMouseLeave={() => setHoveredPart("")}
                         d={FacePaths[part!]}
                       />
                     )
@@ -252,6 +252,7 @@ const ButtonsBox = styled.div`
 
 const HoverPath = styled.path<{ isChecked: boolean, isHover: boolean }>`
   cursor: pointer;
+  transition: fill .2s;
 
   ${({ isChecked, isHover }) =>
     isChecked
