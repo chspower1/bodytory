@@ -36,7 +36,7 @@ const MyHospitalPage = () => {
         </DescriptionBox>
         <ButtonBox>
           <RoundButton size="custom" width="260px" height="50px">
-            <Link href={"/hospital/find"}>
+            <Link href={"/users/my-hospital/find"}>
               <ImageIcon src={medicalIcon} width={20} height={20} alt="병원" /> 병원 추가하기
             </Link>
           </RoundButton>

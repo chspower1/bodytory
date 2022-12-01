@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import styled from "styled-components";
 import { Pagination } from "swiper";
@@ -8,10 +8,21 @@ import ClinicModal from "./Modal/ClinicModal";
 
 import "swiper/css";
 import "swiper/css/pagination";
+import customApi from "@utils/client/customApi";
+import { useQuery } from "@tanstack/react-query";
+import { Record } from "@prisma/client";
 
-const SwiperBox = () => {
+const SwiperBox = ({setCurrentHospitalName}:{setCurrentHospitalName: React.Dispatch<React.SetStateAction<number>>}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentContent, setCurrentContent] = useState({});
+  const {getApi} = customApi("/api/users/my-hospitals/clinic-list")
+  const { isLoading ,data  , error} = useQuery(["clinicListKey"], getApi,{
+    onSuccess(data) {
+      setCurrentHospitalName(data[0]?.name)
+    },
+  });
+  console.log(data);
+  
   return (
     <SwiperWrap
       grabCursor={true}
@@ -22,16 +33,20 @@ const SwiperBox = () => {
       centeredSlides={true}
       modules={[Pagination]}
       className="mySwiper"
+      onSlideChange={(e)=> {
+        const currentIdx = e.activeIndex;
+        setCurrentHospitalName(data[currentIdx]?.name)
+      }}
     >
-      {[1, 2, 3, 4, 5, 6, 7, 8].map((ele, idx) => (
-        <SwiperSlideItem >
+      {data && data.map((ele : {name :string; address: string; Record : Record[] }, idx: number) => (
+        <SwiperSlideItem key={ele.name + ele.address} >
           <SlideItemInnerBox>
             <ItemHeader>
-              <HospitalName title="">@@ 정형외과정형외과</HospitalName>
-              <HospitalAddress title="">마포구 구래동 마지막길 201-85</HospitalAddress>
+              <HospitalName title="">{ele.name}</HospitalName>
+              <HospitalAddress title="">{ele.address}</HospitalAddress>
             </ItemHeader>
             <ClinicListBox>
-              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((obj, idx) => (
+              {ele.Record.map((obj, idx) => (
                 <ClinicItem>
                   <ClinicDate>2022년 11월 09일 일요일 오후 5시 52분</ClinicDate>
                   <ClinicDetailButtonBox>
@@ -62,12 +77,13 @@ const SwiperBox = () => {
 export default SwiperBox;
 
 const SwiperWrap = styled(Swiper)`
-  padding: 30px 0 ;
+  padding: 30px 0 40px; ;
   .swiper-pagination {
+    position: absolute;
     z-index: 10;
     height: 8px;
     top: auto;
-    bottom: 8px;
+    bottom: 10px;
     left: 50%;
     transform: translateX(-50%);
     width: 60%;
