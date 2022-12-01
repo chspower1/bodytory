@@ -1,28 +1,26 @@
 import React, { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import styled from "styled-components";
-import { Pagination, Scrollbar } from "swiper";
+import { Pagination } from "swiper";
 import { RectangleButton } from "./button/Button";
 import ClinicModal from "./Modal/ClinicModal";
 
 
 import "swiper/css";
 import "swiper/css/pagination";
-import "swiper/css/scrollbar";
 
 const SwiperBox = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
+  const [currentContent, setCurrentContent] = useState({});
   return (
     <SwiperWrap
       grabCursor={true}
+      pagination={{
+        type: "progressbar",
+      }}
       slidesPerView={"auto"}
       centeredSlides={true}
-      scrollbar={{
-        hide: false,draggable: true
-      }}
-      
-      modules={[Pagination, Scrollbar]}
+      modules={[Pagination]}
       className="mySwiper"
     >
       {[1, 2, 3, 4, 5, 6, 7, 8].map((ele, idx) => (
@@ -65,7 +63,7 @@ export default SwiperBox;
 
 const SwiperWrap = styled(Swiper)`
   padding: 30px 0 ;
-  .swiper-scrollbar {
+  .swiper-pagination {
     z-index: 10;
     height: 8px;
     top: auto;
@@ -73,18 +71,20 @@ const SwiperWrap = styled(Swiper)`
     left: 50%;
     transform: translateX(-50%);
     width: 60%;
+    border-radius: 10px;
+    overflow:hidden;
     background: rgba(49, 54, 167, 0.15);
-    .swiper-scrollbar-drag{
+    span{
       background: rgba(188, 197, 255, 1);
     }
   }
 `;
 const SwiperSlideItem = styled(SwiperSlide)`
-  width: 660px;
+  width: 760px;
   height: 500px;
   opacity: 0.5;
   transition: opacity 0.6s;
-  margin: 0 50px;
+  padding: 0 50px;
   &.swiper-slide-active {
     opacity: 1;
     > div {
