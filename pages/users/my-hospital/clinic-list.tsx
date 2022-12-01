@@ -2,7 +2,7 @@ import { RoundButton } from "@components/button/Button";
 import SwiperBox from "@components/SwiperBox";
 import { Container, InnerContainer, Row } from "@styles/Common";
 import { theme } from "@styles/theme";
-import { DescriptionBox, HighlightText, Pragraph } from "pages/hospital";
+import { DescriptionBox, HighlightText, Pragraph } from "./";
 import React from "react";
 import styled from "styled-components";
 import tory from "@public/static/icon/tory.png";
@@ -13,7 +13,9 @@ const ClinicList = () => {
       <ClinicContainer>
         <PageHeadBox>
           <PageHead>
-            <ToriBox><ToryIcon/></ToriBox>
+            <ToriBox>
+              <ToryIcon />
+            </ToriBox>
             <DescriptionBox>
               <Pragraph>
                 <strong>OO 정형외과</strong> 진료목록이에요 <br />
@@ -35,19 +37,18 @@ const ClinicList = () => {
 
 export default ClinicList;
 
-
 const ClinicListWrap = styled.div`
-  display:flex;
+  display: flex;
   flex-direction: column;
-  height:100%;
-  background:#fff;
+  height: 100%;
+  background: #fff;
 `;
 
-const PageHeadBox = styled(Container)``
+const PageHeadBox = styled(Container)``;
 
 const ClinicContainer = styled.div`
   margin: auto 0 0;
-`
+`;
 
 const PageHead = styled.div`
   display: flex;
@@ -61,12 +62,12 @@ const ToriBox = styled.div`
 `;
 
 export const ToryIcon = styled.div`
-  width:100%;
-  height:100%;
-  background : url(${tory.src}) no-repeat center center;
-  background-size:cover;
-`
+  width: 100%;
+  height: 100%;
+  background: url(${tory.src}) no-repeat center center;
+  background-size: cover;
+`;
 
 const ButtonBox = styled(Row)`
-  margin : 20px 0 ;
+  margin: 20px 0;
 `;

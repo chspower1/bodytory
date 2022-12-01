@@ -5,14 +5,14 @@ import styled from "styled-components";
 import { RectangleButton, RoundButton } from "./button/Button";
 import HospitalContent, { HospitalListT } from "./HospitalContent";
 
-const HospitalList = ({ lists, add }: { lists?: Hospital[]; add: boolean }) => {
+const HospitalList = ({ lists, add }: { lists?: HospitalListT[]; add: boolean }) => {
   console.log("lists", lists);
   return (
     <HospitalContainer add={add}>
       <InnerContainer add={add}>
         {lists !== undefined && lists.length !== 0 ? (
           <HospitalLists>
-            {lists.map((list: HospitalListT) => (
+            {lists.map(list => (
               <HospitalContent list={list} add={add} key={list.id} />
             ))}
           </HospitalLists>
