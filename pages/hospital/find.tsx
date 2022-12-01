@@ -14,10 +14,11 @@ import styled from "styled-components";
 import { ButtonBox, DescriptionBox, MainContainer, MainInnerContainer, Pragraph } from ".";
 
 const FindHospital = () => {
-  const { getApi } = customApi("/api/users/hospital");
+  const { getApi } = customApi("/api/users/my-hospitals");
   const { data } = useQuery(["hospital"], getApi);
   const currentUser = useRecoilValue(loggedInUser);
   const [user, setUser] = useState<User | RegisterForm | null>();
+  console.log("data",data)
 
   useEffect(() => {
     document.body.style.backgroundColor = theme.color.lightBg;
@@ -49,7 +50,7 @@ const FindHospital = () => {
             </RoundButton>
           </SearchBox>
         </DescriptionContainer>
-        {<HospitalList lists={data?.hospitals} add={true} />}
+        {<HospitalList lists={data} add={true} />}
       </MainInnerContainer>
     </MainContainer>
   );

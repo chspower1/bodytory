@@ -6,7 +6,7 @@ import { RectangleButton, RoundButton } from "./button/Button";
 import HospitalContent from "./HospitalContent";
 
 const HospitalList = ({ lists, add }: { lists?: Hospital[]; add: boolean }) => {
-  console.log(lists);
+  console.log("lists",lists);
   return (
     <HospitalContainer add={add}>
       <InnerContainer add={add}>
