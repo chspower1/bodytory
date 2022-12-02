@@ -2,11 +2,13 @@ import BodyNavigator from "@components/records/BodyNavigator";
 import styled from "styled-components";
 import IconArrowLeft from "@public/static/icon/icon_arrow_left.png";
 import { useRouter } from "next/router";
-import { SelectBodyPartProps } from "types/bodyParts";
+import { currentBodyPosition, SelectBodyPartProps } from "types/bodyParts";
+import { useState } from "react";
 
-function SelectPart({ selectedBodyPart, setSelectedBodyPart }: SelectBodyPartProps) {
+function SelectPart({ selectedBodyPart, setSelectedBodyPart, currentBodyPosition, setCurrentBodyPosition }: SelectBodyPartProps) {
 
   const router = useRouter();
+
 
   return (
     <SelectPartWarp>
@@ -21,7 +23,13 @@ function SelectPart({ selectedBodyPart, setSelectedBodyPart }: SelectBodyPartPro
           )
         }
         <GuideText>자세한 기록을 확인하고 싶은 부위를 선택해주세요</GuideText>
-        <BodyNavigator selectedBodyPart={selectedBodyPart} setSelectedBodyPart={setSelectedBodyPart} isWritePage={false} />
+        <BodyNavigator 
+          selectedBodyPart={selectedBodyPart} 
+          setSelectedBodyPart={setSelectedBodyPart} 
+          currentBodyPosition={currentBodyPosition}
+          setCurrentBodyPosition={setCurrentBodyPosition}
+          isWritePage={false} 
+        />
       </SelectPartContainer>
     </SelectPartWarp>
   );

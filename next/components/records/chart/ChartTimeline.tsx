@@ -28,7 +28,7 @@ function ChartTimeline() {
   const position = query.position as Position;
 
   const queryClient = useQueryClient();
-  const { getApi, putApi, deleteApi } = customApi("/api/users/records");
+  const { getApi, putApi, deleteApi } = customApi(`/api/users/records/${position}`);
   const [records, setRecords] = useState<RecordWithImageAndHospital[] | undefined>();
 
   // 기록 조회

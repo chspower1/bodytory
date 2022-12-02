@@ -28,12 +28,16 @@ export type bodyPartType =
   | "calf"
   | "ankle"
   | "foot"
-  | null;
+  | null
+;
 
+export type currentBodyPosition = "front" | "back" | "face";
 
-export  interface SelectBodyPartProps {
+export interface SelectBodyPartProps {
   selectedBodyPart: bodyPartType;
   setSelectedBodyPart: Dispatch<SetStateAction<bodyPartType>>;
   isWritePage?: boolean;
+  currentBodyPosition: currentBodyPosition;
+  setCurrentBodyPosition: Dispatch<SetStateAction<currentBodyPosition>>;
 }
   
