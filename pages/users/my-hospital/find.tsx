@@ -23,14 +23,12 @@ interface SearchForm {
 }
 
 const FindHospital = () => {
-  const { getApi } = customApi("/api/users/my-hospitals");
   const [isLoading, setIsLoading] = useState(false);
   const [search, setSearch] = useState<string>("");
   const [page, setPage] = useState<number>(0);
   const [findState, setFindState] = useState<any[]>([]);
   const [hasLastPage, setHasLastPage] = useState(false);
   const listRef = useRef<Element>(null);
-  const viewRef = useRef<HTMLDivElement>(null);
   const currentUser = useRecoilValue(loggedInUser);
   const {
     register,
@@ -42,22 +40,14 @@ const FindHospital = () => {
 
   useEffect(() => {
     if (search) {
-      getTest();
+      getSearchLists();
     }
   }, [search, page]);
 
-  const address = useMemo(() => {
-    return `/api/users/my-hospitals/find?page=${page}&search=${search}`;
-  }, [search, page]);
-
-  const getTest = useCallback(async () => {
+  const getSearchLists = useCallback(async () => {
     setIsLoading(true);
-    console.log(search, "get");
     const result = await axios.get(`/api/users/my-hospitals/find?page=${page}&search=${search}`);
-    console.log(result.data.status, "마지막페이지");
-    console.log(result.data.foundHospital, "받은 병원");
-    setHasLastPage(result.data.status);
-    if (result.data.status) return;
+    setHasLastPage(() => result.data.status);
     setFindState((current: any) => {
       const array = [...current];
       if (array) {
@@ -69,41 +59,27 @@ const FindHospital = () => {
   }, [search, page]);
 
   const onValid = async (input: SearchForm) => {
-    console.log(input.search, "인풋서치");
     setSearch(() => input.search);
-    console.log(input);
     setFindState([]);
     setPage(0);
-    console.log(search);
     setValue("search", "");
   };
 
-  // useEffect(() => {
-  //   viewRef.current?.scrollTo({
-  //     top: viewRef.current.scrollHeight - viewRef.current.offsetHeight + viewRef.current.offsetTop,
-  //   });
-  //   console.log(viewRef);
-  // }, [isLoading]);
-
-  const onInterect: IntersectionObserverCallback = useCallback(async ([entry], observer) => {
-    console.log(entry, observer);
+  const onInterect: IntersectionObserverCallback = async ([entry], observer) => {
     if (entry.isIntersecting) {
       observer.unobserve(entry.target);
+      const delay = () => new Promise((resolve, reject) => setTimeout(resolve, 300));
+      await delay();
       if (!hasLastPage) {
         setPage(page + 1);
         observer.observe(entry.target);
       }
-      if (hasLastPage) {
-        observer.disconnect();
-      }
     }
-  }, []);
+  };
 
   useEffect(() => {
     if (hasLastPage) return;
-    console.log(findState);
     if (listRef.current === null) return;
-    console.log(listRef.current);
     const io = new IntersectionObserver(onInterect, { root: null, threshold: 1, rootMargin: "0px" });
     io.observe(listRef.current as Element);
     return () => io.disconnect();

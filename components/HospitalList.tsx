@@ -25,7 +25,7 @@ const HospitalList = ({
             {lists.map(list => (
               <HospitalContent list={list} add={add} key={list.id} />
             ))}
-            {isLoading ? <div>Loading....</div> : <div ref={listRef}>{}</div>}
+            {isLoading ? <div>Loading....</div> : <div ref={listRef} />}
           </HospitalLists>
         ) : (
           <NoneMessage>{add ? "검색결과가 없습니다" : "병원내역이 없습니다"}</NoneMessage>

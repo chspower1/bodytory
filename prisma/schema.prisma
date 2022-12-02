@@ -1,6 +1,6 @@
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["orderByNulls", "filteredRelationCount"]
+  previewFeatures = ["fullTextSearch", "fullTextIndex", "orderByNulls", "filteredRelationCount"]
 }
 
 generator erd {
@@ -95,6 +95,8 @@ model Hospital {
   records            Record[]
   medicalDepartments HospitalMedicalToDepartment[]
   users              HospitalToUser[]
+
+  @@fulltext([name])
 }
 
 model HospitalMedicalToDepartment {
