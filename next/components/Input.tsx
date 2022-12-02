@@ -21,6 +21,7 @@ export interface InputProps {
   bgcolor?: string;
   color?: string;
   light?: boolean;
+  white?: boolean;
 }
 
 export default function Input({
@@ -40,6 +41,7 @@ export default function Input({
   bgcolor = theme.color.input,
   color = "#fff",
   light,
+  white,
 }: InputProps) {
   return (
     <InputBox width={width} height={height}>
@@ -56,6 +58,7 @@ export default function Input({
         bgColor={bgcolor}
         color={color}
         light={light}
+        white={white}
       />
     </InputBox>
   );
@@ -70,7 +73,7 @@ const InputBox = styled.div<{ width?: string; height?: string }>`
     margin: 40px auto 0;
   }
 `;
-const MainInput = styled.input<{ align?: string; bgColor?: string; color?: string; light?: boolean }>`
+const MainInput = styled.input<{ align?: string; bgColor?: string; color?: string; light?: boolean, white?: boolean }>`
   &[type="password"] {
     &::placeholder {
       letter-spacing: 7.2px;
@@ -105,6 +108,18 @@ const MainInput = styled.input<{ align?: string; bgColor?: string; color?: strin
     props.light &&
     css`
       background: rgba(217, 222, 255, 1);
+      color: #232323;
+      :-webkit-autofill,
+      :-webkit-autofill:hover,
+      :-webkit-autofill:focus,
+      :-webkit-autofill:active {
+        -webkit-text-fill-color: #232323 !important;
+      }
+    `}
+  ${props =>
+    props.white &&
+    css`
+      background: rgba(255, 255, 255, 1);
       color: #232323;
       :-webkit-autofill,
       :-webkit-autofill:hover,

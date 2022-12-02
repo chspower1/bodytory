@@ -122,7 +122,7 @@ const FindHospital = () => {
           </ButtonBox>
           <SearchBox>
             <SearchForm onSubmit={handleSubmit(onValid)}>
-              <Input name="search" width="700px" bgcolor="#fff" color="black" register={register("search")} />
+              <Input white name="search" width="700px" placeholder="병원명을 입력해주세요" register={register("search")} />
               <RoundButton size="custom" height="60px" bgColor="rgb(100,106,235)">
                 검색
               </RoundButton>
