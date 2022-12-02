@@ -80,7 +80,7 @@ const RecordModal = ({ setShowRecordModal, record }: RecordModalProps) => {
     updateMutate.mutate({ id: record.id, position: record!.position, description: updateWrite });
     setTimeout(() => {
       setShowMsg(false);
-    }, 2000);
+    }, 1400);
   };
   useEffect(() => {
     setIsBrowser(true);

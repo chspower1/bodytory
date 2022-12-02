@@ -15,19 +15,20 @@ datasource db {
 }
 
 model User {
-  id            Int             @id @default(autoincrement())
-  createAt      DateTime        @default(now())
+  id            Int              @id @default(autoincrement())
+  createAt      DateTime         @default(now())
   email         String
   gender        Gender
   name          String
   password      String
   phone         String?
-  updateAt      DateTime        @updatedAt
-  type          UserType        @default(origin)
-  birth         String          @default("1993-10-23")
-  accountId     String          @unique
+  updateAt      DateTime         @updatedAt
+  type          UserType         @default(origin)
+  birth         String           @default("1993-10-23")
+  accountId     String           @unique
   Certification Certification[]
   records       Record[]
+  hospitals     HospitalToUser[]
 }
 
 model Certification {
@@ -73,16 +74,16 @@ model RecordImage {
 }
 
 model MedicalDepartment {
-  id         Int                                  @id
+  id         Int                           @id
   department String
-  hospitals  HospitalMedicalDepartmentConnector[]
+  hospitals  HospitalMedicalToDepartment[]
 }
 
 model Hospital {
-  id                 Int                                  @id @default(autoincrement())
-  createAt           DateTime                             @default(now())
-  updateAt           DateTime                             @updatedAt
-  password           String                               @default("123456")
+  id                 Int                           @id @default(autoincrement())
+  createAt           DateTime                      @default(now())
+  updateAt           DateTime                      @updatedAt
+  password           String                        @default("123456")
   name               String
   area               String
   address            String
@@ -91,11 +92,12 @@ model Hospital {
   homepage           String?
   x                  Float?
   y                  Float?
-  Record             Record[]
-  medicalDepartments HospitalMedicalDepartmentConnector[]
+  records            Record[]
+  medicalDepartments HospitalMedicalToDepartment[]
+  users              HospitalToUser[]
 }
 
-model HospitalMedicalDepartmentConnector {
+model HospitalMedicalToDepartment {
   id                  Int                @id @default(autoincrement())
   medicalDepartmentId Int?
   hospitalId          Int?
@@ -107,21 +109,14 @@ model HospitalMedicalDepartmentConnector {
 }
 
 model HospitalToUser {
-  A Int
-  B Int
+  id         Int      @id @default(autoincrement())
+  hospitalId Int
+  userId     Int
+  hospital   Hospital @relation(fields: [hospitalId], references: [id])
+  user       User     @relation(fields: [userId], references: [id])
 
-  @@unique([A, B], map: "_HospitalToUser_AB_unique")
-  @@index([B], map: "_HospitalToUser_B_index")
-  @@map("_HospitalToUser")
-}
-
-model MedicalDepartmentToRecord {
-  A Int
-  B Int
-
-  @@unique([A, B], map: "_MedicalDepartmentToRecord_AB_unique")
-  @@index([B], map: "_MedicalDepartmentToRecord_B_index")
-  @@map("_MedicalDepartmentToRecord")
+  @@index([hospitalId])
+  @@index([userId])
 }
 
 enum Gender {

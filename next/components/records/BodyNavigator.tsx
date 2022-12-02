@@ -4,23 +4,35 @@ import styled, { css } from "styled-components";
 import { bodyPartType } from "types/bodyParts";
 import OutlineBack from "./svg/OutlineBack";
 import OutlineFront from "./svg/OutlineFront";
-import * as SvgPathFront from "./svg/PartAreaFront";
-import * as SvgPathBack from "./svg/PartAreaBack";
-import * as SvgPathFace from "./svg/PartAreaFace";
 import OutlineFace from "./svg/OutlineFace";
 import { useRecoilState } from "recoil";
 import { selectedBodyPart } from "atoms/atoms";
+import { FrontPaths, BackPaths, FacePaths } from "./svg/svgMapping";
 
 interface BodyNavigator {
   isWritePage: boolean;
 }
 type CurrentBodyPosition = "front" | "back" | "face";
-const face: bodyPartType[] = ["head", "forehead", "eyes", "nose", "mouth", "cheek", "chin", "ears"];
+
+const common: bodyPartType[] = ["head", "neck", "shoulder", "upperArm", "albow", "forearm", "wrist", "hand", "thigh", "knee", "calf", "ankle", "foot"];
+const front: bodyPartType[] = ["chest", "stomach", "sexOrgan", "pelvis"];
 const back: bodyPartType[] = ["back", "waist", "hip"];
+const face: bodyPartType[] = ["head", "forehead", "eyes", "nose", "mouth", "cheek", "chin", "ears"];
+
+const bodyFront = [...common, ...front];
+const bodyBack = [...common, ...back];
+
 
 const BodyNavigator = ({ isWritePage }: BodyNavigator) => {
   const [selectedPart, setSelectedPart] = useRecoilState(selectedBodyPart);
   const [currentBodyPosition, setCurrentBodyPosition] = useState<CurrentBodyPosition>("front");
+  const [hoveredPart, setHoveredPart] = useState("");
+
+  useEffect(() => {
+    if(selectedPart === null) {
+      setCurrentBodyPosition("front");
+    }
+  }, [selectedPart]);
 
   return (
     <CustomContainer isWritePage={isWritePage}>
@@ -62,151 +74,43 @@ const BodyNavigator = ({ isWritePage }: BodyNavigator) => {
         {currentBodyPosition === "front" && (
           <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 414 792" fill="none">
             <g id="partArea__front">
-              <HoverPath
-                isChecked={selectedPart === "neck"}
-                onClick={() => setSelectedPart("neck")}
-                d={SvgPathFront.NECK}
-              />
-              <HoverPath
-                isChecked={selectedPart === "shoulder"}
-                onClick={() => setSelectedPart("shoulder")}
-                d={SvgPathFront.SHOULDER_LEFT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "upperArm"}
-                onClick={() => setSelectedPart("upperArm")}
-                d={SvgPathFront.UPPERARM_LEFT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "albow"}
-                onClick={() => setSelectedPart("albow")}
-                d={SvgPathFront.ALBOW_LEFT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "forearm"}
-                onClick={() => setSelectedPart("forearm")}
-                d={SvgPathFront.FOREARM_LEFT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "wrist"}
-                onClick={() => setSelectedPart("wrist")}
-                d={SvgPathFront.WRIST_LEFT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "shoulder"}
-                onClick={() => setSelectedPart("shoulder")}
-                d={SvgPathFront.SHOULDER_RIGHT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "upperArm"}
-                onClick={() => setSelectedPart("upperArm")}
-                d={SvgPathFront.UPPERARM_RIGHT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "albow"}
-                onClick={() => setSelectedPart("albow")}
-                d={SvgPathFront.ALBOW_RIGHT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "forearm"}
-                onClick={() => setSelectedPart("forearm")}
-                d={SvgPathFront.FOREARM_RIGHT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "wrist"}
-                onClick={() => setSelectedPart("wrist")}
-                d={SvgPathFront.WRIST_RIGHT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "chest"}
-                onClick={() => setSelectedPart("chest")}
-                d={SvgPathFront.CHEST}
-              />
-              <HoverPath
-                isChecked={selectedPart === "stomach"}
-                onClick={() => setSelectedPart("stomach")}
-                d={SvgPathFront.STOMACH}
-              />
-              <HoverPath
-                isChecked={selectedPart === "pelvis"}
-                onClick={() => setSelectedPart("pelvis")}
-                d={SvgPathFront.PELVIS_LEFT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "pelvis"}
-                onClick={() => setSelectedPart("pelvis")}
-                d={SvgPathFront.PELVIS_RIGHT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "sexOrgan"}
-                onClick={() => setSelectedPart("sexOrgan")}
-                d={SvgPathFront.SEXORGAN}
-              />
-              <HoverPath
-                isChecked={selectedPart === "thigh"}
-                onClick={() => setSelectedPart("thigh")}
-                d={SvgPathFront.THIGH_LEFT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "knee"}
-                onClick={() => setSelectedPart("knee")}
-                d={SvgPathFront.KNEE_LEFT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "calf"}
-                onClick={() => setSelectedPart("calf")}
-                d={SvgPathFront.CALF_LEFT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "ankle"}
-                onClick={() => setSelectedPart("ankle")}
-                d={SvgPathFront.ANKLE_LEFT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "thigh"}
-                onClick={() => setSelectedPart("thigh")}
-                d={SvgPathFront.THIGH_RIGHT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "knee"}
-                onClick={() => setSelectedPart("knee")}
-                d={SvgPathFront.KNEE_RIGHT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "calf"}
-                onClick={() => setSelectedPart("calf")}
-                d={SvgPathFront.CALF_RIGHT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "ankle"}
-                onClick={() => setSelectedPart("ankle")}
-                d={SvgPathFront.ANKLE_RIGHT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "hand"}
-                onClick={() => setSelectedPart("hand")}
-                d={SvgPathFront.HAND_LEFT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "hand"}
-                onClick={() => setSelectedPart("hand")}
-                d={SvgPathFront.HAND_RIGHT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "foot"}
-                onClick={() => setSelectedPart("foot")}
-                d={SvgPathFront.FOOT_LEFT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "foot"}
-                onClick={() => setSelectedPart("foot")}
-                d={SvgPathFront.FOOT_RIGHT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "head"}
-                onClick={() => setCurrentBodyPosition("face")}
-                d={SvgPathFront.HEAD}
-              />
+              {
+                bodyFront.map((part, index) => {
+                  if (FrontPaths[part!].length > 1) {
+                    return (
+                      <>
+                        <HoverPath
+                          isChecked={selectedPart === part}
+                          onClick={() => setSelectedPart(part)}
+                          isHover={hoveredPart === part}
+                          onMouseEnter={() => setHoveredPart(part!)}
+                          onMouseLeave={() => setHoveredPart("")}
+                          d={FrontPaths[part!][0]}
+                        />
+                        <HoverPath
+                          isChecked={selectedPart === part}
+                          onClick={() => setSelectedPart(part)}
+                          isHover={hoveredPart === part}
+                          onMouseEnter={() => setHoveredPart(part!)}
+                          onMouseLeave={() => setHoveredPart("")}
+                          d={FrontPaths[part!][1]}
+                        />
+                      </>
+                    )
+                  } else {
+                    return(
+                      <HoverPath
+                        isChecked={selectedPart === part}
+                        onClick={() => part === "head" ? setCurrentBodyPosition("face") : setSelectedPart(part)}
+                        isHover={hoveredPart === part}
+                        onMouseEnter={() => setHoveredPart(part!)}
+                        onMouseLeave={() => setHoveredPart("")}
+                        d={FrontPaths[part!]}
+                      />
+                    )
+                  }
+                })
+              }
             </g>
             <OutlineFront />
           </svg>
@@ -215,147 +119,43 @@ const BodyNavigator = ({ isWritePage }: BodyNavigator) => {
         {currentBodyPosition === "back" && (
           <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 409 769" fill="none">
             <g id="partArea__back">
-              <HoverPath
-                isChecked={selectedPart === "neck"}
-                onClick={() => setSelectedPart("neck")}
-                d={SvgPathBack.NECK}
-              />
-              <HoverPath
-                isChecked={selectedPart === "shoulder"}
-                onClick={() => setSelectedPart("shoulder")}
-                d={SvgPathBack.SHOULDER_LEFT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "upperArm"}
-                onClick={() => setSelectedPart("upperArm")}
-                d={SvgPathBack.UPPERARM_LEFT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "albow"}
-                onClick={() => setSelectedPart("albow")}
-                d={SvgPathBack.ALBOW_LEFT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "forearm"}
-                onClick={() => setSelectedPart("forearm")}
-                d={SvgPathBack.FOREARM_LEFT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "wrist"}
-                onClick={() => setSelectedPart("wrist")}
-                d={SvgPathBack.WRIST_LEFT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "shoulder"}
-                onClick={() => setSelectedPart("shoulder")}
-                d={SvgPathBack.SHOULDER_RIGHT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "upperArm"}
-                onClick={() => setSelectedPart("upperArm")}
-                d={SvgPathBack.UPPERARM_RIGHT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "albow"}
-                onClick={() => setSelectedPart("albow")}
-                d={SvgPathBack.ALBOW_RIGHT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "forearm"}
-                onClick={() => setSelectedPart("forearm")}
-                d={SvgPathBack.FOREARM_RIGHT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "wrist"}
-                onClick={() => setSelectedPart("wrist")}
-                d={SvgPathBack.WRIST_RIGHT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "thigh"}
-                onClick={() => setSelectedPart("thigh")}
-                d={SvgPathBack.THIGH_LEFT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "knee"}
-                onClick={() => setSelectedPart("knee")}
-                d={SvgPathBack.KNEE_LEFT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "calf"}
-                onClick={() => setSelectedPart("calf")}
-                d={SvgPathBack.CALF_LEFT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "ankle"}
-                onClick={() => setSelectedPart("ankle")}
-                d={SvgPathBack.ANKLE_LEFT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "thigh"}
-                onClick={() => setSelectedPart("thigh")}
-                d={SvgPathBack.THIGH_RIGHT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "knee"}
-                onClick={() => setSelectedPart("knee")}
-                d={SvgPathBack.KNEE_RIGHT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "calf"}
-                onClick={() => setSelectedPart("calf")}
-                d={SvgPathBack.CALF_RIGHT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "ankle"}
-                onClick={() => setSelectedPart("ankle")}
-                d={SvgPathBack.ANKLE_RIGHT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "hand"}
-                onClick={() => setSelectedPart("hand")}
-                d={SvgPathBack.HAND_LEFT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "hand"}
-                onClick={() => setSelectedPart("hand")}
-                d={SvgPathBack.HAND_RIGHT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "head"}
-                onClick={() => setCurrentBodyPosition("face")}
-                d={SvgPathBack.HEAD}
-              />
-              <HoverPath
-                isChecked={selectedPart === "back"}
-                onClick={() => setSelectedPart("back")}
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d={SvgPathBack.BACK}
-              />
-              <HoverPath
-                isChecked={selectedPart === "waist"}
-                onClick={() => setSelectedPart("waist")}
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d={SvgPathBack.WAIST}
-              />
-              <HoverPath
-                isChecked={selectedPart === "hip"}
-                onClick={() => setSelectedPart("hip")}
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d={SvgPathBack.HIP}
-              />
-              <HoverPath
-                isChecked={selectedPart === "foot"}
-                onClick={() => setSelectedPart("foot")}
-                d={SvgPathBack.FOOT_LEFT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "foot"}
-                onClick={() => setSelectedPart("foot")}
-                d={SvgPathBack.FOOT_RIGHT}
-              />
+              {
+                bodyBack.map((part, index) => {
+                  if (BackPaths[part!].length > 1) {
+                    return (
+                      <>
+                        <HoverPath
+                          isChecked={selectedPart === part}
+                          onClick={() => setSelectedPart(part)}
+                          isHover={hoveredPart === part}
+                          onMouseEnter={() => setHoveredPart(part!)}
+                          onMouseLeave={() => setHoveredPart("")}
+                          d={BackPaths[part!][0]}
+                        />
+                        <HoverPath
+                          isChecked={selectedPart === part}
+                          onClick={() => setSelectedPart(part)}
+                          isHover={hoveredPart === part}
+                          onMouseEnter={() => setHoveredPart(part!)}
+                          onMouseLeave={() => setHoveredPart("")}
+                          d={BackPaths[part!][1]}
+                        />
+                      </>
+                    )
+                  } else {
+                    return(
+                      <HoverPath
+                        isChecked={selectedPart === part}
+                        onClick={() => part === "head" ? setCurrentBodyPosition("face") : setSelectedPart(part)}
+                        isHover={hoveredPart === part}
+                        onMouseEnter={() => setHoveredPart(part!)}
+                        onMouseLeave={() => setHoveredPart("")}
+                        d={BackPaths[part!]}
+                      />
+                    )
+                  }
+                })
+              }
             </g>
             <OutlineBack />
           </svg>
@@ -364,61 +164,43 @@ const BodyNavigator = ({ isWritePage }: BodyNavigator) => {
         {currentBodyPosition === "face" && (
           <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 470 543" fill="none">
             <g id="partArea__face">
-              <HoverPath
-                isChecked={selectedPart === "head"}
-                onClick={() => setSelectedPart("head")}
-                d={SvgPathFace.HEAD}
-              />
-              <HoverPath
-                isChecked={selectedPart === "forehead"}
-                onClick={() => setSelectedPart("forehead")}
-                d={SvgPathFace.FOREHEAD}
-              />
-              <HoverPath
-                isChecked={selectedPart === "eyes"}
-                onClick={() => setSelectedPart("eyes")}
-                d={SvgPathFace.EYE_LEFT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "eyes"}
-                onClick={() => setSelectedPart("eyes")}
-                d={SvgPathFace.EYE_RIGHT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "cheek"}
-                onClick={() => setSelectedPart("cheek")}
-                d={SvgPathFace.CHEEK_LEFT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "cheek"}
-                onClick={() => setSelectedPart("cheek")}
-                d={SvgPathFace.CHEEK_RIGHT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "nose"}
-                onClick={() => setSelectedPart("nose")}
-                d={SvgPathFace.NOSE}
-              />
-              <HoverPath
-                isChecked={selectedPart === "mouth"}
-                onClick={() => setSelectedPart("mouth")}
-                d={SvgPathFace.MOUTH}
-              />
-              <HoverPath
-                isChecked={selectedPart === "chin"}
-                onClick={() => setSelectedPart("chin")}
-                d={SvgPathFace.CHIN}
-              />
-              <HoverPath
-                isChecked={selectedPart === "ears"}
-                onClick={() => setSelectedPart("ears")}
-                d={SvgPathFace.EAR_LEFT}
-              />
-              <HoverPath
-                isChecked={selectedPart === "ears"}
-                onClick={() => setSelectedPart("ears")}
-                d={SvgPathFace.EAR_RIGHT}
-              />
+              {
+                face.map((part, index) => {
+                  if (FacePaths[part!].length > 1) {
+                    return (
+                      <>
+                        <HoverPath
+                          isChecked={selectedPart === part}
+                          onClick={() => setSelectedPart(part)}
+                          isHover={hoveredPart === part}
+                          onMouseEnter={() => setHoveredPart(part!)}
+                          onMouseLeave={() => setHoveredPart("")}
+                          d={FacePaths[part!][0]}
+                        />
+                        <HoverPath
+                          isChecked={selectedPart === part}
+                          onClick={() => setSelectedPart(part)}
+                          isHover={hoveredPart === part}
+                          onMouseEnter={() => setHoveredPart(part!)}
+                          onMouseLeave={() => setHoveredPart("")}
+                          d={FacePaths[part!][1]}
+                        />
+                      </>
+                    )
+                  } else {
+                    return(
+                      <HoverPath
+                        isChecked={selectedPart === part}
+                        onClick={() => setSelectedPart(part)}
+                        isHover={hoveredPart === part}
+                        onMouseEnter={() => setHoveredPart(part!)}
+                        onMouseLeave={() => setHoveredPart("")}
+                        d={FacePaths[part!]}
+                      />
+                    )
+                  }
+                })
+              }
             </g>
             <OutlineFace />
           </svg>
@@ -440,21 +222,22 @@ const CustomContainer = styled.div<{ isWritePage: boolean }>`
   ${({ isWritePage }) =>
     isWritePage
       ? css`
-          aspect-ratio: 1/1;
-          width: 50%;
-          background-color: #ebecfc;
-          box-shadow: 8px 8px 18px rgba(174, 178, 228, 0.25);
-          border-radius: 30px;
+        aspect-ratio: 1/1;
+        width: 50%;
+        background-color: #ebecfc;
+        box-shadow: 8px 8px 18px rgba(174, 178, 228, 0.25);
+        border-radius: 30px;
         `
       : css``}
 `;
 
 const PathBox = styled.div<{ isViewMode?: boolean }>`
+  position: relative;
+  z-index: 5;
   display: flex;
   margin: auto;
   width: 46%;
   min-width: 390px;
-  z-index: 100;
   ${({ isViewMode }) =>
     isViewMode &&
     css`
@@ -472,22 +255,23 @@ const ButtonsBox = styled.div`
   bottom: 0;
 `;
 
-const HoverPath = styled.path<{ isChecked: boolean }>`
+const HoverPath = styled.path<{ isChecked: boolean, isHover: boolean }>`
   cursor: pointer;
+  transition: fill .2s;
 
-  &:hover {
-    fill: rgb(178, 189, 255);
-  }
-
-  ${({ isChecked }) =>
+  ${({ isChecked, isHover }) =>
     isChecked
       ? css`
           fill: rgb(3, 231, 203);
           pointer-events: none;
         `
-      : css`
-          fill: rgb(217, 222, 255);
-        `}
+      : isHover 
+        ? css`
+          fill: rgb(178, 189, 255);
+        `
+        : css`
+            fill: rgb(217, 222, 255);
+          `}
 `;
 
 export default BodyNavigator;
