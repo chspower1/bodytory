@@ -11,7 +11,7 @@ import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognitio
 import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
-import { PositionBoxText, TextBox, ToryBox } from "@components/records/SiteChecker";
+import { PositionBoxText, TextBox, ToryBox } from "@components/records/BodyPartChecker";
 import ToryIcon from "@components/ToryIcon";
 import SpeakMotion from "@components/SpeakMotion";
 import useAudio from "@hooks/useAudio";
@@ -25,6 +25,8 @@ interface WriteRecordRequest {
 }
 const PositionPage = () => {
   const { query } = useRouter();
+  const position = query.position as Position;
+
   const { offRecAudio, onRecAudio, audioRecognized } = useAudio();
   const { transcript, listening, resetTranscript, browserSupportsSpeechRecognition } = useSpeechRecognition();
   const { postApi } = customApi("/api/users/records");
@@ -57,7 +59,7 @@ const PositionPage = () => {
           </Box>
           <Box height="30%">
             <BlackToryText>
-              <PositionBoxText>신체부위</PositionBoxText>에 어떤 증상이 있나요?
+              <PositionBoxText>{KoreanPosition[position]}</PositionBoxText>에 어떤 증상이 있나요?
             </BlackToryText>
           </Box>
           <VoiceBox height="30%">

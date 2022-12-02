@@ -1,17 +1,14 @@
 import { RoundButton } from "@components/buttons/Button";
 import { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
-import { bodyPartType } from "types/bodyParts";
+import { bodyPartType, SelectBodyPartProps } from "types/bodyParts";
 import OutlineBack from "./svg/OutlineBack";
 import OutlineFront from "./svg/OutlineFront";
 import OutlineFace from "./svg/OutlineFace";
-import { useRecoilState } from "recoil";
-import { selectedBodyPart } from "atoms/atoms";
 import { FrontPaths, BackPaths, FacePaths } from "./svg/svgMapping";
+import { useRouter } from "next/router";
+import { Position } from "@prisma/client";
 
-interface BodyNavigator {
-  isWritePage: boolean;
-}
 type CurrentBodyPosition = "front" | "back" | "face";
 
 const common: bodyPartType[] = ["head", "neck", "shoulder", "upperArm", "albow", "forearm", "wrist", "hand", "thigh", "knee", "calf", "ankle", "foot"];
@@ -23,16 +20,15 @@ const bodyFront = [...common, ...front];
 const bodyBack = [...common, ...back];
 
 
-const BodyNavigator = ({ isWritePage }: BodyNavigator) => {
-  const [selectedPart, setSelectedPart] = useRecoilState(selectedBodyPart);
-  const [currentBodyPosition, setCurrentBodyPosition] = useState<CurrentBodyPosition>("front");
-  const [hoveredPart, setHoveredPart] = useState("");
+const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage }: SelectBodyPartProps) => {
 
-  useEffect(() => {
-    if(selectedPart === null) {
-      setCurrentBodyPosition("front");
-    }
-  }, [selectedPart]);
+  const router = useRouter();
+
+  const [hoveredPart, setHoveredPart] = useState("");
+  const [currentBodyPosition, setCurrentBodyPosition] = useState<CurrentBodyPosition>("front");
+
+  const { query } = useRouter();
+  const position = query.position as Position;
 
   return (
     <CustomContainer isWritePage={isWritePage}>
@@ -80,16 +76,28 @@ const BodyNavigator = ({ isWritePage }: BodyNavigator) => {
                     return (
                       <>
                         <HoverPath
-                          isChecked={selectedPart === part}
-                          onClick={() => setSelectedPart(part)}
+                          isChecked={isWritePage ? (selectedBodyPart === part) : (position === part)}
+                          onClick={() => {
+                            isWritePage ? (
+                              setSelectedBodyPart(part)
+                            ) : (
+                              router.push(`/users/records/chart/${part}`)
+                            )
+                          }}
                           isHover={hoveredPart === part}
                           onMouseEnter={() => setHoveredPart(part!)}
                           onMouseLeave={() => setHoveredPart("")}
                           d={FrontPaths[part!][0]}
                         />
                         <HoverPath
-                          isChecked={selectedPart === part}
-                          onClick={() => setSelectedPart(part)}
+                          isChecked={isWritePage ? (selectedBodyPart === part) : (position === part)}
+                          onClick={() => {
+                            isWritePage ? (
+                              setSelectedBodyPart(part)
+                            ) : (
+                              router.push(`/users/records/chart/${part}`)
+                            )
+                          }}
                           isHover={hoveredPart === part}
                           onMouseEnter={() => setHoveredPart(part!)}
                           onMouseLeave={() => setHoveredPart("")}
@@ -100,8 +108,18 @@ const BodyNavigator = ({ isWritePage }: BodyNavigator) => {
                   } else {
                     return(
                       <HoverPath
-                        isChecked={selectedPart === part}
-                        onClick={() => part === "head" ? setCurrentBodyPosition("face") : setSelectedPart(part)}
+                        isChecked={isWritePage ? (selectedBodyPart === part) : (position === part)}
+                        onClick={() => {
+                          if(part === "head") {
+                            setCurrentBodyPosition("face")
+                          } else {
+                            isWritePage ? (
+                              setSelectedBodyPart(part)
+                            ) : (
+                              router.push(`/users/records/chart/${part}`)
+                            )
+                          }
+                        }}
                         isHover={hoveredPart === part}
                         onMouseEnter={() => setHoveredPart(part!)}
                         onMouseLeave={() => setHoveredPart("")}
@@ -119,22 +137,34 @@ const BodyNavigator = ({ isWritePage }: BodyNavigator) => {
         {currentBodyPosition === "back" && (
           <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 409 769" fill="none">
             <g id="partArea__back">
-              {
+            {
                 bodyBack.map((part, index) => {
                   if (BackPaths[part!].length > 1) {
                     return (
                       <>
                         <HoverPath
-                          isChecked={selectedPart === part}
-                          onClick={() => setSelectedPart(part)}
+                          isChecked={isWritePage ? (selectedBodyPart === part) : (position === part)}
+                          onClick={() => {
+                            isWritePage ? (
+                              setSelectedBodyPart(part)
+                            ) : (
+                              router.push(`/users/records/chart/${part}`)
+                            )
+                          }}
                           isHover={hoveredPart === part}
                           onMouseEnter={() => setHoveredPart(part!)}
                           onMouseLeave={() => setHoveredPart("")}
                           d={BackPaths[part!][0]}
                         />
                         <HoverPath
-                          isChecked={selectedPart === part}
-                          onClick={() => setSelectedPart(part)}
+                          isChecked={isWritePage ? (selectedBodyPart === part) : (position === part)}
+                          onClick={() => {
+                            isWritePage ? (
+                              setSelectedBodyPart(part)
+                            ) : (
+                              router.push(`/users/records/chart/${part}`)
+                            )
+                          }}
                           isHover={hoveredPart === part}
                           onMouseEnter={() => setHoveredPart(part!)}
                           onMouseLeave={() => setHoveredPart("")}
@@ -145,8 +175,18 @@ const BodyNavigator = ({ isWritePage }: BodyNavigator) => {
                   } else {
                     return(
                       <HoverPath
-                        isChecked={selectedPart === part}
-                        onClick={() => part === "head" ? setCurrentBodyPosition("face") : setSelectedPart(part)}
+                        isChecked={isWritePage ? (selectedBodyPart === part) : (position === part)}
+                        onClick={() => {
+                          if(part === "head") {
+                            setCurrentBodyPosition("face")
+                          } else {
+                            isWritePage ? (
+                              setSelectedBodyPart(part)
+                            ) : (
+                              router.push(`/users/records/chart/${part}`)
+                            )
+                          }
+                        }}
                         isHover={hoveredPart === part}
                         onMouseEnter={() => setHoveredPart(part!)}
                         onMouseLeave={() => setHoveredPart("")}
@@ -170,16 +210,28 @@ const BodyNavigator = ({ isWritePage }: BodyNavigator) => {
                     return (
                       <>
                         <HoverPath
-                          isChecked={selectedPart === part}
-                          onClick={() => setSelectedPart(part)}
+                          isChecked={isWritePage ? (selectedBodyPart === part) : (position === part)}
+                          onClick={() => {
+                            isWritePage ? (
+                              setSelectedBodyPart(part)
+                            ) : (
+                              router.push(`/users/records/chart/${part}`)
+                            )
+                          }}
                           isHover={hoveredPart === part}
                           onMouseEnter={() => setHoveredPart(part!)}
                           onMouseLeave={() => setHoveredPart("")}
                           d={FacePaths[part!][0]}
                         />
                         <HoverPath
-                          isChecked={selectedPart === part}
-                          onClick={() => setSelectedPart(part)}
+                          isChecked={selectedBodyPart === part}
+                          onClick={() => {
+                            isWritePage ? (
+                              setSelectedBodyPart(part)
+                            ) : (
+                              router.push(`/users/records/chart/${part}`)
+                            )
+                          }}
                           isHover={hoveredPart === part}
                           onMouseEnter={() => setHoveredPart(part!)}
                           onMouseLeave={() => setHoveredPart("")}
@@ -190,8 +242,14 @@ const BodyNavigator = ({ isWritePage }: BodyNavigator) => {
                   } else {
                     return(
                       <HoverPath
-                        isChecked={selectedPart === part}
-                        onClick={() => setSelectedPart(part)}
+                       isChecked={isWritePage ? (selectedBodyPart === part) : (position === part)}
+                        onClick={() => {
+                          isWritePage ? (
+                            setSelectedBodyPart(part)
+                          ) : (
+                            router.push(`/users/records/chart/${part}`)
+                          )
+                        }}
                         isHover={hoveredPart === part}
                         onMouseEnter={() => setHoveredPart(part!)}
                         onMouseLeave={() => setHoveredPart("")}

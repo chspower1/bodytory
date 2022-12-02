@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from "react";
+
 export type bodyPartType =
   "head"
   | "forehead"
@@ -27,3 +29,11 @@ export type bodyPartType =
   | "ankle"
   | "foot"
   | null;
+
+
+export  interface SelectBodyPartProps {
+  selectedBodyPart: bodyPartType;
+  setSelectedBodyPart: Dispatch<SetStateAction<bodyPartType>>;
+  isWritePage?: boolean;
+}
+  
