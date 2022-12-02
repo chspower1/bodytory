@@ -1,6 +1,7 @@
 import { RoundButton } from "@components/button/Button";
 import HospitalList from "@components/HospitalList";
 import Input from "@components/Input";
+import FirstPage from "@components/register/FirstPage";
 import { User } from "@prisma/client";
 import { FlexContainer, InnerContainer } from "@styles/Common";
 import { theme } from "@styles/theme";
@@ -10,7 +11,7 @@ import { loggedInUser } from "atoms/atoms";
 import axios from "axios";
 import Image from "next/image";
 import { RegisterForm } from "pages/auth/register";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
@@ -23,15 +24,12 @@ interface SearchForm {
 
 const FindHospital = () => {
   const { getApi } = customApi("/api/users/my-hospitals");
-  const { data } = useQuery(["hospital"], getApi);
-  const [findState, setFindState] = useState<any>(undefined);
-  const findData = useMutation(["findHospital"], getTest, {
-    onSuccess(data) {
-      console.log("asdasdsa");
-      console.log(data);
-      setFindState(data);
-    },
-  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [search, setSearch] = useState<string>("");
+  const [page, setPage] = useState<number>(0);
+  const [findState, setFindState] = useState<any[]>([]);
+  const listRef = useRef<Element>(null);
+  const viewRef = useRef<HTMLDivElement>(null);
   const currentUser = useRecoilValue(loggedInUser);
   const {
     register,
@@ -42,22 +40,66 @@ const FindHospital = () => {
   } = useForm<SearchForm>({ mode: "onChange" });
 
   useEffect(() => {
-    document.body.style.backgroundColor = theme.color.lightBg;
-    return () => {
-      document.body.style.backgroundColor = theme.color.darkBg;
-    };
-  }, []);
+    if (search) {
+      getTest();
+    }
+  }, [search, page]);
 
-  async function getTest(data: any) {
-    const result = await axios.post("/api/users/my-hospitals/find", data);
-    return result.data;
-  }
+  const address = useMemo(() => {
+    return `/api/users/my-hospitals/find?page=${page}&search=${search}`;
+  }, [search, page]);
 
-  const onValid = (input: SearchForm) => {
-    setValue("search", "");
+  const getTest = useCallback(async () => {
+    setIsLoading(true);
+    console.log(search, "get");
+    const result = await axios.get(`/api/users/my-hospitals/find?page=${page}&search=${search}`);
+    console.log(result.data.status);
+    if (result.data.status) return;
+    setFindState((current: any) => {
+      const array = [...current];
+      if (array) {
+        array.push(...result.data.foundHospital);
+      }
+      return [...new Set(array)];
+    });
+    setIsLoading(false);
+  }, [search, page]);
+
+  const onValid = async (input: SearchForm) => {
+    console.log(input.search, "인풋서치");
+    setSearch(() => input.search);
     console.log(input);
-    findData.mutate(input);
+    setFindState([]);
+    setPage(0);
+    console.log(search);
+    setValue("search", "");
   };
+  // useEffect(() => {
+  //   viewRef.current?.scrollTo({
+  //     top: viewRef.current.scrollHeight - viewRef.current.offsetHeight + viewRef.current.offsetTop,
+  //   });
+  //   console.log(viewRef);
+  // }, [isLoading]);
+
+  useEffect(() => {
+    console.log(findState);
+    if (listRef.current === null) return;
+    console.log("pp");
+    console.log(listRef.current);
+    const io = new IntersectionObserver(
+      async ([entry], observer) => {
+        console.log(entry, observer);
+        if (entry.isIntersecting) {
+          observer.unobserve(entry.target);
+          setPage(page + 1);
+          observer.observe(entry.target);
+        }
+      },
+      { root: null, threshold: 1, rootMargin: "0px" },
+    );
+    io.observe(listRef.current as Element);
+    return () => io.disconnect();
+  }, [findState]);
 
   return (
     <MainContainer>
@@ -85,7 +127,7 @@ const FindHospital = () => {
             </SearchForm>
           </SearchBox>
         </DescriptionContainer>
-        {<HospitalList lists={findState} add={true} />}
+        <HospitalList lists={findState || undefined} add={true} listRef={listRef} viewRef={viewRef} />
       </MainInnerContainer>
     </MainContainer>
   );
