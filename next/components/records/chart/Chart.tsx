@@ -1,15 +1,17 @@
 import styled from "styled-components";
 import { RoundButton } from "@components/buttons/Button";
-import ToryRecommendPart from "./ToryRecommendPart";
+import ToryRecommendPart from "../ToryRecommendPart";
 import ChartTimeline from "./ChartTimeline";
 import ChartKeyword from "./ChartKeyword";
 import { KoreanPosition } from "types/write";
 import Link from "next/link";
-import { useRecoilValue } from "recoil";
-import { selectedBodyPart } from "atoms/atoms";
+import { useRouter } from "next/router";
+import { Position } from "@prisma/client";
 
 function Chart() {
-  const selectedPart = useRecoilValue(selectedBodyPart);
+
+  const { query } = useRouter();
+  const position = query.position as Position;
 
   return (
     <ChartWrap>
@@ -17,9 +19,9 @@ function Chart() {
         <ChartContainer>
           <TitleBox>
             <Title>
-              <strong>{KoreanPosition[selectedPart!]}</strong> 건강기록
+              <strong>{KoreanPosition[position]}</strong> 건강기록
             </Title>
-            <Link href={`/users/records/write/${selectedPart}`}>
+            <Link href={`/users/records/write/${position}`}>
               <RoundButton size="md" bgColor="rgb(244,245,255)" textColor="rgb(83,89,233)">
                 기록 추가하기
               </RoundButton>

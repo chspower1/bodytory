@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { ToryText26 } from '@styles/Common';
-import Statistics from './DashBoardStatistics';
-import ToryRecommend from './ToryRecommend';
+import DashBoardStatistics from './DashBoardStatistics';
+import ToryRecommend from '../ToryRecommend';
 import useUser from '@hooks/useUser';
 
 function DashBoard() {
@@ -17,7 +17,7 @@ function DashBoard() {
           </ToryText26White>
         </ToryTextBox>
         <ToryRecommend />
-        <Statistics />
+        <DashBoardStatistics />
       </DashBoardContainer>
     </DashBoardWarp>
   ) : null;

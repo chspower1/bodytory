@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useMutation } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
-import { CreateBtnBox, PositionBoxText, TextBox, ToryBox } from "@components/records/SiteChecker";
+import { CreateBtnBox, PositionBoxText, TextBox, ToryBox } from "@components/records/BodyPartChecker";
 import ToryIcon from "@components/ToryIcon";
 export default function WritePositionPage() {
   const router = useRouter();

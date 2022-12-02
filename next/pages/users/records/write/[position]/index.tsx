@@ -10,7 +10,7 @@ import mic from "@public/static/icon/mic.svg";
 import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
-import { PositionBoxText, TextBox, ToryBox } from "@components/records/SiteChecker";
+import { PositionBoxText, TextBox, ToryBox } from "@components/records/BodyPartChecker";
 import ToryIcon from "@components/ToryIcon";
 import SpeakMotion from "@components/SpeakMotion";
 import useAudio from "@hooks/useAudio";
@@ -24,7 +24,9 @@ interface WriteRecordRequest {
 }
 type RecordStatus = "initial" | "finish" | "listening" | "loading";
 const PositionPage = () => {
-  const router = useRouter();
+  const { query } = useRouter();
+  const position = query.position as Position;
+
   const { offRecAudio, onRecAudio, audioRecognized } = useAudio();
   const [listening, setListening] = useState(false);
   const [error, setError] = useState(false);
@@ -72,7 +74,7 @@ const PositionPage = () => {
           </Box>
           <Box height="30%">
             <BlackToryText>
-              <PositionBoxText>신체부위</PositionBoxText>에 어떤 증상이 있나요?
+              <PositionBoxText>{KoreanPosition[position]}</PositionBoxText>에 어떤 증상이 있나요?
             </BlackToryText>
           </Box>
           <VoiceBox height="30%">
