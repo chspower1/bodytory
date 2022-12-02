@@ -1,6 +1,6 @@
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["referentialIntegrity", "filteredRelationCount"]
+  previewFeatures = ["orderByNulls", "filteredRelationCount"]
 }
 
 generator erd {
@@ -15,20 +15,20 @@ datasource db {
 }
 
 model User {
-  id            Int             @id @default(autoincrement())
-  createAt      DateTime        @default(now())
+  id            Int              @id @default(autoincrement())
+  createAt      DateTime         @default(now())
   email         String
   gender        Gender
   name          String
   password      String
   phone         String?
-  updateAt      DateTime        @updatedAt
-  type          UserType        @default(origin)
-  birth         String          @default("1993-10-23")
-  accountId     String          @unique
+  updateAt      DateTime         @updatedAt
+  type          UserType         @default(origin)
+  birth         String           @default("1993-10-23")
+  accountId     String           @unique
   Certification Certification[]
   records       Record[]
-  hospitals     Hospital[]
+  hospitals     HospitalToUser[]
 }
 
 model Certification {
@@ -39,23 +39,27 @@ model Certification {
   userId   Int?
   email    String?
   user     User?    @relation(fields: [userId], references: [id])
+
+  @@index([userId])
 }
 
 model Record {
-  id           Int                 @id @default(autoincrement())
-  createAt     DateTime            @default(now())
-  updateAt     DateTime            @updatedAt
+  id           Int           @id @default(autoincrement())
+  createAt     DateTime      @default(now())
+  updateAt     DateTime      @updatedAt
   type         RecordType
   position     Position
   description  String
   userId       Int
   diagnosis    String?
   prescription String?
-  user         User                @relation(fields: [userId], references: [id], onDelete: Cascade)
-  hospital     Hospital?           @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
   hospitalId   Int?
-  recommend    MedicalDepartment[]
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  hospital     Hospital?     @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
   images       RecordImage[]
+
+  @@index([userId])
+  @@index([hospitalId])
 }
 
 model RecordImage {
@@ -65,39 +69,54 @@ model RecordImage {
   recordId Int
   url      String
   record   Record   @relation(fields: [recordId], references: [id], onDelete: Cascade)
+
+  @@index([recordId])
 }
 
 model MedicalDepartment {
-  id         Int                                  @id
+  id         Int                           @id
   department String
-  hospitals  HospitalMedicalDepartmentConnector[]
-  Record     Record[]
+  hospitals  HospitalMedicalToDepartment[]
 }
 
 model Hospital {
-  id                 Int                                  @id @default(autoincrement())
-  createAt           DateTime                             @default(now())
-  updateAt           DateTime                             @updatedAt
-  password           String                               @default("123456")
+  id                 Int                           @id @default(autoincrement())
+  createAt           DateTime                      @default(now())
+  updateAt           DateTime                      @updatedAt
+  password           String                        @default("123456")
   name               String
   area               String
   address            String
   city               String
   class              String
   homepage           String?
-  user               User[]
-  Record             Record[]
-  x                  Float?                               @db.Double
-  y                  Float?                               @db.Double
-  medicalDepartments HospitalMedicalDepartmentConnector[]
+  x                  Float?
+  y                  Float?
+  records            Record[]
+  medicalDepartments HospitalMedicalToDepartment[]
+  users              HospitalToUser[]
 }
 
-model HospitalMedicalDepartmentConnector {
+model HospitalMedicalToDepartment {
   id                  Int                @id @default(autoincrement())
-  medicalDepartment   MedicalDepartment? @relation(fields: [medicalDepartmentId], references: [id], onDelete: Cascade)
-  hospital            Hospital?          @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
   medicalDepartmentId Int?
   hospitalId          Int?
+  medicalDepartment   MedicalDepartment? @relation(fields: [medicalDepartmentId], references: [id], onDelete: Cascade)
+  hospital            Hospital?          @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
+
+  @@index([medicalDepartmentId])
+  @@index([hospitalId])
+}
+
+model HospitalToUser {
+  id         Int      @id @default(autoincrement())
+  hospitalId Int
+  userId     Int
+  hospital   Hospital @relation(fields: [hospitalId], references: [id])
+  user       User     @relation(fields: [userId], references: [id])
+
+  @@index([hospitalId])
+  @@index([userId])
 }
 
 enum Gender {
