@@ -26,6 +26,7 @@ const SelectPartWarp = styled.div`
   position: relative;
   width: 37.5%;
   height: 100%;
+  overflow: hidden;
 `;
 
 const SelectPartContainer = styled.div`
