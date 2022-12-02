@@ -4,16 +4,27 @@ import { MouseEvent } from "react";
 import styled from "styled-components";
 import HospitalContent, { HospitalListT } from "./HospitalContent";
 
-const HospitalList = ({ lists, add }: { lists?: HospitalListT[]; add: boolean }) => {
+const HospitalList = ({
+  lists,
+  add,
+  listRef,
+  viewRef,
+}: {
+  lists?: HospitalListT[];
+  add: boolean;
+  listRef: any;
+  viewRef: any;
+}) => {
   console.log("lists", lists);
   return (
     <HospitalContainer add={add}>
-      <InnerContainer add={add}>
-        {lists && lists.length >= 1 ? (
+      <InnerContainer add={add} ref={viewRef}>
+        {lists !== undefined && lists.length !== 0 ? (
           <HospitalLists>
             {lists.map((list) => (
               <HospitalContent list={list} add={add} key={list.id} />
             ))}
+            <div ref={listRef}></div>
           </HospitalLists>
         ) : (
           <NoneMessage>{add ? "검색결과가 없습니다" : "병원내역이 없습니다"}</NoneMessage>
