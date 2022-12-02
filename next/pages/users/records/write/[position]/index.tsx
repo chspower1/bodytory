@@ -29,7 +29,9 @@ const PositionPage = () => {
   const { transcript, listening, resetTranscript, browserSupportsSpeechRecognition } = useSpeechRecognition();
   const { postApi } = customApi("/api/users/records");
   const { mutate } = useMutation<unknown, AxiosError, WriteRecordRequest>([RECORDS_CREATE], postApi, {
-    onSuccess(data) {},
+    onSuccess(data) {
+      
+    },
   });
   const startRecord = () => {
     resetTranscript();
