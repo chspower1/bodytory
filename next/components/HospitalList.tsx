@@ -22,7 +22,7 @@ const HospitalList = ({
         {lists !== undefined && lists.length !== 0 ? (
           <HospitalLists>
             {lists.map((list, idx) => (
-              <HospitalContent list={list.hospital} idx={idx} add={add} key={list.id} />
+              <HospitalContent list={list.hospital ? list.hospital : list} idx={idx} add={add} key={list.id} />
             ))}
             {isLoading ? <div>Loading....</div> : <div ref={listRef}>{}</div>}
           </HospitalLists>

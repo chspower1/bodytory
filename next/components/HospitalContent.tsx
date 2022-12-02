@@ -1,4 +1,4 @@
-import { Hospital } from "@prisma/client";
+import { Hospital, MedicalDepartment } from "@prisma/client";
 import { theme } from "@styles/theme";
 import sliceName from "@utils/client/sliceHospitalName";
 import { currentHospitalIdx } from "atoms/atoms";
@@ -9,22 +9,20 @@ import styled from "styled-components";
 import { ChangeToHoverColor, RectangleButton, RoundButton } from "./buttons/Button";
 
 export interface HospitalListT extends Hospital {
-  medicalDepartments: [
-    {
+  medicalDepartments:[{
       id: number;
       medicalDepartmentId: number;
       hospitalId: number;
-      medicalDepartment: { id: number; department: string };
-    },
-  ];
+      medicalDepartment: MedicalDepartment;
+    }];
 }
 
-export interface HospitalListProps extends Hospital{
-  hospital: HospitalListT;
+export interface HospitalListProps extends HospitalListT{
+  hospital ?: HospitalListT;
 }
 
 
-const HospitalContent = ({ list, add, idx }: { list: HospitalListT; add: boolean, idx:number }) => {
+const HospitalContent = ({ list, add, idx }: { list: HospitalListProps ; add: boolean, idx:number }) => {
   const router = useRouter();
   const [onShare, setOnShare] = useState<boolean>(false);
   const setHospitalCurrentIdx = useSetRecoilState(currentHospitalIdx);
@@ -144,7 +142,7 @@ const HospitalInforBox = styled.div`
 const HospitalInfor = styled.li<{ add: boolean }>`
   display: inline-block;
   position: relative;
-  padding: 30px;
+  padding: 0 40px;
   width: 100%;
   height: 80px;
   background-color: ${prop => (prop.add ? "rgb(225,227,255)" : "rgb(100,106,235)")};
