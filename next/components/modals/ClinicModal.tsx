@@ -7,18 +7,18 @@ import { RoundButton } from "../buttons/Button";
 import { showFrame } from "./Modal";
 
 interface ClinicModalProps {
-  id ?: number;
-  createAt ?: Date;
-  updateAt ?: Date;
-  type ?: RecordType;
-  position ?: Position;
-  description ?: string;
-  userId ?: number;
-  diagnosis ?: string;
+  id?: number;
+  createAt?: Date;
+  updateAt?: Date;
+  type?: RecordType;
+  position?: Position;
+  description?: string;
+  userId?: number;
+  diagnosis?: string;
   prescription?: string;
-  hospitalId ?: number;
-  name ?: string;
-  isModalOpen : boolean;
+  hospitalId?: number;
+  name?: string;
+  isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -32,7 +32,7 @@ const ClinicModal = ({
   setIsModalOpen,
 }: ClinicModalProps) => {
   const [isBrowser, setIsBrowser] = useState(false);
-  
+
   useEffect(() => {
     setIsBrowser(true);
     return setIsBrowser(true);

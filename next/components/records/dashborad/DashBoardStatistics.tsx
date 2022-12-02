@@ -1,7 +1,7 @@
 import useUser from "@hooks/useUser";
 import styled from "styled-components";
 
-function Statistics() {
+function DashBoardStatistics() {
   const user = useUser();
 
   return user ? (
@@ -58,4 +58,4 @@ const ChartBox = styled.div`
 
 
 
-export default Statistics
+export default DashBoardStatistics

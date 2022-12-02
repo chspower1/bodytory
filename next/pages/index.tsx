@@ -18,7 +18,7 @@ import ToryIcon from "@components/ToryIcon";
 const Home = () => {
   const user = useUser();
 
-  return user ? (
+  return (
     <FlexContainer>
       <Col>
         <ToryBox>
@@ -26,7 +26,7 @@ const Home = () => {
           <Col>
             <BlackToryText>
               <Accent>
-                <strong>{user?.name}님, </strong>
+                <strong>{user ? user?.name : "OOO"}님, </strong>
               </Accent>
               건강한 하루에요!
             </BlackToryText>
@@ -63,7 +63,7 @@ const Home = () => {
         </Link>
       </Col>
     </FlexContainer>
-  ) : null;
+  );
 };
 export default Home;
 const ToryBox = styled(Row)`

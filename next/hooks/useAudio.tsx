@@ -160,7 +160,7 @@ const useAudio = () => {
       PostAudio();
     };
   };
-  return { offRecAudio, onRecAudio, audioRecognized };
+  return { offRecAudio, onRecAudio, audioRecognized, setAudioRecognized };
 };
 
 export default useAudio;

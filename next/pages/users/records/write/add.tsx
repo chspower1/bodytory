@@ -1,5 +1,5 @@
 import { RoundButton } from "@components/buttons/Button";
-import { PositionBoxText } from "@components/records/SiteChecker";
+import { PositionBoxText } from "@components/records/BodyPartChecker";
 import { BtnBox, Col, FlexContainer, ToryText, WhiteText, Wrapper } from "@styles/Common";
 import { theme } from "@styles/theme";
 import Link from "next/link";

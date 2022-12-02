@@ -1,22 +1,35 @@
 import BodyNavigator from "@components/records/BodyNavigator";
 import styled from "styled-components";
 import IconArrowLeft from "@public/static/icon/icon_arrow_left.png";
-import { useRecoilState } from "recoil";
-import { selectedBodyPart } from "atoms/atoms";
+import { useRouter } from "next/router";
+import { currentBodyPosition, SelectBodyPartProps } from "types/bodyParts";
+import { useState } from "react";
 
-function SelectPart() {
-  const [selectedPart, setSelectedPart] = useRecoilState(selectedBodyPart);
+function SelectPart({ selectedBodyPart, setSelectedBodyPart, currentBodyPosition, setCurrentBodyPosition }: SelectBodyPartProps) {
+
+  const router = useRouter();
+
 
   return (
     <SelectPartWarp>
       <SelectPartContainer>
-        {selectedPart && (
-          <BackButton onClick={() => setSelectedPart(null)}>
-            <span>대시보드</span>
-          </BackButton>
-        )}
+        {
+          router.pathname !== "/users/records" && (
+            <BackButton onClick={() => {
+                router.push("/users/records");
+              }}>
+              <span>대시보드</span>
+            </BackButton>
+          )
+        }
         <GuideText>자세한 기록을 확인하고 싶은 부위를 선택해주세요</GuideText>
-        <BodyNavigator isWritePage={false} />
+        <BodyNavigator 
+          selectedBodyPart={selectedBodyPart} 
+          setSelectedBodyPart={setSelectedBodyPart} 
+          currentBodyPosition={currentBodyPosition}
+          setCurrentBodyPosition={setCurrentBodyPosition}
+          isWritePage={false} 
+        />
       </SelectPartContainer>
     </SelectPartWarp>
   );
@@ -26,7 +39,6 @@ const SelectPartWarp = styled.div`
   position: relative;
   width: 37.5%;
   height: 100%;
-  overflow: hidden;
 `;
 
 const SelectPartContainer = styled.div`

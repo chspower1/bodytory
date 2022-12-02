@@ -1,6 +1,6 @@
 import { RoundButton } from "@components/buttons/Button";
 import ManageImage from "@components/ManageImage";
-import { RecordWithImageAndHospital } from "@components/records/ChartTimeline";
+import { RecordWithImageAndHospital } from "@components/records/chart/ChartTimeline";
 import { Record, RecordImage } from "@prisma/client";
 import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
@@ -331,4 +331,5 @@ const CircleDeleteButton = styled.button<{ recordId: number }>`
       z-index: 1;
       transform: translate(-105%, -50%);
     }
+  }
 `;

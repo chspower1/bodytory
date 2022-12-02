@@ -1,23 +1,13 @@
 import styled from "styled-components";
-import DashBoard from "@components/records/DashBoard";
-import SelectPart from "@components/records/SelectPart";
-import Chart from "@components/records/Chart";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { selectedBodyPart } from "atoms/atoms";
-import { useEffect } from "react";
+import DashBoard from "@components/records/dashborad/DashBoard";
+import SelectPart from "@components/records/SelectBodyPart";
 
 export default function RecordPage() {
-  const [selectedPart, setSelectedPart] = useRecoilState(selectedBodyPart);
-
-  useEffect(() => {
-    setSelectedPart(null);
-  }, []);
 
   return (
     <RecordWrap>
-      {!selectedPart && <DashBoard />}
+      <DashBoard />
       <SelectPart />
-      {selectedPart && <Chart />}
     </RecordWrap>
   );
 }

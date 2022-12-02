@@ -1,16 +1,12 @@
-import { RectangleButton, RoundButton } from "@components/buttons/Button";
+import { RoundButton } from "@components/buttons/Button";
 import ToryIcon from "@components/ToryIcon";
-import { Box, BtnBox, Col, Container, FlexContainer, Row, ToryText } from "@styles/Common";
-import { selectedBodyPart } from "atoms/atoms";
+import { Box, BtnBox, Col, FlexContainer, ToryText } from "@styles/Common";
 import { useRouter } from "next/router";
-import { Dispatch, SetStateAction } from "react";
-import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { bodyPartType } from "types/bodyParts";
+import {  SelectBodyPartProps } from "types/bodyParts";
 import { KoreanPosition } from "types/write";
 
-const SiteChecker = () => {
-  const selectedPart = useRecoilValue(selectedBodyPart);
+const BodyPartChecker = ({ selectedBodyPart }: SelectBodyPartProps) => {
 
   const router = useRouter();
 
@@ -21,22 +17,22 @@ const SiteChecker = () => {
           <ToryIcon />
         </ToryBox>
         <TextBox>
-          {!selectedPart ? (
+          {!selectedBodyPart ? (
             <ToryText>증상을 기록할 부위를 선택해주세요</ToryText>
           ) : (
             <ToryText>
-              <PositionBoxText>{KoreanPosition[selectedPart]}</PositionBoxText>에 대한 증상을 기록할까요?
+              <PositionBoxText>{KoreanPosition[selectedBodyPart]}</PositionBoxText>에 대한 증상을 기록할까요?
             </ToryText>
           )}
         </TextBox>
         <CreateBtnBox>
-          {selectedPart && (
+          {selectedBodyPart && (
             <BtnBox>
               <RoundButton
                 width="250px"
                 height="60px"
                 bgColor="rgb(83, 89, 233)"
-                onClick={() => router.push(`./write/${selectedPart}`)}
+                onClick={() => router.push(`./write/${selectedBodyPart}`)}
               >
                 네, 기록할게요!
               </RoundButton>
@@ -48,7 +44,7 @@ const SiteChecker = () => {
   );
 };
 
-export default SiteChecker;
+export default BodyPartChecker;
 
 export const PositionBoxText = styled.span`
   border-radius: 10px;

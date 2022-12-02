@@ -1,21 +1,17 @@
 import BodyNavigator from "@components/records/BodyNavigator";
 import styled from "styled-components";
-import SiteChecker from "@components/records/SiteChecker";
-import { useEffect } from "react";
-import { useSetRecoilState } from "recoil";
-import { selectedBodyPart } from "atoms/atoms";
+import BodyPartChecker from "@components/records/BodyPartChecker";
+import { useState } from "react";
+import { bodyPartType } from "../../../../types/bodyParts";
 
 export default function WritePage() {
-  const setSelectedPart = useSetRecoilState(selectedBodyPart);
 
-  useEffect(() => {
-    setSelectedPart(null);
-  }, []);
+  const [selectedBodyPart, setSelectedBodyPart] = useState<bodyPartType>(null);
 
   return (
     <RecordContainer>
-      <SiteChecker />
-      <BodyNavigator />
+      <BodyPartChecker selectedBodyPart={selectedBodyPart} setSelectedBodyPart={setSelectedBodyPart} />
+      <BodyNavigator selectedBodyPart={selectedBodyPart} setSelectedBodyPart={setSelectedBodyPart} isWritePage={true} />
     </RecordContainer>
   );
 }
