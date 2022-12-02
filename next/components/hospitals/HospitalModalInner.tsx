@@ -84,8 +84,6 @@ const Form = styled.form`
 `;
 
 const SubjectName = styled(Subject)`
-  display: flex;
-  align-items: center;
   height: 62px;
   & + .currentDate {
     width: 500px;

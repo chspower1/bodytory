@@ -61,7 +61,7 @@ const ClinicModal = ({
             </li>
             <li>
               <Subject>상세소견</Subject>
-              <div>{description}</div>
+              <div>{description.includes("\\n") ? description.split("\\n").map(ele => <p>{ele}</p>) : description}</div>
             </li>
           </ul>
           <RoundButton size="sm" nonSubmit onClick={() => setIsModalOpen(false)}>
@@ -88,7 +88,7 @@ const ModalBox = styled.div`
   height: 100%;
   display: flex;
   z-index: 1000;
-  opacity:0;
+  opacity: 0;
   animation: ${showFrame} 0.3s forwards;
 `;
 
@@ -98,7 +98,7 @@ const Dim = styled.div`
   top: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,.2);
+  background: rgba(0, 0, 0, 0.2);
   z-index: 2;
 `;
 
@@ -109,7 +109,6 @@ const Modal = styled.div`
   border-radius: 40px;
   margin: auto;
   overflow: hidden;
-
 `;
 
 const ModalHead = styled.div`
@@ -133,7 +132,7 @@ const ModalHead = styled.div`
 `;
 const ModalContent = styled.div`
   background: ${({ theme }) => theme.color.white};
-  padding: 60px 80px;
+  padding: 60px 80px 40px;
   button {
     width: 100px;
     margin: 50px auto 0;
@@ -145,7 +144,13 @@ const ModalContent = styled.div`
       & + li {
         margin-top: 20px;
       }
-      div {
+      div + div{
+        width:100%;
+        max-height: 170px;
+        overflow-y:scroll;
+        background:rgba(188, 197, 255, .2);
+        padding: 10px 20px;
+        border-radius: 5px;
       }
     }
   }
@@ -154,4 +159,7 @@ export const Subject = styled.div`
   flex-shrink: 0;
   font-weight: 600;
   margin-right: 60px;
+  height: 48px;
+  display: flex;
+  align-items: center;
 `;
