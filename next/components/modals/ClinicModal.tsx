@@ -7,18 +7,18 @@ import { RoundButton } from "../buttons/Button";
 import { showFrame } from "./Modal";
 
 interface ClinicModalProps {
-  id ?: number;
-  createAt ?: Date;
-  updateAt ?: Date;
-  type ?: RecordType;
-  position ?: Position;
-  description ?: string;
-  userId ?: number;
-  diagnosis ?: string;
+  id?: number;
+  createAt?: Date;
+  updateAt?: Date;
+  type?: RecordType;
+  position?: Position;
+  description?: string;
+  userId?: number;
+  diagnosis?: string;
   prescription?: string;
-  hospitalId ?: number;
-  name ?: string;
-  isModalOpen : boolean;
+  hospitalId?: number;
+  name?: string;
+  isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -32,7 +32,7 @@ const ClinicModal = ({
   setIsModalOpen,
 }: ClinicModalProps) => {
   const [isBrowser, setIsBrowser] = useState(false);
-  
+
   useEffect(() => {
     setIsBrowser(true);
     return setIsBrowser(true);
@@ -88,7 +88,7 @@ const ModalBox = styled.div`
   height: 100%;
   display: flex;
   z-index: 1000;
-  opacity:0;
+  opacity: 0;
   animation: ${showFrame} 0.3s forwards;
 `;
 
@@ -98,7 +98,7 @@ const Dim = styled.div`
   top: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,.2);
+  background: rgba(0, 0, 0, 0.2);
   z-index: 2;
 `;
 
@@ -109,7 +109,6 @@ const Modal = styled.div`
   border-radius: 40px;
   margin: auto;
   overflow: hidden;
-
 `;
 
 const ModalHead = styled.div`

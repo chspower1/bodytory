@@ -331,4 +331,5 @@ const CircleDeleteButton = styled.button<{ recordId: number }>`
       z-index: 1;
       transform: translate(-105%, -50%);
     }
+  }
 `;
