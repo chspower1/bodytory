@@ -2,13 +2,17 @@ import BodyNavigator from "@components/records/BodyNavigator";
 import styled from "styled-components";
 import IconArrowLeft from "@public/static/icon/icon_arrow_left.png";
 import { useRouter } from "next/router";
-import { currentBodyPosition, SelectBodyPartProps } from "types/bodyParts";
-import { useState } from "react";
+import { bodyPartType } from "types/bodyParts";
+import { Dispatch, SetStateAction } from "react";
 
-function SelectPart({ selectedBodyPart, setSelectedBodyPart, currentBodyPosition, setCurrentBodyPosition }: SelectBodyPartProps) {
+interface SelectBodyPartProps {
+  selectedBodyPart: bodyPartType;
+  setSelectedBodyPart: Dispatch<SetStateAction<bodyPartType>>;
+}
+  
+function SelectPart({ selectedBodyPart, setSelectedBodyPart}: SelectBodyPartProps) {
 
   const router = useRouter();
-
 
   return (
     <SelectPartWarp>
@@ -26,8 +30,6 @@ function SelectPart({ selectedBodyPart, setSelectedBodyPart, currentBodyPosition
         <BodyNavigator 
           selectedBodyPart={selectedBodyPart} 
           setSelectedBodyPart={setSelectedBodyPart} 
-          currentBodyPosition={currentBodyPosition}
-          setCurrentBodyPosition={setCurrentBodyPosition}
           isWritePage={false} 
         />
       </SelectPartContainer>

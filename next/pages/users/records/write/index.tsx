@@ -10,8 +10,14 @@ export default function WritePage() {
 
   return (
     <RecordContainer>
-      <BodyPartChecker selectedBodyPart={selectedBodyPart} setSelectedBodyPart={setSelectedBodyPart} />
-      <BodyNavigator selectedBodyPart={selectedBodyPart} setSelectedBodyPart={setSelectedBodyPart} isWritePage={true} />
+      <BodyPartChecker         
+        selectedBodyPart={selectedBodyPart} 
+      />
+      <BodyNavigator         
+        selectedBodyPart={selectedBodyPart} 
+        setSelectedBodyPart={setSelectedBodyPart}
+        isWritePage={true} 
+      />
     </RecordContainer>
   );
 }

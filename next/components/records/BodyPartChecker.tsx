@@ -3,8 +3,12 @@ import ToryIcon from "@components/ToryIcon";
 import { Box, BtnBox, Col, FlexContainer, ToryText } from "@styles/Common";
 import { useRouter } from "next/router";
 import styled from "styled-components";
-import {  SelectBodyPartProps } from "types/bodyParts";
+import { bodyPartType } from "types/bodyParts";
 import { KoreanPosition } from "types/write";
+
+interface SelectBodyPartProps {
+  selectedBodyPart: bodyPartType;
+}
 
 const BodyPartChecker = ({ selectedBodyPart }: SelectBodyPartProps) => {
 
