@@ -29,7 +29,7 @@ async function findHospital(req: NextApiRequest, res: NextApiResponse) {
     take: 10,
   });
 
-  res.status(200).json({ foundHospital, status: foundHospital ? true : false });
+  res.status(200).json({ foundHospital, status: foundHospital.length === 0 ? true : false });
 }
 
 export default withApiSession(withHandler({ methods: ["POST", "GET", "PUT", "DELETE"], handler }));
