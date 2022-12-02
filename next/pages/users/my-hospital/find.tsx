@@ -29,6 +29,7 @@ const FindHospital = () => {
   const [search, setSearch] = useState<string>("");
   const [page, setPage] = useState<number>(0);
   const [findState, setFindState] = useState<any[]>([]);
+  const [hasLastPage, setHasLastPage] = useState(false);
   const listRef = useRef<Element>(null);
   const viewRef = useRef<HTMLDivElement>(null);
   const [showModal, setShowModal] = useState(false);
@@ -55,7 +56,9 @@ const FindHospital = () => {
     setIsLoading(true);
     console.log(search, "get");
     const result = await axios.get(`/api/users/my-hospitals/find?page=${page}&search=${search}`);
-    console.log(result.data.status);
+    console.log(result.data.status, "마지막페이지");
+    console.log(result.data.foundHospital, "받은 병원");
+    setHasLastPage(result.data.status);
     if (result.data.status) return;
     setFindState((current: any) => {
       const array = [...current];
@@ -76,6 +79,7 @@ const FindHospital = () => {
     console.log(search);
     setValue("search", "");
   };
+
   // useEffect(() => {
   //   viewRef.current?.scrollTo({
   //     top: viewRef.current.scrollHeight - viewRef.current.offsetHeight + viewRef.current.offsetTop,
@@ -83,22 +87,26 @@ const FindHospital = () => {
   //   console.log(viewRef);
   // }, [isLoading]);
 
+  const onInterect: IntersectionObserverCallback = useCallback(async ([entry], observer) => {
+    console.log(entry, observer);
+    if (entry.isIntersecting) {
+      observer.unobserve(entry.target);
+      if (!hasLastPage) {
+        setPage(page + 1);
+        observer.observe(entry.target);
+      }
+      if (hasLastPage) {
+        observer.disconnect();
+      }
+    }
+  }, []);
+
   useEffect(() => {
+    if (hasLastPage) return;
     console.log(findState);
     if (listRef.current === null) return;
-    console.log("pp");
     console.log(listRef.current);
-    const io = new IntersectionObserver(
-      async ([entry], observer) => {
-        console.log(entry, observer);
-        if (entry.isIntersecting) {
-          observer.unobserve(entry.target);
-          setPage(page + 1);
-          observer.observe(entry.target);
-        }
-      },
-      { root: null, threshold: 1, rootMargin: "0px" },
-    );
+    const io = new IntersectionObserver(onInterect, { root: null, threshold: 1, rootMargin: "0px" });
     io.observe(listRef.current as Element);
     return () => io.disconnect();
   }, [findState]);
@@ -129,7 +137,7 @@ const FindHospital = () => {
             </SearchForm>
           </SearchBox>
         </DescriptionContainer>
-        <HospitalList lists={findState || undefined} add={true} listRef={listRef} viewRef={viewRef} />
+        <HospitalList lists={findState || undefined} add={true} listRef={listRef} isLoading={isLoading} />
       </MainInnerContainer>
       {showModal && <ArroundMap setShowModal={setShowModal} />}
     </MainContainer>

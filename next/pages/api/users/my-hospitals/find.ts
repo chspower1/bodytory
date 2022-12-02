@@ -11,20 +11,6 @@ async function findHospital(req: NextApiRequest, res: NextApiResponse) {
   const { page, search } = req.query;
   console.log(page, "page", search, "search");
   const pagenation = Number(page) * 10;
-  const foundHospitalTotal = await client.hospital.findMany({
-    where: {
-      name: {
-        contains: String(search),
-      },
-    },
-    include: {
-      medicalDepartments: {
-        include: {
-          medicalDepartment: true,
-        },
-      },
-    },
-  });
 
   const foundHospital = await client.hospital.findMany({
     where: {
@@ -42,10 +28,8 @@ async function findHospital(req: NextApiRequest, res: NextApiResponse) {
     skip: pagenation,
     take: 10,
   });
-  if (!foundHospital) return res.status(400).end();
 
-  const lastPage = foundHospitalTotal.length < pagenation;
-  res.status(200).json({ foundHospital, status: lastPage });
+  res.status(200).json({ foundHospital, status: foundHospital.length === 0 ? true : false });
 }
 
 export default withApiSession(withHandler({ methods: ["POST", "GET", "PUT", "DELETE"], handler }));

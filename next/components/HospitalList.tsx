@@ -8,23 +8,23 @@ const HospitalList = ({
   lists,
   add,
   listRef,
-  viewRef,
+  isLoading,
 }: {
   lists?: HospitalListProps[];
   add: boolean;
-  listRef ?: any;
-  viewRef ?: any;
+  listRef: any;
+  isLoading: any;
 }) => {
   console.log("lists", lists);
   return (
     <HospitalContainer add={add}>
-      <InnerContainer add={add} ref={viewRef}>
+      <InnerContainer add={add}>
         {lists !== undefined && lists.length !== 0 ? (
           <HospitalLists>
             {lists.map((list, idx) => (
               <HospitalContent list={list.hospital} idx={idx} add={add} key={list.id} />
             ))}
-            <div ref={listRef}></div>
+            {isLoading ? <div>Loading....</div> : <div ref={listRef}>{}</div>}
           </HospitalLists>
         ) : (
           <NoneMessage>{add ? "검색결과가 없습니다" : "병원내역이 없습니다"}</NoneMessage>
