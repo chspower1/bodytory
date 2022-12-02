@@ -1,12 +1,14 @@
 import { Hospital } from "@prisma/client";
 import { theme } from "@styles/theme";
 import sliceName from "@utils/client/sliceHospitalName";
+import { currentHospitalIdx } from "atoms/atoms";
+import { useRouter } from "next/router";
 import { useState } from "react";
+import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
-import { RectangleButton, RoundButton } from "./buttons/Button";
+import { ChangeToHoverColor, RectangleButton, RoundButton } from "./buttons/Button";
 
 export interface HospitalListT extends Hospital {
-  hospital: HospitalListT;
   medicalDepartments: [
     {
       id: number;
@@ -17,40 +19,41 @@ export interface HospitalListT extends Hospital {
   ];
 }
 
-const ChangeToHoverColor = (color: string) => {
-  if (color.includes("rgb")) {
-    const colorArr = color.split(",");
-    const redValue = parseInt(colorArr[0].split("(")[1]);
-    const greenValue = parseInt(colorArr[1]);
-    const blueValue = parseInt(colorArr[2].replace(")", ""));
-    const newColor = `rgb(${redValue - 15},${greenValue - 15},${blueValue - 15})`;
-    return newColor;
-  }
-  return color;
-};
-const HospitalContent = ({ list, add }: { list: HospitalListT; add: boolean }) => {
+export interface HospitalListProps extends Hospital{
+  hospital: HospitalListT;
+}
+
+
+const HospitalContent = ({ list, add, idx }: { list: HospitalListT; add: boolean, idx:number }) => {
+  const router = useRouter();
   const [onShare, setOnShare] = useState<boolean>(false);
+  const setHospitalCurrentIdx = useSetRecoilState(currentHospitalIdx);
   const handleShare = () => {
     setOnShare(!onShare);
     console.log(list.id);
   };
+
+  const handleClickGoClinicList = ()=>{
+    router.push('/users/my-hospital/clinic-list')
+    setHospitalCurrentIdx(idx);
+  }
 
   return (
     <HospitalInfor add={add}>
       <HospitalInforContainer>
         <HospitalInforBox>
           <HospitalDescriptionBox>
-            <span style={{ width: "40px" }}>로고</span>
             <NameText size="18px" weight="900" add={add}>
               {sliceName(list.name)}
             </NameText>
-            <Department>{list.medicalDepartments[0].medicalDepartment.department} 외 {list.medicalDepartments.length-1}개</Department>
+            <Department>{list.medicalDepartments[0].medicalDepartment.department} 외 {list.medicalDepartments.length-1}과목</Department>
           </HospitalDescriptionBox>
           <HospitalPlaceBox>
             <SpaceText weight="200" size="17px" add={add} title={list.address}>
               {list.address}
             </SpaceText>
           </HospitalPlaceBox>
+          {!add && <ClinicListLinkButton onClick={handleClickGoClinicList}>진료내역확인</ClinicListLinkButton>}
         </HospitalInforBox>
         {add ? (
           <AddButtonBox>
@@ -62,7 +65,7 @@ const HospitalContent = ({ list, add }: { list: HospitalListT; add: boolean }) =
               {onShare ? "기록 공유 중" : "기록 공유 중지"}
             </ShareStatus>
             <ShareButton status={onShare} onClick={() => handleShare()}>
-              {onShare ? "공유 중지하기" : "공유 시작하기"}
+              {onShare ? "공유 중지" : "공유 시작"}
             </ShareButton>
           </HospitalStatusBox>
         )}
@@ -88,9 +91,15 @@ const ShareButton = styled.button<{ status: boolean }>`
 `;
 
 const AddButtonBox = styled.div`
-  position: absolute;
-  right: 30px;
+flex-shrink:0;
 `;
+
+const ClinicListLinkButton = styled.button`
+  color:#fff;
+  :hover{
+    text-decoration:underline;
+  }
+`
 
 const Text = styled.span<{ size?: string; weight?: string; add: boolean }>`
   position: relative;
@@ -128,8 +137,8 @@ const ShareStatus = styled(Text)<{ status: boolean }>`
   }
 `;
 const HospitalInforBox = styled.div`
-  width: 900px;
   display: flex;
+  column-gap: 80px;
 `;
 
 const HospitalInfor = styled.li<{ add: boolean }>`
@@ -156,38 +165,33 @@ const HospitalInforContainer = styled.div`
 const HospitalPlaceBox = styled.div`
   display: flex;
   align-items: center;
-  min-width: 500px;
-  max-width: 500px;
+  min-width: 350px;
+  max-width: 350px;
 `;
 
 const HospitalDescriptionBox = styled.div`
   display: flex;
   align-items: center;
-  min-width: 500px;
-  max-width: 500px;
-  & * {
-    margin-right: 20px;
-  }
+  min-width: 400px;
+  max-width: 400px;
 `;
 
 const HospitalStatusBox = styled.div`
-  position: absolute;
-  right: 30px;
+  flex-shrink:0;
   display: flex;
   align-items: center;
-  width: 350px;
+  width: 300px;
   justify-content: space-between;
 `;
 
 const Department = styled.div`
   display: flex;
-  align-items: center;
   justify-content: center;
   background-color: rgb(54, 60, 191);
   color: white;
-  padding: 10px;
+  padding: 0 10px;
   border-radius: 5px;
   height: 29px;
-  width: auto;
   min-width: 87px;
+  margin-left: 20px;
 `;

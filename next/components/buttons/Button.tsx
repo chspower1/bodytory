@@ -10,7 +10,7 @@ import origin from "@public/static/icon/origin.svg";
 import { theme } from "@styles/theme";
 import { Box, Col } from "@styles/Common";
 
-const ChangeToHoverColor = (color: string) => {
+export const ChangeToHoverColor = (color: string) => {
   if (color.includes("rgb")) {
     const colorArr = color.split(",");
     const redValue = parseInt(colorArr[0].split("(")[1]);
