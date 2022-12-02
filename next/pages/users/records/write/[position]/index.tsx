@@ -7,7 +7,6 @@ import { useRouter } from "next/router";
 import styled from "styled-components";
 import { KoreanPosition } from "types/write";
 import mic from "@public/static/icon/mic.svg";
-import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
 import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
@@ -16,39 +15,53 @@ import ToryIcon from "@components/ToryIcon";
 import SpeakMotion from "@components/SpeakMotion";
 import useAudio from "@hooks/useAudio";
 import { RECORDS_CREATE } from "constant/queryKeys";
-import { bodyPartType } from "types/bodyParts";
+
 import { AxiosError } from "axios";
-import { ParsedUrlQuery } from "querystring";
+
 interface WriteRecordRequest {
   position: string;
   description: string;
 }
+type RecordStatus = "initial" | "finish" | "listening" | "loading";
 const PositionPage = () => {
-  const { query } = useRouter();
+  const router = useRouter();
   const { offRecAudio, onRecAudio, audioRecognized } = useAudio();
-  const { transcript, listening, resetTranscript, browserSupportsSpeechRecognition } = useSpeechRecognition();
+  const [listening, setListening] = useState(false);
+  const [error, setError] = useState(false);
+  const [recordStatus, setRecordStatus] = useState<RecordStatus>("initial");
   const { postApi } = customApi("/api/users/records");
   const { mutate } = useMutation<unknown, AxiosError, WriteRecordRequest>([RECORDS_CREATE], postApi, {
     onSuccess(data) {
-      
+      router.push("/users/records/write/add");
     },
   });
+  const recordMessgae =
+    (recordStatus === "initial" && "아래 버튼을 누르고 증상을 등록해 보세요!") ||
+    (recordStatus === "listening" && "증상을 말씀해주세요! 토리가 듣고 정리해드릴게요.") ||
+    (recordStatus === "loading" && "토리가 음성을 분석 중이에요! 잠시만 기다려 주세요!") ||
+    (recordStatus === "finish" && audioRecognized);
   const startRecord = () => {
-    resetTranscript();
+    setError(false);
+    setRecordStatus("listening");
     onRecAudio();
-    SpeechRecognition.startListening({ continuous: true, language: "ko" });
   };
 
   const endRecord = async () => {
+    setRecordStatus("loading");
     offRecAudio();
-    SpeechRecognition.stopListening();
   };
   const hadleClickCreateRecord = () => {
-    if (audioRecognized) {
-      mutate({ position: query.position as string, description: audioRecognized });
-    } else console.log("증상을 말해주세요");
+    if (audioRecognized && recordStatus === "finish") {
+      mutate({ position: router.query.position as string, description: audioRecognized });
+    } else setError(true);
   };
-  console.log(transcript);
+  useEffect(() => {
+    if (audioRecognized) setRecordStatus("finish");
+  }, [audioRecognized]);
+  useEffect(() => {
+    if (recordStatus === "listening") setListening(true);
+    else setListening(false);
+  }, [recordStatus]);
   return (
     <WhiteWrapper>
       <SpeakMotion listening={listening} />
@@ -63,30 +76,17 @@ const PositionPage = () => {
             </BlackToryText>
           </Box>
           <VoiceBox height="30%">
-            <RectangleButton
-              size="custom"
-              width="640px"
-              height="100px"
-              bgColor="rgb(209, 239, 247)"
-              textColor={theme.color.mintBtn}
-              onClick={hadleClickCreateRecord}
-              fontSize="30px"
-              boxShadow={false}
-            >
-              {listening
-                ? transcript
-                  ? transcript
-                  : "증상을 말해주세요"
-                : audioRecognized
-                ? audioRecognized
-                : transcript}
-            </RectangleButton>
+            <MemoBox onClick={hadleClickCreateRecord}>
+              {error && <ErrorMessage>증상을 입력해주세요!</ErrorMessage>}
+              {recordMessgae}
+            </MemoBox>
+
             <CircleButton
-              bgColor={listening ? theme.color.mintBtn : theme.color.darkBg}
+              bgColor={listening ? theme.color.error : theme.color.darkBg}
               onClick={listening ? endRecord : startRecord}
               boxShadow={false}
             >
-              <Image src={mic} alt="마이크" />
+              {!listening ? <Image src={mic} alt="마이크" /> : <Rectangle />}
             </CircleButton>
           </VoiceBox>
         </Col>
@@ -99,4 +99,31 @@ const PositionPage = () => {
 export default PositionPage;
 const VoiceBox = styled(Col)`
   gap: 60px;
+`;
+const Rectangle = styled.div`
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+  background-color: white;
+`;
+
+const MemoBox = styled(Box)`
+  width: 640px;
+  max-width: 1000px;
+  padding: 20px;
+  background-color: rgb(209, 239, 247);
+  color: ${({ theme }) => theme.color.mintBtn};
+  font-size: 22px;
+  transition: all 0.3s ease-out;
+  cursor: pointer;
+  border-radius: 5px;
+  &:hover {
+    box-shadow: 0px 0px 0px 3px ${({ theme }) => theme.color.mintBtn};
+  }
+`;
+const ErrorMessage = styled(Box)`
+  position: absolute;
+  color: ${({ theme }) => theme.color.error};
+  margin-top: 120px;
+  font-size: 18px;
 `;

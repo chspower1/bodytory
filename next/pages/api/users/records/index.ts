@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import client from "utils/server/client";
 import withHandler from "@utils/server/withHandler";
 import { withApiSession } from "@utils/server/withSession";
+import { NextResponse } from "next/server";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { user } = req.session;
@@ -34,7 +35,7 @@ async function createRecord(req: NextApiRequest, res: NextApiResponse) {
     },
   });
   // // NextResponse.redirect(new URL("/", req.url));
-  // return res.status(200).redirect(new URL("/"));
+  return res.redirect(200, "/users/records/write/add");
 }
 
 async function findRecord(req: NextApiRequest, res: NextApiResponse) {
