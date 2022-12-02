@@ -2,7 +2,7 @@ import { Hospital } from "@prisma/client";
 import { theme } from "@styles/theme";
 import { MouseEvent } from "react";
 import styled from "styled-components";
-import HospitalContent, { HospitalListT } from "./HospitalContent";
+import HospitalContent, { HospitalListProps, HospitalListT } from "./HospitalContent";
 
 const HospitalList = ({
   lists,
@@ -10,7 +10,7 @@ const HospitalList = ({
   listRef,
   viewRef,
 }: {
-  lists?: HospitalListT[];
+  lists?: HospitalListProps[];
   add: boolean;
   listRef ?: any;
   viewRef ?: any;
@@ -21,8 +21,8 @@ const HospitalList = ({
       <InnerContainer add={add} ref={viewRef}>
         {lists !== undefined && lists.length !== 0 ? (
           <HospitalLists>
-            {lists.map((list) => (
-              <HospitalContent list={list.hospital} add={add} key={list.id} />
+            {lists.map((list, idx) => (
+              <HospitalContent list={list.hospital} idx={idx} add={add} key={list.id} />
             ))}
             <div ref={listRef}></div>
           </HospitalLists>
