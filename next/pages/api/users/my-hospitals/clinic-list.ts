@@ -21,17 +21,20 @@ async function myClinicList(req: NextApiRequest, res: NextApiResponse) {
     },
     select:{
       hospitals:{
-        include:{
-          Record:{
-            where:{
-              type:"hospital",
-              userId : user.id
+        select:{
+          hospital:{
+            include:{
+              records:{
+                where:{
+                  type:"hospital",
+                  userId: user.id
+                }
+              }
             }
           }
-        }
       }
     },
-    
+  }
   });
   return res.status(200).json( data?.hospitals );
 }
@@ -39,7 +42,13 @@ async function myClinicList(req: NextApiRequest, res: NextApiResponse) {
 /* async function deleteHospital(req: NextApiRequest, res: NextApiResponse) {
   const { id } = req.body;
   await client.user.delete({
-    
+    Record:{
+            where:{
+              type:"hospital",
+              userId : user.id
+            }
+          }
+        }
   });
   return res.status(200).end();
 } */

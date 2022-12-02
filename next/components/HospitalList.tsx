@@ -12,8 +12,8 @@ const HospitalList = ({
 }: {
   lists?: HospitalListT[];
   add: boolean;
-  listRef: any;
-  viewRef: any;
+  listRef ?: any;
+  viewRef ?: any;
 }) => {
   console.log("lists", lists);
   return (
@@ -22,7 +22,7 @@ const HospitalList = ({
         {lists !== undefined && lists.length !== 0 ? (
           <HospitalLists>
             {lists.map((list) => (
-              <HospitalContent list={list} add={add} key={list.id} />
+              <HospitalContent list={list.hospital} add={add} key={list.id} />
             ))}
             <div ref={listRef}></div>
           </HospitalLists>

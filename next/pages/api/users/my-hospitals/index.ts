@@ -14,19 +14,19 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 async function addHospital(req: NextApiRequest, res: NextApiResponse) {
   const { id } = req.body;
   const { user } = req.session;
-  // if (!user) return res.status(401).send("회원 정보를 확인해주세요");
-  // await client.hospital.update({
-  //   where: {
-  //     id,
-  //   },
-  //   data: {
-  //     user: {
-  //       connect: {
-  //         id: user.id,
-  //       },
-  //     },
-  //   },
-  // });
+  if (!user) return res.status(401).send("회원 정보를 확인해주세요");
+  await client.hospital.update({
+    where: {
+      id,
+    },
+    data: {
+      users: {
+        connect: {
+          id: user.id,
+        },
+      },
+    },
+  });
   return res.status(200).end();
 }
 
@@ -37,7 +37,21 @@ async function myHospitalList(req: NextApiRequest, res: NextApiResponse) {
     where: {
       id: user.id,
     },
-    include: {},
+    select:{
+      hospitals:{
+        select:{
+          hospital:{
+            include:{
+              medicalDepartments:{
+                select:{
+                  medicalDepartment: true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
   });
   return res.status(200).json(data?.hospitals);
 }

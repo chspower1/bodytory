@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { RectangleButton, RoundButton } from "./buttons/Button";
 
 export interface HospitalListT extends Hospital {
+  hospital: HospitalListT;
   medicalDepartments: [
     {
       id: number;
@@ -41,10 +42,9 @@ const HospitalContent = ({ list, add }: { list: HospitalListT; add: boolean }) =
           <HospitalDescriptionBox>
             <span style={{ width: "40px" }}>로고</span>
             <NameText size="18px" weight="900" add={add}>
-              {/* {sliceName(list.name)} */}
+              {sliceName(list.name)}
             </NameText>
-            <Department>a</Department>
-            {/* {list.medicalDepartments[0].medicalDepartment.department} */}
+            <Department>{list.medicalDepartments[0].medicalDepartment.department} 외 {list.medicalDepartments.length-1}개</Department>
           </HospitalDescriptionBox>
           <HospitalPlaceBox>
             <SpaceText weight="200" size="17px" add={add} title={list.address}>

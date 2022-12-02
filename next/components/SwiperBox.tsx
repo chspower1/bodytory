@@ -24,8 +24,8 @@ const SwiperBox = ({
   const { getApi } = customApi("/api/users/my-hospitals/clinic-list");
   const { isLoading, data, error } = useQuery(["clinicListKey"], getApi, {
     onSuccess(data) {
-      setCurrentHospitalName(data[0]?.name);
-      console.log(data[0].Record);
+      setCurrentHospitalName(data[0]?.hospital.name);
+      console.log(data);
     },
   });
 
@@ -33,7 +33,7 @@ const SwiperBox = ({
     setIsModalOpen(true);
     setCurrentContent({ ...obj, name });
   };
-  console.log("hi", currentContent);
+  console.log("hi", data);
 
   return (
     <SwiperWrap
@@ -48,19 +48,19 @@ const SwiperBox = ({
       onSlideChange={e => {
         const currentIdx = e.activeIndex;
         setCurrentIdx(currentIdx);
-        setCurrentHospitalName(data[currentIdx]?.name);
+        setCurrentHospitalName(data[currentIdx]?.hospital.name);
       }}
     >
       {data &&
-        data.map((ele: { name: string; address: string; Record: Record[] }, idx: number) => (
-          <SwiperSlideItem key={ele.name + ele.address + Date.now()}>
+        data.map(({hospital}: { hospital : {name: string; address: string; records: Record[]} }, idx: number) => (
+          <SwiperSlideItem key={hospital.name + hospital.address + Date.now()}>
             <SlideItemInnerBox>
               <ItemHeader>
-                <HospitalName title={ele.name}>{ele.name}</HospitalName>
-                <HospitalAddress title={ele.address}>{ele.address}</HospitalAddress>
+                <HospitalName title={hospital.name}>{hospital.name}</HospitalName>
+                <HospitalAddress title={hospital.address}>{hospital.address}</HospitalAddress>
               </ItemHeader>
               <ClinicListBox>
-                {ele.Record.length >=1 ?  ele.Record.map((obj, idx) => (
+                {hospital.records.length >=1 ?  hospital.records.map((obj, idx) => (
                   <ClinicItem key={`${obj.userId} + ${obj.id} + ${Date.now()}`}>
                     <ClinicDate>{changeDate(obj.createAt)}</ClinicDate>
                     <ClinicDetailButtonBox>
@@ -68,7 +68,7 @@ const SwiperBox = ({
                         width="90px"
                         nonSubmit
                         fontSize="16px"
-                        onClick={handleClickModalOpen(obj, ele.name)}
+                        onClick={handleClickModalOpen(obj, hospital.name)}
                       >
                         진료내역
                       </RectangleButton>
@@ -76,7 +76,7 @@ const SwiperBox = ({
                   </ClinicItem>
                 )) :
                   <BlankCommentBox>
-                    <p>진료 내역이 없어요!</p>
+                    <p>진료 내역이 없어요</p>
                   </BlankCommentBox>
                 }
               </ClinicListBox>
@@ -127,7 +127,7 @@ const SlideItemInnerBox = styled.div`
   width: 100%;
   height: 100%;
   border-radius: 20px;
-  transition: transform 0.8s;
+  transition: transform .8s;
   transform: scale(0.8);
   display: flex;
   flex-direction: column;
