@@ -8,32 +8,31 @@ import customApi from "@utils/client/customApi";
 import { useQuery } from "@tanstack/react-query";
 import { Record } from "@prisma/client";
 import { changeDate } from "@utils/client/changeDate";
+import { Row } from "@styles/Common";
+import sliceName from "@utils/client/sliceHospitalName";
+import { useRouter } from "next/router";
+import { useRecoilValue } from "recoil";
+import { currentHospitalIdx } from "atoms/atoms";
 
 import "swiper/css";
 import "swiper/css/pagination";
-import { Row } from "@styles/Common";
 
 const SwiperBox = ({
   setCurrentHospitalName,
 }: {
-  setCurrentHospitalName: React.Dispatch<React.SetStateAction<number>>;
+  setCurrentHospitalName: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentIdx, setCurrentIdx] = useState(-1);
   const [currentContent, setCurrentContent] = useState({});
+  const hospitalCurrentIdx = useRecoilValue(currentHospitalIdx);
   const { getApi } = customApi("/api/users/my-hospitals/clinic-list");
-  const { isLoading, data, error } = useQuery(["clinicListKey"], getApi, {
-    onSuccess(data) {
-      setCurrentHospitalName(data[0]?.hospital.name);
-      console.log(data);
-    },
-  });
+  const { isLoading, data, error } = useQuery(["clinicListKey"], getApi);
 
   const handleClickModalOpen = (obj: Record, name: string) => () => {
     setIsModalOpen(true);
     setCurrentContent({ ...obj, name });
   };
-  console.log("hi", data);
+
 
   return (
     <SwiperWrap
@@ -46,17 +45,20 @@ const SwiperBox = ({
       modules={[Pagination]}
       className="mySwiper"
       onSlideChange={e => {
-        const currentIdx = e.activeIndex;
-        setCurrentIdx(currentIdx);
-        setCurrentHospitalName(data[currentIdx]?.hospital.name);
+        const idx = e.activeIndex;
+        setCurrentHospitalName(String(sliceName(data[idx]?.hospital.name)));
       }}
+      onSwiper={()=>{
+        setCurrentHospitalName(String(sliceName(data[hospitalCurrentIdx]?.hospital.name)));
+      }}
+      initialSlide={hospitalCurrentIdx}
     >
       {data &&
         data.map(({hospital}: { hospital : {name: string; address: string; records: Record[]} }, idx: number) => (
-          <SwiperSlideItem key={`${hospital.name} + ${hospital.address} `}>
+          <SwiperSlideItem key={`${hospital.name} + ${hospital.address}`}>
             <SlideItemInnerBox>
               <ItemHeader>
-                <HospitalName title={hospital.name}>{hospital.name}</HospitalName>
+                <HospitalName title={hospital.name}>{sliceName(hospital.name)}</HospitalName>
                 <HospitalAddress title={hospital.address}>{hospital.address}</HospitalAddress>
               </ItemHeader>
               <ClinicListBox>

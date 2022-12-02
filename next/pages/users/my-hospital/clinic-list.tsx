@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 
 const ClinicList = () => {
   const rounter = useRouter();
-  const [currentHospitalName, setCurrentHospitalName] = useState(0);
+  const [currentHospitalName, setCurrentHospitalName] = useState("");
   return (
     <ClinicListWrap>
       <ClinicContainer>

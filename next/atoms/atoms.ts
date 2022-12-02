@@ -20,3 +20,8 @@ export const selectedRecord = atom<any>({
   key: "selectedRecordKey",
   default: null
 });
+
+export const currentHospitalIdx = atom<number>({
+  key : "currentHospitalIdxKey",
+  default: 0
+})
