@@ -6,7 +6,7 @@ import FirstPage from "@components/register/FirstPage";
 import { User } from "@prisma/client";
 import { FlexContainer, InnerContainer } from "@styles/Common";
 import { theme } from "@styles/theme";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
 import { loggedInUser } from "atoms/atoms";
 import axios from "axios";
@@ -24,6 +24,7 @@ interface SearchForm {
 }
 
 const FindHospital = () => {
+  const queryclient = useQueryClient();
   const { getApi } = customApi("/api/users/my-hospitals");
   const [isLoading, setIsLoading] = useState(false);
   const [search, setSearch] = useState<string>("");
@@ -68,6 +69,7 @@ const FindHospital = () => {
       return [...new Set(array)];
     });
     setIsLoading(false);
+    queryclient.invalidateQueries(["isMyHospital"])
   }, [search, page]);
 
   const onValid = async (input: SearchForm) => {

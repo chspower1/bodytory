@@ -46,19 +46,19 @@ const SwiperBox = ({
       className="mySwiper"
       onSlideChange={e => {
         const idx = e.activeIndex;
-        setCurrentHospitalName(String(sliceName(data[idx]?.hospital.name)));
+        if(data) setCurrentHospitalName(data[idx]?.hospital.name);
       }}
-      onSwiper={()=>{
-        setCurrentHospitalName(String(sliceName(data[hospitalCurrentIdx]?.hospital.name)));
+      onSwiper={e =>{
+        if(data) setCurrentHospitalName(data[hospitalCurrentIdx]?.hospital.name);
       }}
       initialSlide={hospitalCurrentIdx}
     >
-      {data &&
+      {data && 
         data.map(({hospital}: { hospital : {name: string; address: string; records: Record[]} }, idx: number) => (
           <SwiperSlideItem key={`${hospital.name} + ${hospital.address}`}>
             <SlideItemInnerBox>
               <ItemHeader>
-                <HospitalName title={hospital.name}>{sliceName(hospital.name)}</HospitalName>
+                <HospitalName title={hospital.name}>{hospital.name}</HospitalName>
                 <HospitalAddress title={hospital.address}>{hospital.address}</HospitalAddress>
               </ItemHeader>
               <ClinicListBox>

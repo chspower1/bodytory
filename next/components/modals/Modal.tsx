@@ -1,5 +1,5 @@
 import { theme } from "@styles/theme";
-import React, { useEffect, useRef, useState } from "react";
+import React, { ReactNode, useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import styled, { keyframes } from "styled-components";
 import { RoundButton } from "../buttons/Button";
@@ -10,7 +10,7 @@ interface ModalType {
   onClose: () => void;
   activeFuction: () => void;
   title?: string;
-  children?: string | JSX.Element;
+  children?: string | ReactNode;
   agreeType?: boolean;
 }
 /**
@@ -100,14 +100,22 @@ const ModalBox = styled.div`
 
 const ModalTitle = styled.div`
   padding: 20px 0;
-  font-size: 30px;
+  font-size: 20px;
+  font-weight:700;
+
 `;
 const ModalContent = styled.div`
-  font-size: 16px;
-  padding: 30px 10px;
+  font-size: 18px;
+  padding: 30px 50px;
   border-radius: 10px;
   // background : ${({ theme }) => theme.color.lightBg};
   line-height: 1.5;
+  p{
+    padding: 5px 0;
+    b{
+      font-weight:600;
+    }
+  }
 `;
 
 export default Modal;

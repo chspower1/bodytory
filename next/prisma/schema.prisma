@@ -1,6 +1,6 @@
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["orderByNulls", "filteredRelationCount"]
+  previewFeatures = ["fullTextSearch", "fullTextIndex", "orderByNulls", "filteredRelationCount"]
 }
 
 generator erd {
@@ -15,20 +15,20 @@ datasource db {
 }
 
 model User {
-  id             Int              @id @default(autoincrement())
-  createAt       DateTime         @default(now())
-  email          String
-  gender         Gender
-  name           String
-  password       String
-  phone          String?
-  updateAt       DateTime         @updatedAt
-  type           UserType         @default(origin)
-  birth          String           @default("1993-10-23")
-  accountId      String           @unique
-  certifications Certification[]
-  records        Record[]
-  hospitals      HospitalToUser[]
+  id            Int              @id @default(autoincrement())
+  createAt      DateTime         @default(now())
+  email         String
+  gender        Gender
+  name          String
+  password      String
+  phone         String?
+  updateAt      DateTime         @updatedAt
+  type          UserType         @default(origin)
+  birth         String           @default("1993-10-23")
+  accountId     String           @unique
+  Certification Certification[]
+  records       Record[]
+  hospitals     HospitalToUser[]
 }
 
 model Certification {
@@ -95,6 +95,8 @@ model Hospital {
   records            Record[]
   medicalDepartments HospitalMedicalToDepartment[]
   users              HospitalToUser[]
+
+  @@fulltext([name])
 }
 
 model HospitalMedicalToDepartment {
