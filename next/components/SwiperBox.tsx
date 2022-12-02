@@ -53,7 +53,7 @@ const SwiperBox = ({
     >
       {data &&
         data.map(({hospital}: { hospital : {name: string; address: string; records: Record[]} }, idx: number) => (
-          <SwiperSlideItem key={hospital.name + hospital.address + Date.now()}>
+          <SwiperSlideItem key={`${hospital.name} + ${hospital.address} `}>
             <SlideItemInnerBox>
               <ItemHeader>
                 <HospitalName title={hospital.name}>{hospital.name}</HospitalName>
