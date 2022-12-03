@@ -1,7 +1,7 @@
 import { theme } from "@styles/theme";
 import React, { ReactNode, useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
-import styled, { keyframes } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import { RoundButton } from "../buttons/Button";
 
 interface ModalType {
@@ -39,10 +39,10 @@ function Modal({
         <ModalTitle>
           <h3>{title}</h3>
         </ModalTitle>
-        <ModalContent>{children}</ModalContent>
-        <ConfirmBtnBox>
+        <ModalContent bgColor={closingComment}>{children}</ModalContent>
+        <ConfirmBtnBox >
           <RoundButton size="sm" onClick={activeFuction}>
-            {agreeType ? `동의합니다` : "네"}
+            {agreeType ? `동의합니다` : !closingComment ?  "네" : "확인"}
           </RoundButton>
           {!closingComment && (
             <RoundButton size="sm" bgColor={`rgba(188, 197, 255, 1)`} onClick={onClose}>
@@ -104,11 +104,11 @@ const ModalTitle = styled.div`
   font-weight:700;
 
 `;
-const ModalContent = styled.div`
+const ModalContent = styled.div<{bgColor : boolean}>`
   font-size: 18px;
   padding: 30px 50px;
   border-radius: 10px;
-  // background : ${({ theme }) => theme.color.lightBg};
+  // 
   line-height: 1.5;
   p{
     padding: 5px 0;
@@ -116,6 +116,10 @@ const ModalContent = styled.div`
       font-weight:600;
     }
   }
+  ${({bgColor, theme})=> bgColor && css`
+    background : ${theme.color.lightBg};
+    padding: 0px 10px;
+  `}
 `;
 
 export default Modal;
