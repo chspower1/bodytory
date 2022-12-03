@@ -13,6 +13,7 @@ import { checkEmptyObj } from "@utils/client/checkEmptyObj";
 import { createErrors } from "@utils/client/createErrors";
 import styled from "styled-components";
 import { LoginInputAreaBox } from "pages/auth/login";
+import { AnimatePresence } from "framer-motion";
 
 interface SecondRegisterForm {
   accountId: string;
@@ -128,21 +129,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       setCurrentComment("다음 단계로 넘어가주세요!");
     }
   }, [watch, watch(), user?.isNotDuplicate]);
-  /* useEffect(() => {
-    createErrors<SecondRegisterForm>({
-      user: user!,
-      checkList: ["accountId", "password"],
-      setError,
-      KoreanName,
-    });
 
-    // if (!user?.accountId) {
-    //   setError("accountId", { types: { required: "", validate: "" } });
-    // }
-    // if (!user?.password) {
-    //   setError("password", { types: { required: "", validate: "" } });
-    // } else clearErrors();
-  }, []); */
   return (
     <FlexContainer>
       <InnerContainer>
@@ -150,25 +137,27 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
           <FormContents>
             <MessageBox isErrorsMessage={isErrorsMessage} currentComment={currentComment} />
             <LoginInputAreaBox>
-              <Input
-                name="accountId"
-                placeholder="toritori2022"
-                register={register("accountId", {
-                  required: true,
-                  validate: {
-                    checkAccountId: value =>
-                      ACCOUNT_ID_REGEX.test(value) || "아이디는 6자리 이상\n영문 대소문자, 숫자를 입력해주세요",
-                  },
-                  onChange() {
-                    setUser(prev => ({ ...prev!, isNotDuplicate: false }));
-                    setCurrentInputIdx(1);
-                    setValue("password", "");
-                    setValue("passwordConfirm", "");
-                    console.log(errors.accountId);
-                  },
-                })}
-                error={errors.accountId}
-              />
+              <AnimatePresence>
+                <Input
+                  name="accountId"
+                  placeholder="toritori2022"
+                  register={register("accountId", {
+                    required: true,
+                    validate: {
+                      checkAccountId: value =>
+                        ACCOUNT_ID_REGEX.test(value) || "아이디는 6자리 이상\n영문 대소문자, 숫자를 입력해주세요",
+                    },
+                    onChange() {
+                      setUser(prev => ({ ...prev!, isNotDuplicate: false }));
+                      setCurrentInputIdx(1);
+                      setValue("password", "");
+                      setValue("passwordConfirm", "");
+                      console.log(errors.accountId);
+                    },
+                  })}
+                  error={errors.accountId}
+                />
+              </AnimatePresence>
               {(!user?.isNotDuplicate || !watch("accountId")) && (
                 <ButtonBox>
                   <RoundButton
