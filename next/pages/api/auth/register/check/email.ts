@@ -56,10 +56,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
       await checkEmail(email, type);
       await createToken(email);
-      res.status(200).json({ ok: true });
+      return res.status(200).json({ ok: true });
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : (<Object>error).toString();
-      res.status(403).send(errorMessage);
+      return res.status(403).send(errorMessage);
     }
   }
 

@@ -99,31 +99,19 @@ const HelpPage: NextPage = () => {
       <InnerContainer>
         <MessageBox isErrorsMessage={isErrorsMessage} currentComment={currentComment} />
         <FindForm onSubmit={handleSubmit(onValid)}>
-          <Seperation>
-            {isToken ? (
-              <ButtonInInput
-                name="accountId"
-                register={register("accountId")}
-                error={helpErrors.accountId}
-                isCertified={false}
-                changeButtonValue="아이디"
-                disabled
-                nonSubmit
-                isToken={isToken}
-                setIsToken={setIsToken}
-              />
-            ) : (
-              <Input
-                name="accountId"
-                register={register("accountId", {
-                  required: true,
-                  validate: value => ACCOUNT_ID_REGEX.test(value!) || "아이디 형식에 맞지 않습니다",
-                })}
-                placeholder="toritori2022"
-                error={helpErrors.accountId}
-              />
+            {isToken || (
+              <Seperation>
+                <Input
+                  name="accountId"
+                  register={register("accountId", {
+                    required: true,
+                    validate: value => ACCOUNT_ID_REGEX.test(value!) || "아이디 형식에 맞지 않습니다",
+                  })}
+                  placeholder="toritori2022"
+                  error={helpErrors.accountId}
+                />
+              </Seperation>
             )}
-          </Seperation>
           <Seperation>
             <RoundButton size="lg" nonSubmit onClick={handleClickFindPassword}>
               {isToken ? "인증메일 다시 보내기" : "비밀번호 찾기"}
@@ -131,9 +119,6 @@ const HelpPage: NextPage = () => {
           </Seperation>
           {isToken && (
             <>
-              <Seperation>
-                <Input name="email" value={email} disabled />
-              </Seperation>
               <Seperation>
                 {isToken && (
                   <ButtonInInput

@@ -25,7 +25,6 @@ interface SearchForm {
 
 const FindHospital = () => {
   const queryclient = useQueryClient();
-  const { getApi } = customApi("/api/users/my-hospitals");
   const [isLoading, setIsLoading] = useState(false);
   const [search, setSearch] = useState<string>("");
   const [page, setPage] = useState<number>(0);

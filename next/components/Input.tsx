@@ -10,7 +10,7 @@ export interface InputProps {
   register?: UseFormRegisterReturn;
   type?: string;
   placeholder?: string;
-  error?: FieldError | string;
+  error?: FieldError | string | boolean;
   disabled?: boolean;
   value?: string;
   checked?: boolean;

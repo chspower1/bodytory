@@ -94,14 +94,13 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
         clearErrors();
       }
       setIsToken(true);
-
       // }
     } catch (err: any) {
-      console.log(err);
+      console.log("err",err);
       if (isToken) {
         return setError("token", { type: "custom", message: `이메일에서 인증번호 확인 후\n입력해주세요!` });
       }
-      setError("email", { type: "custom", message: `${err.data}` });
+      setError("email", { type: "custom", message: `중복된 이메일입니다\n다른 이메일을 적어주세요!`  });
     }
   };
 
