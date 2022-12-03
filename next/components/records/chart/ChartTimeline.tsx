@@ -13,6 +13,8 @@ import ToriQuestion from "@public/static/icon/toriQuestion.png";
 import RecordModal, { RecordWithImage } from "@components/modals/RecordModal";
 import { KoreanPosition } from "types/write";
 import { useRouter } from "next/router";
+import checkIcon from "@public/static/icon/icon_checkbox.png";
+import checkedIcon from "@public/static/icon/checkbox_checked.png";
 
 export interface RecordWithImageAndHospital extends Record {
   images: RecordImage[];
@@ -28,20 +30,25 @@ function ChartTimeline() {
   const { getApi } = customApi(`/api/users/records/${position}`);
   const { deleteApi } = customApi(`/api/users/records`);
 
-
-  const { isLoading, data } = useQuery<RecordWithImageAndHospital[] | undefined>([RECORDS_READ], getApi, {
+  // 여기 key 2개 넣고, useEffect까지 써야지 되는 이 부분 나중에 리팩토링하기 (일단 기능은 맞게 동작)
+  const { isLoading, data } = useQuery<RecordWithImageAndHospital[] | undefined>([RECORDS_READ, position], getApi, {
     onSuccess(data) {
       setRecords(data);
     },
     enabled: !!position,
   });
 
-  const [records, setRecords] = useState<RecordWithImageAndHospital[] | undefined>(data);
+  useEffect(() => {
+    queryClient.invalidateQueries([RECORDS_READ, position]);
+    setFilterItem("all"); // 부위마다 새로운 페이지가 아닌가..? 왜 이걸 해줘야하지
+  }, [position]);
 
+
+  const [records, setRecords] = useState<RecordWithImageAndHospital[] | undefined>();
 
   const { mutate } = useMutation([RECORDS_DELETE], deleteApi, {
     onSuccess() {
-      queryClient.invalidateQueries([RECORDS_READ]);
+      queryClient.invalidateQueries([RECORDS_READ, position]);
     },
   });
 
@@ -74,11 +81,15 @@ function ChartTimeline() {
 
   // 모아보기 필터링
   const [filterItem, setFilterItem] = useState<string>("all");
-  const [filtredRecord, setFiltredRecord] = useState(records);
+  const [filtredRecord, setFiltredRecord] = useState<RecordWithImageAndHospital[] | undefined>();
 
   const handleRadioChange = (event: any) => {
     setFilterItem(event.target.value);
   };
+
+  useEffect(() => {
+    setFiltredRecord(records);
+  }, [records]);
 
   useEffect(() => {
     if (filterItem === "all") {
@@ -95,25 +106,19 @@ function ChartTimeline() {
         <Timeline>
           <Filter>
             <div>
-              <label htmlFor="all">
-                <input type="radio" name="filter" id="all" value="all" onChange={handleRadioChange} checked={filterItem === "all"} />
-                전체
-              </label>
+              <input type="radio" name="filter" id="all" value="all" onChange={handleRadioChange} checked={filterItem === "all"} />
+              <label htmlFor="all"><i />전체</label>
             </div>
             <div>
-              <label htmlFor="user">
-                <input type="radio" name="filter" id="user" value="user" onChange={handleRadioChange} checked={filterItem === "user"} />
-                증상기록 모아보기
-              </label>
+              <input type="radio" name="filter" id="user" value="user" onChange={handleRadioChange} checked={filterItem === "user"} />
+              <label htmlFor="user"><i />증상기록 모아보기</label>
             </div>
             <div>
-              <label htmlFor="hospital">
-                <input type="radio" name="filter" id="hospital" value="hospital" onChange={handleRadioChange} checked={filterItem === "hospital"} />
-                병원기록 모아보기
-              </label>
+              <input type="radio" name="filter" id="hospital" value="hospital" onChange={handleRadioChange} checked={filterItem === "hospital"} />
+              <label htmlFor="hospital"><i />병원기록 모아보기</label>
             </div>
           </Filter>
-          {records?.length === 0 ? (
+          {filtredRecord?.length === 0 ? (
             <NoRecord>
               <img src={ToriQuestion.src} />
               <p>
@@ -121,7 +126,7 @@ function ChartTimeline() {
               </p>
             </NoRecord>
           ) : (
-            records?.map((record, index) => (
+            filtredRecord?.map((record, index) => (
               <RecordBox key={index}>
                 <Time byUser={record.type === "user"}>
                   {format(new Date(record.createAt), "yyyy년 M월 d일 EEEE aaaa h시 m분", { locale: ko })}
@@ -211,7 +216,45 @@ const Filter = styled.div`
   }
 
   label {
-    padding: 5px;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 500;
+    color: #B2B5CC;
+    cursor: pointer;
+    transition: color .2s;
+
+    i {
+      display: block;
+      width: 16px;
+      height: 16px;
+      background: url(${checkIcon.src}) no-repeat 50% 50%/cover;
+      margin-right: 5px;
+      transition: background .2s, opacity .2s;
+    }
+
+    &:hover {
+      color: #82859C;
+
+      i {
+        background-image: url(${checkedIcon.src});
+        opacity: .35;
+      }
+    }
+  }
+
+  input {
+    position: absolute;
+    left: -999999%;
+
+    &:checked + label {
+      color: ${({ theme }) => theme.color.text};
+      pointer-events: none;
+      
+      i {
+        background-image: url(${checkedIcon.src});
+      }
+    }
   }
 `;
 
