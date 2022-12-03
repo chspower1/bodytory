@@ -118,7 +118,7 @@ const ModalContent = styled.div<{bgColor : boolean}>`
   }
   ${({bgColor, theme})=> bgColor && css`
     background : ${theme.color.lightBg};
-    padding: 0px 10px;
+    padding: 10px;
   `}
 `;
 
