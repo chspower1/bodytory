@@ -35,8 +35,7 @@ const SideMenu = () => {
       link: "/users/my-hospital",
     },
   ]);
-  const loggedUser = useRecoilValue(loggedInUser);
-  const [isLogin , setIsLogin] = useState(false);
+
 
   const handleClickCloseMenu = () => {
     if (isOpen === isActive) {
@@ -52,16 +51,9 @@ const SideMenu = () => {
     handleClickCloseMenu();
   }, [router.asPath]);
 
-  useEffect(()=>{
-    if(loggedUser !== null) {
-      setIsLogin(true)
-    }else{
-      setIsLogin(false)
-    }
-  },[loggedUser]);
 
 
-  return isLogin ? (
+  return (
     <>
       <HamburgerMenuButton isOpen={isOpen} setIsOpen={setIsOpen} isActive={isActive} setIsActive={setIsActive} />
       {isActive && (
@@ -111,7 +103,7 @@ const SideMenu = () => {
         </SideMenuWrap>
       )}
     </>
-  ) : null;
+  ) ;
 };
 
 export default SideMenu;

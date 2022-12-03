@@ -95,7 +95,6 @@ const HelpPage: NextPage = () => {
   }, [isToken]);
   return (
     <Container>
-      <Header />
       <InnerContainer>
         <MessageBox isErrorsMessage={isErrorsMessage} currentComment={currentComment} />
         <FindForm onSubmit={handleSubmit(onValid)}>

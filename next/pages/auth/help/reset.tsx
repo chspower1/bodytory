@@ -66,7 +66,6 @@ const Reset: NextPage = () => {
   }, [router]);
   return (
     <Container>
-      <Header />
       <InnerContainer>
         {!isSuccess ? (
           <>
