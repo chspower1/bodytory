@@ -147,7 +147,6 @@ def send_keywords():
 
 
 if __name__ == '__main__':
-    model = load_model('best_model.h5')
     loaded_data = pd.read_csv('./w2v_query_data_final.csv')
     query_data = loaded_data.set_index('department_single')
     query_data['symptom'] = query_data['symptom'].apply(lambda x: tokenizer(x))
