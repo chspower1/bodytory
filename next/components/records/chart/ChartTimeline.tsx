@@ -11,11 +11,10 @@ import uploadImage from "@utils/client/uploadImage";
 import IconAddImage from "@public/static/icon/icon_addImage.png";
 import ToriQuestion from "@public/static/icon/toriQuestion.png";
 import RecordModal, { RecordWithImage } from "@components/modals/RecordModal";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { selectedBodyPart, selectedRecord } from "atoms/atoms";
 import { KoreanPosition } from "types/write";
-import ClinicModal from "@components/modals/ClinicModal";
 import { useRouter } from "next/router";
+import checkIcon from "@public/static/icon/icon_checkbox.png";
+import checkedIcon from "@public/static/icon/checkbox_checked.png";
 
 export interface RecordWithImageAndHospital extends Record {
   images: RecordImage[];
@@ -28,33 +27,31 @@ function ChartTimeline() {
   const position = query.position as Position;
 
   const queryClient = useQueryClient();
-  const { getApi, putApi, deleteApi } = customApi(`/api/users/records/${position}`);
-  const [records, setRecords] = useState<RecordWithImageAndHospital[] | undefined>();
+  const { getApi } = customApi(`/api/users/records/${position}`);
+  const { deleteApi } = customApi(`/api/users/records`);
 
-  // 기록 조회
-  const [recordsByPart, setRecordsByPart] = useState<RecordWithImageAndHospital[] | undefined>([]);
-
-  const { isLoading, data } = useQuery<RecordWithImageAndHospital[] | undefined>([RECORDS_READ], getApi, {
+  // 여기 key 2개 넣고, useEffect까지 써야지 되는 이 부분 나중에 리팩토링하기 (일단 기능은 맞게 동작)
+  const { isLoading, data } = useQuery<RecordWithImageAndHospital[] | undefined>([RECORDS_READ, position], getApi, {
     onSuccess(data) {
       setRecords(data);
-      setRecordsByPart(data?.filter((record) => record.position === selectedPart));
     },
+    enabled: !!position,
   });
 
-  const selectedPart = useRecoilValue(selectedBodyPart);
-  // const recordsByPart = records?.filter((record, index) => record.position === selectedPart);
-
   useEffect(() => {
-    setRecordsByPart(records?.filter((record) => record.position === selectedPart));
-    console.log(recordsByPart);
-  }, [selectedPart]);
+    queryClient.invalidateQueries([RECORDS_READ, position]);
+    setFilterItem("all"); // 부위마다 새로운 페이지가 아닌가..? 왜 이걸 해줘야하지
+  }, [position]);
 
+
+  const [records, setRecords] = useState<RecordWithImageAndHospital[] | undefined>();
 
   const { mutate } = useMutation([RECORDS_DELETE], deleteApi, {
     onSuccess() {
-      queryClient.invalidateQueries([RECORDS_READ]);
+      queryClient.invalidateQueries([RECORDS_READ, position]);
     },
   });
+
 
   // 기록 삭제
   const [confirmDelete, setConfirmDelete] = useState(-1);
@@ -81,118 +78,118 @@ function ChartTimeline() {
     setShowRecordModal(record.id);
   };
 
+
   // 모아보기 필터링
   const [filterItem, setFilterItem] = useState<string>("all");
+  const [filtredRecord, setFiltredRecord] = useState<RecordWithImageAndHospital[] | undefined>();
+
   const handleRadioChange = (event: any) => {
-    console.log(event.target.value);
     setFilterItem(event.target.value);
   };
+
+  useEffect(() => {
+    setFiltredRecord(records);
+  }, [records]);
+
+  useEffect(() => {
+    if (filterItem === "all") {
+      setFiltredRecord(records);
+    } else {
+      setFiltredRecord(records?.filter((record) => record.type === filterItem));
+    }
+  }, [filterItem]);
+
 
   return (
     <>
       <TimelineContainer>
         <Timeline>
-          {recordsByPart?.length === 0 ? (
+          <Filter>
+            <div>
+              <input type="radio" name="filter" id="all" value="all" onChange={handleRadioChange} checked={filterItem === "all"} />
+              <label htmlFor="all"><i />전체</label>
+            </div>
+            <div>
+              <input type="radio" name="filter" id="user" value="user" onChange={handleRadioChange} checked={filterItem === "user"} />
+              <label htmlFor="user"><i />증상기록 모아보기</label>
+            </div>
+            <div>
+              <input type="radio" name="filter" id="hospital" value="hospital" onChange={handleRadioChange} checked={filterItem === "hospital"} />
+              <label htmlFor="hospital"><i />병원기록 모아보기</label>
+            </div>
+          </Filter>
+          {filtredRecord?.length === 0 ? (
             <NoRecord>
               <img src={ToriQuestion.src} />
               <p>
-                <strong>{KoreanPosition[selectedPart!]}</strong>에 대한 기록이 없습니다
+                <strong>{KoreanPosition[position!]}</strong>에 대한 기록이 없습니다
               </p>
             </NoRecord>
           ) : (
-            recordsByPart?.map((record, index) => (
-              <>
-                <Filter>
-                  <div>
-                    <label htmlFor="all">
-                      <input
-                        type="radio"
-                        name="filter"
-                        id="all"
-                        value="all"
-                        onChange={handleRadioChange}
-                        checked={filterItem === "all"}
-                      />
-                      전체
-                    </label>
-                  </div>
-                  <div>
-                    <label htmlFor="user">
-                      <input type="radio" name="filter" id="user" value="user" checked={filterItem === "user"} />
-                      증상기록 모아보기
-                    </label>
-                  </div>
-                  <div>
-                    <label htmlFor="hospital">
-                      <input type="radio" name="filter" id="hospital" value="hospital" checked={filterItem === "hospital"} />
-                      병원기록 모아보기
-                    </label>
-                  </div>
-                </Filter>
-                <RecordBox key={index}>
-                  <Time byUser={record.type === "user"}>
-                    {format(new Date(record.createAt), "yyyy년 M월 d일 EEEE aaaa h시 m분", { locale: ko })}
-                  </Time>
-                  {record.type === "user" ? (
-                    <>
-                      <Content>
-                        <Description cursorType={"pointer"}>
-                          <Text onClick={() => handleRecordModal(record)}>{record.description}</Text>
-                          <ImageBox>
-                            {record.images.length ? (
-                              <Thumbnail onClick={() => handleRecordModal(record)}>
-                                <ThumbnailImage src={record.images[0].url} />
-                                {record.images.length > 1 && <span>+{record.images.length - 1}장</span>}
-                              </Thumbnail>
-                            ) : (
-                              <UploadImageButton
-                                onClick={() => uploadImage(String(record.id), uploadImageMutation.mutate)}
-                              >
-                                <span className="blind">사진 추가</span>
-                              </UploadImageButton>
-                            )}
-                          </ImageBox>
-                        </Description>
-
-                        <DeleteButton
-                          onClick={e => handleClick(e, record.id)}
-                          recordId={record.id}
-                          className={confirmDelete === record.id ? "active" : ""}
-                          onBlur={() => setConfirmDelete(-1)}
-                        >
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                            <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
-                          </svg>
-                          <span>삭제</span>
-                        </DeleteButton>
-                      </Content>
-                      {showRecordModal === record.id && (
-                        <RecordModal record={record} setShowRecordModal={setShowRecordModal} />
-                      )}
-                    </>
-                  ) : (
+            filtredRecord?.map((record, index) => (
+              <RecordBox key={index}>
+                <Time byUser={record.type === "user"}>
+                  {format(new Date(record.createAt), "yyyy년 M월 d일 EEEE aaaa h시 m분", { locale: ko })}
+                </Time>
+                {record.type === "user" ? (
+                  <>
                     <Content>
-                      <Description cursorType={"auto"}>
-                        <HospitalName>{record.hospital?.name}</HospitalName>
-                        <ResultTable>
-                          <TableRow>
-                            <span>진단 결과</span>
-                            <p>{record.diagnosis}</p>
-                          </TableRow>
-                          <TableRow>
-                            <span>처방 내용</span>
-                            <p>{record.prescription}</p>
-                          </TableRow>
-                          <TableRow>
-                            <span>상세 소견</span>
-                            <p>{record.description}</p>
-                          </TableRow>
-                        </ResultTable>
+                      <Description cursorType={"pointer"}>
+                        <Text onClick={() => handleRecordModal(record)}>{record.description}</Text>
+                        <ImageBox>
+                          {record.images.length ? (
+                            <Thumbnail onClick={() => handleRecordModal(record)}>
+                              <ThumbnailImage src={record.images[0].url} />
+                              {record.images.length > 1 && <span>+{record.images.length - 1}장</span>}
+                            </Thumbnail>
+                          ) : (
+                            <UploadImageButton
+                              onClick={() => uploadImage(String(record.id), uploadImageMutation.mutate)}
+                            >
+                              <span className="blind">사진 추가</span>
+                            </UploadImageButton>
+                          )}
+                        </ImageBox>
                       </Description>
+
+                      <DeleteButton
+                        onClick={e => handleClick(e, record.id)}
+                        recordId={record.id}
+                        className={confirmDelete === record.id ? "active" : ""}
+                        onBlur={() => setConfirmDelete(-1)}
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                          <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+                        </svg>
+                        <span>삭제</span>
+                      </DeleteButton>
                     </Content>
-                  )}
-                </RecordBox>
-              </>
+                    {showRecordModal === record.id && (
+                      <RecordModal record={record} setShowRecordModal={setShowRecordModal} />
+                    )}
+                  </>
+                ) : (
+                  <Content>
+                    <Description cursorType={"auto"}>
+                      <HospitalName>{record.hospital?.name}</HospitalName>
+                      <ResultTable>
+                        <TableRow>
+                          <span>진단 결과</span>
+                          <p>{record.diagnosis}</p>
+                        </TableRow>
+                        <TableRow>
+                          <span>처방 내용</span>
+                          <p>{record.prescription}</p>
+                        </TableRow>
+                        <TableRow>
+                          <span>상세 소견</span>
+                          <p>{record.description}</p>
+                        </TableRow>
+                      </ResultTable>
+                    </Description>
+                  </Content>
+                )}
+              </RecordBox>
             ))
           )}
         </Timeline>
@@ -219,7 +216,45 @@ const Filter = styled.div`
   }
 
   label {
-    padding: 5px;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 500;
+    color: #B2B5CC;
+    cursor: pointer;
+    transition: color .2s;
+
+    i {
+      display: block;
+      width: 16px;
+      height: 16px;
+      background: url(${checkIcon.src}) no-repeat 50% 50%/cover;
+      margin-right: 5px;
+      transition: background .2s, opacity .2s;
+    }
+
+    &:hover {
+      color: #82859C;
+
+      i {
+        background-image: url(${checkedIcon.src});
+        opacity: .35;
+      }
+    }
+  }
+
+  input {
+    position: absolute;
+    left: -999999%;
+
+    &:checked + label {
+      color: ${({ theme }) => theme.color.text};
+      pointer-events: none;
+      
+      i {
+        background-image: url(${checkedIcon.src});
+      }
+    }
   }
 `;
 

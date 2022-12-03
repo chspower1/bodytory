@@ -11,17 +11,12 @@ export const loggedInUser = atom<User | RegisterForm | null>({
   effects_UNSTABLE: [persistAtom],
 });
 
-export const selectedBodyPart = atom<Position | null>({
-  key: "selectedBodyPartKey",
-  default: null
-});
-
-export const selectedRecord = atom<any>({
-  key: "selectedRecordKey",
-  default: null
-});
-
 export const currentHospitalIdx = atom<number>({
   key : "currentHospitalIdxKey",
   default: 0
-})
+});
+
+export const currentBodyPosition = atom<string>({
+  key: "currentBodyPositionKey",
+  default: "front"
+});

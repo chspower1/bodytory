@@ -31,9 +31,11 @@ const KeywordContainer = styled.div`
 
 const Keywords = styled.div`
   span {
+    display: inline-block;
     background: ${({ theme }) => theme.color.mintBtn};
     color: ${({ theme }) => theme.color.white};
     padding: 5px 15px;
+    margin: 4px 0;
     border-radius: 8px;
   }
 
