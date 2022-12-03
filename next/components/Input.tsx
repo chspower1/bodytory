@@ -47,8 +47,20 @@ export default function Input({
     <InputBox width={width} height={height}>
       <MainInput
         initial={{ y: 30, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        exit={{ y: 30, opacity: 0 }}
+        animate={{
+          y: 0,
+          opacity: 1,
+          transition: {
+            duration: 1,
+          },
+        }}
+        exit={{
+          y: 30,
+          opacity: 0,
+          transition: {
+            duration: 1,
+          },
+        }}
         disabled={disabled}
         id={name}
         {...register}
