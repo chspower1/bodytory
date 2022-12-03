@@ -9,6 +9,8 @@ import LogoutBtn from "@components/LogoutBtn";
 import toriLink from "@public/static/icon/toriLink.png";
 import menuLogo from "@public/static/icon/menuLogo.png";
 import useUser from "@hooks/useUser";
+import { useRecoilValue } from "recoil";
+import { loggedInUser } from "atoms/atoms";
 
 const SideMenu = () => {
   const router = useRouter();
@@ -33,7 +35,8 @@ const SideMenu = () => {
       link: "/users/my-hospital",
     },
   ]);
-  const user = useUser();
+  const loggedUser = useRecoilValue(loggedInUser);
+  const [isLogin , setIsLogin] = useState(false);
 
   const handleClickCloseMenu = () => {
     if (isOpen === isActive) {
@@ -49,7 +52,16 @@ const SideMenu = () => {
     handleClickCloseMenu();
   }, [router.asPath]);
 
-  return user ? (
+  useEffect(()=>{
+    if(loggedUser !== null) {
+      setIsLogin(true)
+    }else{
+      setIsLogin(false)
+    }
+  },[loggedUser]);
+
+
+  return isLogin ? (
     <>
       <HamburgerMenuButton isOpen={isOpen} setIsOpen={setIsOpen} isActive={isActive} setIsActive={setIsActive} />
       {isActive && (
