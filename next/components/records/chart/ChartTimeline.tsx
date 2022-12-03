@@ -23,20 +23,21 @@ function ChartTimeline() {
 
   const { query } = useRouter();
   const position = query.position as Position;
-  
-  console.log(position);
 
   const queryClient = useQueryClient();
   const { getApi } = customApi(`/api/users/records/${position}`);
   const { deleteApi } = customApi(`/api/users/records`);
 
+
   const { isLoading, data } = useQuery<RecordWithImageAndHospital[] | undefined>([RECORDS_READ], getApi, {
     onSuccess(data) {
       setRecords(data);
     },
+    enabled: !!position,
   });
 
   const [records, setRecords] = useState<RecordWithImageAndHospital[] | undefined>(data);
+
 
   const { mutate } = useMutation([RECORDS_DELETE], deleteApi, {
     onSuccess() {
@@ -70,7 +71,7 @@ function ChartTimeline() {
     setShowRecordModal(record.id);
   };
 
-  
+
   // 모아보기 필터링
   const [filterItem, setFilterItem] = useState<string>("all");
   const [filtredRecord, setFiltredRecord] = useState(records);
@@ -112,7 +113,7 @@ function ChartTimeline() {
               </label>
             </div>
           </Filter>
-          {filtredRecord?.length === 0 ? (
+          {records?.length === 0 ? (
             <NoRecord>
               <img src={ToriQuestion.src} />
               <p>
@@ -120,7 +121,7 @@ function ChartTimeline() {
               </p>
             </NoRecord>
           ) : (
-            filtredRecord?.map((record, index) => (
+            records?.map((record, index) => (
               <RecordBox key={index}>
                 <Time byUser={record.type === "user"}>
                   {format(new Date(record.createAt), "yyyy년 M월 d일 EEEE aaaa h시 m분", { locale: ko })}
