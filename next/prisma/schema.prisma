@@ -116,6 +116,7 @@ model HospitalToUser {
   userId     Int
   hospital   Hospital @relation(fields: [hospitalId], references: [id])
   user       User     @relation(fields: [userId], references: [id])
+  shared     Boolean
 
   @@index([hospitalId])
   @@index([userId])
