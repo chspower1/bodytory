@@ -41,7 +41,7 @@ const ClinicModal = ({
   const modalContent = (
     <AnimatePresence>
       {isModalOpen ? (
-        <ModalBox
+        <ModalWrapper
           initial={{ opacity: 0 }}
           animate={{
             opacity: 1,
@@ -89,7 +89,7 @@ const ClinicModal = ({
               </RoundButton>
             </ModalContent>
           </Modal>
-        </ModalBox>
+        </ModalWrapper>
       ) : null}
     </AnimatePresence>
   );
@@ -102,15 +102,7 @@ const ClinicModal = ({
 
 export default ClinicModal;
 
-export const ModalBox = styled(motion.div)`
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  z-index: 1000;
-`;
+
 
 const Dim = styled.div`
   position: absolute;
