@@ -5,7 +5,6 @@ import { CustomOverlayMap, Map, MapInfoWindow, MapMarker } from "react-kakao-map
 import styled from "styled-components";
 import kakaomap from "@public/static/icon/kakao_map.svg";
 import pointer from "@public/static/icon/pointer.svg";
-import currentPointer from "@public/static/icon/current_pointer.svg";
 import web from "@public/static/icon/web.svg";
 import cross from "@public/static/icon/cross.svg";
 import triangle from "@public/static/icon/triangle.png";
@@ -21,7 +20,7 @@ import { theme } from "@styles/theme";
 import { NextPage } from "next";
 import ReactDOM from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { ModalContainer, ModalWrapper, Dim } from "@styles/ModalStyle";
+import { ModalContainer, ModalWrapper, Dim } from "@styles/ModalStyled";
 import { HOSPITALS } from "constant/queryKeys";
 
 interface Coords {

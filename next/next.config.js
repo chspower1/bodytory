@@ -2,7 +2,14 @@
 const nextConfig = {
   reactStrictMode: false,
   swcMinify: true,
-  // 로컬 테스트 하기위함,cors에러 방지
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ["@svgr/webpack"],
+    });
+
+    return config;
+  },
 };
 
 module.exports = nextConfig;

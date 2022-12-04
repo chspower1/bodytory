@@ -92,8 +92,8 @@ const LoginPage: NextPage = () => {
     }
     setIsError(false);
   }, [watch("accountId"), watch("password"), isErrorsMessage]);
-  console.log(isError)
-  console.log(isErrorsMessage)
+  console.log(isError);
+  console.log(isErrorsMessage);
   return (
     <FlexContainer>
       <InnerContainer>
@@ -115,6 +115,7 @@ const LoginPage: NextPage = () => {
                 })}
                 placeholder="아이디를 입력해주세요"
                 error={errors.accountId || isError}
+                motion={false}
               />
               <Input
                 name="password"
@@ -129,6 +130,7 @@ const LoginPage: NextPage = () => {
                 })}
                 placeholder="●●●●●●"
                 error={errors.password || isError}
+                motion={false}
               />
               {/* <Input
             name="autoLogin"

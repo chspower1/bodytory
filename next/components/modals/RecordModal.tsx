@@ -11,7 +11,7 @@ import { useRecoilValue } from "recoil";
 import styled, { css, keyframes } from "styled-components";
 import ReactDOM from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { ModalContainer, ModalWrapper, Dim } from "@styles/ModalStyle";
+import { ModalContainer, ModalWrapper, Dim } from "@styles/ModalStyled";
 import { changeDate } from "@utils/client/changeDate";
 export interface RecordWithImage extends Record {
   images: RecordImage[];
