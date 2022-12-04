@@ -4,6 +4,7 @@ import {  useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
 import sliceName from "@utils/client/sliceHospitalName";
 import { currentHospitalIdx } from "atoms/atoms";
+import { HOSPITALS } from "constant/queryKeys";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useSetRecoilState } from "recoil";
@@ -53,6 +54,7 @@ const HospitalContent = ({ list, add, idx }: { list: HospitalListProps ; add: bo
   const { mutate } = useMutation(['addHospitalKey'] , postApi,{
     onSuccess(data) {
       queryclient.invalidateQueries(["isMyHospital"])
+      queryclient.invalidateQueries([HOSPITALS])
     },
   })
   
