@@ -1,7 +1,7 @@
 import customApi from "utils/client/customApi";
 import axios from "axios";
 import { useRouter } from "next/router";
-import { RoundButton } from "./buttons/Button";
+import { RoundButton } from "./Button";
 import { loggedInUser } from "atoms/atoms";
 import { useSetRecoilState } from "recoil";
 import { useState } from "react";
@@ -19,15 +19,6 @@ const LogoutBtn = () => {
   const handleClickLogout = async () => {
     // console.log(localStorage.removeItem("naverToken"));
     try {
-      const res = await axios.get("/oauth2.0/token", {
-        params: {
-          grant_type: "delete",
-          client_id: process.env.NEXT_PUBLIC_NAVER_CLIENT_ID,
-          client_secret: process.env.NEXT_PUBLIC_NAVER_CLIENT_SECRET,
-          access_token: localStorage.getItem("naverToken"),
-          service_provider: "NAVER",
-        },
-      });
       setCurrentUser(null);
       queryClient.removeQueries({ queryKey: USER_LOGIN, exact: true });
       await LogoutApi({});

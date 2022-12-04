@@ -1,6 +1,6 @@
 import styled, { isStyledComponent } from "styled-components";
 import Link from "next/link";
-import LogoutBtn from "@components/LogoutBtn";
+import LogoutBtn from "@components/buttons/LogoutBtn";
 import { useRecoilState } from "recoil";
 import { useEffect, useState } from "react";
 import { User } from "@prisma/client";
