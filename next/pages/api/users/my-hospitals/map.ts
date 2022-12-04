@@ -25,6 +25,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         },
       },
       select: {
+        id: true,
         name: true,
         x: true,
         y: true,
@@ -40,7 +41,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           },
         },
       },
-      take: 200,
+      take: 100,
     });
     console.log(hospitals, hospitals.length, longitude, latitude);
     return res.status(200).json({ hospitals });

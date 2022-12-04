@@ -12,7 +12,7 @@ import triangle from "@public/static/icon/triangle.png";
 import x from "@public/static/icon/x.png";
 import marker from "@public/static/icon/map_marker.png";
 import customApi from "@utils/client/customApi";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { HospitalsForMap } from "@api/users/my-hospitals/map";
 import { AxiosError } from "axios";
@@ -22,12 +22,14 @@ import { NextPage } from "next";
 import ReactDOM from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { ModalContainer, ModalWrapper, Dim } from "@styles/ModalStyle";
+import { HOSPITALS } from "constant/queryKeys";
 
 interface Coords {
   lat: number;
   lng: number;
 }
 interface Hospital {
+  id: number;
   name: string;
   x: number;
   y: number;
@@ -42,11 +44,11 @@ interface AroundHospitalsResponse {
   hospitals: Hospital[];
 }
 interface ArroundMapProps {
-  showModal: boolean;
-  setShowModal: Dispatch<SetStateAction<boolean>>;
+  show: boolean;
+  onClose: () => void;
 }
-const ArroundMap: NextPage<ArroundMapProps> = ({ showModal, setShowModal }) => {
-  const [isBrowser, setIsBrowser] = useState(false);
+const ArroundMap: NextPage<ArroundMapProps> = ({ show = false, onClose }) => {
+  const queryClient = useQueryClient();
   const [hoverIndex, setHoverIndex] = useState(-1);
   const [clickIndex, setClickIndex] = useState(-1);
   const [currentCoords, setCurrentCoords] = useState<Coords>({
@@ -58,7 +60,7 @@ const ArroundMap: NextPage<ArroundMapProps> = ({ showModal, setShowModal }) => {
     lng: 0,
   });
 
-  const { postApi, getApi } = customApi("/api/users/my-hospitals/map");
+  const { postApi } = customApi("/api/users/my-hospitals/map");
   const { mutate, data } = useMutation<AroundHospitalsResponse, AxiosError, { longitude: number; latitude: number }>(
     ["hospitals", "map"],
     postApi,
@@ -68,6 +70,13 @@ const ArroundMap: NextPage<ArroundMapProps> = ({ showModal, setShowModal }) => {
       },
     },
   );
+  const { postApi: addHospitalApi, getApi } = customApi("/api/users/my-hospitals");
+  const { mutate: addHospitalMutate } = useMutation(["addHospitalKey"], addHospitalApi, {
+    onSuccess(data) {
+      queryClient.invalidateQueries(["isMyHospital"]);
+      queryClient.invalidateQueries([HOSPITALS]);
+    },
+  });
   const handleClickMarker = ({
     index,
     longitude,
@@ -84,31 +93,27 @@ const ArroundMap: NextPage<ArroundMapProps> = ({ showModal, setShowModal }) => {
   const handleMouseOutMarker = () => {
     setHoverIndex(-1);
   };
-  const handleClickAddHospital = () => {};
+  const handleClickAddHospital = (id: number) => {
+    addHospitalMutate({ id });
+  };
 
   // console.log(geolocation.getCurrentPosition);
   useEffect(() => {
-    setIsBrowser(true);
     const { geolocation } = navigator;
     geolocation.getCurrentPosition(position => {
       console.log("x", position.coords.longitude);
       console.log("y", position.coords.latitude);
       setCoords({ lat: position.coords.latitude, lng: position.coords.longitude });
       setCurrentCoords({ lat: position.coords.latitude, lng: position.coords.longitude });
-      // mutate({ longitude: position.coords.longitude, latitude: position.coords.latitude });
+      mutate({ longitude: position.coords.longitude, latitude: position.coords.latitude });
     });
   }, []);
-  console.log(showModal);
+
   const modalContent = (
     <AnimatePresence>
-      {showModal && (
+      {show && (
         <ModalWrapper>
-          <Dim
-            onClick={() => {
-              setShowModal(false);
-              console.log("dd");
-            }}
-          />
+          <Dim onClick={onClose} />
           <ModalContainer width="1500px" height="800px">
             <ToryText>현재 소희님의 위치를 기준으로 주변 정형외과들을 찾았어요!</ToryText>
             <Map
@@ -231,6 +236,7 @@ const ArroundMap: NextPage<ArroundMapProps> = ({ showModal, setShowModal }) => {
                           bgColor="rgb(18, 212, 201)"
                           fontSize="16px"
                           boxShadow={false}
+                          onClick={() => handleClickAddHospital(hospital.id)}
                         >
                           추가
                         </RoundButton>
@@ -243,7 +249,7 @@ const ArroundMap: NextPage<ArroundMapProps> = ({ showModal, setShowModal }) => {
             </Map>
 
             <BtnBox width="460px">
-              <RoundButton fontSize="16px" width="220px" height="40px" onClick={() => setShowModal(false)}>
+              <RoundButton fontSize="16px" width="220px" height="40px" onClick={onClose}>
                 확인했어요!
               </RoundButton>
               <RoundButton
@@ -263,11 +269,8 @@ const ArroundMap: NextPage<ArroundMapProps> = ({ showModal, setShowModal }) => {
       )}
     </AnimatePresence>
   );
-  if (isBrowser) {
-    return ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement);
-  } else {
-    return null;
-  }
+
+  return show ? ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement) : null;
 };
 export default ArroundMap;
 const InfoWindowBox = styled(Col)`

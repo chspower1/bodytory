@@ -36,7 +36,7 @@ const HospitalContent = ({ list, add, idx }: { list: HospitalListProps; add: boo
     setOnShare(!onShare);
   };
 
-  const queryclient = useQueryClient();
+  const queryClient = useQueryClient();
 
   const [showModal, setShowModal] = useState(false);
   const { postApi, getApi } = customApi("/api/users/my-hospitals");
@@ -52,8 +52,8 @@ const HospitalContent = ({ list, add, idx }: { list: HospitalListProps; add: boo
   // 추가용 api
   const { mutate } = useMutation(["addHospitalKey"], postApi, {
     onSuccess(data) {
-      queryclient.invalidateQueries(["isMyHospital"]);
-      queryclient.invalidateQueries([HOSPITALS]);
+      queryClient.invalidateQueries(["isMyHospital"]);
+      queryClient.invalidateQueries([HOSPITALS]);
     },
   });
 
