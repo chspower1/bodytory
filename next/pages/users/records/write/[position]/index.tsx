@@ -15,7 +15,7 @@ import ToryIcon from "@components/ToryIcon";
 import SpeakMotion from "@components/SpeakMotion";
 import useAudio from "@hooks/useAudio";
 import { RECORDS_CREATE } from "constant/queryKeys";
-import pencil from "@public/static/icon/pencil.svg";
+import Pencil from "@public/static/icon/pencil.svg";
 import { AxiosError } from "axios";
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -86,7 +86,8 @@ const PositionPage = () => {
             <MemoBox onClick={hadleClickCreateRecord}>
               {error && <ErrorMessage>증상을 입력해주세요!</ErrorMessage>}
               {recordMessgae}
-              <Image src={pencil} alt="수정" style={{ position: "absolute", right: "20px" }} />
+              {/* <Image src={Pencil} alt="수정" style={{ position: "absolute", right: "20px" }} /> */}
+              <Pencil width={200} height={200} fill={theme.color.darkBg} />
             </MemoBox>
 
             <CircleButton
@@ -94,7 +95,7 @@ const PositionPage = () => {
               onClick={listening ? endRecord : startRecord}
               boxShadow={false}
             >
-              {!listening ? <Image src={mic} alt="마이크" /> : <Rectangle />}
+              {/* {!listening ? <Image src={mic} alt="마이크" /> : <Rectangle />} */}
             </CircleButton>
           </VoiceBox>
         </Col>
