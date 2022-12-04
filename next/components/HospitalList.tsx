@@ -1,19 +1,19 @@
 import { Hospital } from "@prisma/client";
 import { theme } from "@styles/theme";
-import { MouseEvent } from "react";
+import { LegacyRef, MouseEvent } from "react";
 import styled from "styled-components";
 import HospitalContent, { HospitalListProps, HospitalListT } from "./HospitalContent";
 
 const HospitalList = ({
   lists,
   add,
-  listRef,
+  setobserverTarget,
   isLoading,
 }: {
   lists?: HospitalListProps[];
   add: boolean;
-  listRef?: any;
-  isLoading?: any;
+  setobserverTarget?: LegacyRef<HTMLDivElement> | null;
+  isLoading?: boolean;
 }) => {
   console.log("lists", lists);
   return (
@@ -24,7 +24,7 @@ const HospitalList = ({
             {lists.map((list, idx) => (
               <HospitalContent list={list.hospital ? list.hospital : list} idx={idx} add={add} key={list.id} />
             ))}
-            {isLoading ? <div>Loading....</div> : <div ref={listRef} />}
+            {isLoading ? <div>Loading....</div> : <div ref={setobserverTarget} />}
           </HospitalLists>
         ) : (
           <NoneMessage>{add ? "검색결과가 없습니다" : "병원내역이 없습니다"}</NoneMessage>
