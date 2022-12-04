@@ -13,6 +13,30 @@ import styled from "styled-components";
 import { ToryTextBox } from "../login";
 import MessageBox from "@components/MessageBox";
 import Header from "@components/header/Header";
+import { Variants, motion } from "framer-motion";
+
+const CHOICE_VARIANTS: Variants = {
+  animate: {
+    transition: {
+      staggerChildren: 0.15,
+    },
+  },
+};
+const TYPE_VARIANTS: Variants = {
+  initial: {
+    opacity: 0,
+    x: 80,
+  },
+  animate: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      type: "tween",
+      ease: "easeOut",
+      duration: 0.7,
+    },
+  },
+};
 const ChoicePage = () => {
   const router = useRouter();
   const { postApi } = customApi("/api/auth/login");
@@ -38,10 +62,16 @@ const ChoicePage = () => {
       <InnerContainer>
         <MessageBox>어떤 방식으로 회원가입할까요?</MessageBox>
         <ButtonBox>
-          <ButtonInnerBox>
-            <OriginLoginBtn size="lg" kind="register" />
-            <NaverLoginBtn size="lg" mutate={mutate} kind="register" />
-            <KakaoLoginBtn size="lg" mutate={mutate} kind="register" />
+          <ButtonInnerBox variants={CHOICE_VARIANTS} initial="initial" animate="animate">
+            <motion.div variants={TYPE_VARIANTS}>
+              <OriginLoginBtn size="lg" kind="register" />
+            </motion.div>
+            <motion.div variants={TYPE_VARIANTS}>
+              <NaverLoginBtn size="lg" mutate={mutate} kind="register" />
+            </motion.div>
+            <motion.div variants={TYPE_VARIANTS}>
+              <KakaoLoginBtn size="lg" mutate={mutate} kind="register" />
+            </motion.div>
           </ButtonInnerBox>
         </ButtonBox>
       </InnerContainer>
