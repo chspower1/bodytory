@@ -70,7 +70,7 @@ const ArroundMap: NextPage<ArroundMapProps> = ({ show = false, onClose }) => {
       },
     },
   );
-  const { postApi: addHospitalApi, getApi } = customApi("/api/users/my-hospitals");
+  const { postApi: addHospitalApi } = customApi("/api/users/my-hospitals");
   const { mutate: addHospitalMutate } = useMutation(["addHospitalKey"], addHospitalApi, {
     onSuccess(data) {
       queryClient.invalidateQueries(["isMyHospital"]);
@@ -97,7 +97,6 @@ const ArroundMap: NextPage<ArroundMapProps> = ({ show = false, onClose }) => {
     addHospitalMutate({ id });
   };
 
-  // console.log(geolocation.getCurrentPosition);
   useEffect(() => {
     const { geolocation } = navigator;
     geolocation.getCurrentPosition(position => {
