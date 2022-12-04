@@ -13,7 +13,7 @@ ${reset}
   body {
     background: ${props => props.theme.color.darkBg};
     font-optical-sizing: auto;
-
+    font-family: "Pretendard Variable";
     font-size: ${props => props.theme.font.size.bodyText};
     font-weight: 400;
     font-style: normal;
@@ -49,6 +49,7 @@ ${reset}
   optgroup,
   select,
   textarea {
+    font-family: inherit;
     font-size: 100%;
     line-height: 1;
     margin: 0;
