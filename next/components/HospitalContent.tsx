@@ -56,7 +56,6 @@ const HospitalContent = ({ list, add, idx }: { list: HospitalListProps ; add: bo
     },
   })
   
-  console.log(isAddButton)
 
   const handleClickAddHospital = ()=>{
     mutate({id : list.id})
@@ -100,10 +99,10 @@ const HospitalContent = ({ list, add, idx }: { list: HospitalListProps ; add: bo
           </HospitalStatusBox>
         )}
       </HospitalInforContainer>
-          {showModal && <Modal show={showModal} onClose={()=> setShowModal(false)} activeFuction={handleClickAddHospital} agreeType title="개인정보 수집 동의" >
-            <p>병원을 추가하면 병원에서 나의 기록을 열람할 수 있습니다</p>
-            <p><b>{sliceName(list.name)}</b>에서 개인정보 수집 및 이용에 동의하십니까?</p>
-            </Modal>}
+      <Modal show={showModal} onClose={()=> setShowModal(false)} activeFuction={handleClickAddHospital} agreeType title="개인정보 수집 동의" >
+        <p>병원을 추가하면 병원에서 나의 기록을 열람할 수 있습니다</p>
+        <p><b>{sliceName(list.name)}</b>에서 개인정보 수집 및 이용에 동의하십니까?</p>
+      </Modal>
     </HospitalInfor>
   );
 };

@@ -21,7 +21,7 @@ import { loggedInUser } from "atoms/atoms";
 import { useRecoilValue } from "recoil";
 import { User } from "@prisma/client";
 import { RegisterForm } from "pages/auth/register";
-
+import { PASSWORD_REGEX } from "constant/regex";
 
 interface PasswordType {
   oldPassword: string;
@@ -56,18 +56,23 @@ export default function Edit() {
     setError,
     formState: { errors },
   } = useForm<PasswordType>();
-  const isErrorMessage = errors.oldPassword?.message || errors.newPassword?.message || errors.newPasswordConfirm?.message;
+  const isErrorMessage =
+    errors.oldPassword?.message || errors.newPassword?.message || errors.newPasswordConfirm?.message;
   const onValid: SubmitHandler<PasswordType> = ({ oldPassword, newPassword, newPasswordConfirm }) => {
-    if (newPassword !== newPasswordConfirm) {
-      setError("newPasswordConfirm", { type:"custom", message: "비밀번호가 일치하지 않습니다" });
-      setErrorModal(true)
+    if (!PASSWORD_REGEX.test(newPassword)) {
+      setError("newPassword", {
+        type: "custom",
+        message: "비밀번호는 6자리 이상 영문 대소문자, 숫자를 조합해서 입력해주세요",
+      });
+    } else if (newPassword !== newPasswordConfirm) {
+      setError("newPasswordConfirm", { type: "custom", message: "비밀번호가 일치하지 않습니다" });
     } else if (oldPassword === newPassword) {
-      setError("newPassword", { type:"custom", message: "새로운 비밀번호를 입력해주세요" });
-      setErrorModal(true)
+      setError("newPassword", { type: "custom", message: "새로운 비밀번호를 입력해주세요" });
     } else {
       setChangePassword({ oldPassword, newPassword });
-      setShowModal(true);
+      return setShowModal(true);
     }
+    setErrorModal(true);
   };
 
   const handleClickActiveFuction = () => {
@@ -154,7 +159,7 @@ export default function Edit() {
             </SeperationBox>
           </form>
           <Modal
-            onClose={()=>setShowModal(false)}
+            onClose={() => setShowModal(false)}
             activeFuction={handleClickActiveFuction}
             show={showModal}
             closingComment={closingComment}
@@ -170,8 +175,8 @@ export default function Edit() {
             )}
           </Modal>
           <Modal
-            onClose={()=>setErrorModal(false)}
-            activeFuction={()=>setErrorModal(false)}
+            onClose={() => setErrorModal(false)}
+            activeFuction={() => setErrorModal(false)}
             show={errorModal}
             closingComment
           >
