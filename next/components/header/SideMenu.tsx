@@ -9,6 +9,8 @@ import LogoutBtn from "@components/LogoutBtn";
 import toriLink from "@public/static/icon/toriLink.png";
 import menuLogo from "@public/static/icon/menuLogo.png";
 import useUser from "@hooks/useUser";
+import { useRecoilValue } from "recoil";
+import { loggedInUser } from "atoms/atoms";
 
 const SideMenu = () => {
   const router = useRouter();
@@ -33,7 +35,7 @@ const SideMenu = () => {
       link: "/users/my-hospital",
     },
   ]);
-  const user = useUser();
+
 
   const handleClickCloseMenu = () => {
     if (isOpen === isActive) {
@@ -49,7 +51,9 @@ const SideMenu = () => {
     handleClickCloseMenu();
   }, [router.asPath]);
 
-  return user ? (
+
+
+  return (
     <>
       <HamburgerMenuButton isOpen={isOpen} setIsOpen={setIsOpen} isActive={isActive} setIsActive={setIsActive} />
       {isActive && (
@@ -99,7 +103,7 @@ const SideMenu = () => {
         </SideMenuWrap>
       )}
     </>
-  ) : null;
+  ) ;
 };
 
 export default SideMenu;
@@ -110,7 +114,7 @@ const SideMenuWrap = styled.div`
   top: 0;
   width: 100%;
   height: 100%;
-  z-index: 1000;
+  z-index: 6000;
 `;
 
 const LogoBox = styled.div`

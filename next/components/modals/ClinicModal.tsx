@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import ReactDOM from "react-dom";
 import { RoundButton } from "../buttons/Button";
-import { showFrame } from "./Modal";
+import { AnimatePresence, motion } from "framer-motion";
 
 interface ClinicModalProps {
   id?: number;
@@ -38,39 +38,59 @@ const ClinicModal = ({
     return setIsBrowser(true);
   }, []);
 
-  const modalContent = isModalOpen ? (
-    <ModalBox>
-      <Dim />
-      <Modal>
-        <ModalHead>
-          <h3>{name}</h3>
-          <p>
-            <span>진료일시</span>
-            {changeDate(createAt!)}
-          </p>
-        </ModalHead>
-        <ModalContent>
-          <ul>
-            <li>
-              <Subject>진단결과</Subject>
-              <div>{diagnosis}</div>
-            </li>
-            <li>
-              <Subject>처방내용</Subject>
-              <div>{prescription}</div>
-            </li>
-            <li>
-              <Subject>상세소견</Subject>
-              <div>{description.includes("\\n") ? description.split("\\n").map(ele => <p>{ele}</p>) : description}</div>
-            </li>
-          </ul>
-          <RoundButton size="sm" nonSubmit onClick={() => setIsModalOpen(false)}>
-            닫기
-          </RoundButton>
-        </ModalContent>
-      </Modal>
-    </ModalBox>
-  ) : null;
+  const modalContent = (
+    <AnimatePresence>
+      {isModalOpen ? (
+        <ModalBox
+          initial={{ opacity: 0 }}
+          animate={{
+            opacity: 1,
+            transition: {
+              duration: 0.4,
+            },
+          }}
+          exit={{
+            opacity: 0,
+            transition: {
+              duration: 0.3,
+            },
+          }}
+        >
+          <Dim />
+          <Modal>
+            <ModalHead>
+              <h3>{name}</h3>
+              <p>
+                <span>진료일시</span>
+                {changeDate(createAt!)}
+              </p>
+            </ModalHead>
+            <ModalContent>
+              <ul>
+                <li>
+                  <Subject>진단결과</Subject>
+                  <div>{diagnosis}</div>
+                </li>
+                <li>
+                  <Subject>처방내용</Subject>
+                  <div>{prescription}</div>
+                </li>
+                <li>
+                  <Subject>상세소견</Subject>
+                  <div>
+                    {description.includes("\\n") ? description.split("\\n").map(ele => <p>{ele}</p>) : description}
+                  </div>
+                </li>
+              </ul>
+              <RoundButton size="sm" nonSubmit onClick={() => setIsModalOpen(false)}>
+                닫기
+              </RoundButton>
+            </ModalContent>
+          </Modal>
+        </ModalBox>
+      ) : null}
+    </AnimatePresence>
+  );
   if (isBrowser) {
     return ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement);
   } else {
@@ -80,7 +100,7 @@ const ClinicModal = ({
 
 export default ClinicModal;
 
-const ModalBox = styled.div`
+export const ModalBox = styled(motion.div)`
   position: fixed;
   left: 0;
   top: 0;
@@ -88,8 +108,6 @@ const ModalBox = styled.div`
   height: 100%;
   display: flex;
   z-index: 1000;
-  opacity: 0;
-  animation: ${showFrame} 0.3s forwards;
 `;
 
 const Dim = styled.div`
@@ -144,11 +162,11 @@ const ModalContent = styled.div`
       & + li {
         margin-top: 20px;
       }
-      div + div{
-        width:100%;
+      div + div {
+        width: 100%;
         max-height: 170px;
-        overflow-y:scroll;
-        background:rgba(188, 197, 255, .2);
+        overflow-y: scroll;
+        background: rgba(188, 197, 255, 0.2);
         padding: 10px 20px;
         border-radius: 5px;
       }

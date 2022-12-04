@@ -1,11 +1,11 @@
-import hospitalsSample from "../data/new-hospital/hospital_final.json";
+import hospitalsSample from "../../data/new-hospital/hospital_final.json";
 import departmentMatch from "./dd3.json";
 // import DepartmentsSample from "../data/new-hospital/code_final.json";
 // import type { Hospital, MedicalDepartment } from "prisma/prisma-client";
 // import fs from "fs";
 import { PrismaClient } from "@prisma/client";
 // import hospital from "@api/users/hospital";
-import medicalDepartmentData from "../data/hospital/진료과목코드_수정02.json";
+// import medicalDepartmentData from "../../data/hospital/진료과목코드_수정02.json";
 const client = new PrismaClient();
 
 interface Department {
@@ -91,8 +91,8 @@ interface Hospital {
 // FindMedicalDepartMent();
 
 // async function CreateHospitals2() {
-//   const hospitals: Hospital[] = hospitalsSample.value.slice(60000);
-//   await client.hospital.createMany({
+//   const hospitals: Hospital[] = hospitalsSample.value.slice(0, 1000);
+//   await client.testHospital.createMany({
 //     data: hospitals.map((hospital, index) => ({
 //       address: hospital.address,
 //       area: hospital.area,

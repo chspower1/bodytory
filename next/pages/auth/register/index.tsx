@@ -84,7 +84,6 @@ function RegisterPage() {
 
   return (
     <>
-      <Header />
       {page === 1 && <FirstPage user={user} setUser={setUser} setPage={setPage} />}
       {page === 2 && <SecondPage user={user} setUser={setUser} setPage={setPage} />}
       {page === 3 && <ThirdPage user={user} setUser={setUser} setPage={setPage} />}

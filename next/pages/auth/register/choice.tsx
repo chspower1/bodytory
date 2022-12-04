@@ -35,7 +35,6 @@ const ChoicePage = () => {
   });
   return (
     <FlexContainer>
-      <Header />
       <InnerContainer>
         <MessageBox>어떤 방식으로 회원가입할까요?</MessageBox>
         <ButtonBox>

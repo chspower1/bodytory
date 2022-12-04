@@ -1,21 +1,30 @@
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import LogoImg from "@public/static/icon/Logo.png";
-import useUser from "@hooks/useUser";
 import SideMenu from "./SideMenu";
-import { User } from "@prisma/client";
 import { useRecoilValue } from "recoil";
 import { loggedInUser } from "atoms/atoms";
-import { RegisterForm } from "pages/auth/register";
 
 const Header = () => {
   const router = useRouter();
+  const loggedUser= useRecoilValue(loggedInUser);
+  const [isLogin, setIsLogin] = useState(false);
+  const [refresh, setRefresh] = useState(true);
+  useEffect(()=>{
+    if(loggedUser !== null) {
+      setIsLogin(true)
+      setRefresh(true)
+    }else{
+      setIsLogin(false)
+      setRefresh(false)
+    }
+  },[loggedUser]);
 
-  return (
-    <HeaderWrap>
+  return !isLogin ?
+  refresh ? null :
+  (<HeaderWrap>
       <HeaderContainer>
         <HeaderInnerBox>
           <HeaderUl>
@@ -42,7 +51,7 @@ const Header = () => {
         </HeaderInnerBox>
       </HeaderContainer>
     </HeaderWrap>
-  );
+  ) : <SideMenu/>;
 };
 
 export default Header;

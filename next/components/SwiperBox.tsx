@@ -33,6 +33,10 @@ const SwiperBox = ({
     setCurrentContent({ ...obj, name });
   };
 
+  useEffect(()=>{
+    if(data ) setCurrentHospitalName(String(sliceName(data[hospitalCurrentIdx]?.hospital.name)));
+  },[data, hospitalCurrentIdx])
+
 
   return (
     <SwiperWrap
@@ -46,10 +50,7 @@ const SwiperBox = ({
       className="mySwiper"
       onSlideChange={e => {
         const idx = e.activeIndex;
-        if(data) setCurrentHospitalName(data[idx]?.hospital.name);
-      }}
-      onSwiper={e =>{
-        if(data) setCurrentHospitalName(data[hospitalCurrentIdx]?.hospital.name);
+        if(data) setCurrentHospitalName(String(sliceName(data[idx]?.hospital.name)));
       }}
       initialSlide={hospitalCurrentIdx}
     >
@@ -58,7 +59,7 @@ const SwiperBox = ({
           <SwiperSlideItem key={`${hospital.name} + ${hospital.address}`}>
             <SlideItemInnerBox>
               <ItemHeader>
-                <HospitalName title={hospital.name}>{hospital.name}</HospitalName>
+                <HospitalName title={hospital.name}>{sliceName(hospital.name)}</HospitalName>
                 <HospitalAddress title={hospital.address}>{hospital.address}</HospitalAddress>
               </ItemHeader>
               <ClinicListBox>
@@ -147,18 +148,20 @@ const ItemHeader = styled.div`
 `;
 
 const HospitalName = styled.div`
-  max-width: 100%;
+  max-width: 50%;
   font-size: 22px;
   margin-right: 20px;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  flex-shrink:0;
 `;
 const HospitalAddress = styled.div`
   font-size: 18px;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  width: 100%;
 `;
 const ClinicListBox = styled.div`
   height: 100%;

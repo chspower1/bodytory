@@ -96,7 +96,6 @@ const LoginPage: NextPage = () => {
   console.log(isErrorsMessage)
   return (
     <FlexContainer>
-      <Header />
       <InnerContainer>
         <MessageBox isErrorsMessage={isErrorsMessage}>
           {isErrorsMessage === undefined &&

@@ -4,6 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
 import sliceName from "@utils/client/sliceHospitalName";
 import { currentHospitalIdx } from "atoms/atoms";
+import { HOSPITALS } from "constant/queryKeys";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useSetRecoilState } from "recoil";
@@ -52,6 +53,7 @@ const HospitalContent = ({ list, add, idx }: { list: HospitalListProps; add: boo
   const { mutate } = useMutation(["addHospitalKey"], postApi, {
     onSuccess(data) {
       queryclient.invalidateQueries(["isMyHospital"]);
+      queryclient.invalidateQueries([HOSPITALS])
     },
   });
 
@@ -102,20 +104,10 @@ const HospitalContent = ({ list, add, idx }: { list: HospitalListProps; add: boo
           </HospitalStatusBox>
         )}
       </HospitalInforContainer>
-      {showModal && (
-        <Modal
-          show={showModal}
-          onClose={() => setShowModal(false)}
-          activeFuction={handleClickAddHospital}
-          agreeType
-          title="개인정보 수집 동의"
-        >
-          <p>병원을 추가하면 병원에서 나의 기록을 열람할 수 있습니다</p>
-          <p>
-            <b>{sliceName(list.name)}</b>에서 개인정보 수집 및 이용에 동의하십니까?
-          </p>
-        </Modal>
-      )}
+      <Modal show={showModal} onClose={()=> setShowModal(false)} activeFuction={handleClickAddHospital} agreeType title="개인정보 수집 동의" >
+        <p>병원을 추가하면 병원에서 나의 기록을 열람할 수 있습니다</p>
+        <p><b>{sliceName(list.name)}</b>에서 개인정보 수집 및 이용에 동의하십니까?</p>
+      </Modal>
     </HospitalInfor>
   );
 };

@@ -10,7 +10,6 @@ import { FinalCommentBox } from "../help/find-id";
 const SuccessPage: NextPage = () => {
   return (
     <FlexContainer>
-      <Header />
       <InnerContainer>
         <FinalCommentBox>
           <div className="innerBox">

@@ -79,7 +79,6 @@ const HelpFindId: NextPage = () => {
 
   return (
     <FlexContainer>
-      <Header />
       <InnerContainer>
         {!foundAccountId ? (
           <>
