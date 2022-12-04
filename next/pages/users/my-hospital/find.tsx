@@ -110,6 +110,7 @@ const FindHospital = () => {
                     message: "두 글자 이상 입력해주세요",
                   },
                 })}
+                motion={false}
                 error={errors.search?.message}
               />
               <RoundButton size="custom" height="60px" bgColor="rgb(100,106,235)">
@@ -125,7 +126,7 @@ const FindHospital = () => {
           isLoading={isLoading}
         />
       </MainInnerContainer>
-      <ArroundMap showModal={showModal} setShowModal={setShowModal} />
+      {/* <ArroundMap showModal={showModal} setShowModal={setShowModal} /> */}
     </MainContainer>
   );
 };
