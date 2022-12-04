@@ -112,7 +112,7 @@ const PositionPage = () => {
               onClick={listening ? endRecord : startRecord}
               boxShadow={false}
             >
-              {!listening ? <Mic width={50} height={50} /> : <Rectangle />}
+              {!listening ? <Mic /> : <Rectangle />}
             </CircleButton>
           </VoiceBox>
         </Col>
