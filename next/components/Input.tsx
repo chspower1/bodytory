@@ -3,7 +3,7 @@ import { FieldError, UseFormRegisterReturn } from "react-hook-form";
 import styled, { css } from "styled-components";
 import checked from "@public/static/icon/check_checked.svg";
 import { theme } from "@styles/theme";
-
+import { motion } from "framer-motion";
 export interface InputProps {
   label?: string;
   name?: string;
@@ -46,6 +46,21 @@ export default function Input({
   return (
     <InputBox width={width} height={height}>
       <MainInput
+        initial={{ y: 30, opacity: 0 }}
+        animate={{
+          y: 0,
+          opacity: 1,
+          transition: {
+            duration: 1,
+          },
+        }}
+        exit={{
+          y: 30,
+          opacity: 0,
+          transition: {
+            duration: 1,
+          },
+        }}
         disabled={disabled}
         id={name}
         {...register}
@@ -73,7 +88,14 @@ const InputBox = styled.div<{ width?: string; height?: string }>`
     margin: 40px auto 0;
   }
 `;
-const MainInput = styled.input<{ align?: string; bgColor?: string; color?: string; light?: boolean, white?: boolean }>`
+
+const MainInput = styled(motion.input)<{
+  align?: string;
+  bgColor?: string;
+  color?: string;
+  light?: boolean;
+  white?: boolean;
+}>`
   &[type="password"] {
     &::placeholder {
       letter-spacing: 7.2px;

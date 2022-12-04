@@ -24,8 +24,8 @@ interface WriteRecordRequest {
 }
 type RecordStatus = "initial" | "finish" | "listening" | "loading";
 const PositionPage = () => {
-  const { query } = useRouter();
-  const position = query.position as Position;
+  const router = useRouter();
+  const position = router.query.position as Position;
 
   const { offRecAudio, onRecAudio, audioRecognized } = useAudio();
   const [listening, setListening] = useState(false);

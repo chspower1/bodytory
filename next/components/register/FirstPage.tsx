@@ -57,13 +57,29 @@ const FirstPage = ({ user, setUser, setPage }: RegisterPageProps) => {
               <TermsBox>
                 <TermsRow>
                   <WhiteText fontSize="18px">[필수] 서비스 이용 약관 </WhiteText>
-                  <RectangleButton nonSubmit bgColor="rgb(61, 66, 191)" size="sm" onClick={()=>{setShowModal(true);setIsFirstOne(true);}}>
+                  <RectangleButton
+                    nonSubmit
+                    bgColor="rgb(61, 66, 191)"
+                    size="sm"
+                    onClick={() => {
+                      setShowModal(true);
+                      setIsFirstOne(true);
+                    }}
+                  >
                     내용 보기
                   </RectangleButton>
                 </TermsRow>
                 <TermsRow>
                   <WhiteText fontSize="18px">[필수] 개인 정보 수집 및 이용 약관 </WhiteText>
-                  <RectangleButton nonSubmit bgColor="rgb(61, 66, 191)" size="sm" onClick={()=>{setShowModal(true);setIsFirstOne(false);}}>
+                  <RectangleButton
+                    nonSubmit
+                    bgColor="rgb(61, 66, 191)"
+                    size="sm"
+                    onClick={() => {
+                      setShowModal(true);
+                      setIsFirstOne(false);
+                    }}
+                  >
                     내용 보기
                   </RectangleButton>
                 </TermsRow>
