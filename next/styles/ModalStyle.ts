@@ -1,28 +1,28 @@
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import styled from "styled-components";
-const MODAL_VARIANTS = {
+const MODAL_VARIANTS: Variants = {
   initial: {
     opacity: 0,
     y: 30,
-    scale: 0.9,
+    scale: 0.95,
   },
   animate: {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: {
-      duration: 1,
-    },
+    transition: { type: "spring", bounce: 0.5, duration: 0.7 },
   },
   exit: {
     opacity: 0,
     y: 30,
+    scale: 0.95,
     transition: {
-      duration: 1,
+      type: "spring",
+      duration: 0.6,
     },
   },
 };
-const DIM_VARIANTS = {
+const DIM_VARIANTS: Variants = {
   initial: {
     opacity: 0,
   },

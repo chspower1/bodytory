@@ -109,7 +109,7 @@ const ArroundMap: NextPage<ArroundMapProps> = ({ showModal, setShowModal }) => {
               console.log("dd");
             }}
           />
-          <ModalContainer width="1900px" height="700px">
+          <ModalContainer width="1500px" height="800px">
             <ToryText>현재 소희님의 위치를 기준으로 주변 정형외과들을 찾았어요!</ToryText>
             <Map
               center={{
