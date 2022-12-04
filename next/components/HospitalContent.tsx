@@ -74,7 +74,8 @@ const HospitalContent = ({ list, add, idx }: { list: HospitalListProps; add: boo
               {sliceName(list.name)}
             </NameText>
             <Department>
-              {list.medicalDepartments[0].medicalDepartment.department} 외 {list.medicalDepartments.length - 1}과목
+              {list.medicalDepartments[0].medicalDepartment && list.medicalDepartments[0].medicalDepartment.department}{" "}
+              외 {list.medicalDepartments.length - 1}과목
             </Department>
           </HospitalDescriptionBox>
           <HospitalPlaceBox>

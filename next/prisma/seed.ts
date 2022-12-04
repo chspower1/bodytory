@@ -34,26 +34,26 @@ interface Hospital {
   };
   departmentCodes: string;
 }
-async function ConnectHospitalToDepartment() {
-  const matchDepartment: Match[] = departmentMatch.value;
-  // const matchDepartment = fs.readFileSync("../data/new-hospital/code_final.json");
-  // console.log(matchDepartment);
-  console.log("dfdsfd");
-  const ASDF = (a: Match[]) => {
-    const arr: { hospitalId: number; medicalDepartmentId: number }[] = [];
-    for (let i = 0; i < a.length; i++) {
-      a[i].departmentCodes.forEach(j => {
-        arr.push({ hospitalId: a[i].index + 1, medicalDepartmentId: j });
-      });
-    }
-    return arr;
-  };
-  ASDF(matchDepartment);
-  await client.hospitalMedicalDepartmentConnector.createMany({
-    data: ASDF(matchDepartment),
-  });
-}
-ConnectHospitalToDepartment();
+// async function ConnectHospitalToDepartment() {
+//   const matchDepartment: Match[] = departmentMatch.value;
+//   // const matchDepartment = fs.readFileSync("../data/new-hospital/code_final.json");
+//   // console.log(matchDepartment);
+//   console.log("dfdsfd");
+//   const ASDF = (a: Match[]) => {
+//     const arr: { hospitalId: number; medicalDepartmentId: number }[] = [];
+//     for (let i = 0; i < a.length; i++) {
+//       a[i].departmentCodes.forEach(j => {
+//         arr.push({ hospitalId: a[i].index + 1, medicalDepartmentId: j });
+//       });
+//     }
+//     return arr;
+//   };
+//   ASDF(matchDepartment);
+//   await client.hospitalMedicalDepartmentConnector.createMany({
+//     data: ASDF(matchDepartment),
+//   });
+// }
+// ConnectHospitalToDepartment();
 
 // 병원 데이터 지우기
 // async function Deletehospitals() {
