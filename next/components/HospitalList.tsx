@@ -12,8 +12,8 @@ const HospitalList = ({
 }: {
   lists?: HospitalListProps[];
   add: boolean;
-  listRef ?: any;
-  isLoading ?: any;
+  listRef?: any;
+  isLoading?: any;
 }) => {
   console.log("lists", lists);
   return (
