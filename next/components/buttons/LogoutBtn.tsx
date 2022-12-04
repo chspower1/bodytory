@@ -1,10 +1,8 @@
 import customApi from "utils/client/customApi";
-import axios from "axios";
 import { useRouter } from "next/router";
-import { RoundButton } from "./buttons/Button";
+import { RoundButton } from "./Button";
 import { loggedInUser } from "atoms/atoms";
 import { useSetRecoilState } from "recoil";
-import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { USER_LOGIN } from "constant/queryKeys";
 
@@ -13,21 +11,8 @@ const LogoutBtn = () => {
   const router = useRouter();
   const setCurrentUser = useSetRecoilState(loggedInUser);
   const { deleteApi: LogoutApi } = customApi("/api/auth/logout");
-  //   const { getApi: naverLogoutApi } = customApi("/oauth2.0/token");
-  // 실제 서비스 코드
-  // const { postApi: naverLogoutApi } = customApi("https://nid.naver.com/oauth2.0/token");
   const handleClickLogout = async () => {
-    // console.log(localStorage.removeItem("naverToken"));
     try {
-      const res = await axios.get("/oauth2.0/token", {
-        params: {
-          grant_type: "delete",
-          client_id: process.env.NEXT_PUBLIC_NAVER_CLIENT_ID,
-          client_secret: process.env.NEXT_PUBLIC_NAVER_CLIENT_SECRET,
-          access_token: localStorage.getItem("naverToken"),
-          service_provider: "NAVER",
-        },
-      });
       setCurrentUser(null);
       queryClient.removeQueries({ queryKey: USER_LOGIN, exact: true });
       await LogoutApi({});

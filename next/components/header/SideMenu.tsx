@@ -5,7 +5,7 @@ import styled, { css } from "styled-components";
 import settingIcon from "@public/static/icon/settingIcon.png";
 import HamburgerMenuButton from "./HamburgerMenuButton";
 import { useRouter } from "next/router";
-import LogoutBtn from "@components/LogoutBtn";
+import LogoutBtn from "@components/buttons/LogoutBtn";
 import toriLink from "@public/static/icon/toriLink.png";
 import menuLogo from "@public/static/icon/menuLogo.png";
 import useUser from "@hooks/useUser";
@@ -36,7 +36,6 @@ const SideMenu = () => {
     },
   ]);
 
-
   const handleClickCloseMenu = () => {
     if (isOpen === isActive) {
       if (isOpen) {
@@ -50,8 +49,6 @@ const SideMenu = () => {
   useEffect(() => {
     handleClickCloseMenu();
   }, [router.asPath]);
-
-
 
   return (
     <>
@@ -77,7 +74,9 @@ const SideMenu = () => {
                   <ul>
                     {menuList.map(({ subject, link }) => (
                       <li key={subject}>
-                        <Link href={link} onClick={handleClickCloseMenu}>{subject}</Link>
+                        <Link href={link} onClick={handleClickCloseMenu}>
+                          {subject}
+                        </Link>
                         {router.asPath === link && <i></i>}
                       </li>
                     ))}
@@ -103,7 +102,7 @@ const SideMenu = () => {
         </SideMenuWrap>
       )}
     </>
-  ) ;
+  );
 };
 
 export default SideMenu;
