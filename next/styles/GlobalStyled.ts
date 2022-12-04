@@ -53,6 +53,8 @@ ${reset}
     font-size: 100%;
     line-height: 1;
     margin: 0;
+    border:none;
+    outline:none;
   }
   
   button,
@@ -120,7 +122,7 @@ ${reset}
   
   ::-webkit-scrollbar-track {
     border-radius: 10px;
-    background-color: ${prop => prop.add && "#e2e6ff"};
+    background-color: "#e2e6ff";
   }
 
   .blind {
