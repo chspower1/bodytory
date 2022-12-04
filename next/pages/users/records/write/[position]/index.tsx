@@ -20,17 +20,22 @@ import Link from "next/link";
 import pencil from "@public/static/icon/pencil.svg";
 import mic from "@public/static/icon/mic.svg";
 import Check from "@public/static/icon/check.svg";
+import { useForm } from "react-hook-form";
 
 interface WriteRecordRequest {
   position: string;
+  description: string;
+}
+interface WriteForm {
   description: string;
 }
 type RecordStatus = "initial" | "finish" | "listening" | "loading";
 const PositionPage = () => {
   const router = useRouter();
   const position = router.query.position as Position;
-  const [isOnInput, setIsOnInput] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(true);
   const [isOnSubmit, setIsOnSubmit] = useState(false);
+  const { register, setValue, handleSubmit } = useForm<WriteForm>();
   const { offRecAudio, onRecAudio, audioRecognized } = useAudio();
   const [listening, setListening] = useState(false);
   const [error, setError] = useState(false);
@@ -41,11 +46,14 @@ const PositionPage = () => {
       router.push("/users/records/write/add");
     },
   });
-  const recordMessgae =
+
+  const recordMessgae: string =
     (recordStatus === "initial" && "아래 버튼을 누르고 증상을 등록해 보세요!") ||
     (recordStatus === "listening" && "증상을 말씀해주세요! 토리가 듣고 정리해드릴게요.") ||
     (recordStatus === "loading" && "토리가 음성을 분석 중이에요! 잠시만 기다려 주세요!") ||
-    (recordStatus === "finish" && audioRecognized);
+    (recordStatus === "finish" && audioRecognized) ||
+    "";
+  console.log(audioRecognized);
   const startRecord = () => {
     setError(false);
     setRecordStatus("listening");
@@ -56,16 +64,30 @@ const PositionPage = () => {
     setRecordStatus("loading");
     offRecAudio();
   };
-  const hadleClickCreateRecord = () => {
+  const hadleClickCreateRecord = (writeForm: WriteForm) => {
     if (isOnSubmit) {
       if (audioRecognized && recordStatus === "finish") {
-        mutate({ position: router.query.position as string, description: audioRecognized });
+        mutate({ position: router.query.position as string, description: writeForm.description });
       } else {
         setIsOnSubmit(false);
         setError(true);
       }
     } else setIsOnSubmit(true);
   };
+  const handleClickEditMode = () => {
+    setError(false);
+    if (!(audioRecognized && recordStatus === "finish")) {
+      setValue("description", "");
+    }
+    setIsEditMode(true);
+  };
+  useEffect(() => {
+    console.log(recordMessgae);
+    if (recordMessgae === null) {
+      setValue("description", "다시 한번 말씀해주세요");
+    }
+    setValue("description", recordMessgae);
+  }, [recordMessgae, setValue]);
 
   useEffect(() => {
     if (audioRecognized) setRecordStatus("finish");
@@ -91,16 +113,21 @@ const PositionPage = () => {
             </BlackToryText>
           </Box>
           <VoiceBox height="30%">
-            <MemoBox>
-              <MemoInput disabled={isOnInput} value={recordMessgae ? recordMessgae : ""} />
+            <MemoBox as="form" onClick={handleClickEditMode} onSubmit={handleSubmit(hadleClickCreateRecord)}>
+              <GuideMessage>마이크 사용이 어려우시면 아래 입력창을 클릭 하세요!</GuideMessage>
+              <MemoInput
+                type="text"
+                disabled={!isEditMode}
+                {...register("description", {
+                  onBlur: () => {
+                    !(recordStatus === "finish") && setValue("description", recordMessgae);
+                  },
+                })}
+              />
+
               {error && <ErrorMessage>증상을 입력해주세요!</ErrorMessage>}
 
-              <Pencil width={30} height={30} fill={theme.color.mintBtn} onClick={() => setIsOnInput(prev => !prev)} />
-              <SubmitButton
-                onClick={hadleClickCreateRecord}
-                className={isOnSubmit ? "active" : ""}
-                onBlur={() => setIsOnSubmit(false)}
-              >
+              <SubmitButton className={isOnSubmit ? "active" : ""} onBlur={() => setIsOnSubmit(false)}>
                 <Check width={30} height={30} />
                 <span>제출</span>
               </SubmitButton>
@@ -140,9 +167,7 @@ const Rectangle = styled.div`
 const MemoBox = styled(Box)`
   position: relative;
 `;
-const SubmitBtn = styled.button`
-  position: absolute;
-`;
+
 const MemoInput = styled.input`
   display: flex;
   justify-content: center;
@@ -165,6 +190,12 @@ const ErrorMessage = styled(Box)`
   position: absolute;
   color: ${({ theme }) => theme.color.error};
   margin-top: 120px;
+  font-size: 18px;
+`;
+const GuideMessage = styled(Box)`
+  position: absolute;
+  color: ${({ theme }) => theme.color.darkBg};
+  margin-bottom: 120px;
   font-size: 18px;
 `;
 const Pencil = styled(pencil)`
@@ -192,6 +223,7 @@ const SubmitButton = styled.button<{ recordId?: number }>`
   justify-content: center;
   align-items: center;
   transition: background 0.4s, width 0.4s;
+  z-index: 1000;
 
   svg {
     width: 22px;
