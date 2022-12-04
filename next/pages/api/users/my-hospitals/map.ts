@@ -11,17 +11,17 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { user } = req.session;
   if (!user) return res.status(400).end();
   if (req.method === "POST") {
-    const { x, y } = req.body;
+    const { longitude, latitude } = req.body;
     const hospitals: HospitalsForMap[] = await client.hospital.findMany({
       where: {
         x: {
-          gte: x - 0.005,
-          lte: x + 0.005,
+          gte: longitude - 0.005,
+          lte: longitude + 0.005,
         },
 
         y: {
-          gte: y - 0.005,
-          lte: y + 0.005,
+          gte: latitude - 0.005,
+          lte: latitude + 0.005,
         },
       },
       select: {
@@ -42,7 +42,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       },
       take: 200,
     });
-    console.log(hospitals, hospitals.length, x, y);
+    console.log(hospitals, hospitals.length, longitude, latitude);
     return res.status(200).json({ hospitals });
   }
 }

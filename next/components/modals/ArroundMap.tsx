@@ -58,7 +58,7 @@ const ArroundMap: NextPage<ArroundMapProps> = ({ setShowModal }) => {
   });
 
   const { postApi, getApi } = customApi("/api/users/my-hospitals/map");
-  const { mutate, data } = useMutation<AroundHospitalsResponse, AxiosError, { x: number; y: number }>(
+  const { mutate, data } = useMutation<AroundHospitalsResponse, AxiosError, { longitude: number; latitude: number }>(
     ["hospitals", "map"],
     postApi,
     {
@@ -67,10 +67,18 @@ const ArroundMap: NextPage<ArroundMapProps> = ({ setShowModal }) => {
       },
     },
   );
-  const handleClickMarker = ({ index, x, y }: { index: number; x: number; y: number }) => {
+  const handleClickMarker = ({
+    index,
+    longitude,
+    latitude,
+  }: {
+    index: number;
+    longitude: number;
+    latitude: number;
+  }) => {
     setHoverIndex(-1);
     setClickIndex(index);
-    setCoords({ lat: y + 0.001, lng: x });
+    setCoords({ lat: latitude + 0.001, lng: longitude });
   };
   const handleMouseOutMarker = () => {
     setHoverIndex(-1);
@@ -86,7 +94,7 @@ const ArroundMap: NextPage<ArroundMapProps> = ({ setShowModal }) => {
       console.log("y", position.coords.latitude);
       setCoords({ lat: position.coords.latitude, lng: position.coords.longitude });
       setCurrentCoords({ lat: position.coords.latitude, lng: position.coords.longitude });
-      mutate({ x: position.coords.longitude, y: position.coords.latitude });
+      mutate({ longitude: position.coords.longitude, latitude: position.coords.latitude });
     });
   }, []);
   const modalContent = data ? (
@@ -141,7 +149,7 @@ const ArroundMap: NextPage<ArroundMapProps> = ({ setShowModal }) => {
                 }}
                 onMouseOver={() => setHoverIndex(index)}
                 onMouseOut={handleMouseOutMarker}
-                onClick={() => handleClickMarker({ index, x: hospital.x, y: hospital.y })}
+                onClick={() => handleClickMarker({ index, longitude: hospital.x, latitude: hospital.y })}
               />
               {hoverIndex === index && (
                 <CustomOverlayMap position={{ lat: hospital.y!, lng: hospital.x! }}>
