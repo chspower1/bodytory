@@ -158,7 +158,6 @@ export default function Edit() {
             activeFuction={handleClickActiveFuction}
             show={showModal}
             closingComment={closingComment}
-            title="비밀번호 변경"
           >
             {!closingComment ? (
               <>비밀번호를 변경하시겠습니까?</>
@@ -175,7 +174,6 @@ export default function Edit() {
             activeFuction={()=>setErrorModal(false)}
             show={errorModal}
             closingComment
-            title="알림"
           >
             {isErrorMessage}
           </Modal>

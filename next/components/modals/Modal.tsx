@@ -24,7 +24,7 @@ function Modal({
   onClose,
   activeFuction,
   children,
-  title,
+  title = "알림",
   agreeType = false,
   terms = false,
 }: ModalType) {
