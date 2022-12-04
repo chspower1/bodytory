@@ -4,6 +4,7 @@ import ReactDOM from "react-dom";
 import styled, { css, keyframes } from "styled-components";
 import { RoundButton } from "../buttons/Button";
 import { AnimatePresence, motion } from "framer-motion";
+import { Dim, ModalContainer, ModalWrapper } from "@styles/ModalStyle";
 
 interface ModalType {
   show: boolean;
@@ -29,32 +30,12 @@ function Modal({
   agreeType = false,
   terms = false,
 }: ModalType) {
-  const [isBrowser, setIsBrowser] = useState(false);
-
-  useEffect(() => {
-    setIsBrowser(true);
-    return setIsBrowser(true);
-  }, []);
-
   const modalContent = (
     <AnimatePresence>
-      {show ? (
-        <Dim
-          initial={{ opacity: 0 }}
-          animate={{
-            opacity: 1,
-            transition: {
-              duration: 0.4,
-            },
-          }}
-          exit={{
-            opacity: 0,
-            transition: {
-              duration: 0.3,
-            },
-          }}
-        >
-          <ModalBox>
+      {show && (
+        <ModalWrapper>
+          <Dim onClick={onClose} />
+          <ModalContainer width="900px" height="700px">
             <ModalTitle>
               <h3>{title}</h3>
             </ModalTitle>
@@ -69,16 +50,13 @@ function Modal({
                 </RoundButton>
               )}
             </ConfirmBtnBox>
-          </ModalBox>
-        </Dim>
-      ) : null}
+          </ModalContainer>
+        </ModalWrapper>
+      )}
     </AnimatePresence>
   );
-  if (isBrowser) {
-    return ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement);
-  } else {
-    return null;
-  }
+
+  return show ? ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement) : null;
 }
 
 const ConfirmBtnBox = styled.div`
@@ -91,17 +69,6 @@ const ConfirmBtnBox = styled.div`
   }
 `;
 
-export const Dim = styled(motion.div)`
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  z-index: 1200;
-  background: #00000042;
-  display: flex;
-  text-align: center;
-  justify-content: center;
-  align-items: center;
-`;
 const ModalBox = styled.div`
   display: inline-block;
   min-width: 400px;

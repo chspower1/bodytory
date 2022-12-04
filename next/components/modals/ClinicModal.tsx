@@ -5,6 +5,7 @@ import styled from "styled-components";
 import ReactDOM from "react-dom";
 import { RoundButton } from "../buttons/Button";
 import { AnimatePresence, motion } from "framer-motion";
+import { ModalContainer, ModalWrapper } from "@styles/ModalStyle";
 
 interface ClinicModalProps {
   id?: number;
@@ -18,8 +19,8 @@ interface ClinicModalProps {
   prescription?: string;
   hospitalId?: number;
   name?: string;
-  isModalOpen: boolean;
-  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  show: boolean;
+  onClose: () => void;
 }
 
 const ClinicModal = ({
@@ -28,36 +29,15 @@ const ClinicModal = ({
   diagnosis = "없음",
   prescription = "없음",
   description = "없음",
-  isModalOpen,
-  setIsModalOpen,
+  show = false,
+  onClose,
 }: ClinicModalProps) => {
-  const [isBrowser, setIsBrowser] = useState(false);
-
-  useEffect(() => {
-    setIsBrowser(true);
-    return setIsBrowser(true);
-  }, []);
-
   const modalContent = (
     <AnimatePresence>
-      {isModalOpen ? (
-        <ModalWrapper
-          initial={{ opacity: 0 }}
-          animate={{
-            opacity: 1,
-            transition: {
-              duration: 0.4,
-            },
-          }}
-          exit={{
-            opacity: 0,
-            transition: {
-              duration: 0.3,
-            },
-          }}
-        >
-          <Dim />
-          <Modal>
+      {show && (
+        <ModalWrapper>
+          <Dim onClick={onClose} />
+          <ModalContainer width="860px">
             <ModalHead>
               <h3>{name}</h3>
               <p>
@@ -84,25 +64,19 @@ const ClinicModal = ({
                   </div>
                 </li>
               </ul>
-              <RoundButton size="sm" nonSubmit onClick={() => setIsModalOpen(false)}>
+              <RoundButton size="sm" nonSubmit onClick={onClose}>
                 닫기
               </RoundButton>
             </ModalContent>
-          </Modal>
+          </ModalContainer>
         </ModalWrapper>
-      ) : null}
+      )}
     </AnimatePresence>
   );
-  if (isBrowser) {
-    return ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement);
-  } else {
-    return null;
-  }
+  return show ? ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement) : null;
 };
 
 export default ClinicModal;
-
-
 
 const Dim = styled.div`
   position: absolute;

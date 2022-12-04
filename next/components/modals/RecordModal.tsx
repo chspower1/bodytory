@@ -11,7 +11,7 @@ import { useRecoilValue } from "recoil";
 import styled, { css, keyframes } from "styled-components";
 import ReactDOM from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { ModalBox } from "./ClinicModal";
+import { ModalContainer, ModalWrapper, Dim } from "@styles/ModalStyle";
 import { changeDate } from "@utils/client/changeDate";
 export interface RecordWithImage extends Record {
   images: RecordImage[];
@@ -21,11 +21,11 @@ interface RecordUpdateType {
   updateWrite: string;
 }
 interface RecordModalProps {
-  setShowRecordModal: React.Dispatch<React.SetStateAction<number>>;
   record: RecordWithImageAndHospital;
   show: boolean;
+  onClose: () => void;
 }
-const RecordModal = ({ setShowRecordModal, record, show }: RecordModalProps) => {
+const RecordModal = ({ onClose, record, show }: RecordModalProps) => {
   const [isBrowser, setIsBrowser] = useState(false);
   const { putApi, deleteApi } = customApi("/api/users/records");
 
@@ -34,7 +34,7 @@ const RecordModal = ({ setShowRecordModal, record, show }: RecordModalProps) => 
   const deleteMutate = useMutation([RECORDS_DELETE], deleteApi, {
     onSuccess() {
       queryClient.invalidateQueries([RECORDS_READ]);
-      setShowRecordModal(-1);
+      onClose();
     },
   });
 
@@ -82,99 +82,70 @@ const RecordModal = ({ setShowRecordModal, record, show }: RecordModalProps) => 
       setShowMsg(false);
     }, 1400);
   };
-  useEffect(() => {
-    setIsBrowser(true);
-    return setIsBrowser(true);
-  }, []);
+
   const modalContent = (
     <AnimatePresence>
-      {show ? (
-        <ModalBox
-          initial={{ opacity: 0 }}
-          animate={{
-            opacity: 1,
-            transition: {
-              duration: 0.4,
-            },
-          }}
-          exit={{
-            opacity: 0,
-            transition: {
-              duration: 0.3,
-            },
-          }}
-        >
-          <Dim onClick={() => setShowRecordModal(-1)} />
-          <Modal>
-            <ScrollContainer>
-              <RecordDetailContainer>
-                <ButtonBox>
-                  <CircleDeleteButton
-                    onClick={e => handleClick(e, record!.id)}
-                    recordId={record!.id}
-                    className={confirmDelete === record!.id ? "active" : ""}
-                    onBlur={() => setConfirmDelete(-1)}
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                      <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
-                    </svg>
-                    <span>삭제하시겠습니까?</span>
-                  </CircleDeleteButton>
-                  <RoundButton
-                    onClick={() => setShowRecordModal(-1)}
-                    size="custom"
-                    bgColor="rgb(198,205,250)"
-                    textColor="#5D6BB2"
-                    boxShadow={false}
-                    height="40px"
-                    padding="0 40px"
-                  >
-                    닫기
-                  </RoundButton>
-                </ButtonBox>
-                <Time byUser={record!.type === "user"}>{changeDate(record!.createAt)}</Time>
-                <EditTextBox onSubmit={handleSubmit(onValid)}>
-                  <TextArea
-                    {...register("updateWrite", {
-                      required: "증상을 입력해주세요",
-                    })}
-                    onChange={handleTextChange}
-                    onFocus={() => setShowMsg(false)}
-                  >
-                    {record!.description}
-                  </TextArea>
-                  <RoundButton size="sm" bgColor="rgb(83,89,233)" boxShadow={false}>
-                    수정하기
-                  </RoundButton>
-                  {showMsg && <SuccessMsg>수정이 완료되었습니다!</SuccessMsg>}
-                  {errors.updateWrite && <ErrorMsg>{errors.updateWrite.message}</ErrorMsg>}
-                </EditTextBox>
-                <ManageImage recordId={String(record.id)} recordImages={record.images} />
-              </RecordDetailContainer>
-            </ScrollContainer>
-          </Modal>
-        </ModalBox>
-      ) : null}
+      {show && (
+        <ModalWrapper>
+          <Dim onClick={onClose} />
+          <ModalContainer>
+            <Modal>
+              <ScrollContainer>
+                <RecordDetailContainer>
+                  <ButtonBox>
+                    <CircleDeleteButton
+                      onClick={e => handleClick(e, record!.id)}
+                      recordId={record!.id}
+                      className={confirmDelete === record!.id ? "active" : ""}
+                      onBlur={() => setConfirmDelete(-1)}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                        <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+                      </svg>
+                      <span>삭제하시겠습니까?</span>
+                    </CircleDeleteButton>
+                    <RoundButton
+                      onClick={onClose}
+                      size="custom"
+                      bgColor="rgb(198,205,250)"
+                      textColor="#5D6BB2"
+                      boxShadow={false}
+                      height="40px"
+                      padding="0 40px"
+                    >
+                      닫기
+                    </RoundButton>
+                  </ButtonBox>
+                  <Time byUser={record!.type === "user"}>{changeDate(record!.createAt)}</Time>
+                  <EditTextBox onSubmit={handleSubmit(onValid)}>
+                    <TextArea
+                      {...register("updateWrite", {
+                        required: "증상을 입력해주세요",
+                      })}
+                      onChange={handleTextChange}
+                      onFocus={() => setShowMsg(false)}
+                    >
+                      {record!.description}
+                    </TextArea>
+                    <RoundButton size="sm" bgColor="rgb(83,89,233)" boxShadow={false}>
+                      수정하기
+                    </RoundButton>
+                    {showMsg && <SuccessMsg>수정이 완료되었습니다!</SuccessMsg>}
+                    {errors.updateWrite && <ErrorMsg>{errors.updateWrite.message}</ErrorMsg>}
+                  </EditTextBox>
+                  <ManageImage recordId={String(record.id)} recordImages={record.images} />
+                </RecordDetailContainer>
+              </ScrollContainer>
+            </Modal>
+          </ModalContainer>
+        </ModalWrapper>
+      )}
     </AnimatePresence>
   );
-  if (isBrowser) {
-    return ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement);
-  } else {
-    return null;
-  }
+  return show ? ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement) : null;
 };
 
 export default RecordModal;
-
-const Dim = styled.div`
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.2);
-  z-index: 2;
-`;
 
 const Modal = styled.div`
   position: relative;
