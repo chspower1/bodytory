@@ -75,9 +75,9 @@ const foundUser = async (email: string, token: string) => {
       email,
     },
   });
-  await deleteToken(email, token);
-
   if (!foundUser) throw new Error("회원정보가 없습니다");
+
+  await deleteToken(email, token);
 
   return foundUser;
 };
