@@ -53,7 +53,7 @@ const HospitalContent = ({ list, add, idx }: { list: HospitalListProps; add: boo
   const { mutate } = useMutation(["addHospitalKey"], postApi, {
     onSuccess(data) {
       queryclient.invalidateQueries(["isMyHospital"]);
-      queryclient.invalidateQueries([HOSPITALS])
+      queryclient.invalidateQueries([HOSPITALS]);
     },
   });
 
@@ -104,9 +104,17 @@ const HospitalContent = ({ list, add, idx }: { list: HospitalListProps; add: boo
           </HospitalStatusBox>
         )}
       </HospitalInforContainer>
-      <Modal show={showModal} onClose={()=> setShowModal(false)} activeFuction={handleClickAddHospital} agreeType title="개인정보 수집 동의" >
+      <Modal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        activeFuction={handleClickAddHospital}
+        agreeType
+        title="개인정보 수집 동의"
+      >
         <p>병원을 추가하면 병원에서 나의 기록을 열람할 수 있습니다</p>
-        <p><b>{sliceName(list.name)}</b>에서 개인정보 수집 및 이용에 동의하십니까?</p>
+        <p>
+          <b>{sliceName(list.name)}</b>에서 개인정보 수집 및 이용에 동의하십니까?
+        </p>
       </Modal>
     </HospitalInfor>
   );
