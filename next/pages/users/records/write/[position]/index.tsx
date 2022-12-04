@@ -6,7 +6,6 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import { KoreanPosition } from "types/write";
-import mic from "@public/static/icon/mic.svg";
 import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
@@ -15,10 +14,12 @@ import ToryIcon from "@components/ToryIcon";
 import SpeakMotion from "@components/SpeakMotion";
 import useAudio from "@hooks/useAudio";
 import { RECORDS_CREATE } from "constant/queryKeys";
-import Pencil from "@public/static/icon/pencil.svg";
 import { AxiosError } from "axios";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import pencil from "@public/static/icon/pencil.svg";
+import mic from "@public/static/icon/mic.svg";
+import Check from "@public/static/icon/check.svg";
 
 interface WriteRecordRequest {
   position: string;
@@ -28,7 +29,8 @@ type RecordStatus = "initial" | "finish" | "listening" | "loading";
 const PositionPage = () => {
   const router = useRouter();
   const position = router.query.position as Position;
-
+  const [isOnInput, setIsOnInput] = useState(false);
+  const [isOnSubmit, setIsOnSubmit] = useState(false);
   const { offRecAudio, onRecAudio, audioRecognized } = useAudio();
   const [listening, setListening] = useState(false);
   const [error, setError] = useState(false);
@@ -55,10 +57,16 @@ const PositionPage = () => {
     offRecAudio();
   };
   const hadleClickCreateRecord = () => {
-    if (audioRecognized && recordStatus === "finish") {
-      mutate({ position: router.query.position as string, description: audioRecognized });
-    } else setError(true);
+    if (isOnSubmit) {
+      if (audioRecognized && recordStatus === "finish") {
+        mutate({ position: router.query.position as string, description: audioRecognized });
+      } else {
+        setIsOnSubmit(false);
+        setError(true);
+      }
+    } else setIsOnSubmit(true);
   };
+
   useEffect(() => {
     if (audioRecognized) setRecordStatus("finish");
   }, [audioRecognized]);
@@ -83,19 +91,28 @@ const PositionPage = () => {
             </BlackToryText>
           </Box>
           <VoiceBox height="30%">
-            <MemoBox onClick={hadleClickCreateRecord}>
+            <MemoBox>
+              <MemoInput disabled={isOnInput} value={recordMessgae ? recordMessgae : ""} />
               {error && <ErrorMessage>증상을 입력해주세요!</ErrorMessage>}
-              {recordMessgae}
-              {/* <Image src={Pencil} alt="수정" style={{ position: "absolute", right: "20px" }} /> */}
-              <Pencil width={200} height={200} fill={theme.color.darkBg} />
-            </MemoBox>
 
+              <Pencil width={30} height={30} fill={theme.color.mintBtn} onClick={() => setIsOnInput(prev => !prev)} />
+              <SubmitButton
+                onClick={hadleClickCreateRecord}
+                className={isOnSubmit ? "active" : ""}
+                onBlur={() => setIsOnSubmit(false)}
+              >
+                <Check width={30} height={30} />
+                <span>제출</span>
+              </SubmitButton>
+            </MemoBox>
             <CircleButton
+              width="100px"
+              height="100px"
               bgColor={listening ? theme.color.error : theme.color.darkBg}
               onClick={listening ? endRecord : startRecord}
               boxShadow={false}
             >
-              {/* {!listening ? <Image src={mic} alt="마이크" /> : <Rectangle />} */}
+              {!listening ? <Mic width={50} height={50} /> : <Rectangle />}
             </CircleButton>
           </VoiceBox>
         </Col>
@@ -120,8 +137,16 @@ const Rectangle = styled.div`
   border-radius: 5px;
   background-color: white;
 `;
-
 const MemoBox = styled(Box)`
+  position: relative;
+`;
+const SubmitBtn = styled.button`
+  position: absolute;
+`;
+const MemoInput = styled.input`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 640px;
   max-width: 1000px;
   padding: 20px;
@@ -141,4 +166,76 @@ const ErrorMessage = styled(Box)`
   color: ${({ theme }) => theme.color.error};
   margin-top: 120px;
   font-size: 18px;
+`;
+const Pencil = styled(pencil)`
+  position: absolute;
+  right: 20px;
+  transition: all 0.5s ease;
+  &:hover {
+    fill: ${({ theme }) => theme.color.darkBg};
+  }
+`;
+const Mic = styled(mic)`
+  &:hover {
+    fill: red;
+  }
+`;
+const SubmitButton = styled.button<{ recordId?: number }>`
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40px;
+  height: 100%;
+  background: #d9deff;
+  border-radius: 0 10px 10px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background 0.4s, width 0.4s;
+
+  svg {
+    width: 22px;
+    height: 22px;
+    fill: #8c9af3;
+    transition: transform 0.4s;
+  }
+
+  span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 40px;
+    z-index: -1;
+    font-size: 14px;
+    font-weight: 700;
+    color: ${({ theme }) => theme.color.white};
+    margin-top: 7px;
+    opacity: 0;
+    transition: opacity 0.4s, zIndex 0.4s, transform 0.4s;
+  }
+
+  &:hover {
+    background: #c6cdfa;
+
+    svg {
+      fill: #5359e9;
+    }
+  }
+
+  &.active {
+    width: 70px;
+    background: ${({ theme }) => theme.color.darkBg};
+
+    svg {
+      transform: translate(0, -5px);
+      fill: #fff;
+    }
+
+    span {
+      opacity: 1;
+      z-index: 1;
+      transform: translate(-50%, 5px);
+    }
+  }
 `;
