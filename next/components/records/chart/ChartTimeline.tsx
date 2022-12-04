@@ -4,8 +4,6 @@ import customApi from "@utils/client/customApi";
 import { RECORDS_DELETE, RECORDS_READ } from "constant/queryKeys";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import styled, { css } from "styled-components";
-import { format } from "date-fns";
-import { ko } from "date-fns/locale";
 import { uploadImageApi } from "@utils/client/imageApi";
 import uploadImage from "@utils/client/uploadImage";
 import IconAddImage from "@public/static/icon/icon_addImage.png";
@@ -15,6 +13,7 @@ import { KoreanPosition } from "types/write";
 import { useRouter } from "next/router";
 import checkIcon from "@public/static/icon/icon_checkbox.png";
 import checkedIcon from "@public/static/icon/checkbox_checked.png";
+import { changeDate } from "@utils/client/changeDate";
 
 export interface RecordWithImageAndHospital extends Record {
   images: RecordImage[];
@@ -129,7 +128,7 @@ function ChartTimeline() {
             filtredRecord?.map((record, index) => (
               <RecordBox key={index}>
                 <Time byUser={record.type === "user"}>
-                  {format(new Date(record.createAt), "yyyy년 M월 d일 EEEE aaaa h시 m분", { locale: ko })}
+                  {changeDate(record.createAt)}
                 </Time>
                 {record.type === "user" ? (
                   <>
@@ -164,9 +163,7 @@ function ChartTimeline() {
                         <span>삭제</span>
                       </DeleteButton>
                     </Content>
-                    {showRecordModal === record.id && (
-                      <RecordModal record={record} setShowRecordModal={setShowRecordModal} />
-                    )}
+                    <RecordModal record={record} show={showRecordModal === record.id} setShowRecordModal={setShowRecordModal} />
                   </>
                 ) : (
                   <Content>
