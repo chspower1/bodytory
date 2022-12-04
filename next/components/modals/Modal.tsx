@@ -12,6 +12,7 @@ interface ModalType {
   title?: string;
   children?: string | ReactNode;
   agreeType?: boolean;
+  terms ?: boolean;
 }
 /**
  * @show 필수 입니다.
@@ -25,6 +26,7 @@ function Modal({
   children,
   title,
   agreeType = false,
+  terms = false,
 }: ModalType) {
   const [isBrowser, setIsBrowser] = useState(false);
 
@@ -39,7 +41,7 @@ function Modal({
         <ModalTitle>
           <h3>{title}</h3>
         </ModalTitle>
-        <ModalContent bgColor={closingComment}>{children}</ModalContent>
+        <ModalContent bgColor={terms}>{children}</ModalContent>
         <ConfirmBtnBox >
           <RoundButton size="sm" onClick={activeFuction}>
             {agreeType ? `동의합니다` : !closingComment ?  "네" : "확인"}
