@@ -26,14 +26,12 @@ interface SearchForm {
 const FindHospital = () => {
   const queryclient = useQueryClient();
   const [isLoading, setIsLoading] = useState(false);
-  const [search, setSearch] = useState<string>("");
+  const [searchWord, setSearchWord] = useState<string>("");
   const [page, setPage] = useState<number>(0);
   const [findState, setFindState] = useState<any[]>([]);
   const [hasLastPage, setHasLastPage] = useState(false);
-  const listRef = useRef<Element>(null);
-  const viewRef = useRef<HTMLDivElement>(null);
+  const [observerTarget, setObserverTarget] = useState<HTMLElement | null>(null);
   const [showModal, setShowModal] = useState(false);
-  const currentUser = useRecoilValue(loggedInUser);
   const {
     register,
     handleSubmit,
@@ -43,14 +41,14 @@ const FindHospital = () => {
   } = useForm<SearchForm>({ mode: "onChange" });
 
   useEffect(() => {
-    if (search) {
+    if (searchWord) {
       getSearchLists();
     }
-  }, [search, page]);
+  }, [searchWord, page]);
 
   const getSearchLists = useCallback(async () => {
-    setIsLoading(true);
-    const result = await axios.get(`/api/users/my-hospitals/find?page=${page}&search=${search}`);
+    setIsLoading(() => true);
+    const result = await axios.get(`/api/users/my-hospitals/find?page=${page}&search=${searchWord}`);
     setHasLastPage(() => result.data.status);
     setFindState((current: any) => {
       const array = [...current];
@@ -59,36 +57,35 @@ const FindHospital = () => {
       }
       return [...new Set(array)];
     });
-    setIsLoading(false);
-    queryclient.invalidateQueries(["isMyHospital"])
-  }, [search, page]);
+    setIsLoading(() => false);
+    queryclient.invalidateQueries(["isMyHospital"]);
+  }, [searchWord, page]);
 
-  const onValid = async (input: SearchForm) => {
-    setSearch(() => input.search);
+  const onValid = useCallback(async (input: SearchForm) => {
+    setSearchWord(() => input.search);
     setFindState([]);
     setPage(0);
     setValue("search", "");
-  };
+  }, []);
 
-  const onInterect: IntersectionObserverCallback = async ([entry], observer) => {
+  const onInterect: IntersectionObserverCallback = useCallback(async ([entry], observer) => {
     if (entry.isIntersecting) {
       observer.unobserve(entry.target);
-      const delay = () => new Promise((resolve, reject) => setTimeout(resolve, 300));
-      await delay();
       if (!hasLastPage) {
-        setPage(page + 1);
+        setPage(page => page + 1);
         observer.observe(entry.target);
       }
     }
-  };
+  }, []);
 
   useEffect(() => {
+    console.log(observerTarget);
     if (hasLastPage) return;
-    if (listRef.current === null) return;
+    if (observerTarget === null || observerTarget === undefined) return;
     const io = new IntersectionObserver(onInterect, { root: null, threshold: 1, rootMargin: "0px" });
-    io.observe(listRef.current as Element);
+    io.observe(observerTarget);
     return () => io.disconnect();
-  }, [findState]);
+  }, [observerTarget]);
 
   return (
     <MainContainer>
@@ -109,14 +106,20 @@ const FindHospital = () => {
           </ButtonBox>
           <SearchBox>
             <SearchForm onSubmit={handleSubmit(onValid)}>
-              <Input white name="search" width="700px" placeholder="병원명을 입력해주세요" register={register("search")} />
+              <Input
+                white
+                name="search"
+                width="700px"
+                placeholder="병원명을 입력해주세요"
+                register={register("search")}
+              />
               <RoundButton size="custom" height="60px" bgColor="rgb(100,106,235)">
                 검색
               </RoundButton>
             </SearchForm>
           </SearchBox>
         </DescriptionContainer>
-        <HospitalList lists={findState || undefined} add={true} listRef={listRef} isLoading={isLoading} />
+        <HospitalList lists={findState || undefined} add={true} listRef={setObserverTarget} isLoading={isLoading} />
       </MainInnerContainer>
       {showModal && <ArroundMap setShowModal={setShowModal} />}
     </MainContainer>

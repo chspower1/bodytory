@@ -15,7 +15,7 @@ async function findHospital(req: NextApiRequest, res: NextApiResponse) {
   const foundHospital = await client.hospital.findMany({
     where: {
       name: {
-        search: "병원",
+        search: String(search),
       },
     },
     include: {
