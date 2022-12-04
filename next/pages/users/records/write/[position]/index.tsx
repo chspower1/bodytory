@@ -35,7 +35,13 @@ const PositionPage = () => {
   const position = router.query.position as Position;
   const [isEditMode, setIsEditMode] = useState(true);
   const [isOnSubmit, setIsOnSubmit] = useState(false);
-  const { register, setValue, handleSubmit } = useForm<WriteForm>();
+  const {
+    register,
+    setValue,
+    handleSubmit,
+    formState: { errors },
+    clearErrors,
+  } = useForm<WriteForm>();
   const { offRecAudio, onRecAudio, audioRecognized } = useAudio();
   const [listening, setListening] = useState(false);
   const [error, setError] = useState(false);
@@ -66,7 +72,7 @@ const PositionPage = () => {
   };
   const hadleClickCreateRecord = (writeForm: WriteForm) => {
     if (isOnSubmit) {
-      if (audioRecognized && recordStatus === "finish") {
+      if (recordStatus === "finish") {
         mutate({ position: router.query.position as string, description: writeForm.description });
       } else {
         setIsOnSubmit(false);
@@ -76,9 +82,10 @@ const PositionPage = () => {
   };
   const handleClickEditMode = () => {
     setError(false);
-    if (!(audioRecognized && recordStatus === "finish")) {
+    if (!(recordStatus === "finish")) {
       setValue("description", "");
     }
+    setRecordStatus("finish");
     setIsEditMode(true);
   };
   useEffect(() => {
@@ -119,13 +126,15 @@ const PositionPage = () => {
                 type="text"
                 disabled={!isEditMode}
                 {...register("description", {
+                  required: "증상을 입력해주세요",
                   onBlur: () => {
                     !(recordStatus === "finish") && setValue("description", recordMessgae);
+                    clearErrors("description");
                   },
                 })}
               />
 
-              {error && <ErrorMessage>증상을 입력해주세요!</ErrorMessage>}
+              {(error || errors.description) && <ErrorMessage>증상을 입력해주세요!</ErrorMessage>}
 
               <SubmitButton className={isOnSubmit ? "active" : ""} onBlur={() => setIsOnSubmit(false)}>
                 <Check width={30} height={30} />
