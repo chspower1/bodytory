@@ -21,7 +21,7 @@ import { theme } from "@styles/theme";
 import { NextPage } from "next";
 import ReactDOM from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { ModalContainer, ModalWrapper, Dim } from "@styles/ModalStyle";
+import { ModalContainer, ModalWrapper, Dim } from "@styles/ModalStyled";
 import { HOSPITALS } from "constant/queryKeys";
 
 interface Coords {

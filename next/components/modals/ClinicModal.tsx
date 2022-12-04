@@ -5,7 +5,7 @@ import styled from "styled-components";
 import ReactDOM from "react-dom";
 import { RoundButton } from "../buttons/Button";
 import { AnimatePresence, motion } from "framer-motion";
-import { ModalContainer, ModalWrapper } from "@styles/ModalStyle";
+import { ModalContainer, ModalWrapper } from "@styles/ModalStyled";
 
 interface ClinicModalProps {
   id?: number;

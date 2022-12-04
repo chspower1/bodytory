@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import { Position } from "@prisma/client";
 import { useRecoilState } from "recoil";
 import { currentBodyPosition } from "atoms/atoms";
+import { motion } from "framer-motion";
 
 export interface SelectBodyPartProps {
   selectedBodyPart: bodyPartType;
@@ -50,7 +51,12 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage }: S
   const [currentPosition, setCurrentPosition] = useRecoilState(currentBodyPosition);
 
   return (
-    <CustomContainer isWritePage={isWritePage}>
+    <CustomContainer
+      initial={{ x: 500 }}
+      animate={{ x: 0 }}
+      transition={{ duration: 0.7, type: "tween", ease: "easeOut" }}
+      isWritePage={isWritePage}
+    >
       {currentPosition !== "face" ? (
         <ButtonsBox>
           <RoundButton
@@ -286,8 +292,12 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage }: S
 BodyNavigator.defaultProps = {
   isWritePage: true,
 };
-
-const CustomContainer = styled.div<{ isWritePage: boolean }>`
+const Overlay = styled.div`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+`;
+const CustomContainer = styled(motion.div)<{ isWritePage: boolean }>`
   position: relative;
   display: flex;
   aspect-ratio: 1/1.2;
@@ -344,7 +354,7 @@ const HoverPath = styled.path<{ isChecked: boolean; isHover: boolean }>`
         `
       : css`
           fill: rgb(217, 222, 255);
-        `}
+        `};
 `;
 
 export default BodyNavigator;

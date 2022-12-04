@@ -7,25 +7,17 @@ import { useSetRecoilState } from "recoil";
 import { currentBodyPosition } from "atoms/atoms";
 
 export default function WritePage() {
-
   const [selectedBodyPart, setSelectedBodyPart] = useState<bodyPartType>(null);
   const setCurrentPosition = useSetRecoilState(currentBodyPosition);
 
   useEffect(() => {
     setCurrentPosition("front");
   }, []);
-  
 
   return (
     <RecordContainer>
-      <BodyPartChecker         
-        selectedBodyPart={selectedBodyPart} 
-      />
-      <BodyNavigator         
-        selectedBodyPart={selectedBodyPart} 
-        setSelectedBodyPart={setSelectedBodyPart}
-        isWritePage={true} 
-      />
+      <BodyPartChecker selectedBodyPart={selectedBodyPart} />
+      <BodyNavigator selectedBodyPart={selectedBodyPart} setSelectedBodyPart={setSelectedBodyPart} isWritePage={true} />
     </RecordContainer>
   );
 }

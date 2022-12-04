@@ -15,8 +15,10 @@ import ToryIcon from "@components/ToryIcon";
 import SpeakMotion from "@components/SpeakMotion";
 import useAudio from "@hooks/useAudio";
 import { RECORDS_CREATE } from "constant/queryKeys";
-
+import pencil from "@public/static/icon/pencil.svg";
 import { AxiosError } from "axios";
+import { motion } from "framer-motion";
+import Link from "next/link";
 
 interface WriteRecordRequest {
   position: string;
@@ -66,6 +68,9 @@ const PositionPage = () => {
   }, [recordStatus]);
   return (
     <WhiteWrapper>
+      <Link href="/users/records/write">
+        <BackBtn>뒤로가기</BackBtn>
+      </Link>
       <SpeakMotion listening={listening} />
       <FlexContainer>
         <Col height="100vh">
@@ -81,6 +86,7 @@ const PositionPage = () => {
             <MemoBox onClick={hadleClickCreateRecord}>
               {error && <ErrorMessage>증상을 입력해주세요!</ErrorMessage>}
               {recordMessgae}
+              <Image src={pencil} alt="수정" style={{ position: "absolute", right: "20px" }} />
             </MemoBox>
 
             <CircleButton
@@ -99,6 +105,11 @@ const PositionPage = () => {
 };
 
 export default PositionPage;
+const BackBtn = styled(motion.div)`
+  position: fixed;
+  margin: 10px;
+  background-color: red;
+`;
 const VoiceBox = styled(Col)`
   gap: 60px;
 `;
@@ -119,6 +130,7 @@ const MemoBox = styled(Box)`
   transition: all 0.3s ease-out;
   cursor: pointer;
   border-radius: 5px;
+  position: relative;
   &:hover {
     box-shadow: 0px 0px 0px 3px ${({ theme }) => theme.color.mintBtn};
   }
