@@ -189,7 +189,7 @@ function ChartTimeline() {
                     <RecordModal
                       record={record}
                       show={showRecordModal === record.id}
-                      setShowRecordModal={setShowRecordModal}
+                      onClose={() => setShowRecordModal(-1)}
                     />
                   </>
                 ) : (
@@ -423,7 +423,7 @@ const UploadImageButton = styled.button`
   cursor: pointer;
 `;
 
-const DeleteButton = styled.button<{ recordId: number }>`
+const DeleteButton = styled.button<{ recordId?: number }>`
   position: absolute;
   top: 0;
   right: 0;
