@@ -43,7 +43,7 @@ const MenuButtonBox = styled.div`
   position:fixed;
   right:0;
   top:0;
-  z-index: 1100;
+  z-index: 6100;
   width: 80px;
   height: 80px;
   background: ${({theme}) => theme.color.input};
