@@ -121,7 +121,7 @@ const FindHospital = () => {
         </DescriptionContainer>
         <HospitalList lists={findState || undefined} add={true} listRef={setObserverTarget} isLoading={isLoading} />
       </MainInnerContainer>
-      {showModal && <ArroundMap setShowModal={setShowModal} />}
+      <ArroundMap showModal={showModal} setShowModal={setShowModal} />
     </MainContainer>
   );
 };

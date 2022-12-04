@@ -132,9 +132,7 @@ const RecordModal = ({ setShowRecordModal, record, show }: RecordModalProps) => 
                     닫기
                   </RoundButton>
                 </ButtonBox>
-                <Time byUser={record!.type === "user"}>
-                  {changeDate(record!.createAt)}
-                </Time>
+                <Time byUser={record!.type === "user"}>{changeDate(record!.createAt)}</Time>
                 <EditTextBox onSubmit={handleSubmit(onValid)}>
                   <TextArea
                     {...register("updateWrite", {
@@ -167,8 +165,6 @@ const RecordModal = ({ setShowRecordModal, record, show }: RecordModalProps) => 
 };
 
 export default RecordModal;
-
-
 
 const Dim = styled.div`
   position: absolute;

@@ -22,6 +22,7 @@ export interface InputProps {
   color?: string;
   light?: boolean;
   white?: boolean;
+  motion?: boolean;
 }
 
 export default function Input({
@@ -41,26 +42,35 @@ export default function Input({
   bgcolor = theme.color.input,
   color = "#fff",
   light,
+  motion = true,
   white,
 }: InputProps) {
   return (
     <InputBox width={width} height={height}>
       <MainInput
-        initial={{ y: 30, opacity: 0 }}
-        animate={{
-          y: 0,
-          opacity: 1,
-          transition: {
-            duration: 1,
-          },
-        }}
-        exit={{
-          y: 30,
-          opacity: 0,
-          transition: {
-            duration: 1,
-          },
-        }}
+        initial={motion ? { y: 30, opacity: 0 } : { opacity: 1 }}
+        animate={
+          motion
+            ? {
+                y: 0,
+                opacity: 1,
+                transition: {
+                  duration: 1,
+                },
+              }
+            : { opacity: 1 }
+        }
+        exit={
+          motion
+            ? {
+                y: 30,
+                opacity: 0,
+                transition: {
+                  duration: 1,
+                },
+              }
+            : { opacity: 1 }
+        }
         disabled={disabled}
         id={name}
         {...register}
