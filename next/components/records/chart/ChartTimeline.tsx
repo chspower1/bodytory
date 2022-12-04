@@ -21,7 +21,6 @@ export interface RecordWithImageAndHospital extends Record {
 }
 
 function ChartTimeline() {
-
   const { query } = useRouter();
   const position = query.position as Position;
 
@@ -42,7 +41,6 @@ function ChartTimeline() {
     setFilterItem("all"); // 부위마다 새로운 페이지가 아닌가..? 왜 이걸 해줘야하지
   }, [position]);
 
-
   const [records, setRecords] = useState<RecordWithImageAndHospital[] | undefined>();
 
   const { mutate } = useMutation([RECORDS_DELETE], deleteApi, {
@@ -50,7 +48,6 @@ function ChartTimeline() {
       queryClient.invalidateQueries([RECORDS_READ, position]);
     },
   });
-
 
   // 기록 삭제
   const [confirmDelete, setConfirmDelete] = useState(-1);
@@ -77,7 +74,6 @@ function ChartTimeline() {
     setShowRecordModal(record.id);
   };
 
-
   // 모아보기 필터링
   const [filterItem, setFilterItem] = useState<string>("all");
   const [filtredRecord, setFiltredRecord] = useState<RecordWithImageAndHospital[] | undefined>();
@@ -94,10 +90,9 @@ function ChartTimeline() {
     if (filterItem === "all") {
       setFiltredRecord(records);
     } else {
-      setFiltredRecord(records?.filter((record) => record.type === filterItem));
+      setFiltredRecord(records?.filter(record => record.type === filterItem));
     }
   }, [filterItem]);
-
 
   return (
     <>
@@ -105,16 +100,46 @@ function ChartTimeline() {
         <Timeline>
           <Filter>
             <div>
-              <input type="radio" name="filter" id="all" value="all" onChange={handleRadioChange} checked={filterItem === "all"} />
-              <label htmlFor="all"><i />전체</label>
+              <input
+                type="radio"
+                name="filter"
+                id="all"
+                value="all"
+                onChange={handleRadioChange}
+                checked={filterItem === "all"}
+              />
+              <label htmlFor="all">
+                <i />
+                전체
+              </label>
             </div>
             <div>
-              <input type="radio" name="filter" id="user" value="user" onChange={handleRadioChange} checked={filterItem === "user"} />
-              <label htmlFor="user"><i />증상기록 모아보기</label>
+              <input
+                type="radio"
+                name="filter"
+                id="user"
+                value="user"
+                onChange={handleRadioChange}
+                checked={filterItem === "user"}
+              />
+              <label htmlFor="user">
+                <i />
+                증상기록 모아보기
+              </label>
             </div>
             <div>
-              <input type="radio" name="filter" id="hospital" value="hospital" onChange={handleRadioChange} checked={filterItem === "hospital"} />
-              <label htmlFor="hospital"><i />병원기록 모아보기</label>
+              <input
+                type="radio"
+                name="filter"
+                id="hospital"
+                value="hospital"
+                onChange={handleRadioChange}
+                checked={filterItem === "hospital"}
+              />
+              <label htmlFor="hospital">
+                <i />
+                병원기록 모아보기
+              </label>
             </div>
           </Filter>
           {filtredRecord?.length === 0 ? (
@@ -127,9 +152,7 @@ function ChartTimeline() {
           ) : (
             filtredRecord?.map((record, index) => (
               <RecordBox key={index}>
-                <Time byUser={record.type === "user"}>
-                  {changeDate(record.createAt)}
-                </Time>
+                <Time byUser={record.type === "user"}>{changeDate(record.createAt)}</Time>
                 {record.type === "user" ? (
                   <>
                     <Content>
@@ -163,7 +186,11 @@ function ChartTimeline() {
                         <span>삭제</span>
                       </DeleteButton>
                     </Content>
-                    <RecordModal record={record} show={showRecordModal === record.id} setShowRecordModal={setShowRecordModal} />
+                    <RecordModal
+                      record={record}
+                      show={showRecordModal === record.id}
+                      setShowRecordModal={setShowRecordModal}
+                    />
                   </>
                 ) : (
                   <Content>
@@ -217,25 +244,25 @@ const Filter = styled.div`
     align-items: center;
     font-size: 16px;
     font-weight: 500;
-    color: #B2B5CC;
+    color: #b2b5cc;
     cursor: pointer;
-    transition: color .2s;
+    transition: color 0.2s;
 
     i {
       display: block;
       width: 16px;
       height: 16px;
-      background: url(${checkIcon.src}) no-repeat 50% 50%/cover;
+      background: url(${checkIcon.src}) no-repeat 50% 50% / cover;
       margin-right: 5px;
-      transition: background .2s, opacity .2s;
+      transition: background 0.2s, opacity 0.2s;
     }
 
     &:hover {
-      color: #82859C;
+      color: #82859c;
 
       i {
         background-image: url(${checkedIcon.src});
-        opacity: .35;
+        opacity: 0.35;
       }
     }
   }
@@ -247,7 +274,7 @@ const Filter = styled.div`
     &:checked + label {
       color: ${({ theme }) => theme.color.text};
       pointer-events: none;
-      
+
       i {
         background-image: url(${checkedIcon.src});
       }

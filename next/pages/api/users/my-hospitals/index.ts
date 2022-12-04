@@ -18,7 +18,7 @@ async function addHospital(req: NextApiRequest, res: NextApiResponse) {
   await client.hospitalToUser.create({
     data: {
       hospitalId: id,
-      userId : user.id
+      userId: user.id,
     },
   });
   return res.status(200).end();
@@ -31,20 +31,20 @@ async function myHospitalList(req: NextApiRequest, res: NextApiResponse) {
     where: {
       id: user.id,
     },
-    select:{
-      hospitals:{
-        select:{
-          hospital:{
-            include:{
-              medicalDepartments:{
-                select:{
-                  medicalDepartment: true
-                }
-              }
-            }
-          }
-        }
-      }
+    select: {
+      hospitals: {
+        select: {
+          hospital: {
+            include: {
+              medicalDepartments: {
+                select: {
+                  medicalDepartment: true,
+                },
+              },
+            },
+          },
+        },
+      },
     },
   });
   return res.status(200).json(data?.hospitals);
