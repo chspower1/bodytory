@@ -1,15 +1,15 @@
-import { RoundButton } from '@components/buttons/Button';
-import { theme } from '@styles/theme';
-import { useQuery } from '@tanstack/react-query';
-import customApi from '@utils/client/customApi';
-import { HOSPITALS } from 'constant/queryKeys';
-import Link from 'next/link';
-import React, { useEffect } from 'react'
-import styled from 'styled-components';
+import { RoundButton } from "@components/buttons/Button";
+import { theme } from "@styles/theme";
+import { useQuery } from "@tanstack/react-query";
+import customApi from "@utils/client/customApi";
+import { HOSPITALS } from "constant/queryKeys";
+import Link from "next/link";
+import React, { useEffect } from "react";
+import styled from "styled-components";
 import medicalIcon from "@public/static/icon/medical.png";
-import HospitalList from '@components/HospitalList';
-import Image from 'next/image';
-import useUser from '@hooks/useUser';
+import HospitalList from "@components/HospitalList";
+import Image from "next/image";
+import useUser from "@hooks/useUser";
 
 const MyHospitalPage = () => {
   const { getApi } = customApi("/api/users/my-hospitals");
@@ -34,11 +34,11 @@ const MyHospitalPage = () => {
           </Pragraph>
         </DescriptionBox>
         <ButtonBox>
-          <RoundButton size="custom" width="260px" height="50px">
-            <Link href={"/users/my-hospital/find"}>
+          <Link href={"/users/my-hospital/find"}>
+            <RoundButton size="custom" width="260px" height="50px">
               <ImageIcon src={medicalIcon} width={20} height={20} alt="병원" /> 병원 추가하기
-            </Link>
-          </RoundButton>
+            </RoundButton>
+          </Link>
         </ButtonBox>
         <HospitalList lists={data} add={false} />
       </MainInnerContainer>
@@ -46,8 +46,7 @@ const MyHospitalPage = () => {
   ) : null;
 };
 
-
-export default MyHospitalPage
+export default MyHospitalPage;
 
 export const MainContainer = styled.div`
   height: 100%;
@@ -70,8 +69,8 @@ export const MainInnerContainer = styled.div`
 
 export const Pragraph = styled.p`
   font-size: 32px;
-  strong{
-    font-weight :700;
+  strong {
+    font-weight: 700;
   }
 `;
 export const HighlightText = styled.span`
