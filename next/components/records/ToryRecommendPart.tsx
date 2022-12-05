@@ -4,6 +4,7 @@ import IconHospital from "@public/static/icon/icon_hospital.png";
 import { useState } from "react";
 import Modal from "@components/modals/Modal";
 import ArroundMap from "@components/modals/ArroundMap";
+import { AnimatePresence } from "framer-motion";
 
 function ToryRecommend() {
   const [showModal, setShowModal] = useState(false);
@@ -26,8 +27,7 @@ function ToryRecommend() {
           </RoundButton>
         </ToryRecommendBox>
       </ToryRecommendContainer>
-
-      {showModal && <ArroundMap onClose={() => setShowModal(false)} />}
+      <AnimatePresence>{showModal && <ArroundMap onClose={() => setShowModal(false)} />}</AnimatePresence>
     </>
   );
 }

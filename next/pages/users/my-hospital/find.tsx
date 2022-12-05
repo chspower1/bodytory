@@ -11,6 +11,7 @@ import styled from "styled-components";
 import { ButtonBox, DescriptionBox, ImageIcon, MainContainer, MainInnerContainer, Pragraph } from ".";
 import mapIcon from "@public/static/icon/mapIcon.svg";
 import { HospitalListProps, HospitalListT } from "@components/HospitalContent";
+import { AnimatePresence } from "framer-motion";
 
 interface SearchForm {
   search: string;
@@ -126,7 +127,7 @@ const FindHospital = () => {
           isLoading={isLoading}
         />
       </MainInnerContainer>
-      {showModal && <ArroundMap onClose={() => setShowModal(false)} />}
+      <AnimatePresence>{showModal && <ArroundMap onClose={() => setShowModal(false)} />}</AnimatePresence>
     </MainContainer>
   );
 };
