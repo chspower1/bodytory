@@ -1,4 +1,5 @@
 import { theme } from "@styles/theme";
+import { motion } from "framer-motion";
 import React, { Dispatch, SetStateAction, useState } from "react";
 import { FieldValues, UseFormSetValue } from "react-hook-form";
 import styled from "styled-components";
@@ -84,7 +85,7 @@ const ButtonInInput = ({
 
 export default ButtonInInput;
 
-const InputBox = styled.div`
+const InputBox = styled(motion.div)`
   width: 500px;
   margin: 0 auto;
   transition: border 0.3s ease;

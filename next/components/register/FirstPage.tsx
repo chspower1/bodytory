@@ -12,6 +12,7 @@ import { theme } from "@styles/theme";
 import Modal from "@components/modals/Modal";
 import PersonalInformation from "./PersonalInformation";
 import UseOfService from "./UseOfService";
+import { motion } from "framer-motion";
 interface FirstRegisterForm {
   agree: boolean;
 }
@@ -135,7 +136,7 @@ const TermsRow = styled(Row)`
     border-top: 1px solid #646aeb;
   }
 `;
-export const FormContents = styled.div``;
+export const FormContents = styled(motion.div)``;
 export const PrevNextButtonBox = styled(Row)`
   gap: 65px;
 `;
