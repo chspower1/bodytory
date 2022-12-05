@@ -3,6 +3,7 @@ import client from "utils/server/client";
 import withHandler from "@utils/server/withHandler";
 import { withApiSession } from "@utils/server/withSession";
 import { NextResponse } from "next/server";
+import axios from "axios";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { user } = req.session;
@@ -22,6 +23,10 @@ async function createRecord(req: NextApiRequest, res: NextApiResponse) {
   const { user } = req.session;
   if (!user) return res.status(400).end();
   console.log(position, description);
+  const departments = await axios.post("http://localhost:8080/api/departments", {
+    sentence: description,
+  });
+  console.log(departments.data.departments_result);
   await client.record.create({
     data: {
       type: "user",

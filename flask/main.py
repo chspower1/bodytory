@@ -132,14 +132,14 @@ def predict_departments(sentence):
     return list(map(lambda x: department_codes[x], department_list))
 
 
-@app.route('/departments', methods=['POST'])
+@app.route('/api/departments', methods=['POST'])
 def predict():
     body = request.get_json()
     data = {'departments_result': predict_departments(body['sentence'])}
     return jsonify(data)
 
 
-@app.route('/keywords', methods=['POST'])
+@app.route('/api/keywords', methods=['POST'])
 def send_keywords():
     body = request.get_json()
     data = {'keywords_result': keyword_extractor(body['sentences'])}
@@ -147,9 +147,9 @@ def send_keywords():
 
 
 if __name__ == '__main__':
-    loaded_data = pd.read_csv('./w2v_query_data_final.csv')
+    loaded_data = pd.read_csv('flask\w2v_query_data_final.csv')
     query_data = loaded_data.set_index('department_single')
     query_data['symptom'] = query_data['symptom'].apply(lambda x: tokenizer(x))
-    w2v_model = gensim.models.Word2Vec.load('./kor_w2v_final')
+    w2v_model = gensim.models.Word2Vec.load('flask\kor_w2v_final')
 
     app.run(host='0.0.0.0', port=8080)
