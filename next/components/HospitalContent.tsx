@@ -109,6 +109,7 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
           </HospitalStatusBox>
         )}
       </HospitalInforContainer>
+
       <Modal
         show={showModal}
         onClose={() => setShowModal(false)}

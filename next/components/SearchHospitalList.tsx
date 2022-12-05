@@ -13,7 +13,7 @@ interface SearchHospitalListProps {
 }
 
 const SearchHospitalList = ({ hospitals, add, setobserverTarget, isLoading }: SearchHospitalListProps) => {
-  console.log("lists", hospitals);
+  // console.log("lists", hospitals);
   return (
     <HospitalContainer add={add}>
       <InnerContainer add={add}>
