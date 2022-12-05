@@ -6,10 +6,11 @@ import { useState } from "react";
 import Modal from "@components/modals/Modal";
 import ArroundMap from "@components/modals/ArroundMap";
 import { AnimatePresence } from "framer-motion";
+import useCoords from "@hooks/useCoords";
 
 function ToryRecommend() {
   const [showModal, setShowModal] = useState(false);
-
+  const { latitude, longitude } = useCoords();
   const handleClickLogout = async () => {};
 
   return (
@@ -31,7 +32,9 @@ function ToryRecommend() {
           가까운 의료기관을 내원해주세요
         </Warning>
       </ToryRecommendContainer>
-      <AnimatePresence>{showModal && <ArroundMap onClose={() => setShowModal(false)} />}</AnimatePresence>
+      <AnimatePresence>
+        {showModal && <ArroundMap latitude={latitude!} longitude={longitude!} onClose={() => setShowModal(false)} />}
+      </AnimatePresence>
     </>
   );
 }
