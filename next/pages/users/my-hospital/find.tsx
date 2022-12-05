@@ -100,7 +100,7 @@ const FindHospital = () => {
           <SearchBox>
             <SearchForm onSubmit={handleSubmit(onValid)}>
               <Input
-                white
+                white ="true"
                 name="search"
                 width="700px"
                 placeholder="병원명을 입력해주세요"

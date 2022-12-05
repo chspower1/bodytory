@@ -80,7 +80,7 @@ const HospitalHomePage = () => {
         </PageHead>
         <PageBody>
           <Form onSubmit={handleSubmit(onValid)}>
-            <Input white  placeholder="환자 이름"  motion={false} register={register("search",{
+            <Input white="true"  placeholder="환자 이름"  motion={false} register={register("search",{
               onChange(){
                 // data.filter(x => x.name.includes(watch("search")))
               }
