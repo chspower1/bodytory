@@ -43,10 +43,9 @@ interface AroundHospitalsResponse {
   hospitals: Hospital[];
 }
 interface ArroundMapProps {
-  show: boolean;
   onClose: () => void;
 }
-const ArroundMap: NextPage<ArroundMapProps> = ({ show = false, onClose }) => {
+const ArroundMap: NextPage<ArroundMapProps> = ({ onClose }) => {
   const queryClient = useQueryClient();
   const [hoverIndex, setHoverIndex] = useState(-1);
   const [clickIndex, setClickIndex] = useState(-1);
@@ -268,7 +267,7 @@ const ArroundMap: NextPage<ArroundMapProps> = ({ show = false, onClose }) => {
     </AnimatePresence>
   );
 
-  return show ? ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement) : null;
+  return ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement);
 };
 export default ArroundMap;
 const InfoWindowBox = styled(Col)`

@@ -126,7 +126,7 @@ const FindHospital = () => {
           isLoading={isLoading}
         />
       </MainInnerContainer>
-      <ArroundMap show={showModal} onClose={() => setShowModal(false)} />
+      {showModal && <ArroundMap onClose={() => setShowModal(false)} />}
     </MainContainer>
   );
 };

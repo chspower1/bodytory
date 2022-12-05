@@ -27,7 +27,7 @@ function ToryRecommend() {
         </ToryRecommendBox>
       </ToryRecommendContainer>
 
-      <ArroundMap show={showModal} onClose={() => setShowModal(false)} />
+      {showModal && <ArroundMap onClose={() => setShowModal(false)} />}
     </>
   );
 }
