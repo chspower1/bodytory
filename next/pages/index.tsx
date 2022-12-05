@@ -31,7 +31,9 @@ const Home = () => {
         </ToryBox>
         <Link href="users/records/write">
           <WriteBox>
-            <CircleButton>{/* <Mic fill={theme.color.mint} /> */}</CircleButton>
+            <CircleButton>
+              <Mic fill={theme.color.mint} />
+            </CircleButton>
             <BodyText>건강 관리를 위해 매일매일 잊지말고 기록해요!</BodyText>
             <Accent fontSize="26px">오늘 기록하기</Accent>
           </WriteBox>
@@ -39,19 +41,26 @@ const Home = () => {
         <ButtonBox>
           <Link href="/users/records">
             <RoundButton width="400px" height="70px" bgColor="rgb(108, 113, 240)">
-              <BtnIcon>{/* <Record width={30} height={30} fill={theme.color.mint} /> */}</BtnIcon>
+              <BtnIcon>
+                <Record width={30} height={30} fill={theme.color.mint} />
+              </BtnIcon>
               기록 확인하기
             </RoundButton>
           </Link>
           <Link href={`/hospital/${user?.id!}`}>
             <RoundButton width="400px" height="70px" bgColor="rgb(108, 113, 240)">
-              <BtnIcon>{/* <Hospital width={30} height={30} fill={theme.color.mint} /> */}</BtnIcon>내 병원 관리하기
+              <BtnIcon>
+                <Hospital width={30} height={30} fill={theme.color.mint} />
+              </BtnIcon>
+              내 병원 관리하기
             </RoundButton>
           </Link>
         </ButtonBox>
         <Link href="/users/profile/edit">
           <AccountBtnBox>
-            <BtnIcon>{/* <Setting /> */}</BtnIcon>
+            <BtnIcon>
+              <Setting />
+            </BtnIcon>
             계정 설정
           </AccountBtnBox>
         </Link>
