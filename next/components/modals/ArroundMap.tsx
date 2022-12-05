@@ -3,9 +3,9 @@ import { BodyText, Box, BtnBox, Col, FlexContainer, Row, ToryText, WhiteBoldText
 import Image from "next/image";
 import { CustomOverlayMap, Map, MapInfoWindow, MapMarker } from "react-kakao-maps-sdk";
 import styled from "styled-components";
-import kakaomap from "@public/static/icon/kakao_map.svg";
-import pointer from "@public/static/icon/pointer.svg";
-import web from "@public/static/icon/web.svg";
+import Kakaomap from "@public/static/icon/kakao_map.svg";
+import Pointer from "@public/static/icon/pointer.svg";
+import Web from "@public/static/icon/web.svg";
 import cross from "@public/static/icon/cross.svg";
 import triangle from "@public/static/icon/triangle.png";
 import x from "@public/static/icon/x.png";
@@ -179,7 +179,7 @@ const ArroundMap: NextPage<ArroundMapProps> = ({ show = false, onClose }) => {
                     >
                       <InfoWindowBox>
                         <TopArea>
-                          <Image src={kakaomap} alt="사진" />
+                          <Kakaomap width={23} height={23}  />
                           <Name fontSize="20px">{hospital.name}</Name>
                           <Box style={{ position: "absolute", right: "20px" }}>
                             <CircleButton
@@ -194,7 +194,7 @@ const ArroundMap: NextPage<ArroundMapProps> = ({ show = false, onClose }) => {
                         </TopArea>
                         <ContentBox>
                           <AdressBox>
-                            <Image src={pointer} alt="사진" />
+                            <Pointer />
                             <AddressText title={hospital.address}>{hospital.address}</AddressText>
 
                             <Link
@@ -202,7 +202,7 @@ const ArroundMap: NextPage<ArroundMapProps> = ({ show = false, onClose }) => {
                               target="_blank"
                             >
                               <Box>
-                                <Image src={kakaomap} alt="kakao" width={20} height={20} />
+                                <Kakaomap width={20} height={20} />
                               </Box>
                             </Link>
                           </AdressBox>
@@ -217,7 +217,7 @@ const ArroundMap: NextPage<ArroundMapProps> = ({ show = false, onClose }) => {
                             </BodyText>
                           </DepartmentBox>
                           <HomepageBox>
-                            <Image src={web} alt="사진" />
+                            <Web />
                             {hospital.homepage ? (
                               <Link href={hospital.homepage} target="_blank" title={hospital.homepage}>
                                 {hospital.name} 홈페이지 바로가기
