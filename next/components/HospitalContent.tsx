@@ -55,14 +55,15 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
     router.push("/users/my-hospital/clinic-list");
     setHospitalCurrentIdx(idx);
   };
-
+  // console.log(hospital.name);
   return (
     <HospitalInfor add={add}>
       <HospitalInforContainer>
         <HospitalInforBox>
           <HospitalDescriptionBox>
             <NameText size="18px" weight="900" add={add}>
-              {sliceName(hospital.name)}
+              {/* {sliceName(hospital.name)} */}
+              {/* {hospital.name} */}
             </NameText>
             <Department>
               {hospital.medicalDepartments[0].medicalDepartment &&
@@ -103,7 +104,8 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
       >
         <p>병원을 추가하면 병원에서 나의 기록을 열람할 수 있습니다</p>
         <p>
-          <b>{sliceName(hospital.name)}</b>에서 개인정보 수집 및 이용에 동의하십니까?
+          {/* <b>{sliceName(hospital.name)}</b>에서 개인정보 수집 및 이용에 동의하십니까? */}
+          <b>{hospital.name}</b>에서 개인정보 수집 및 이용에 동의하십니까?
         </p>
       </Modal>
     </HospitalInfor>

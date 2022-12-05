@@ -8,9 +8,17 @@ import axios from "axios";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
-import { ButtonBox, DescriptionBox, ImageIcon, MainContainer, MainInnerContainer, Pragraph } from ".";
+import {
+  ButtonBox,
+  DescriptionBox,
+  ImageIcon,
+  MainContainer,
+  MainInnerContainer,
+  MyHospital,
+  MyHospitalResponse,
+  Pragraph,
+} from ".";
 import MapIcon from "@public/static/icon/mapIcon.svg";
-import { HospitalListProps, HospitalListT } from "@components/HospitalContent";
 import useIO from "@hooks/useIO";
 import useCoords from "@hooks/useCoords";
 import { AnimatePresence } from "framer-motion";
@@ -27,7 +35,7 @@ const FindHospital = () => {
   const { latitude, longitude } = useCoords();
   const [searchWord, setSearchWord] = useState<string>("");
   const [page, setPage] = useState<number>(0);
-  const [findState, setFindState] = useState<HospitalListT[]>([]);
+  const [findState, setFindState] = useState<MyHospitalResponse[]>([]);
   const [hasLastPage, setHasLastPage] = useState(false);
   const observerTarget = useRef<HTMLDivElement>(null);
   const [showModal, setShowModal] = useState(false);
@@ -54,7 +62,7 @@ const FindHospital = () => {
     setIsLoading(() => true);
     const result = await axios.get(`/api/users/my-hospitals/find?page=${page}&search=${searchWord}`);
     setHasLastPage(() => result.data.status);
-    setFindState((current: HospitalListT[]) => {
+    setFindState((current: MyHospitalResponse[]) => {
       const array = [...current];
       if (array) {
         array.push(...result.data.foundHospital);

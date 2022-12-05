@@ -19,7 +19,7 @@ const HospitalList = ({ lists, add, setobserverTarget, isLoading }: HospitalList
       <InnerContainer add={add}>
         {lists !== undefined && lists.length !== 0 ? (
           <HospitalLists>
-            {lists.map((list, idx) => (
+            {lists?.map((list, idx) => (
               <HospitalContent hospital={list.hospital} idx={idx} add={add} key={idx} shared={list.shared} />
             ))}
             {isLoading ? <div>Loading....</div> : <div ref={setobserverTarget} />}
