@@ -107,162 +107,160 @@ const ArroundMap: NextPage<ArroundMapProps> = ({ onClose }) => {
   }, []);
 
   const modalContent = (
-    <AnimatePresence>
-      <ModalWrapper>
-        <Dim onClick={onClose} />
-        <ModalContainer width="1500px" height="800px">
-          <ToryText>현재 소희님의 위치를 기준으로 주변 정형외과들을 찾았어요!</ToryText>
-          <Map
-            center={{
-              lat: coords.lat,
-              lng: coords.lng,
-            }}
-            isPanto={true}
-            style={{
-              width: "100%",
-              height: "560px",
-            }}
-            level={3}
-            // onClick={() => setClickIndex(-1)}
-          >
-            <MapMarker
-              position={{ lat: currentCoords.lat, lng: currentCoords.lng }}
-              image={{
-                src: "https://imagedelivery.net/AbuMCvvnFZBtmCKKJV_e6Q/e545a9f3-61fc-49de-df91-a3f5b4e08200/avatar", // 마커이미지의 주소입니다
-                size: {
-                  width: 45,
-                  height: 45,
+    <ModalWrapper>
+      <Dim onClick={onClose} />
+      <ModalContainer width="1500px" height="800px">
+        <ToryText>현재 소희님의 위치를 기준으로 주변 정형외과들을 찾았어요!</ToryText>
+        <Map
+          center={{
+            lat: coords.lat,
+            lng: coords.lng,
+          }}
+          isPanto={true}
+          style={{
+            width: "100%",
+            height: "560px",
+          }}
+          level={3}
+          // onClick={() => setClickIndex(-1)}
+        >
+          <MapMarker
+            position={{ lat: currentCoords.lat, lng: currentCoords.lng }}
+            image={{
+              src: "https://imagedelivery.net/AbuMCvvnFZBtmCKKJV_e6Q/e545a9f3-61fc-49de-df91-a3f5b4e08200/avatar", // 마커이미지의 주소입니다
+              size: {
+                width: 45,
+                height: 45,
+              },
+              options: {
+                offset: {
+                  x: 23,
+                  y: 0,
                 },
-                options: {
-                  offset: {
-                    x: 23,
-                    y: 0,
+              },
+            }}
+          />
+          {data?.hospitals?.map((hospital, index) => (
+            <MarkerBox key={index}>
+              <MapMarker
+                position={{ lat: hospital.y!, lng: hospital.x! }}
+                image={{
+                  src: "https://imagedelivery.net/AbuMCvvnFZBtmCKKJV_e6Q/ba695e48-c89f-4e8d-febb-10018a877600/avatar", // 마커이미지의 주소입니다
+                  size: {
+                    width: 45,
+                    height: 45,
                   },
-                },
-              }}
-            />
-            {data?.hospitals?.map((hospital, index) => (
-              <MarkerBox key={index}>
-                <MapMarker
-                  position={{ lat: hospital.y!, lng: hospital.x! }}
-                  image={{
-                    src: "https://imagedelivery.net/AbuMCvvnFZBtmCKKJV_e6Q/ba695e48-c89f-4e8d-febb-10018a877600/avatar", // 마커이미지의 주소입니다
-                    size: {
-                      width: 45,
-                      height: 45,
+                  options: {
+                    offset: {
+                      x: 23,
+                      y: 0,
                     },
-                    options: {
-                      offset: {
-                        x: 23,
-                        y: 0,
-                      },
-                    },
+                  },
+                }}
+                onMouseOver={() => setHoverIndex(index)}
+                onMouseOut={handleMouseOutMarker}
+                onClick={() => handleClickMarker({ index, longitude: hospital.x, latitude: hospital.y })}
+              />
+              {hoverIndex === index && (
+                <CustomOverlayMap position={{ lat: hospital.y!, lng: hospital.x! }}>
+                  <HoverBox>{hospital.name}</HoverBox>
+                </CustomOverlayMap>
+              )}
+              {clickIndex === index && (
+                <CustomOverlayMap
+                  position={{
+                    lat: hospital.y!,
+                    lng: hospital.x!,
                   }}
-                  onMouseOver={() => setHoverIndex(index)}
-                  onMouseOut={handleMouseOutMarker}
-                  onClick={() => handleClickMarker({ index, longitude: hospital.x, latitude: hospital.y })}
-                />
-                {hoverIndex === index && (
-                  <CustomOverlayMap position={{ lat: hospital.y!, lng: hospital.x! }}>
-                    <HoverBox>{hospital.name}</HoverBox>
-                  </CustomOverlayMap>
-                )}
-                {clickIndex === index && (
-                  <CustomOverlayMap
-                    position={{
-                      lat: hospital.y!,
-                      lng: hospital.x!,
-                    }}
-                    yAnchor={1.1}
-                  >
-                    <InfoWindowBox>
-                      <TopArea>
-                        <Image src={kakaomap} alt="사진" />
-                        <Name fontSize="20px">{hospital.name}</Name>
-                        <Box style={{ position: "absolute", right: "20px" }}>
-                          <CircleButton
-                            width="30px"
-                            height="30px"
-                            bgColor={theme.color.error}
-                            onClick={() => setClickIndex(-1)}
-                          >
-                            <Image src={x} alt="x" />
-                          </CircleButton>
-                        </Box>
-                      </TopArea>
-                      <ContentBox>
-                        <AdressBox>
-                          <Image src={pointer} alt="사진" />
-                          <AddressText title={hospital.address}>{hospital.address}</AddressText>
+                  yAnchor={1.1}
+                >
+                  <InfoWindowBox>
+                    <TopArea>
+                      <Image src={kakaomap} alt="사진" />
+                      <Name fontSize="20px">{hospital.name}</Name>
+                      <Box style={{ position: "absolute", right: "20px" }}>
+                        <CircleButton
+                          width="30px"
+                          height="30px"
+                          bgColor={theme.color.error}
+                          onClick={() => setClickIndex(-1)}
+                        >
+                          <Image src={x} alt="x" />
+                        </CircleButton>
+                      </Box>
+                    </TopArea>
+                    <ContentBox>
+                      <AdressBox>
+                        <Image src={pointer} alt="사진" />
+                        <AddressText title={hospital.address}>{hospital.address}</AddressText>
 
-                          <Link
-                            href={`https://map.kakao.com/link/to/${hospital.name},${hospital.y},${hospital.x}`}
-                            target="_blank"
-                          >
-                            <Box>
-                              <Image src={kakaomap} alt="kakao" width={20} height={20} />
-                            </Box>
-                          </Link>
-                        </AdressBox>
+                        <Link
+                          href={`https://map.kakao.com/link/to/${hospital.name},${hospital.y},${hospital.x}`}
+                          target="_blank"
+                        >
+                          <Box>
+                            <Image src={kakaomap} alt="kakao" width={20} height={20} />
+                          </Box>
+                        </Link>
+                      </AdressBox>
 
-                        <DepartmentBox>
-                          <Image src={cross} alt="사진" />
-                          <BodyText title={`${hospital.medicalDepartments.map(i => i.medicalDepartment.department)}`}>
-                            {/* {hospital.medicalDepartments?.map(({ medicalDepartment }, index) => (
+                      <DepartmentBox>
+                        <Image src={cross} alt="사진" />
+                        <BodyText title={`${hospital.medicalDepartments.map(i => i.medicalDepartment.department)}`}>
+                          {/* {hospital.medicalDepartments?.map(({ medicalDepartment }, index) => (
                             <span key={index}>{medicalDepartment.department}</span>
                           ))} */}
-                            {`${hospital.medicalDepartments[0].medicalDepartment.department} 외 ${hospital.medicalDepartments.length}개`}
-                          </BodyText>
-                        </DepartmentBox>
-                        <HomepageBox>
-                          <Image src={web} alt="사진" />
-                          {hospital.homepage ? (
-                            <Link href={hospital.homepage} target="_blank" title={hospital.homepage}>
-                              {hospital.name} 홈페이지 바로가기
-                            </Link>
-                          ) : (
-                            <BodyText>홈페이지가 없습니다.</BodyText>
-                          )}
-                          {/*  */}
-                        </HomepageBox>
-                      </ContentBox>
-                      <RoundButton
-                        width="88px"
-                        height="40px"
-                        bgColor="rgb(18, 212, 201)"
-                        fontSize="16px"
-                        boxShadow={false}
-                        onClick={() => handleClickAddHospital(hospital.id)}
-                      >
-                        추가
-                      </RoundButton>
-                      <Tail src={triangle} alt="사진" />
-                    </InfoWindowBox>
-                  </CustomOverlayMap>
-                )}
-              </MarkerBox>
-            ))}
-          </Map>
+                          {`${hospital.medicalDepartments[0].medicalDepartment.department} 외 ${hospital.medicalDepartments.length}개`}
+                        </BodyText>
+                      </DepartmentBox>
+                      <HomepageBox>
+                        <Image src={web} alt="사진" />
+                        {hospital.homepage ? (
+                          <Link href={hospital.homepage} target="_blank" title={hospital.homepage}>
+                            {hospital.name} 홈페이지 바로가기
+                          </Link>
+                        ) : (
+                          <BodyText>홈페이지가 없습니다.</BodyText>
+                        )}
+                        {/*  */}
+                      </HomepageBox>
+                    </ContentBox>
+                    <RoundButton
+                      width="88px"
+                      height="40px"
+                      bgColor="rgb(18, 212, 201)"
+                      fontSize="16px"
+                      boxShadow={false}
+                      onClick={() => handleClickAddHospital(hospital.id)}
+                    >
+                      추가
+                    </RoundButton>
+                    <Tail src={triangle} alt="사진" />
+                  </InfoWindowBox>
+                </CustomOverlayMap>
+              )}
+            </MarkerBox>
+          ))}
+        </Map>
 
-          <BtnBox width="460px">
-            <RoundButton fontSize="16px" width="220px" height="40px" onClick={onClose}>
-              확인했어요!
-            </RoundButton>
-            <RoundButton
-              padding="0px 10px"
-              size="custom"
-              fontSize="16px"
-              width="220px"
-              height="40px"
-              bgColor="rgb(198, 205, 250)"
-              textColor="rgb(93, 107, 178)"
-            >
-              다른 병원들도 찾아볼래요
-            </RoundButton>
-          </BtnBox>
-        </ModalContainer>
-      </ModalWrapper>
-    </AnimatePresence>
+        <BtnBox width="460px">
+          <RoundButton fontSize="16px" width="220px" height="40px" onClick={onClose}>
+            확인했어요!
+          </RoundButton>
+          <RoundButton
+            padding="0px 10px"
+            size="custom"
+            fontSize="16px"
+            width="220px"
+            height="40px"
+            bgColor="rgb(198, 205, 250)"
+            textColor="rgb(93, 107, 178)"
+          >
+            다른 병원들도 찾아볼래요
+          </RoundButton>
+        </BtnBox>
+      </ModalContainer>
+    </ModalWrapper>
   );
 
   return ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement);
