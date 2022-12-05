@@ -14,6 +14,8 @@ import { HospitalListProps, HospitalListT } from "@components/HospitalContent";
 import useIO from "@hooks/useIO";
 import useCoords from "@hooks/useCoords";
 import { AnimatePresence } from "framer-motion";
+import { BackButton } from "@styles/Common";
+import Link from "next/link";
 
 interface SearchForm {
   search: string;
@@ -77,6 +79,12 @@ const FindHospital = () => {
 
   return (
     <MainContainer>
+      <Link href="/users/my-hospital">
+        <BackButton>
+          <span>병원관리</span>
+        </BackButton>
+      </Link>
+
       <MainInnerContainer>
         <DescriptionContainer>
           <DescriptionBox>

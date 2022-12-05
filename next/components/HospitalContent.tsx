@@ -6,49 +6,31 @@ import sliceName from "@utils/client/sliceHospitalName";
 import { currentHospitalIdx } from "atoms/atoms";
 import { HOSPITALS } from "constant/queryKeys";
 import { useRouter } from "next/router";
+import type { MyHospital, MyHospitalResponse } from "pages/users/my-hospital";
 import { useState } from "react";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { ChangeToHoverColor, RectangleButton, RoundButton } from "./buttons/Button";
 import Modal from "./modals/Modal";
 
-export interface HospitalListT extends Hospital {
-  medicalDepartments: [
-    {
-      id: number;
-      medicalDepartmentId: number;
-      hospitalId: number;
-      medicalDepartment: MedicalDepartment;
-    },
-  ];
+interface HospitalContentProps {
+  hospital: MyHospital;
+  add: boolean;
+  idx: number;
+  shared: boolean;
 }
 
-export interface HospitalListProps extends HospitalListT {
-  hospital?: HospitalListT;
-}
-
-const HospitalContent = ({ list, add, idx }: { list: HospitalListProps; add: boolean; idx: number }) => {
+const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) => {
   const router = useRouter();
-  const [onShare, setOnShare] = useState<boolean>(false);
+  const [onShare, setOnShare] = useState<boolean>(shared);
   const setHospitalCurrentIdx = useSetRecoilState(currentHospitalIdx);
   const [isAddButton, setIsAddButton] = useState(false);
-  const handleShare = () => {
-    setOnShare(!onShare);
-  };
 
   const queryClient = useQueryClient();
 
+  const { postApi, getApi, putApi } = customApi("/api/users/my-hospitals");
   const [showModal, setShowModal] = useState(false);
-  const { postApi, getApi } = customApi("/api/users/my-hospitals");
-  const { data } = useQuery(["isMyHospital"], getApi, {
-    onSuccess(data) {
-      data.map(({ hospital }: { hospital: { id: number; name: string } }) => {
-        if (hospital.id === list.id) {
-          setIsAddButton(true);
-        }
-      });
-    },
-  });
+
   // 추가용 api
   const { mutate } = useMutation(["addHospitalKey"], postApi, {
     onSuccess(data) {
@@ -56,9 +38,16 @@ const HospitalContent = ({ list, add, idx }: { list: HospitalListProps; add: boo
       queryClient.invalidateQueries([HOSPITALS]);
     },
   });
+  const { mutate: sharedHospitalMutate } = useMutation(["addHospitalKey"], putApi, {
+    onSuccess() {},
+  });
+  const handleClickShare = () => {
+    setOnShare(!onShare);
+    sharedHospitalMutate({ id: hospital.id });
+  };
 
   const handleClickAddHospital = () => {
-    mutate({ id: list.id });
+    mutate({ id: hospital.id });
     setShowModal(false);
   };
 
@@ -73,16 +62,17 @@ const HospitalContent = ({ list, add, idx }: { list: HospitalListProps; add: boo
         <HospitalInforBox>
           <HospitalDescriptionBox>
             <NameText size="18px" weight="900" add={add}>
-              {sliceName(list.name)}
+              {sliceName(hospital.name)}
             </NameText>
             <Department>
-              {list.medicalDepartments[0].medicalDepartment && list.medicalDepartments[0].medicalDepartment.department}{" "}
-              외 {list.medicalDepartments.length - 1}과목
+              {hospital.medicalDepartments[0].medicalDepartment &&
+                hospital.medicalDepartments[0].medicalDepartment.department}{" "}
+              외 {hospital.medicalDepartments.length - 1}과목
             </Department>
           </HospitalDescriptionBox>
           <HospitalPlaceBox>
-            <SpaceText weight="200" size="17px" add={add} title={list.address}>
-              {list.address}
+            <SpaceText weight="200" size="17px" add={add} title={hospital.address}>
+              {hospital.address}
             </SpaceText>
           </HospitalPlaceBox>
           {!add && <ClinicListLinkButton onClick={handleClickGoClinicList}>진료내역확인</ClinicListLinkButton>}
@@ -98,7 +88,7 @@ const HospitalContent = ({ list, add, idx }: { list: HospitalListProps; add: boo
             <ShareStatus weight="200" size="15px" add={add} status={onShare}>
               {onShare ? "기록 공유 중" : "기록 공유 중지"}
             </ShareStatus>
-            <ShareButton status={onShare} onClick={() => handleShare()}>
+            <ShareButton status={onShare} onClick={() => handleClickShare()}>
               {onShare ? "공유 중지" : "공유 시작"}
             </ShareButton>
           </HospitalStatusBox>
@@ -113,7 +103,7 @@ const HospitalContent = ({ list, add, idx }: { list: HospitalListProps; add: boo
       >
         <p>병원을 추가하면 병원에서 나의 기록을 열람할 수 있습니다</p>
         <p>
-          <b>{sliceName(list.name)}</b>에서 개인정보 수집 및 이용에 동의하십니까?
+          <b>{sliceName(hospital.name)}</b>에서 개인정보 수집 및 이용에 동의하십니까?
         </p>
       </Modal>
     </HospitalInfor>

@@ -10,10 +10,21 @@ import medicalIcon from "@public/static/icon/medical.png";
 import HospitalList from "@components/HospitalList";
 import Image from "next/image";
 import useUser from "@hooks/useUser";
+import { Hospital, MedicalDepartment } from "@prisma/client";
+
+export interface MyHospitalResponse {
+  hospital: MyHospital;
+  shared: boolean;
+}
+export type MyHospital = Hospital & {
+  medicalDepartments: {
+    medicalDepartment: MedicalDepartment | null;
+  }[];
+};
 
 const MyHospitalPage = () => {
   const { getApi } = customApi("/api/users/my-hospitals");
-  const { data } = useQuery([HOSPITALS], getApi);
+  const { data } = useQuery<MyHospitalResponse[]>([HOSPITALS], getApi);
   console.log(data);
   const user = useUser();
 
