@@ -15,6 +15,13 @@ async function addHospital(req: NextApiRequest, res: NextApiResponse) {
   const { id } = req.body;
   const { user } = req.session;
   if (!user) return res.status(401).send("회원 정보를 확인해주세요");
+  const isConnected = await client.hospitalToUser.findFirst({
+    where: {
+      hospitalId: id,
+      userId: user.id,
+    },
+  });
+  if (isConnected) return res.status(204).end();
   await client.hospitalToUser.create({
     data: {
       hospitalId: id,
