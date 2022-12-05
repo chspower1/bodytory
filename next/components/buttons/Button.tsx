@@ -202,9 +202,9 @@ export const SocialButton = ({
       disabled={disabled}
       boxShadow={boxShadow}
     >
-      {/* {social === "naver" && <Naver width={size === "lg" ? 100 : 70} height={size === "lg" ? 100 : 70} />}
+      {social === "naver" && <Naver width={size === "lg" ? 100 : 70} height={size === "lg" ? 100 : 70} />}
       {social === "kakao" && <Kakao width={size === "lg" ? 100 : 70} height={size === "lg" ? 100 : 70} />}
-      {social === "origin" && <Origin width={size === "lg" ? 100 : 70} height={size === "lg" ? 100 : 70} />} */}
+      {social === "origin" && <Origin width={size === "lg" ? 100 : 70} height={size === "lg" ? 100 : 70} />}
 
       <Col style={{ width: "100%" }}>{children}</Col>
     </Button>
