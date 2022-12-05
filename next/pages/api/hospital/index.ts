@@ -12,7 +12,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       hospitalId: user.id
     },
     select:{
-      user:true
+      user : true,
+      shared: true
     }
   });
 
