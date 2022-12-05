@@ -66,7 +66,7 @@ const FindHospital = () => {
     setFindState((current: MyHospital[]) => {
       const array = [...current];
       if (array) {
-        array.push(...result.data.foundHospital);
+        array.push(...result.data.foundHospitals);
       }
       return [...new Set(array)];
     });

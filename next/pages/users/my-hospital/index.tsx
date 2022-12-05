@@ -21,6 +21,7 @@ export type MyHospital = Hospital & {
   medicalDepartments: {
     medicalDepartment: MedicalDepartment | null;
   }[];
+  my?: boolean;
 };
 
 const MyHospitalPage = () => {
