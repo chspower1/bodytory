@@ -169,7 +169,7 @@ const SpaceText = styled(Text)`
   overflow: hidden;
   text-overflow: ellipsis;
 `;
-const ShareStatus = styled(Text)<{ status: boolean }>`
+export const ShareStatus = styled(Text)<{ status: boolean }>`
   padding-left: 20px;
   &::after {
     content: "";

@@ -35,14 +35,14 @@ function Chart() {
   );
 }
 
-const ChartWrap = styled.div`
+export const ChartWrap = styled.div`
   position: relative;
   width: 62.5%;
   height: 100%;
   background: ${({ theme }) => theme.color.darkBg};
 `;
 
-const ScrollContainer = styled.div`
+export const ScrollContainer = styled.div`
   width: 100%;
   height: 100%;
   overflow-y: scroll;
@@ -64,7 +64,7 @@ const ScrollContainer = styled.div`
   }
 `;
 
-const ChartContainer = styled.div`
+export const ChartContainer = styled.div`
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;

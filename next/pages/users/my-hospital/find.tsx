@@ -9,10 +9,10 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { ButtonBox, DescriptionBox, ImageIcon, MainContainer, MainInnerContainer, Pragraph } from ".";
-import mapIcon from "@public/static/icon/mapIcon.svg";
+import MapIcon from "@public/static/icon/mapIcon.svg";
 import { HospitalListProps, HospitalListT } from "@components/HospitalContent";
 
-interface SearchForm {
+export interface SearchForm {
   search: string;
 }
 
@@ -93,7 +93,7 @@ const FindHospital = () => {
           </DescriptionBox>
           <ButtonBox>
             <RoundButton size="md" bgColor={theme.color.mintBtn} nonSubmit onClick={() => setShowModal(true)}>
-              <ImageIcon src={mapIcon} width={30} height={30} alt="map" />
+              <MapIcon width={30} height={30}/>
               지도에서 내 주변 병원 찾기
             </RoundButton>
           </ButtonBox>

@@ -58,7 +58,7 @@ const PageHead = styled.div`
   align-items: center;
 `;
 
-const ToriBox = styled.div`
+export const ToriBox = styled.div`
   flex-shrink: 0;
   width: 120px;
   height: 190px;

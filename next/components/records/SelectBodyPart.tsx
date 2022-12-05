@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { bodyPartType } from "types/bodyParts";
 import { Dispatch, SetStateAction } from "react";
 
-interface SelectBodyPartProps {
+export interface SelectBodyPartProps {
   selectedBodyPart: bodyPartType;
   setSelectedBodyPart: Dispatch<SetStateAction<bodyPartType>>;
 }
@@ -37,13 +37,13 @@ function SelectPart({ selectedBodyPart, setSelectedBodyPart}: SelectBodyPartProp
   );
 }
 
-const SelectPartWarp = styled.div`
+export const SelectPartWarp = styled.div`
   position: relative;
   width: 37.5%;
   height: 100%;
 `;
 
-const SelectPartContainer = styled.div`
+export const SelectPartContainer = styled.div`
   width: 100%;
   max-width: 720px;
   height: 100%;
@@ -54,7 +54,7 @@ const SelectPartContainer = styled.div`
   justify-content: center;
 `;
 
-const BackButton = styled.button`
+export const BackButton = styled.button`
   position: absolute;
   top: 20px;
   left: 30px;
@@ -86,7 +86,7 @@ const BackButton = styled.button`
   }
 `;
 
-const GuideText = styled.div`
+export const GuideText = styled.div`
   text-align: center;
   color: #5155ba;
   margin: 40px 0 20px;
