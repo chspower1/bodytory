@@ -24,10 +24,11 @@ import cross from "@public/static/icon/map/hospital.png";
 import triangle from "@public/static/icon/map/triangle.png";
 import tory from "@public/static/icon/map/tory_circle.png";
 import x from "@public/static/icon/x.png";
+import useCoords from "@hooks/useCoords";
 
 interface Coords {
-  lat: number;
-  lng: number;
+  latitude: number;
+  longitude: number;
 }
 interface Hospital {
   id: number;
@@ -46,38 +47,21 @@ interface AroundHospitalsResponse {
 }
 interface ArroundMapProps {
   onClose: () => void;
+  latitude: number;
+  longitude: number;
 }
-const ArroundMap: NextPage<ArroundMapProps> = ({ onClose }) => {
+const ArroundMap: NextPage<ArroundMapProps> = ({ onClose, latitude, longitude }) => {
   const queryClient = useQueryClient();
   const [hoverIndex, setHoverIndex] = useState(-1);
   const [clickIndex, setClickIndex] = useState(-1);
-  const [currentCoords, setCurrentCoords] = useState<Coords>({
-    lat: 0,
-    lng: 0,
-  });
-  const [coords, setCoords] = useState<Coords>({
-    lat: 0,
-    lng: 0,
-  });
-
-  const { postApi, getApi } = customApi(
-    `/api/users/my-hospitals/map?latitude=${currentCoords.lat}&longtitude=${currentCoords.lng}`,
-  );
+  const [coords, setCoords] = useState<Coords>({ latitude, longitude });
+  const { getApi } = customApi(`/api/users/my-hospitals/map?latitude=${latitude}&longitude=${longitude}`);
   const { data } = useQuery<AroundHospitalsResponse>(["hospitals", "map"], getApi, {
     onSuccess(data) {
       console.log(data);
     },
   });
 
-  // const { mutate, data } = useMutation<AroundHospitalsResponse, AxiosError, { longitude: number; latitude: number }>(
-  //   ["hospitals", "map"],
-  //   postApi,
-  //   {
-  //     onSuccess(data) {
-  //       console.log(data);
-  //     },
-  //   },
-  // );
   const { postApi: addHospitalApi } = customApi("/api/users/my-hospitals");
   const { mutate: addHospitalMutate } = useMutation(["addHospitalKey"], addHospitalApi, {
     onSuccess(data) {
@@ -96,7 +80,7 @@ const ArroundMap: NextPage<ArroundMapProps> = ({ onClose }) => {
   }) => {
     setHoverIndex(-1);
     setClickIndex(index);
-    setCoords({ lat: latitude + 0.001, lng: longitude });
+    setCoords({ latitude: latitude + 0.001, longitude: longitude });
   };
   const handleMouseOutMarker = () => {
     setHoverIndex(-1);
@@ -105,27 +89,15 @@ const ArroundMap: NextPage<ArroundMapProps> = ({ onClose }) => {
     addHospitalMutate({ id });
   };
 
-  useEffect(() => {
-    const { geolocation } = navigator;
-    geolocation.getCurrentPosition(position => {
-      console.log("x", position.coords.longitude);
-      console.log("y", position.coords.latitude);
-      setCoords({ lat: position.coords.latitude, lng: position.coords.longitude });
-      setCurrentCoords({ lat: position.coords.latitude, lng: position.coords.longitude });
-      console.log(currentCoords);
-      // mutate({ longitude: position.coords.longitude, latitude: position.coords.latitude });
-    });
-  }, []);
-
-  const modalContent = (
+  const modalContent = data ? (
     <ModalWrapper>
       <Dim onClick={onClose} />
       <ModalContainer width="1500px" height="800px">
         <ToryText>현재 소희님의 위치를 기준으로 주변 정형외과들을 찾았어요!</ToryText>
         <Map
           center={{
-            lat: coords.lat,
-            lng: coords.lng,
+            lat: coords.latitude,
+            lng: coords.longitude,
           }}
           isPanto={true}
           style={{
@@ -136,7 +108,7 @@ const ArroundMap: NextPage<ArroundMapProps> = ({ onClose }) => {
           // onClick={() => setClickIndex(-1)}
         >
           <MapMarker
-            position={{ lat: currentCoords.lat, lng: currentCoords.lng }}
+            position={{ lat: latitude!, lng: longitude! }}
             image={{
               src: "https://imagedelivery.net/AbuMCvvnFZBtmCKKJV_e6Q/e545a9f3-61fc-49de-df91-a3f5b4e08200/avatar", // 마커이미지의 주소입니다
               size: {
@@ -272,9 +244,11 @@ const ArroundMap: NextPage<ArroundMapProps> = ({ onClose }) => {
         </BtnBox>
       </ModalContainer>
     </ModalWrapper>
-  );
+  ) : null;
 
-  return ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement);
+  return latitude && longitude
+    ? ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement)
+    : null;
 };
 export default ArroundMap;
 const InfoWindowBox = styled(Col)`
