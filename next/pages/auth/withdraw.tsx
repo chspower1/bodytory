@@ -84,7 +84,7 @@ export default function Withdraw() {
         ></MessageBox>
         {isOrigin && (
           <Input
-            light
+            $light
             type="password"
             register={register("password", {
               required: "회원탈퇴를 하시려면\n비밀번호로 인증 해주셔야해요",

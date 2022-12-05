@@ -92,7 +92,7 @@ const FindHospital = () => {
           <SearchBox>
             <SearchForm onSubmit={handleSubmit(onValid)}>
               <Input
-                white
+                $white
                 name="search"
                 width="700px"
                 placeholder="병원명을 입력해주세요"
@@ -113,7 +113,7 @@ const FindHospital = () => {
         </DescriptionContainer>
         <HospitalList lists={findState} add={true} setobserverTarget={observerTarget} isLoading={isLoading} />
       </MainInnerContainer>
-      <ArroundMap show={showModal} onClose={() => setShowModal(false)} />
+      {showModal && <ArroundMap onClose={() => setShowModal(false)} />}
     </MainContainer>
   );
 };
