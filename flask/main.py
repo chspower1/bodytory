@@ -3,7 +3,6 @@ import operator
 import pandas as pd
 from flask import Flask, jsonify, request
 from konlpy.tag import Okt
-from keras.models import load_model
 from krwordrank.word import KRWordRank
 from krwordrank.word import summarize_with_keywords
 from gensim.models import Word2Vec
@@ -155,4 +154,5 @@ if __name__ == '__main__':
     query_data['symptom'] = query_data['symptom'].apply(lambda x: tokenizer(x))
     w2v_model = gensim.models.Word2Vec.load('./kor_w2v_final')
 
+    print('test')
     app.run(host='0.0.0.0', port=8080)
