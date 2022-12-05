@@ -16,6 +16,7 @@ export interface SelectBodyPartProps {
   selectedBodyPart: bodyPartType;
   setSelectedBodyPart: Dispatch<SetStateAction<bodyPartType>>;
   isWritePage: boolean;
+  isHospital?: boolean;
 }
 
 const common: bodyPartType[] = [
@@ -40,7 +41,7 @@ const face: bodyPartType[] = ["head", "forehead", "eyes", "nose", "mouth", "chee
 const bodyFront = [...common, ...front];
 const bodyBack = [...common, ...back];
 
-const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage }: SelectBodyPartProps) => {
+const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage, isHospital }: SelectBodyPartProps) => {
   const router = useRouter();
   const { query } = useRouter();
   const position = query.position as Position;
@@ -106,7 +107,10 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage }: S
                             setSelectedBodyPart(part);
                           } else {
                             setCurrentPosition("front");
-                            router.push(`/users/records/chart/${part}`);
+                            router.push(isHospital ? {
+                              pathname: `/hospital/chart`,
+                              query:{ position: part}
+                            } :`/users/records/chart/${part}`);
                           }
                         }}
                         isHover={hoveredPart === part}
@@ -121,7 +125,10 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage }: S
                             setSelectedBodyPart(part);
                           } else {
                             setCurrentPosition("front");
-                            router.push(`/users/records/chart/${part}`);
+                            router.push(isHospital ? {
+                              pathname: `/hospital/chart`,
+                              query:{ position: part}
+                            } :`/users/records/chart/${part}`);
                           }
                         }}
                         isHover={hoveredPart === part}
@@ -140,7 +147,10 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage }: S
                         if (part === "head") {
                           setCurrentPosition("face");
                         } else {
-                          isWritePage ? setSelectedBodyPart(part) : router.push(`/users/records/chart/${part}`);
+                          isWritePage ? setSelectedBodyPart(part) : router.push(isHospital ? {
+                            pathname: `/hospital/chart`,
+                            query:{ position: part}
+                          } :`/users/records/chart/${part}`);
                         }
                       }}
                       isHover={hoveredPart === part}
@@ -170,7 +180,10 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage }: S
                             setSelectedBodyPart(part);
                           } else {
                             setCurrentPosition("back");
-                            router.push(`/users/records/chart/${part}`);
+                            router.push(isHospital ? {
+                              pathname: `/hospital/chart`,
+                              query:{ position: part}
+                            } :`/users/records/chart/${part}`);
                           }
                         }}
                         isHover={hoveredPart === part}
@@ -185,7 +198,10 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage }: S
                             setSelectedBodyPart(part);
                           } else {
                             setCurrentPosition("back");
-                            router.push(`/users/records/chart/${part}`);
+                            router.push(isHospital ? {
+                              pathname: `/hospital/chart`,
+                              query:{ position: part}
+                            } :`/users/records/chart/${part}`);
                           }
                         }}
                         isHover={hoveredPart === part}
@@ -204,7 +220,10 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage }: S
                         if (part === "head") {
                           setCurrentPosition("face");
                         } else {
-                          isWritePage ? setSelectedBodyPart(part) : router.push(`/users/records/chart/${part}`);
+                          isWritePage ? setSelectedBodyPart(part) : router.push(isHospital ? {
+                            pathname: `/hospital/chart`,
+                            query:{ position: part}
+                          } :`/users/records/chart/${part}`);
                         }
                       }}
                       isHover={hoveredPart === part}
@@ -234,7 +253,10 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage }: S
                             setSelectedBodyPart(part);
                           } else {
                             setCurrentPosition("face");
-                            router.push(`/users/records/chart/${part}`);
+                            router.push(isHospital ? {
+                              pathname: `/hospital/chart`,
+                              query:{ position: part}
+                            } :`/users/records/chart/${part}`);
                           }
                         }}
                         isHover={hoveredPart === part}
@@ -249,7 +271,10 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage }: S
                             setSelectedBodyPart(part);
                           } else {
                             setCurrentPosition("face");
-                            router.push(`/users/records/chart/${part}`);
+                            router.push(isHospital ? {
+                              pathname: `/hospital/chart`,
+                              query:{ position: part}
+                            } :`/users/records/chart/${part}`);
                           }
                         }}
                         isHover={hoveredPart === part}
@@ -269,7 +294,10 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage }: S
                           setSelectedBodyPart(part);
                         } else {
                           setCurrentPosition("face");
-                          router.push(`/users/records/chart/${part}`);
+                          router.push(isHospital ? {
+                            pathname: `/hospital/chart`,
+                            query:{ position: part}
+                          } :`/users/records/chart/${part}`);
                         }
                       }}
                       isHover={hoveredPart === part}

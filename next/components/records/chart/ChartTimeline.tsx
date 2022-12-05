@@ -14,6 +14,8 @@ import { useRouter } from "next/router";
 import checkIcon from "@public/static/icon/icon_checkbox.png";
 import checkedIcon from "@public/static/icon/checkbox_checked.png";
 import { changeDate } from "@utils/client/changeDate";
+import { useRecoilValue } from "recoil";
+import { currentPatientName } from "atoms/atoms";
 
 export interface RecordWithImageAndHospital extends Record {
   images: RecordImage[];
@@ -23,7 +25,7 @@ export interface RecordWithImageAndHospital extends Record {
 function ChartTimeline() {
   const { query } = useRouter();
   const position = query.position as Position;
-
+  const patientName = useRecoilValue(currentPatientName);
   const queryClient = useQueryClient();
   const { getApi } = customApi(`/api/users/records/${position}`);
   const { deleteApi } = customApi(`/api/users/records`);
