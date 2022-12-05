@@ -11,7 +11,7 @@ import styled from "styled-components";
 import { ButtonBox, DescriptionBox, ImageIcon, MainContainer, MainInnerContainer, Pragraph } from ".";
 import mapIcon from "@public/static/icon/mapIcon.svg";
 import { HospitalListProps, HospitalListT } from "@components/HospitalContent";
-import { AnimatePresence } from "framer-motion";
+import useIO from "@hooks/useIO";
 
 interface SearchForm {
   search: string;
@@ -24,7 +24,7 @@ const FindHospital = () => {
   const [page, setPage] = useState<number>(0);
   const [findState, setFindState] = useState<HospitalListT[]>([]);
   const [hasLastPage, setHasLastPage] = useState(false);
-  const [observerTarget, setObserverTarget] = useState<HTMLDivElement | null>(null);
+  const observerTarget = useRef<HTMLDivElement>(null);
   const [showModal, setShowModal] = useState(false);
   const {
     register,
@@ -33,6 +33,11 @@ const FindHospital = () => {
     setError,
     formState: { errors },
   } = useForm<SearchForm>({ mode: "onChange" });
+
+  const ioCallback = () => {
+    setPage(page => page + 1);
+  };
+  const { setTarget } = useIO(hasLastPage, ioCallback);
 
   useEffect(() => {
     if (searchWord) {
@@ -56,30 +61,16 @@ const FindHospital = () => {
   }, [searchWord, page]);
 
   const onValid = useCallback(async (input: SearchForm) => {
+    if (input.search === "") return;
     setSearchWord(() => input.search);
     setFindState([]);
     setPage(0);
     setValue("search", "");
   }, []);
 
-  const onInterect: IntersectionObserverCallback = useCallback(async ([entry], observer) => {
-    if (entry.isIntersecting) {
-      observer.unobserve(entry.target);
-      if (!hasLastPage) {
-        setPage(page => page + 1);
-        observer.observe(entry.target);
-      }
-    }
-  }, []);
-
   useEffect(() => {
-    console.log(observerTarget);
-    if (hasLastPage) return;
-    if (observerTarget === null || observerTarget === undefined) return;
-    const io = new IntersectionObserver(onInterect, { root: null, threshold: 1, rootMargin: "0px" });
-    io.observe(observerTarget);
-    return () => io.disconnect();
-  }, [observerTarget]);
+    if (observerTarget) setTarget(observerTarget.current);
+  }, [observerTarget, setTarget, []]);
 
   return (
     <MainContainer>
@@ -120,14 +111,9 @@ const FindHospital = () => {
             </SearchForm>
           </SearchBox>
         </DescriptionContainer>
-        <HospitalList
-          lists={findState || undefined}
-          add={true}
-          setobserverTarget={setObserverTarget}
-          isLoading={isLoading}
-        />
+        <HospitalList lists={findState} add={true} setobserverTarget={observerTarget} isLoading={isLoading} />
       </MainInnerContainer>
-      <AnimatePresence>{showModal && <ArroundMap onClose={() => setShowModal(false)} />}</AnimatePresence>
+      <ArroundMap show={showModal} onClose={() => setShowModal(false)} />
     </MainContainer>
   );
 };
