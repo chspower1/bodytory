@@ -12,6 +12,7 @@ import { ButtonBox, DescriptionBox, ImageIcon, MainContainer, MainInnerContainer
 import mapIcon from "@public/static/icon/mapIcon.svg";
 import { HospitalListProps, HospitalListT } from "@components/HospitalContent";
 import useIO from "@hooks/useIO";
+import useCoords from "@hooks/useCoords";
 
 interface SearchForm {
   search: string;
@@ -20,6 +21,7 @@ interface SearchForm {
 const FindHospital = () => {
   const queryclient = useQueryClient();
   const [isLoading, setIsLoading] = useState(false);
+  const { latitude, longitude } = useCoords();
   const [searchWord, setSearchWord] = useState<string>("");
   const [page, setPage] = useState<number>(0);
   const [findState, setFindState] = useState<HospitalListT[]>([]);
@@ -113,7 +115,7 @@ const FindHospital = () => {
         </DescriptionContainer>
         <HospitalList lists={findState} add={true} setobserverTarget={observerTarget} isLoading={isLoading} />
       </MainInnerContainer>
-      <ArroundMap show={showModal} onClose={() => setShowModal(false)} />
+      {showModal && <ArroundMap latitude={latitude!} longitude={longitude!} onClose={() => setShowModal(false)} />}
     </MainContainer>
   );
 };
