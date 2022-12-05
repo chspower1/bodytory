@@ -1,19 +1,12 @@
 import { CircleButton, RoundButton } from "@components/buttons/Button";
 import { BodyText, Box, BtnBox, Col, FlexContainer, Row, ToryText, WhiteBoldText, WhiteText } from "@styles/Common";
 import Image from "next/image";
-import { CustomOverlayMap, Map, MapInfoWindow, MapMarker } from "react-kakao-maps-sdk";
+import { CustomOverlayMap, Map, MapMarker } from "react-kakao-maps-sdk";
 import styled from "styled-components";
-import kakaomap from "@public/static/icon/kakao_map.svg";
-import pointer from "@public/static/icon/pointer.svg";
-import web from "@public/static/icon/web.svg";
-import cross from "@public/static/icon/cross.svg";
-import triangle from "@public/static/icon/triangle.png";
-import x from "@public/static/icon/x.png";
-import marker from "@public/static/icon/map_marker.png";
+
 import customApi from "@utils/client/customApi";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
-import { HospitalsForMap } from "@api/users/my-hospitals/map";
+import { useEffect, useState } from "react";
 import { AxiosError } from "axios";
 import Link from "next/link";
 import { theme } from "@styles/theme";
@@ -22,6 +15,15 @@ import ReactDOM from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { ModalContainer, ModalWrapper, Dim } from "@styles/ModalStyled";
 import { HOSPITALS } from "constant/queryKeys";
+
+// Icon
+import kakaomap from "@public/static/icon/map/kakao_map.png";
+import pin from "@public/static/icon/map/pin.png";
+import web from "@public/static/icon/map/web.png";
+import cross from "@public/static/icon/map/hospital.png";
+import triangle from "@public/static/icon/map/triangle.png";
+import tory from "@public/static/icon/map/tory_circle.png";
+import x from "@public/static/icon/x.png";
 
 interface Coords {
   lat: number;
@@ -176,7 +178,7 @@ const ArroundMap: NextPage<ArroundMapProps> = ({ onClose }) => {
                 >
                   <InfoWindowBox>
                     <TopArea>
-                      <Image src={kakaomap} alt="사진" />
+                      <Image src={tory} alt="사진" />
                       <Name fontSize="20px">{hospital.name}</Name>
                       <Box style={{ position: "absolute", right: "20px" }}>
                         <CircleButton
@@ -191,7 +193,7 @@ const ArroundMap: NextPage<ArroundMapProps> = ({ onClose }) => {
                     </TopArea>
                     <ContentBox>
                       <AdressBox>
-                        <Image src={pointer} alt="사진" />
+                        <Image src={pin} alt="사진" />
                         <AddressText title={hospital.address}>{hospital.address}</AddressText>
 
                         <Link
@@ -304,10 +306,11 @@ const Name = styled(WhiteBoldText)`
 const ContentBox = styled(Col)`
   width: 100%;
   height: 120px;
+  margin-top: 10px;
   justify-content: space-between;
 `;
 const AdressBox = styled(Box)`
-  margin-left: 30px;
+  margin-left: 70px;
   gap: 10px;
   justify-content: flex-start;
   width: 100%;
