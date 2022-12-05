@@ -187,6 +187,7 @@ function ChartTimeline() {
                       </DeleteButton>
                     </Content>
                     <RecordModal
+                     
                       record={record}
                       show={showRecordModal === record.id}
                       onClose={() => setShowRecordModal(-1)}

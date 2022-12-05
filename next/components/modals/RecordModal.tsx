@@ -88,7 +88,7 @@ const RecordModal = ({ onClose, record, show }: RecordModalProps) => {
       {show && (
         <ModalWrapper>
           <Dim onClick={onClose} />
-          <ModalContainer>
+          <ModalContainer width="800px" height="780px">
             <Modal>
               <ScrollContainer>
                 <RecordDetailContainer>
