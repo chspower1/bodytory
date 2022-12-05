@@ -14,7 +14,7 @@ import { ChangeToHoverColor, RectangleButton, RoundButton } from "./buttons/Butt
 import Modal from "./modals/Modal";
 
 interface HospitalContentProps {
-  hospital: MyHospital;
+  hospital: MyHospital | MyHospitalResponse;
   add: boolean;
   idx: number;
   shared: boolean;
