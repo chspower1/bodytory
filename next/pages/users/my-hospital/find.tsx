@@ -1,5 +1,5 @@
 import { RoundButton } from "@components/buttons/Button";
-import HospitalList from "@components/HospitalList";
+import HospitalList from "@components/MyHospitalList";
 import Input from "@components/Input";
 import ArroundMap from "@components/modals/ArroundMap";
 import { theme } from "@styles/theme";
@@ -24,6 +24,7 @@ import useCoords from "@hooks/useCoords";
 import { AnimatePresence } from "framer-motion";
 import { BackButton } from "@styles/Common";
 import Link from "next/link";
+import SearchHospitalList from "@components/SearchHospitalList";
 
 interface SearchForm {
   search: string;
@@ -35,7 +36,7 @@ const FindHospital = () => {
   const { latitude, longitude } = useCoords();
   const [searchWord, setSearchWord] = useState<string>("");
   const [page, setPage] = useState<number>(0);
-  const [findState, setFindState] = useState<MyHospitalResponse[]>([]);
+  const [findState, setFindState] = useState<MyHospital[]>([]);
   const [hasLastPage, setHasLastPage] = useState(false);
   const observerTarget = useRef<HTMLDivElement>(null);
   const [showModal, setShowModal] = useState(false);
@@ -62,10 +63,10 @@ const FindHospital = () => {
     setIsLoading(() => true);
     const result = await axios.get(`/api/users/my-hospitals/find?page=${page}&search=${searchWord}`);
     setHasLastPage(() => result.data.status);
-    setFindState((current: MyHospitalResponse[]) => {
+    setFindState((current: MyHospital[]) => {
       const array = [...current];
       if (array) {
-        array.push(...result.data.foundHospital);
+        array.push(...result.data.foundHospitals);
       }
       return [...new Set(array)];
     });
@@ -131,7 +132,7 @@ const FindHospital = () => {
             </SearchForm>
           </SearchBox>
         </DescriptionContainer>
-        <HospitalList lists={findState} add={true} setobserverTarget={observerTarget} isLoading={isLoading} />
+        <SearchHospitalList hospitals={findState} add={true} setobserverTarget={observerTarget} isLoading={isLoading} />
       </MainInnerContainer>
       <AnimatePresence>
         {showModal && <ArroundMap latitude={latitude!} longitude={longitude!} onClose={() => setShowModal(false)} />}

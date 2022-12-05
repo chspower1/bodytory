@@ -14,7 +14,7 @@ import { ChangeToHoverColor, RectangleButton, RoundButton } from "./buttons/Butt
 import Modal from "./modals/Modal";
 
 interface HospitalContentProps {
-  hospital: MyHospital | MyHospitalResponse;
+  hospital: MyHospital;
   add: boolean;
   idx: number;
   shared: boolean;
@@ -24,16 +24,21 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
   const router = useRouter();
   const [onShare, setOnShare] = useState<boolean>(shared);
   const setHospitalCurrentIdx = useSetRecoilState(currentHospitalIdx);
-  const [isAddButton, setIsAddButton] = useState(false);
-
+  const [onConnected, setOnConnected] = useState(hospital.my);
   const queryClient = useQueryClient();
 
-  const { postApi, getApi, putApi } = customApi("/api/users/my-hospitals");
+  const { postApi, putApi, deleteApi } = customApi("/api/users/my-hospitals");
   const [showModal, setShowModal] = useState(false);
 
   // 추가용 api
-  const { mutate } = useMutation(["addHospitalKey"], postApi, {
-    onSuccess(data) {
+  const { mutate: addHospitalMutate } = useMutation(["addHospitalKey"], postApi, {
+    onSuccess() {
+      queryClient.invalidateQueries(["isMyHospital"]);
+      queryClient.invalidateQueries([HOSPITALS]);
+    },
+  });
+  const { mutate: deleteHospitalMutate } = useMutation(["addHospitalKey"], deleteApi, {
+    onSuccess() {
       queryClient.invalidateQueries(["isMyHospital"]);
       queryClient.invalidateQueries([HOSPITALS]);
     },
@@ -47,10 +52,15 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
   };
 
   const handleClickAddHospital = () => {
-    mutate({ id: hospital.id });
+    addHospitalMutate({ id: hospital.id });
+    setOnConnected(true);
     setShowModal(false);
   };
-
+  const handleClickDeleteHospital = () => {
+    deleteHospitalMutate({ id: hospital.id });
+    setOnConnected(false);
+    setShowModal(false);
+  };
   const handleClickGoClinicList = () => {
     router.push("/users/my-hospital/clinic-list");
     setHospitalCurrentIdx(idx);
@@ -62,8 +72,7 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
         <HospitalInforBox>
           <HospitalDescriptionBox>
             <NameText size="18px" weight="900" add={add}>
-              {/* {sliceName(hospital.name)} */}
-              {/* {hospital.name} */}
+              {sliceName(hospital.name)}
             </NameText>
             <Department>
               {hospital.medicalDepartments[0].medicalDepartment &&
@@ -80,8 +89,13 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
         </HospitalInforBox>
         {add ? (
           <AddButtonBox>
-            <RectangleButton nonSubmit size="md" disabled={isAddButton} onClick={() => setShowModal(true)}>
-              추가
+            <RectangleButton
+              nonSubmit
+              size="md"
+              bgColor={onConnected ? theme.color.error : theme.color.darkBg}
+              onClick={() => setShowModal(true)}
+            >
+              {onConnected ? "삭제" : "추가"}
             </RectangleButton>
           </AddButtonBox>
         ) : (
@@ -95,18 +109,26 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
           </HospitalStatusBox>
         )}
       </HospitalInforContainer>
+
       <Modal
         show={showModal}
         onClose={() => setShowModal(false)}
-        activeFuction={handleClickAddHospital}
-        agreeType
+        activeFuction={onConnected ? handleClickDeleteHospital : handleClickAddHospital}
+        agreeType={!onConnected}
         title="개인정보 수집 동의"
       >
-        <p>병원을 추가하면 병원에서 나의 기록을 열람할 수 있습니다</p>
-        <p>
-          {/* <b>{sliceName(hospital.name)}</b>에서 개인정보 수집 및 이용에 동의하십니까? */}
-          <b>{hospital.name}</b>에서 개인정보 수집 및 이용에 동의하십니까?
-        </p>
+        {onConnected ? (
+          <p>
+            <b>{sliceName(hospital.name)}</b>를 등록된 병원에서 제거하시겠습니까?
+          </p>
+        ) : (
+          <>
+            <p>병원을 추가하면 병원에서 나의 기록을 열람할 수 있습니다</p>
+            <p>
+              <b>{sliceName(hospital.name)}</b>에서 개인정보 수집 및 이용에 동의하십니까?
+            </p>
+          </>
+        )}
       </Modal>
     </HospitalInfor>
   );

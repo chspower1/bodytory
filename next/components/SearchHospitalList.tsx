@@ -1,32 +1,26 @@
 import { Hospital } from "@prisma/client";
 import { theme } from "@styles/theme";
-import { MyHospitalResponse } from "pages/users/my-hospital";
+import { MyHospital, MyHospitalResponse } from "pages/users/my-hospital";
 import { LegacyRef, MouseEvent } from "react";
 import styled from "styled-components";
 import HospitalContent from "./HospitalContent";
 
-interface HospitalListProps {
-  lists?: MyHospitalResponse[];
+interface SearchHospitalListProps {
+  hospitals?: MyHospital[];
   add: boolean;
   setobserverTarget?: LegacyRef<HTMLDivElement> | null;
   isLoading?: boolean;
 }
 
-const HospitalList = ({ lists, add, setobserverTarget, isLoading }: HospitalListProps) => {
-  console.log("lists", lists);
+const SearchHospitalList = ({ hospitals, add, setobserverTarget, isLoading }: SearchHospitalListProps) => {
+  // console.log("lists", hospitals);
   return (
     <HospitalContainer add={add}>
       <InnerContainer add={add}>
-        {lists !== undefined && lists.length !== 0 ? (
+        {hospitals ? (
           <HospitalLists>
-            {lists?.map((list, idx) => (
-              <HospitalContent
-                hospital={list.hospital ? list.hospital : list}
-                idx={idx}
-                add={add}
-                key={idx}
-                shared={list.shared}
-              />
+            {hospitals?.map((hospital, idx) => (
+              <HospitalContent hospital={hospital} idx={idx} add={add} key={idx} shared={false} />
             ))}
             {isLoading ? <div>Loading....</div> : <div ref={setobserverTarget} />}
           </HospitalLists>
@@ -38,7 +32,7 @@ const HospitalList = ({ lists, add, setobserverTarget, isLoading }: HospitalList
   );
 };
 
-export default HospitalList;
+export default SearchHospitalList;
 
 const NoneMessage = styled.div`
   text-align: center;
