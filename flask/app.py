@@ -110,7 +110,8 @@ def keyword_extractor(sentence_list):
 def tokenizer(sentence):
     tmp = []
     tokenized = okt.morphs(sentence, stem=True)  # 토큰화
-    stopwords_removed = [word for word in tokenized if not word in stopwords]  # 불용어 제거
+    stopwords_removed = [
+        word for word in tokenized if not word in stopwords]  # 불용어 제거
     changed = [word if word != '귀가' else '귀' for word in stopwords_removed]
     tmp.append(changed)
     return tmp
@@ -127,8 +128,10 @@ def predict_departments(sentence):
         except:
             continue
     for i in query_data.index:
-        result[i] = len(set(query_data['symptom'][i][0]).intersection(set(keep)))
-    department_list = list(dict(sorted(result.items(), key=operator.itemgetter(1), reverse=True)).keys())
+        result[i] = len(set(query_data['symptom'][i]
+                        [0]).intersection(set(keep)))
+    department_list = list(
+        dict(sorted(result.items(), key=operator.itemgetter(1), reverse=True)).keys())
     return list(map(lambda x: department_codes[x], department_list))
 
 
