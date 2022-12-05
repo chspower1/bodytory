@@ -10,42 +10,44 @@ export interface HospitalsForMap {
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { user } = req.session;
   if (!user) return res.status(400).end();
-  if (req.method === "POST") {
-    const { longitude, latitude } = req.body;
-    const hospitals: HospitalsForMap[] = await client.hospital.findMany({
-      where: {
-        x: {
-          gte: longitude - 0.005,
-          lte: longitude + 0.005,
-        },
+  if (req.method === "GET") {
+    const { longitude, latitude } = req.query;
+    console.log(longitude, latitude);
+    // const hospitals: HospitalsForMap[] = await client.hospital.findMany({
+    //   where: {
+    //     x: {
+    //       gte: parseInt(longitude as string) - 0.005,
+    //       lte: parseInt(longitude as string) + 0.005,
+    //     },
 
-        y: {
-          gte: latitude - 0.005,
-          lte: latitude + 0.005,
-        },
-      },
-      select: {
-        id: true,
-        name: true,
-        x: true,
-        y: true,
-        address: true,
-        homepage: true,
-        medicalDepartments: {
-          select: {
-            medicalDepartment: {
-              select: {
-                department: true,
-              },
-            },
-          },
-        },
-      },
-      take: 100,
-    });
-    console.log(hospitals, hospitals.length, longitude, latitude);
-    return res.status(200).json({ hospitals });
+    //     y: {
+    //       gte: parseInt(latitude as string) - 0.005,
+    //       lte: parseInt(latitude as string) + 0.005,
+    //     },
+    //   },
+    //   select: {
+    //     id: true,
+    //     name: true,
+    //     x: true,
+    //     y: true,
+    //     address: true,
+    //     homepage: true,
+    //     medicalDepartments: {
+    //       select: {
+    //         medicalDepartment: {
+    //           select: {
+    //             department: true,
+    //           },
+    //         },
+    //       },
+    //     },
+    //   },
+    //   take: 100,
+    // });
+    // console.log(hospitals, hospitals.length, longitude, latitude);
+    // return res.status(200).json({ hospitals });
+    return res.status(200).json({});
   }
 }
 
-export default withApiSession(withHandler({ methods: ["POST"], handler, isPrivate: false }));
+export default withApiSession(withHandler({ methods: ["GET"], handler, isPrivate: false }));

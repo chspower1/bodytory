@@ -5,7 +5,7 @@ import { CustomOverlayMap, Map, MapMarker } from "react-kakao-maps-sdk";
 import styled from "styled-components";
 
 import customApi from "@utils/client/customApi";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { AxiosError } from "axios";
 import Link from "next/link";
@@ -60,16 +60,24 @@ const ArroundMap: NextPage<ArroundMapProps> = ({ onClose }) => {
     lng: 0,
   });
 
-  const { postApi } = customApi("/api/users/my-hospitals/map");
-  const { mutate, data } = useMutation<AroundHospitalsResponse, AxiosError, { longitude: number; latitude: number }>(
-    ["hospitals", "map"],
-    postApi,
-    {
-      onSuccess(data) {
-        console.log(data);
-      },
-    },
+  const { postApi, getApi } = customApi(
+    `/api/users/my-hospitals/map?latitude=${currentCoords.lat}&longtitude=${currentCoords.lng}`,
   );
+  const { data } = useQuery<AroundHospitalsResponse>(["hospitals", "map"], getApi, {
+    onSuccess(data) {
+      console.log(data);
+    },
+  });
+
+  // const { mutate, data } = useMutation<AroundHospitalsResponse, AxiosError, { longitude: number; latitude: number }>(
+  //   ["hospitals", "map"],
+  //   postApi,
+  //   {
+  //     onSuccess(data) {
+  //       console.log(data);
+  //     },
+  //   },
+  // );
   const { postApi: addHospitalApi } = customApi("/api/users/my-hospitals");
   const { mutate: addHospitalMutate } = useMutation(["addHospitalKey"], addHospitalApi, {
     onSuccess(data) {
@@ -104,7 +112,8 @@ const ArroundMap: NextPage<ArroundMapProps> = ({ onClose }) => {
       console.log("y", position.coords.latitude);
       setCoords({ lat: position.coords.latitude, lng: position.coords.longitude });
       setCurrentCoords({ lat: position.coords.latitude, lng: position.coords.longitude });
-      mutate({ longitude: position.coords.longitude, latitude: position.coords.latitude });
+      console.log(currentCoords);
+      // mutate({ longitude: position.coords.longitude, latitude: position.coords.latitude });
     });
   }, []);
 
