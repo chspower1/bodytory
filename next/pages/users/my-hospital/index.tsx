@@ -7,10 +7,11 @@ import Link from "next/link";
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import medicalIcon from "@public/static/icon/medical.png";
-import HospitalList from "@components/HospitalList";
+import HospitalList from "@components/MyHospitalList";
 import Image from "next/image";
 import useUser from "@hooks/useUser";
 import { Hospital, MedicalDepartment } from "@prisma/client";
+import MyHospitalList from "@components/MyHospitalList";
 
 export interface MyHospitalResponse {
   hospital: MyHospital;
@@ -51,7 +52,7 @@ const MyHospitalPage = () => {
             </RoundButton>
           </Link>
         </ButtonBox>
-        <HospitalList lists={data} add={false} />
+        <MyHospitalList hospitals={data} add={false} />
       </MainInnerContainer>
     </MainContainer>
   ) : null;

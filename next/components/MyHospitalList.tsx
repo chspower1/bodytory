@@ -5,30 +5,23 @@ import { LegacyRef, MouseEvent } from "react";
 import styled from "styled-components";
 import HospitalContent from "./HospitalContent";
 
-interface HospitalListProps {
-  lists?: MyHospitalResponse[];
+interface MyHospitalListProps {
+  hospitals?: MyHospitalResponse[];
   add: boolean;
   setobserverTarget?: LegacyRef<HTMLDivElement> | null;
   isLoading?: boolean;
 }
 
-const HospitalList = ({ lists, add, setobserverTarget, isLoading }: HospitalListProps) => {
-  console.log("lists", lists);
+const MyHospitalList = ({ hospitals, add }: MyHospitalListProps) => {
+  console.log("lists", hospitals);
   return (
     <HospitalContainer add={add}>
       <InnerContainer add={add}>
-        {lists !== undefined && lists.length !== 0 ? (
+        {hospitals ? (
           <HospitalLists>
-            {lists?.map((list, idx) => (
-              <HospitalContent
-                hospital={list.hospital ? list.hospital : list}
-                idx={idx}
-                add={add}
-                key={idx}
-                shared={list.shared}
-              />
+            {hospitals?.map((hospital, idx) => (
+              <HospitalContent hospital={hospital.hospital} idx={idx} add={add} key={idx} shared={hospital.shared} />
             ))}
-            {isLoading ? <div>Loading....</div> : <div ref={setobserverTarget} />}
           </HospitalLists>
         ) : (
           <NoneMessage>{add ? "검색결과가 없습니다" : "병원내역이 없습니다"}</NoneMessage>
@@ -38,7 +31,7 @@ const HospitalList = ({ lists, add, setobserverTarget, isLoading }: HospitalList
   );
 };
 
-export default HospitalList;
+export default MyHospitalList;
 
 const NoneMessage = styled.div`
   text-align: center;
