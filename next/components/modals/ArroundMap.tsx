@@ -112,7 +112,7 @@ const ArroundMap: NextPage<ArroundMapProps> = ({ show = false, onClose }) => {
       {show && (
         <ModalWrapper>
           <Dim onClick={onClose} />
-          <ModalContainer width="1500px" height="800px">
+          <ModalContainer width="1500px" height="800px" flex>
             <ToryText>현재 소희님의 위치를 기준으로 주변 정형외과들을 찾았어요!</ToryText>
             <Map
               center={{
