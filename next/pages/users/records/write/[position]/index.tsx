@@ -74,6 +74,7 @@ const PositionPage = () => {
     if (isOnSubmit) {
       if (recordStatus === "finish") {
         mutate({ position: router.query.position as string, description: writeForm.description });
+        router.push("/users/records/write/analysis");
       } else {
         setIsOnSubmit(false);
         setError(true);

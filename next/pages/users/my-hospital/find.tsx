@@ -9,10 +9,11 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { ButtonBox, DescriptionBox, ImageIcon, MainContainer, MainInnerContainer, Pragraph } from ".";
-import mapIcon from "@public/static/icon/mapIcon.svg";
+import MapIcon from "@public/static/icon/mapIcon.svg";
 import { HospitalListProps, HospitalListT } from "@components/HospitalContent";
 import useIO from "@hooks/useIO";
 import useCoords from "@hooks/useCoords";
+import { AnimatePresence } from "framer-motion";
 
 interface SearchForm {
   search: string;
@@ -87,8 +88,9 @@ const FindHospital = () => {
           </DescriptionBox>
           <ButtonBox>
             <RoundButton size="md" bgColor={theme.color.mintBtn} nonSubmit onClick={() => setShowModal(true)}>
-              <ImageIcon src={mapIcon} width={30} height={30} alt="map" />
-              지도에서 내 주변 병원 찾기
+              {/* <ImageIcon src={mapIcon} width={30} height={30} alt="map" /> */}
+              <MapIcon style={{ marginBottom: "6px" }} />
+              &nbsp;&nbsp; 지도에서 내 주변 병원 찾기
             </RoundButton>
           </ButtonBox>
           <SearchBox>
@@ -115,7 +117,9 @@ const FindHospital = () => {
         </DescriptionContainer>
         <HospitalList lists={findState} add={true} setobserverTarget={observerTarget} isLoading={isLoading} />
       </MainInnerContainer>
-      {showModal && <ArroundMap latitude={latitude!} longitude={longitude!} onClose={() => setShowModal(false)} />}
+      <AnimatePresence>
+        {showModal && <ArroundMap latitude={latitude!} longitude={longitude!} onClose={() => setShowModal(false)} />}
+      </AnimatePresence>
     </MainContainer>
   );
 };
