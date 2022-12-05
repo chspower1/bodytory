@@ -6,7 +6,7 @@ import { RoundButton } from "../buttons/Button";
 import { AnimatePresence, motion } from "framer-motion";
 import { Dim, ModalContainer, ModalWrapper } from "@styles/ModalStyled";
 
-interface ModalType {
+interface ModalProps {
   show: boolean;
   closingComment?: boolean;
   onClose: () => void;
@@ -15,6 +15,8 @@ interface ModalType {
   children?: string | ReactNode;
   agreeType?: boolean;
   terms?: boolean;
+  width?: string;
+  height?: string;
 }
 /**
  * @show 필수 입니다.
@@ -29,13 +31,15 @@ function Modal({
   title = "알림",
   agreeType = false,
   terms = false,
-}: ModalType) {
+  width = "600px",
+  height = "350px",
+}: ModalProps) {
   const modalContent = (
     <AnimatePresence>
       {show && (
         <ModalWrapper>
           <Dim onClick={onClose} />
-          <ModalContainer width="900px" height="700px">
+          <ModalContainer width={width} height={height}>
             <ModalTitle>
               <h3>{title}</h3>
             </ModalTitle>
@@ -60,7 +64,7 @@ function Modal({
 }
 
 const ConfirmBtnBox = styled.div`
-  margin-top: 30px;
+  margin: 30px;
   button {
     display: inline-block;
     margin: 0 10px;
