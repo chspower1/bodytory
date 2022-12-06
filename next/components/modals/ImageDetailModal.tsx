@@ -26,7 +26,7 @@ const ImageDetailModal = ({ show, onClose, url, index, imagesLength, setShow }: 
       {show === index && (
         <ModalWrapper>
           <Dim onClick={onClose} />
-          <ModalContainer width="0px" height="0px">
+          <ModalContainer flex width="0px" height="0px">
             <ImageBox>
               <Image src={url} fill alt="사진" objectFit="contain" />
               {/* <BtnBox>

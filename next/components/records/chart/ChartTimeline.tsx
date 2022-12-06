@@ -15,6 +15,9 @@ import checkIcon from "@public/static/icon/icon_checkbox.png";
 import checkedIcon from "@public/static/icon/checkbox_checked.png";
 import { changeDate } from "@utils/client/changeDate";
 import DeleteBtn from "@components/buttons/DeleteBtn";
+import { useRecoilValue } from "recoil";
+import { currentPatientInfo } from "atoms/atoms";
+import { Subject } from "@components/modals/ClinicModal";
 
 export interface RecordWithImageAndHospital extends Record {
   images: RecordImage[];
@@ -24,9 +27,9 @@ export interface RecordWithImageAndHospital extends Record {
 const ChartTimeline = () => {
   const { query } = useRouter();
   const position = query.position as Position;
-  const {name : patientName, id : patientId} = useRecoilValue(currentPatientInfo);
+  const { name: patientName, id: patientId } = useRecoilValue(currentPatientInfo);
   const queryClient = useQueryClient();
-  const { getApi } = customApi(patientId ? `/api/hospital/${patientId}/${position}` :`/api/users/records/${position}`);
+  const { getApi } = customApi(patientId ? `/api/hospital/${patientId}/${position}` : `/api/users/records/${position}`);
   const { deleteApi } = customApi(`/api/users/records`);
 
   // 여기 key 2개 넣고, useEffect까지 써야지 되는 이 부분 나중에 리팩토링하기 (일단 기능은 맞게 동작)
@@ -36,7 +39,7 @@ const ChartTimeline = () => {
     },
     enabled: !!position,
   });
-  console.log("hihihhi", data)
+  console.log("hihihhi", data);
   useEffect(() => {
     queryClient.invalidateQueries([RECORDS_READ, position]);
     setFilterItem("all"); // 부위마다 새로운 페이지가 아닌가..? 왜 이걸 해줘야하지
@@ -150,17 +153,12 @@ const ChartTimeline = () => {
                 <strong>{KoreanPosition[position!]}</strong>에 대한 기록이 없습니다
               </p>
             </NoRecord>
-          ):
-          !query.position ?
-          (
+          ) : !query.position ? (
             <NoRecord>
               <img src={ToriQuestion.src} />
-              <p>
-                자세한 기록을 확인하고 싶은 부위를 선택해주세요
-              </p>
+              <p>자세한 기록을 확인하고 싶은 부위를 선택해주세요</p>
             </NoRecord>
-          )
-          : (
+          ) : (
             filtredRecord?.map((record, index) => (
               <RecordBox key={index}>
                 <Time byUser={record.type === "user"}>{changeDate(record.createAt)}</Time>
@@ -168,7 +166,7 @@ const ChartTimeline = () => {
                   <>
                     <Content>
                       <Description cursorType={"pointer"}>
-                        <Text onClick={() =>  handleRecordModal(record)}>{record.description}</Text>
+                        <Text onClick={() => handleRecordModal(record)}>{record.description}</Text>
                         <ImageBox isHospital={Boolean(patientId)}>
                           {record.images.length ? (
                             <Thumbnail onClick={() => handleRecordModal(record)}>
@@ -177,7 +175,11 @@ const ChartTimeline = () => {
                             </Thumbnail>
                           ) : (
                             <UploadImageButton
-                              onClick={() => patientId ? handleRecordModal(record) : uploadImage(String(record.id), uploadImageMutation.mutate)}
+                              onClick={() =>
+                                patientId
+                                  ? handleRecordModal(record)
+                                  : uploadImage(String(record.id), uploadImageMutation.mutate)
+                              }
                             >
                               <span className="blind">사진 추가</span>
                             </UploadImageButton>
@@ -208,13 +210,16 @@ const ChartTimeline = () => {
                         </TableRow>
                         <TableRow>
                           <Subject>상세 소견</Subject>
-                          <p>{
-                            record.description.includes("\n") ? 
-                            record.description.split("\n").map((ele, idx)=>(
-                              <React.Fragment key={`${ele} + ${idx} + ${Date.now()}`}>{ele}<br/></React.Fragment>
-                            ))
-                            : record.description
-                            }</p>
+                          <p>
+                            {record.description.includes("\n")
+                              ? record.description.split("\n").map((ele, idx) => (
+                                  <React.Fragment key={`${ele} + ${idx} + ${Date.now()}`}>
+                                    {ele}
+                                    <br />
+                                  </React.Fragment>
+                                ))
+                              : record.description}
+                          </p>
                         </TableRow>
                       </ResultTable>
                     </Description>
@@ -224,11 +229,10 @@ const ChartTimeline = () => {
             ))
           )}
         </Timeline>
-        
       </TimelineContainer>
     </>
   );
-}
+};
 
 const TimelineContainer = styled.div`
   position: relative;
@@ -380,7 +384,7 @@ const Text = styled.div`
   padding: 20px 200px 20px 30px;
 `;
 
-const ImageBox = styled.div<{isHospital : boolean;}>`
+const ImageBox = styled.div<{ isHospital: boolean }>`
   position: absolute;
   top: 50%;
   right: 90px;
@@ -389,9 +393,11 @@ const ImageBox = styled.div<{isHospital : boolean;}>`
   height: 80px;
   border-radius: 15px;
   overflow: hidden;
-  ${({isHospital}) => isHospital && css`
-    right: 50px;
-  `}
+  ${({ isHospital }) =>
+    isHospital &&
+    css`
+      right: 50px;
+    `}
 `;
 
 const Thumbnail = styled.div`

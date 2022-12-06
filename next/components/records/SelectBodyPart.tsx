@@ -54,38 +54,6 @@ export const SelectPartContainer = styled.div`
   justify-content: center;
 `;
 
-export const BackButton = styled.button`
-  position: absolute;
-  top: 20px;
-  left: 30px;
-  width: 50px;
-  height: 50px;
-  border-radius: 50px;
-  background: url(${IconArrowLeft.src}) no-repeat 10px 50%/26px;
-  background-color: #5155ba;
-  overflow: hidden;
-  transition: width 0.4s;
-
-  span {
-    display: block;
-    font-size: 16px;
-    font-weight: 500;
-    color: ${({ theme }) => theme.color.lightBg};
-    width: 130px;
-    padding-left: 20px;
-    opacity: 0;
-    transition: opacity 0.4s;
-  }
-
-  &:hover {
-    width: 130px;
-
-    span {
-      opacity: 1;
-    }
-  }
-`;
-
 export const GuideText = styled.div`
   text-align: center;
   color: #5155ba;
