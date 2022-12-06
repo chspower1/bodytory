@@ -22,3 +22,4 @@ deploy:
         FLASK_API: http://flask:8080
     script:
         - docker-compose up -d
+        - docker ps
