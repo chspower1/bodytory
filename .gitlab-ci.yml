@@ -8,7 +8,7 @@ deploy:
         - feat/connect-api
     script:
         - docker-compose up -d
-    environment:
+    variables:
         DATABASE_URL: $DATABASE_URL
         COOKIE_PASSWORD: $COOKIE_PASSWORD
         MAIL_ID: $MAIL_ID
