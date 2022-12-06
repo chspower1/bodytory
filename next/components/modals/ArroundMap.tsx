@@ -212,12 +212,16 @@ const ArroundMap: NextPage<ArroundMapProps> = ({ onClose, latitude, longitude })
                     <RoundButton
                       width="88px"
                       height="40px"
-                      bgColor="rgb(18, 212, 201)"
+                      bgColor={hospital.my ? theme.color.error : "rgb(18, 212, 201)"}
                       fontSize="16px"
                       boxShadow={false}
-                      onClick={() => handleClickAddHospital(hospital.id)}
+                      onClick={
+                        hospital.my
+                          ? () => handleClickAddHospital(hospital.id)
+                          : () => handleClickAddHospital(hospital.id)
+                      }
                     >
-                      추가
+                      {hospital.my ? "삭제" : "추가"}
                     </RoundButton>
                     <Tail src={triangle} alt="사진" />
                   </InfoWindowBox>
