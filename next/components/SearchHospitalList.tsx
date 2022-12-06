@@ -4,6 +4,7 @@ import { MyHospital, MyHospitalResponse } from "pages/users/my-hospital";
 import { LegacyRef, MouseEvent } from "react";
 import styled from "styled-components";
 import HospitalContent from "./HospitalContent";
+import ListSkeleton from "./ListSkeleton";
 
 interface SearchHospitalListProps {
   hospitals?: MyHospital[];
@@ -13,16 +14,16 @@ interface SearchHospitalListProps {
 }
 
 const SearchHospitalList = ({ hospitals, add, setobserverTarget, isLoading }: SearchHospitalListProps) => {
-  // console.log("lists", hospitals);
+  console.log("lists", hospitals);
   return (
     <HospitalContainer add={add}>
       <InnerContainer add={add}>
-        {hospitals ? (
+        {hospitals?.length !== 0 ? (
           <HospitalLists>
             {hospitals?.map((hospital, idx) => (
               <HospitalContent hospital={hospital} idx={idx} add={add} key={idx} shared={false} />
             ))}
-            {isLoading ? <div>Loading....</div> : <div ref={setobserverTarget} />}
+            {isLoading ? <ListSkeleton backgroundColor="rgb(225,227,255)" /> : <div ref={setobserverTarget} />}
           </HospitalLists>
         ) : (
           <NoneMessage>{add ? "검색결과가 없습니다" : "병원내역이 없습니다"}</NoneMessage>
