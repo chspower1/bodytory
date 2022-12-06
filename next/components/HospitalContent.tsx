@@ -51,7 +51,7 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
             </NameText>
             <Department>
               {hospital.medicalDepartments[0].medicalDepartment &&
-                hospital.medicalDepartments[0].medicalDepartment.department}{" "}
+                hospital.medicalDepartments[0].medicalDepartment.department}
               외 {hospital.medicalDepartments.length - 1}과목
             </Department>
           </HospitalDescriptionBox>

@@ -95,7 +95,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       ...notMyHospitals.map(hospital => ({ ...hospital, my: false })),
     ];
     console.log("map 요청");
-    return res.status(200).json({ hospitals });
+    return res.status(200).json(hospitals);
   }
 }
 
