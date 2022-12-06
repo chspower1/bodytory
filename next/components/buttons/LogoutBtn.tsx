@@ -14,7 +14,7 @@ const LogoutBtn = () => {
   const handleClickLogout = async () => {
     try {
       setCurrentUser(null);
-      queryClient.removeQueries({ queryKey: USER_LOGIN, exact: true });
+      queryClient.removeQueries({ queryKey: [USER_LOGIN] });
       await LogoutApi({});
       router.push("/auth/login");
     } catch (err) {

@@ -1,5 +1,5 @@
-import hospitalsSample from "../../data/new-hospital/hospital_final.json";
-import departmentMatch from "./dd3.json";
+// import hospitalsSample from "../../data/new-hospital/hospital_final.json";
+// import departmentMatch from "./dd3.json";
 // import DepartmentsSample from "../data/new-hospital/code_final.json";
 // import type { Hospital, MedicalDepartment } from "prisma/prisma-client";
 // import fs from "fs";

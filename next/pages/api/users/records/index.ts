@@ -22,7 +22,7 @@ async function createRecord(req: NextApiRequest, res: NextApiResponse) {
   const { position, description } = req.body;
   const { user } = req.session;
   if (!user) return res.status(400).end();
-  const departments = await axios.post("http://localhost:8080/api/departments", {
+  const departments = await axios.post(`${process.env.FLASK_API}/api/departments`, {
     sentence: description,
   });
   await client.record.create({

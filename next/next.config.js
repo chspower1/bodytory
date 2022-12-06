@@ -2,6 +2,7 @@
 const nextConfig = {
   reactStrictMode: false,
   swcMinify: true,
+  output: "standalone",
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,
