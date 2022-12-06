@@ -174,11 +174,7 @@ function ChartTimeline() {
                           )}
                         </ImageBox>
                       </Description>
-                      <DeleteBtn
-                        onClick={e => handleClick(e, record.id)}
-                        className={confirmDelete === record.id ? "active" : ""}
-                        onBlur={() => setConfirmDelete(-1)}
-                      />
+                      <DeleteBtn id={record.id} mutate={mutate} />
                     </Content>
                     <RecordModal
                       record={record}

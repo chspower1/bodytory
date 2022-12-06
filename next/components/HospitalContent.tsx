@@ -11,6 +11,7 @@ import { useState } from "react";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { ChangeToHoverColor, RectangleButton, RoundButton } from "./buttons/Button";
+import DeleteBtn from "./buttons/DeleteBtn";
 import Modal from "./modals/Modal";
 
 interface HospitalContentProps {
@@ -108,7 +109,7 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
             </ShareButton>
           </HospitalStatusBox>
         )}
-        <div>삭제</div>
+        <DeleteBtn mutate={deleteHospitalMutate} id={hospital.id} backgroundColor="rgb(100, 106, 235)" />
       </HospitalInforContainer>
 
       <Modal
@@ -142,6 +143,7 @@ const ShareButton = styled.button<{ status: boolean }>`
   height: 50px;
   font-size: 18px;
   padding: 0 50px;
+
   transition: background-color 0.5s ease;
   &:hover {
     background-color: ${props => ChangeToHoverColor(props.status ? "rgb(128,133,251)" : "rgb(18, 212, 201)")};
@@ -242,6 +244,7 @@ const HospitalStatusBox = styled.div`
   display: flex;
   align-items: center;
   width: 300px;
+  margin-right: 35px;
   justify-content: space-between;
 `;
 

@@ -1,15 +1,29 @@
-import { FocusEventHandler, MouseEventHandler } from "react";
+import { UseMutateFunction } from "@tanstack/react-query";
+import { FocusEventHandler, MouseEventHandler, useState } from "react";
 import styled from "styled-components";
 
 interface DeleteBtnProps {
-  onClick: MouseEventHandler<HTMLButtonElement>;
-  className?: string;
-  onBlur: FocusEventHandler<HTMLButtonElement> | undefined;
+  mutate: UseMutateFunction<any, unknown, any, unknown>;
+  id: number;
+  backgroundColor?: string;
 }
 
-const DeleteBtn = ({ onClick, className, onBlur }: DeleteBtnProps) => {
+const DeleteBtn = ({ mutate, id, backgroundColor }: DeleteBtnProps) => {
+  const [confirmDelete, setConfirmDelete] = useState(-1);
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>, targetId: number) => {
+    if (confirmDelete !== -1) {
+      mutate({ id: confirmDelete });
+    } else {
+      setConfirmDelete(targetId);
+    }
+  };
   return (
-    <DeleteButton onClick={onClick} className={className} onBlur={onBlur}>
+    <DeleteButton
+      onClick={e => handleClick(e, id)}
+      className={confirmDelete === id ? "active" : ""}
+      onBlur={() => setConfirmDelete(-1)}
+      bgColor={backgroundColor}
+    >
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
         <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
       </svg>
@@ -18,13 +32,13 @@ const DeleteBtn = ({ onClick, className, onBlur }: DeleteBtnProps) => {
   );
 };
 export default DeleteBtn;
-const DeleteButton = styled.button<{ recordId?: number }>`
+const DeleteButton = styled.button<{ bgColor?: string }>`
   position: absolute;
   top: 0;
   right: 0;
   width: 40px;
   height: 100%;
-  background: #d9deff;
+  background: ${props => (props.bgColor ? props.bgColor : "#d9deff")};
   border-radius: 0 20px 20px 0;
   display: flex;
   justify-content: center;
@@ -35,7 +49,7 @@ const DeleteButton = styled.button<{ recordId?: number }>`
     width: 22px;
     height: 22px;
     fill: #8c9af3;
-    transition: transform 0.4s;
+    transition: all 0.4s;
   }
 
   span {
@@ -54,10 +68,10 @@ const DeleteButton = styled.button<{ recordId?: number }>`
   }
 
   &:hover {
-    background: #c6cdfa;
+    /* background: #c6cdfa; */
 
     svg {
-      fill: #5359e9;
+      fill: ${props => props.theme.color.error};
     }
   }
 
