@@ -26,7 +26,6 @@ test:
         NEXTAUTH_URL: $NEXTAUTH_URL
     script:
         - env
-        - git pull
         - npm install
 
 deploy:
