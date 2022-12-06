@@ -61,15 +61,16 @@ export const ModalContainer = styled(motion.div).attrs({
   width: ${props => (props.width ? props.width : "650px")};
   height: ${props => (props.height ? props.height : "350px")};
   min-width: 400px;
+  background-color: white;
+  border-radius: 30px;
+  margin: auto;
+  overflow:hidden;
   ${({flex}) =>flex && css`
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
   `}
-  background-color: white;
-  border-radius: 30px;
-  margin: auto;
 `;
 
 export const Dim = styled(motion.div).attrs({
