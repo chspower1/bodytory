@@ -6,10 +6,11 @@ import { bodyPartType } from 'types/bodyParts';
 
 const HospitalChartHomePage = () => {
   const [selectedBodyPart, setSelectedBodyPart] = useState<bodyPartType>(null);
+  console.log(selectedBodyPart)
   return (
     <RecordWrap>
       <HospitalSelectPart selectedBodyPart={selectedBodyPart} setSelectedBodyPart={setSelectedBodyPart} />
-      <HospitalChart selectedBodyPart={selectedBodyPart} />
+      <HospitalChart  />
     </RecordWrap>
   )
 }
