@@ -22,3 +22,4 @@ deploy:
         NEXTAUTH_URL: $NEXTAUTH_URL
     script:
         - pwd
+        - ls
