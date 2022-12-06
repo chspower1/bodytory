@@ -1,58 +1,19 @@
-import useIO from "@hooks/useIO";
 import { Hospital } from "@prisma/client";
 import { theme } from "@styles/theme";
-import { useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
 import { MyHospital, MyHospitalResponse } from "pages/users/my-hospital";
-import { LegacyRef, MouseEvent, useCallback, useEffect, useState } from "react";
+import { LegacyRef, MouseEvent, useState } from "react";
 import styled from "styled-components";
 import HospitalContent from "./HospitalContent";
 import ListSkeleton from "./ListSkeleton";
 
-interface SearchHospitalListProps {
+interface SearchHospitalMapProps {
   hospitals?: MyHospital[];
   add: boolean;
   setobserverTarget?: LegacyRef<HTMLDivElement> | null;
-  searchWord: string;
+  isLoading?: boolean;
 }
 
-const SearchHospitalList = ({ hospitals, add, setobserverTarget, searchWord }: SearchHospitalListProps) => {
-  const queryclient = useQueryClient();
-  const [isLoading, setIsLoading] = useState(false);
-  const [hasLastPage, setHasLastPage] = useState(false);
-  const [findState, setFindState] = useState<MyHospital[]>([]);
-  const [page, setPage] = useState<number>(0);
-  const ioCallback = () => {
-    setPage(page => page + 1);
-  };
-  const { setTarget } = useIO(hasLastPage, ioCallback);
-
-  useEffect(() => {
-    if (searchWord) {
-      setPage(0);
-      getSearchLists();
-      setFindState([]);
-    }
-  }, [searchWord, page]);
-
-  const getSearchLists = useCallback(async () => {
-    setIsLoading(() => true);
-    const result = await axios.get(`/api/users/my-hospitals/find?page=${page}&search=${searchWord}`);
-    setHasLastPage(() => result.data.status);
-    setFindState((current: MyHospital[]) => {
-      const array = [...current];
-      if (array) {
-        array.push(...result.data.foundHospitals);
-      }
-      return [...new Set(array)];
-    });
-    setIsLoading(() => false);
-    queryclient.invalidateQueries(["isMyHospital"]);
-  }, [searchWord, page]);
-
-  useEffect(() => {
-    if (observerTarget) setTarget(observerTarget.current);
-  }, [observerTarget, setTarget, []]);
+const SearchHospitalMap = ({ hospitals, add, setobserverTarget, isLoading }: SearchHospitalListProps) => {
   return (
     <HospitalContainer add={add}>
       <InnerContainer add={add}>
@@ -73,7 +34,7 @@ const SearchHospitalList = ({ hospitals, add, setobserverTarget, searchWord }: S
   );
 };
 
-export default SearchHospitalList;
+export default SearchHospitalMap;
 
 const NoneMessage = styled.div`
   text-align: center;

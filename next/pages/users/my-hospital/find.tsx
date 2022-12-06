@@ -19,6 +19,7 @@ import {
   Pragraph,
 } from ".";
 import MapIcon from "@public/static/icon/mapIcon.svg";
+import List from "@public/static/icon/list.svg";
 import useIO from "@hooks/useIO";
 import useCoords from "@hooks/useCoords";
 import { AnimatePresence } from "framer-motion";
@@ -29,15 +30,11 @@ import SearchHospitalList from "@components/SearchHospitalList";
 export interface SearchForm {
   search: string;
 }
-
+type PageCategory = "search" | "map";
 const FindHospital = () => {
-  const queryclient = useQueryClient();
-  const [isLoading, setIsLoading] = useState(false);
+  const [pageCategory, setPageCategory] = useState<PageCategory>("search");
   const { latitude, longitude } = useCoords();
   const [searchWord, setSearchWord] = useState<string>("");
-  const [page, setPage] = useState<number>(0);
-  const [findState, setFindState] = useState<MyHospital[]>([]);
-  const [hasLastPage, setHasLastPage] = useState(false);
   const observerTarget = useRef<HTMLDivElement>(null);
   const [showModal, setShowModal] = useState(false);
   const {
@@ -48,43 +45,10 @@ const FindHospital = () => {
     formState: { errors },
   } = useForm<SearchForm>({ mode: "onChange" });
 
-  const ioCallback = () => {
-    setPage(page => page + 1);
-  };
-  const { setTarget } = useIO(hasLastPage, ioCallback);
-
-  useEffect(() => {
-    if (searchWord) {
-      getSearchLists();
-    }
-  }, [searchWord, page]);
-
-  const getSearchLists = useCallback(async () => {
-    setIsLoading(() => true);
-    const result = await axios.get(`/api/users/my-hospitals/find?page=${page}&search=${searchWord}`);
-    setHasLastPage(() => result.data.status);
-    setFindState((current: MyHospital[]) => {
-      const array = [...current];
-      if (array) {
-        array.push(...result.data.foundHospitals);
-      }
-      return [...new Set(array)];
-    });
-    setIsLoading(() => false);
-    queryclient.invalidateQueries(["isMyHospital"]);
-  }, [searchWord, page]);
-
   const onValid = useCallback(async (input: SearchForm) => {
-    if (input.search === "") return;
     setSearchWord(() => input.search);
-    setFindState([]);
-    setPage(0);
     setValue("search", "");
   }, []);
-
-  useEffect(() => {
-    if (observerTarget) setTarget(observerTarget.current);
-  }, [observerTarget, setTarget, []]);
 
   return (
     <MainContainer>
@@ -104,10 +68,25 @@ const FindHospital = () => {
             </Pragraph>
           </DescriptionBox>
           <ButtonBox>
-            <RoundButton size="md" bgColor={theme.color.mintBtn} nonSubmit onClick={() => setShowModal(true)}>
+            <RoundButton
+              size="md"
+              bgColor={theme.color.mintBtn}
+              nonSubmit
+              onClick={() => setPageCategory(prev => (prev === "search" ? "map" : "search"))}
+            >
               {/* <ImageIcon src={mapIcon} width={30} height={30} alt="map" /> */}
-              <MapIcon style={{ marginBottom: "6px" }} />
-              &nbsp;&nbsp; 지도에서 내 주변 병원 찾기
+              {pageCategory === "search" && (
+                <>
+                  <MapIcon width={30} style={{ marginBottom: "6px" }} />
+                  &nbsp;&nbsp; 지도에서 병원 찾기
+                </>
+              )}
+              {pageCategory === "map" && (
+                <>
+                  <List width={30} />
+                  &nbsp;&nbsp; 리스트로 병원 찾기
+                </>
+              )}
             </RoundButton>
           </ButtonBox>
           <SearchBox>
@@ -116,8 +95,9 @@ const FindHospital = () => {
                 $white
                 name="search"
                 width="700px"
-                placeholder="병원명을 입력해주세요"
+                placeholder={errors ? errors.search?.message : "병원명을 입력해주세요"}
                 register={register("search", {
+                  required: "검색어를 입력해주세요",
                   minLength: {
                     value: 2,
                     message: "두 글자 이상 입력해주세요",
@@ -132,7 +112,17 @@ const FindHospital = () => {
             </SearchForm>
           </SearchBox>
         </DescriptionContainer>
-        <SearchHospitalList hospitals={findState} add={true} setobserverTarget={observerTarget} isLoading={isLoading} />
+        {pageCategory === "search" && (
+          <SearchHospitalList add={true} setobserverTarget={observerTarget} searchWord={searchWord} />
+        )}
+        {/* {pageCategory === "map" && (
+          <SearchHospitalList
+            hospitals={findState}
+            add={true}
+            setobserverTarget={observerTarget}
+            searchWord={searchWord}
+          />
+        )} */}
       </MainInnerContainer>
       <AnimatePresence>
         {showModal && <ArroundMap latitude={latitude!} longitude={longitude!} onClose={() => setShowModal(false)} />}
