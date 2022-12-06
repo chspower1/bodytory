@@ -59,7 +59,7 @@ const ArroundMap: NextPage<ArroundMapProps> = ({ onClose, latitude, longitude })
   const [clickIndex, setClickIndex] = useState(-1);
   const [coords, setCoords] = useState<Coords>({ latitude, longitude });
   const { getApi } = customApi(`/api/users/my-hospitals/map?latitude=${latitude}&longitude=${longitude}`);
-  const { data: hospitals } = useQuery<AroundMapHospitalsResponse>(["hospitals", "map"], getApi, {
+  const { data: hospitals } = useQuery<AroundMapHospitalsResponse>(["hospitalsMap", "map"], getApi, {
     onSuccess(data) {
       console.log(data);
     },
@@ -95,7 +95,6 @@ const ArroundMap: NextPage<ArroundMapProps> = ({ onClose, latitude, longitude })
             height: "560px",
           }}
           level={3}
-          // onClick={() => setClickIndex(-1)}
         >
           <MapMarker
             position={{ lat: latitude!, lng: longitude! }}

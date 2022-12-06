@@ -15,7 +15,7 @@ import { AroundMapHospital } from "./ArroundMap";
 import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import Modal from "../Modal";
 import useHospital from "@hooks/useHospital";
 import sliceName from "@utils/client/sliceHospitalName";
@@ -28,6 +28,7 @@ interface MapDetailModalProps {
 }
 const MapDetailModal = ({ clickIndex, setClickIndex, index, hospital }: MapDetailModalProps) => {
   const { handleClickAddHospital, handleClickDeleteHospital, showModal, setShowModal } = useHospital();
+  const [isConnected, setIsConnected] = useState(hospital.my);
   return (
     <AnimatePresence>
       {clickIndex === index && (
@@ -81,18 +82,17 @@ const MapDetailModal = ({ clickIndex, setClickIndex, index, hospital }: MapDetai
                 ) : (
                   <BodyText>홈페이지가 없습니다.</BodyText>
                 )}
-                {/*  */}
               </HomepageBox>
             </ContentBox>
             <RoundButton
               width="88px"
               height="40px"
-              bgColor={hospital.my ? theme.color.error : "rgb(18, 212, 201)"}
+              bgColor={isConnected ? theme.color.error : "rgb(18, 212, 201)"}
               fontSize="16px"
               boxShadow={false}
               onClick={() => setShowModal(true)}
             >
-              {hospital.my ? "삭제" : "추가"}
+              {isConnected ? "삭제" : "추가"}
             </RoundButton>
             <Tail src={triangle} alt="사진" />
           </InfoWindowBox>
@@ -102,18 +102,18 @@ const MapDetailModal = ({ clickIndex, setClickIndex, index, hospital }: MapDetai
         show={showModal}
         onClose={() => setShowModal(false)}
         activeFuction={
-          hospital.my
+          isConnected
             ? () => {
-                handleClickDeleteHospital(hospital.id);
+                handleClickDeleteHospital(hospital.id, () => setIsConnected(false));
               }
             : () => {
-                handleClickAddHospital(hospital.id);
+                handleClickAddHospital(hospital.id, () => setIsConnected(true));
               }
         }
-        agreeType={!hospital.my}
+        agreeType={!isConnected}
         title="개인정보 수집 동의"
       >
-        {hospital.my ? (
+        {isConnected ? (
           <p>
             <b>{sliceName(hospital.name)}</b>를 등록된 병원에서 제거하시겠습니까?
           </p>
