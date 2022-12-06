@@ -95,7 +95,7 @@ const HospitalModal = ({ show, onClose, name, gender, birth, position, patientId
                       <ContentLi>
                         <SubjectName>진단결과</SubjectName>
                         <Input
-                          light
+                          $light
                           register={register("diagnosis", { required: true })}
                           placeholder="진단결과를 입력해주세요"
                         />
@@ -103,7 +103,7 @@ const HospitalModal = ({ show, onClose, name, gender, birth, position, patientId
                       <ContentLi>
                         <SubjectName>처방내용</SubjectName>
                         <Input
-                          light
+                          $light
                           register={register("prescription", { required: true })}
                           placeholder="처방내용 입력해주세요"
                         />
