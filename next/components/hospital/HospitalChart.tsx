@@ -1,9 +1,12 @@
 import { RoundButton } from '@components/buttons/Button'
+import HospitalModal from '@components/modals/HospitalModal'
 import { ChartContainer, ChartWrap, ScrollContainer } from '@components/records/chart/Chart'
 import ChartTimeline from '@components/records/chart/ChartTimeline'
 import { Position } from '@prisma/client'
 import { Row } from '@styles/Common'
-import { currentPatientName } from 'atoms/atoms'
+import { useQuery } from '@tanstack/react-query'
+import customApi from '@utils/client/customApi'
+import { currentPatientInfo } from 'atoms/atoms'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
@@ -12,14 +15,19 @@ import styled from 'styled-components'
 import { bodyPartType } from 'types/bodyParts'
 import { KoreanPosition } from 'types/write'
 
-const HospitalChart = ({selectedBodyPart}:{selectedBodyPart : bodyPartType}) => {
-  const patientName = useRecoilValue(currentPatientName);
+const HospitalChart = () => {
+  const {query} = useRouter();
+  const position = query.position as Position;
+  const {name : patientName, id : patientId} = useRecoilValue(currentPatientInfo);
   const [name, setName] = useState("");
+  const [showHospitalModal, setHospitalShowModal] = useState(false);
 
+  const { getApi } = customApi(`/api/hospital/${patientId}`);
+  const {data} = useQuery(["currentPatientKey"], getApi)
   useEffect(()=>{setName(patientName)},[patientName])
-
   return (
     <ChartWrap>
+      <HospitalModal show={showHospitalModal!} onClose={()=> setHospitalShowModal(false)} {...data} position={position} patientId={patientId} />
       <ScrollContainer>
         <ChartContainer>
           <TitleBox>
@@ -30,17 +38,18 @@ const HospitalChart = ({selectedBodyPart}:{selectedBodyPart : bodyPartType}) => 
           <PositionRecordsWriteBox>
             <PositionBox>
               <span>
-                {selectedBodyPart ? KoreanPosition[selectedBodyPart] : null}
+                {position ? KoreanPosition[position] : null}
               </span>
               부위
             </PositionBox>
-            <RoundButton size="md" bgColor="rgb(244,245,255)" textColor="rgb(83,89,233)">
+            {position && <RoundButton size="md" bgColor="rgb(244,245,255)" textColor="rgb(83,89,233)" onClick={()=>setHospitalShowModal(true)}>
               진료내역 작성
-            </RoundButton>
+            </RoundButton>}
           </PositionRecordsWriteBox>
           <ChartTimeline />
         </ChartContainer>
       </ScrollContainer>
+
     </ChartWrap>
   )
 }
@@ -63,7 +72,8 @@ const PositionBox = styled.div`
   span{
     margin-right: 20px;
     width: 80px;
-    line-height: 50px;
+    height: 50px;
+    line-height:50px;
     text-align:center;
     border-radius: 7px;
     font-weight: 700;
