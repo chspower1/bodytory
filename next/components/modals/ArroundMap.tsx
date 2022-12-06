@@ -6,7 +6,7 @@ import styled from "styled-components";
 
 import customApi from "@utils/client/customApi";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { AxiosError } from "axios";
 import Link from "next/link";
 import { theme } from "@styles/theme";
@@ -25,6 +25,9 @@ import triangle from "@public/static/icon/map/triangle.png";
 import tory from "@public/static/icon/map/tory_circle.png";
 import x from "@public/static/icon/x.png";
 import useCoords from "@hooks/useCoords";
+import EventMarkerContainer from "@components/Maker";
+import Modal from "./Modal";
+import sliceName from "@utils/client/sliceHospitalName";
 
 interface Coords {
   latitude: number;
@@ -125,30 +128,12 @@ const ArroundMap: NextPage<ArroundMapProps> = ({ onClose, latitude, longitude })
           />
           {data?.hospitals?.map((hospital, index) => (
             <MarkerBox key={index}>
-              <MapMarker
-                position={{ lat: hospital.y!, lng: hospital.x! }}
-                image={{
-                  src: "https://imagedelivery.net/AbuMCvvnFZBtmCKKJV_e6Q/ba695e48-c89f-4e8d-febb-10018a877600/avatar", // 마커이미지의 주소입니다
-                  size: {
-                    width: 45,
-                    height: 45,
-                  },
-                  options: {
-                    offset: {
-                      x: 23,
-                      y: 0,
-                    },
-                  },
-                }}
-                onMouseOver={() => setHoverIndex(index)}
-                onMouseOut={handleMouseOutMarker}
-                onClick={() => handleClickMarker({ index, longitude: hospital.x, latitude: hospital.y })}
-              />
-              {hoverIndex === index && (
+              <EventMarkerContainer hospital={hospital} index={index} handleClickMarker={handleClickMarker} />
+              {/* {hoverIndex === index && (
                 <CustomOverlayMap position={{ lat: hospital.y!, lng: hospital.x! }}>
                   <HoverBox>{hospital.name}</HoverBox>
                 </CustomOverlayMap>
-              )}
+              )} */}
               {clickIndex === index && (
                 <CustomOverlayMap
                   position={{
@@ -214,7 +199,9 @@ const ArroundMap: NextPage<ArroundMapProps> = ({ onClose, latitude, longitude })
                       bgColor="rgb(18, 212, 201)"
                       fontSize="16px"
                       boxShadow={false}
-                      onClick={() => handleClickAddHospital(hospital.id)}
+                      onClick={() => {
+                        handleClickAddHospital(hospital.id);
+                      }}
                     >
                       추가
                     </RoundButton>
@@ -264,7 +251,7 @@ const InfoWindowBox = styled(Col)`
 
   /* transform: translateY(-170px); */
 `;
-const HoverBox = styled(Box)`
+const HoverBox = styled.div`
   border: 3px ${props => props.theme.color.weekPurple} solid;
   border-radius: 5px;
   background-color: white;
