@@ -1,6 +1,6 @@
 import { motion, Variants } from "framer-motion";
 import styled, { css } from "styled-components";
-const MODAL_VARIANTS: Variants = {
+export const MODAL_VARIANTS: Variants = {
   initial: {
     opacity: 0,
     y: 30,

@@ -17,7 +17,7 @@ const Layout = ({ children }: LayoutProps) => {
   }, [router]);
   return (
     <Wrapper bgColor={bgColor}>
-      {router.pathname.includes("/hospital") ? <HospitalHeader/> :<Header />}
+      {router.pathname.includes("/hospital") ? <HospitalHeader /> : <Header />}
       {children}
     </Wrapper>
   );

@@ -1,11 +1,11 @@
 import { RoundButton } from "@components/buttons/Button";
 import { WhiteBoldText, WhiteText } from "@styles/Common";
-import { Dim, ModalContainer, ModalWrapper } from "@styles/ModalStyled";
-import { AnimatePresence } from "framer-motion";
+import { Dim, ModalWrapper, MODAL_VARIANTS } from "@styles/ModalStyled";
+import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { Dispatch, SetStateAction } from "react";
 import ReactDOM from "react-dom";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import Next from "/public/static/icon/right_bracket.svg";
 import Previus from "/public/static/icon/left_bracket.svg";
 interface ImageDetailModalProps {
@@ -28,7 +28,7 @@ const ImageDetailModal = ({ show, onClose, url, index, imagesLength, setShow }: 
           <Dim onClick={onClose} />
           <ModalContainer flex width="0px" height="0px">
             <ImageBox>
-              <Image src={url} fill alt="사진" objectFit="contain" />
+              <Image src={url} fill alt="사진" objectFit="scale-down" />
               {/* <BtnBox>
                 <RoundButton
                   size="sm"
@@ -63,6 +63,32 @@ const ImageDetailModal = ({ show, onClose, url, index, imagesLength, setShow }: 
   return ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement);
 };
 export default ImageDetailModal;
+const ModalContainer = styled(motion.div).attrs({
+  variants: MODAL_VARIANTS,
+  initial: "initial",
+  animate: "animate",
+  exit: "exit",
+})<{
+  width?: string;
+  height?: string;
+  flex?: boolean;
+}>`
+  z-index: 2000;
+  width: ${props => (props.width ? props.width : "650px")};
+  height: ${props => (props.height ? props.height : "350px")};
+  min-width: 400px;
+  background-color: white;
+  border-radius: 30px;
+  margin: auto;
+  ${({ flex }) =>
+    flex &&
+    css`
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      align-items: center;
+    `}
+`;
 const ImageBox = styled.div`
   position: relative;
   padding: 350px;
