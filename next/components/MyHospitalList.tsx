@@ -24,7 +24,13 @@ const MyHospitalList = ({ hospitals, add, isLoading }: MyHospitalListProps) => {
         {!isLoading && hospitals && (
           <HospitalLists>
             {hospitals?.map((hospital, idx) => (
-              <HospitalContent hospital={hospital.hospital} idx={idx} add={add} key={idx} shared={hospital.shared} />
+              <HospitalContent
+                hospital={hospital.hospital}
+                idx={idx}
+                add={add}
+                key={hospital.hospital.id}
+                shared={hospital.shared}
+              />
             ))}
           </HospitalLists>
         )}

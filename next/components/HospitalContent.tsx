@@ -8,7 +8,7 @@ import { currentHospitalIdx } from "atoms/atoms";
 import { HOSPITALS } from "constant/queryKeys";
 import { useRouter } from "next/router";
 import type { MyHospital, MyHospitalResponse } from "pages/users/my-hospital";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { ChangeToHoverColor, RectangleButton, RoundButton } from "./buttons/Button";
@@ -40,7 +40,10 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
     router.push("/users/my-hospital/clinic-list");
     setHospitalCurrentIdx(idx);
   };
-  // console.log(hospital.name);
+  console.log(hospital.name, shared, onShare);
+  // useEffect(() => {
+  //   setOnShare(shared);
+  // }, [shared]);
   return (
     <HospitalInfor add={add}>
       <HospitalInforContainer>
