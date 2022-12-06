@@ -1,3 +1,4 @@
+import useHospital from "@hooks/useHospital";
 import { Hospital, MedicalDepartment } from "@prisma/client";
 import { theme } from "@styles/theme";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -26,42 +27,15 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
   const [onShare, setOnShare] = useState<boolean>(shared);
   const setHospitalCurrentIdx = useSetRecoilState(currentHospitalIdx);
   const [onConnected, setOnConnected] = useState(hospital.my);
-  const queryClient = useQueryClient();
 
-  const { postApi, putApi, deleteApi } = customApi("/api/users/my-hospitals");
-  const [showModal, setShowModal] = useState(false);
-
-  // 추가용 api
-  const { mutate: addHospitalMutate } = useMutation(["addHospitalKey"], postApi, {
-    onSuccess() {
-      queryClient.invalidateQueries(["isMyHospital"]);
-      queryClient.invalidateQueries([HOSPITALS]);
-    },
-  });
-  const { mutate: deleteHospitalMutate } = useMutation(["addHospitalKey"], deleteApi, {
-    onSuccess() {
-      queryClient.invalidateQueries(["isMyHospital"]);
-      queryClient.invalidateQueries([HOSPITALS]);
-    },
-  });
-  const { mutate: sharedHospitalMutate } = useMutation(["addHospitalKey"], putApi, {
-    onSuccess() {},
-  });
-  const handleClickShare = () => {
-    setOnShare(!onShare);
-    sharedHospitalMutate({ id: hospital.id });
-  };
-
-  const handleClickAddHospital = () => {
-    addHospitalMutate({ id: hospital.id });
-    setOnConnected(true);
-    setShowModal(false);
-  };
-  const handleClickDeleteHospital = () => {
-    deleteHospitalMutate({ id: hospital.id });
-    setOnConnected(false);
-    setShowModal(false);
-  };
+  const {
+    deleteHospitalMutate,
+    showModal,
+    setShowModal,
+    handleClickAddHospital,
+    handleClickDeleteHospital,
+    handleClickShare,
+  } = useHospital();
   const handleClickGoClinicList = () => {
     router.push("/users/my-hospital/clinic-list");
     setHospitalCurrentIdx(idx);
@@ -104,7 +78,7 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
             <ShareStatus weight="200" size="15px" add={add} status={onShare}>
               {onShare ? "기록 공유 중" : "기록 공유 중지"}
             </ShareStatus>
-            <ShareButton status={onShare} onClick={() => handleClickShare()}>
+            <ShareButton status={onShare} onClick={() => handleClickShare(hospital.id, setOnShare)}>
               {onShare ? "공유 중지" : "공유 시작"}
             </ShareButton>
           </HospitalStatusBox>
@@ -115,7 +89,15 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
       <Modal
         show={showModal}
         onClose={() => setShowModal(false)}
-        activeFuction={onConnected ? handleClickDeleteHospital : handleClickAddHospital}
+        activeFuction={
+          onConnected
+            ? () => {
+                handleClickDeleteHospital(hospital.id, setOnConnected);
+              }
+            : () => {
+                handleClickAddHospital(hospital.id, setOnConnected);
+              }
+        }
         agreeType={!onConnected}
         title="개인정보 수집 동의"
       >

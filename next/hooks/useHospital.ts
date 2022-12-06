@@ -5,7 +5,7 @@ import customApi from "@utils/client/customApi";
 import { HOSPITALS } from "constant/queryKeys";
 import { SetStateAction, useState } from "react";
 
-const useAddHospital = () => {
+const useHospital = () => {
   const queryClient = useQueryClient();
   const [showModal, setShowModal] = useState(false);
   const [onConnected, setOnConnected] = useState(false);
@@ -29,15 +29,19 @@ const useAddHospital = () => {
       refreshHospitalCache();
     },
   });
-  const handleClickAddHospital = (id: number, option?: (value: SetStateAction<boolean>) => void) => {
+  const handleClickAddHospital = (id: number, option?: (value: SetStateAction<boolean | undefined>) => void) => {
     addHospitalMutate({ id });
     option && option(true);
     setShowModal(false);
   };
-  const handleClickDeleteHospital = (id: number, option?: (value: SetStateAction<boolean>) => void) => {
+  const handleClickDeleteHospital = (id: number, option?: (value: SetStateAction<boolean | undefined>) => void) => {
     deleteHospitalMutate({ id });
     option && option(false);
     setShowModal(false);
+  };
+  const handleClickShare = (id: number, option?: (value: SetStateAction<boolean>) => void) => {
+    sharedHospitalMutate({ id });
+    option && option(prev => !prev);
   };
 
   return {
@@ -48,6 +52,7 @@ const useAddHospital = () => {
     setShowModal,
     handleClickAddHospital,
     handleClickDeleteHospital,
+    handleClickShare,
   };
 };
-export default useAddHospital;
+export default useHospital;
