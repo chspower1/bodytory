@@ -47,7 +47,7 @@ const Home = () => {
               기록 확인하기
             </RoundButton>
           </Link>
-          <Link href={`/hospital/${user?.id!}`}>
+          <Link href={`/users/my-hospital`}>
             <RoundButton width="400px" height="70px" bgColor="rgb(108, 113, 240)">
               <BtnIcon>
                 <Hospital width={30} height={30} fill={theme.color.mint} />
