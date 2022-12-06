@@ -1,11 +1,12 @@
 import { RectangleButton, RoundButton } from "@components/buttons/Button";
 import { ShareStatus } from "@components/HospitalContent";
 import Input from "@components/Input";
+import Modal from "@components/modals/Modal";
 import { Container } from "@styles/Common";
 import { theme } from "@styles/theme";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
-import { currentPatientName, loggedInUser } from "atoms/atoms";
+import { currentPatientInfo, loggedInHospital } from "atoms/atoms";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 import { useRouter } from "next/router";
@@ -23,38 +24,54 @@ export interface HospitalName{
 }
 
 interface HospitalPatients{
+  id: number;
+  shared: boolean;
   user : {
-  name: string;
-  birth: string;
-  gender: string;
-  createAt: Date;
-}
+    id: number;
+    name: string;
+    birth: string;
+    gender: string;
+    createAt: Date;
+  }
 }
 
 const HospitalHomePage = () => {
+  const queryClient = useQueryClient();
   const router = useRouter();
-  const {getApi} = customApi("/api/hospital");
-  const hospitalInfo = useRecoilValue(loggedInUser);
+  const {getApi, deleteApi} = customApi("/api/hospital");
+  const hospitalInfo = useRecoilValue(loggedInHospital);
   const [currentHospital,setCurrentHospital] = useState("")
-  const [currentData, setCurrentData] = useState("");
-  const setPatientName = useSetRecoilState(currentPatientName);
+  const [currentData, setCurrentData] = useState<HospitalPatients[]>();
+  const setPatientInfo= useSetRecoilState(currentPatientInfo);
   const { isLoading, data, error} = useQuery(["currentHospitalKey"], getApi)
+  const { mutate } = useMutation(["removePatientKey"], deleteApi)
+  const [showdeleteModal, setShowDeleteModal] = useState(false);
+  const [isClosingMent, setIsClosingMent] = useState(false);
   console.log(data)
   const {
     register,
-    handleSubmit,
-    setValue,
-    setError,
+    watch,
     formState: { errors },
   } = useForm<SearchForm>({ mode: "onChange" });
 
-  const onValid = ({ search }: SearchForm) => {
+  const handleClickRemovePatient = (id : number) => ()=>{
+    if(isClosingMent){
+      setIsClosingMent(false);
+      setShowDeleteModal(false);
+      queryClient.invalidateQueries(["currentHospitalKey"])
+    }else{
+      mutate({id});
+      setIsClosingMent(true);
+    }
+  }
+  const handleClickOnClose = ()=>{
+    setShowDeleteModal(false);
 
-  };
+  }
 
-  const handleClickEnterUserChart= (user : string) => () => {
+  const handleClickEnterUserChart= ({name, id} : {name: string; id: number}) => () => {
     router.push("/hospital/chart");
-    setPatientName(user);
+    setPatientInfo({name, id});
   }
 
   useEffect(() => {
@@ -62,8 +79,12 @@ const HospitalHomePage = () => {
       setCurrentHospital(hospitalInfo.name);
     }
   }, [hospitalInfo])
+  useEffect(()=>{
+    if(data){
+      setCurrentData(data);
+    }
+  },[data])
   
-
   return (
     <HospitalWrapper>
       <HospitalContainer>
@@ -79,10 +100,13 @@ const HospitalHomePage = () => {
           </DescriptionBox>
         </PageHead>
         <PageBody>
-          <Form onSubmit={handleSubmit(onValid)}>
+          <Form>
             <Input white="true"  placeholder="환자 이름"  motion={false} register={register("search",{
               onChange(){
-                // data.filter(x => x.name.includes(watch("search")))
+                if(data){
+                  let filteredData = data.filter((x: { user: { name: string; }; }) => x.user.name.includes(watch("search")))
+                  setCurrentData(filteredData)
+                }
               }
             })} />
           </Form>
@@ -99,20 +123,21 @@ const HospitalHomePage = () => {
               </div>
             </ListCol>
             <ListUl>
-              {data && data.map(({user} : HospitalPatients)=>(
+              {currentData && currentData.map(({user, shared, id} : HospitalPatients)=>(
                 <ListLi key={`${user.name} + ${user.birth} + ${user.createAt}`}>
                   <div>
                     <Name>{user.name}</Name>
                     <Birth>{user.birth}</Birth>
                     <Gender>{user.gender === "male" ? "남" : "여"}</Gender>
-                    <RecordsLinkButton onClick={handleClickEnterUserChart(user.name)}>상세보기</RecordsLinkButton>
+                    <RecordsLinkButton onClick={handleClickEnterUserChart({name : user.name, id: user.id })}>상세보기</RecordsLinkButton>
                   </div>
                 <SharedBox>
-                  <RecordShareStatus weight="200" size="15px" add status={true}>
-                    {true ? "기록 공유 중" : "기록 공유 중지"}
+                  <RecordShareStatus weight="200" size="15px" add status={shared}>
+                    {shared ? "기록 공유 중" : "기록 공유 중지"}
                   </RecordShareStatus>
-                  <RectangleButton fontSize="16px" width="76px">삭제</RectangleButton>
+                  <RectangleButton fontSize="16px" width="76px" onClick={()=> {setShowDeleteModal(true); console.log(id)}} >삭제</RectangleButton>
                 </SharedBox>
+                <Modal show={showdeleteModal} onClose={handleClickOnClose} activeFuction={handleClickRemovePatient(id)} closingComment={isClosingMent} >{isClosingMent ? `삭제되었습니다` :`리스트에서 ${user.name} 환자를 삭제 하시겠습니까?`}</Modal>
               </ListLi>
               ))}
             </ListUl>
