@@ -4,7 +4,5 @@ lets_test:
     stage: test
     script:
         - echo hi
-        - cd /home/gitlab-runner
-        - touch devqa
     tags:
         - dev-ci/cd
