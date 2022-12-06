@@ -15,19 +15,21 @@ import checkIcon from "@public/static/icon/icon_checkbox.png";
 import checkedIcon from "@public/static/icon/checkbox_checked.png";
 import { changeDate } from "@utils/client/changeDate";
 import { useRecoilValue } from "recoil";
-import { currentPatientName } from "atoms/atoms";
+import { currentPatientInfo } from "atoms/atoms";
+import HospitalModal from "@components/modals/HospitalModal";
+import { Subject } from "@components/modals/ClinicModal";
 
 export interface RecordWithImageAndHospital extends Record {
   images: RecordImage[];
   hospital?: { name: string };
 }
 
-function ChartTimeline() {
+const ChartTimeline = () => {
   const { query } = useRouter();
   const position = query.position as Position;
-  const patientName = useRecoilValue(currentPatientName);
+  const {name : patientName, id : patientId} = useRecoilValue(currentPatientInfo);
   const queryClient = useQueryClient();
-  const { getApi } = customApi(`/api/users/records/${position}`);
+  const { getApi } = customApi(patientId ? `/api/hospital/${patientId}/${position}` :`/api/users/records/${position}`);
   const { deleteApi } = customApi(`/api/users/records`);
 
   // 여기 key 2개 넣고, useEffect까지 써야지 되는 이 부분 나중에 리팩토링하기 (일단 기능은 맞게 동작)
@@ -37,7 +39,7 @@ function ChartTimeline() {
     },
     enabled: !!position,
   });
-
+  console.log("hihihhi", data)
   useEffect(() => {
     queryClient.invalidateQueries([RECORDS_READ, position]);
     setFilterItem("all"); // 부위마다 새로운 페이지가 아닌가..? 왜 이걸 해줘야하지
@@ -151,7 +153,17 @@ function ChartTimeline() {
                 <strong>{KoreanPosition[position!]}</strong>에 대한 기록이 없습니다
               </p>
             </NoRecord>
-          ) : (
+          ):
+          !query.position ?
+          (
+            <NoRecord>
+              <img src={ToriQuestion.src} />
+              <p>
+                자세한 기록을 확인하고 싶은 부위를 선택해주세요
+              </p>
+            </NoRecord>
+          )
+          : (
             filtredRecord?.map((record, index) => (
               <RecordBox key={index}>
                 <Time byUser={record.type === "user"}>{changeDate(record.createAt)}</Time>
@@ -159,8 +171,8 @@ function ChartTimeline() {
                   <>
                     <Content>
                       <Description cursorType={"pointer"}>
-                        <Text onClick={() => handleRecordModal(record)}>{record.description}</Text>
-                        <ImageBox>
+                        <Text onClick={() =>  handleRecordModal(record)}>{record.description}</Text>
+                        <ImageBox isHospital={Boolean(patientId)}>
                           {record.images.length ? (
                             <Thumbnail onClick={() => handleRecordModal(record)}>
                               <ThumbnailImage src={record.images[0].url} />
@@ -168,7 +180,7 @@ function ChartTimeline() {
                             </Thumbnail>
                           ) : (
                             <UploadImageButton
-                              onClick={() => uploadImage(String(record.id), uploadImageMutation.mutate)}
+                              onClick={() => patientId ? handleRecordModal(record) : uploadImage(String(record.id), uploadImageMutation.mutate)}
                             >
                               <span className="blind">사진 추가</span>
                             </UploadImageButton>
@@ -176,7 +188,7 @@ function ChartTimeline() {
                         </ImageBox>
                       </Description>
 
-                      <DeleteButton
+                      {Boolean(patientId) || <DeleteButton
                         onClick={e => handleClick(e, record.id)}
                         recordId={record.id}
                         className={confirmDelete === record.id ? "active" : ""}
@@ -186,10 +198,11 @@ function ChartTimeline() {
                           <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
                         </svg>
                         <span>삭제</span>
-                      </DeleteButton>
+                      </DeleteButton>}
                     </Content>
                     <RecordModal
                       record={record}
+                      isHospital={Boolean(patientId)}
                       show={showRecordModal === record.id}
                       onClose={() => setShowRecordModal(-1)}
                     />
@@ -200,16 +213,22 @@ function ChartTimeline() {
                       <HospitalName>{record.hospital?.name}</HospitalName>
                       <ResultTable>
                         <TableRow>
-                          <span>진단 결과</span>
+                          <Subject>진단 결과</Subject>
                           <p>{record.diagnosis}</p>
                         </TableRow>
                         <TableRow>
-                          <span>처방 내용</span>
+                          <Subject>처방 내용</Subject>
                           <p>{record.prescription}</p>
                         </TableRow>
                         <TableRow>
-                          <span>상세 소견</span>
-                          <p>{record.description}</p>
+                          <Subject>상세 소견</Subject>
+                          <p>{
+                            record.description.includes("\n") ? 
+                            record.description.split("\n").map((ele, idx)=>(
+                              <React.Fragment key={`${ele} + ${idx} + ${Date.now()}`}>{ele}<br/></React.Fragment>
+                            ))
+                            : record.description
+                            }</p>
                         </TableRow>
                       </ResultTable>
                     </Description>
@@ -219,6 +238,7 @@ function ChartTimeline() {
             ))
           )}
         </Timeline>
+        
       </TimelineContainer>
     </>
   );
@@ -374,7 +394,7 @@ const Text = styled.div`
   padding: 20px 200px 20px 30px;
 `;
 
-const ImageBox = styled.div`
+const ImageBox = styled.div<{isHospital : boolean;}>`
   position: absolute;
   top: 50%;
   right: 90px;
@@ -383,6 +403,9 @@ const ImageBox = styled.div`
   height: 80px;
   border-radius: 15px;
   overflow: hidden;
+  ${({isHospital}) => isHospital && css`
+    right: 50px;
+  `}
 `;
 
 const Thumbnail = styled.div`
@@ -503,12 +526,10 @@ const TableRow = styled.div`
     margin-top: 15px;
   }
 
-  span {
-    font-weight: 700;
-    margin-right: 100px;
-  }
-
-  p {
+  div + p {
+    width: 100%;
+    padding: 10px 0;
+    border-radius: 5px;
   }
 `;
 
