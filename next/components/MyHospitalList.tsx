@@ -1,4 +1,5 @@
 import { Hospital } from "@prisma/client";
+import { Box } from "@styles/Common";
 import { theme } from "@styles/theme";
 import { MyHospitalResponse } from "pages/users/my-hospital";
 import { LegacyRef, MouseEvent } from "react";
@@ -52,11 +53,12 @@ const NoneMessage = styled.div`
   color: ${theme.color.darkBg};
 `;
 
-const InnerContainer = styled.div<{ add: boolean }>`
+const InnerContainer = styled(Box)<{ add: boolean }>`
   width: 100%;
   height: 100%;
   overflow-y: auto;
   position: relative;
+  align-items: flex-start;
   &::-webkit-scrollbar {
     width: 10px;
   }
@@ -83,4 +85,5 @@ const HospitalLists = styled.ul`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 `;

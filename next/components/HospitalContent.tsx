@@ -49,7 +49,7 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
       <HospitalInforContainer>
         <HospitalInforBox>
           <HospitalDescriptionBox>
-            <NameText size="18px" weight="900" add={add}>
+            <NameText size="18px" weight="900px" add={add}>
               {sliceName(hospital.name)}
             </NameText>
             <Department>
