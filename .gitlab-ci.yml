@@ -3,7 +3,6 @@ stages:
 deploy:
     stage: deploy
     only:
-        - main
         - dev
         - feat/connect-api
     script:
