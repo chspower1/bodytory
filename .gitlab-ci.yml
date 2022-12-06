@@ -1,32 +1,5 @@
 stages:
-    - test
     - deploy
-
-cache:
-    paths:
-        - node_modules/
-test:
-    stage: test
-    image: node:latest
-    only:
-        - main
-        - dev
-        - feat/connect-api
-    variables:
-        DATABASE_URL: $DATABASE_URL
-        COOKIE_PASSWORD: $COOKIE_PASSWORD
-        MAIL_ID: $MAIL_ID
-        MAIL_PASSWORD: $MAIL_PASSWORD
-        NEXT_PUBLIC_NAVER_CLIENT_ID: $NEXT_PUBLIC_NAVER_CLIENT_ID
-        NEXT_PUBLIC_NAVER_CLIENT_SECRET: $NEXT_PUBLIC_NAVER_CLIENT_SECRET
-        NEXT_PUBLIC_KAKAO_KEY: $NEXT_PUBLIC_KAKAO_KEY
-        AI_API_KEY: $AI_API_KEY
-        GITHUB_ID: $GITHUB_ID
-        GITHUB_SECRET: $GITHUB_SECRET
-        NEXTAUTH_URL: $NEXTAUTH_URL
-    script:
-        - env
-        - npm install
 
 deploy:
     image: docker:latest
