@@ -26,7 +26,7 @@ export type MyHospital = Hospital & {
 
 const MyHospitalPage = () => {
   const { getApi } = customApi("/api/users/my-hospitals");
-  const { data } = useQuery<MyHospitalResponse[]>([HOSPITALS], getApi);
+  const { data, isLoading } = useQuery<MyHospitalResponse[]>([HOSPITALS], getApi);
   console.log(data);
   const user = useUser();
 
@@ -53,7 +53,7 @@ const MyHospitalPage = () => {
             </RoundButton>
           </Link>
         </ButtonBox>
-        <MyHospitalList hospitals={data} add={false} />
+        <MyHospitalList hospitals={data} add={false} isLoading={isLoading} />
       </MainInnerContainer>
     </MainContainer>
   ) : null;

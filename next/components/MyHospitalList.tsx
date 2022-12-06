@@ -4,6 +4,9 @@ import { MyHospitalResponse } from "pages/users/my-hospital";
 import { LegacyRef, MouseEvent } from "react";
 import styled from "styled-components";
 import HospitalContent from "./HospitalContent";
+import MyHospitalsSkeleton from "./ListSkeleton";
+import ListSkeleton from "./ListSkeleton";
+import SkeletonItem from "./SkeletonUI";
 
 interface MyHospitalListProps {
   hospitals?: MyHospitalResponse[];
@@ -12,20 +15,20 @@ interface MyHospitalListProps {
   isLoading?: boolean;
 }
 
-const MyHospitalList = ({ hospitals, add }: MyHospitalListProps) => {
+const MyHospitalList = ({ hospitals, add, isLoading }: MyHospitalListProps) => {
   console.log("lists", hospitals);
   return (
     <HospitalContainer add={add}>
       <InnerContainer add={add}>
-        {hospitals ? (
+        {isLoading && <MyHospitalsSkeleton backgroundColor="rgb(100,106,235)" />}
+        {!isLoading && hospitals && (
           <HospitalLists>
             {hospitals?.map((hospital, idx) => (
               <HospitalContent hospital={hospital.hospital} idx={idx} add={add} key={idx} shared={hospital.shared} />
             ))}
           </HospitalLists>
-        ) : (
-          <NoneMessage>{add ? "검색결과가 없습니다" : "병원내역이 없습니다"}</NoneMessage>
         )}
+        {!isLoading && !hospitals && <NoneMessage>{add ? "검색결과가 없습니다" : "병원내역이 없습니다"}</NoneMessage>}
       </InnerContainer>
     </HospitalContainer>
   );
