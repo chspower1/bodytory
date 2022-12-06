@@ -27,8 +27,11 @@ export const currentBodyPosition = atom<string>({
   default: "front"
 });
 
-export const currentPatientName = atom<string>({
-  key: "currentPatientNameKey",
-  default: "",
+export const currentPatientInfo = atom<{name: string; id: number | null}>({
+  key: "currentPatientInfoKey",
+  default: {
+    name : "",
+    id: null
+  },
   effects_UNSTABLE: [persistAtom],
 })
