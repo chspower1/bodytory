@@ -5,7 +5,6 @@ deploy:
     image: docker:latest
     stage: deploy
     only:
-        - main
         - dev
         - feat/connect-api
     variables:
@@ -21,5 +20,4 @@ deploy:
         GITHUB_SECRET: $GITHUB_SECRET
         NEXTAUTH_URL: $NEXTAUTH_URL
     script:
-        - pwd
-        - ls
+        - docker-compose up -d
