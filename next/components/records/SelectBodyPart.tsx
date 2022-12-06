@@ -6,7 +6,7 @@ import { bodyPartType } from "types/bodyParts";
 import { Dispatch, SetStateAction } from "react";
 import { BackButton } from "@styles/Common";
 
-interface SelectBodyPartProps {
+export interface SelectBodyPartProps {
   selectedBodyPart: bodyPartType;
   setSelectedBodyPart: Dispatch<SetStateAction<bodyPartType>>;
 }
@@ -37,13 +37,13 @@ function SelectPart({ selectedBodyPart, setSelectedBodyPart }: SelectBodyPartPro
   );
 }
 
-const SelectPartWarp = styled.div`
+export const SelectPartWarp = styled.div`
   position: relative;
   width: 37.5%;
   height: 100%;
 `;
 
-const SelectPartContainer = styled.div`
+export const SelectPartContainer = styled.div`
   width: 100%;
   max-width: 720px;
   height: 100%;
@@ -54,7 +54,7 @@ const SelectPartContainer = styled.div`
   justify-content: center;
 `;
 
-const GuideText = styled.div`
+export const GuideText = styled.div`
   text-align: center;
   color: #5155ba;
   margin: 40px 0 20px;

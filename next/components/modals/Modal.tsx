@@ -39,7 +39,7 @@ function Modal({
       {show && (
         <ModalWrapper>
           <Dim onClick={onClose} />
-          <ModalContainer width={width} height={height}>
+          <ModalBox width="auto" height="auto">
             <ModalTitle>
               <h3>{title}</h3>
             </ModalTitle>
@@ -54,7 +54,7 @@ function Modal({
                 </RoundButton>
               )}
             </ConfirmBtnBox>
-          </ModalContainer>
+          </ModalBox>
         </ModalWrapper>
       )}
     </AnimatePresence>
@@ -64,7 +64,9 @@ function Modal({
 }
 
 const ConfirmBtnBox = styled.div`
-  margin: 30px;
+  display:flex;
+  justify-content:center;
+  margin-top: 30px;
   button {
     display: inline-block;
     margin: 0 10px;
@@ -73,14 +75,11 @@ const ConfirmBtnBox = styled.div`
   }
 `;
 
-const ModalBox = styled.div`
-  display: inline-block;
-  min-width: 400px;
+const ModalBox = styled(ModalContainer)`
   background: #fff;
-  margin: auto;
   padding: 20px;
   border-radius: 10px;
-  margin: auto;
+  text-align:center;
 `;
 
 const ModalTitle = styled.div`

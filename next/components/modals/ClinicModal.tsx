@@ -37,7 +37,7 @@ const ClinicModal = ({
       {show && (
         <ModalWrapper>
           <Dim onClick={onClose} />
-          <ModalContainer width="860px">
+          <ModalContainer width="860px" height="auto">
             <ModalHead>
               <h3>{name}</h3>
               <p>

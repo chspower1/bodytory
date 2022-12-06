@@ -1,3 +1,4 @@
+import useHospital from "@hooks/useHospital";
 import { Hospital, MedicalDepartment } from "@prisma/client";
 import { theme } from "@styles/theme";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -11,6 +12,7 @@ import { useState } from "react";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { ChangeToHoverColor, RectangleButton, RoundButton } from "./buttons/Button";
+import DeleteBtn from "./buttons/DeleteBtn";
 import Modal from "./modals/Modal";
 
 interface HospitalContentProps {
@@ -25,42 +27,15 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
   const [onShare, setOnShare] = useState<boolean>(shared);
   const setHospitalCurrentIdx = useSetRecoilState(currentHospitalIdx);
   const [onConnected, setOnConnected] = useState(hospital.my);
-  const queryClient = useQueryClient();
 
-  const { postApi, putApi, deleteApi } = customApi("/api/users/my-hospitals");
-  const [showModal, setShowModal] = useState(false);
-
-  // 추가용 api
-  const { mutate: addHospitalMutate } = useMutation(["addHospitalKey"], postApi, {
-    onSuccess() {
-      queryClient.invalidateQueries(["isMyHospital"]);
-      queryClient.invalidateQueries([HOSPITALS]);
-    },
-  });
-  const { mutate: deleteHospitalMutate } = useMutation(["addHospitalKey"], deleteApi, {
-    onSuccess() {
-      queryClient.invalidateQueries(["isMyHospital"]);
-      queryClient.invalidateQueries([HOSPITALS]);
-    },
-  });
-  const { mutate: sharedHospitalMutate } = useMutation(["addHospitalKey"], putApi, {
-    onSuccess() {},
-  });
-  const handleClickShare = () => {
-    setOnShare(!onShare);
-    sharedHospitalMutate({ id: hospital.id });
-  };
-
-  const handleClickAddHospital = () => {
-    addHospitalMutate({ id: hospital.id });
-    setOnConnected(true);
-    setShowModal(false);
-  };
-  const handleClickDeleteHospital = () => {
-    deleteHospitalMutate({ id: hospital.id });
-    setOnConnected(false);
-    setShowModal(false);
-  };
+  const {
+    deleteHospitalMutate,
+    showModal,
+    setShowModal,
+    handleClickAddHospital,
+    handleClickDeleteHospital,
+    handleClickShare,
+  } = useHospital();
   const handleClickGoClinicList = () => {
     router.push("/users/my-hospital/clinic-list");
     setHospitalCurrentIdx(idx);
@@ -76,7 +51,7 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
             </NameText>
             <Department>
               {hospital.medicalDepartments[0].medicalDepartment &&
-                hospital.medicalDepartments[0].medicalDepartment.department}{" "}
+                hospital.medicalDepartments[0].medicalDepartment.department}
               외 {hospital.medicalDepartments.length - 1}과목
             </Department>
           </HospitalDescriptionBox>
@@ -103,17 +78,26 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
             <ShareStatus weight="200" size="15px" add={add} status={onShare}>
               {onShare ? "기록 공유 중" : "기록 공유 중지"}
             </ShareStatus>
-            <ShareButton status={onShare} onClick={() => handleClickShare()}>
+            <ShareButton status={onShare} onClick={() => handleClickShare(hospital.id, setOnShare)}>
               {onShare ? "공유 중지" : "공유 시작"}
             </ShareButton>
           </HospitalStatusBox>
         )}
+        {add || <DeleteBtn mutate={deleteHospitalMutate} id={hospital.id} backgroundColor="rgb(100, 106, 235)" />}
       </HospitalInforContainer>
 
       <Modal
         show={showModal}
         onClose={() => setShowModal(false)}
-        activeFuction={onConnected ? handleClickDeleteHospital : handleClickAddHospital}
+        activeFuction={
+          onConnected
+            ? () => {
+                handleClickDeleteHospital(hospital.id, setOnConnected);
+              }
+            : () => {
+                handleClickAddHospital(hospital.id, setOnConnected);
+              }
+        }
         agreeType={!onConnected}
         title="개인정보 수집 동의"
       >
@@ -141,6 +125,7 @@ const ShareButton = styled.button<{ status: boolean }>`
   height: 50px;
   font-size: 18px;
   padding: 0 50px;
+
   transition: background-color 0.5s ease;
   &:hover {
     background-color: ${props => ChangeToHoverColor(props.status ? "rgb(128,133,251)" : "rgb(18, 212, 201)")};
@@ -183,9 +168,10 @@ const SpaceText = styled(Text)`
   overflow: hidden;
   text-overflow: ellipsis;
 `;
-const ShareStatus = styled(Text)<{ status: boolean }>`
+export const ShareStatus = styled(Text)<{ status: boolean }>`
   padding-left: 20px;
   &::after {
+    transition: background-color 0.4s ease;
     content: "";
     width: 10px;
     height: 10px;
@@ -241,6 +227,7 @@ const HospitalStatusBox = styled.div`
   display: flex;
   align-items: center;
   width: 300px;
+  margin-right: 35px;
   justify-content: space-between;
 `;
 

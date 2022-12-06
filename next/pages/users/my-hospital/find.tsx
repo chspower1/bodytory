@@ -1,7 +1,7 @@
 import { RoundButton } from "@components/buttons/Button";
 import HospitalList from "@components/MyHospitalList";
 import Input from "@components/Input";
-import ArroundMap from "@components/modals/ArroundMap";
+import ArroundMap from "@components/modals/map/ArroundMap";
 import { theme } from "@styles/theme";
 import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
@@ -26,7 +26,7 @@ import { BackButton } from "@styles/Common";
 import Link from "next/link";
 import SearchHospitalList from "@components/SearchHospitalList";
 
-interface SearchForm {
+export interface SearchForm {
   search: string;
 }
 

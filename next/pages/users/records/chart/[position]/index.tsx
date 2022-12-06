@@ -15,7 +15,7 @@ export default function ChartPage() {
   );
 }
 
-const RecordWrap = styled.div`
+export const RecordWrap = styled.div`
   display: flex;
   height: 100%;
 `;
