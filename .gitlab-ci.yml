@@ -1,5 +1,5 @@
 stages:
-    -test
+    - test
 lets_test:
     stage: test
     script:
