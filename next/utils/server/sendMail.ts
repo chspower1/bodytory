@@ -2,7 +2,7 @@ import smtpTransport from "@utils/server/email";
 import { MailOptions } from "nodemailer/lib/sendmail-transport";
 
 const sendMail = (email: string, payload: string, subject: string) => {
-  const mailOptions: MailOptions = {
+/*   const mailOptions: MailOptions = {
     from: process.env.MAIL_ID,
     to: email,
     subject,
@@ -18,7 +18,7 @@ const sendMail = (email: string, payload: string, subject: string) => {
       return null;
     }
   });
-  smtpTransport.close();
+  smtpTransport.close(); */
 };
 
 export default sendMail;

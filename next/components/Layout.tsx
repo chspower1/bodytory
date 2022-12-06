@@ -2,6 +2,7 @@ import { Wrapper } from "@styles/Common";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Header from "./header/Header";
+import HospitalHeader from "./header/HospitalHeader";
 import SideMenu from "./header/SideMenu";
 
 interface LayoutProps {
@@ -16,7 +17,7 @@ const Layout = ({ children }: LayoutProps) => {
   }, [router]);
   return (
     <Wrapper bgColor={bgColor}>
-      <Header />
+      {router.pathname.includes("/hospital") ? <HospitalHeader/> :<Header />}
       {children}
     </Wrapper>
   );

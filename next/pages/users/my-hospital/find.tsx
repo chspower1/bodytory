@@ -26,7 +26,7 @@ import { BackButton } from "@styles/Common";
 import Link from "next/link";
 import SearchHospitalList from "@components/SearchHospitalList";
 
-interface SearchForm {
+export interface SearchForm {
   search: string;
 }
 

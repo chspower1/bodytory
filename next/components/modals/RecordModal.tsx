@@ -23,9 +23,10 @@ interface RecordUpdateType {
 interface RecordModalProps {
   record: RecordWithImageAndHospital;
   show: boolean;
+  isHospital: boolean;
   onClose: () => void;
 }
-const RecordModal = ({ onClose, record, show }: RecordModalProps) => {
+const RecordModal = ({ onClose, record, show, isHospital }: RecordModalProps) => {
   const [isBrowser, setIsBrowser] = useState(false);
   const { putApi, deleteApi } = customApi("/api/users/records");
 
@@ -88,10 +89,10 @@ const RecordModal = ({ onClose, record, show }: RecordModalProps) => {
       {show && (
         <ModalWrapper>
           <Dim onClick={onClose} />
-          <ModalContainer width="800px" height="780px">
-            <Modal>
-              <ScrollContainer>
-                <RecordDetailContainer>
+          <ModalContainer width="800px" height="auto">
+            <ScrollContainer>
+              <RecordDetailContainer>
+                {isHospital || (
                   <ButtonBox>
                     <CircleDeleteButton
                       onClick={e => handleClick(e, record!.id)}
@@ -116,27 +117,45 @@ const RecordModal = ({ onClose, record, show }: RecordModalProps) => {
                       닫기
                     </RoundButton>
                   </ButtonBox>
-                  <Time byUser={record!.type === "user"}>{changeDate(record!.createAt)}</Time>
-                  <EditTextBox onSubmit={handleSubmit(onValid)}>
-                    <TextArea
-                      {...register("updateWrite", {
-                        required: "증상을 입력해주세요",
-                      })}
-                      onChange={handleTextChange}
-                      onFocus={() => setShowMsg(false)}
-                    >
-                      {record!.description}
-                    </TextArea>
+                )}
+                <Time byUser={record!.type === "user"}>{changeDate(record!.createAt)}</Time>
+                <EditTextBox onSubmit={handleSubmit(onValid)}>
+                  <TextArea
+                    {...register("updateWrite", {
+                      required: "증상을 입력해주세요",
+                    })}
+                    onChange={handleTextChange}
+                    onFocus={() => setShowMsg(false)}
+                    disabled={isHospital}
+                  >
+                    {record!.description}
+                  </TextArea>
+                  {isHospital || (
                     <RoundButton size="sm" bgColor="rgb(83,89,233)" boxShadow={false}>
                       수정하기
                     </RoundButton>
-                    {showMsg && <SuccessMsg>수정이 완료되었습니다!</SuccessMsg>}
-                    {errors.updateWrite && <ErrorMsg>{errors.updateWrite.message}</ErrorMsg>}
-                  </EditTextBox>
-                  <ManageImage recordId={String(record.id)} recordImages={record.images} />
-                </RecordDetailContainer>
-              </ScrollContainer>
-            </Modal>
+                  )}
+                  {showMsg && <SuccessMsg>수정이 완료되었습니다!</SuccessMsg>}
+                  {errors.updateWrite && <ErrorMsg>{errors.updateWrite.message}</ErrorMsg>}
+                </EditTextBox>
+                <ManageImage recordId={String(record.id)} recordImages={record.images} isHospital={isHospital} />
+              </RecordDetailContainer>
+                {isHospital && (
+                  <HospitalModalCloseButtonBox>
+                    <RoundButton
+                      onClick={onClose}
+                      size="custom"
+                      bgColor="rgb(198,205,250)"
+                      textColor="#5D6BB2"
+                      boxShadow={false}
+                      height="40px"
+                      padding="0 40px"
+                    >
+                      닫기
+                    </RoundButton>
+                  </HospitalModalCloseButtonBox>
+                )}
+            </ScrollContainer>
           </ModalContainer>
         </ModalWrapper>
       )}
@@ -306,5 +325,12 @@ const CircleDeleteButton = styled.button<{ recordId: number }>`
       z-index: 1;
       transform: translate(-105%, -50%);
     }
+  }
+`;
+
+const HospitalModalCloseButtonBox = styled.div`
+  padding-bottom: 50px;
+  > button {
+    margin: 0 auto;
   }
 `;

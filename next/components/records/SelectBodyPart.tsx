@@ -6,7 +6,7 @@ import { bodyPartType } from "types/bodyParts";
 import { Dispatch, SetStateAction } from "react";
 import { BackButton } from "@styles/Common";
 
-interface SelectBodyPartProps {
+export interface SelectBodyPartProps {
   selectedBodyPart: bodyPartType;
   setSelectedBodyPart: Dispatch<SetStateAction<bodyPartType>>;
 }
@@ -37,13 +37,13 @@ function SelectPart({ selectedBodyPart, setSelectedBodyPart }: SelectBodyPartPro
   );
 }
 
-const SelectPartWarp = styled.div`
+export const SelectPartWarp = styled.div`
   position: relative;
   width: 37.5%;
   height: 100%;
 `;
 
-const SelectPartContainer = styled.div`
+export const SelectPartContainer = styled.div`
   width: 100%;
   max-width: 720px;
   height: 100%;
@@ -54,7 +54,39 @@ const SelectPartContainer = styled.div`
   justify-content: center;
 `;
 
-const GuideText = styled.div`
+export const BackButton = styled.button`
+  position: absolute;
+  top: 20px;
+  left: 30px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  background: url(${IconArrowLeft.src}) no-repeat 10px 50%/26px;
+  background-color: #5155ba;
+  overflow: hidden;
+  transition: width 0.4s;
+
+  span {
+    display: block;
+    font-size: 16px;
+    font-weight: 500;
+    color: ${({ theme }) => theme.color.lightBg};
+    width: 130px;
+    padding-left: 20px;
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+
+  &:hover {
+    width: 130px;
+
+    span {
+      opacity: 1;
+    }
+  }
+`;
+
+export const GuideText = styled.div`
   text-align: center;
   color: #5155ba;
   margin: 40px 0 20px;

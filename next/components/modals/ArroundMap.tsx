@@ -3,7 +3,13 @@ import { BodyText, Box, BtnBox, Col, FlexContainer, Row, ToryText, WhiteBoldText
 import Image from "next/image";
 import { CustomOverlayMap, Map, MapMarker, Info } from "react-kakao-maps-sdk";
 import styled from "styled-components";
-
+import Kakaomap from "@public/static/icon/kakao_map.svg";
+import Pointer from "@public/static/icon/pointer.svg";
+import Web from "@public/static/icon/web.svg";
+import cross from "@public/static/icon/cross.svg";
+import triangle from "@public/static/icon/triangle.png";
+import x from "@public/static/icon/x.png";
+import marker from "@public/static/icon/map_marker.png";
 import customApi from "@utils/client/customApi";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
@@ -167,7 +173,7 @@ const ArroundMap: NextPage<ArroundMapProps> = ({ onClose, latitude, longitude })
                           target="_blank"
                         >
                           <Box>
-                            <Image src={kakaomap} alt="kakao" width={20} height={20} />
+                            <Kakaomap width={20} height={20} />
                           </Box>
                         </Link>
                       </AdressBox>
@@ -182,7 +188,7 @@ const ArroundMap: NextPage<ArroundMapProps> = ({ onClose, latitude, longitude })
                         </BodyText>
                       </DepartmentBox>
                       <HomepageBox>
-                        <Image src={web} alt="사진" />
+                        <Web />
                         {hospital.homepage ? (
                           <Link href={hospital.homepage} target="_blank" title={hospital.homepage}>
                             {hospital.name} 홈페이지 바로가기

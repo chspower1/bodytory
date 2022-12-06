@@ -1,5 +1,5 @@
 import { motion, Variants } from "framer-motion";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 const MODAL_VARIANTS: Variants = {
   initial: {
     opacity: 0,
@@ -40,10 +40,13 @@ export const ModalWrapper = styled(motion.div)`
   width: 100vw;
   height: 100vh;
   display: flex;
-  justify-content: center;
-  align-items: center;
   z-index: 1000;
 `;
+
+/**
+ * @사용가능props = (width, height, flex)
+ * @flex  direction = column, justify = space-evenly, align-items = center
+ */
 export const ModalContainer = styled(motion.div).attrs({
   variants: MODAL_VARIANTS,
   initial: "initial",
@@ -52,16 +55,22 @@ export const ModalContainer = styled(motion.div).attrs({
 })<{
   width?: string;
   height?: string;
+  flex ?: boolean;
 }>`
   z-index: 2000;
   width: ${props => (props.width ? props.width : "650px")};
   height: ${props => (props.height ? props.height : "350px")};
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
+  min-width: 400px;
   background-color: white;
   border-radius: 30px;
+  margin: auto;
+  overflow:hidden;
+  ${({flex}) =>flex && css`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+  `}
 `;
 
 export const Dim = styled(motion.div).attrs({
