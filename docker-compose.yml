@@ -9,5 +9,3 @@ services:
     restart: always
     ports:
       - 3000:3000
-    env:
-      FLASK_API: http://flask:8080
