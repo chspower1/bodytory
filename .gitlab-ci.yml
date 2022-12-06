@@ -19,5 +19,6 @@ deploy:
         GITHUB_ID: $GITHUB_ID
         GITHUB_SECRET: $GITHUB_SECRET
         NEXTAUTH_URL: $NEXTAUTH_URL
+        FLASK_API: http://flask:8080
     script:
         - docker-compose up -d
