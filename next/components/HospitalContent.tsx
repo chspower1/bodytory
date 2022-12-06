@@ -109,7 +109,7 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
             </ShareButton>
           </HospitalStatusBox>
         )}
-        <DeleteBtn mutate={deleteHospitalMutate} id={hospital.id} backgroundColor="rgb(100, 106, 235)" />
+        {add || <DeleteBtn mutate={deleteHospitalMutate} id={hospital.id} backgroundColor="rgb(100, 106, 235)" />}
       </HospitalInforContainer>
 
       <Modal

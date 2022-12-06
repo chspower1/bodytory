@@ -14,7 +14,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     const { longitude: lat, latitude: lng } = req.query;
     const [latitude, longitude] = [parseFloat(lat as string), parseFloat(lng as string)];
     console.log(longitude, latitude);
-    const hospitals: HospitalsForMap[] = await client.hospital.findMany({
+    const myHospitals: HospitalsForMap[] = await client.hospital.findMany({
       where: {
         x: {
           gte: latitude - 0.005,
@@ -24,6 +24,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         y: {
           gte: longitude - 0.005,
           lte: longitude + 0.005,
+        },
+        NOT: {
+          users: {
+            none: {
+              userId: user.id,
+            },
+          },
         },
       },
       select: {
@@ -45,6 +52,48 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       },
       take: 100,
     });
+    const notMyHospitals: HospitalsForMap[] = await client.hospital.findMany({
+      where: {
+        x: {
+          gte: latitude - 0.005,
+          lte: latitude + 0.005,
+        },
+
+        y: {
+          gte: longitude - 0.005,
+          lte: longitude + 0.005,
+        },
+        NOT: {
+          users: {
+            some: {
+              userId: user.id,
+            },
+          },
+        },
+      },
+      select: {
+        id: true,
+        name: true,
+        x: true,
+        y: true,
+        address: true,
+        homepage: true,
+        medicalDepartments: {
+          select: {
+            medicalDepartment: {
+              select: {
+                department: true,
+              },
+            },
+          },
+        },
+      },
+      take: 100,
+    });
+    const hospitals = [
+      ...myHospitals.map(hospital => ({ ...hospital, my: true })),
+      ...notMyHospitals.map(hospital => ({ ...hospital, my: false })),
+    ];
     console.log("map 요청");
     return res.status(200).json({ hospitals });
   }

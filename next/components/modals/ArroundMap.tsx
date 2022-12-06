@@ -1,7 +1,7 @@
 import { CircleButton, RoundButton } from "@components/buttons/Button";
 import { BodyText, Box, BtnBox, Col, FlexContainer, Row, ToryText, WhiteBoldText, WhiteText } from "@styles/Common";
 import Image from "next/image";
-import { CustomOverlayMap, Map, MapMarker, Info } from "react-kakao-maps-sdk";
+import { CustomOverlayMap, Map, MapMarker } from "react-kakao-maps-sdk";
 import styled from "styled-components";
 
 import customApi from "@utils/client/customApi";
@@ -38,6 +38,7 @@ interface Hospital {
   address: string;
   homepage: string | null;
   medicalDepartments: medicalDepartment[];
+  my: boolean;
 }
 interface medicalDepartment {
   medicalDepartment: { department: string };
