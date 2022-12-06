@@ -7,7 +7,7 @@ import { UserType } from "@prisma/client";
 import { getPayload } from "@utils/client/payload";
 import sendMail from "@utils/server/sendMail";
 
-const createToken = async (email: string) => {
+const createEmailCheckToken = async (email: string) => {
   const payload = getPayload();
 
   await client.certification.deleteMany({
@@ -55,11 +55,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (!token) {
     try {
       await checkEmail(email, type);
-      await createToken(email);
-      res.status(200).json({ ok: true });
+      await createEmailCheckToken(email);
+      return res.status(200).json({ ok: true });
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : (<Object>error).toString();
-      res.status(403).send(errorMessage);
+      return res.status(403).send(errorMessage);
     }
   }
 

@@ -1,0 +1,13 @@
+services:
+  flask:
+    build: ./flask
+    restart: always
+    ports:
+      - 5001:8080
+  next:
+    build: ./next
+    restart: always
+    ports:
+      - 3000:3000
+    env:
+      FLASK_API: http://flask:8080

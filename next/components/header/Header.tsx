@@ -1,47 +1,59 @@
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import LogoImg from "@public/static/icon/Logo.png";
-import useUser from "@hooks/useUser";
 import SideMenu from "./SideMenu";
-import { User } from "@prisma/client";
 import { useRecoilValue } from "recoil";
 import { loggedInUser } from "atoms/atoms";
-import { RegisterForm } from "pages/auth/register";
 
 const Header = () => {
   const router = useRouter();
+  const loggedUser = useRecoilValue(loggedInUser);
+  const [isLogin, setIsLogin] = useState(false);
+  const [refresh, setRefresh] = useState(true);
+  useEffect(() => {
+    if (loggedUser !== null) {
+      setIsLogin(true);
+      setRefresh(true);
+    } else {
+      setIsLogin(false);
+      setRefresh(false);
+    }
+  }, [loggedUser]);
 
-  return (
-    <HeaderWrap>
-      <HeaderContainer>
-        <HeaderInnerBox>
-          <HeaderUl>
-            <li>
-              <Link href="/">서비스 소개</Link>
-            </li>
-            <li>
-              {router.asPath.includes("login") ? (
-                <Link href="/auth/register" title="회원가입">
-                  회원가입
-                </Link>
-              ) : (
-                <Link href="/auth/login" title="로그인">
-                  로그인
-                </Link>
-              )}
-            </li>
-          </HeaderUl>
-          <HeaderLogoBox>
-            <Link href="/auth/login" title="바디토리">
-              <span>바디토리</span>
-            </Link>
-          </HeaderLogoBox>
-        </HeaderInnerBox>
-      </HeaderContainer>
-    </HeaderWrap>
+  return !isLogin ? (
+    refresh ? null : (
+      <HeaderWrap>
+        <HeaderContainer>
+          <HeaderInnerBox>
+            <HeaderUl>
+              <li>
+                <Link href="/">서비스 소개</Link>
+              </li>
+              <li>
+                {router.asPath.includes("login") ? (
+                  <Link href="/auth/register/choice" title="회원가입">
+                    회원가입
+                  </Link>
+                ) : (
+                  <Link href="/auth/login" title="로그인">
+                    로그인
+                  </Link>
+                )}
+              </li>
+            </HeaderUl>
+            <HeaderLogoBox>
+              <Link href="/auth/login" title="바디토리">
+                <span>바디토리</span>
+              </Link>
+            </HeaderLogoBox>
+          </HeaderInnerBox>
+        </HeaderContainer>
+      </HeaderWrap>
+    )
+  ) : (
+    <SideMenu />
   );
 };
 

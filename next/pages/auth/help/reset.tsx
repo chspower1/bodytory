@@ -66,7 +66,6 @@ const Reset: NextPage = () => {
   }, [router]);
   return (
     <Container>
-      <Header />
       <InnerContainer>
         {!isSuccess ? (
           <>
@@ -107,6 +106,7 @@ const Reset: NextPage = () => {
                   <Seperation>
                     <Input
                       name="passwordConfirm"
+                      type="password"
                       placeholder="●●●●●●"
                       register={register("passwordConfirm", {
                         required: true,

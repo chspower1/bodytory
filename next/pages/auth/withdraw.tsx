@@ -77,7 +77,6 @@ export default function Withdraw() {
 
   return (
     <FlexContainer>
-      <Header />
       <Form onSubmit={handleSubmit(onValid)}>
         <MessageBox
           isErrorsMessage={isErrorsMessage}

@@ -6,7 +6,6 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import { KoreanPosition } from "types/write";
-import mic from "@public/static/icon/mic.svg";
 import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
@@ -15,18 +14,34 @@ import ToryIcon from "@components/ToryIcon";
 import SpeakMotion from "@components/SpeakMotion";
 import useAudio from "@hooks/useAudio";
 import { RECORDS_CREATE } from "constant/queryKeys";
-
 import { AxiosError } from "axios";
+import { motion } from "framer-motion";
+import Link from "next/link";
+import pencil from "@public/static/icon/pencil.svg";
+import mic from "@public/static/icon/mic.svg";
+import Check from "@public/static/icon/check.svg";
+import { useForm } from "react-hook-form";
 
 interface WriteRecordRequest {
   position: string;
   description: string;
 }
+interface WriteForm {
+  description: string;
+}
 type RecordStatus = "initial" | "finish" | "listening" | "loading";
 const PositionPage = () => {
-  const { query } = useRouter();
-  const position = query.position as Position;
-
+  const router = useRouter();
+  const position = router.query.position as Position;
+  const [isEditMode, setIsEditMode] = useState(true);
+  const [isOnSubmit, setIsOnSubmit] = useState(false);
+  const {
+    register,
+    setValue,
+    handleSubmit,
+    formState: { errors },
+    clearErrors,
+  } = useForm<WriteForm>();
   const { offRecAudio, onRecAudio, audioRecognized } = useAudio();
   const [listening, setListening] = useState(false);
   const [error, setError] = useState(false);
@@ -37,11 +52,14 @@ const PositionPage = () => {
       router.push("/users/records/write/add");
     },
   });
-  const recordMessgae =
+
+  const recordMessage: string =
     (recordStatus === "initial" && "아래 버튼을 누르고 증상을 등록해 보세요!") ||
     (recordStatus === "listening" && "증상을 말씀해주세요! 토리가 듣고 정리해드릴게요.") ||
     (recordStatus === "loading" && "토리가 음성을 분석 중이에요! 잠시만 기다려 주세요!") ||
-    (recordStatus === "finish" && audioRecognized);
+    (recordStatus === "finish" && audioRecognized) ||
+    "";
+  console.log(audioRecognized);
   const startRecord = () => {
     setError(false);
     setRecordStatus("listening");
@@ -52,11 +70,33 @@ const PositionPage = () => {
     setRecordStatus("loading");
     offRecAudio();
   };
-  const hadleClickCreateRecord = () => {
-    if (audioRecognized && recordStatus === "finish") {
-      mutate({ position: router.query.position as string, description: audioRecognized });
-    } else setError(true);
+  const hadleClickCreateRecord = (writeForm: WriteForm) => {
+    if (isOnSubmit) {
+      if (recordStatus === "finish") {
+        console.log("mutate");
+        mutate({ position: router.query.position as string, description: writeForm.description });
+      } else {
+        setIsOnSubmit(false);
+        setError(true);
+      }
+    } else setIsOnSubmit(true);
   };
+  const handleClickEditMode = () => {
+    setError(false);
+    if (!(recordStatus === "finish")) {
+      setValue("description", "");
+    }
+    setRecordStatus("finish");
+    setIsEditMode(true);
+  };
+  useEffect(() => {
+    console.log(recordMessage);
+    if (recordMessage === null) {
+      setValue("description", "다시 한번 말씀해주세요");
+    }
+    setValue("description", recordMessage);
+  }, [recordMessage, setValue]);
+
   useEffect(() => {
     if (audioRecognized) setRecordStatus("finish");
   }, [audioRecognized]);
@@ -66,6 +106,9 @@ const PositionPage = () => {
   }, [recordStatus]);
   return (
     <WhiteWrapper>
+      <Link href="/users/records/write">
+        <BackBtn>뒤로가기</BackBtn>
+      </Link>
       <SpeakMotion listening={listening} />
       <FlexContainer>
         <Col height="100vh">
@@ -78,17 +121,35 @@ const PositionPage = () => {
             </BlackToryText>
           </Box>
           <VoiceBox height="30%">
-            <MemoBox onClick={hadleClickCreateRecord}>
-              {error && <ErrorMessage>증상을 입력해주세요!</ErrorMessage>}
-              {recordMessgae}
-            </MemoBox>
+            <MemoBox as="form" onClick={handleClickEditMode} onSubmit={handleSubmit(hadleClickCreateRecord)}>
+              <GuideMessage>마이크 사용이 어려우시면 아래 입력창을 클릭 하세요!</GuideMessage>
+              <MemoInput
+                type="text"
+                disabled={!isEditMode}
+                {...register("description", {
+                  required: "증상을 입력해주세요",
+                  onBlur: () => {
+                    !(recordStatus === "finish") && setValue("description", recordMessage);
+                    clearErrors("description");
+                  },
+                })}
+              />
 
+              {(error || errors.description) && <ErrorMessage>증상을 입력해주세요!</ErrorMessage>}
+
+              <SubmitButton className={isOnSubmit ? "active" : ""} onBlur={() => setIsOnSubmit(false)}>
+                <Check width={30} height={30} />
+                <span>제출</span>
+              </SubmitButton>
+            </MemoBox>
             <CircleButton
+              width="100px"
+              height="100px"
               bgColor={listening ? theme.color.error : theme.color.darkBg}
               onClick={listening ? endRecord : startRecord}
               boxShadow={false}
             >
-              {!listening ? <Image src={mic} alt="마이크" /> : <Rectangle />}
+              {!listening ? <Mic /> : <Rectangle />}
             </CircleButton>
           </VoiceBox>
         </Col>
@@ -99,6 +160,11 @@ const PositionPage = () => {
 };
 
 export default PositionPage;
+const BackBtn = styled(motion.div)`
+  position: fixed;
+  margin: 10px;
+  background-color: red;
+`;
 const VoiceBox = styled(Col)`
   gap: 60px;
 `;
@@ -108,8 +174,14 @@ const Rectangle = styled.div`
   border-radius: 5px;
   background-color: white;
 `;
-
 const MemoBox = styled(Box)`
+  position: relative;
+`;
+
+const MemoInput = styled.input`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 640px;
   max-width: 1000px;
   padding: 20px;
@@ -119,6 +191,7 @@ const MemoBox = styled(Box)`
   transition: all 0.3s ease-out;
   cursor: pointer;
   border-radius: 5px;
+  position: relative;
   &:hover {
     box-shadow: 0px 0px 0px 3px ${({ theme }) => theme.color.mintBtn};
   }
@@ -128,4 +201,83 @@ const ErrorMessage = styled(Box)`
   color: ${({ theme }) => theme.color.error};
   margin-top: 120px;
   font-size: 18px;
+`;
+const GuideMessage = styled(Box)`
+  position: absolute;
+  color: ${({ theme }) => theme.color.darkBg};
+  margin-bottom: 120px;
+  font-size: 18px;
+`;
+const Pencil = styled(pencil)`
+  position: absolute;
+  right: 20px;
+  transition: all 0.5s ease;
+  &:hover {
+    fill: ${({ theme }) => theme.color.darkBg};
+  }
+`;
+const Mic = styled(mic)`
+  &:hover {
+    fill: red;
+  }
+`;
+const SubmitButton = styled.button<{ recordId?: number }>`
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40px;
+  height: 100%;
+  background: #d9deff;
+  border-radius: 0 10px 10px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background 0.4s, width 0.4s;
+  z-index: 1000;
+
+  svg {
+    width: 22px;
+    height: 22px;
+    fill: #8c9af3;
+    transition: transform 0.4s;
+  }
+
+  span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 40px;
+    z-index: -1;
+    font-size: 14px;
+    font-weight: 700;
+    color: ${({ theme }) => theme.color.white};
+    margin-top: 7px;
+    opacity: 0;
+    transition: opacity 0.4s, zIndex 0.4s, transform 0.4s;
+  }
+
+  &:hover {
+    background: #c6cdfa;
+
+    svg {
+      fill: #5359e9;
+    }
+  }
+
+  &.active {
+    width: 70px;
+    background: ${({ theme }) => theme.color.darkBg};
+
+    svg {
+      transform: translate(0, -5px);
+      fill: #fff;
+    }
+
+    span {
+      opacity: 1;
+      z-index: 1;
+      transform: translate(-50%, 5px);
+    }
+  }
 `;

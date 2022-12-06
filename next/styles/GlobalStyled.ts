@@ -13,7 +13,7 @@ ${reset}
   body {
     background: ${props => props.theme.color.darkBg};
     font-optical-sizing: auto;
-    font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+    font-family: "Pretendard Variable";
     font-size: ${props => props.theme.font.size.bodyText};
     font-weight: 400;
     font-style: normal;
@@ -53,6 +53,8 @@ ${reset}
     font-size: 100%;
     line-height: 1;
     margin: 0;
+    border:none;
+    outline:none;
   }
   
   button,
@@ -120,7 +122,7 @@ ${reset}
   
   ::-webkit-scrollbar-track {
     border-radius: 10px;
-    background-color: ${prop => prop.add && "#e2e6ff"};
+    background-color: "#e2e6ff";
   }
 
   .blind {

@@ -1,17 +1,26 @@
 import { RoundButton } from "@components/buttons/Button";
 import ToryIcon from "@components/ToryIcon";
+import { BTN_VARIANTS } from "@styles/ButtonStyled";
 import { Box, BtnBox, Col, FlexContainer, ToryText } from "@styles/Common";
+import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/router";
 import styled from "styled-components";
-import {  SelectBodyPartProps } from "types/bodyParts";
+import { bodyPartType } from "types/bodyParts";
 import { KoreanPosition } from "types/write";
 
-const BodyPartChecker = ({ selectedBodyPart }: SelectBodyPartProps) => {
+interface SelectBodyPartProps {
+  selectedBodyPart: bodyPartType;
+}
 
+const BodyPartChecker = ({ selectedBodyPart }: SelectBodyPartProps) => {
   const router = useRouter();
 
   return (
-    <FlexContainer>
+    <FlexContainer
+      initial={{ x: -500 }}
+      animate={{ x: 0 }}
+      transition={{ duration: 0.7, type: "tween", ease: "easeOut" }}
+    >
       <Col style={{ height: "100vh" }}>
         <ToryBox>
           <ToryIcon />
@@ -21,13 +30,21 @@ const BodyPartChecker = ({ selectedBodyPart }: SelectBodyPartProps) => {
             <ToryText>증상을 기록할 부위를 선택해주세요</ToryText>
           ) : (
             <ToryText>
-              <PositionBoxText>{KoreanPosition[selectedBodyPart]}</PositionBoxText>에 대한 증상을 기록할까요?
+              <PositionBoxText
+                key={KoreanPosition[selectedBodyPart]}
+                initial={{ y: 30, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.6 }}
+              >
+                {KoreanPosition[selectedBodyPart]}
+              </PositionBoxText>
+              에 대한 증상을 기록할까요?
             </ToryText>
           )}
         </TextBox>
         <CreateBtnBox>
           {selectedBodyPart && (
-            <BtnBox>
+            <BtnBox variants={BTN_VARIANTS} initial="initial" animate="animate" exit="exit">
               <RoundButton
                 width="250px"
                 height="60px"
@@ -46,7 +63,7 @@ const BodyPartChecker = ({ selectedBodyPart }: SelectBodyPartProps) => {
 
 export default BodyPartChecker;
 
-export const PositionBoxText = styled.span`
+export const PositionBoxText = styled(motion.span)`
   border-radius: 10px;
   background-color: #e8e9ff;
   padding: 5px 20px;

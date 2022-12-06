@@ -4,9 +4,9 @@
 import Image from "next/image";
 import { useEffect } from "react";
 import styled, { css } from "styled-components";
-import naver from "@public/static/icon/naver.svg";
-import kakao from "@public/static/icon/kakao.svg";
-import origin from "@public/static/icon/origin.svg";
+import Naver from "@public/static/icon/naver.svg";
+import Kakao from "@public/static/icon/kakao.svg";
+import Origin from "@public/static/icon/origin.svg";
 import { theme } from "@styles/theme";
 import { Box, Col } from "@styles/Common";
 
@@ -200,11 +200,13 @@ export const SocialButton = ({
       disabled={disabled}
       boxShadow={boxShadow}
     >
-      <Image
-        src={social === "naver" ? naver : social === "kakao" ? kakao : origin}
-        alt="naver"
-        height={size === "lg" ? 80 : 60}
-      />
+      {social === "naver" ? (
+        <Naver width={size === "lg" ? 100 : 70} height={size === "lg" ? 100 : 70} />
+      ) : social === "kakao" ? (
+        <Kakao width={size === "lg" ? 100 : 70} height={size === "lg" ? 100 : 70} />
+      ) : (
+        <Origin width={size === "lg" ? 100 : 70} height={size === "lg" ? 100 : 70} />
+      )}
 
       <Col style={{ width: "100%" }}>{children}</Col>
     </Button>

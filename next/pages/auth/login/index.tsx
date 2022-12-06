@@ -51,10 +51,7 @@ const LoginPage: NextPage = () => {
   const { mutate } = useMutation([USER_LOGIN], postApi, {
     onError(error: any) {
       console.log(error);
-
-      if (error.status === 401) {
-        setIsError(true);
-      }
+      setIsError(true);
     },
     onSuccess(data) {
       if (data.isNew) {
@@ -95,13 +92,13 @@ const LoginPage: NextPage = () => {
     }
     setIsError(false);
   }, [watch("accountId"), watch("password"), isErrorsMessage]);
-
+  console.log(isError);
+  console.log(isErrorsMessage);
   return (
     <FlexContainer>
-      <Header />
       <InnerContainer>
         <MessageBox isErrorsMessage={isErrorsMessage}>
-          {!isErrorsMessage &&
+          {isErrorsMessage === undefined &&
             (isError ? <>앗! 로그인 정보를 다시 한번 확인해주세요</> : <>로그인 정보를 입력해주세요</>)}
         </MessageBox>
         <LoginForm as="form" onSubmit={handleSubmit(onValid)}>
@@ -117,7 +114,8 @@ const LoginPage: NextPage = () => {
                   },
                 })}
                 placeholder="아이디를 입력해주세요"
-                error={errors.accountId}
+                error={errors.accountId || isError}
+                motion={false}
               />
               <Input
                 name="password"
@@ -131,7 +129,8 @@ const LoginPage: NextPage = () => {
                   },
                 })}
                 placeholder="●●●●●●"
-                error={errors.password}
+                error={errors.password || isError}
+                motion={false}
               />
               {/* <Input
             name="autoLogin"

@@ -139,7 +139,7 @@ const useAudio = () => {
       const reBlob = audioBufferToWav(resampled);
 
       const PostAudio = async () => {
-        const aa = await fetch("http://aiopen.etri.re.kr:8000/WiseASR/Recognition", {
+        await fetch("http://aiopen.etri.re.kr:8000/WiseASR/Recognition", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -155,7 +155,7 @@ const useAudio = () => {
         })
           .then(data => data.json())
           .then(json => json.return_object.recognized)
-          .then(recognized => setAudioRecognized(recognized));
+          .then(recognized => setAudioRecognized(recognized as string));
       };
       PostAudio();
     };

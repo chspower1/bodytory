@@ -3,14 +3,14 @@ import { FieldError, UseFormRegisterReturn } from "react-hook-form";
 import styled, { css } from "styled-components";
 import checked from "@public/static/icon/check_checked.svg";
 import { theme } from "@styles/theme";
-
+import { motion } from "framer-motion";
 export interface InputProps {
   label?: string;
   name?: string;
   register?: UseFormRegisterReturn;
   type?: string;
   placeholder?: string;
-  error?: FieldError | string;
+  error?: FieldError | string | boolean;
   disabled?: boolean;
   value?: string;
   checked?: boolean;
@@ -22,6 +22,7 @@ export interface InputProps {
   color?: string;
   light?: boolean;
   white?: boolean;
+  motion?: boolean;
 }
 
 export default function Input({
@@ -41,11 +42,35 @@ export default function Input({
   bgcolor = theme.color.input,
   color = "#fff",
   light,
+  motion = true,
   white,
 }: InputProps) {
   return (
     <InputBox width={width} height={height}>
       <MainInput
+        initial={motion ? { y: 30, opacity: 0 } : { opacity: 1 }}
+        animate={
+          motion
+            ? {
+                y: 0,
+                opacity: 1,
+                transition: {
+                  duration: 1,
+                },
+              }
+            : { opacity: 1 }
+        }
+        exit={
+          motion
+            ? {
+                y: 30,
+                opacity: 0,
+                transition: {
+                  duration: 1,
+                },
+              }
+            : { opacity: 1 }
+        }
         disabled={disabled}
         id={name}
         {...register}
@@ -73,7 +98,14 @@ const InputBox = styled.div<{ width?: string; height?: string }>`
     margin: 40px auto 0;
   }
 `;
-const MainInput = styled.input<{ align?: string; bgColor?: string; color?: string; light?: boolean, white?: boolean }>`
+
+const MainInput = styled(motion.input)<{
+  align?: string;
+  bgColor?: string;
+  color?: string;
+  light?: boolean;
+  white?: boolean;
+}>`
   &[type="password"] {
     &::placeholder {
       letter-spacing: 7.2px;

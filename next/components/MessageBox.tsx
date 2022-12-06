@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import React from "react";
 import styled from "styled-components";
 
@@ -23,12 +24,22 @@ const MessageBox = ({ children, isErrorsMessage, currentComment }: MessageProps)
       }
     }
   };
-  return <MessageContainer className="messageBox">{children ? children : errorMessageText()}</MessageContainer>;
+
+  return (
+    <MessageContainer
+      key={isErrorsMessage}
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" } }}
+      className="messageBox"
+    >
+      {children ? children : errorMessageText()}
+    </MessageContainer>
+  );
 };
 
 export default MessageBox;
 
-const MessageContainer = styled.div`
+const MessageContainer = styled(motion.div)`
   font-size: 34px;
   letter-spacing: -1px;
   word-spacing: -2px;

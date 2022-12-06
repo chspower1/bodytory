@@ -9,7 +9,6 @@ import { useRouter } from "next/router";
 import { Position } from "@prisma/client";
 
 function Chart() {
-
   const { query } = useRouter();
   const position = query.position as Position;
 

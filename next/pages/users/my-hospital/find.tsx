@@ -2,22 +2,15 @@ import { RoundButton } from "@components/buttons/Button";
 import HospitalList from "@components/HospitalList";
 import Input from "@components/Input";
 import ArroundMap from "@components/modals/ArroundMap";
-import FirstPage from "@components/register/FirstPage";
-import { User } from "@prisma/client";
-import { FlexContainer, InnerContainer } from "@styles/Common";
 import { theme } from "@styles/theme";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import customApi from "@utils/client/customApi";
-import { loggedInUser } from "atoms/atoms";
+import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import Image from "next/image";
-import { RegisterForm } from "pages/auth/register";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { ButtonBox, DescriptionBox, ImageIcon, MainContainer, MainInnerContainer, Pragraph } from ".";
 import mapIcon from "@public/static/icon/mapIcon.svg";
+import { HospitalListProps, HospitalListT } from "@components/HospitalContent";
 
 interface SearchForm {
   search: string;
@@ -25,16 +18,13 @@ interface SearchForm {
 
 const FindHospital = () => {
   const queryclient = useQueryClient();
-  const { getApi } = customApi("/api/users/my-hospitals");
   const [isLoading, setIsLoading] = useState(false);
-  const [search, setSearch] = useState<string>("");
+  const [searchWord, setSearchWord] = useState<string>("");
   const [page, setPage] = useState<number>(0);
-  const [findState, setFindState] = useState<any[]>([]);
+  const [findState, setFindState] = useState<HospitalListT[]>([]);
   const [hasLastPage, setHasLastPage] = useState(false);
-  const listRef = useRef<Element>(null);
-  const viewRef = useRef<HTMLDivElement>(null);
+  const [observerTarget, setObserverTarget] = useState<HTMLDivElement | null>(null);
   const [showModal, setShowModal] = useState(false);
-  const currentUser = useRecoilValue(loggedInUser);
   const {
     register,
     handleSubmit,
@@ -44,52 +34,51 @@ const FindHospital = () => {
   } = useForm<SearchForm>({ mode: "onChange" });
 
   useEffect(() => {
-    if (search) {
+    if (searchWord) {
       getSearchLists();
     }
-  }, [search, page]);
+  }, [searchWord, page]);
 
   const getSearchLists = useCallback(async () => {
-    setIsLoading(true);
-    const result = await axios.get(`/api/users/my-hospitals/find?page=${page}&search=${search}`);
+    setIsLoading(() => true);
+    const result = await axios.get(`/api/users/my-hospitals/find?page=${page}&search=${searchWord}`);
     setHasLastPage(() => result.data.status);
-    setFindState((current: any) => {
+    setFindState((current: HospitalListT[]) => {
       const array = [...current];
       if (array) {
         array.push(...result.data.foundHospital);
       }
       return [...new Set(array)];
     });
-    setIsLoading(false);
-    queryclient.invalidateQueries(["isMyHospital"])
-  }, [search, page]);
+    setIsLoading(() => false);
+    queryclient.invalidateQueries(["isMyHospital"]);
+  }, [searchWord, page]);
 
-  const onValid = async (input: SearchForm) => {
-    setSearch(() => input.search);
+  const onValid = useCallback(async (input: SearchForm) => {
+    setSearchWord(() => input.search);
     setFindState([]);
     setPage(0);
     setValue("search", "");
-  };
+  }, []);
 
-  const onInterect: IntersectionObserverCallback = async ([entry], observer) => {
+  const onInterect: IntersectionObserverCallback = useCallback(async ([entry], observer) => {
     if (entry.isIntersecting) {
       observer.unobserve(entry.target);
-      const delay = () => new Promise((resolve, reject) => setTimeout(resolve, 300));
-      await delay();
       if (!hasLastPage) {
-        setPage(page + 1);
+        setPage(page => page + 1);
         observer.observe(entry.target);
       }
     }
-  };
+  }, []);
 
   useEffect(() => {
+    console.log(observerTarget);
     if (hasLastPage) return;
-    if (listRef.current === null) return;
+    if (observerTarget === null || observerTarget === undefined) return;
     const io = new IntersectionObserver(onInterect, { root: null, threshold: 1, rootMargin: "0px" });
-    io.observe(listRef.current as Element);
+    io.observe(observerTarget);
     return () => io.disconnect();
-  }, [findState]);
+  }, [observerTarget]);
 
   return (
     <MainContainer>
@@ -110,27 +99,52 @@ const FindHospital = () => {
           </ButtonBox>
           <SearchBox>
             <SearchForm onSubmit={handleSubmit(onValid)}>
-              <Input white name="search" width="700px" placeholder="병원명을 입력해주세요" register={register("search")} />
+              <Input
+                white
+                name="search"
+                width="700px"
+                placeholder="병원명을 입력해주세요"
+                register={register("search", {
+                  minLength: {
+                    value: 2,
+                    message: "두 글자 이상 입력해주세요",
+                  },
+                })}
+                motion={false}
+                error={errors.search?.message}
+              />
               <RoundButton size="custom" height="60px" bgColor="rgb(100,106,235)">
                 검색
               </RoundButton>
             </SearchForm>
           </SearchBox>
         </DescriptionContainer>
-        <HospitalList lists={findState || undefined} add={true} listRef={listRef} isLoading={isLoading} />
+        <HospitalList
+          lists={findState || undefined}
+          add={true}
+          setobserverTarget={setObserverTarget}
+          isLoading={isLoading}
+        />
       </MainInnerContainer>
-      {showModal && <ArroundMap setShowModal={setShowModal} />}
+      <ArroundMap show={showModal} onClose={() => setShowModal(false)} />
     </MainContainer>
   );
 };
 
 export default FindHospital;
 
+const ErrorMessage = styled.div`
+  position: absolute;
+  bottom: -30px;
+  left: 100px;
+`;
+
 const SearchForm = styled.form`
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  position: relative;
 `;
 
 const SearchBox = styled.div`

@@ -1,9 +1,10 @@
 import { Hospital, MedicalDepartment } from "@prisma/client";
 import { theme } from "@styles/theme";
-import {  useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
 import sliceName from "@utils/client/sliceHospitalName";
 import { currentHospitalIdx } from "atoms/atoms";
+import { HOSPITALS } from "constant/queryKeys";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useSetRecoilState } from "recoil";
@@ -12,61 +13,59 @@ import { ChangeToHoverColor, RectangleButton, RoundButton } from "./buttons/Butt
 import Modal from "./modals/Modal";
 
 export interface HospitalListT extends Hospital {
-  medicalDepartments:[{
+  medicalDepartments: [
+    {
       id: number;
       medicalDepartmentId: number;
       hospitalId: number;
       medicalDepartment: MedicalDepartment;
-    }];
+    },
+  ];
 }
 
-export interface HospitalListProps extends HospitalListT{
-  hospital ?: HospitalListT;
+export interface HospitalListProps extends HospitalListT {
+  hospital?: HospitalListT;
 }
 
-
-const HospitalContent = ({ list, add, idx }: { list: HospitalListProps ; add: boolean, idx:number }) => {
+const HospitalContent = ({ list, add, idx }: { list: HospitalListProps; add: boolean; idx: number }) => {
   const router = useRouter();
   const [onShare, setOnShare] = useState<boolean>(false);
   const setHospitalCurrentIdx = useSetRecoilState(currentHospitalIdx);
   const [isAddButton, setIsAddButton] = useState(false);
   const handleShare = () => {
     setOnShare(!onShare);
-    console.log(list.id);
   };
 
-  const queryclient = useQueryClient();
+  const queryClient = useQueryClient();
 
   const [showModal, setShowModal] = useState(false);
-  const { postApi,getApi } = customApi("/api/users/my-hospitals")
-  const {data} = useQuery(["isMyHospital"], getApi,{
+  const { postApi, getApi } = customApi("/api/users/my-hospitals");
+  const { data } = useQuery(["isMyHospital"], getApi, {
     onSuccess(data) {
-      data.map(({hospital}: {hospital:{id: number, name:string}})=>{
-        if(hospital.id === list.id){
-          console.log("hi", hospital.name)
-          setIsAddButton(true)
+      data.map(({ hospital }: { hospital: { id: number; name: string } }) => {
+        if (hospital.id === list.id) {
+          setIsAddButton(true);
         }
-      }) 
+      });
     },
   });
-  // 추가용 api 
-  const { mutate } = useMutation(['addHospitalKey'] , postApi,{
+  // 추가용 api
+  const { mutate } = useMutation(["addHospitalKey"], postApi, {
     onSuccess(data) {
-      queryclient.invalidateQueries(["isMyHospital"])
+      queryClient.invalidateQueries(["isMyHospital"]);
+      queryClient.invalidateQueries([HOSPITALS]);
     },
-  })
-  
-  console.log(isAddButton)
+  });
 
-  const handleClickAddHospital = ()=>{
-    mutate({id : list.id})
-    setShowModal(false)
-  }
-  console.log("data",data)
-  const handleClickGoClinicList = ()=>{
-    router.push('/users/my-hospital/clinic-list')
+  const handleClickAddHospital = () => {
+    mutate({ id: list.id });
+    setShowModal(false);
+  };
+
+  const handleClickGoClinicList = () => {
+    router.push("/users/my-hospital/clinic-list");
     setHospitalCurrentIdx(idx);
-  }
+  };
 
   return (
     <HospitalInfor add={add}>
@@ -76,7 +75,10 @@ const HospitalContent = ({ list, add, idx }: { list: HospitalListProps ; add: bo
             <NameText size="18px" weight="900" add={add}>
               {sliceName(list.name)}
             </NameText>
-            <Department>{list.medicalDepartments[0].medicalDepartment.department} 외 {list.medicalDepartments.length-1}과목</Department>
+            <Department>
+              {list.medicalDepartments[0].medicalDepartment && list.medicalDepartments[0].medicalDepartment.department}{" "}
+              외 {list.medicalDepartments.length - 1}과목
+            </Department>
           </HospitalDescriptionBox>
           <HospitalPlaceBox>
             <SpaceText weight="200" size="17px" add={add} title={list.address}>
@@ -87,7 +89,9 @@ const HospitalContent = ({ list, add, idx }: { list: HospitalListProps ; add: bo
         </HospitalInforBox>
         {add ? (
           <AddButtonBox>
-            <RectangleButton nonSubmit size="md" disabled={isAddButton} onClick={()=>setShowModal(true)}>추가</RectangleButton>
+            <RectangleButton nonSubmit size="md" disabled={isAddButton} onClick={() => setShowModal(true)}>
+              추가
+            </RectangleButton>
           </AddButtonBox>
         ) : (
           <HospitalStatusBox>
@@ -100,10 +104,18 @@ const HospitalContent = ({ list, add, idx }: { list: HospitalListProps ; add: bo
           </HospitalStatusBox>
         )}
       </HospitalInforContainer>
-          {showModal && <Modal show={showModal} onClose={()=> setShowModal(false)} activeFuction={handleClickAddHospital} agreeType title="개인정보 수집 동의" >
-            <p>병원을 추가하면 병원에서 나의 기록을 열람할 수 있습니다</p>
-            <p><b>{sliceName(list.name)}</b>에서 개인정보 수집 및 이용에 동의하십니까?</p>
-            </Modal>}
+      <Modal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        activeFuction={handleClickAddHospital}
+        agreeType
+        title="개인정보 수집 동의"
+      >
+        <p>병원을 추가하면 병원에서 나의 기록을 열람할 수 있습니다</p>
+        <p>
+          <b>{sliceName(list.name)}</b>에서 개인정보 수집 및 이용에 동의하십니까?
+        </p>
+      </Modal>
     </HospitalInfor>
   );
 };
@@ -125,15 +137,15 @@ const ShareButton = styled.button<{ status: boolean }>`
 `;
 
 const AddButtonBox = styled.div`
-flex-shrink:0;
+  flex-shrink: 0;
 `;
 
 const ClinicListLinkButton = styled.button`
-  color:#fff;
-  :hover{
-    text-decoration:underline;
+  color: #fff;
+  :hover {
+    text-decoration: underline;
   }
-`
+`;
 
 const Text = styled.span<{ size?: string; weight?: string; add: boolean }>`
   position: relative;
@@ -211,7 +223,7 @@ const HospitalDescriptionBox = styled.div`
 `;
 
 const HospitalStatusBox = styled.div`
-  flex-shrink:0;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   width: 300px;

@@ -1,8 +1,8 @@
-import styled from 'styled-components';
-import { ToryText26 } from '@styles/Common';
-import DashBoardStatistics from './DashBoardStatistics';
-import ToryRecommend from '../ToryRecommend';
-import useUser from '@hooks/useUser';
+import styled from "styled-components";
+import { ToryText26 } from "@styles/Common";
+import DashBoardStatistics from "./DashBoardStatistics";
+import ToryRecommend from "../ToryRecommend";
+import useUser from "@hooks/useUser";
 
 function DashBoard() {
   const user = useUser();
@@ -51,11 +51,9 @@ const Tory26 = styled.div`
   margin-right: 30px;
 `;
 
-const ToryText26White = styled(ToryText26)` // 토리텍스트 추후 정리필요
+const ToryText26White = styled(ToryText26)`
+  // 토리텍스트 추후 정리필요
   color: ${({ theme }) => theme.color.white};
 `;
 
-
-
-
-export default DashBoard
+export default DashBoard;

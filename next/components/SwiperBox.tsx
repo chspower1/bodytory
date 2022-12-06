@@ -33,6 +33,9 @@ const SwiperBox = ({
     setCurrentContent({ ...obj, name });
   };
 
+  useEffect(() => {
+    if (data) setCurrentHospitalName(String(sliceName(data[hospitalCurrentIdx]?.hospital.name)));
+  }, [data, hospitalCurrentIdx]);
 
   return (
     <SwiperWrap
@@ -46,46 +49,45 @@ const SwiperBox = ({
       className="mySwiper"
       onSlideChange={e => {
         const idx = e.activeIndex;
-        if(data) setCurrentHospitalName(data[idx]?.hospital.name);
-      }}
-      onSwiper={e =>{
-        if(data) setCurrentHospitalName(data[hospitalCurrentIdx]?.hospital.name);
+        if (data) setCurrentHospitalName(String(sliceName(data[idx]?.hospital.name)));
       }}
       initialSlide={hospitalCurrentIdx}
     >
-      {data && 
-        data.map(({hospital}: { hospital : {name: string; address: string; records: Record[]} }, idx: number) => (
+      {data &&
+        data.map(({ hospital }: { hospital: { name: string; address: string; records: Record[] } }, idx: number) => (
           <SwiperSlideItem key={`${hospital.name} + ${hospital.address}`}>
             <SlideItemInnerBox>
               <ItemHeader>
-                <HospitalName title={hospital.name}>{hospital.name}</HospitalName>
+                <HospitalName title={hospital.name}>{sliceName(hospital.name)}</HospitalName>
                 <HospitalAddress title={hospital.address}>{hospital.address}</HospitalAddress>
               </ItemHeader>
               <ClinicListBox>
-                {hospital.records.length >=1 ?  hospital.records.map((obj, idx) => (
-                  <ClinicItem key={`${obj.userId} + ${obj.id} + ${Date.now()}`}>
-                    <ClinicDate>{changeDate(obj.createAt)}</ClinicDate>
-                    <ClinicDetailButtonBox>
-                      <RectangleButton
-                        width="90px"
-                        nonSubmit
-                        fontSize="16px"
-                        onClick={handleClickModalOpen(obj, hospital.name)}
-                      >
-                        진료내역
-                      </RectangleButton>
-                    </ClinicDetailButtonBox>
-                  </ClinicItem>
-                )) :
+                {hospital.records.length >= 1 ? (
+                  hospital.records.map((obj, idx) => (
+                    <ClinicItem key={`${obj.userId} + ${obj.id} + ${Date.now()}`}>
+                      <ClinicDate>{changeDate(obj.createAt)}</ClinicDate>
+                      <ClinicDetailButtonBox>
+                        <RectangleButton
+                          width="90px"
+                          nonSubmit
+                          fontSize="16px"
+                          onClick={handleClickModalOpen(obj, hospital.name)}
+                        >
+                          진료내역
+                        </RectangleButton>
+                      </ClinicDetailButtonBox>
+                    </ClinicItem>
+                  ))
+                ) : (
                   <BlankCommentBox>
                     <p>진료 내역이 없어요</p>
                   </BlankCommentBox>
-                }
+                )}
               </ClinicListBox>
             </SlideItemInnerBox>
           </SwiperSlideItem>
         ))}
-      {currentContent && <ClinicModal {...currentContent} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />}
+      {currentContent && <ClinicModal {...currentContent} show={isModalOpen} onClose={() => setIsModalOpen(false)} />}
     </SwiperWrap>
   );
 };
@@ -129,7 +131,7 @@ const SlideItemInnerBox = styled.div`
   width: 100%;
   height: 100%;
   border-radius: 20px;
-  transition: transform .8s;
+  transition: transform 0.8s;
   transform: scale(0.8);
   display: flex;
   flex-direction: column;
@@ -147,18 +149,20 @@ const ItemHeader = styled.div`
 `;
 
 const HospitalName = styled.div`
-  max-width: 100%;
+  max-width: 50%;
   font-size: 22px;
   margin-right: 20px;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  flex-shrink: 0;
 `;
 const HospitalAddress = styled.div`
   font-size: 18px;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  width: 100%;
 `;
 const ClinicListBox = styled.div`
   height: 100%;
@@ -200,9 +204,7 @@ const ClinicDate = styled.div`
 
 const ClinicDetailButtonBox = styled.div``;
 
-
 const BlankCommentBox = styled(Row)`
-  width:100%;
-  height:100%;
+  width: 100%;
+  height: 100%;
 `;
-

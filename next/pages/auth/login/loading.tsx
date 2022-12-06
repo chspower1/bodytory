@@ -65,7 +65,6 @@ const Loading = () => {
   }, []);
   return (
     <LoadingBox>
-      <Header />
       <div>
         유저 정보 조회중입니다<i ref={iRef}></i>
       </div>

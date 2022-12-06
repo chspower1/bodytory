@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import styled from "styled-components";
 
 export const Wrapper = styled.div<{ bgColor?: string }>`
@@ -9,7 +10,7 @@ export const Wrapper = styled.div<{ bgColor?: string }>`
   // padding-top: 116px;
 `;
 
-export const Container = styled.div`
+export const Container = styled(motion.div)`
   width: 100%;
   max-width: 1600px;
   margin: 0 auto;
@@ -30,7 +31,7 @@ export const InnerContainer = styled.div`
   padding-top: 70px;
 `;
 
-export const Box = styled.div<{ height?: string; width?: string }>`
+export const Box = styled(motion.div)<{ height?: string; width?: string }>`
   display: flex;
   justify-content: center;
   align-items: center;

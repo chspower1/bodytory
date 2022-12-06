@@ -16,7 +16,7 @@ const Layout = ({ children }: LayoutProps) => {
   }, [router]);
   return (
     <Wrapper bgColor={bgColor}>
-      <SideMenu />
+      <Header />
       {children}
     </Wrapper>
   );
