@@ -13,7 +13,7 @@ import { Pagination, Navigation, Mousewheel } from "swiper";
 import { useState } from "react";
 import IconAddImage from "@public/static/icon/icon_addImage.png";
 
-export default function ManageImage({ recordId, recordImages }: { recordId: string; recordImages: RecordImage[] }) {
+const ManageImage = ({ recordId, recordImages, isHospital }: { recordId: string; recordImages: RecordImage[]; isHospital ?: boolean })=>{
   const queryClient = useQueryClient();
 
   const uploadImageMutation = useMutation(uploadImageApi, {
@@ -32,7 +32,7 @@ export default function ManageImage({ recordId, recordImages }: { recordId: stri
 
   return (
     <div>
-      <UploadImageButton onClick={() => uploadImage(recordId, uploadImageMutation.mutate)}>사진 추가</UploadImageButton>
+      {isHospital || <UploadImageButton onClick={() => uploadImage(recordId, uploadImageMutation.mutate)}>사진 추가</UploadImageButton>}
       {recordImages.length !== 0 ? (
         <ImageSlideContainer>
           <Swiper
@@ -50,19 +50,19 @@ export default function ManageImage({ recordId, recordImages }: { recordId: stri
               <SwiperSlide key={key}>
                 <ImageBox onMouseEnter={() => setIsHover(key)} onMouseLeave={() => setIsHover(-1)}>
                   <Image src={elem.url} alt="증상 이미지" width={100} height={100} />
-                  {isHover === key && <DeleteButton onClick={() => deleteImageMutation.mutate(elem.id)}></DeleteButton>}
+                  {isHospital || (isHover === key && <DeleteButton onClick={() => deleteImageMutation.mutate(elem.id)}></DeleteButton>)}
                 </ImageBox>
               </SwiperSlide>
             ))}
           </Swiper>
         </ImageSlideContainer>
       ) : (
-        <NoImage>증상과 관련된 이미지를 추가해주세요</NoImage>
+        <NoImage>{isHospital ? "이미지가 없어요" : "증상과 관련된 이미지를 추가해주세요"}</NoImage>
       )}
     </div>
   );
 }
-
+export default  ManageImage;
 const ImageSlideContainer = styled.div`
   width: 100%;
   height: 300px;
