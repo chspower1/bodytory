@@ -57,11 +57,11 @@ const HospitalModal = ({ show, onClose, name, gender, birth, position, patientId
     mutate({ patientId, position, diagnosis, prescription, description });
   };
 
-  const handleClickReset = () =>{
+  const handleClickReset = () => {
     onClose();
     reset();
     setIsComplete(false);
-  }
+  };
 
   useEffect(() => {
     setDateNow(changeDate(new Date()));
@@ -118,12 +118,7 @@ const HospitalModal = ({ show, onClose, name, gender, birth, position, patientId
                     <RoundButton size="sm" bgColor={theme.color.mintBtn}>
                       작성완료
                     </RoundButton>
-                    <RoundButton
-                      nonSubmit
-                      size="sm"
-                      bgColor={`rgba(188, 197, 255, 1)`}
-                      onClick={handleClickReset}
-                    >
+                    <RoundButton nonSubmit size="sm" bgColor={`rgba(188, 197, 255, 1)`} onClick={handleClickReset}>
                       닫기
                     </RoundButton>
                   </ButtonBox>
@@ -136,11 +131,7 @@ const HospitalModal = ({ show, onClose, name, gender, birth, position, patientId
                 </div>
                 <div>진료내역 작성이 완료되었어요!</div>
                 <div>
-                  <RoundButton
-                    size="sm"
-                    bgColor={`rgba(188, 197, 255, 1)`}
-                    onClick={handleClickReset}
-                  >
+                  <RoundButton size="sm" bgColor={`rgba(188, 197, 255, 1)`} onClick={handleClickReset}>
                     닫기
                   </RoundButton>
                 </div>
@@ -234,7 +225,7 @@ const ButtonBox = styled(Row)`
 
 const CompelteBox = styled.div`
   min-width: 500px;
-  padding:  30px 40px;
+  padding: 30px 40px;
   > div {
     text-align: center;
     font-size: 20px;
@@ -242,10 +233,10 @@ const CompelteBox = styled.div`
       font-weight: 600;
       font-size: 24px;
     }
-    button{
+    button {
       margin: 0 auto;
-      &:hover{
-        background: ${({theme}) => theme.color.input};
+      &:hover {
+        background: ${({ theme }) => theme.color.input};
       }
     }
     & + div {
