@@ -1,26 +1,13 @@
-version: '3'
 services:
   flask:
     build: ./flask
     restart: always
     ports:
       - 5001:8080
-    networks:
-      default_bridge:
-        ipv4_address: 172.26.0.3
   next:
     build: ./next
     restart: always
     ports:
       - 3000:3000
-    environment:
-      - FLASK_API=http://172.26.0.3:8080
-    networks:
-      default_bridge:
-        ipv4_address: 172.26.0.13
-networks:
-  default_bridge:
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.26.0.0/16
+    env_file:
+      - './next/.env'
