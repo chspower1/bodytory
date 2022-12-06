@@ -64,8 +64,10 @@ export default function ManageImage({ recordId, recordImages }: { recordId: stri
                   <ImageDetailModal
                     show={showImageDetailModal}
                     onClose={() => setShowImageDetailModal(-1)}
+                    setShow={setShowImageDetailModal}
                     url={elem.url}
                     index={key}
+                    imagesLength={recordImages.length}
                   />
                 </ImageBox>
               </SwiperSlide>
