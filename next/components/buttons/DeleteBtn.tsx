@@ -13,6 +13,7 @@ const DeleteBtn = ({ mutate, id, backgroundColor }: DeleteBtnProps) => {
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>, targetId: number) => {
     if (confirmDelete !== -1) {
       mutate({ id: confirmDelete });
+      setConfirmDelete(-1);
     } else {
       setConfirmDelete(targetId);
     }
