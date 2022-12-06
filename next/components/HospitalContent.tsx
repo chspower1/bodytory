@@ -108,6 +108,7 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
             </ShareButton>
           </HospitalStatusBox>
         )}
+        <div>삭제</div>
       </HospitalInforContainer>
 
       <Modal
