@@ -189,6 +189,7 @@ const SpaceText = styled(Text)`
 const ShareStatus = styled(Text)<{ status: boolean }>`
   padding-left: 20px;
   &::after {
+    transition: background-color 0.4s ease;
     content: "";
     width: 10px;
     height: 10px;
