@@ -83,5 +83,5 @@ export const Dim = styled(motion.div).attrs({
   width: 100%;
   height: 100%;
   z-index: 1200;
-  background: #00000042;
+  background-color: rgba(0, 0, 0, 0.5);
 `;

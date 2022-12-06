@@ -4,7 +4,7 @@ import IconHospital from "@public/static/icon/icon_hospital.png";
 import IconWarning from "@public/static/icon/icon_warning.png";
 import { useState } from "react";
 import Modal from "@components/modals/Modal";
-import ArroundMap from "@components/modals/ArroundMap";
+import ArroundMap from "@components/modals/map/ArroundMap";
 import { AnimatePresence } from "framer-motion";
 import useCoords from "@hooks/useCoords";
 
