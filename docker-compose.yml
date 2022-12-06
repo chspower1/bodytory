@@ -9,7 +9,7 @@ services:
     restart: always
     ports:
       - 3000:3000
-    env:
+    environment:
       FLASK_API: http://flask:8080
       DATABASE_URL: ${DATABASE_URL}
       COOKIE_PASSWORD: ${COOKIE_PASSWORD}
