@@ -25,6 +25,9 @@ import triangle from "@public/static/icon/map/triangle.png";
 import tory from "@public/static/icon/map/tory_circle.png";
 import x from "@public/static/icon/x.png";
 import useCoords from "@hooks/useCoords";
+import useHospital from "@hooks/useHospital";
+import Modal from "./Modal";
+import sliceName from "@utils/client/sliceHospitalName";
 
 interface Coords {
   latitude: number;
@@ -52,7 +55,6 @@ interface ArroundMapProps {
   longitude: number;
 }
 const ArroundMap: NextPage<ArroundMapProps> = ({ onClose, latitude, longitude }) => {
-  const queryClient = useQueryClient();
   const [hoverIndex, setHoverIndex] = useState(-1);
   const [clickIndex, setClickIndex] = useState(-1);
   const [coords, setCoords] = useState<Coords>({ latitude, longitude });
@@ -62,14 +64,8 @@ const ArroundMap: NextPage<ArroundMapProps> = ({ onClose, latitude, longitude })
       console.log(data);
     },
   });
+  const { handleClickAddHospital, handleClickDeleteHospital, showModal, setShowModal } = useHospital();
 
-  const { postApi: addHospitalApi } = customApi("/api/users/my-hospitals");
-  const { mutate: addHospitalMutate } = useMutation(["addHospitalKey"], addHospitalApi, {
-    onSuccess(data) {
-      queryClient.invalidateQueries(["isMyHospital"]);
-      queryClient.invalidateQueries([HOSPITALS]);
-    },
-  });
   const handleClickMarker = ({
     index,
     longitude,
@@ -85,9 +81,6 @@ const ArroundMap: NextPage<ArroundMapProps> = ({ onClose, latitude, longitude })
   };
   const handleMouseOutMarker = () => {
     setHoverIndex(-1);
-  };
-  const handleClickAddHospital = (id: number) => {
-    addHospitalMutate({ id });
   };
 
   const modalContent = data ? (
@@ -126,6 +119,34 @@ const ArroundMap: NextPage<ArroundMapProps> = ({ onClose, latitude, longitude })
           />
           {data?.hospitals?.map((hospital, index) => (
             <MarkerBox key={index}>
+              <Modal
+                show={showModal}
+                onClose={() => setShowModal(false)}
+                activeFuction={
+                  hospital.my
+                    ? () => {
+                        handleClickDeleteHospital(hospital.id);
+                      }
+                    : () => {
+                        handleClickAddHospital(hospital.id);
+                      }
+                }
+                agreeType={!hospital.my}
+                title="개인정보 수집 동의"
+              >
+                {hospital.my ? (
+                  <p>
+                    <b>{sliceName(hospital.name)}</b>를 등록된 병원에서 제거하시겠습니까?
+                  </p>
+                ) : (
+                  <>
+                    <p>병원을 추가하면 병원에서 나의 기록을 열람할 수 있습니다</p>
+                    <p>
+                      <b>{sliceName(hospital.name)}</b>에서 개인정보 수집 및 이용에 동의하십니까?
+                    </p>
+                  </>
+                )}
+              </Modal>
               <MapMarker
                 position={{ lat: hospital.y!, lng: hospital.x! }}
                 image={{
