@@ -121,7 +121,7 @@ export const SearchContainer = styled(FlexContainer)`
   width: 1500px;
   height: 800px;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: flex-start;
 `;
 const NoneMessage = styled.div`
   text-align: center;

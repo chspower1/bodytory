@@ -66,6 +66,7 @@ export default SearchHospitalMap;
 const DepartmentSelectBox = styled(Col)`
   gap: 3px;
   align-items: flex-start;
+  transform: translateY(-30%);
 `;
 const DepartmentLabel = styled(Box)`
   font-size: 20px;

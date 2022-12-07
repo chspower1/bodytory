@@ -70,7 +70,6 @@ export const MainContainer = styled.div`
 export const MainInnerContainer = styled.div`
   width: 1600px;
   margin: auto;
- 
 `;
 
 export const Pragraph = styled.p`

@@ -1,11 +1,7 @@
-import useHospital from "@hooks/useHospital";
 import { Box } from "@styles/Common";
-import sliceName from "@utils/client/sliceHospitalName";
-import { HOSPITALS } from "constant/queryKeys";
-import { Dispatch, SetStateAction, useRef, useState } from "react";
+import { useState } from "react";
 import { CustomOverlayMap, CustomOverlayRoadview, MapMarker, MapInfoWindow } from "react-kakao-maps-sdk";
 import styled from "styled-components";
-import Modal from "./modals/Modal";
 
 interface EventMarkerContainerProps {
   hospital: any;
@@ -44,6 +40,7 @@ const EventMarkerContainer = ({ hospital, index, handleClickMarker }: EventMarke
       >
         {/* {isVisible && <HoverBox>{hospital.name}</HoverBox>} */}
       </MapMarker>
+
       {isVisible && (
         <CustomOverlayMap position={{ lat: hospital.y! + 0.00015, lng: hospital.x! }}>
           <HoverBox>{hospital.name}</HoverBox>
