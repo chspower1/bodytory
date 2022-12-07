@@ -6,7 +6,8 @@ RUN npm install
 
 COPY . .
 COPY prisma prisma
-RUN npm run erd
+RUN npx prisma db pull
+RUN npx prisma erd
 RUN npm run build
 
 EXPOSE 3000
