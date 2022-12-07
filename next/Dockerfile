@@ -1,5 +1,4 @@
-FROM node:16-alpine
-
+FROM node:lts
 WORKDIR /usr/src/next
 COPY . /usr/src/next/
 RUN npm install
