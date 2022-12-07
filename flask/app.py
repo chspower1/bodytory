@@ -105,7 +105,10 @@ def keyword_extractor(sentence_list):
     keyword_stopwords = {'했다', '있었다', '오늘은'}
     keywords = summarize_with_keywords(sentence_list, min_count=1, max_length=10, beta=0.85, max_iter=10,
                                        stopwords=keyword_stopwords)
-    return list(keywords.keys())
+    rank = []
+    for word, r in sorted(keywords.items(), key=lambda x:x[1], reverse=True)[:10]:
+        rank.append(word)
+    return rank
 
 
 def tokenizer(sentence):
