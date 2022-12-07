@@ -33,14 +33,14 @@ const SearchHospitalList = () => {
     setValue,
     formState: { errors },
   } = useForm<SearchForm>({ mode: "onChange" });
+
   const { getApi } = customApi(`/api/users/my-hospitals/find?page=${page}&search=${searchWord}`);
   const { data, isLoading, refetch, isFetching } = useQuery<SearchHospitalListResponse>(
     ["hospitals", searchWord, page],
     getApi,
-    {
-      enabled: Boolean(searchWord) && !hasLastPage,
-    },
+    { enabled: Boolean(searchWord) && !hasLastPage },
   );
+
   const onValid = useCallback(async (searchForm: SearchForm) => {
     setPage(0);
     setSearchWord(searchForm.search);
