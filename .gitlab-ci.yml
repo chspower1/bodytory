@@ -34,7 +34,8 @@ deploy:
     - echo -e "\nNEXTAUTH_URL="$NEXT_URL >> .env
     - echo -e "\nFLASK_API="$FLASK_API >> .env
   script:
-    - \cp -f .env /builds/ai_track/class05/ai_project/team01/team01/
+    - rm /builds/ai_track/class05/ai_project/team01/team01/.env
+    - cp -f .env /builds/ai_track/class05/ai_project/team01/team01/
     - docker-compose config
     - docker-compose build
     - docker-compose up -d
