@@ -34,24 +34,21 @@ const SearchHospitalList = () => {
     formState: { errors },
   } = useForm<SearchForm>({ mode: "onChange" });
   const { getApi } = customApi(`/api/users/my-hospitals/find?page=${page}&search=${searchWord}`);
-  const { isLoading, refetch, isFetching } = useQuery<SearchHospitalListResponse>(
+  const { getApi: firstGetApi } = customApi(`/api/users/my-hospitals/find?page=$0&search=${searchWord}`);
+  const { data, isLoading, refetch, isFetching } = useQuery<SearchHospitalListResponse>(
     ["hospitals", searchWord, page],
     getApi,
     {
       enabled: Boolean(searchWord) && !hasLastPage,
       onSuccess(data) {
         setHasLastPage(data.isLastPage);
-        setHospitals(prev => [...prev, ...data.foundHospitals]);
       },
     },
   );
-  const { find } = new QueryCache();
-
   const onValid = useCallback(async (searchForm: SearchForm) => {
-    setHospitals([]);
+    setPage(0);
     setSearchWord(searchForm.search);
     setHasLastPage(false);
-    setPage(0);
     setValue("search", "");
   }, []);
 
@@ -64,6 +61,13 @@ const SearchHospitalList = () => {
     refetch();
   }, [page]);
 
+  useEffect(() => {
+    console.log(page);
+    setHasLastPage(data?.isLastPage!);
+    if (data?.foundHospitals) {
+      page === 0 ? setHospitals(data.foundHospitals) : setHospitals(prev => [...prev, ...data?.foundHospitals]);
+    }
+  }, [data]);
   return (
     <SearchContainer>
       <SearchBox>
@@ -94,7 +98,7 @@ const SearchHospitalList = () => {
           {hospitals?.length !== 0 && (
             <HospitalLists>
               {hospitals?.map((hospital, idx) => (
-                <HospitalContent hospital={hospital} idx={hospital.id} add={true} key={idx} shared={false} />
+                <HospitalContent hospital={hospital} idx={hospital.id} add={true} key={hospital.id} shared={false} />
               ))}
               {isLoading ? (
                 <ListSkeleton backgroundColor="rgb(225,227,255)" />
