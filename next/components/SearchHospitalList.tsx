@@ -18,7 +18,7 @@ interface SearchHospitalListResponse {
   foundHospitals: MyHospital[];
   isLastPage: boolean;
 }
-interface SearchForm {
+export interface SearchForm {
   search: string;
 }
 const SearchHospitalList = () => {
