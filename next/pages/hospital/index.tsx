@@ -101,7 +101,7 @@ const HospitalHomePage = () => {
         </PageHead>
         <PageBody>
           <Form>
-            <Input white="true"  placeholder="환자 이름"  motion={false} register={register("search",{
+            <Input $white  placeholder="환자 이름"  motion={false} register={register("search",{
               onChange(){
                 if(data){
                   let filteredData = data.filter((x: { user: { name: string; }; }) => x.user.name.includes(watch("search")))
