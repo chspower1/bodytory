@@ -64,20 +64,13 @@ export default MyHospitalPage;
 export const MainContainer = styled.div`
   height: 100%;
   display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: space-between;
   margin: 0 auto;
 `;
 
 export const MainInnerContainer = styled.div`
   width: 1600px;
-  height: 1000px;
   margin: auto;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: space-between;
+ 
 `;
 
 export const Pragraph = styled.p`
@@ -106,6 +99,5 @@ export const ImageIcon = styled(Image)`
 export const ButtonBox = styled.div`
   display: flex;
   justify-content: center;
-  height: 100px;
-  align-items: end;
+  padding: 0 0 50px;
 `;

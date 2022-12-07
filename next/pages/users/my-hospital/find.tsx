@@ -162,8 +162,7 @@ const SearchBox = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 60%;
-  margin: 0 auto;
-  margin-top: 50px;
+  margin:  0 auto;
 `;
 const DescriptionContainer = styled.div`
   width: 100%;

@@ -49,27 +49,20 @@ const NoneMessage = styled.div`
 const InnerContainer = styled.div<{ add: boolean }>`
   width: 100%;
   height: 100%;
-  overflow-y: auto;
+  overflow-y: scroll;
+  padding: 30px 0;
   position: relative;
-  &::-webkit-scrollbar {
-    width: 10px;
-  }
-  &::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background-color: rgb(188, 197, 255);
-  }
   &::-webkit-scrollbar-track {
-    border-radius: 10px;
-    background-color: ${prop => prop.add && "#e2e6ff"};
+    margin: 30px 0;
   }
 `;
 
 const HospitalContainer = styled.div<{ add: boolean }>`
   width: 1600px;
-  height: 600px;
+  height: 580px;
   background-color: ${prop => (prop.add ? "#f2f3ff" : "#d9deff")};
   border-radius: 40px;
-  padding: 30px;
+  padding: 30px 30px 0;
 `;
 
 const HospitalLists = styled.ul`
@@ -77,4 +70,5 @@ const HospitalLists = styled.ul`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 0 auto;
 `;
