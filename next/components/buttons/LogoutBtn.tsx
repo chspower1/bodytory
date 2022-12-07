@@ -6,7 +6,7 @@ import { useSetRecoilState } from "recoil";
 import { useQueryClient } from "@tanstack/react-query";
 import { HOSPITAL_LOGIN, USER_LOGIN } from "constant/queryKeys";
 
-const LogoutBtn = ({isHospital}:{isHospital :boolean;}) => {
+const LogoutBtn = ({isHospital}:{isHospital ?:boolean;}) => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const setCurrentUser = useSetRecoilState(loggedInUser);
@@ -16,7 +16,7 @@ const LogoutBtn = ({isHospital}:{isHospital :boolean;}) => {
     try {
       setCurrentUser(null);
       setCurrentHospital(null);
-      queryClient.removeQueries({ queryKey: isHospital ? HOSPITAL_LOGIN :USER_LOGIN, exact: true });
+      queryClient.removeQueries({ queryKey: isHospital ? [HOSPITAL_LOGIN] :[USER_LOGIN] });
       await LogoutApi({});
       router.push(isHospital ? "/hospital/login" :"/auth/login");
     } catch (err) {
