@@ -6,7 +6,7 @@ deploy:
   stage: deploy
   only:
     - dev
-    - feat/connect-api
+    - main
   variables:
     DB_URL: $DATABASE_URL
     COOKIE_PW: $COOKIE_PASSWORD
