@@ -73,7 +73,7 @@ const ClinicModal = ({
       )}
     </AnimatePresence>
   );
-  return show ? ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement) : null;
+  return ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement);
 };
 
 export default ClinicModal;

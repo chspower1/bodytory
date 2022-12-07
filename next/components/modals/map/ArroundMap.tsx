@@ -120,22 +120,11 @@ const ArroundMap: NextPage<ArroundMapProps> = ({ onClose, latitude, longitude })
           ))}
         </Map>
 
-        <BtnBox width="460px">
+        <ButtonBox>
           <RoundButton fontSize="16px" width="220px" height="40px" onClick={onClose}>
-            확인했어요!
+            닫기
           </RoundButton>
-          <RoundButton
-            padding="0px 10px"
-            size="custom"
-            fontSize="16px"
-            width="220px"
-            height="40px"
-            bgColor="rgb(198, 205, 250)"
-            textColor="rgb(93, 107, 178)"
-          >
-            다른 병원들도 찾아볼래요
-          </RoundButton>
-        </BtnBox>
+        </ButtonBox>
       </ModalContainer>
     </ModalWrapper>
   ) : null;
@@ -153,6 +142,11 @@ const HoverBox = styled.div`
   padding: 5px 10px;
   transform: translateY(-60%);
 `;
+const ButtonBox = styled.div`
+  button{
+    margin: 0 auto;
+  }
+`
 
 const MarkerBox = styled(Box)`
   position: absolute;
