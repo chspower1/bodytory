@@ -154,14 +154,14 @@ const ChartTimeline = () => {
                 <strong>{KoreanPosition[position!]}</strong>에 대한 기록이 없습니다
               </p>
             </NoRecord>
-          ) : isLoading ? (
-            <RecordSkeleton />
-          ) : !query.position ? (
+          ) :  !query.position ? (
             <NoRecord>
               <img src={ToriQuestion.src} />
               <p>자세한 기록을 확인하고 싶은 부위를 선택해주세요</p>
             </NoRecord>
-          ) : (
+          ) : isLoading ? (
+            <RecordSkeleton />
+          ) :(
             filtredRecord?.map((record, index) => (
               <RecordBox key={index}>
                 <Time byUser={record.type === "user"}>{changeDate(record.createAt)}</Time>
