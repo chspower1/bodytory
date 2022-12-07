@@ -4,7 +4,7 @@ import { MyHospital, MyHospitalResponse } from "pages/users/my-hospital";
 import { LegacyRef, MouseEvent, useState } from "react";
 import styled from "styled-components";
 import HospitalContent from "./HospitalContent";
-import ListSkeleton from "./ListSkeleton";
+import ListSkeleton from "./skeletonUI/ListSkeleton";
 
 interface SearchHospitalListProps {
   hospitals?: MyHospital[];

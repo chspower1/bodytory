@@ -5,9 +5,7 @@ import { MyHospitalResponse } from "pages/users/my-hospital";
 import { LegacyRef, MouseEvent } from "react";
 import styled from "styled-components";
 import HospitalContent from "./HospitalContent";
-import MyHospitalsSkeleton from "./ListSkeleton";
-import ListSkeleton from "./ListSkeleton";
-import SkeletonItem from "./SkeletonUI";
+import ListSkeleton from "./skeletonUI/ListSkeleton";
 
 interface MyHospitalListProps {
   hospitals?: MyHospitalResponse[];
@@ -21,7 +19,7 @@ const MyHospitalList = ({ hospitals, add, isLoading }: MyHospitalListProps) => {
   return (
     <HospitalContainer add={add}>
       <InnerContainer add={add}>
-        {isLoading && <MyHospitalsSkeleton backgroundColor="rgb(100,106,235)" />}
+        {isLoading && <ListSkeleton backgroundColor="rgb(100,106,235)" />}
         {!isLoading && hospitals && (
           <HospitalLists>
             {hospitals?.map((hospital, idx) => (

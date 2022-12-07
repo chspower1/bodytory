@@ -18,6 +18,7 @@ import DeleteBtn from "@components/buttons/DeleteBtn";
 import { useRecoilValue } from "recoil";
 import { currentPatientInfo } from "atoms/atoms";
 import { Subject } from "@components/modals/ClinicModal";
+import RecordSkeleton from "@components/skeletonUI/RecordSkeleton";
 
 export interface RecordWithImageAndHospital extends Record {
   images: RecordImage[];
@@ -158,6 +159,8 @@ const ChartTimeline = () => {
               <img src={ToriQuestion.src} />
               <p>자세한 기록을 확인하고 싶은 부위를 선택해주세요</p>
             </NoRecord>
+          ) : isLoading ? (
+            <RecordSkeleton />
           ) : (
             filtredRecord?.map((record, index) => (
               <RecordBox key={index}>
