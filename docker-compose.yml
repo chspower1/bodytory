@@ -9,8 +9,10 @@ services:
     restart: always
     ports:
       - 3000:3000
+    env_file:
+      - /home/elice/.env
     environment:
-      FLASK_API: ${FLASK_API}
+      FLASK_API: http://flask:8080
       DATABASE_URL: ${DATABASE_URL}
       COOKIE_PASSWORD: ${COOKIE_PASSWORD}
       MAIL_ID: ${MAIL_ID}
