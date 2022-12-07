@@ -15,7 +15,7 @@ interface EventMarkerContainerProps {
 
 const EventMarkerContainer = ({ hospital, index, handleClickMarker }: EventMarkerContainerProps) => {
   const [isVisible, setIsVisible] = useState(false);
-  
+
   return (
     <>
       <MapMarker
@@ -53,11 +53,8 @@ const EventMarkerContainer = ({ hospital, index, handleClickMarker }: EventMarke
   );
 };
 
-const HoverBox = styled.div`
-  width: 150px;
-  height: 30px;
-  display: flex;
-  justify-content: center;
+const HoverBox = styled(Box)`
+  padding: 0px 20px;
   border: 3px ${props => props.theme.color.weekPurple} solid;
   border-radius: 5px;
   background-color: white;
