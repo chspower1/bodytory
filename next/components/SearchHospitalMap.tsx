@@ -4,7 +4,7 @@ import { MyHospital, MyHospitalResponse } from "pages/users/my-hospital";
 import { LegacyRef, MouseEvent, useState } from "react";
 import styled from "styled-components";
 import HospitalContent from "./HospitalContent";
-import ListSkeleton from "./ListSkeleton";
+import ListSkeleton from "./skeletonUI/ListSkeleton";
 
 interface SearchHospitalMapProps {
   hospitals?: MyHospital[];
@@ -13,7 +13,7 @@ interface SearchHospitalMapProps {
   isLoading?: boolean;
 }
 
-const SearchHospitalMap = ({ hospitals, add, setobserverTarget, isLoading }: SearchHospitalListProps) => {
+const SearchHospitalMap = ({ hospitals, add, setobserverTarget, isLoading }: SearchHospitalMapProps) => {
   return (
     <HospitalContainer add={add}>
       <InnerContainer add={add}>
