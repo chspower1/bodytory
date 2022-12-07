@@ -54,7 +54,7 @@ const HospitalModal = ({ show, onClose, name, gender, birth, position, patientId
   });
 
   const onValid: SubmitHandler<HospitalRecordType> = ({ diagnosis, prescription, description }) => {
-    mutate({ patientId, position, diagnosis, prescription, description, createAt : dateNow });
+    mutate({ patientId, position, diagnosis, prescription, description, createAt: dateNow });
   };
 
   const handleClickReset = () => {
@@ -112,7 +112,10 @@ const HospitalModal = ({ show, onClose, name, gender, birth, position, patientId
                       </ContentLi>
                       <ContentLi>
                         <SubjectName>상세소견</SubjectName>
-                        <Textarea register={register("description", { required: true })} placeholder="상세 소견을 입력해주세요"></Textarea>
+                        <Textarea
+                          register={register("description", { required: true })}
+                          placeholder="상세 소견을 입력해주세요"
+                        ></Textarea>
                       </ContentLi>
                     </ul>
                   </InnerContent>
@@ -145,7 +148,7 @@ const HospitalModal = ({ show, onClose, name, gender, birth, position, patientId
     </AnimatePresence>
   );
 
-  return ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement) ;
+  return ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement);
 };
 
 export default HospitalModal;

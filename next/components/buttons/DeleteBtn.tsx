@@ -35,16 +35,14 @@ const DeleteBtn = ({ mutate, id, backgroundColor, isCircle }: DeleteBtnProps) =>
         <span>삭제</span>
       </DeleteButton>
       {isCircle && (
-      <AnimatePresence>
-        {confirmDelete === id && <DeleteCofirmTextBox
-          initial={{opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}>
-          <span>삭제하시겠습니까?</span>
-        </DeleteCofirmTextBox>}
-      </AnimatePresence>
+        <AnimatePresence>
+          {confirmDelete === id && (
+            <DeleteCofirmTextBox initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+              <span>삭제하시겠습니까?</span>
+            </DeleteCofirmTextBox>
+          )}
+        </AnimatePresence>
       )}
-
     </>
   );
 };
@@ -159,6 +157,6 @@ const DeleteCofirmTextBox = styled(motion.div)`
   span {
     position: relative;
     z-index: 3;
-    color:#fff;
+    color: #fff;
   }
 `;

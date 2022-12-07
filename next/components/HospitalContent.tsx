@@ -49,18 +49,35 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
   return (
     <HospitalInfor add={add}>
       <HospitalInforContainer>
-        <HospitalInforBox >
+        <HospitalInforBox>
           <HospitalDescriptionBox>
-            <NameText size="18px" weight="900px" add={add} onClick={() => setDetailModal(true)} title={`${sliceName(hospital.name)}`}>
+            <NameText
+              size="18px"
+              weight="900px"
+              add={add}
+              onClick={() => setDetailModal(true)}
+              title={`${sliceName(hospital.name)}`}
+            >
               {sliceName(hospital.name)}
             </NameText>
           </HospitalDescriptionBox>
           <HospitalPlaceBox>
-            <SpaceText weight="200" size="17px" add={add} title={hospital.address} onClick={() => setDetailModal(true)} >
+            <SpaceText weight="200" size="17px" add={add} title={hospital.address} onClick={() => setDetailModal(true)}>
               {hospital.address}
             </SpaceText>
           </HospitalPlaceBox>
-          {!add && <RectangleButton size="md" fontSize="16px" width="120px" bgColor={theme.color.white} textColor={theme.color.darkBg}  onClick={handleClickGoClinicList}>진료내역 보기</RectangleButton>}
+          {!add && (
+            <RectangleButton
+              size="md"
+              fontSize="16px"
+              width="120px"
+              bgColor={theme.color.white}
+              textColor={theme.color.darkBg}
+              onClick={handleClickGoClinicList}
+            >
+              진료내역 보기
+            </RectangleButton>
+          )}
         </HospitalInforBox>
         {add ? (
           <AddButtonBox>
@@ -85,11 +102,11 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
             </ShareButton>
           </HospitalStatusBox>
         )}
-        {add || 
-        <DeleteBtnBox>
-          <DeleteBtn mutate={deleteHospitalMutate} id={hospital.id} backgroundColor="rgb(100, 106, 235)" isCircle />
-        </DeleteBtnBox>
-        }
+        {add || (
+          <DeleteBtnBox>
+            <DeleteBtn mutate={deleteHospitalMutate} id={hospital.id} backgroundColor="rgb(100, 106, 235)" isCircle />
+          </DeleteBtnBox>
+        )}
       </HospitalInforContainer>
 
       <MyHospitalModal show={detailModal} onClose={() => setDetailModal(false)} hospitals={hospital}></MyHospitalModal>
@@ -146,16 +163,14 @@ const AddButtonBox = styled.div`
   flex-shrink: 0;
 `;
 
-
-
 const DeleteBtnBox = styled.div`
   position: absolute;
   right: 30px;
   top: 50%;
   transform: translateY(-50%);
-  width:40px;
-  height:40px;
-`
+  width: 40px;
+  height: 40px;
+`;
 
 const Text = styled.span<{ size?: string; weight?: string; add: boolean }>`
   position: relative;
@@ -173,14 +188,16 @@ const NameText = styled(Text)`
   text-overflow: ellipsis;
 `;
 
-const SpaceText = styled(Text)<{add : boolean}>`
+const SpaceText = styled(Text)<{ add: boolean }>`
   display: inline-block;
-  ${({add}) => !add && css`
-    max-width: 350px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  `}
+  ${({ add }) =>
+    !add &&
+    css`
+      max-width: 350px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    `}
   cursor: pointer;
 `;
 export const ShareStatus = styled(Text)<{ status: boolean }>`
@@ -201,10 +218,10 @@ const HospitalInforBox = styled.div`
   display: flex;
   column-gap: 120px;
 
-  button{
-    font-weight:600;
-    :hover{
-      text-decoration : underline;
+  button {
+    font-weight: 600;
+    :hover {
+      text-decoration: underline;
     }
   }
 `;
