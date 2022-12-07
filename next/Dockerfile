@@ -6,6 +6,7 @@ RUN npm install npm cache clean --force
 
 COPY . .
 COPY prisma prisma
+RUN npx prisma generate
 RUN npm run build
 
 EXPOSE 3000
