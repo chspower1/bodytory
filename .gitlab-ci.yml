@@ -21,7 +21,18 @@ deploy:
         NEXTAUTH_URL: $NEXTAUTH_URL
         FLASK_API: http://flask:8080
     script:
-        - source ./env
+        - echo DATABASE_URL=$DATABASE_URL >> .env
+        - COOKIE_PASSWORD=$COOKIE_PASSWORD >> .env
+        - MAIL_ID=$MAIL_ID >> .env
+        - MAIL_PASSWORD=$MAIL_PASSWORD >> .env
+        - NEXT_PUBLIC_NAVER_CLIENT_ID=$NEXT_PUBLIC_NAVER_CLIENT_ID >> .env
+        - NEXT_PUBLIC_NAVER_CLIENT_SECRET=$NEXT_PUBLIC_NAVER_CLIENT_SECRET >> .env
+        - NEXT_PUBLIC_KAKAO_KEY=$NEXT_PUBLIC_KAKAO_KEY >> .env
+        - AI_API_KEY=$AI_API_KEY >> .env
+        - GITHUB_ID=$GITHUB_ID >> .env
+        - GITHUB_SECRET=$GITHUB_SECRET >> .env
+        - NEXTAUTH_URL=$NEXTAUTH_URL >> .env
+        - FLASK_API=http://flask:8080 >> .env
         - docker-compose config
         - docker-compose build
         - docker-compose up -d
