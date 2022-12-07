@@ -189,7 +189,7 @@ const ChartTimeline = () => {
                           )}
                         </ImageBox>
                       </Description>
-                      <DeleteBtn id={record.id} mutate={mutate} />
+                      {!Boolean(patientId) && <DeleteBtn id={record.id} mutate={mutate} />}
                     </Content>
                     <RecordModal
                       record={record}
