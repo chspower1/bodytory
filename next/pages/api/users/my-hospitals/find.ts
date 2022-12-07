@@ -11,7 +11,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 async function findHospital(req: NextApiRequest, res: NextApiResponse) {
   const { user } = req.session;
   const { page, search } = req.query;
-  console.log(page, "page", search, "search");
   const pagenation = Number(page) * 10;
   if (!user) return res.status(401).end();
   const foundMyHospitals = await client.hospital.findMany({
@@ -66,7 +65,7 @@ async function findHospital(req: NextApiRequest, res: NextApiResponse) {
   ];
   const isLastPage = foundHospitals.length < 10 ? true : false;
   // console.log("등록된", foundMyHospitals, "등록 안된", foundNotMyHospitals);
-  console.log(foundHospitals.length);
+  console.log(page, "page", search, "마지막 페이지", isLastPage);
   res.status(200).json({ foundHospitals, isLastPage });
 }
 

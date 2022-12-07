@@ -34,15 +34,11 @@ const SearchHospitalList = () => {
     formState: { errors },
   } = useForm<SearchForm>({ mode: "onChange" });
   const { getApi } = customApi(`/api/users/my-hospitals/find?page=${page}&search=${searchWord}`);
-  const { getApi: firstGetApi } = customApi(`/api/users/my-hospitals/find?page=$0&search=${searchWord}`);
   const { data, isLoading, refetch, isFetching } = useQuery<SearchHospitalListResponse>(
     ["hospitals", searchWord, page],
     getApi,
     {
       enabled: Boolean(searchWord) && !hasLastPage,
-      onSuccess(data) {
-        setHasLastPage(data.isLastPage);
-      },
     },
   );
   const onValid = useCallback(async (searchForm: SearchForm) => {
@@ -62,7 +58,6 @@ const SearchHospitalList = () => {
   }, [page]);
 
   useEffect(() => {
-    console.log(page);
     setHasLastPage(data?.isLastPage!);
     if (data?.foundHospitals) {
       page === 0 ? setHospitals(data.foundHospitals) : setHospitals(prev => [...prev, ...data?.foundHospitals]);
