@@ -21,6 +21,8 @@ deploy:
         NEXTAUTH_URL: $NEXTAUTH_URL
         FLASK_API: http://flask:8080
     script:
+        - docker stop team01-next-1
+        - docker rm team01-next-1
         - docker-compose up -d
         - docker ps
         - env
