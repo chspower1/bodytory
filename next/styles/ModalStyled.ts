@@ -40,7 +40,7 @@ export const ModalWrapper = styled(motion.div)`
   width: 100vw;
   height: 100vh;
   display: flex;
-  z-index: 1000;
+  z-index: 2000;
 `;
 
 /**
