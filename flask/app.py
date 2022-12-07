@@ -1,15 +1,16 @@
 import gensim
 import operator
 import pandas as pd
+from flask_cors import CORS, cross_origin
 from flask import Flask, jsonify, request
 from konlpy.tag import Okt
-from keras.models import load_model
 from krwordrank.word import KRWordRank
 from krwordrank.word import summarize_with_keywords
 from gensim.models import Word2Vec
 
 
 app = Flask(__name__)
+CORS(app, resources={r'/api/*': {'origins':['http://kdt-ai5-team01.elicecoding.com', 'https://kdt-ai5-team01.elicecoding.com', 'http://localhost:3000', 'https://localhost:3000']}})
 
 okt = Okt()
 stopwords = ['의', '가', '이', '은', '들', '는', '좀', '잘', '걍', '과', '도', '를', '으로', '자', '에', '와', '한', '하다', '이다', ',', '"',
@@ -28,74 +29,74 @@ stopwords = ['의', '가', '이', '은', '들', '는', '좀', '잘', '걍', '과
 wordrank_extractor = KRWordRank(min_count=2, max_length=20, verbose=True)
 
 department_codes = {
-    "일반의": 0,
-    "내과": 1,
-    "순환기내과": 1,
-    "혈액종양내과": 1,
-    "소화기내과": 1,
-    "감염내과": 1,
-    "내분비내과": 1,
-    "류마티스내과": 1,
-    "신장내과": 1,
-    "호흡기내과": 1,
-    "알레르기내과": 1,
-    "신경과": 2,
-    "정신건강의학과": 3,
-    "외과": 4,
-    "이식혈관외과": 4,
-    "정형외과": 5,
-    "신경외과": 6,
-    "흉부외과": 7,
-    "성형외과": 8,
-    "마취통증의학과": 9,
-    "산부인과": 10,
-    "소아청소년과": 11,
-    "안과": 12,
-    "이비인후과": 13,
-    "피부과": 14,
-    "비뇨기과": 15,
-    "영상의학과": 16,
-    "방사선종양학과": 17,
-    "병리과": 18,
-    "진단검사의학과": 19,
-    "결핵과": 20,
-    "재활의학과": 21,
-    "핵의학과": 22,
-    "가정의학과": 23,
-    "응급의학과": 24,
-    "직업환경의학과": 25,
-    "예방의학과": 26,
-    "기타1(치과)": 27,
-    "기타4(한방)": 28,
-    "기타2": 31,
-    "보건": 41,
-    "기타3": 42,
-    "보건기관치과": 43,
-    "보건기관한방": 44,
-    "치과": 49,
-    "구강악안면외과": 50,
-    "치과보철과": 51,
-    "치과교정과": 52,
-    "소아치과": 53,
-    "치주과": 54,
-    "치과보존과": 55,
-    "구강내과": 56,
-    "영상치의학과": 57,
-    "구강병리과": 58,
-    "예방치과": 59,
-    "치과소계": 60,
-    "통합치의학과": 61,
-    "한방내과": 80,
-    "한방부인과": 81,
-    "한방소아과": 82,
-    "한방안·이비인후·피부과": 83,
-    "한방신경정신과": 84,
-    "침구과": 85,
-    "한방재활의학과": 86,
-    "사상체질의학과": 87,
-    "한방응급": 88,
-    "한방소계": 90,
-    "신종플루거점병원": 500
+    "일반의": '0',
+    "내과": '1',
+    "순환기내과": '1',
+    "혈액종양내과": '1',
+    "소화기내과": '1',
+    "감염내과": '1',
+    "내분비내과": '1',
+    "류마티스내과": '1',
+    "신장내과": '1',
+    "호흡기내과": '1',
+    "알레르기내과": '1',
+    "신경과": '2',
+    "정신건강의학과": '3',
+    "외과": '4',
+    "이식혈관외과": '4',
+    "정형외과": '5',
+    "신경외과": '6',
+    "흉부외과": '7',
+    "성형외과": '8',
+    "마취통증의학과": '9',
+    "산부인과": '10',
+    "소아청소년과": '11',
+    "안과": '12',
+    "이비인후과": '13',
+    "피부과": '14',
+    "비뇨기과": '15',
+    "영상의학과": '16',
+    "방사선종양학과": '17',
+    "병리과": '18',
+    "진단검사의학과": '19',
+    "결핵과": '20',
+    "재활의학과": '21',
+    "핵의학과": '22',
+    "가정의학과": '23',
+    "응급의학과": '24',
+    "직업환경의학과": '25',
+    "예방의학과": '26',
+    "기타1(치과)": '27',
+    "기타4(한방)": '28',
+    "기타2": '31',
+    "보건": '41',
+    "기타3": '42',
+    "보건기관치과": '43',
+    "보건기관한방": '44',
+    "치과": '49',
+    "구강악안면외과": '50',
+    "치과보철과": '51',
+    "치과교정과": '52',
+    "소아치과": '53',
+    "치주과": '54',
+    "치과보존과": '55',
+    "구강내과": '56',
+    "영상치의학과": '57',
+    "구강병리과": '58',
+    "예방치과": '59',
+    "치과소계": '60',
+    "통합치의학과": '61',
+    "한방내과": '80',
+    "한방부인과": '81',
+    "한방소아과": '82',
+    "한방안·이비인후·피부과": '83',
+    "한방신경정신과": '84',
+    "침구과": '85',
+    "한방재활의학과": '86',
+    "사상체질의학과": '87',
+    "한방응급": '88',
+    "한방소계": '90',
+    "신종플루거점병원": '500'
 }
 
 
@@ -104,7 +105,10 @@ def keyword_extractor(sentence_list):
     keyword_stopwords = {'했다', '있었다', '오늘은'}
     keywords = summarize_with_keywords(sentence_list, min_count=1, max_length=10, beta=0.85, max_iter=10,
                                        stopwords=keyword_stopwords)
-    return list(keywords.keys())
+    rank = []
+    for word, r in sorted(keywords.items(), key=lambda x:x[1], reverse=True)[:10]:
+        rank.append(word)
+    return rank
 
 
 def tokenizer(sentence):
@@ -128,21 +132,22 @@ def predict_departments(sentence):
         except:
             continue
     for i in query_data.index:
-        result[i] = len(set(query_data['symptom'][i]
-                        [0]).intersection(set(keep)))
-    department_list = list(
-        dict(sorted(result.items(), key=operator.itemgetter(1), reverse=True)).keys())
-    return list(map(lambda x: department_codes[x], department_list))
+        result[i] = len(set(query_data['symptom'][i][0]).intersection(set(keep)))
+    department_list = list(dict(sorted(result.items(), key=operator.itemgetter(1), reverse=True)).keys())
+    depart_code_list = list(map(lambda x: department_codes[x], department_list))
+    depart_code_list.remove('500')
+    depart_code_list = depart_code_list[:3]
+    return ','.join(depart_code_list)
 
 
-@app.route('/departments', methods=['POST'])
+@app.route('/api/departments', methods=['POST'])
 def predict():
     body = request.get_json()
     data = {'departments_result': predict_departments(body['sentence'])}
     return jsonify(data)
 
 
-@app.route('/keywords', methods=['POST'])
+@app.route('/api/keywords', methods=['POST'])
 def send_keywords():
     body = request.get_json()
     data = {'keywords_result': keyword_extractor(body['sentences'])}
@@ -155,4 +160,5 @@ if __name__ == '__main__':
     query_data['symptom'] = query_data['symptom'].apply(lambda x: tokenizer(x))
     w2v_model = gensim.models.Word2Vec.load('./kor_w2v_final')
 
+    print('test')
     app.run(host='0.0.0.0', port=8080)

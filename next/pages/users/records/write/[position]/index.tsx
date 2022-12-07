@@ -53,7 +53,7 @@ const PositionPage = () => {
     },
   });
 
-  const recordMessgae: string =
+  const recordMessage: string =
     (recordStatus === "initial" && "아래 버튼을 누르고 증상을 등록해 보세요!") ||
     (recordStatus === "listening" && "증상을 말씀해주세요! 토리가 듣고 정리해드릴게요.") ||
     (recordStatus === "loading" && "토리가 음성을 분석 중이에요! 잠시만 기다려 주세요!") ||
@@ -73,6 +73,7 @@ const PositionPage = () => {
   const hadleClickCreateRecord = (writeForm: WriteForm) => {
     if (isOnSubmit) {
       if (recordStatus === "finish") {
+        console.log("mutate");
         mutate({ position: router.query.position as string, description: writeForm.description });
         router.push("/users/records/write/analysis");
       } else {
@@ -90,12 +91,12 @@ const PositionPage = () => {
     setIsEditMode(true);
   };
   useEffect(() => {
-    console.log(recordMessgae);
-    if (recordMessgae === null) {
+    console.log(recordMessage);
+    if (recordMessage === null) {
       setValue("description", "다시 한번 말씀해주세요");
     }
-    setValue("description", recordMessgae);
-  }, [recordMessgae, setValue]);
+    setValue("description", recordMessage);
+  }, [recordMessage, setValue]);
 
   useEffect(() => {
     if (audioRecognized) setRecordStatus("finish");
@@ -129,7 +130,7 @@ const PositionPage = () => {
                 {...register("description", {
                   required: "증상을 입력해주세요",
                   onBlur: () => {
-                    !(recordStatus === "finish") && setValue("description", recordMessgae);
+                    !(recordStatus === "finish") && setValue("description", recordMessage);
                     clearErrors("description");
                   },
                 })}
