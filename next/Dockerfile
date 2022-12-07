@@ -5,6 +5,7 @@ COPY package.json ./
 RUN npm install
 
 COPY . .
+COPY prisma prisma
 RUN npm run erd
 RUN npm run build
 
