@@ -129,7 +129,7 @@ const HospitalHomePage = () => {
                     <Name>{user.name}</Name>
                     <Birth>{user.birth}</Birth>
                     <Gender>{user.gender === "male" ? "남" : "여"}</Gender>
-                    <RecordsLinkButton onClick={handleClickEnterUserChart({name : user.name, id: user.id })}>상세보기</RecordsLinkButton>
+                    <RecordsLinkButton onClick={handleClickEnterUserChart({name : user.name, id: user.id })} disabled={!shared}>상세보기</RecordsLinkButton>
                   </div>
                 <SharedBox>
                   <RecordShareStatus weight="200" size="15px" add status={shared}>
@@ -237,8 +237,12 @@ const RecordsLinkButton = styled.button`
   text-align:center;
   margin: 0 20px;
   color: ${({theme})=> theme.color.darkBg};
-  :hover {
+  :not(:disabled):hover {
     text-decoration: underline;
+  }
+  &:disabled{
+    color: #999;
+    cursor: default;
   }
 `
 const Shared = styled(Col)`

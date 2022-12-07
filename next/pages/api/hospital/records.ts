@@ -4,7 +4,7 @@ import withHandler from "@utils/server/withHandler";
 import { withApiSession } from "@utils/server/withSession";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { patientId , position, description, diagnosis, prescription  } = req.body;
+  const { patientId , position, description, diagnosis, prescription, createAt  } = req.body;
   const { user } = req.session;
 
   if (!user) return ;
@@ -18,6 +18,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       prescription,
       hospitalId : user.id,
       userId: patientId,
+      createAt
     },
   });
 
