@@ -151,7 +151,7 @@ const HospitalModal = ({ show, onClose, name, gender, birth, position, patientId
     </AnimatePresence>
   );
 
-  return ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement);
+  return  isBrowser ? ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement) : null;
 };
 
 export default HospitalModal;
