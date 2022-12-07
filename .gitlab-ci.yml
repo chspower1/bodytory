@@ -23,4 +23,3 @@ deploy:
   script:
     - docker-compose up -d
     - docker ps
-    - env
