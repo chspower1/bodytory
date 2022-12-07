@@ -7,19 +7,32 @@ deploy:
   only:
     - dev
     - feat/connect-api
+  variables:
+    DB_URL: $DATABASE_URL
+    COOKIE_PW: $COOKIE_PASSWORD
+    M_ID: $MAIL_ID
+    M_PW: $MAIL_PASSWORD
+    NAVER_ID: $NEXT_PUBLIC_NAVER_CLIENT_ID
+    NAVER_SECRET: $NEXT_PUBLIC_NAVER_CLIENT_SECRET
+    KAKAO_KEY: $NEXT_PUBLIC_KAKAO_KEY
+    AI_KEY: $AI_API_KEY
+    GIT_ID: $GITHUB_ID
+    GIT_SECRET: $GITHUB_SECRET
+    NEXT_URL: $NEXTAUTH_URL
+    FLASK_API: http://flask:8080
   before_script:
-    - echo -e "DATABASE_URL="${DATABASE_URL} >> .env
-    - echo -e "\nCOOKIE_PASSWORD="${COOKIE_PASSWORD} >> .env
-    - echo -e "\nMAIL_ID="${MAIL_ID} >> .env
-    - echo -e "\nMAIL_PASSWORD="${MAIL_PASSWORD} >> .env
-    - echo -e "\nNEXT_PUBLIC_NAVER_CLIENT_ID="${NEXT_PUBLIC_NAVER_CLIENT_ID} >> .env
-    - echo -e "\nNEXT_PUBLIC_NAVER_CLIENT_SECRET="${NEXT_PUBLIC_NAVER_CLIENT_SECRET} >> .env
-    - echo -e "\nNEXT_PUBLIC_KAKAO_KEY="${NEXT_PUBLIC_KAKAO_KEY} >> .env
-    - echo -e "\nAI_API_KEY="${AI_API_KEY} >> .env
-    - echo -e "\nGITHUB_ID="${GITHUB_ID} >> .env
-    - echo -e "\nGITHUB_SECRET="${GITHUB_SECRET} >> .env
-    - echo -e "\nNEXTAUTH_URL="${NEXTAUTH_URL} >> .env
-    - echo -e "\nFLASK_API=http://flask:8080" >> .env
+    - echo -e "DATABASE_URL="$DB_URL >> .env
+    - echo -e "\nCOOKIE_PASSWORD="$COOKIE_PW >> .env
+    - echo -e "\nMAIL_ID="$M_ID >> .env
+    - echo -e "\nMAIL_PASSWORD="$M_PW >> .env
+    - echo -e "\nNEXT_PUBLIC_NAVER_CLIENT_ID="$NAVER_ID >> .env
+    - echo -e "\nNEXT_PUBLIC_NAVER_CLIENT_SECRET="$NAVER_SECRET >> .env
+    - echo -e "\nNEXT_PUBLIC_KAKAO_KEY="$KAKAO_KEY >> .env
+    - echo -e "\nAI_API_KEY="$AI_KEY >> .env
+    - echo -e "\nGITHUB_ID="$GIT_ID >> .env
+    - echo -e "\nGITHUB_SECRET="$GIT_SECRET >> .env
+    - echo -e "\nNEXTAUTH_URL="$NEXT_URL >> .env
+    - echo -e "\nFLASK_API="$FLASK_API >> .env
   script:
     - docker-compose config
     - docker-compose build
