@@ -20,19 +20,20 @@ deploy:
         GITHUB_SECRET: $GITHUB_SECRET
         NEXTAUTH_URL: $NEXTAUTH_URL
         FLASK_API: http://flask:8080
+    before_script:
+        - echo -e "DATABASE_URL=$DATABASE_URL" >> .env
+        - echo -e "\nCOOKIE_PASSWORD=$COOKIE_PASSWORD" >> .env
+        - echo -e "\nMAIL_ID=$MAIL_ID" >> .env
+        - echo -e "\nMAIL_PASSWORD=$MAIL_PASSWORD" >> .env
+        - echo -e "\nNEXT_PUBLIC_NAVER_CLIENT_ID=$NEXT_PUBLIC_NAVER_CLIENT_ID" >> .env
+        - echo -e "\nNEXT_PUBLIC_NAVER_CLIENT_SECRET=$NEXT_PUBLIC_NAVER_CLIENT_SECRET" >> .env
+        - echo -e "\nNEXT_PUBLIC_KAKAO_KEY=$NEXT_PUBLIC_KAKAO_KEY" >> .env
+        - echo -e "\nAI_API_KEY=$AI_API_KEY" >> .env
+        - echo -e "\nGITHUB_ID=$GITHUB_ID" >> .env
+        - echo -e "\nGITHUB_SECRET=$GITHUB_SECRET" >> .env
+        - echo -e "\nNEXTAUTH_URL=$NEXTAUTH_URL" >> .env
+        - echo -e "\nFLASK_API=http://flask:8080" >> .env
     script:
-        - echo DATABASE_URL=$DATABASE_URL >> .env
-        - echo COOKIE_PASSWORD=$COOKIE_PASSWORD >> .env
-        - echo MAIL_ID=$MAIL_ID >> .env
-        - echo MAIL_PASSWORD=$MAIL_PASSWORD >> .env
-        - echo NEXT_PUBLIC_NAVER_CLIENT_ID=$NEXT_PUBLIC_NAVER_CLIENT_ID >> .env
-        - echo NEXT_PUBLIC_NAVER_CLIENT_SECRET=$NEXT_PUBLIC_NAVER_CLIENT_SECRET >> .env
-        - echo NEXT_PUBLIC_KAKAO_KEY=$NEXT_PUBLIC_KAKAO_KEY >> .env
-        - echo AI_API_KEY=$AI_API_KEY >> .env
-        - echo GITHUB_ID=$GITHUB_ID >> .env
-        - echo GITHUB_SECRET=$GITHUB_SECRET >> .env
-        - echo NEXTAUTH_URL=$NEXTAUTH_URL >> .env
-        - echo FLASK_API=http://flask:8080 >> .env
         - docker-compose config
         - docker-compose build
         - docker-compose up -d
