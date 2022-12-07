@@ -143,6 +143,7 @@ model HospitalToUser {
   id         Int      @id @default(autoincrement())
   hospitalId Int
   userId     Int
+  shared     Boolean  @default(true)
   hospital   Hospital @relation(fields: [hospitalId], references: [id])
   user       User     @relation(fields: [userId], references: [id])
 
