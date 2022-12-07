@@ -20,7 +20,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           gte: latitude - 0.005,
           lte: latitude + 0.005,
         },
-
         y: {
           gte: longitude - 0.005,
           lte: longitude + 0.005,
