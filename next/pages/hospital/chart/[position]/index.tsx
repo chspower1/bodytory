@@ -9,7 +9,7 @@ const HospitalChartPositionPage = () => {
   return (
     <RecordWrap>
       <HospitalSelectPart selectedBodyPart={selectedBodyPart} setSelectedBodyPart={setSelectedBodyPart} />
-      <HospitalChart />
+      {/* <HospitalChart selectedBodyPart={selectedBodyPart} /> */}
     </RecordWrap>
   );
 };
