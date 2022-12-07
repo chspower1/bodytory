@@ -20,8 +20,6 @@ const SearchHospitalList = ({ add, searchWord }: SearchHospitalListProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [hasLastPage, setHasLastPage] = useState(false);
   const [hospitals, setHospitals] = useState<MyHospital[]>([]);
-  const observerTarget = useRef<HTMLDivElement>(null);
-  const [currentWord, setCurrentWord] = useState("");
   const [page, setPage] = useState<number>(0);
   const ioCallback = () => {
     setPage(page => page + 1);
@@ -29,12 +27,6 @@ const SearchHospitalList = ({ add, searchWord }: SearchHospitalListProps) => {
   };
 
   const { setTarget } = useIO(hasLastPage, ioCallback);
-
-  useEffect(() => {
-    if (searchWord) {
-      getSearchLists();
-    }
-  }, [currentWord, page]);
 
   const getSearchLists = useCallback(async () => {
     setIsLoading(() => true);
@@ -53,7 +45,6 @@ const SearchHospitalList = ({ add, searchWord }: SearchHospitalListProps) => {
 
   useEffect(() => {
     if (searchWord) {
-      setCurrentWord(searchWord);
       setPage(0);
       setHospitals([]);
     }
@@ -72,7 +63,16 @@ const SearchHospitalList = ({ add, searchWord }: SearchHospitalListProps) => {
             {hospitals?.map((hospital, idx) => (
               <HospitalContent hospital={hospital} idx={hospital.id} add={add} key={idx} shared={false} />
             ))}
-            {isLoading ? <ListSkeleton backgroundColor="rgb(225,227,255)" /> : <div ref={observerTarget} />}
+            {isLoading ? (
+              <ListSkeleton backgroundColor="rgb(225,227,255)" />
+            ) : (
+              <div
+                style={{ width: "1px", height: "1px" }}
+                ref={(ref: any) => {
+                  setTarget(ref);
+                }}
+              />
+            )}
           </HospitalLists>
         )}
         {hospitals?.length === 0 && !isLoading && (
