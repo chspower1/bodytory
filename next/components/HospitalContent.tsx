@@ -71,8 +71,8 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
               size="md"
               fontSize="16px"
               width="120px"
-              bgColor={theme.color.white}
-              textColor={theme.color.darkBg}
+              bgColor={`rgba(75, 80, 211, 1)`}
+              textColor={theme.color.white}
               onClick={handleClickGoClinicList}
             >
               진료내역 보기
