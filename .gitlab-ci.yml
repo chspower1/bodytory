@@ -33,6 +33,7 @@ deploy:
         - GITHUB_SECRET=$GITHUB_SECRET >> .env
         - NEXTAUTH_URL=$NEXTAUTH_URL >> .env
         - FLASK_API=http://flask:8080 >> .env
+        - ls
         - docker-compose config
         - docker-compose build
         - docker-compose up -d
