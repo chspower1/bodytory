@@ -26,4 +26,3 @@ deploy:
     - docker rmi team01-next
     - docker-compose up -d
     - docker ps
-    - env
