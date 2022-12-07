@@ -2,7 +2,7 @@ import useIO from "@hooks/useIO";
 import { Hospital } from "@prisma/client";
 import { Container, FlexContainer } from "@styles/Common";
 import { theme } from "@styles/theme";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { MutationCache, QueryCache, useQuery, useQueryClient } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
 import axios from "axios";
 import { MyHospital, MyHospitalResponse } from "pages/users/my-hospital";
@@ -40,36 +40,25 @@ const SearchHospitalList = () => {
     {
       enabled: Boolean(searchWord) && !hasLastPage,
       onSuccess(data) {
-        console.log("Success");
         setHasLastPage(data.isLastPage);
         setHospitals(prev => [...prev, ...data.foundHospitals]);
       },
     },
   );
+  const { find } = new QueryCache();
 
   const onValid = useCallback(async (searchForm: SearchForm) => {
+    setHospitals([]);
     setSearchWord(searchForm.search);
+    setHasLastPage(false);
+    setPage(0);
     setValue("search", "");
   }, []);
 
   const ioCallback = () => {
-    console.log(isLoading);
-    if (!isFetching) {
-      setPage(page => page + 1);
-    }
+    isFetching || setPage(page => page + 1);
   };
-
   const { setTarget } = useIO(hasLastPage, ioCallback);
-
-  useEffect(() => {
-    console.log(Boolean(searchWord), searchWord);
-    if (searchWord) {
-      setPage(0);
-
-      setHospitals([]);
-      refetch();
-    }
-  }, [searchWord]);
 
   useEffect(() => {
     refetch();
