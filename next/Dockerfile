@@ -5,7 +5,6 @@ COPY . ./
 RUN npm install
 
 ENV DISABLE_ERD true
-RUN npx prisma db pull
 RUN npx prisma generate
 RUN npm run build
 
