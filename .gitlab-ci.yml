@@ -33,6 +33,7 @@ deploy:
         - echo -e "\nGITHUB_SECRET="$GITHUB_SECRET >> .env
         - echo -e "\nNEXTAUTH_URL="$NEXTAUTH_URL >> .env
         - echo -e "\nFLASK_API=http://flask:8080" >> .env
+        - mv .env /builds/ai_track/class05/ai_project/team01/team01
     script:
         - docker-compose config
         - docker-compose build
