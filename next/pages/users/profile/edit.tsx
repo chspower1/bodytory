@@ -114,7 +114,7 @@ export default function Edit() {
             />
           </LoginStatusBox>
           <EmailInputBox>
-            <Input disabled={true} type="text" name="user-email" value={user?.email} align="left" />
+            <Input disabled={true} type="text" name="user-email" value={user?.email} align="left" motion={false} />
           </EmailInputBox>
         </div>
         <div>
@@ -140,6 +140,7 @@ export default function Edit() {
                 error={errors.newPassword?.message}
                 align="left"
                 disabled={user?.type !== "origin"}
+                delay={.3}
               />
               <Input
                 light
@@ -150,6 +151,7 @@ export default function Edit() {
                 error={errors.newPasswordConfirm?.message}
                 align="left"
                 disabled={user?.type !== "origin"}
+                delay={.6}
               />
             </SeperationBox>
             <SeperationBox style={{ display: "flex", justifyContent: "center" }}>

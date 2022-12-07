@@ -93,6 +93,7 @@ export default function Withdraw() {
             })}
             placeholder="●●●●●●"
             error={errors.password}
+            motion={false}
           />
         )}
         <ButtonBox>
