@@ -21,10 +21,10 @@ const SearchHospitalList = ({ add, searchWord }: SearchHospitalListProps) => {
   const [hasLastPage, setHasLastPage] = useState(false);
   const [hospitals, setHospitals] = useState<MyHospital[]>([]);
   const observerTarget = useRef<HTMLDivElement>(null);
+  const [currentWord, setCurrentWord] = useState("");
   const [page, setPage] = useState<number>(0);
   const ioCallback = () => {
     setPage(page => page + 1);
-    getSearchLists();
   };
 
   const { setTarget } = useIO(hasLastPage, ioCallback);
@@ -33,7 +33,7 @@ const SearchHospitalList = ({ add, searchWord }: SearchHospitalListProps) => {
     if (searchWord) {
       getSearchLists();
     }
-  }, [searchWord, page]);
+  }, [currentWord, page]);
 
   const getSearchLists = useCallback(async () => {
     setIsLoading(() => true);
@@ -52,6 +52,7 @@ const SearchHospitalList = ({ add, searchWord }: SearchHospitalListProps) => {
 
   useEffect(() => {
     if (searchWord) {
+      setCurrentWord(searchWord);
       setPage(0);
       setHospitals([]);
     }
