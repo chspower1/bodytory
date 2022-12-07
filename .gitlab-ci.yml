@@ -16,10 +16,10 @@ deploy:
     NAVER_SECRET: $NEXT_PUBLIC_NAVER_CLIENT_SECRET
     KAKAO_KEY: $NEXT_PUBLIC_KAKAO_KEY
     AI_KEY: $AI_API_KEY
-    GIT_ID: $GITHUB_ID
-    GIT_SECRET: $GITHUB_SECRET
-    NEXT_URL: $NEXTAUTH_URL
     FLASK_API: http://flask:8080
+    AC_ID: $ACCESSKEYID
+    SC_KET: $SECRETACCESSKET
+    REG: $REGION
   before_script:
     - echo -e "DATABASE_URL="$DB_URL >> .env
     - echo -e "\nCOOKIE_PASSWORD="$COOKIE_PW >> .env
@@ -29,10 +29,10 @@ deploy:
     - echo -e "\nNEXT_PUBLIC_NAVER_CLIENT_SECRET="$NAVER_SECRET >> .env
     - echo -e "\nNEXT_PUBLIC_KAKAO_KEY="$KAKAO_KEY >> .env
     - echo -e "\nAI_API_KEY="$AI_KEY >> .env
-    - echo -e "\nGITHUB_ID="$GIT_ID >> .env
-    - echo -e "\nGITHUB_SECRET="$GIT_SECRET >> .env
-    - echo -e "\nNEXTAUTH_URL="$NEXT_URL >> .env
     - echo -e "\nFLASK_API="$FLASK_API >> .env
+    - echo -e "\nACCESSKEYID="$AC_ID >> .env
+    - echo -e "\nSECRETACCESSKET="$SC_KET >> .env
+    - echo -e "\nREGION="$REG >> .env
     - cp .env /builds/ai_track/class05/ai_project/team01/team01/next
   script:
     - docker-compose config
