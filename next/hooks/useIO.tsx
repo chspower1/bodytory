@@ -8,12 +8,14 @@ const useIO = (hasLastPage: boolean, cb: () => void) => {
 
     const io: IntersectionObserver = new IntersectionObserver(
       (entries, observer) => {
-        if (hasLastPage) return io.unobserve(entries[0].target);
-        if (entries[0].isIntersecting) {
-          cb();
-        }
+        entries.forEach(entry => {
+          if (hasLastPage) return io.unobserve(entry.target);
+          if (entry.isIntersecting) {
+            cb();
+          }
+        });
       },
-      { root: null, threshold: 1, rootMargin: "0px" },
+      { threshold: 1 },
     );
     io.observe(target);
 
