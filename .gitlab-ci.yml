@@ -2,7 +2,6 @@ stages:
   - deploy
 
 deploy:
-  image: docker:latest
   stage: deploy
   only:
     - dev
