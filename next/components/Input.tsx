@@ -18,10 +18,9 @@ export interface InputProps {
   width?: string;
   height?: string;
   align?: string;
-  bgcolor?: string;
   color?: string;
-  light?: boolean;
-  white?: string;
+  $light?: boolean;
+  $white?: boolean;
   motion?: boolean;
   delay ?: number;
 }
@@ -40,11 +39,10 @@ export default function Input({
   width = "500px",
   height = "62px",
   align = "center",
-  bgcolor = theme.color.input,
   color = "#fff",
-  light,
+  $light,
   motion = true,
-  white = "false",
+  $white,
   delay = 0,
 }: InputProps) {
   return (
@@ -83,10 +81,9 @@ export default function Input({
         className={error ? "error" : ""}
         maxLength={maxLength}
         align={align}
-        bgcolor={bgcolor}
         color={color}
-        light={light}
-        white={white}
+        $light={$light}
+        $white={$white}
       />
     </InputBox>
   );
@@ -103,11 +100,10 @@ const InputBox = styled.div<{ width?: string; height?: string }>`
 `;
 
 const MainInput = styled(motion.input)<{
-  align ?: string;
-  bgcolor?: string;
+  align?: string;
   color?: string;
-  light?: boolean;
-  white?: string;
+  $light?: boolean;
+  $white?: boolean;
 }>`
   &[type="password"] {
     &::placeholder {
@@ -126,7 +122,7 @@ const MainInput = styled(motion.input)<{
   border-radius: 10px;
   transition: border 0.3s ease;
   border: 2px solid transparent;
-  background-color: ${prop => prop.bgcolor};
+  background-color: ${({ theme }) => theme.color.input};
   color: ${prop => prop.color};
   box-shadow: 8px 8px 24px rgba(49, 54, 167, 0.2);
   outline: 0;
@@ -140,7 +136,7 @@ const MainInput = styled(motion.input)<{
     color: #aaa;
   }
   ${props =>
-    props.light &&
+    props.$light &&
     css`
       background: rgba(217, 222, 255, 1);
       color: #232323;
@@ -152,7 +148,7 @@ const MainInput = styled(motion.input)<{
       }
     `}
   ${props =>
-    props.white === "true" &&
+    props.$white &&
     css`
       background: rgba(255, 255, 255, 1);
       color: #232323;

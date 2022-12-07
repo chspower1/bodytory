@@ -17,7 +17,7 @@ const AddPage = () => {
           <Link href="/users/records/write">
             <RoundButton>네, 다른 부위도 기록할래요</RoundButton>
           </Link>
-          <Link href="/">
+          <Link href="/users/records">
             <RoundButton bgColor={theme.color.weekPurple} textColor="rgb(93, 107, 178)">
               아니요,더 기록할게 없어요
             </RoundButton>

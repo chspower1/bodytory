@@ -12,6 +12,7 @@ import "swiper/css/navigation";
 import { Pagination, Navigation, Mousewheel } from "swiper";
 import { useState } from "react";
 import IconAddImage from "@public/static/icon/icon_addImage.png";
+import ImageDetailModal from "./modals/ImageDetailModal";
 
 const ManageImage = ({ recordId, recordImages, isHospital }: { recordId: string; recordImages: RecordImage[]; isHospital ?: boolean })=>{
   const queryClient = useQueryClient();
@@ -27,7 +28,7 @@ const ManageImage = ({ recordId, recordImages, isHospital }: { recordId: string;
       queryClient.invalidateQueries([RECORDS_READ]);
     },
   });
-
+  const [showImageDetailModal, setShowImageDetailModal] = useState(-1);
   const [isHover, setIsHover] = useState(-1);
 
   return (
@@ -49,8 +50,25 @@ const ManageImage = ({ recordId, recordImages, isHospital }: { recordId: string;
             {recordImages.map((elem, key) => (
               <SwiperSlide key={key}>
                 <ImageBox onMouseEnter={() => setIsHover(key)} onMouseLeave={() => setIsHover(-1)}>
-                  <Image src={elem.url} alt="증상 이미지" width={100} height={100} />
-                  {isHospital || (isHover === key && <DeleteButton onClick={() => deleteImageMutation.mutate(elem.id)}></DeleteButton>)}
+                  <Image
+                    src={elem.url}
+                    alt="증상 이미지"
+                    fill
+                    onClick={() => {
+                      console.log(key);
+                      setShowImageDetailModal(key);
+                    }}
+                  />
+                  {isHover === key && <DeleteButton onClick={() => deleteImageMutation.mutate(elem.id)}></DeleteButton>}
+
+                  <ImageDetailModal
+                    show={showImageDetailModal}
+                    onClose={() => setShowImageDetailModal(-1)}
+                    setShow={setShowImageDetailModal}
+                    url={elem.url}
+                    index={key}
+                    imagesLength={recordImages.length}
+                  />
                 </ImageBox>
               </SwiperSlide>
             ))}
@@ -144,7 +162,7 @@ const DeleteButton = styled.button`
   right: 6px;
   width: 30px;
   height: 30px;
-  background: url("/delete.png") no-repeat 50% 50%/80%;
+  background: url("/static/icon/delete.png") no-repeat 50% 50%/80%;
 `;
 
 const UploadImageButton = styled.button`

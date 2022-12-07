@@ -16,7 +16,6 @@ const Textarea = ({
   error,
   align,
   value,
-  bgcolor,
   color,
 }: TextAreaProps) => {
   return (
@@ -27,7 +26,6 @@ const Textarea = ({
       placeholder={placeholder}
       value={value}
       className={error ? "error" : ""}
-      bgColor={bgcolor}
       color={color}
     ></TextAreaStyle>
   );
@@ -44,7 +42,7 @@ const TextAreaStyle = styled.textarea<{bgColor ?: string,  color ?: string}>`
   border-radius: 10px;
   transition: border 0.3s ease;
   border: 2px solid transparent;
-  background: ${({bgColor}) => bgColor ? bgColor : `rgba(217, 222, 255, 1)`};
+  background: rgba(217, 222, 255, 1);
   box-shadow: 8px 8px 24px rgba(49, 54, 167, 0.2);
   color: ${({color}) => color ? color : `#232323`};
   outline: 0;

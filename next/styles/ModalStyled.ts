@@ -1,6 +1,6 @@
 import { motion, Variants } from "framer-motion";
 import styled, { css } from "styled-components";
-const MODAL_VARIANTS: Variants = {
+export const MODAL_VARIANTS: Variants = {
   initial: {
     opacity: 0,
     y: 30,
@@ -55,7 +55,7 @@ export const ModalContainer = styled(motion.div).attrs({
 })<{
   width?: string;
   height?: string;
-  flex ?: boolean;
+  flex?: boolean;
 }>`
   z-index: 2000;
   width: ${props => (props.width ? props.width : "650px")};
@@ -64,13 +64,15 @@ export const ModalContainer = styled(motion.div).attrs({
   background-color: white;
   border-radius: 30px;
   margin: auto;
-  overflow:hidden;
-  ${({flex}) =>flex && css`
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
-  `}
+  overflow: hidden;
+  ${({ flex }) =>
+    flex &&
+    css`
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      align-items: center;
+    `}
 `;
 
 export const Dim = styled(motion.div).attrs({
@@ -83,5 +85,5 @@ export const Dim = styled(motion.div).attrs({
   width: 100%;
   height: 100%;
   z-index: 1200;
-  background: #00000042;
+  background-color: rgba(0, 0, 0, 0.5);
 `;

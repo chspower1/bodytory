@@ -10,18 +10,27 @@ export interface HospitalsForMap {
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { user } = req.session;
   if (!user) return res.status(400).end();
-  if (req.method === "POST") {
-    const { longitude, latitude } = req.body;
-    const hospitals: HospitalsForMap[] = await client.hospital.findMany({
+  if (req.method === "GET") {
+    const { longitude: lat, latitude: lng } = req.query;
+    const [latitude, longitude] = [parseFloat(lat as string), parseFloat(lng as string)];
+    console.log(longitude, latitude);
+    const myHospitals: HospitalsForMap[] = await client.hospital.findMany({
       where: {
         x: {
-          gte: longitude - 0.005,
-          lte: longitude + 0.005,
+          gte: latitude - 0.005,
+          lte: latitude + 0.005,
         },
 
         y: {
-          gte: latitude - 0.005,
-          lte: latitude + 0.005,
+          gte: longitude - 0.005,
+          lte: longitude + 0.005,
+        },
+        NOT: {
+          users: {
+            none: {
+              userId: user.id,
+            },
+          },
         },
       },
       select: {
@@ -43,9 +52,51 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       },
       take: 100,
     });
-    console.log(hospitals, hospitals.length, longitude, latitude);
-    return res.status(200).json({ hospitals });
+    const notMyHospitals: HospitalsForMap[] = await client.hospital.findMany({
+      where: {
+        x: {
+          gte: latitude - 0.005,
+          lte: latitude + 0.005,
+        },
+
+        y: {
+          gte: longitude - 0.005,
+          lte: longitude + 0.005,
+        },
+        NOT: {
+          users: {
+            some: {
+              userId: user.id,
+            },
+          },
+        },
+      },
+      select: {
+        id: true,
+        name: true,
+        x: true,
+        y: true,
+        address: true,
+        homepage: true,
+        medicalDepartments: {
+          select: {
+            medicalDepartment: {
+              select: {
+                department: true,
+              },
+            },
+          },
+        },
+      },
+      take: 100,
+    });
+    const hospitals = [
+      ...myHospitals.map(hospital => ({ ...hospital, my: true })),
+      ...notMyHospitals.map(hospital => ({ ...hospital, my: false })),
+    ];
+    console.log("map 요청");
+    return res.status(200).json(hospitals);
   }
 }
 
-export default withApiSession(withHandler({ methods: ["POST"], handler, isPrivate: false }));
+export default withApiSession(withHandler({ methods: ["GET"], handler, isPrivate: false }));

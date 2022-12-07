@@ -122,7 +122,7 @@ export default function Edit() {
             <h2>비밀번호 변경</h2>
             <SeperationBox>
               <Input
-                light
+                $light
                 name="oldPassword"
                 type="password"
                 register={register("oldPassword", { required: "현재 비밀번호를 입력해주세요" })}
@@ -132,7 +132,7 @@ export default function Edit() {
                 disabled={user?.type !== "origin"}
               />
               <Input
-                light
+                $light
                 name="newPassword"
                 type="password"
                 register={register("newPassword", { required: "새로운 비밀번호를 입력해주세요" })}
@@ -143,7 +143,7 @@ export default function Edit() {
                 delay={.3}
               />
               <Input
-                light
+                $light
                 name="newPasswordConfirm"
                 type="password"
                 register={register("newPasswordConfirm", { required: "새로운 비밀번호확인을 입력해주세요" })}

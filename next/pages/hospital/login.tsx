@@ -80,7 +80,7 @@ const LoginPage: NextPage = () => {
           <LoginFormInnerBox>
             <LoginInputAreaBox>
               <Input
-                light
+                $light
                 name="accountId"
                 register={register("accountId", {
                   required: "아이디를 입력해주세요",
@@ -90,7 +90,7 @@ const LoginPage: NextPage = () => {
                 motion={false}
               />
               <Input
-                light
+                $light
                 name="password"
                 type="password"
                 register={register("password", {

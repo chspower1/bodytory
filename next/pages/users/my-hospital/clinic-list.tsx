@@ -1,18 +1,24 @@
 import { RoundButton } from "@components/buttons/Button";
 import SwiperBox from "@components/SwiperBox";
-import { Container, InnerContainer, Row } from "@styles/Common";
+import { BackButton, Container, InnerContainer, Row } from "@styles/Common";
 import { theme } from "@styles/theme";
 import { DescriptionBox, HighlightText, Pragraph } from "./";
 import React, { useState } from "react";
 import styled from "styled-components";
 import tory from "@public/static/icon/tory.png";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 const ClinicList = () => {
   const rounter = useRouter();
   const [currentHospitalName, setCurrentHospitalName] = useState("");
   return (
     <ClinicListWrap>
+      <Link href="/users/my-hospital">
+        <BackButton>
+          <span>병원관리</span>
+        </BackButton>
+      </Link>
       <ClinicContainer>
         <PageHeadBox>
           <PageHead>
