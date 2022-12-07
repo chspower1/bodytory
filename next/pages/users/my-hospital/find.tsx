@@ -35,7 +35,6 @@ const FindHospital = () => {
   const [pageCategory, setPageCategory] = useState<PageCategory>("search");
   const { latitude, longitude } = useCoords();
   const [searchWord, setSearchWord] = useState<string>("");
-  const observerTarget = useRef<HTMLDivElement>(null);
   const [showModal, setShowModal] = useState(false);
   const {
     register,
@@ -45,8 +44,8 @@ const FindHospital = () => {
     formState: { errors },
   } = useForm<SearchForm>({ mode: "onChange" });
 
-  const onValid = useCallback(async (input: SearchForm) => {
-    setSearchWord(() => input.search);
+  const onValid = useCallback(async (searchForm: SearchForm) => {
+    setSearchWord(searchForm.search);
     setValue("search", "");
   }, []);
 
@@ -74,7 +73,6 @@ const FindHospital = () => {
               nonSubmit
               onClick={() => setPageCategory(prev => (prev === "search" ? "map" : "search"))}
             >
-              {/* <ImageIcon src={mapIcon} width={30} height={30} alt="map" /> */}
               {pageCategory === "search" && (
                 <>
                   <MapIcon width={30} style={{ marginBottom: "6px" }} />
@@ -112,9 +110,7 @@ const FindHospital = () => {
             </SearchForm>
           </SearchBox>
         </DescriptionContainer>
-        {pageCategory === "search" && (
-          <SearchHospitalList add={true} setobserverTarget={observerTarget} searchWord={searchWord} />
-        )}
+        {pageCategory === "search" && <SearchHospitalList add={true} searchWord={searchWord} />}
         {/* {pageCategory === "map" && (
           <SearchHospitalList
             hospitals={findState}
