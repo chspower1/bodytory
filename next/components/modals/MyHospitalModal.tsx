@@ -7,7 +7,7 @@ import styled from "styled-components";
 import type { MyHospital } from "pages/users/my-hospital";
 import hospital from "@api/hospital";
 import { theme } from "@styles/theme";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ShareStatus } from "@components/HospitalContent";
 import useHospital from "@hooks/useHospital";
 interface MyHospitalModalProps {
@@ -19,7 +19,10 @@ interface MyHospitalModalProps {
 
 const MyHospitalModal = ({ show, hospitals, activeFunction, onClose }: MyHospitalModalProps) => {
   const { handleClickShare } = useHospital();
-
+  const [isBrowser, setIsBrowser] = useState(false);
+  useEffect(() => {
+    setIsBrowser(true);
+  }, []);
   const modalContent = (
     <AnimatePresence>
       {show && (
@@ -90,7 +93,7 @@ const MyHospitalModal = ({ show, hospitals, activeFunction, onClose }: MyHospita
       )}
     </AnimatePresence>
   );
-  return ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement);
+  return  isBrowser ? ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement) : null;
 };
 
 export default MyHospitalModal;

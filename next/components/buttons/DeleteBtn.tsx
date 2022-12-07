@@ -1,14 +1,16 @@
 import { UseMutateFunction } from "@tanstack/react-query";
+import { AnimatePresence, motion } from "framer-motion";
 import { FocusEventHandler, MouseEventHandler, useState } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 interface DeleteBtnProps {
   mutate: UseMutateFunction<any, unknown, any, unknown>;
   id: number;
   backgroundColor?: string;
+  isCircle?: boolean;
 }
 
-const DeleteBtn = ({ mutate, id, backgroundColor }: DeleteBtnProps) => {
+const DeleteBtn = ({ mutate, id, backgroundColor, isCircle }: DeleteBtnProps) => {
   const [confirmDelete, setConfirmDelete] = useState(-1);
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>, targetId: number) => {
     if (confirmDelete !== -1) {
@@ -19,21 +21,33 @@ const DeleteBtn = ({ mutate, id, backgroundColor }: DeleteBtnProps) => {
     }
   };
   return (
-    <DeleteButton
-      onClick={e => handleClick(e, id)}
-      className={confirmDelete === id ? "active" : ""}
-      onBlur={() => setConfirmDelete(-1)}
-      bgColor={backgroundColor}
-    >
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-        <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
-      </svg>
-      <span>삭제</span>
-    </DeleteButton>
+    <>
+      <DeleteButton
+        onClick={e => handleClick(e, id)}
+        className={confirmDelete === id ? "active" : ""}
+        onBlur={() => setConfirmDelete(-1)}
+        bgColor={backgroundColor}
+        isCircle={isCircle}
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+          <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+        </svg>
+        <span>삭제</span>
+      </DeleteButton>
+      {isCircle && (
+        <AnimatePresence>
+          {confirmDelete === id && (
+            <DeleteCofirmTextBox initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+              <span>삭제하시겠습니까?</span>
+            </DeleteCofirmTextBox>
+          )}
+        </AnimatePresence>
+      )}
+    </>
   );
 };
 export default DeleteBtn;
-const DeleteButton = styled.button<{ bgColor?: string }>`
+const DeleteButton = styled.button<{ bgColor?: string; isCircle?: boolean }>`
   position: absolute;
   top: 0;
   right: 0;
@@ -90,5 +104,59 @@ const DeleteButton = styled.button<{ bgColor?: string }>`
       z-index: 1;
       transform: translate(-50%, 5px);
     }
+  }
+  ${({ isCircle }) =>
+    isCircle &&
+    css`
+      position: relative;
+      width: 100%;
+      border-radius: 50%;
+      svg {
+      }
+      span {
+        display: none;
+      }
+      :hover {
+        svg {
+          fill: #fff;
+        }
+      }
+      &.active {
+        width: 100%;
+        height: 100%;
+        svg {
+          transform: none;
+        }
+      }
+    `}
+`;
+
+const DeleteCofirmTextBox = styled(motion.div)`
+  position: absolute;
+  left: -68px;
+  top: -50px;
+  display: block;
+  width: 120px;
+  padding: 5px 0;
+  background: ${({ theme }) => theme.color.error};
+  font-size: 14px;
+  border-radius: 5px;
+  text-align: center;
+  ::after {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 15px;
+    height: 15px;
+    background: ${({ theme }) => theme.color.error};
+    right: 25px;
+    bottom: -8px;
+    transform: rotate(-45deg);
+    z-index: 2;
+  }
+  span {
+    position: relative;
+    z-index: 3;
+    color: #fff;
   }
 `;

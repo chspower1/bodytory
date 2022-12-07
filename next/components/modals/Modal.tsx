@@ -34,6 +34,10 @@ function Modal({
   width = "600px",
   height = "350px",
 }: ModalProps) {
+  const [isBrowser, setIsBrowser] = useState(false);
+  useEffect(() => {
+    setIsBrowser(true);
+  }, []);
   const modalContent = (
     <AnimatePresence>
       {show && (
@@ -60,12 +64,12 @@ function Modal({
     </AnimatePresence>
   );
 
-  return ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement);
+  return  isBrowser ? ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement) : null;
 }
 
 const ConfirmBtnBox = styled.div`
-  display:flex;
-  justify-content:center;
+  display: flex;
+  justify-content: center;
   margin-top: 30px;
   button {
     display: inline-block;
@@ -79,7 +83,7 @@ const ModalBox = styled(ModalContainer)`
   background: #fff;
   padding: 20px;
   border-radius: 10px;
-  text-align:center;
+  text-align: center;
 `;
 
 const ModalTitle = styled.div`

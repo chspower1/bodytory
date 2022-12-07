@@ -12,9 +12,9 @@ import { FlexContainer, InnerContainer } from "@styles/Common";
 import styled from "styled-components";
 import { theme } from "@styles/theme";
 import { RoundButton } from "@components/buttons/Button";
-import naver from "@public/static/icon/naver.svg";
-import kakao from "@public/static/icon/kakao.svg";
-import origin from "@public/static/icon/origin.svg";
+import Naver from "@public/static/icon/naver.svg";
+import Kakao from "@public/static/icon/kakao.svg";
+import Origin from "@public/static/icon/origin.svg";
 import Image from "next/image";
 import getAmericanAge from "@utils/client/getAmericanAge";
 import { loggedInUser } from "atoms/atoms";
@@ -106,12 +106,9 @@ export default function Edit() {
             </span>
           </UserInfo>
           <LoginStatusBox>
-            <Image
-              src={user?.type === "naver" ? naver : user?.type === "kakao" ? kakao : origin}
-              alt="logo"
-              height={50}
-              width={50}
-            />
+            {user?.type === "naver" && <Naver width={50} height={50} />}
+            {user?.type === "kakao" && <Kakao width={50} height={50} />}
+            {user?.type === "origin" && <Origin width={50} height={50} />}
           </LoginStatusBox>
           <EmailInputBox>
             <Input disabled={true} type="text" name="user-email" value={user?.email} align="left" motion={false} />
@@ -140,7 +137,7 @@ export default function Edit() {
                 error={errors.newPassword?.message}
                 align="left"
                 disabled={user?.type !== "origin"}
-                delay={.3}
+                delay={0.3}
               />
               <Input
                 $light
@@ -151,7 +148,7 @@ export default function Edit() {
                 error={errors.newPasswordConfirm?.message}
                 align="left"
                 disabled={user?.type !== "origin"}
-                delay={.6}
+                delay={0.6}
               />
             </SeperationBox>
             <SeperationBox style={{ display: "flex", justifyContent: "center" }}>

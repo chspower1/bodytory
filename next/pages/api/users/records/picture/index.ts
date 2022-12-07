@@ -50,7 +50,7 @@ handler.post(upload.array("image"), async (req, res) => {
   const files: any = req.files;
   console.log(files);
 
-  const saveFiles = files.map(async file => {
+  const saveFiles = files.map(async (file: any) => {
     await addPicture(recordId, file.location);
   });
 

@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 import type { MyHospital, MyHospitalResponse } from "pages/users/my-hospital";
 import { useEffect, useState } from "react";
 import { useSetRecoilState } from "recoil";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { ChangeToHoverColor, RectangleButton, RoundButton } from "./buttons/Button";
 import DeleteBtn from "./buttons/DeleteBtn";
 import Modal from "./modals/Modal";
@@ -49,23 +49,35 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
   return (
     <HospitalInfor add={add}>
       <HospitalInforContainer>
-        <HospitalInforBox onClick={() => setDetailModal(true)}>
+        <HospitalInforBox>
           <HospitalDescriptionBox>
-            <NameText size="18px" weight="900px" add={add}>
+            <NameText
+              size="18px"
+              weight="900px"
+              add={add}
+              onClick={() => setDetailModal(true)}
+              title={`${sliceName(hospital.name)}`}
+            >
               {sliceName(hospital.name)}
             </NameText>
-            <Department>
-              {hospital.medicalDepartments[0].medicalDepartment &&
-                hospital.medicalDepartments[0].medicalDepartment.department}
-              외 {hospital.medicalDepartments.length - 1}과목
-            </Department>
           </HospitalDescriptionBox>
           <HospitalPlaceBox>
-            <SpaceText weight="200" size="17px" add={add} title={hospital.address}>
+            <SpaceText weight="200" size="17px" add={add} title={hospital.address} onClick={() => setDetailModal(true)}>
               {hospital.address}
             </SpaceText>
           </HospitalPlaceBox>
-          {!add && <ClinicListLinkButton onClick={handleClickGoClinicList}>진료내역확인</ClinicListLinkButton>}
+          {!add && (
+            <RectangleButton
+              size="md"
+              fontSize="16px"
+              width="120px"
+              bgColor={theme.color.white}
+              textColor={theme.color.darkBg}
+              onClick={handleClickGoClinicList}
+            >
+              진료내역 보기
+            </RectangleButton>
+          )}
         </HospitalInforBox>
         {add ? (
           <AddButtonBox>
@@ -90,7 +102,11 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
             </ShareButton>
           </HospitalStatusBox>
         )}
-        {add || <DeleteBtn mutate={deleteHospitalMutate} id={hospital.id} backgroundColor="rgb(100, 106, 235)" />}
+        {add || (
+          <DeleteBtnBox>
+            <DeleteBtn mutate={deleteHospitalMutate} id={hospital.id} backgroundColor="rgb(100, 106, 235)" isCircle />
+          </DeleteBtnBox>
+        )}
       </HospitalInforContainer>
 
       <MyHospitalModal show={detailModal} onClose={() => setDetailModal(false)} hospitals={hospital}></MyHospitalModal>
@@ -131,9 +147,8 @@ export default HospitalContent;
 
 const ShareButton = styled.button<{ status: boolean }>`
   width: auto;
-  height: 50px;
-  font-size: 18px;
-  padding: 0 50px;
+  font-size: 16px;
+  padding: 12px 25px;
 
   transition: background-color 0.5s ease;
   &:hover {
@@ -148,11 +163,13 @@ const AddButtonBox = styled.div`
   flex-shrink: 0;
 `;
 
-const ClinicListLinkButton = styled.button`
-  color: #fff;
-  :hover {
-    text-decoration: underline;
-  }
+const DeleteBtnBox = styled.div`
+  position: absolute;
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
 `;
 
 const Text = styled.span<{ size?: string; weight?: string; add: boolean }>`
@@ -164,18 +181,24 @@ const Text = styled.span<{ size?: string; weight?: string; add: boolean }>`
 
 const NameText = styled(Text)`
   display: inline-block;
+  cursor: pointer;
   white-space: nowrap;
   max-width: 200px;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 
-const SpaceText = styled(Text)`
+const SpaceText = styled(Text)<{ add: boolean }>`
   display: inline-block;
-  white-space: nowrap;
-  max-width: 600px;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  ${({ add }) =>
+    !add &&
+    css`
+      max-width: 350px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    `}
+  cursor: pointer;
 `;
 export const ShareStatus = styled(Text)<{ status: boolean }>`
   padding-left: 20px;
@@ -192,9 +215,15 @@ export const ShareStatus = styled(Text)<{ status: boolean }>`
   }
 `;
 const HospitalInforBox = styled.div`
-  cursor: pointer;
   display: flex;
-  column-gap: 80px;
+  column-gap: 120px;
+
+  button {
+    font-weight: 600;
+    :hover {
+      text-decoration: underline;
+    }
+  }
 `;
 
 const HospitalInfor = styled.li<{ add: boolean }>`
@@ -222,22 +251,21 @@ const HospitalPlaceBox = styled.div`
   display: flex;
   align-items: center;
   min-width: 350px;
-  max-width: 350px;
 `;
 
 const HospitalDescriptionBox = styled.div`
   display: flex;
   align-items: center;
-  min-width: 400px;
-  max-width: 400px;
+  min-width: 200px;
+  max-width: 200px;
 `;
 
 export const HospitalStatusBox = styled.div`
   flex-shrink: 0;
   display: flex;
   align-items: center;
-  width: 300px;
-  margin-right: 35px;
+  width: 250px;
+  margin-right: 90px;
   justify-content: space-between;
 `;
 

@@ -5,9 +5,11 @@ const PersonalInformation = () => {
   return (
     <Article>
       <p className="ls2 lh6 bs5 ts4">
-        <em className="emphasis">&lt; 바디토리 &gt;('kdt-ai5-team01.elicecoding.com'이하 '바디토리')</em>은(는)
-        「개인정보 보호법」 제30조에 따라 정보주체의 개인정보를 보호하고 이와 관련한 고충을 신속하고 원활하게 처리할 수
-        있도록 하기 위하여 다음과 같이 개인정보 처리방침을 수립·공개합니다.
+        <em className="emphasis">
+          &lt; 바디토리 &gt;(&apos;kdt-ai5-team01.elicecoding.com&apos;이하 &apos;바디토리&apos;)
+        </em>
+        은(는) 「개인정보 보호법」 제30조에 따라 정보주체의 개인정보를 보호하고 이와 관련한 고충을 신속하고 원활하게
+        처리할 수 있도록 하기 위하여 다음과 같이 개인정보 처리방침을 수립·공개합니다.
       </p>
       <p className="ls2">
         ○ 이 개인정보처리방침은 <em className="emphasis">2022</em>년 <em className="emphasis">12</em>월{" "}
@@ -19,10 +21,12 @@ const PersonalInformation = () => {
           제1조(개인정보의 처리 목적)
           <br />
           <br />
-          <em className="emphasis">&lt; 바디토리 &gt;('kdt-ai5-team01.elicecoding.com'이하 '바디토리')</em>은(는) 다음의
-          목적을 위하여 개인정보를 처리합니다. 처리하고 있는 개인정보는 다음의 목적 이외의 용도로는 이용되지 않으며 이용
-          목적이 변경되는 경우에는 「개인정보 보호법」 제18조에 따라 별도의 동의를 받는 등 필요한 조치를 이행할
-          예정입니다.
+          <em className="emphasis">
+            &lt; 바디토리 &gt;(&apos;kdt-ai5-team01.elicecoding.com&apos;이하 &apos;바디토리&apos;)
+          </em>
+          은(는) 다음의 목적을 위하여 개인정보를 처리합니다. 처리하고 있는 개인정보는 다음의 목적 이외의 용도로는
+          이용되지 않으며 이용 목적이 변경되는 경우에는 「개인정보 보호법」 제18조에 따라 별도의 동의를 받는 등 필요한
+          조치를 이행할 예정입니다.
         </strong>
       </p>
       <ul className="list_indent2 mgt10">
@@ -63,7 +67,7 @@ const PersonalInformation = () => {
       <p className="lh6 bs4">
         <strong>제4조(개인정보의 제3자 제공에 관한 사항)</strong>
         <br />
-        <br /> ①{" "}
+        <br /> ①
         <em className="emphasis">
           &lt; 바디토리 &gt;은(는) 개인정보를 제1조(개인정보의 처리 목적)에서 명시한 범위 내에서만 처리하며, 정보주체의
           동의, 법률의 특별한 규정 등 「개인정보 보호법」 제17조 및 제18조에 해당하는 경우에만 개인정보를 제3자에게
@@ -202,9 +206,10 @@ const PersonalInformation = () => {
             <br />
             <br />
             3. 해킹 등에 대비한 기술적 대책
-            <br /> &lt;<em className="emphasis">바디토리</em>&gt;('<em className="emphasis">바디토리</em>')은 해킹이나
-            컴퓨터 바이러스 등에 의한 개인정보 유출 및 훼손을 막기 위하여 보안프로그램을 설치하고 주기적인 갱신·점검을
-            하며 외부로부터 접근이 통제된 구역에 시스템을 설치하고 기술적/물리적으로 감시 및 차단하고 있습니다.
+            <br /> &lt;<em className="emphasis">바디토리</em>&gt;(&apos;<em className="emphasis">바디토리</em>&apos;)은
+            해킹이나 컴퓨터 바이러스 등에 의한 개인정보 유출 및 훼손을 막기 위하여 보안프로그램을 설치하고 주기적인
+            갱신·점검을 하며 외부로부터 접근이 통제된 구역에 시스템을 설치하고 기술적/물리적으로 감시 및 차단하고
+            있습니다.
             <br />
             <br />
             4. 개인정보의 암호화
@@ -311,7 +316,7 @@ export default PersonalInformation;
 export const Article = styled.article`
   width: 800px;
   height: 400px;
-  overflow-y:scroll;
-  padding:  30px 50px;
-  text-align:left;
+  overflow-y: scroll;
+  padding: 30px 50px;
+  text-align: left;
 `;
