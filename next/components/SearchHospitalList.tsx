@@ -28,6 +28,12 @@ const SearchHospitalList = ({ add, searchWord }: SearchHospitalListProps) => {
 
   const { setTarget } = useIO(hasLastPage, ioCallback);
 
+  useEffect(() => {
+    if (searchWord) {
+      getSearchLists();
+    }
+  }, [searchWord, page]);
+
   const getSearchLists = useCallback(async () => {
     setIsLoading(() => true);
     const result = await axios.get(`/api/users/my-hospitals/find?page=${page}&search=${searchWord}`);
@@ -47,14 +53,12 @@ const SearchHospitalList = ({ add, searchWord }: SearchHospitalListProps) => {
     if (searchWord) {
       setPage(0);
       setHospitals([]);
-      getSearchLists();
     }
   }, [searchWord]);
 
   useEffect(() => {
-    console.log("observerTarget");
     if (observerTarget) setTarget(observerTarget.current);
-  }, [observerTarget, setTarget]);
+  }, [observerTarget, setTarget, []]);
 
   return (
     <HospitalContainer add={add}>
