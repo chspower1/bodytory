@@ -42,7 +42,7 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
     router.push("/users/my-hospital/clinic-list");
     setHospitalCurrentIdx(idx);
   };
-  console.log(hospital, "fdskfhsdajk");
+  // console.log(hospital.name, shared, onShare);
   // useEffect(() => {
   //   setOnShare(shared);
   // }, [shared]);

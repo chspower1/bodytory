@@ -65,7 +65,8 @@ async function findHospital(req: NextApiRequest, res: NextApiResponse) {
     ...foundNotMyHospitals.map(hospital => ({ ...hospital, my: false })),
   ];
   const isLastPage = foundHospitals.length === 0 ? true : false;
-  console.log("등록된", foundMyHospitals, "등록 안된", foundNotMyHospitals);
+  // console.log("등록된", foundMyHospitals, "등록 안된", foundNotMyHospitals);
+  console.log(foundHospitals.length);
   res.status(200).json({ foundHospitals, status: isLastPage });
 }
 

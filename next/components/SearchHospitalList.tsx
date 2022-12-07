@@ -1,7 +1,10 @@
+import useIO from "@hooks/useIO";
 import { Hospital } from "@prisma/client";
 import { theme } from "@styles/theme";
+import { useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
 import { MyHospital, MyHospitalResponse } from "pages/users/my-hospital";
-import { LegacyRef, MouseEvent, useState } from "react";
+import { LegacyRef, MouseEvent, useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import HospitalContent from "./HospitalContent";
 import ListSkeleton from "./skeletonUI/ListSkeleton";
@@ -9,11 +12,48 @@ import ListSkeleton from "./skeletonUI/ListSkeleton";
 interface SearchHospitalListProps {
   hospitals?: MyHospital[];
   add: boolean;
-  setobserverTarget?: LegacyRef<HTMLDivElement> | null;
-  isLoading?: boolean;
+  searchWord: string;
 }
 
-const SearchHospitalList = ({ hospitals, add, setobserverTarget, isLoading }: SearchHospitalListProps) => {
+const SearchHospitalList = ({ add, searchWord }: SearchHospitalListProps) => {
+  const queryclient = useQueryClient();
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasLastPage, setHasLastPage] = useState(false);
+  const [hospitals, setHospitals] = useState<MyHospital[]>([]);
+  const [page, setPage] = useState<number>(0);
+  const ioCallback = () => {
+    setPage(page => page + 1);
+    page !== 0 && getSearchLists();
+  };
+
+  const { setTarget } = useIO(hasLastPage, ioCallback);
+
+  const getSearchLists = useCallback(async () => {
+    setIsLoading(() => true);
+    const result = await axios.get(`/api/users/my-hospitals/find?page=${page}&search=${searchWord}`);
+    setHasLastPage(() => result.data.status);
+    setHospitals((current: MyHospital[]) => {
+      const array = [...current];
+      if (array) {
+        array.push(...result.data.foundHospitals);
+      }
+      return [...new Set(array)];
+    });
+    setIsLoading(() => false);
+    queryclient.invalidateQueries(["isMyHospital"]);
+  }, [searchWord, page]);
+
+  useEffect(() => {
+    if (searchWord) {
+      setPage(0);
+      setHospitals([]);
+    }
+  }, [searchWord]);
+
+  useEffect(() => {
+    page === 0 && getSearchLists();
+  }, [page, searchWord]);
+
   return (
     <HospitalContainer add={add}>
       <InnerContainer add={add}>
@@ -21,9 +61,18 @@ const SearchHospitalList = ({ hospitals, add, setobserverTarget, isLoading }: Se
         {hospitals?.length !== 0 && (
           <HospitalLists>
             {hospitals?.map((hospital, idx) => (
-              <HospitalContent hospital={hospital} idx={idx} add={add} key={idx} shared={false} />
+              <HospitalContent hospital={hospital} idx={hospital.id} add={add} key={idx} shared={false} />
             ))}
-            {isLoading ? <ListSkeleton backgroundColor="rgb(225,227,255)" /> : <div ref={setobserverTarget} />}
+            {isLoading ? (
+              <ListSkeleton backgroundColor="rgb(225,227,255)" />
+            ) : (
+              <div
+                style={{ width: "1px", height: "1px" }}
+                ref={(ref: any) => {
+                  setTarget(ref);
+                }}
+              />
+            )}
           </HospitalLists>
         )}
         {hospitals?.length === 0 && !isLoading && (
