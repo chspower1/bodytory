@@ -14,6 +14,9 @@ export const USER_LOGIN = "userLoginKey";
 export const USER_WITHDRAW = "userWithdrawKey";
 export const USER_CHANGE_PASSWORD = "userChangePasswordKey";
 
+/* Hospital 관련 키 */
+export const HOSPITAL_LOGIN = "hospitalLoginKey";
+
 /* register 관련 키 */
 export const REGISTER_SIGNUP = "registerSignUpKey";
 

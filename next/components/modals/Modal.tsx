@@ -6,7 +6,7 @@ import { RoundButton } from "../buttons/Button";
 import { AnimatePresence, motion } from "framer-motion";
 import { Dim, ModalContainer, ModalWrapper } from "@styles/ModalStyled";
 
-interface ModalType {
+interface ModalProps {
   show: boolean;
   closingComment?: boolean;
   onClose: () => void;
@@ -15,6 +15,8 @@ interface ModalType {
   children?: string | ReactNode;
   agreeType?: boolean;
   terms?: boolean;
+  width?: string;
+  height?: string;
 }
 /**
  * @show 필수 입니다.
@@ -29,13 +31,15 @@ function Modal({
   title = "알림",
   agreeType = false,
   terms = false,
-}: ModalType) {
+  width = "600px",
+  height = "350px",
+}: ModalProps) {
   const modalContent = (
     <AnimatePresence>
       {show && (
         <ModalWrapper>
           <Dim onClick={onClose} />
-          <ModalContainer width="900px" height="700px">
+          <ModalBox width="auto" height="auto">
             <ModalTitle>
               <h3>{title}</h3>
             </ModalTitle>
@@ -50,16 +54,18 @@ function Modal({
                 </RoundButton>
               )}
             </ConfirmBtnBox>
-          </ModalContainer>
+          </ModalBox>
         </ModalWrapper>
       )}
     </AnimatePresence>
   );
 
-  return show ? ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement) : null;
+  return ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement);
 }
 
 const ConfirmBtnBox = styled.div`
+  display:flex;
+  justify-content:center;
   margin-top: 30px;
   button {
     display: inline-block;
@@ -69,14 +75,11 @@ const ConfirmBtnBox = styled.div`
   }
 `;
 
-const ModalBox = styled.div`
-  display: inline-block;
-  min-width: 400px;
+const ModalBox = styled(ModalContainer)`
   background: #fff;
-  margin: auto;
   padding: 20px;
   border-radius: 10px;
-  margin: auto;
+  text-align:center;
 `;
 
 const ModalTitle = styled.div`

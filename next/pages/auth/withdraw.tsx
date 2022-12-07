@@ -7,14 +7,12 @@ import { USER_WITHDRAW } from "constant/queryKeys";
 import { useRecoilState } from "recoil";
 import { loggedInUser } from "atoms/atoms";
 import Modal from "@components/modals/Modal";
-import { FlexContainer, InnerContainer } from "@styles/Common";
+import { FlexContainer } from "@styles/Common";
 import MessageBox from "@components/MessageBox";
 import Input from "@components/Input";
 import { RectangleButton } from "@components/buttons/Button";
 import styled from "styled-components";
-import HospitalModalInner from "@components/hospitals/HospitalModalInner";
 import { PASSWORD_REGEX } from "constant/regex";
-import Header from "@components/header/Header";
 
 export interface WithdrawType {
   password: string;
@@ -84,7 +82,7 @@ export default function Withdraw() {
         ></MessageBox>
         {isOrigin && (
           <Input
-            light
+            $light
             type="password"
             register={register("password", {
               required: "회원탈퇴를 하시려면\n비밀번호로 인증 해주셔야해요",
@@ -95,6 +93,7 @@ export default function Withdraw() {
             })}
             placeholder="●●●●●●"
             error={errors.password}
+            motion={false}
           />
         )}
         <ButtonBox>

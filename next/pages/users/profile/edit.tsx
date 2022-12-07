@@ -114,7 +114,7 @@ export default function Edit() {
             />
           </LoginStatusBox>
           <EmailInputBox>
-            <Input disabled={true} type="text" name="user-email" value={user?.email} align="left" />
+            <Input disabled={true} type="text" name="user-email" value={user?.email} align="left" motion={false} />
           </EmailInputBox>
         </div>
         <div>
@@ -122,7 +122,7 @@ export default function Edit() {
             <h2>비밀번호 변경</h2>
             <SeperationBox>
               <Input
-                light
+                $light
                 name="oldPassword"
                 type="password"
                 register={register("oldPassword", { required: "현재 비밀번호를 입력해주세요" })}
@@ -132,7 +132,7 @@ export default function Edit() {
                 disabled={user?.type !== "origin"}
               />
               <Input
-                light
+                $light
                 name="newPassword"
                 type="password"
                 register={register("newPassword", { required: "새로운 비밀번호를 입력해주세요" })}
@@ -140,9 +140,10 @@ export default function Edit() {
                 error={errors.newPassword?.message}
                 align="left"
                 disabled={user?.type !== "origin"}
+                delay={.3}
               />
               <Input
-                light
+                $light
                 name="newPasswordConfirm"
                 type="password"
                 register={register("newPasswordConfirm", { required: "새로운 비밀번호확인을 입력해주세요" })}
@@ -150,6 +151,7 @@ export default function Edit() {
                 error={errors.newPasswordConfirm?.message}
                 align="left"
                 disabled={user?.type !== "origin"}
+                delay={.6}
               />
             </SeperationBox>
             <SeperationBox style={{ display: "flex", justifyContent: "center" }}>

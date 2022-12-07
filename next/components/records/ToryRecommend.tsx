@@ -4,11 +4,13 @@ import IconHospital from "@public/static/icon/icon_hospital.png";
 import IconWarning from "@public/static/icon/icon_warning.png";
 import { useState } from "react";
 import Modal from "@components/modals/Modal";
-import ArroundMap from "@components/modals/ArroundMap";
+import ArroundMap from "@components/modals/map/ArroundMap";
+import { AnimatePresence } from "framer-motion";
+import useCoords from "@hooks/useCoords";
 
 function ToryRecommend() {
   const [showModal, setShowModal] = useState(false);
-
+  const { latitude, longitude } = useCoords();
   const handleClickLogout = async () => {};
 
   return (
@@ -30,8 +32,9 @@ function ToryRecommend() {
           가까운 의료기관을 내원해주세요
         </Warning>
       </ToryRecommendContainer>
-
-      <ArroundMap show={showModal} onClose={() => setShowModal(false)} />
+      <AnimatePresence>
+        {showModal && <ArroundMap latitude={latitude!} longitude={longitude!} onClose={() => setShowModal(false)} />}
+      </AnimatePresence>
     </>
   );
 }

@@ -5,8 +5,9 @@ import { withApiSession } from "@utils/server/withSession";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") return await addHospital(req, res);
-
   if (req.method === "GET") return await myHospitalList(req, res);
+  if (req.method === "PUT") return await shareHospital(req, res);
+  if (req.method === "DELETE") return await deleteHospital(req, res);
 
   // if (req.method === "DELETE") return await deleteHospital(req, res);
 }
@@ -15,6 +16,13 @@ async function addHospital(req: NextApiRequest, res: NextApiResponse) {
   const { id } = req.body;
   const { user } = req.session;
   if (!user) return res.status(401).send("회원 정보를 확인해주세요");
+  const isConnected = await client.hospitalToUser.findFirst({
+    where: {
+      hospitalId: id,
+      userId: user.id,
+    },
+  });
+  if (isConnected) return res.status(204).end();
   await client.hospitalToUser.create({
     data: {
       hospitalId: id,
@@ -23,7 +31,27 @@ async function addHospital(req: NextApiRequest, res: NextApiResponse) {
   });
   return res.status(200).end();
 }
-
+async function shareHospital(req: NextApiRequest, res: NextApiResponse) {
+  const { id } = req.body;
+  const { user } = req.session;
+  if (!user) return res.status(401).send("회원 정보를 확인해주세요");
+  const isConnected = await client.hospitalToUser.findFirst({
+    where: {
+      hospitalId: id,
+      userId: user.id,
+    },
+  });
+  if (!isConnected) return res.status(204).end();
+  await client.hospitalToUser.update({
+    where: {
+      id: isConnected.id,
+    },
+    data: {
+      shared: !isConnected.shared,
+    },
+  });
+  return res.status(200).end();
+}
 async function myHospitalList(req: NextApiRequest, res: NextApiResponse) {
   const { user } = req.session;
   if (!user) return res.status(401).send("회원 정보를 확인해주세요");
@@ -34,6 +62,7 @@ async function myHospitalList(req: NextApiRequest, res: NextApiResponse) {
     select: {
       hospitals: {
         select: {
+          shared: true,
           hospital: {
             include: {
               medicalDepartments: {
@@ -47,15 +76,29 @@ async function myHospitalList(req: NextApiRequest, res: NextApiResponse) {
       },
     },
   });
+  console.log(data?.hospitals);
   return res.status(200).json(data?.hospitals);
 }
-
-/* async function deleteHospital(req: NextApiRequest, res: NextApiResponse) {
+async function deleteHospital(req: NextApiRequest, res: NextApiResponse) {
+  console.log("delete 함수 실행");
   const { id } = req.body;
-  await client.user.delete({
-    
+  const { user } = req.session;
+  if (!user) return res.status(401).send("회원 정보를 확인해주세요");
+  const isConnected = await client.hospitalToUser.findFirst({
+    where: {
+      hospitalId: id,
+      userId: user.id,
+    },
   });
+  if (!isConnected) return res.status(204).end();
+  const result = await client.hospitalToUser.deleteMany({
+    where: {
+      hospitalId: id,
+      userId: user.id,
+    },
+  });
+  console.log(result);
   return res.status(200).end();
-} */
+}
 
 export default withApiSession(withHandler({ methods: ["POST", "GET", "PUT", "DELETE"], handler }));

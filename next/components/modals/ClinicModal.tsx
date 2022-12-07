@@ -37,7 +37,7 @@ const ClinicModal = ({
       {show && (
         <ModalWrapper>
           <Dim onClick={onClose} />
-          <ModalContainer width="860px">
+          <ModalContainer width="860px" height="auto">
             <ModalHead>
               <h3>{name}</h3>
               <p>
@@ -73,7 +73,7 @@ const ClinicModal = ({
       )}
     </AnimatePresence>
   );
-  return show ? ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement) : null;
+  return ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement);
 };
 
 export default ClinicModal;

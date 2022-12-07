@@ -9,13 +9,22 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 async function findHospital(req: NextApiRequest, res: NextApiResponse) {
+  const { user } = req.session;
   const { page, search } = req.query;
   console.log(page, "page", search, "search");
   const pagenation = Number(page) * 10;
-  const foundHospital = await client.hospital.findMany({
+  if (!user) return res.status(401).end();
+  const foundMyHospitals = await client.hospital.findMany({
     where: {
       name: {
         search: String(search),
+      },
+      NOT: {
+        users: {
+          none: {
+            userId: user.id,
+          },
+        },
       },
     },
     include: {
@@ -28,9 +37,37 @@ async function findHospital(req: NextApiRequest, res: NextApiResponse) {
     skip: pagenation,
     take: 10,
   });
-  const isLastPage = foundHospital.length === 0 ? true : false;
-
-  res.status(200).json({ foundHospital, status: isLastPage });
+  const foundNotMyHospitals = await client.hospital.findMany({
+    where: {
+      name: {
+        search: String(search),
+      },
+      NOT: {
+        users: {
+          some: {
+            userId: user.id,
+          },
+        },
+      },
+    },
+    include: {
+      medicalDepartments: {
+        include: {
+          medicalDepartment: true,
+        },
+      },
+    },
+    skip: pagenation,
+    take: 10,
+  });
+  const foundHospitals = [
+    ...foundMyHospitals.map(hospital => ({ ...hospital, my: true })),
+    ...foundNotMyHospitals.map(hospital => ({ ...hospital, my: false })),
+  ];
+  const isLastPage = foundHospitals.length === 0 ? true : false;
+  // console.log("등록된", foundMyHospitals, "등록 안된", foundNotMyHospitals);
+  console.log(foundHospitals.length);
+  res.status(200).json({ foundHospitals, status: isLastPage });
 }
 
 export default withApiSession(withHandler({ methods: ["POST", "GET", "PUT", "DELETE"], handler }));

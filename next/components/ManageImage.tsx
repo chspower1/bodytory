@@ -12,8 +12,9 @@ import "swiper/css/navigation";
 import { Pagination, Navigation, Mousewheel } from "swiper";
 import { useState } from "react";
 import IconAddImage from "@public/static/icon/icon_addImage.png";
+import ImageDetailModal from "./modals/ImageDetailModal";
 
-export default function ManageImage({ recordId, recordImages }: { recordId: string; recordImages: RecordImage[] }) {
+const ManageImage = ({ recordId, recordImages, isHospital }: { recordId: string; recordImages: RecordImage[]; isHospital ?: boolean })=>{
   const queryClient = useQueryClient();
 
   const uploadImageMutation = useMutation(uploadImageApi, {
@@ -27,12 +28,12 @@ export default function ManageImage({ recordId, recordImages }: { recordId: stri
       queryClient.invalidateQueries([RECORDS_READ]);
     },
   });
-
+  const [showImageDetailModal, setShowImageDetailModal] = useState(-1);
   const [isHover, setIsHover] = useState(-1);
 
   return (
     <div>
-      <UploadImageButton onClick={() => uploadImage(recordId, uploadImageMutation.mutate)}>사진 추가</UploadImageButton>
+      {isHospital || <UploadImageButton onClick={() => uploadImage(recordId, uploadImageMutation.mutate)}>사진 추가</UploadImageButton>}
       {recordImages.length !== 0 ? (
         <ImageSlideContainer>
           <Swiper
@@ -49,20 +50,37 @@ export default function ManageImage({ recordId, recordImages }: { recordId: stri
             {recordImages.map((elem, key) => (
               <SwiperSlide key={key}>
                 <ImageBox onMouseEnter={() => setIsHover(key)} onMouseLeave={() => setIsHover(-1)}>
-                  <Image src={elem.url} alt="증상 이미지" width={100} height={100} />
+                  <Image
+                    src={elem.url}
+                    alt="증상 이미지"
+                    fill
+                    onClick={() => {
+                      console.log(key);
+                      setShowImageDetailModal(key);
+                    }}
+                  />
                   {isHover === key && <DeleteButton onClick={() => deleteImageMutation.mutate(elem.id)}></DeleteButton>}
+
+                  <ImageDetailModal
+                    show={showImageDetailModal}
+                    onClose={() => setShowImageDetailModal(-1)}
+                    setShow={setShowImageDetailModal}
+                    url={elem.url}
+                    index={key}
+                    imagesLength={recordImages.length}
+                  />
                 </ImageBox>
               </SwiperSlide>
             ))}
           </Swiper>
         </ImageSlideContainer>
       ) : (
-        <NoImage>증상과 관련된 이미지를 추가해주세요</NoImage>
+        <NoImage>{isHospital ? "이미지가 없어요" : "증상과 관련된 이미지를 추가해주세요"}</NoImage>
       )}
     </div>
   );
 }
-
+export default  ManageImage;
 const ImageSlideContainer = styled.div`
   width: 100%;
   height: 300px;
@@ -144,7 +162,7 @@ const DeleteButton = styled.button`
   right: 6px;
   width: 30px;
   height: 30px;
-  background: url("/delete.png") no-repeat 50% 50%/80%;
+  background: url("/static/icon/delete.png") no-repeat 50% 50%/80%;
 `;
 
 const UploadImageButton = styled.button`
