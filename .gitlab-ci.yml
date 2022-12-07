@@ -23,7 +23,6 @@ deploy:
     script:
         - docker stop team01-next-1
         - docker rm team01-next-1
-        - docker rmi team01-next
         - docker-compose up -d
         - docker ps
         - env
