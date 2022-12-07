@@ -2,12 +2,13 @@ stages:
   - deploy
 
 deploy:
+  image: docker:latest
   stage: deploy
   only:
     - dev
     - feat/connect-api
   script:
-    - cp $ENV_FILE .env
+    - cp ${ENV_FILE} ${PWD}/.env
     - docker-compose config
     - docker-compose build
     - docker-compose up -d
