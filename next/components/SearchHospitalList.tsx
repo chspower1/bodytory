@@ -2,7 +2,8 @@ import useIO from "@hooks/useIO";
 import { Hospital } from "@prisma/client";
 import { Container, FlexContainer } from "@styles/Common";
 import { theme } from "@styles/theme";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import customApi from "@utils/client/customApi";
 import axios from "axios";
 import { MyHospital, MyHospitalResponse } from "pages/users/my-hospital";
 import { LegacyRef, MouseEvent, useCallback, useEffect, useRef, useState } from "react";
@@ -13,64 +14,66 @@ import HospitalContent from "./HospitalContent";
 import Input from "./Input";
 import ListSkeleton from "./skeletonUI/ListSkeleton";
 
-interface SearchHospitalListProps {
-  hospitals?: MyHospital[];
-  add: boolean;
-  searchWord: string;
+interface SearchHospitalListResponse {
+  foundHospitals: MyHospital[];
+  isLastPage: boolean;
 }
 interface SearchForm {
   search: string;
 }
 const SearchHospitalList = () => {
-  const queryclient = useQueryClient();
-  const [isLoading, setIsLoading] = useState(false);
   const [hasLastPage, setHasLastPage] = useState(false);
   const [hospitals, setHospitals] = useState<MyHospital[]>([]);
   const [page, setPage] = useState<number>(0);
   const [searchWord, setSearchWord] = useState<string>("");
+
   const {
     register,
     handleSubmit,
     setValue,
     formState: { errors },
   } = useForm<SearchForm>({ mode: "onChange" });
+  const { getApi } = customApi(`/api/users/my-hospitals/find?page=${page}&search=${searchWord}`);
+  const { isLoading, refetch, isFetching } = useQuery<SearchHospitalListResponse>(
+    ["hospitals", searchWord, page],
+    getApi,
+    {
+      enabled: Boolean(searchWord) && !hasLastPage,
+      onSuccess(data) {
+        console.log("Success");
+        setHasLastPage(data.isLastPage);
+        setHospitals(prev => [...prev, ...data.foundHospitals]);
+      },
+    },
+  );
 
   const onValid = useCallback(async (searchForm: SearchForm) => {
     setSearchWord(searchForm.search);
     setValue("search", "");
   }, []);
+
   const ioCallback = () => {
-    setPage(page => page + 1);
-    page !== 0 && getSearchLists();
+    console.log(isLoading);
+    if (!isFetching) {
+      setPage(page => page + 1);
+    }
   };
 
   const { setTarget } = useIO(hasLastPage, ioCallback);
 
-  const getSearchLists = useCallback(async () => {
-    setIsLoading(() => true);
-    const result = await axios.get(`/api/users/my-hospitals/find?page=${page}&search=${searchWord}`);
-    setHasLastPage(() => result.data.status);
-    setHospitals((current: MyHospital[]) => {
-      const array = [...current];
-      if (array) {
-        array.push(...result.data.foundHospitals);
-      }
-      return [...new Set(array)];
-    });
-    setIsLoading(() => false);
-    queryclient.invalidateQueries(["isMyHospital"]);
-  }, [searchWord, page]);
-
   useEffect(() => {
+    console.log(Boolean(searchWord), searchWord);
     if (searchWord) {
       setPage(0);
+
       setHospitals([]);
+      refetch();
     }
   }, [searchWord]);
 
   useEffect(() => {
-    page === 0 && getSearchLists();
-  }, [page, searchWord]);
+    refetch();
+  }, [page]);
 
   return (
     <SearchContainer>
