@@ -1,5 +1,5 @@
 import { RoundButton } from "@components/buttons/Button";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { bodyPartType } from "types/bodyParts";
 import OutlineBack from "./svg/OutlineBack";
@@ -47,9 +47,14 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage, isH
   const position = query.position as Position;
 
   const [hoveredPart, setHoveredPart] = useState("");
-  // const [currentBodyPosition, setCurrentBodyPosition] = useState<currentBodyPosition>("front");
-
   const [currentPosition, setCurrentPosition] = useRecoilState(currentBodyPosition);
+
+  const [currentPos, setCurrentPos] = useState("");
+
+  useEffect(() => {
+    if(currentPosition) setCurrentPos(currentPosition);
+  }, [currentPosition]);
+
 
   return (
     <CustomContainer
@@ -58,13 +63,13 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage, isH
       transition={{ duration: 0.7, type: "tween", ease: "easeOut" }}
       isWritePage={isWritePage}
     >
-      {currentPosition !== "face" ? (
+      {currentPos !== "face" ? (
         <ButtonsBox>
           <RoundButton
             width="90px"
             height="50px"
             onClick={() => setCurrentPosition("front")}
-            bgColor={currentPosition !== "front" ? "rgb(188, 197, 255)" : undefined}
+            bgColor={currentPos !== "front" ? "rgb(188, 197, 255)" : undefined}
           >
             앞
           </RoundButton>
@@ -72,18 +77,18 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage, isH
             width="90px"
             height="50px"
             onClick={() => setCurrentPosition("back")}
-            bgColor={currentPosition !== "back" ? "rgb(188, 197, 255)" : undefined}
+            bgColor={currentPos !== "back" ? "rgb(188, 197, 255)" : undefined}
           >
             뒤
           </RoundButton>
         </ButtonsBox>
       ) : (
         <ButtonsBox>
-          {currentPosition !== "face" || (
+          {currentPos !== "face" || (
             <RoundButton
               width="90px"
               height="50px"
-              bgColor={currentPosition === "face" ? "rgb(188, 197, 255)" : undefined}
+              bgColor={currentPos === "face" ? "rgb(188, 197, 255)" : undefined}
               onClick={() => setCurrentPosition("front")}
             >
               몸
@@ -93,7 +98,7 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage, isH
       )}
 
       <PathBox>
-        {currentPosition === "front" && (
+        {currentPos === "front" && (
           <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 414 792" fill="none">
             <g id="partArea__front">
               {bodyFront.map((part, index) => {
@@ -166,7 +171,7 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage, isH
           </svg>
         )}
 
-        {currentPosition === "back" && (
+        {currentPos === "back" && (
           <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 409 769" fill="none">
             <g id="partArea__back">
               {bodyBack.map((part, index) => {
@@ -239,7 +244,7 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage, isH
           </svg>
         )}
 
-        {currentPosition === "face" && (
+        {currentPos === "face" && (
           <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 470 543" fill="none">
             <g id="partArea__face">
               {face.map((part, index) => {

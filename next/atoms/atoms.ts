@@ -24,7 +24,8 @@ export const currentHospitalIdx = atom<number>({
 
 export const currentBodyPosition = atom<string>({
   key: "currentBodyPositionKey",
-  default: "front"
+  default: "front",
+  effects_UNSTABLE: [persistAtom],
 });
 
 export const currentPatientInfo = atom<{name: string; id: number | null}>({
