@@ -7,20 +7,19 @@ deploy:
   only:
     - dev
     - feat/connect-api
-  before_script:
-    - echo -e "DATABASE_URL="$DATABASE_URL >> .env
-    - echo -e "\nCOOKIE_PASSWORD="$COOKIE_PASSWORD >> .env
-    - echo -e "\nMAIL_ID="$MAIL_ID >> .env
-    - echo -e "\nMAIL_PASSWORD="$MAIL_PASSWORD >> .env
-    - echo -e "\nNEXT_PUBLIC_NAVER_CLIENT_ID="$NEXT_PUBLIC_NAVER_CLIENT_ID >> .env
-    - echo -e "\nNEXT_PUBLIC_NAVER_CLIENT_SECRET="$NEXT_PUBLIC_NAVER_CLIENT_SECRET >> .env
-    - echo -e "\nNEXT_PUBLIC_KAKAO_KEY="$NEXT_PUBLIC_KAKAO_KEY >> .env
-    - echo -e "\nAI_API_KEY="$AI_API_KEY >> .env
-    - echo -e "\nGITHUB_ID="$GITHUB_ID >> .env
-    - echo -e "\nGITHUB_SECRET="$GITHUB_SECRET >> .env
-    - echo -e "\nNEXTAUTH_URL="$NEXTAUTH_URL >> .env
-    - echo -e "\nFLASK_API=http://flask:8080" >> .env
-    - mv .env /builds/ai_track/class05/ai_project/team01/team01
+  variables:
+    DATABASE_URL: $DATABASE_URL
+    COOKIE_PASSWORD: $COOKIE_PASSWORD
+    MAIL_ID: $MAIL_ID
+    MAIL_PASSWORD: $MAIL_PASSWORD
+    NEXT_PUBLIC_NAVER_CLIENT_ID: $NEXT_PUBLIC_NAVER_CLIENT_ID
+    NEXT_PUBLIC_NAVER_CLIENT_SECRET: $NEXT_PUBLIC_NAVER_CLIENT_SECRET
+    NEXT_PUBLIC_KAKAO_KEY: $NEXT_PUBLIC_KAKAO_KEY
+    AI_API_KEY: $AI_API_KEY
+    GITHUB_ID: $GITHUB_ID
+    GITHUB_SECRET: $GITHUB_SECRET
+    NEXTAUTH_URL: $NEXTAUTH_URL
+    FLASK_API: http://flask:8080
   script:
     - docker-compose config
     - docker-compose build
