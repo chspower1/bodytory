@@ -21,6 +21,7 @@ deploy:
     NEXTAUTH_URL: $NEXTAUTH_URL
     FLASK_API: http://flask:8080
   script:
+    - source ./env
     - docker-compose config
     - docker-compose build
     - docker-compose up -d
