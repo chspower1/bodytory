@@ -24,5 +24,6 @@ deploy:
         - docker stop team01-next-1
         - docker rm team01-next-1
         - docker-compose up -d
+        - docker rmi team01-next
         - docker ps
         - env
