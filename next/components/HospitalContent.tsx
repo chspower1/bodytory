@@ -52,7 +52,7 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
     <HospitalInfor add={add}>
       <HospitalInforContainer>
         <HospitalInforBox>
-          <HospitalDescriptionBox>
+          <HospitalDescriptionBox add={add}>
             <NameText
               size="18px"
               weight="900px"
@@ -62,12 +62,14 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
             >
               {sliceName(hospital.name)}
             </NameText>
-            <Department>
-              <Text weight="500" size="16px">
-                {department[0].medicalDepartment && department[0].medicalDepartment.department}
-              </Text>
-              <Text size="16px">&nbsp;{department.length === 1 || `외 ${department.length - 1} 과목`}</Text>
-            </Department>
+            {add && (
+              <Department>
+                <Text weight="500" size="16px">
+                  {department[0].medicalDepartment && department[0].medicalDepartment.department}
+                </Text>
+                <Text size="16px">&nbsp;{department.length === 1 || `외 ${department.length - 1} 과목`}</Text>
+              </Department>
+            )}
           </HospitalDescriptionBox>
           <HospitalPlaceBox add={add}>
             <SpaceText weight="300" size="17px" add={add} title={hospital.address} onClick={() => setDetailModal(true)}>
@@ -274,10 +276,10 @@ const HospitalPlaceBox = styled.div<{ add?: boolean }>`
   width: ${props => (props.add ? "500px" : "270px")};
 `;
 
-const HospitalDescriptionBox = styled.div`
+const HospitalDescriptionBox = styled.div<{ add?: boolean }>`
   display: flex;
   align-items: center;
-  width: 400px;
+  width: ${props => (props.add ? "400px" : "270px")};
 `;
 
 export const HospitalStatusBox = styled.div`
