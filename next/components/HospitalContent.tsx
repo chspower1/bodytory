@@ -84,13 +84,14 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
             <RectangleButton
               nonSubmit
               size="md"
-              bgColor={onConnected ? theme.color.error : theme.color.darkBg}
+              bgColor={onConnected ? `rgba(188, 197, 255, 1)` : theme.color.darkBg}
               onClick={() => {
                 setShowModal(true);
               }}
             >
               {onConnected ? "삭제" : "추가"}
             </RectangleButton>
+            {onConnected && <span>내 병원</span>}
           </AddButtonBox>
         ) : (
           <HospitalStatusBox>
@@ -161,6 +162,17 @@ const ShareButton = styled.button<{ status: boolean }>`
 
 const AddButtonBox = styled.div`
   flex-shrink: 0;
+  position: relative;
+
+  span{
+    position:absolute;
+    left: -70px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size : 16px;
+    font-weight: 600;
+    color: ${({theme}) => theme.color.input};
+  }
 `;
 
 const DeleteBtnBox = styled.div`

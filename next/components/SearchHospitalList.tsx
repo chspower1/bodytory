@@ -108,7 +108,7 @@ const InnerContainer = styled.div<{ add: boolean }>`
 
 const HospitalContainer = styled.div<{ add: boolean }>`
   width: 1600px;
-  height: 580px;
+  height: 574px;
   background-color: ${prop => (prop.add ? "#f2f3ff" : "#d9deff")};
   border-radius: 40px;
   padding: 30px 30px 0;
