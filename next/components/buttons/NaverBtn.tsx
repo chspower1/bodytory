@@ -24,7 +24,7 @@ const NaverLoginBtn = ({ mutate, size, kind }: SocialBtnProps) => {
     const login = () => {
       naverLogin = new naver.LoginWithNaverId({
         clientId: process.env.NEXT_PUBLIC_NAVER_CLIENT_ID, // ClientID
-        callbackUrl: "http://localhost:3000/auth/login/loading", // Callback URL
+        callbackUrl: "https://kdt-ai5-team01.elicecoding.com/auth/login/loading", // Callback URL
         isPopup: false, // 팝업 형태로 인증 여부
         loginButton: {
           color: "green", // 색상
