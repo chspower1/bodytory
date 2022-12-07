@@ -23,6 +23,7 @@ export interface InputProps {
   light?: boolean;
   white?: string;
   motion?: boolean;
+  delay ?: number;
 }
 
 export default function Input({
@@ -44,6 +45,7 @@ export default function Input({
   light,
   motion = true,
   white = "false",
+  delay = 0,
 }: InputProps) {
   return (
     <InputBox width={width} height={height}>
@@ -55,7 +57,8 @@ export default function Input({
                 y: 0,
                 opacity: 1,
                 transition: {
-                  duration: 1,
+                  delay: delay,
+                  duration: .6,
                 },
               }
             : { opacity: 1 }
@@ -66,7 +69,7 @@ export default function Input({
                 y: 30,
                 opacity: 0,
                 transition: {
-                  duration: 1,
+                  duration: .6,
                 },
               }
             : { opacity: 1 }
