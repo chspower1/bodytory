@@ -1,6 +1,6 @@
 import EventMarkerContainer from "@components/Maker";
 import MapDetailModal from "@components/modals/map/MapDetailModal";
-import { Box } from "@styles/Common";
+import { Box, Container } from "@styles/Common";
 import { useQuery } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
 import { useEffect, useState } from "react";
@@ -39,12 +39,10 @@ const ArroundMap = ({ width, height, latitude, longitude, department }: ArroundM
   const [coords, setCoords] = useState<Coords>({ latitude, longitude });
   const { getApi } = customApi(`/api/users/my-hospitals/map?latitude=${latitude}&longitude=${longitude}`);
 
-  const { isLoading } = useQuery<AroundMapHospitalsResponse>(["hospitalsMap", "map"], getApi, {
-    onSuccess(data) {
-      setHospitals(data);
-    },
-  });
-  useEffect(() => {}, [department]);
+  const { isLoading, data } = useQuery<AroundMapHospitalsResponse>(["hospitalsMap", "map"], getApi);
+  useEffect(() => {
+    setHospitals(data);
+  }, [department, data]);
   const handleClickMarker = ({
     index,
     longitude,
@@ -58,45 +56,56 @@ const ArroundMap = ({ width, height, latitude, longitude, department }: ArroundM
     setClickIndex(index);
     setCoords({ latitude: latitude + 0.001, longitude: longitude });
   };
-  return isLoading ? (
-    <Map
-      center={{
-        lat: coords.latitude,
-        lng: coords.longitude,
-      }}
-      isPanto={true}
-      style={{
-        width,
-        height,
-      }}
-      level={3}
-    >
-      <MapMarker
-        position={{ lat: latitude!, lng: longitude! }}
-        image={{
-          src: "https://imagedelivery.net/AbuMCvvnFZBtmCKKJV_e6Q/e545a9f3-61fc-49de-df91-a3f5b4e08200/avatar", // 마커이미지의 주소입니다
-          size: {
-            width: 45,
-            height: 45,
-          },
-          options: {
-            offset: {
-              x: 23,
-              y: 0,
-            },
-          },
-        }}
-      />
-      {hospitals?.map((hospital, index) => (
-        <MarkerBox key={index}>
-          <EventMarkerContainer hospital={hospital} index={index} handleClickMarker={handleClickMarker} />
-          <MapDetailModal clickIndex={clickIndex} setClickIndex={setClickIndex} index={index} hospital={hospital} />
-        </MarkerBox>
-      ))}
-    </Map>
-  ) : null;
+  return (
+    <MapContainer width={width} height={height}>
+      {!isLoading && (
+        <Map
+          center={{
+            lat: coords.latitude,
+            lng: coords.longitude,
+          }}
+          isPanto={true}
+          style={{
+            width,
+            height,
+          }}
+          level={3}
+        >
+          <MapMarker
+            position={{ lat: latitude!, lng: longitude! }}
+            image={{
+              src: "https://imagedelivery.net/AbuMCvvnFZBtmCKKJV_e6Q/e545a9f3-61fc-49de-df91-a3f5b4e08200/avatar", // 마커이미지의 주소입니다
+              size: {
+                width: 45,
+                height: 45,
+              },
+              options: {
+                offset: {
+                  x: 23,
+                  y: 0,
+                },
+              },
+            }}
+          />
+          {hospitals?.map((hospital, index) => (
+            <MarkerBox key={index}>
+              <EventMarkerContainer hospital={hospital} index={index} handleClickMarker={handleClickMarker} />
+              <MapDetailModal clickIndex={clickIndex} setClickIndex={setClickIndex} index={index} hospital={hospital} />
+            </MarkerBox>
+          ))}
+        </Map>
+      )}
+    </MapContainer>
+  );
 };
 export default ArroundMap;
+const MapContainer = styled(Container)<{ width: string; height: string }>`
+  width: ${props => (props.width ? props.width : "100%")};
+  height: ${props => (props.height ? props.height : "100%")};
+  background-color: ${props => props.theme.color.weekPurple};
+  border-radius: 20px;
+  overflow: hidden;
+`;
 const HoverBox = styled.div`
   border: 3px ${props => props.theme.color.weekPurple} solid;
   border-radius: 5px;

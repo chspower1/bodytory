@@ -3,6 +3,7 @@ import { Hospital } from "@prisma/client";
 import { theme } from "@styles/theme";
 import { MyHospital, MyHospitalResponse } from "pages/users/my-hospital";
 import { LegacyRef, MouseEvent, useState } from "react";
+import { useForm } from "react-hook-form";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import styled from "styled-components";
 import HospitalContent from "./HospitalContent";
@@ -16,10 +17,38 @@ interface SearchHospitalMapProps {
   setobserverTarget?: LegacyRef<HTMLDivElement> | null;
   isLoading?: boolean;
 }
-
+interface DepartmentSelectForm {
+  department: string;
+}
 const SearchHospitalMap = () => {
   const { latitude, longitude } = useCoords();
-  return <SearchContainer>{/* <ArroundMap /> */}</SearchContainer>;
+  const { register, handleSubmit } = useForm<DepartmentSelectForm>();
+  const [department, setDepartment] = useState("all");
+  const onValid = (deapartmentSelectForm: DepartmentSelectForm) => {
+    setDepartment(deapartmentSelectForm.department);
+  };
+
+  return latitude && longitude ? (
+    <SearchContainer>
+      <select
+        {...register("department", {
+          onChange() {
+            handleSubmit(onValid);
+          },
+        })}
+      >
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+      </select>
+
+      <ArroundMap width="1500px" height="600px" longitude={longitude} latitude={latitude} department={department} />
+    </SearchContainer>
+  ) : (
+    <SearchContainer>위치 정보를 허용해주세요!</SearchContainer>
+  );
 };
 
 export default SearchHospitalMap;
