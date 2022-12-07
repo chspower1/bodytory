@@ -33,16 +33,25 @@ interface medicalDepartment {
 }
 type AroundMapHospitalsResponse = AroundMapHospital[];
 const ArroundMap = ({ width, height, latitude, longitude, department }: ArroundMapProps) => {
-  const [hoverIndex, setHoverIndex] = useState(-1);
   const [clickIndex, setClickIndex] = useState(-1);
   const [hospitals, setHospitals] = useState<AroundMapHospitalsResponse>();
   const [coords, setCoords] = useState<Coords>({ latitude, longitude });
   const { getApi } = customApi(`/api/users/my-hospitals/map?latitude=${latitude}&longitude=${longitude}`);
-
   const { isLoading, data } = useQuery<AroundMapHospitalsResponse>(["hospitalsMap", "map"], getApi);
   useEffect(() => {
-    setHospitals(data);
+    if (department === "all") setHospitals(data);
+    else setHospitals(filterHospitals(data));
   }, [department, data]);
+
+  const filterHospitals = (data: AroundMapHospitalsResponse | undefined) => {
+    return data?.filter(
+      hospital =>
+        hospital.medicalDepartments.filter(
+          medicalDepartment => medicalDepartment.medicalDepartment.department === department,
+        ).length > 0,
+    );
+  };
+
   const handleClickMarker = ({
     index,
     longitude,
@@ -52,10 +61,12 @@ const ArroundMap = ({ width, height, latitude, longitude, department }: ArroundM
     longitude: number;
     latitude: number;
   }) => {
-    setHoverIndex(-1);
     setClickIndex(index);
     setCoords({ latitude: latitude + 0.001, longitude: longitude });
   };
+
+  console.log(department);
+
   return (
     <MapContainer width={width} height={height}>
       {!isLoading && (
