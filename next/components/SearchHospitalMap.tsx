@@ -1,10 +1,14 @@
+import useCoords from "@hooks/useCoords";
 import { Hospital } from "@prisma/client";
 import { theme } from "@styles/theme";
 import { MyHospital, MyHospitalResponse } from "pages/users/my-hospital";
 import { LegacyRef, MouseEvent, useState } from "react";
+import { Map, MapMarker } from "react-kakao-maps-sdk";
 import styled from "styled-components";
 import HospitalContent from "./HospitalContent";
-import ListSkeleton from "./ListSkeleton";
+import ArroundMap from "./map/ArroundMap";
+import { SearchContainer } from "./SearchHospitalList";
+import ListSkeleton from "./skeletonUI/ListSkeleton";
 
 interface SearchHospitalMapProps {
   hospitals?: MyHospital[];
@@ -13,25 +17,9 @@ interface SearchHospitalMapProps {
   isLoading?: boolean;
 }
 
-const SearchHospitalMap = ({ hospitals, add, setobserverTarget, isLoading }: SearchHospitalListProps) => {
-  return (
-    <HospitalContainer add={add}>
-      <InnerContainer add={add}>
-        {hospitals?.length === 0 && isLoading && <ListSkeleton backgroundColor="rgb(225,227,255)" />}
-        {hospitals?.length !== 0 && (
-          <HospitalLists>
-            {hospitals?.map((hospital, idx) => (
-              <HospitalContent hospital={hospital} idx={idx} add={add} key={idx} shared={false} />
-            ))}
-            {isLoading ? <ListSkeleton backgroundColor="rgb(225,227,255)" /> : <div ref={setobserverTarget} />}
-          </HospitalLists>
-        )}
-        {hospitals?.length === 0 && !isLoading && (
-          <NoneMessage>{add ? "검색결과가 없습니다" : "병원내역이 없습니다"}</NoneMessage>
-        )}
-      </InnerContainer>
-    </HospitalContainer>
-  );
+const SearchHospitalMap = () => {
+  const { latitude, longitude } = useCoords();
+  return <SearchContainer>{/* <ArroundMap /> */}</SearchContainer>;
 };
 
 export default SearchHospitalMap;

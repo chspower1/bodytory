@@ -49,12 +49,12 @@ interface medicalDepartment {
   medicalDepartment: { department: string };
 }
 type AroundMapHospitalsResponse = AroundMapHospital[];
-interface ArroundMapProps {
+interface ArroundMapMaodalProps {
   onClose: () => void;
   latitude: number;
   longitude: number;
 }
-const ArroundMap: NextPage<ArroundMapProps> = ({ onClose, latitude, longitude }) => {
+const ArroundMapModal: NextPage<ArroundMapMaodalProps> = ({ onClose, latitude, longitude }) => {
   const [hoverIndex, setHoverIndex] = useState(-1);
   const [clickIndex, setClickIndex] = useState(-1);
   const [coords, setCoords] = useState<Coords>({ latitude, longitude });
@@ -133,7 +133,7 @@ const ArroundMap: NextPage<ArroundMapProps> = ({ onClose, latitude, longitude })
     ? ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement)
     : null;
 };
-export default ArroundMap;
+export default ArroundMapModal;
 
 const HoverBox = styled.div`
   border: 3px ${props => props.theme.color.weekPurple} solid;
@@ -143,10 +143,10 @@ const HoverBox = styled.div`
   transform: translateY(-60%);
 `;
 const ButtonBox = styled.div`
-  button{
+  button {
     margin: 0 auto;
   }
-`
+`;
 
 const MarkerBox = styled(Box)`
   position: absolute;
