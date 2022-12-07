@@ -25,6 +25,7 @@ const SearchHospitalList = ({ add, searchWord }: SearchHospitalListProps) => {
   const [page, setPage] = useState<number>(0);
   const ioCallback = () => {
     setPage(page => page + 1);
+    page !== 0 && getSearchLists();
   };
 
   const { setTarget } = useIO(hasLastPage, ioCallback);
@@ -59,8 +60,8 @@ const SearchHospitalList = ({ add, searchWord }: SearchHospitalListProps) => {
   }, [searchWord]);
 
   useEffect(() => {
-    if (observerTarget) setTarget(observerTarget.current);
-  }, [observerTarget, setTarget, []]);
+    page === 0 && getSearchLists();
+  }, [page, searchWord]);
 
   return (
     <HospitalContainer add={add}>
