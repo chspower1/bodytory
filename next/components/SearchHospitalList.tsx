@@ -126,6 +126,7 @@ const SearchHospitalList = () => {
 export default SearchHospitalList;
 
 export const SearchContainer = styled(FlexContainer)`
+  position: relative;
   width: 1500px;
   height: 800px;
   flex-direction: column;

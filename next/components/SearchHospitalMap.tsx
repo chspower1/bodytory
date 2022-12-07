@@ -11,6 +11,8 @@ import ArroundMap from "./map/ArroundMap";
 import { SearchContainer } from "./SearchHospitalList";
 import ListSkeleton from "./skeletonUI/ListSkeleton";
 import { MEDICALDEPARTMENT } from "constant/MedicalDepartment";
+import { Box, Col, Row } from "@styles/Common";
+import HospitalIcon from "@public/static/icon/hospital.svg";
 interface SearchHospitalMapProps {
   hospitals?: MyHospital[];
   add: boolean;
@@ -30,22 +32,28 @@ const SearchHospitalMap = () => {
   };
 
   return latitude && longitude ? (
-    <SearchContainer>
-      <div>진료과목</div>
-      <select
-        id="department"
-        {...register("department", {
-          onChange(e: React.FormEvent<HTMLSelectElement>) {
-            console.log("change");
-            onValid(e.currentTarget.value);
-          },
-        })}
-      >
-        <option value="all">전체</option>
-        {Object.values(MEDICALDEPARTMENT).map(department => (
-          <option key={department}>{department}</option>
-        ))}
-      </select>
+    <SearchContainer style={{ alignItems: "flex-end" }}>
+      <DepartmentSelectBox>
+        <DepartmentLabel>
+          <HospitalIcon width={20} fill={theme.color.darkBg} />
+          진료과목
+        </DepartmentLabel>
+
+        <DepartmentSelect
+          id="department"
+          {...register("department", {
+            onChange(e: React.FormEvent<HTMLSelectElement>) {
+              console.log("change");
+              onValid(e.currentTarget.value);
+            },
+          })}
+        >
+          <option value="all">전체</option>
+          {Object.values(MEDICALDEPARTMENT).map(department => (
+            <option key={department}>{department}</option>
+          ))}
+        </DepartmentSelect>
+      </DepartmentSelectBox>
 
       <ArroundMap width="1500px" height="600px" longitude={longitude} latitude={latitude} department={department} />
     </SearchContainer>
@@ -55,3 +63,20 @@ const SearchHospitalMap = () => {
 };
 
 export default SearchHospitalMap;
+const DepartmentSelectBox = styled(Col)`
+  gap: 3px;
+  align-items: flex-start;
+`;
+const DepartmentLabel = styled(Box)`
+  font-size: 20px;
+  color: ${props => props.theme.color.text};
+  font-weight: 500;
+  gap: 5px;
+`;
+const DepartmentSelect = styled.select`
+  border: 1px solid rgba(54, 60, 191, 0.4);
+  /* padding-left: 10px; */
+  width: 200px;
+  height: 35px;
+  padding-left: 10px;
+`;
