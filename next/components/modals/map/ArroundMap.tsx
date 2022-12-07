@@ -143,10 +143,10 @@ const HoverBox = styled.div`
   transform: translateY(-60%);
 `;
 const ButtonBox = styled.div`
-  button{
+  button {
     margin: 0 auto;
   }
-`
+`;
 
 const MarkerBox = styled(Box)`
   position: absolute;

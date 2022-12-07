@@ -32,6 +32,10 @@ const ClinicModal = ({
   show = false,
   onClose,
 }: ClinicModalProps) => {
+  const [isBrowser, setIsBrowser] = useState(false);
+  useEffect(() => {
+    setIsBrowser(true);
+  }, []);
   const modalContent = (
     <AnimatePresence>
       {show && (
@@ -73,7 +77,7 @@ const ClinicModal = ({
       )}
     </AnimatePresence>
   );
-  return ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement);
+  return  isBrowser ? ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement) : null;
 };
 
 export default ClinicModal;
