@@ -1,11 +1,11 @@
 FROM node:16-alpine
 
 WORKDIR /next
-COPY package.json ./
-RUN npm install npm cache clean --force
+COPY . ./
+RUN npm install
 
-COPY . .
-COPY prisma prisma
+ENV DISABLE_ERD true
+RUN npx prisma db pull
 RUN npx prisma generate
 RUN npm run build
 
