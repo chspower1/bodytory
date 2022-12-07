@@ -33,7 +33,7 @@ deploy:
     - echo -e "\nGITHUB_SECRET="$GIT_SECRET >> .env
     - echo -e "\nNEXTAUTH_URL="$NEXT_URL >> .env
     - echo -e "\nFLASK_API="$FLASK_API >> .env
-    - cp .env /
+    - cp .env /builds/ai_track/class05/ai_project/team01/team01/next
   script:
     - docker-compose config
     - docker-compose build

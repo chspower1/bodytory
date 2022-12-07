@@ -2,7 +2,6 @@
 .gitignore
 .dockerignore
 .next
-.env
 node_modules
 Dockerfile
 *.md
