@@ -2,7 +2,7 @@ import { Hospital } from "@prisma/client";
 import { Box } from "@styles/Common";
 import { theme } from "@styles/theme";
 import { MyHospitalResponse } from "pages/users/my-hospital";
-import { LegacyRef, MouseEvent } from "react";
+import { LegacyRef, MouseEvent, useState } from "react";
 import styled from "styled-components";
 import HospitalContent from "./HospitalContent";
 import ListSkeleton from "./skeletonUI/ListSkeleton";
@@ -15,7 +15,6 @@ interface MyHospitalListProps {
 }
 
 const MyHospitalList = ({ hospitals, add, isLoading }: MyHospitalListProps) => {
-  console.log("lists", hospitals);
   return (
     <HospitalContainer add={add}>
       <InnerContainer add={add}>

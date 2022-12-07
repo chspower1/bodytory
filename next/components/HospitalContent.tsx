@@ -14,6 +14,7 @@ import styled from "styled-components";
 import { ChangeToHoverColor, RectangleButton, RoundButton } from "./buttons/Button";
 import DeleteBtn from "./buttons/DeleteBtn";
 import Modal from "./modals/Modal";
+import MyHospitalModal from "./modals/MyHospitalModal";
 
 interface HospitalContentProps {
   hospital: MyHospital;
@@ -27,6 +28,7 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
   const [onShare, setOnShare] = useState<boolean>(shared);
   const setHospitalCurrentIdx = useSetRecoilState(currentHospitalIdx);
   const [onConnected, setOnConnected] = useState(hospital.my);
+  const [detailModal, setDetailModal] = useState(false);
 
   const {
     deleteHospitalMutate,
@@ -40,14 +42,14 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
     router.push("/users/my-hospital/clinic-list");
     setHospitalCurrentIdx(idx);
   };
-  console.log(hospital.name, shared, onShare);
+  console.log(hospital, "fdskfhsdajk");
   // useEffect(() => {
   //   setOnShare(shared);
   // }, [shared]);
   return (
     <HospitalInfor add={add}>
       <HospitalInforContainer>
-        <HospitalInforBox>
+        <HospitalInforBox onClick={() => setDetailModal(true)}>
           <HospitalDescriptionBox>
             <NameText size="18px" weight="900px" add={add}>
               {sliceName(hospital.name)}
@@ -71,7 +73,9 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
               nonSubmit
               size="md"
               bgColor={onConnected ? theme.color.error : theme.color.darkBg}
-              onClick={() => setShowModal(true)}
+              onClick={() => {
+                setShowModal(true);
+              }}
             >
               {onConnected ? "삭제" : "추가"}
             </RectangleButton>
@@ -88,6 +92,8 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
         )}
         {add || <DeleteBtn mutate={deleteHospitalMutate} id={hospital.id} backgroundColor="rgb(100, 106, 235)" />}
       </HospitalInforContainer>
+
+      <MyHospitalModal show={detailModal} onClose={() => setDetailModal(false)} hospitals={hospital}></MyHospitalModal>
 
       <Modal
         show={showModal}
@@ -186,6 +192,7 @@ export const ShareStatus = styled(Text)<{ status: boolean }>`
   }
 `;
 const HospitalInforBox = styled.div`
+  cursor: pointer;
   display: flex;
   column-gap: 80px;
 `;
@@ -225,7 +232,7 @@ const HospitalDescriptionBox = styled.div`
   max-width: 400px;
 `;
 
-const HospitalStatusBox = styled.div`
+export const HospitalStatusBox = styled.div`
   flex-shrink: 0;
   display: flex;
   align-items: center;
