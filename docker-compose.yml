@@ -10,7 +10,6 @@ services:
     ports:
       - 3000:3000
     environment:
-      - FLASK_API=http://flask:8080
       - DATABASE_URL=${DATABASE_URL}
       - COOKIE_PASSWORD=${COOKIE_PASSWORD}
       - MAIL_ID=${MAIL_ID}
@@ -22,3 +21,4 @@ services:
       - GITHUB_ID=${GITHUB_ID}
       - GITHUB_SECRET=${GITHUB_SECRET}
       - NEXTAUTH_URL=${NEXTAUTH_URL}
+      - FLASK_API=http://flask:8080
