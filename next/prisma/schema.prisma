@@ -26,18 +26,18 @@ model User {
   type                        UserType              @default(origin)
   birth                       String                @default("1993-10-23")
   accountId                   String                @unique
-  recommendMedicalDepartments RecommendDepartment[]
   Certification               Certification[]
   records                     Record[]
   hospitals                   HospitalToUser[]
+  recommendMedicalDepartments RecommendDepartment[]
 }
 
 model RecommendDepartment {
   id        Int      @id
   position  Position
   recommend String
-  userId    Int?
   User      User?    @relation(fields: [userId], references: [id])
+  userId    Int?
 
   @@index([userId])
 }
@@ -65,10 +65,10 @@ model Record {
   diagnosis            String?
   prescription         String?
   hospitalId           Int?
-  recommendDepartments String?
   user                 User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   hospital             Hospital?     @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
   images               RecordImage[]
+  recommendDepartments String?
 
   @@index([userId])
   @@index([hospitalId])
@@ -143,10 +143,9 @@ model HospitalToUser {
   id         Int      @id @default(autoincrement())
   hospitalId Int
   userId     Int
-  shared     Boolean  @default(true)
   hospital   Hospital @relation(fields: [hospitalId], references: [id])
   user       User     @relation(fields: [userId], references: [id])
-  shared     Boolean  @default(true)
+  shared     Boolean
 
   @@index([hospitalId])
   @@index([userId])
