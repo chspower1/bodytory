@@ -83,7 +83,9 @@ const RecordModal = ({ onClose, record, show, isHospital }: RecordModalProps) =>
       setShowMsg(false);
     }, 1400);
   };
-
+  useEffect(() => {
+    setIsBrowser(true);
+  }, []);
   const modalContent = (
     <AnimatePresence>
       {show && (
@@ -161,7 +163,7 @@ const RecordModal = ({ onClose, record, show, isHospital }: RecordModalProps) =>
       )}
     </AnimatePresence>
   );
-  return ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement);
+  return  isBrowser ? ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement) : null;
 };
 
 export default RecordModal;

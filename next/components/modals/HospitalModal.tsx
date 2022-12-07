@@ -34,6 +34,7 @@ interface HospitalRecordType {
 }
 
 const HospitalModal = ({ show, onClose, name, gender, birth, position, patientId }: ModalType) => {
+  const [isBrowser, setIsBrowser] = useState(false);
   const queryClient = useQueryClient();
   const {
     register,
@@ -66,7 +67,9 @@ const HospitalModal = ({ show, onClose, name, gender, birth, position, patientId
   useEffect(() => {
     setDateNow(new Date());
   }, [show]);
-
+  useEffect(() => {
+    setIsBrowser(true);
+  }, []);
   const modalContent = (
     <AnimatePresence>
       {show && (

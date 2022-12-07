@@ -35,7 +35,6 @@ const ClinicModal = ({
   const [isBrowser, setIsBrowser] = useState(false);
   useEffect(() => {
     setIsBrowser(true);
-    return setIsBrowser(true);
   }, []);
   const modalContent = (
     <AnimatePresence>

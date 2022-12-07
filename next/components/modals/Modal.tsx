@@ -64,7 +64,7 @@ function Modal({
     </AnimatePresence>
   );
 
-  return ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement);
+  return  isBrowser ? ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement) : null;
 }
 
 const ConfirmBtnBox = styled.div`

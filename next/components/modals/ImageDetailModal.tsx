@@ -3,7 +3,7 @@ import { WhiteBoldText, WhiteText } from "@styles/Common";
 import { Dim, ModalWrapper, MODAL_VARIANTS } from "@styles/ModalStyled";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import styled, { css } from "styled-components";
 import Next from "/public/static/icon/right_bracket.svg";
@@ -20,7 +20,10 @@ interface ImageDetailModalProps {
 }
 
 const ImageDetailModal = ({ show, onClose, url, index, imagesLength, setShow }: ImageDetailModalProps) => {
-  console.log(show, index);
+  const [isBrowser, setIsBrowser] = useState(false);
+  useEffect(() => {
+    setIsBrowser(true);
+  }, []);
   const modalContent = (
     <AnimatePresence>
       {show === index && (
@@ -60,7 +63,7 @@ const ImageDetailModal = ({ show, onClose, url, index, imagesLength, setShow }: 
       )}
     </AnimatePresence>
   );
-  return ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement);
+  return  isBrowser ? ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement) : null;
 };
 export default ImageDetailModal;
 const ModalContainer = styled(motion.div).attrs({
