@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
 import { HOSPITALS } from "constant/queryKeys";
 import Link from "next/link";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import medicalIcon from "@public/static/icon/medical.png";
 import HospitalList from "@components/MyHospitalList";
@@ -12,6 +12,7 @@ import Image from "next/image";
 import useUser from "@hooks/useUser";
 import { Hospital, MedicalDepartment } from "@prisma/client";
 import MyHospitalList from "@components/MyHospitalList";
+import MyHospitalModal from "@components/modals/MyHospitalModal";
 
 export interface MyHospitalResponse {
   hospital: MyHospital;
@@ -27,7 +28,6 @@ export type MyHospital = Hospital & {
 const MyHospitalPage = () => {
   const { getApi } = customApi("/api/users/my-hospitals");
   const { data, isLoading } = useQuery<MyHospitalResponse[]>([HOSPITALS], getApi);
-  console.log(data);
   const user = useUser();
 
   useEffect(() => {

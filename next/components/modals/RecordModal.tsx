@@ -140,28 +140,28 @@ const RecordModal = ({ onClose, record, show, isHospital }: RecordModalProps) =>
                 </EditTextBox>
                 <ManageImage recordId={String(record.id)} recordImages={record.images} isHospital={isHospital} />
               </RecordDetailContainer>
-                {isHospital && (
-                  <HospitalModalCloseButtonBox>
-                    <RoundButton
-                      onClick={onClose}
-                      size="custom"
-                      bgColor="rgb(198,205,250)"
-                      textColor="#5D6BB2"
-                      boxShadow={false}
-                      height="40px"
-                      padding="0 40px"
-                    >
-                      닫기
-                    </RoundButton>
-                  </HospitalModalCloseButtonBox>
-                )}
+              {isHospital && (
+                <HospitalModalCloseButtonBox>
+                  <RoundButton
+                    onClick={onClose}
+                    size="custom"
+                    bgColor="rgb(198,205,250)"
+                    textColor="#5D6BB2"
+                    boxShadow={false}
+                    height="40px"
+                    padding="0 40px"
+                  >
+                    닫기
+                  </RoundButton>
+                </HospitalModalCloseButtonBox>
+              )}
             </ScrollContainer>
           </ModalContainer>
         </ModalWrapper>
       )}
     </AnimatePresence>
   );
-  return ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement) ;
+  return ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement);
 };
 
 export default RecordModal;
