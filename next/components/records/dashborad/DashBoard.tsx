@@ -3,10 +3,14 @@ import { ToryText26 } from "@styles/Common";
 import DashBoardStatistics from "./DashBoardStatistics";
 import ToryRecommend from "../ToryRecommend";
 import useUser from "@hooks/useUser";
+import customApi from "@utils/client/customApi";
+import { useQuery } from "@tanstack/react-query";
 
 function DashBoard() {
   const user = useUser();
-
+  const {getApi} = customApi('/api/users/records/dashboard');
+  const {data} = useQuery(["TestKey"], getApi);
+  console.log(data)
   return user ? (
     <DashBoardWarp>
       <DashBoardContainer>
