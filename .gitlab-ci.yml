@@ -35,7 +35,7 @@ deploy:
     - echo -e "\nREGION="$REG >> .env
     - cp .env /builds/ai_track/class05/ai_project/team01/team01/next
   script:
-    - docker-compose config
-    - docker-compose build
+    - docker rmi [next_app:tag]
+    - docker rmi [flask_app:tag]
     - docker-compose up -d
     - docker ps
