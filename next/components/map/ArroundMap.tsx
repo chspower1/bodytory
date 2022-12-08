@@ -51,21 +51,22 @@ type AroundMapHospitalsResponse = AroundMapHospital[];
 
 const ArroundMap = ({ width, height, latitude, longitude, department }: ArroundMapProps) => {
   const [clickIndex, setClickIndex] = useState(-1);
-  const [hospitals, setHospitals] = useState<AroundMapHospitalsResponse>();
+  const [allHospitals, setAllHospitals] = useState<AroundMapHospitalsResponse>();
+  const [filteredHospitals, setFilteredHospitals] = useState<AroundMapHospitalsResponse>();
   const [coords, setCoords] = useState<Coords>({ latitude, longitude });
   const mapRef = useRef<kakao.maps.Map | undefined>();
   const { getApi, postApi } = customApi(`/api/users/my-hospitals/map?latitude=${latitude}&longitude=${longitude}`);
   const { data: initialHospitals } = useQuery<AroundMapHospitalsResponse>(["hospitalsMap", "map"], getApi, {
     onSuccess(data) {
-      setHospitals(data);
+      setAllHospitals(data);
     },
   });
-  const { data: updateHospitals, mutate } = useMutation<AroundMapHospitalsResponse, AxiosError, SearchHospitalRequest>(
+  const { mutate } = useMutation<AroundMapHospitalsResponse, AxiosError, SearchHospitalRequest>(
     ["hospital", "map"],
     postApi,
     {
       onSuccess(data) {
-        setHospitals(data);
+        setAllHospitals(data);
       },
     },
   );
@@ -96,13 +97,16 @@ const ArroundMap = ({ width, height, latitude, longitude, department }: ArroundM
 
   const handleClickReset = () => {
     const coords = new kakao.maps.LatLng(latitude, longitude);
+    setAllHospitals(initialHospitals);
     mapRef.current?.setCenter(coords);
     mapRef.current?.setLevel(3);
   };
 
   useEffect(() => {
-    department === "all" || setHospitals(filterHospitals(hospitals));
-  }, [department, initialHospitals, updateHospitals, filterHospitals]);
+    if (!allHospitals) setAllHospitals(initialHospitals);
+    if (department === "all") setFilteredHospitals(allHospitals);
+    else setFilteredHospitals(filterHospitals(allHospitals));
+  }, [department, filterHospitals, allHospitals, initialHospitals]);
   return (
     <MapContainer width={width} height={height}>
       <ControlBox>
@@ -159,7 +163,7 @@ const ArroundMap = ({ width, height, latitude, longitude, department }: ArroundM
             },
           }}
         />
-        {hospitals?.map((hospital, index) => (
+        {filteredHospitals?.map((hospital, index) => (
           <MarkerBox key={index}>
             <EventMarkerContainer hospital={hospital} index={index} handleClickMarker={handleClickMarker} />
             <MapDetailModal clickIndex={clickIndex} setClickIndex={setClickIndex} index={index} hospital={hospital} />
