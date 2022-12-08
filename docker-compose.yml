@@ -3,7 +3,7 @@ services:
     build: ./flask
     restart: always
     ports:
-      - 5001:8080
+      - 8080:8080
   next:
     build: ./next
     restart: always
