@@ -3,10 +3,9 @@ import client from "utils/server/client";
 import withHandler from "@utils/server/withHandler";
 import { withApiSession } from "@utils/server/withSession";
 
-
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { dash } = req.query;
-  console.log(dash)
+  console.log(dash);
   if (dash === "aMonth") return await aMonthFn(req, res);
   if (dash === "threeMonth") return await threeMonthFn(req, res);
 }
@@ -26,6 +25,7 @@ async function aMonthFn(req: NextApiRequest, res: NextApiResponse) {
     },
   });
   const departMentName = await client.medicalDepartment.findMany({});
+
   const dataReduce = aMonthData.reduce((total: any, current: any) => {
     if (!total[current.position]) {
       total[current.position] = 1;
@@ -55,11 +55,11 @@ async function aMonthFn(req: NextApiRequest, res: NextApiResponse) {
     .map(ele => {
       return ele[0];
     });
-    departMentName.map((ele)=>{
-      if(mostThreeDepartment.includes(`${ele.id}`) ){
-        mostThreeDepartment.splice(mostThreeDepartment.indexOf(`${ele.id}`), 1, `${ele.department}`)
-      }
-    })
+  departMentName.map(ele => {
+    if (mostThreeDepartment.includes(`${ele.id}`)) {
+      mostThreeDepartment.splice(mostThreeDepartment.indexOf(`${ele.id}`), 1, `${ele.department}`);
+    }
+  });
   return res.status(200).json({ mostInAMonth, mostThreeDepartment });
 }
 
@@ -72,8 +72,9 @@ async function threeMonthFn(req: NextApiRequest, res: NextApiResponse) {
 
   let hospitalTemporaryStorage = {};
   let userTemporaryStorage = {};
-  let result: { position: string; hospitalLength: any; }[] = [];
-  const reduceFn = (data: any[], storage: {})=>{
+
+  let result: { position: string; hospitalLength?: any; userLength?: any }[] = [];
+  const reduceFn = (data: any[], storage: {}) => {
     data.reduce((total: any, current: any) => {
       if (!total[current.position]) {
         total[current.position] = 1;
@@ -82,7 +83,7 @@ async function threeMonthFn(req: NextApiRequest, res: NextApiResponse) {
       }
       return total;
     }, storage);
-  }
+  };
 
   const threeMonthHospital = await client.record.findMany({
     where: {
@@ -94,11 +95,11 @@ async function threeMonthFn(req: NextApiRequest, res: NextApiResponse) {
     },
   });
 
-  reduceFn(threeMonthHospital, hospitalTemporaryStorage)
+  reduceFn(threeMonthHospital, hospitalTemporaryStorage);
 
-  Object.entries(hospitalTemporaryStorage).map(ele=>{
-    result.push({position: ele[0] , hospitalLength : ele[1]})
-  })
+  Object.entries(hospitalTemporaryStorage).map(ele => {
+    result.push({ position: ele[0], hospitalLength: ele[1] });
+  });
 
   const threeMonthUser = await client.record.findMany({
     where: {
@@ -110,17 +111,30 @@ async function threeMonthFn(req: NextApiRequest, res: NextApiResponse) {
     },
   });
 
-  reduceFn(threeMonthUser, userTemporaryStorage)
+  reduceFn(threeMonthUser, userTemporaryStorage);
 
   /* Object.entries(userTemporaryStorage).map(ele=>{
     if(ele[0] in result){
       console.log(ele[0])
     }
   }); */
-  
-  console.log(Object.entries(userTemporaryStorage))
-  console.log(result)
 
+  console.log(userTemporaryStorage);
+  console.log(result);
+
+  Object.entries(userTemporaryStorage).forEach(elem => {
+    if (!result.some(record => record.position === elem[0])) {
+      return result.push({ position: elem[0], userLength: elem[1] });
+    }
+
+    result.forEach(record => {
+      if (record.position === elem[0]) {
+        record["userLength"] = elem[1];
+      }
+    });
+  });
+
+  console.log(result);
 
   return res.status(200).end();
 }
