@@ -38,7 +38,7 @@ const Team = () => {
               <Bedge backgroundColor="#4a50d3">FrontEnd</Bedge>
               <Bedge backgroundColor="#1dc3bb">BackEnd</Bedge>
             </BedgeBox>
-            <Description></Description>
+            <Description>프로젝트 하는 동안 많을 걸 배웠네요 이제 ... 취업합시다 ...</Description>
           </DescriptionContainer>
         </KyeongWon>
         <DaHyen>
@@ -85,7 +85,7 @@ const Team = () => {
               <Bedge backgroundColor="#4a50d3">FrontEnd</Bedge>
               <Bedge backgroundColor="#1dc3bb">BackEnd</Bedge>
             </BedgeBox>
-            <Description></Description>
+            <Description>{`아직 많이 부족하다고 느껴지네요 다들 <strong>파이팅해요</strong>!!!`}</Description>
           </DescriptionContainer>
         </DongRyong>
       </TeamContainer>
