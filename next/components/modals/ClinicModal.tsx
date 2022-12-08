@@ -62,8 +62,8 @@ const ClinicModal = ({
                 <li>
                   <Subject>상세소견</Subject>
                   <div>
-                    {description.includes("\\n")
-                      ? description.split("\\n").map((ele, index) => <p key={index}>{ele}</p>)
+                    {description.includes("\n")
+                      ? description.split("\n").map((ele, index) => <p key={index}>{ele}</p>)
                       : description}
                   </div>
                 </li>
