@@ -85,11 +85,12 @@ function audioBufferToWav(aBuffer: AudioBuffer) {
 const useAudio = () => {
   const [stream, setStream] = useState<MediaStream>();
   const [media, setMedia] = useState<MediaRecorder>();
-
+  const [error, setError] = useState(false);
   const [source, setSource] = useState<MediaStreamAudioSourceNode>();
   const [audioRecognized, setAudioRecognized] = useState<string>("");
 
   const onRecAudio = useCallback(() => {
+    setError(false);
     const audioCtx = new window.AudioContext({ sampleRate: 16000 });
     const analyser = audioCtx.createScriptProcessor(0, 1, 1);
     function makeSound(stream: MediaStream) {
@@ -155,12 +156,20 @@ const useAudio = () => {
         })
           .then(data => data.json())
           .then(json => json.return_object.recognized)
-          .then(recognized => setAudioRecognized(recognized as string));
+          .then((recognized: string) => {
+            if (recognized === "" || recognized.includes("ERROR")) {
+              setError(true);
+            } else {
+              setError(false);
+              setAudioRecognized(recognized as string);
+            }
+          })
+          .catch(err => setError(true));
       };
       PostAudio();
     };
   };
-  return { offRecAudio, onRecAudio, audioRecognized, setAudioRecognized };
+  return { offRecAudio, onRecAudio, audioRecognized, setAudioRecognized, error };
 };
 
 export default useAudio;
