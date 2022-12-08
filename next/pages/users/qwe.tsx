@@ -1,87 +1,183 @@
-import Item from "@components/team/Item";
-import { Container } from "@styles/Common";
-import { Dim } from "@styles/ModalStyled";
-import { AnimatePresence, AnimateSharedLayout, motion } from "framer-motion";
-import { useState } from "react";
+import Header from "@components/header/Header";
 import styled from "styled-components";
 
+const teams = [
+  {
+    name: "han5",
+    description: "반갑습니다",
+    age: "25",
+  },
+  {
+    name: "han4",
+    description: "반갑습니다",
+    age: "25",
+  },
+  {
+    name: "han3",
+    description: "반갑습니다",
+    age: "25",
+  },
+  {
+    name: "han2",
+    description: "반갑습니다",
+    age: "25",
+  },
+  {
+    name: "han1",
+    description: "반갑습니다",
+    age: "25",
+  },
+];
+
 const qwe = () => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [selectId, setSelectId] = useState<any>(null);
-  const handleClickChangeContent = (ele : string) => () =>{
-    setSelectId(null)
-    setTimeout(()=>{
-      setSelectId(ele)
-    },500)
-  }
-  
   return (
+    <Container>
+      <Header />
       <TeamContainer>
-        <InnerContainer>
-          <div></div>
-          <Team>
-            <HoSung layoutId="a" onClick={handleClickChangeContent("a")}></HoSung>
-            <KyeongWon layoutId="b" onClick={handleClickChangeContent("b")} />
-            <DaHyun />
-            <SoHee />
-            <DongRyong layoutId="c" onClick={handleClickChangeContent("c")} />
-          </Team>
-        </InnerContainer>
-        <AnimatePresence mode="popLayout" >
-          {selectId && (
-            <Test layoutId={selectId ? selectId : null}  onClick={() => setSelectId(null)}>
-              <motion.h1>"asdasd"</motion.h1>
-              <motion.div>qweqwe</motion.div>
-            </Test>
-          )}
-        </AnimatePresence>
+        <HoSung>
+          <Profile></Profile>
+          <DescriptionContainer>
+            <div>
+              <NameBox style={{ color: "white" }}>조호성</NameBox>
+              <BedgeBox></BedgeBox>
+              <DescriptionBox></DescriptionBox>
+            </div>
+          </DescriptionContainer>
+        </HoSung>
+        <KyeongWon>
+          <Profile></Profile>
+          <DescriptionContainer>
+            <div>
+              <NameBox></NameBox>
+              <BedgeBox></BedgeBox>
+              <DescriptionBox></DescriptionBox>
+            </div>
+          </DescriptionContainer>
+        </KyeongWon>
+        <DaHyen>
+          <Profile></Profile>
+          <DescriptionContainer>
+            <div>
+              <NameBox></NameBox>
+              <BedgeBox></BedgeBox>
+              <DescriptionBox></DescriptionBox>
+            </div>
+          </DescriptionContainer>
+        </DaHyen>
+        <SoHee>
+          <Profile></Profile>
+          <DescriptionContainer>
+            <div>
+              <NameBox></NameBox>
+              <BedgeBox></BedgeBox>
+              <DescriptionBox></DescriptionBox>
+            </div>
+          </DescriptionContainer>
+        </SoHee>
+        <DongRyong>
+          <Profile></Profile>
+          <DescriptionContainer>
+            <div>
+              <NameBox></NameBox>
+              <BedgeBox></BedgeBox>
+              <DescriptionBox></DescriptionBox>
+            </div>
+          </DescriptionContainer>
+        </DongRyong>
       </TeamContainer>
+    </Container>
   );
 };
 
-const Test = styled(motion.div)`
-  width: 1600px;
-  height: 800px;
-  background-color: blue;
-  position: absolute;
-  top: 0;
-`;
-
 const TeamContainer = styled.div`
-  position: relative;
+  width: 1750px;
+  height: 620px;
+  background-color: green;
   display: flex;
+  justify-content: space-between;
+`;
+
+const Bedge = styled.div<{ backgroundColor: string }>`
+  background-color: ${props => props.backgroundColor};
+  width: auto;
+  height: 30px;
+`;
+
+const Container = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
   justify-content: center;
-  height: 100%;
 `;
 
-const InnerContainer = styled.div`
-  max-width: 1920;
+const DescriptionContainer = styled.div`
   width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 100px 0;
+  height: 300px;
+  background-color: rgb(107, 112, 236);
+  border-radius: 30px;
+  padding: 30px;
+  z-index: 10;
+  transform: translateY(-300px);
+  position: relative;
 `;
-
-const Detail = styled.div``;
-
-const Team = styled.div`
-  width: 100%;
-  height: auto;
-  display: flex;
-  justify-content: space-between;
-`;
-
-const DongRyong = styled(motion.div)`
+const Profile = styled.div`
   width: 300px;
   height: 300px;
-  background-color: red;
+  background-color: blue;
+  border-radius: 30px;
+  z-index: 11;
+  position: relative;
 `;
+const DescriptionBox = styled.div``;
+const Description = styled.div``;
+const BedgeBox = styled.div``;
+const NameBox = styled.div``;
 
-const HoSung = styled(DongRyong)``;
-const SoHee = styled(DongRyong)``;
-const KyeongWon = styled(DongRyong)``;
-const DaHyun = styled(DongRyong)``;
+const HoSung = styled.div`
+  width: 300px;
+  height: 600px;
+  &:hover {
+    div:nth-child(2) {
+      background-color: red;
+    }
+  }
+`;
+const DongRyong = styled.div`
+  width: 300px;
+  height: 600px;
+  &:hover {
+    div:nth-child(2) {
+      background-color: red;
+    }
+  }
+`;
+const KyeongWon = styled.div`
+  width: 300px;
+  height: 600px;
+  &:hover {
+    div:nth-child(2) {
+      background-color: red;
+    }
+  }
+`;
+const DaHyen = styled.div`
+  width: 300px;
+  height: 600px;
+  &:hover {
+    div:nth-child(2) {
+      background-color: red;
+    }
+  }
+`;
+const SoHee = styled.div`
+  width: 300px;
+  height: 600px;
+  &:hover {
+    div:nth-child(2) {
+      background-color: red;
+    }
+  }
+`;
 
 export default qwe;
