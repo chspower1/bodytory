@@ -8,29 +8,34 @@ import styled from "styled-components";
 const qwe = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [selectId, setSelectId] = useState<any>(null);
+  const handleClickChangeContent = (ele : string) => () =>{
+    setSelectId(null)
+    setTimeout(()=>{
+      setSelectId(ele)
+    },500)
+  }
+  
   return (
-    <AnimateSharedLayout>
       <TeamContainer>
         <InnerContainer>
           <div></div>
           <Team>
-            <HoSung layoutId="a" onClick={() => setSelectId("a")}></HoSung>
-            <KyengWon layoutId="b" onClick={() => setSelectId("b")} />
+            <HoSung layoutId="a" onClick={handleClickChangeContent("a")}></HoSung>
+            <KyeongWon layoutId="b" onClick={handleClickChangeContent("b")} />
             <DaHyun />
             <SoHee />
-            <DongRyong layoutId="c" onClick={() => setSelectId("c")} />
+            <DongRyong layoutId="c" onClick={handleClickChangeContent("c")} />
           </Team>
         </InnerContainer>
-        <AnimatePresence>
+        <AnimatePresence mode="popLayout" >
           {selectId && (
-            <Test layoutId={selectId}>
+            <Test layoutId={selectId ? selectId : null}  onClick={() => setSelectId(null)}>
               <motion.h1>"asdasd"</motion.h1>
-              <motion.div onClick={() => setSelectId(null)}>qweqwe</motion.div>
+              <motion.div>qweqwe</motion.div>
             </Test>
           )}
         </AnimatePresence>
       </TeamContainer>
-    </AnimateSharedLayout>
   );
 };
 
@@ -39,7 +44,7 @@ const Test = styled(motion.div)`
   height: 800px;
   background-color: blue;
   position: absolute;
-  top: 50%;
+  top: 0;
 `;
 
 const TeamContainer = styled.div`
@@ -76,7 +81,7 @@ const DongRyong = styled(motion.div)`
 
 const HoSung = styled(DongRyong)``;
 const SoHee = styled(DongRyong)``;
-const KyengWon = styled(DongRyong)``;
+const KyeongWon = styled(DongRyong)``;
 const DaHyun = styled(DongRyong)``;
 
 export default qwe;
