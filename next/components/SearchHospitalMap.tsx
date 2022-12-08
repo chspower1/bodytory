@@ -36,7 +36,7 @@ const SearchHospitalMap = () => {
       <OptionBox>
         <DepartmentSelectBox>
           <DepartmentLabel>
-            <HospitalIcon width={20} fill={theme.color.darkBg} />
+            <HospitalIcon width={20} height={20} fill={theme.color.darkBg} />
             진료과목
           </DepartmentLabel>
 

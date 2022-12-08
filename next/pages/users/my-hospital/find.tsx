@@ -56,13 +56,13 @@ const FindHospital = () => {
           >
             {pageCategory === "search" && (
               <>
-                <MapIcon width={30} style={{ marginBottom: "6px" }} />
+                <MapIcon width={30} height={30} style={{ marginBottom: "6px" }} />
                 &nbsp;&nbsp; 지도에서 병원 찾기
               </>
             )}
             {pageCategory === "map" && (
               <>
-                <List width={30} />
+                <List width={30} height={30} />
                 &nbsp;&nbsp; 리스트로 병원 찾기
               </>
             )}
