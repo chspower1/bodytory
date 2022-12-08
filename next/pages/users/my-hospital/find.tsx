@@ -30,7 +30,7 @@ import SearchHospitalMap from "@components/SearchHospitalMap";
 
 type PageCategory = "search" | "map";
 const FindHospital = () => {
-  const [pageCategory, setPageCategory] = useState<PageCategory>("search");
+  const [pageCategory, setPageCategory] = useState<PageCategory>("map");
 
   return (
     <MainContainer>

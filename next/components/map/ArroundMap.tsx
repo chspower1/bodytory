@@ -1,11 +1,14 @@
+import { CircleButton } from "@components/buttons/Button";
 import EventMarkerContainer from "@components/Maker";
 import MapDetailModal from "@components/modals/map/MapDetailModal";
 import { Box, Container } from "@styles/Common";
 import { useQuery } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
 import { useEffect, useRef, useState } from "react";
-import { Map, MapMarker } from "react-kakao-maps-sdk";
+import { CustomOverlayMap, Map, MapMarker } from "react-kakao-maps-sdk";
 import styled from "styled-components";
+import MagnifierIcon from "@public/static/icon/magnifier.svg";
+import UserIcon from "@public/static/icon/user.svg";
 
 interface ArroundMapProps {
   width: string;
@@ -41,8 +44,9 @@ type AroundMapHospitalsResponse = AroundMapHospital[];
 const ArroundMap = ({ width, height, latitude, longitude, department }: ArroundMapProps) => {
   const [clickIndex, setClickIndex] = useState(-1);
   const [hospitals, setHospitals] = useState<AroundMapHospitalsResponse>();
-  const [fetchCount, setFetchCount] = useState(0);
+  const [isInitialFetch, setIsInitialFetch] = useState(true);
   const [coords, setCoords] = useState<Coords>({ latitude, longitude });
+  const mapRef = useRef<kakao.maps.Map>();
   const currentRangeCoords = useRef<CurrentRangeCoords>();
   const { getApi: initialGetApi } = customApi(
     `/api/users/my-hospitals/map?latitude=${latitude}&longitude=${longitude}`,
@@ -52,12 +56,10 @@ const ArroundMap = ({ width, height, latitude, longitude, department }: ArroundM
   );
   const { isLoading, data, refetch } = useQuery<AroundMapHospitalsResponse>(
     ["hospitalsMap", "map"],
-    fetchCount ? updateGetApi : initialGetApi,
-    // initialGetApi,
+    isInitialFetch ? initialGetApi : updateGetApi,
     {
-      onSuccess(data) {
-        console.log(data);
-        console.log(fetchCount);
+      onSuccess() {
+        setIsInitialFetch(false);
       },
     },
   );
@@ -84,12 +86,26 @@ const ArroundMap = ({ width, height, latitude, longitude, department }: ArroundM
     setCoords({ latitude: latitude + 0.001, longitude: longitude });
   };
 
+  const handleClickReset = () => {
+    const coords = new kakao.maps.LatLng(latitude, longitude);
+    mapRef.current?.setCenter(coords);
+    mapRef.current?.setLevel(3);
+  };
+
   useEffect(() => {
     if (department === "all") setHospitals(data);
     else setHospitals(filterHospitals(data));
   }, [department, data]);
   return (
     <MapContainer width={width} height={height}>
+      <ControlBox>
+        <CircleButton nonSubmit size="custom" height="50px" width="50px">
+          <MagnifierIcon width={25} height={25} fill="white" />
+        </CircleButton>
+        <CircleButton nonSubmit size="custom" height="50px" width="50px" onClick={handleClickReset}>
+          <UserIcon width={30} height={30} fill="white" />
+        </CircleButton>
+      </ControlBox>
       {!isLoading && (
         <Map
           center={{
@@ -101,13 +117,8 @@ const ArroundMap = ({ width, height, latitude, longitude, department }: ArroundM
             width,
             height,
           }}
+          onCreate={map => (mapRef.current = map)}
           level={3}
-          onDragEnd={() => {
-            console.log("끝");
-            setFetchCount(1);
-            console.log(currentRangeCoords.current);
-            refetch();
-          }}
           onBoundsChanged={map => {
             currentRangeCoords.current = {
               minLatitude: map.getBounds().getSouthWest().getLat(),
@@ -133,6 +144,7 @@ const ArroundMap = ({ width, height, latitude, longitude, department }: ArroundM
               },
             }}
           />
+
           {hospitals?.map((hospital, index) => (
             <MarkerBox key={index}>
               <EventMarkerContainer hospital={hospital} index={index} handleClickMarker={handleClickMarker} />
@@ -151,6 +163,14 @@ const MapContainer = styled(Container)<{ width: string; height: string }>`
   background-color: ${props => props.theme.color.weekPurple};
   border-radius: 20px;
   overflow: hidden;
+`;
+const ControlBox = styled(Box)`
+  position: absolute;
+  right: 0px;
+  top: 100px;
+  right: 30px;
+  gap: 20px;
+  z-index: 1000;
 `;
 const HoverBox = styled.div`
   border: 3px ${props => props.theme.color.weekPurple} solid;

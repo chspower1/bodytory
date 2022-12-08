@@ -33,28 +33,29 @@ const SearchHospitalMap = () => {
 
   return latitude && longitude ? (
     <SearchContainer style={{ alignItems: "flex-end" }}>
-      <DepartmentSelectBox>
-        <DepartmentLabel>
-          <HospitalIcon width={20} fill={theme.color.darkBg} />
-          진료과목
-        </DepartmentLabel>
+      <OptionBox>
+        <DepartmentSelectBox>
+          <DepartmentLabel>
+            <HospitalIcon width={20} fill={theme.color.darkBg} />
+            진료과목
+          </DepartmentLabel>
 
-        <DepartmentSelect
-          id="department"
-          {...register("department", {
-            onChange(e: React.FormEvent<HTMLSelectElement>) {
-              console.log("change");
-              onValid(e.currentTarget.value);
-            },
-          })}
-        >
-          <option value="all">전체</option>
-          {Object.values(MEDICALDEPARTMENT).map(department => (
-            <option key={department}>{department}</option>
-          ))}
-        </DepartmentSelect>
-      </DepartmentSelectBox>
-
+          <DepartmentSelect
+            id="department"
+            {...register("department", {
+              onChange(e: React.FormEvent<HTMLSelectElement>) {
+                console.log("change");
+                onValid(e.currentTarget.value);
+              },
+            })}
+          >
+            <option value="all">전체</option>
+            {Object.values(MEDICALDEPARTMENT).map(department => (
+              <option key={department}>{department}</option>
+            ))}
+          </DepartmentSelect>
+        </DepartmentSelectBox>
+      </OptionBox>
       <ArroundMap width="1500px" height="600px" longitude={longitude} latitude={latitude} department={department} />
     </SearchContainer>
   ) : (
@@ -63,6 +64,11 @@ const SearchHospitalMap = () => {
 };
 
 export default SearchHospitalMap;
+const OptionBox = styled(Box)`
+  width: 100%;
+  justify-content: flex-end;
+`;
+
 const DepartmentSelectBox = styled(Col)`
   gap: 3px;
   align-items: flex-start;
