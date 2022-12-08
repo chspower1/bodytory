@@ -58,6 +58,7 @@ const PositionPage = () => {
     (recordStatus === "initial" && "아래 버튼을 누르고 증상을 등록해 보세요!") ||
     (recordStatus === "listening" && "증상을 말씀해주세요! 토리가 듣고 정리해드릴게요.") ||
     (recordStatus === "loading" && "토리가 음성을 분석 중이에요! 잠시만 기다려 주세요!") ||
+    (recordStatus === "error" && "인식에 실패했어요..") ||
     (recordStatus === "finish" && audioRecognized) ||
     "";
   const buttonGuideMessage: string =
@@ -82,6 +83,7 @@ const PositionPage = () => {
     console.log("hadleClickCreateRecord", recordStatus, description);
     if (recordStatus === "finish") {
       console.log("mutate");
+      if (description.length < 2) return setError(true);
       mutate({ position: router.query.position as string, description });
       router.push("/users/records/write/analysis");
     } else {
@@ -91,6 +93,7 @@ const PositionPage = () => {
   console.log(aiError);
   const handleClickEditMode = () => {
     setError(false);
+    setOnHoverRefreshBtn(false);
     if (!(recordStatus === "finish")) {
       setValue("description", "");
     }
@@ -106,7 +109,14 @@ const PositionPage = () => {
   }, [recordMessage, setValue]);
 
   useEffect(() => {
-    aiError ? setRecordStatus("error") : audioRecognized && setRecordStatus("finish");
+    if (aiError) {
+      setRecordStatus("error");
+    } else {
+      if (audioRecognized) {
+        setRecordStatus("finish");
+        setOnHoverRefreshBtn(false);
+      }
+    }
   }, [audioRecognized, aiError]);
 
   useEffect(() => {
@@ -144,24 +154,28 @@ const PositionPage = () => {
                   },
                 })}
               />
-              <CircleButton
-                nonSubmit
-                onClick={startRecord}
-                bgColor={theme.color.mintBtn}
-                width="46px"
-                height="46px"
-                boxShadow={false}
-              >
-                <Image
-                  src={refresh}
-                  width={30}
-                  height={30}
-                  alt="다시 녹음"
-                  onMouseEnter={() => setOnHoverRefreshBtn(true)}
-                  onMouseLeave={() => setOnHoverRefreshBtn(false)}
-                />
-              </CircleButton>
-              {onHoverRefreshBtn && <RefreshText>다시 녹음하기</RefreshText>}
+              {recordStatus === "finish" && (
+                <RefreshBtnBox>
+                  <CircleButton
+                    nonSubmit
+                    onClick={startRecord}
+                    bgColor={theme.color.mintBtn}
+                    width="46px"
+                    height="46px"
+                    boxShadow={false}
+                  >
+                    <Image
+                      src={refresh}
+                      width={30}
+                      height={30}
+                      alt="다시 녹음"
+                      onMouseEnter={() => setOnHoverRefreshBtn(true)}
+                      onMouseLeave={() => setOnHoverRefreshBtn(false)}
+                    />
+                  </CircleButton>
+                  {onHoverRefreshBtn && <RefreshText>다시 녹음하기</RefreshText>}
+                </RefreshBtnBox>
+              )}
               {(error || errors.description) && <ErrorMessage>증상을 입력해주세요!</ErrorMessage>}
             </MemoBox>
 
@@ -210,6 +224,10 @@ const Rectangle = styled.div`
 const MemoBox = styled(Box)`
   position: relative;
   gap: 15px;
+`;
+const RefreshBtnBox = styled(Box)`
+  position: absolute;
+  right: -60px;
 `;
 const RefreshText = styled.div`
   position: absolute;
