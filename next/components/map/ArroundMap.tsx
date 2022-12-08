@@ -55,12 +55,12 @@ const ArroundMap = ({ width, height, latitude, longitude, department }: ArroundM
   const [coords, setCoords] = useState<Coords>({ latitude, longitude });
   const mapRef = useRef<kakao.maps.Map | undefined>();
   const { getApi, postApi } = customApi(`/api/users/my-hospitals/map?latitude=${latitude}&longitude=${longitude}`);
-  const { data: initialHospitals, refetch } = useQuery<AroundMapHospitalsResponse>(["hospitalsMap", "map"], getApi, {
+  useQuery<AroundMapHospitalsResponse>(["hospitalsMap", "map"], getApi, {
     onSuccess(data) {
       setHospitals(data);
     },
   });
-  const { data: updateHospitals, mutate } = useMutation<AroundMapHospitalsResponse, AxiosError, SearchHospitalRequest>(
+  const { mutate } = useMutation<AroundMapHospitalsResponse, AxiosError, SearchHospitalRequest>(
     ["hospital", "map"],
     postApi,
     {
@@ -99,7 +99,7 @@ const ArroundMap = ({ width, height, latitude, longitude, department }: ArroundM
 
   useEffect(() => {
     department === "all" || setHospitals(filterHospitals(hospitals));
-  }, [department, initialHospitals, updateHospitals]);
+  }, [department, hospitals, filterHospitals]);
 
   return (
     <MapContainer width={width} height={height}>

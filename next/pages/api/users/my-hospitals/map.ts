@@ -32,12 +32,12 @@ const getHospitals = async ({
   const hospitals = await client.hospital.findMany({
     where: {
       x: {
-        gte: method === "GET" ? latitude! - 0.005 : minLatitude!,
-        lte: method === "GET" ? latitude! + 0.005 : maxLatitude!,
+        gte: method === "GET" ? latitude! - 0.005 : minLongitude!,
+        lte: method === "GET" ? latitude! + 0.005 : maxLongitude!,
       },
       y: {
-        gte: method === "GET" ? longitude! - 0.005 : minLongitude!,
-        lte: method === "GET" ? longitude! + 0.005 : maxLongitude!,
+        gte: method === "GET" ? longitude! - 0.005 : minLatitude!,
+        lte: method === "GET" ? longitude! + 0.005 : maxLatitude!,
       },
       NOT: {
         users: isMyHospital
