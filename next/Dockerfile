@@ -1,17 +1,23 @@
-FROM node:16-alpine
-
+FROM node:16.16.0-alpine AS BASE
 WORKDIR /next
-
-COPY package*.json /next
-
+COPY package*.json ./
 RUN npm install
 
-COPY . /next
-
+FROM node:16.16.0-alpine AS BUILDER
+WORKDIR /next
+COPY . .
+COPY --from=BASE /next/node_modules ./node_modules
 ENV DISABLE_ERD true
 RUN npx prisma generate
 RUN npm run build
 
-EXPOSE 3000
+FROM node:16.16.0-alpine
+WORKDIR /next-app
+ENV NODE_ENV=production
+COPY --from=BUILDER /next/.next ./.next
+COPY --from=BUILDER /next/public ./public
+COPY --from=BUILDER /next/package.json ./
+COPY --from=BUILDER /next/node_modules ./node_modules
 
+EXPOSE 3000
 CMD ["npm","run","start"]
