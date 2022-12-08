@@ -41,18 +41,24 @@ interface CurrentRangeCoords {
   maxLongitude: number;
 }
 type AroundMapHospitalsResponse = AroundMapHospital[];
+
 const ArroundMap = ({ width, height, latitude, longitude, department }: ArroundMapProps) => {
   const [clickIndex, setClickIndex] = useState(-1);
   const [hospitals, setHospitals] = useState<AroundMapHospitalsResponse>();
   const [isInitialFetch, setIsInitialFetch] = useState(true);
   const [coords, setCoords] = useState<Coords>({ latitude, longitude });
-  const mapRef = useRef<kakao.maps.Map>();
-  const currentRangeCoords = useRef<CurrentRangeCoords>();
+  const mapRef = useRef<kakao.maps.Map | undefined>();
   const { getApi: initialGetApi } = customApi(
     `/api/users/my-hospitals/map?latitude=${latitude}&longitude=${longitude}`,
   );
   const { getApi: updateGetApi } = customApi(
-    `/api/users/my-hospitals/map?minLatitude=${currentRangeCoords.current?.minLatitude}&minLongitude=${currentRangeCoords.current?.minLongitude}&maxLatitude=${currentRangeCoords.current?.maxLatitude}&maxLongitude=${currentRangeCoords.current?.maxLongitude}`,
+    `/api/users/my-hospitals/map?minLatitude=${mapRef.current
+      ?.getBounds()
+      .getSouthWest()
+      .getLat()}&minLongitude=${mapRef?.current?.getBounds().getSouthWest().getLng()}&maxLatitude=${mapRef.current
+      ?.getBounds()
+      ?.getNorthEast()
+      ?.getLat()}&maxLongitude=${mapRef.current?.getBounds().getNorthEast().getLng()}`,
   );
   const { isLoading, data, refetch } = useQuery<AroundMapHospitalsResponse>(
     ["hospitalsMap", "map"],
@@ -96,10 +102,11 @@ const ArroundMap = ({ width, height, latitude, longitude, department }: ArroundM
     if (department === "all") setHospitals(data);
     else setHospitals(filterHospitals(data));
   }, [department, data]);
+
   return (
     <MapContainer width={width} height={height}>
       <ControlBox>
-        <CircleButton nonSubmit size="custom" height="50px" width="50px">
+        <CircleButton nonSubmit size="custom" height="50px" width="50px" onClick={refetch}>
           <MagnifierIcon width={25} height={25} fill="white" />
         </CircleButton>
         <CircleButton nonSubmit size="custom" height="50px" width="50px" onClick={handleClickReset}>
@@ -119,13 +126,8 @@ const ArroundMap = ({ width, height, latitude, longitude, department }: ArroundM
           }}
           onCreate={map => (mapRef.current = map)}
           level={3}
-          onBoundsChanged={map => {
-            currentRangeCoords.current = {
-              minLatitude: map.getBounds().getSouthWest().getLat(),
-              minLongitude: map.getBounds().getSouthWest().getLng(),
-              maxLatitude: map.getBounds().getNorthEast().getLat(),
-              maxLongitude: map.getBounds().getNorthEast().getLng(),
-            };
+          onBoundsChanged={() => {
+            console.log(mapRef.current?.getBounds().getSouthWest().getLat());
           }}
         >
           <MapMarker

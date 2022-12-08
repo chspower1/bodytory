@@ -193,7 +193,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       ];
       console.log("update요청", hospitals.length);
       return res.status(200).json(hospitals);
-    }
+    } else return res.status(401).end();
   }
 }
 
