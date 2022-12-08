@@ -16,99 +16,97 @@ interface GetHospitals {
   minLongitude?: number;
   maxLatitude?: number;
   maxLongitude?: number;
+  user: { id: number };
 }
-async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { user } = req.session;
-  if (!user) return res.status(400).end();
-  const getHospitals = async ({
-    latitude,
-    longitude,
-    isMyHospital,
-    method,
-    minLatitude,
-    minLongitude,
-    maxLatitude,
-    maxLongitude,
-  }: GetHospitals): Promise<HospitalsForMap[]> => {
-    const hospitals = await client.hospital.findMany({
-      where: {
-        x: {
-          gte: method === "GET" ? latitude! - 0.005 : minLatitude!,
-          lte: method === "GET" ? latitude! + 0.005 : maxLatitude!,
-        },
-        y: {
-          gte: method === "GET" ? longitude! - 0.005 : minLongitude!,
-          lte: method === "GET" ? longitude! + 0.005 : maxLongitude!,
-        },
-        NOT: {
-          users: isMyHospital
-            ? {
-                none: {
-                  userId: user.id,
-                },
-              }
-            : {
-                some: {
-                  userId: user.id,
-                },
-              },
-        },
+const getHospitals = async ({
+  latitude,
+  longitude,
+  isMyHospital,
+  method,
+  minLatitude,
+  minLongitude,
+  maxLatitude,
+  maxLongitude,
+  user,
+}: GetHospitals): Promise<HospitalsForMap[]> => {
+  const hospitals = await client.hospital.findMany({
+    where: {
+      x: {
+        gte: method === "GET" ? latitude! - 0.005 : minLatitude!,
+        lte: method === "GET" ? latitude! + 0.005 : maxLatitude!,
       },
-      select: {
-        id: true,
-        name: true,
-        x: true,
-        y: true,
-        address: true,
-        homepage: true,
-        medicalDepartments: {
-          select: {
-            medicalDepartment: {
-              select: {
-                department: true,
+      y: {
+        gte: method === "GET" ? longitude! - 0.005 : minLongitude!,
+        lte: method === "GET" ? longitude! + 0.005 : maxLongitude!,
+      },
+      NOT: {
+        users: isMyHospital
+          ? {
+              none: {
+                userId: user.id,
               },
+            }
+          : {
+              some: {
+                userId: user.id,
+              },
+            },
+      },
+    },
+    select: {
+      id: true,
+      name: true,
+      x: true,
+      y: true,
+      address: true,
+      homepage: true,
+      medicalDepartments: {
+        select: {
+          medicalDepartment: {
+            select: {
+              department: true,
             },
           },
         },
       },
-      take: 100,
-    });
-    return hospitals;
-  };
+    },
+    take: 100,
+  });
+  return hospitals;
+};
+async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const { user } = req.session;
+  if (!user) return res.status(400).end();
+
   if (req.method === "GET") {
     const { longitude: lat, latitude: lng } = req.query;
     const [latitude, longitude] = [parseFloat(lat as string), parseFloat(lng as string)];
     console.log(longitude, latitude);
-    const myHospitals = await getHospitals({ latitude, longitude, isMyHospital: true, method: "GET" });
-    const notMyHospitals = await getHospitals({ latitude, longitude, isMyHospital: false, method: "GET" });
+    const getHospitalsProps = { latitude, longitude, method: "GET" as "GET", user };
+    const myHospitals = await getHospitals({ ...getHospitalsProps, isMyHospital: true });
+    const notMyHospitals = await getHospitals({ ...getHospitalsProps, isMyHospital: false });
     const hospitals = [
       ...myHospitals.map(hospital => ({ ...hospital, my: true })),
       ...notMyHospitals.map(hospital => ({ ...hospital, my: false })),
     ];
-    console.log("map 요청");
+    console.log("inital 요청", hospitals.length);
     return res.status(200).json(hospitals);
   }
   if (req.method === "POST") {
     const { minLatitude, minLongitude, maxLatitude, maxLongitude } = req.body;
     const updateValidate = minLatitude && minLongitude && maxLatitude && maxLongitude;
+    const getHospitalsProps = {
+      minLatitude,
+      minLongitude,
+      maxLatitude,
+      maxLongitude,
+      method: "POST" as "POST",
+      user,
+    };
     console.log(minLatitude, minLongitude, maxLatitude, maxLongitude);
     if (updateValidate) {
-      const myHospitals = await getHospitals({
-        minLatitude,
-        minLongitude,
-        maxLatitude,
-        maxLongitude,
-        isMyHospital: true,
-        method: "POST",
-      });
-      const notMyHospitals = await getHospitals({
-        minLatitude,
-        minLongitude,
-        maxLatitude,
-        maxLongitude,
-        isMyHospital: false,
-        method: "POST",
-      });
+      const myHospitals = await getHospitals({ ...getHospitalsProps, isMyHospital: true });
+      const notMyHospitals = await getHospitals({ ...getHospitalsProps, isMyHospital: false });
       const hospitals = [
         ...myHospitals.map(hospital => ({ ...hospital, my: true })),
         ...notMyHospitals.map(hospital => ({ ...hospital, my: false })),

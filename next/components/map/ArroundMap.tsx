@@ -54,26 +54,20 @@ const ArroundMap = ({ width, height, latitude, longitude, department }: ArroundM
   const [hospitals, setHospitals] = useState<AroundMapHospitalsResponse>();
   const [coords, setCoords] = useState<Coords>({ latitude, longitude });
   const mapRef = useRef<kakao.maps.Map | undefined>();
-  const fetchValidate =
-    mapRef.current?.getBounds().getSouthWest().getLat() &&
-    mapRef.current?.getBounds().getSouthWest().getLng() &&
-    mapRef.current?.getBounds().getNorthEast().getLat() &&
-    mapRef.current?.getBounds().getNorthEast().getLng();
-  const { getApi, postApi } = customApi(
-    `/api/users/my-hospitals/map?minLatitude=${mapRef.current
-      ?.getBounds()
-      .getSouthWest()
-      .getLat()}&minLongitude=${mapRef.current?.getBounds().getSouthWest().getLng()}&maxLatitude=${mapRef.current
-      ?.getBounds()
-      .getNorthEast()
-      .getLat()}&maxLongitude=${mapRef.current?.getBounds().getNorthEast().getLng()}`,
-  );
+  const { getApi, postApi } = customApi(`/api/users/my-hospitals/map?latitude=${latitude}&longitude=${longitude}`);
   const { data: initialHospitals, refetch } = useQuery<AroundMapHospitalsResponse>(["hospitalsMap", "map"], getApi, {
-    enabled: Boolean(fetchValidate),
+    onSuccess(data) {
+      setHospitals(data);
+    },
   });
-  const { data, mutate } = useMutation<AroundMapHospitalsResponse, AxiosError, SearchHospitalRequest>(
+  const { data: updateHospitals, mutate } = useMutation<AroundMapHospitalsResponse, AxiosError, SearchHospitalRequest>(
     ["hospital", "map"],
     postApi,
+    {
+      onSuccess(data) {
+        setHospitals(data);
+      },
+    },
   );
   const filterHospitals = (data: AroundMapHospitalsResponse | undefined) => {
     return data?.filter(
@@ -104,9 +98,8 @@ const ArroundMap = ({ width, height, latitude, longitude, department }: ArroundM
   };
 
   useEffect(() => {
-    if (department === "all") setHospitals(initialHospitals);
-    else setHospitals(filterHospitals(initialHospitals));
-  }, [department, initialHospitals]);
+    department === "all" || setHospitals(filterHospitals(hospitals));
+  }, [department, initialHospitals, updateHospitals]);
 
   return (
     <MapContainer width={width} height={height}>
