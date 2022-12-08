@@ -1,6 +1,6 @@
 import { CircleButton, RectangleButton, RoundButton } from "@components/buttons/Button";
 import { Position } from "@prisma/client";
-import { BlackToryText, Box, Col, FlexContainer, WhiteWrapper } from "@styles/Common";
+import { BlackToryText, BodyText, Box, Col, FlexContainer, WhiteWrapper } from "@styles/Common";
 import { theme } from "@styles/theme";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -19,7 +19,8 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import pencil from "@public/static/icon/pencil.svg";
 import mic from "@public/static/icon/mic.svg";
-import Check from "@public/static/icon/check.svg";
+import check from "@public/static/icon/check.png";
+import refresh from "@public/static/icon/refresh.png";
 import { useForm } from "react-hook-form";
 
 interface WriteRecordRequest {
@@ -40,6 +41,7 @@ const PositionPage = () => {
     setValue,
     handleSubmit,
     formState: { errors },
+    watch,
     clearErrors,
   } = useForm<WriteForm>();
   const { offRecAudio, onRecAudio, audioRecognized } = useAudio();
@@ -70,11 +72,12 @@ const PositionPage = () => {
     setRecordStatus("loading");
     offRecAudio();
   };
-  const hadleClickCreateRecord = (writeForm: WriteForm) => {
+  const hadleClickCreateRecord = (description: string) => {
+    console.log("hadleClickCreateRecord", isOnSubmit, recordStatus, description);
     if (isOnSubmit) {
       if (recordStatus === "finish") {
         console.log("mutate");
-        mutate({ position: router.query.position as string, description: writeForm.description });
+        mutate({ position: router.query.position as string, description });
         router.push("/users/records/write/analysis");
       } else {
         setIsOnSubmit(false);
@@ -82,6 +85,7 @@ const PositionPage = () => {
       }
     } else setIsOnSubmit(true);
   };
+
   const handleClickEditMode = () => {
     setError(false);
     if (!(recordStatus === "finish")) {
@@ -122,11 +126,12 @@ const PositionPage = () => {
             </BlackToryText>
           </Box>
           <VoiceBox height="30%">
-            <MemoBox as="form" onClick={handleClickEditMode} onSubmit={handleSubmit(hadleClickCreateRecord)}>
-              <GuideMessage>마이크 사용이 어려우시면 아래 입력창을 클릭 하세요!</GuideMessage>
+            <MemoBox>
+              <GuideMessage>마이크 사용이 어렵다면 아래 입력창에 직접 입력할 수 있어요!</GuideMessage>
               <MemoInput
                 type="text"
                 disabled={!isEditMode}
+                onClick={handleClickEditMode}
                 {...register("description", {
                   required: "증상을 입력해주세요",
                   onBlur: () => {
@@ -135,24 +140,37 @@ const PositionPage = () => {
                   },
                 })}
               />
-
+              <CircleButton
+                nonSubmit
+                onClick={startRecord}
+                bgColor={theme.color.mintBtn}
+                width="46px"
+                height="46px"
+                boxShadow={false}
+              >
+                <Image src={refresh} width={30} height={30} alt="다시 녹음" />
+              </CircleButton>
               {(error || errors.description) && <ErrorMessage>증상을 입력해주세요!</ErrorMessage>}
-
-              <SubmitButton className={isOnSubmit ? "active" : ""} onBlur={() => setIsOnSubmit(false)}>
-                <Check width={30} height={30} />
-                <span>제출</span>
-              </SubmitButton>
             </MemoBox>
+
             <CircleButton
               width="100px"
               height="100px"
               bgColor={listening ? theme.color.error : theme.color.darkBg}
-              onClick={listening ? endRecord : startRecord}
+              onClick={() => {
+                recordStatus === "initial" && startRecord();
+                recordStatus === "listening" && endRecord();
+                recordStatus === "finish" && hadleClickCreateRecord(watch("description"));
+              }}
               boxShadow={false}
             >
-              {!listening ? <Mic /> : <Rectangle />}
+              {recordStatus === "initial" && <Mic />}
+              {recordStatus === "listening" && <Rectangle />}
+              {recordStatus === "loading" && "loading"}
+              {recordStatus === "finish" && <Image src={check} width={55} height={55} alt="제출" />}
             </CircleButton>
           </VoiceBox>
+          <BodyText>버튼을 누르고 증상을 말해주세요</BodyText>
         </Col>
       </FlexContainer>
       <SpeakMotion right listening={listening} />
@@ -177,6 +195,7 @@ const Rectangle = styled.div`
 `;
 const MemoBox = styled(Box)`
   position: relative;
+  gap: 15px;
 `;
 
 const MemoInput = styled.input`
