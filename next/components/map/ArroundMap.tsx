@@ -4,7 +4,7 @@ import MapDetailModal from "@components/modals/map/MapDetailModal";
 import { Box, Container } from "@styles/Common";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { CustomOverlayMap, Map, MapMarker } from "react-kakao-maps-sdk";
 import styled from "styled-components";
 import MagnifierIcon from "@public/static/icon/magnifier.svg";
@@ -55,12 +55,12 @@ const ArroundMap = ({ width, height, latitude, longitude, department }: ArroundM
   const [coords, setCoords] = useState<Coords>({ latitude, longitude });
   const mapRef = useRef<kakao.maps.Map | undefined>();
   const { getApi, postApi } = customApi(`/api/users/my-hospitals/map?latitude=${latitude}&longitude=${longitude}`);
-  useQuery<AroundMapHospitalsResponse>(["hospitalsMap", "map"], getApi, {
+  const { data: initialHospitals } = useQuery<AroundMapHospitalsResponse>(["hospitalsMap", "map"], getApi, {
     onSuccess(data) {
       setHospitals(data);
     },
   });
-  const { mutate } = useMutation<AroundMapHospitalsResponse, AxiosError, SearchHospitalRequest>(
+  const { data: updateHospitals, mutate } = useMutation<AroundMapHospitalsResponse, AxiosError, SearchHospitalRequest>(
     ["hospital", "map"],
     postApi,
     {
@@ -69,14 +69,17 @@ const ArroundMap = ({ width, height, latitude, longitude, department }: ArroundM
       },
     },
   );
-  const filterHospitals = (data: AroundMapHospitalsResponse | undefined) => {
-    return data?.filter(
-      hospital =>
-        hospital.medicalDepartments.filter(
-          medicalDepartment => medicalDepartment.medicalDepartment.department === department,
-        ).length > 0,
-    );
-  };
+  const filterHospitals = useCallback(
+    (data: AroundMapHospitalsResponse | undefined) => {
+      return data?.filter(
+        hospital =>
+          hospital.medicalDepartments.filter(
+            medicalDepartment => medicalDepartment.medicalDepartment.department === department,
+          ).length > 0,
+      );
+    },
+    [department],
+  );
 
   const handleClickMarker = ({
     index,
@@ -99,8 +102,7 @@ const ArroundMap = ({ width, height, latitude, longitude, department }: ArroundM
 
   useEffect(() => {
     department === "all" || setHospitals(filterHospitals(hospitals));
-  }, [department, hospitals, filterHospitals]);
-
+  }, [department, initialHospitals, updateHospitals, filterHospitals]);
   return (
     <MapContainer width={width} height={height}>
       <ControlBox>
