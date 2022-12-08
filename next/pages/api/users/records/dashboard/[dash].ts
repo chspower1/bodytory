@@ -113,15 +113,6 @@ async function threeMonthFn(req: NextApiRequest, res: NextApiResponse) {
 
   reduceFn(threeMonthUser, userTemporaryStorage);
 
-  /* Object.entries(userTemporaryStorage).map(ele=>{
-    if(ele[0] in result){
-      console.log(ele[0])
-    }
-  }); */
-
-  console.log(userTemporaryStorage);
-  console.log(result);
-
   Object.entries(userTemporaryStorage).forEach(elem => {
     if (!result.some(record => record.position === elem[0])) {
       return result.push({ position: elem[0], userLength: elem[1] });
@@ -134,9 +125,8 @@ async function threeMonthFn(req: NextApiRequest, res: NextApiResponse) {
     });
   });
 
-  console.log(result);
 
-  return res.status(200).end();
+  return res.status(200).json(result);
 }
 
 export default withApiSession(withHandler({ methods: ["GET"], handler }));
