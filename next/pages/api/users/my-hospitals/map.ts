@@ -70,7 +70,7 @@ const getHospitals = async ({
         },
       },
     },
-    take: 100,
+    take: 200,
   });
   return hospitals;
 };
