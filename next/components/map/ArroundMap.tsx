@@ -3,7 +3,7 @@ import MapDetailModal from "@components/modals/map/MapDetailModal";
 import { Box, Container } from "@styles/Common";
 import { useQuery } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import styled from "styled-components";
 
@@ -31,17 +31,36 @@ export interface AroundMapHospital {
 interface medicalDepartment {
   medicalDepartment: { department: string };
 }
+interface CurrentRangeCoords {
+  minLatitude: number;
+  maxLatitude: number;
+  minLongitude: number;
+  maxLongitude: number;
+}
 type AroundMapHospitalsResponse = AroundMapHospital[];
 const ArroundMap = ({ width, height, latitude, longitude, department }: ArroundMapProps) => {
   const [clickIndex, setClickIndex] = useState(-1);
   const [hospitals, setHospitals] = useState<AroundMapHospitalsResponse>();
+  const [fetchCount, setFetchCount] = useState(0);
   const [coords, setCoords] = useState<Coords>({ latitude, longitude });
-  const { getApi } = customApi(`/api/users/my-hospitals/map?latitude=${latitude}&longitude=${longitude}`);
-  const { isLoading, data } = useQuery<AroundMapHospitalsResponse>(["hospitalsMap", "map"], getApi);
-  useEffect(() => {
-    if (department === "all") setHospitals(data);
-    else setHospitals(filterHospitals(data));
-  }, [department, data]);
+  const currentRangeCoords = useRef<CurrentRangeCoords>();
+  const { getApi: initialGetApi } = customApi(
+    `/api/users/my-hospitals/map?latitude=${latitude}&longitude=${longitude}`,
+  );
+  const { getApi: updateGetApi } = customApi(
+    `/api/users/my-hospitals/map?minLatitude=${currentRangeCoords.current?.minLatitude}&minLongitude=${currentRangeCoords.current?.minLongitude}&maxLatitude=${currentRangeCoords.current?.maxLatitude}&maxLongitude=${currentRangeCoords.current?.maxLongitude}`,
+  );
+  const { isLoading, data, refetch } = useQuery<AroundMapHospitalsResponse>(
+    ["hospitalsMap", "map"],
+    fetchCount ? updateGetApi : initialGetApi,
+    // initialGetApi,
+    {
+      onSuccess(data) {
+        console.log(data);
+        console.log(fetchCount);
+      },
+    },
+  );
 
   const filterHospitals = (data: AroundMapHospitalsResponse | undefined) => {
     return data?.filter(
@@ -65,8 +84,10 @@ const ArroundMap = ({ width, height, latitude, longitude, department }: ArroundM
     setCoords({ latitude: latitude + 0.001, longitude: longitude });
   };
 
-  console.log(department);
-
+  useEffect(() => {
+    if (department === "all") setHospitals(data);
+    else setHospitals(filterHospitals(data));
+  }, [department, data]);
   return (
     <MapContainer width={width} height={height}>
       {!isLoading && (
@@ -81,6 +102,20 @@ const ArroundMap = ({ width, height, latitude, longitude, department }: ArroundM
             height,
           }}
           level={3}
+          onDragEnd={() => {
+            console.log("끝");
+            setFetchCount(1);
+            console.log(currentRangeCoords.current);
+            refetch();
+          }}
+          onBoundsChanged={map => {
+            currentRangeCoords.current = {
+              minLatitude: map.getBounds().getSouthWest().getLat(),
+              minLongitude: map.getBounds().getSouthWest().getLng(),
+              maxLatitude: map.getBounds().getNorthEast().getLat(),
+              maxLongitude: map.getBounds().getNorthEast().getLng(),
+            };
+          }}
         >
           <MapMarker
             position={{ lat: latitude!, lng: longitude! }}
