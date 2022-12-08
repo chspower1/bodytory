@@ -43,6 +43,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
         <title>바디토리</title>
       </Head>
       <QueryClientProvider client={queryClient}>
