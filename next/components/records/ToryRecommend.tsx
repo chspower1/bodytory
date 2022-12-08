@@ -7,6 +7,7 @@ import Modal from "@components/modals/Modal";
 import ArroundMap from "@components/modals/map/ArroundMapModal";
 import { AnimatePresence } from "framer-motion";
 import useCoords from "@hooks/useCoords";
+import LocationPinIcon from "@public/static/icon/location_pin.svg";
 
 function ToryRecommend() {
   const [showModal, setShowModal] = useState(false);
@@ -23,8 +24,9 @@ function ToryRecommend() {
               <strong>$정형외과, 가정의학과, 치과</strong>에 방문해보시는 것을 추천드려요!
             </Text>
           </RecommendText>
-          <RoundButton size="md" onClick={() => setShowModal(true)}>
-            내 주변 해당 병원 찾기
+          <RoundButton size="custom" height="50px" padding="0 30px" onClick={() => setShowModal(true)}>
+           <LocationPinIcon width={26} height={26} style={{ marginRight: "10px" }} />
+            <span>내 주변 해당 병원 찾기</span>
           </RoundButton>
         </ToryRecommendBox>
         <Warning>

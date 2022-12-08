@@ -70,7 +70,7 @@ const Button = styled.button<{
   &:hover {
     background-color: ${props => ChangeToHoverColor(props.bgColor)};
   }
-  transition: background-color 0.5s ease;
+  transition: background-color .35s ease;
   button {
     color: ${props => props.textColor};
   }
