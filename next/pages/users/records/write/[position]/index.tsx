@@ -30,21 +30,20 @@ interface WriteRecordRequest {
 interface WriteForm {
   description: string;
 }
-type RecordStatus = "initial" | "finish" | "listening" | "loading";
+type RecordStatus = "initial" | "finish" | "listening" | "loading" | "error";
 const PositionPage = () => {
   const router = useRouter();
   const position = router.query.position as Position;
   const [isEditMode, setIsEditMode] = useState(true);
-  const [isOnSubmit, setIsOnSubmit] = useState(false);
   const {
     register,
     setValue,
-    handleSubmit,
     formState: { errors },
     watch,
     clearErrors,
   } = useForm<WriteForm>();
-  const { offRecAudio, onRecAudio, audioRecognized } = useAudio();
+  const [onHoverRefreshBtn, setOnHoverRefreshBtn] = useState(false);
+  const { offRecAudio, onRecAudio, audioRecognized, error: aiError } = useAudio();
   const [listening, setListening] = useState(false);
   const [error, setError] = useState(false);
   const [recordStatus, setRecordStatus] = useState<RecordStatus>("initial");
@@ -61,6 +60,13 @@ const PositionPage = () => {
     (recordStatus === "loading" && "토리가 음성을 분석 중이에요! 잠시만 기다려 주세요!") ||
     (recordStatus === "finish" && audioRecognized) ||
     "";
+  const buttonGuideMessage: string =
+    (recordStatus === "initial" && "버튼을 누르고 증상을 말해주세요") ||
+    (recordStatus === "listening" && "말하기를 종료하려면 버튼을 눌러주세요") ||
+    (recordStatus === "loading" && "토리가 음성을 분석 중이에요! 잠시만 기다려 주세요!") ||
+    (recordStatus === "finish" && "기록을 완료하려면 버튼을 눌러주세요") ||
+    (recordStatus === "error" && "인식에 실패했어요.. 다시 녹음하거나 타이핑으로 입력해 주세요.") ||
+    "";
   console.log(audioRecognized);
   const startRecord = () => {
     setError(false);
@@ -73,19 +79,16 @@ const PositionPage = () => {
     offRecAudio();
   };
   const hadleClickCreateRecord = (description: string) => {
-    console.log("hadleClickCreateRecord", isOnSubmit, recordStatus, description);
-    if (isOnSubmit) {
-      if (recordStatus === "finish") {
-        console.log("mutate");
-        mutate({ position: router.query.position as string, description });
-        router.push("/users/records/write/analysis");
-      } else {
-        setIsOnSubmit(false);
-        setError(true);
-      }
-    } else setIsOnSubmit(true);
+    console.log("hadleClickCreateRecord", recordStatus, description);
+    if (recordStatus === "finish") {
+      console.log("mutate");
+      mutate({ position: router.query.position as string, description });
+      router.push("/users/records/write/analysis");
+    } else {
+      setError(true);
+    }
   };
-
+  console.log(aiError);
   const handleClickEditMode = () => {
     setError(false);
     if (!(recordStatus === "finish")) {
@@ -103,8 +106,9 @@ const PositionPage = () => {
   }, [recordMessage, setValue]);
 
   useEffect(() => {
-    if (audioRecognized) setRecordStatus("finish");
-  }, [audioRecognized]);
+    aiError ? setRecordStatus("error") : audioRecognized && setRecordStatus("finish");
+  }, [audioRecognized, aiError]);
+
   useEffect(() => {
     if (recordStatus === "listening") setListening(true);
     else setListening(false);
@@ -148,8 +152,16 @@ const PositionPage = () => {
                 height="46px"
                 boxShadow={false}
               >
-                <Image src={refresh} width={30} height={30} alt="다시 녹음" />
+                <Image
+                  src={refresh}
+                  width={30}
+                  height={30}
+                  alt="다시 녹음"
+                  onMouseEnter={() => setOnHoverRefreshBtn(true)}
+                  onMouseLeave={() => setOnHoverRefreshBtn(false)}
+                />
               </CircleButton>
+              {onHoverRefreshBtn && <RefreshText>다시 녹음하기</RefreshText>}
               {(error || errors.description) && <ErrorMessage>증상을 입력해주세요!</ErrorMessage>}
             </MemoBox>
 
@@ -161,6 +173,7 @@ const PositionPage = () => {
                 recordStatus === "initial" && startRecord();
                 recordStatus === "listening" && endRecord();
                 recordStatus === "finish" && hadleClickCreateRecord(watch("description"));
+                recordStatus === "error" && startRecord();
               }}
               boxShadow={false}
             >
@@ -168,9 +181,10 @@ const PositionPage = () => {
               {recordStatus === "listening" && <Rectangle />}
               {recordStatus === "loading" && "loading"}
               {recordStatus === "finish" && <Image src={check} width={55} height={55} alt="제출" />}
+              {recordStatus === "error" && <Mic />}
             </CircleButton>
           </VoiceBox>
-          <BodyText>버튼을 누르고 증상을 말해주세요</BodyText>
+          <BodyText>{buttonGuideMessage}</BodyText>
         </Col>
       </FlexContainer>
       <SpeakMotion right listening={listening} />
@@ -197,7 +211,11 @@ const MemoBox = styled(Box)`
   position: relative;
   gap: 15px;
 `;
-
+const RefreshText = styled.div`
+  position: absolute;
+  right: -110px;
+  color: ${({ theme }) => theme.color.mintBtn};
+`;
 const MemoInput = styled.input`
   display: flex;
   justify-content: center;
