@@ -2,43 +2,19 @@ import Header from "@components/header/Header";
 import styled from "styled-components";
 import Han from "@public/static/teamImage/Han.png";
 import Kim from "@public/static/teamImage/Kim.png";
+import Jung from "@public/static/teamImage/Jung.png";
+import Oh from "@public/static/teamImage/Oh.png";
+import Jo from "@public/static/teamImage/Jo.png";
 import Image from "next/image";
-
-const teams = [
-  {
-    name: "han5",
-    description: "반갑습니다",
-    age: "25",
-  },
-  {
-    name: "han4",
-    description: "반갑습니다",
-    age: "25",
-  },
-  {
-    name: "han3",
-    description: "반갑습니다",
-    age: "25",
-  },
-  {
-    name: "han2",
-    description: "반갑습니다",
-    age: "25",
-  },
-  {
-    name: "han1",
-    description: "반갑습니다",
-    age: "25",
-  },
-];
-
-const qwe = () => {
+const Team = () => {
   return (
     <Container>
       <Header />
       <TeamContainer>
         <HoSung>
-          <Profile></Profile>
+          <Profile>
+            <Image src={Jo} width={300} height={300} alt="KyeongWon"></Image>
+          </Profile>
           <DescriptionContainer>
             <Name>
               조호성<Position>팀장</Position>
@@ -52,7 +28,7 @@ const qwe = () => {
         </HoSung>
         <KyeongWon>
           <Profile>
-            <Image src={Kim} width={300} height={300} alt="KyeongWon"></Image>
+            <Image src={Kim} fill alt="KyeongWon"></Image>
           </Profile>
           <DescriptionContainer>
             <Name>
@@ -66,7 +42,9 @@ const qwe = () => {
           </DescriptionContainer>
         </KyeongWon>
         <DaHyen>
-          <Profile></Profile>
+          <Profile>
+            <Image src={Oh} fill alt="KyeongWon"></Image>
+          </Profile>
           <DescriptionContainer>
             <Name>
               오다현<Position>팀원</Position>
@@ -76,11 +54,13 @@ const qwe = () => {
               <Bedge backgroundColor="#ffbe14">AI</Bedge>
               <Bedge backgroundColor="#8f00ff">DevOps</Bedge>
             </BedgeBox>
-            <Description></Description>
+            <Description>AI 너무 어렵네요 ㅋㅋ</Description>
           </DescriptionContainer>
         </DaHyen>
         <SoHee>
-          <Profile></Profile>
+          <Profile>
+            <Image src={Jung} fill alt="SoHee"></Image>
+          </Profile>
           <DescriptionContainer>
             <Name>
               정소희<Position>팀원</Position>
@@ -90,12 +70,12 @@ const qwe = () => {
               <Bedge backgroundColor="#ffbe14">AI</Bedge>
               <Bedge backgroundColor="#ff5f98">PM/Design</Bedge>
             </BedgeBox>
-            <Description></Description>
+            <Description>토리엄마입니다. 우리 토리 이쁘게 봐주세요~*^^*</Description>
           </DescriptionContainer>
         </SoHee>
         <DongRyong>
           <Profile>
-            <Image src={Han} width={300} height={300} alt="DongRyong"></Image>
+            <Image src={Han} fill alt="DongRyong"></Image>
           </Profile>
           <DescriptionContainer>
             <Name>
@@ -147,7 +127,7 @@ const DescriptionContainer = styled.div`
   width: 100%;
   height: 300px;
   background-color: rgb(107, 112, 236);
-  border-radius: 30px;
+  border-radius: 35px;
   padding: 130px 30px 30px 30px;
   z-index: 10;
   transform: translateY(-150px);
@@ -159,6 +139,7 @@ const Profile = styled.div`
   width: 300px;
   height: 300px;
   border-radius: 30px;
+  overflow: hidden;
   transform: translateY(150px);
   transition: transform 0.5s;
   z-index: 11;
@@ -207,4 +188,4 @@ const KyeongWon = styled(HoSung)``;
 const DaHyen = styled(HoSung)``;
 const SoHee = styled(HoSung)``;
 
-export default qwe;
+export default Team;
