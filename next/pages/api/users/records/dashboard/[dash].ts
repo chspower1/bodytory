@@ -5,7 +5,6 @@ import { withApiSession } from "@utils/server/withSession";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { dash } = req.query;
-  console.log(dash);
   if (dash === "aMonth") return await aMonthFn(req, res);
   if (dash === "threeMonth") return await threeMonthFn(req, res);
 }
