@@ -2,13 +2,14 @@ import { CircleButton } from "@components/buttons/Button";
 import EventMarkerContainer from "@components/Maker";
 import MapDetailModal from "@components/modals/map/MapDetailModal";
 import { Box, Container } from "@styles/Common";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
 import { useEffect, useRef, useState } from "react";
 import { CustomOverlayMap, Map, MapMarker } from "react-kakao-maps-sdk";
 import styled from "styled-components";
 import MagnifierIcon from "@public/static/icon/magnifier.svg";
 import UserIcon from "@public/static/icon/user.svg";
+import { AxiosError } from "axios";
 
 interface ArroundMapProps {
   width: string;
@@ -40,36 +41,40 @@ interface CurrentRangeCoords {
   minLongitude: number;
   maxLongitude: number;
 }
+interface SearchHospitalRequest {
+  minLatitude: number;
+  minLongitude: number;
+  maxLatitude: number;
+  maxLongitude: number;
+}
 type AroundMapHospitalsResponse = AroundMapHospital[];
 
 const ArroundMap = ({ width, height, latitude, longitude, department }: ArroundMapProps) => {
   const [clickIndex, setClickIndex] = useState(-1);
   const [hospitals, setHospitals] = useState<AroundMapHospitalsResponse>();
-  const [isInitialFetch, setIsInitialFetch] = useState(true);
   const [coords, setCoords] = useState<Coords>({ latitude, longitude });
   const mapRef = useRef<kakao.maps.Map | undefined>();
-  const { getApi: initialGetApi } = customApi(
-    `/api/users/my-hospitals/map?latitude=${latitude}&longitude=${longitude}`,
-  );
-  const { getApi: updateGetApi } = customApi(
+  const fetchValidate =
+    mapRef.current?.getBounds().getSouthWest().getLat() &&
+    mapRef.current?.getBounds().getSouthWest().getLng() &&
+    mapRef.current?.getBounds().getNorthEast().getLat() &&
+    mapRef.current?.getBounds().getNorthEast().getLng();
+  const { getApi, postApi } = customApi(
     `/api/users/my-hospitals/map?minLatitude=${mapRef.current
       ?.getBounds()
       .getSouthWest()
-      .getLat()}&minLongitude=${mapRef?.current?.getBounds().getSouthWest().getLng()}&maxLatitude=${mapRef.current
+      .getLat()}&minLongitude=${mapRef.current?.getBounds().getSouthWest().getLng()}&maxLatitude=${mapRef.current
       ?.getBounds()
-      ?.getNorthEast()
-      ?.getLat()}&maxLongitude=${mapRef.current?.getBounds().getNorthEast().getLng()}`,
+      .getNorthEast()
+      .getLat()}&maxLongitude=${mapRef.current?.getBounds().getNorthEast().getLng()}`,
   );
-  const { isLoading, data, refetch } = useQuery<AroundMapHospitalsResponse>(
-    ["hospitalsMap", "map"],
-    isInitialFetch ? initialGetApi : updateGetApi,
-    {
-      onSuccess() {
-        setIsInitialFetch(false);
-      },
-    },
+  const { data: initialHospitals, refetch } = useQuery<AroundMapHospitalsResponse>(["hospitalsMap", "map"], getApi, {
+    enabled: Boolean(fetchValidate),
+  });
+  const { data, mutate } = useMutation<AroundMapHospitalsResponse, AxiosError, SearchHospitalRequest>(
+    ["hospital", "map"],
+    postApi,
   );
-
   const filterHospitals = (data: AroundMapHospitalsResponse | undefined) => {
     return data?.filter(
       hospital =>
@@ -99,62 +104,73 @@ const ArroundMap = ({ width, height, latitude, longitude, department }: ArroundM
   };
 
   useEffect(() => {
-    if (department === "all") setHospitals(data);
-    else setHospitals(filterHospitals(data));
-  }, [department, data]);
+    if (department === "all") setHospitals(initialHospitals);
+    else setHospitals(filterHospitals(initialHospitals));
+  }, [department, initialHospitals]);
 
   return (
     <MapContainer width={width} height={height}>
       <ControlBox>
-        <CircleButton nonSubmit size="custom" height="50px" width="50px" onClick={refetch}>
+        <CircleButton
+          nonSubmit
+          size="custom"
+          height="50px"
+          width="50px"
+          onClick={() => {
+            mutate({
+              minLatitude: mapRef.current?.getBounds().getSouthWest().getLat()!,
+              minLongitude: mapRef.current?.getBounds().getSouthWest().getLng()!,
+              maxLatitude: mapRef.current?.getBounds().getNorthEast().getLat()!,
+              maxLongitude: mapRef.current?.getBounds().getNorthEast().getLng()!,
+            });
+          }}
+        >
           <MagnifierIcon width={25} height={25} fill="white" />
         </CircleButton>
         <CircleButton nonSubmit size="custom" height="50px" width="50px" onClick={handleClickReset}>
           <UserIcon width={30} height={30} fill="white" />
         </CircleButton>
       </ControlBox>
-      {!isLoading && (
-        <Map
-          center={{
-            lat: coords.latitude,
-            lng: coords.longitude,
-          }}
-          isPanto={true}
-          style={{
-            width,
-            height,
-          }}
-          onCreate={map => (mapRef.current = map)}
-          level={3}
-          onBoundsChanged={() => {
-            console.log(mapRef.current?.getBounds().getSouthWest().getLat());
-          }}
-        >
-          <MapMarker
-            position={{ lat: latitude!, lng: longitude! }}
-            image={{
-              src: "https://imagedelivery.net/AbuMCvvnFZBtmCKKJV_e6Q/e545a9f3-61fc-49de-df91-a3f5b4e08200/avatar", // 마커이미지의 주소입니다
-              size: {
-                width: 45,
-                height: 45,
-              },
-              options: {
-                offset: {
-                  x: 23,
-                  y: 0,
-                },
-              },
-            }}
-          />
 
-          {hospitals?.map((hospital, index) => (
-            <MarkerBox key={index}>
-              <EventMarkerContainer hospital={hospital} index={index} handleClickMarker={handleClickMarker} />
-              <MapDetailModal clickIndex={clickIndex} setClickIndex={setClickIndex} index={index} hospital={hospital} />
-            </MarkerBox>
-          ))}
-        </Map>
-      )}
+      <Map
+        center={{
+          lat: coords.latitude,
+          lng: coords.longitude,
+        }}
+        isPanto={true}
+        style={{
+          width,
+          height,
+        }}
+        onCreate={map => (mapRef.current = map)}
+        level={3}
+        onBoundsChanged={() => {
+          console.log(mapRef.current?.getBounds().getSouthWest().getLat());
+        }}
+      >
+        <MapMarker
+          position={{ lat: latitude!, lng: longitude! }}
+          image={{
+            src: "https://imagedelivery.net/AbuMCvvnFZBtmCKKJV_e6Q/e545a9f3-61fc-49de-df91-a3f5b4e08200/avatar", // 마커이미지의 주소입니다
+            size: {
+              width: 45,
+              height: 45,
+            },
+            options: {
+              offset: {
+                x: 23,
+                y: 0,
+              },
+            },
+          }}
+        />
+        {hospitals?.map((hospital, index) => (
+          <MarkerBox key={index}>
+            <EventMarkerContainer hospital={hospital} index={index} handleClickMarker={handleClickMarker} />
+            <MapDetailModal clickIndex={clickIndex} setClickIndex={setClickIndex} index={index} hospital={hospital} />
+          </MarkerBox>
+        ))}
+      </Map>
     </MapContainer>
   );
 };
