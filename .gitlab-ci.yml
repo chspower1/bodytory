@@ -38,4 +38,3 @@ deploy:
     - docker rmi [next_app:tag]
     - docker rmi [flask_app:tag]
     - docker-compose up -d
-    - docker ps
