@@ -65,15 +65,22 @@ const HeaderWrap = styled.div`
   top: 0px;
   width: 100%;
   z-index: 1000;
+
 `;
 const HeaderContainer = styled.div`
   padding: 0 65px;
+  @media (max-width: 570px){
+    padding: 0 20px;
+  }
 `;
 const HeaderInnerBox = styled.div`
   padding: 30px 0;
   display: flex;
   align-items: center;
   justify-content: end;
+  @media (max-width: 570px){
+    justify-content: start;
+  }
 `;
 const HeaderLogoBox = styled.div`
   margin-left: 42px;
@@ -92,8 +99,16 @@ const HeaderLogoBox = styled.div`
       overflow: hidden;
     }
   }
+  @media (max-width: 570px){
+    order: 1;
+      a {
+        width: 100px;
+        height: 30px;
+      }
+  }
 `;
 const HeaderUl = styled.ul`
+  
   display: flex;
   width: 270px;
   align-items: center;
@@ -105,5 +120,9 @@ const HeaderUl = styled.ul`
     a {
       color: #fff;
     }
+  }
+  @media (max-width: 570px){
+    order: 2;
+      
   }
 `;
