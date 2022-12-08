@@ -1,11 +1,15 @@
+import { CircleButton } from "@components/buttons/Button";
 import EventMarkerContainer from "@components/Maker";
 import MapDetailModal from "@components/modals/map/MapDetailModal";
 import { Box, Container } from "@styles/Common";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
-import { useEffect, useState } from "react";
-import { Map, MapMarker } from "react-kakao-maps-sdk";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { CustomOverlayMap, Map, MapMarker } from "react-kakao-maps-sdk";
 import styled from "styled-components";
+import MagnifierIcon from "@public/static/icon/magnifier.svg";
+import UserIcon from "@public/static/icon/user.svg";
+import { AxiosError } from "axios";
 
 interface ArroundMapProps {
   width: string;
@@ -31,26 +35,52 @@ export interface AroundMapHospital {
 interface medicalDepartment {
   medicalDepartment: { department: string };
 }
+interface CurrentRangeCoords {
+  minLatitude: number;
+  maxLatitude: number;
+  minLongitude: number;
+  maxLongitude: number;
+}
+interface SearchHospitalRequest {
+  minLatitude: number;
+  minLongitude: number;
+  maxLatitude: number;
+  maxLongitude: number;
+}
 type AroundMapHospitalsResponse = AroundMapHospital[];
+
 const ArroundMap = ({ width, height, latitude, longitude, department }: ArroundMapProps) => {
   const [clickIndex, setClickIndex] = useState(-1);
-  const [hospitals, setHospitals] = useState<AroundMapHospitalsResponse>();
+  const [allHospitals, setAllHospitals] = useState<AroundMapHospitalsResponse>();
+  const [filteredHospitals, setFilteredHospitals] = useState<AroundMapHospitalsResponse>();
   const [coords, setCoords] = useState<Coords>({ latitude, longitude });
-  const { getApi } = customApi(`/api/users/my-hospitals/map?latitude=${latitude}&longitude=${longitude}`);
-  const { isLoading, data } = useQuery<AroundMapHospitalsResponse>(["hospitalsMap", "map"], getApi);
-  useEffect(() => {
-    if (department === "all") setHospitals(data);
-    else setHospitals(filterHospitals(data));
-  }, [department, data]);
-
-  const filterHospitals = (data: AroundMapHospitalsResponse | undefined) => {
-    return data?.filter(
-      hospital =>
-        hospital.medicalDepartments.filter(
-          medicalDepartment => medicalDepartment.medicalDepartment.department === department,
-        ).length > 0,
-    );
-  };
+  const mapRef = useRef<kakao.maps.Map | undefined>();
+  const { getApi, postApi } = customApi(`/api/users/my-hospitals/map?latitude=${latitude}&longitude=${longitude}`);
+  const { data: initialHospitals } = useQuery<AroundMapHospitalsResponse>(["hospitalsMap", "map"], getApi, {
+    onSuccess(data) {
+      setAllHospitals(data);
+    },
+  });
+  const { mutate } = useMutation<AroundMapHospitalsResponse, AxiosError, SearchHospitalRequest>(
+    ["hospital", "map"],
+    postApi,
+    {
+      onSuccess(data) {
+        setAllHospitals(data);
+      },
+    },
+  );
+  const filterHospitals = useCallback(
+    (data: AroundMapHospitalsResponse | undefined) => {
+      return data?.filter(
+        hospital =>
+          hospital.medicalDepartments.filter(
+            medicalDepartment => medicalDepartment.medicalDepartment.department === department,
+          ).length > 0,
+      );
+    },
+    [department],
+  );
 
   const handleClickMarker = ({
     index,
@@ -65,47 +95,81 @@ const ArroundMap = ({ width, height, latitude, longitude, department }: ArroundM
     setCoords({ latitude: latitude + 0.001, longitude: longitude });
   };
 
-  console.log(department);
+  const handleClickReset = () => {
+    const coords = new kakao.maps.LatLng(latitude, longitude);
+    setAllHospitals(initialHospitals);
+    mapRef.current?.setCenter(coords);
+    mapRef.current?.setLevel(3);
+  };
 
+  useEffect(() => {
+    if (!allHospitals) setAllHospitals(initialHospitals);
+    if (department === "all") setFilteredHospitals(allHospitals);
+    else setFilteredHospitals(filterHospitals(allHospitals));
+  }, [department, filterHospitals, allHospitals, initialHospitals]);
   return (
     <MapContainer width={width} height={height}>
-      {!isLoading && (
-        <Map
-          center={{
-            lat: coords.latitude,
-            lng: coords.longitude,
+      <ControlBox>
+        <CircleButton
+          nonSubmit
+          size="custom"
+          height="50px"
+          width="50px"
+          onClick={() => {
+            mutate({
+              minLatitude: mapRef.current?.getBounds().getSouthWest().getLat()!,
+              minLongitude: mapRef.current?.getBounds().getSouthWest().getLng()!,
+              maxLatitude: mapRef.current?.getBounds().getNorthEast().getLat()!,
+              maxLongitude: mapRef.current?.getBounds().getNorthEast().getLng()!,
+            });
           }}
-          isPanto={true}
-          style={{
-            width,
-            height,
-          }}
-          level={3}
         >
-          <MapMarker
-            position={{ lat: latitude!, lng: longitude! }}
-            image={{
-              src: "https://imagedelivery.net/AbuMCvvnFZBtmCKKJV_e6Q/e545a9f3-61fc-49de-df91-a3f5b4e08200/avatar", // 마커이미지의 주소입니다
-              size: {
-                width: 45,
-                height: 45,
+          <MagnifierIcon width={25} height={25} fill="white" />
+        </CircleButton>
+        <CircleButton nonSubmit size="custom" height="50px" width="50px" onClick={handleClickReset}>
+          <UserIcon width={30} height={30} fill="white" />
+        </CircleButton>
+      </ControlBox>
+
+      <Map
+        center={{
+          lat: coords.latitude,
+          lng: coords.longitude,
+        }}
+        isPanto={true}
+        style={{
+          width,
+          height,
+        }}
+        onCreate={map => (mapRef.current = map)}
+        level={3}
+        onBoundsChanged={() => {
+          console.log(mapRef.current?.getBounds().getSouthWest().getLat());
+        }}
+      >
+        <MapMarker
+          position={{ lat: latitude!, lng: longitude! }}
+          image={{
+            src: "https://imagedelivery.net/AbuMCvvnFZBtmCKKJV_e6Q/e545a9f3-61fc-49de-df91-a3f5b4e08200/avatar", // 마커이미지의 주소입니다
+            size: {
+              width: 45,
+              height: 45,
+            },
+            options: {
+              offset: {
+                x: 23,
+                y: 0,
               },
-              options: {
-                offset: {
-                  x: 23,
-                  y: 0,
-                },
-              },
-            }}
-          />
-          {hospitals?.map((hospital, index) => (
-            <MarkerBox key={index}>
-              <EventMarkerContainer hospital={hospital} index={index} handleClickMarker={handleClickMarker} />
-              <MapDetailModal clickIndex={clickIndex} setClickIndex={setClickIndex} index={index} hospital={hospital} />
-            </MarkerBox>
-          ))}
-        </Map>
-      )}
+            },
+          }}
+        />
+        {filteredHospitals?.map((hospital, index) => (
+          <MarkerBox key={index}>
+            <EventMarkerContainer hospital={hospital} index={index} handleClickMarker={handleClickMarker} />
+            <MapDetailModal clickIndex={clickIndex} setClickIndex={setClickIndex} index={index} hospital={hospital} />
+          </MarkerBox>
+        ))}
+      </Map>
     </MapContainer>
   );
 };
@@ -116,6 +180,14 @@ const MapContainer = styled(Container)<{ width: string; height: string }>`
   background-color: ${props => props.theme.color.weekPurple};
   border-radius: 20px;
   overflow: hidden;
+`;
+const ControlBox = styled(Box)`
+  position: absolute;
+  right: 0px;
+  top: 100px;
+  right: 30px;
+  gap: 20px;
+  z-index: 1000;
 `;
 const HoverBox = styled.div`
   border: 3px ${props => props.theme.color.weekPurple} solid;
