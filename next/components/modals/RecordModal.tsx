@@ -202,7 +202,7 @@ const ScrollContainer = styled.div`
 `;
 
 const RecordDetailContainer = styled.div`
-  padding: 30px 40px 40px 70px;
+  padding: 30px 40px 60px 70px;
 `;
 
 const Time = styled.div<{ byUser: boolean }>`
@@ -234,7 +234,7 @@ const Time = styled.div<{ byUser: boolean }>`
 
 const EditTextBox = styled.form`
   position: relative;
-  margin-bottom: 50px;
+  margin-bottom: 40px;
 
   & > * {
     margin: 0 auto 5px;
