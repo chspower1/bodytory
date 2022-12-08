@@ -17,7 +17,7 @@ import { RoundButton } from "@components/buttons/Button";
 import { Box, Col, Container, FlexContainer, InnerContainer, Row } from "@styles/Common";
 import { theme } from "@styles/theme";
 import { Form, FormContents, PrevNextButtonBox } from "./FirstPage";
-import { EMAIL_REGEX, KR_EN_REGEX, ONLY_KR_REGEX } from "constant/regex";
+import { BIRTH_REGEX, EMAIL_REGEX, KR_EN_REGEX, ONLY_KR_REGEX } from "constant/regex";
 import { checkEmptyObj } from "@utils/client/checkEmptyObj";
 import { createErrors } from "@utils/client/createErrors";
 import { loggedInUser } from "atoms/atoms";
@@ -65,6 +65,9 @@ const KoreanName = {
   birth: "생일",
 };
 const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
+  let MINDATE = new Date("1900-01-01 00:00:00");
+  let MAXDATE = new Date();
+
   const setCurrentUser = useSetRecoilState(loggedInUser);
 
   const { birth, email, gender, name, phone, type } = user!;
@@ -182,6 +185,8 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       setCurrentComment("마지막 단계에요!\n이용자님의 이름, 생일, 성별, 이메일을 알려주세요");
     }
   }, [isToken]);
+
+
   return (
     <FlexContainer>
       <InnerContainer>
@@ -216,7 +221,17 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                   placeholder="YYYY-MM-DD"
                   register={register("birth", {
                     required: "생일을 입력해주세요",
-                    // validate: value => /[^0-9]/g.test(value) || `숫자만 입력해주세요`,
+                    validate: {
+                      regexBirth: value => BIRTH_REGEX.test(value) || `이용자님의 생년월일을 적어주세요!`,
+                      checkBirth: value => {
+                        if (value.length === 10) {
+                          let currentDate = new Date(value);
+                          if (currentDate <= MINDATE || currentDate >= MAXDATE) {
+                            return `이용자님의 생년월일을 적어주세요!`;
+                          }
+                        }
+                      },
+                    },
                     minLength: {
                       value: 10,
                       message: "생년월일을 모두 입력해주세요!",
