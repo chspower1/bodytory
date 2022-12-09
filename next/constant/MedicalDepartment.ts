@@ -59,7 +59,7 @@ export const MEDICALDEPARTMENT = {
 
   31: "기타2",
 
-  40: "기타2",
+  // 40: "기타2",
 
   41: "보건",
 
@@ -113,7 +113,7 @@ export const MEDICALDEPARTMENT = {
 
   88: "한방응급",
 
-  89: "한방응급",
+  // 89: "한방응급",
 
   90: "한방소계",
 };
