@@ -128,6 +128,7 @@ const useAudio = () => {
   }, [media, stream, source]);
 
   const onSubmitAudioFile = async (audioUrl: Blob) => {
+    console.log("test");
     const reader = new FileReader();
     const sound = new Blob([audioUrl as BlobPart], { type: "audio/mpeg3" });
     reader.readAsArrayBuffer(sound);
