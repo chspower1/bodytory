@@ -31,6 +31,7 @@ import useHospital from "@hooks/useHospital";
 import sliceName from "@utils/client/sliceHospitalName";
 import MapDetailModal from "./MapDetailModal";
 import ArroundMap from "@components/map/ArroundMap";
+import useDepartmentSelect from "@hooks/useDepartmentSelect";
 
 interface Coords {
   latitude: number;
@@ -56,9 +57,8 @@ interface ArroundMapMaodalProps {
   longitude: number;
 }
 const ArroundMapModal: NextPage<ArroundMapMaodalProps> = ({ onClose, latitude, longitude }) => {
-  const [hoverIndex, setHoverIndex] = useState(-1);
-  const [clickIndex, setClickIndex] = useState(-1);
-  const [coords, setCoords] = useState<Coords>({ latitude, longitude });
+  const { department, DepartmentSelect } = useDepartmentSelect(["내과", "정형외과"]);
+
   const { getApi } = customApi(`/api/users/my-hospitals/map?latitude=${latitude}&longitude=${longitude}`);
   const { data: hospitals } = useQuery<AroundMapHospitalsResponse>(["hospitalsMap", "map"], getApi, {
     onSuccess(data) {
@@ -66,25 +66,12 @@ const ArroundMapModal: NextPage<ArroundMapMaodalProps> = ({ onClose, latitude, l
     },
   });
 
-  const handleClickMarker = ({
-    index,
-    longitude,
-    latitude,
-  }: {
-    index: number;
-    longitude: number;
-    latitude: number;
-  }) => {
-    setHoverIndex(-1);
-    setClickIndex(index);
-    setCoords({ latitude: latitude + 0.001, longitude: longitude });
-  };
-
   const modalContent = hospitals ? (
     <ModalWrapper>
       <Dim onClick={onClose} />
       <ModalContainer flex width="1500px" height="800px">
         <ToryText>현재 소희님의 위치를 기준으로 주변 정형외과들을 찾았어요!</ToryText>
+        <DepartmentSelect />
         <ArroundMap width="1500px" height="600px" longitude={longitude} latitude={latitude} department={department} />
         <ButtonBox>
           <RoundButton fontSize="16px" width="220px" height="40px" onClick={onClose}>

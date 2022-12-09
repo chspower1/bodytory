@@ -4,7 +4,7 @@ import IconHospital from "@public/static/icon/icon_hospital.png";
 import IconWarning from "@public/static/icon/icon_warning.png";
 import { useState } from "react";
 import Modal from "@components/modals/Modal";
-import ArroundMap from "@components/modals/map/ArroundMapModal";
+import ArroundMapModal from "@components/modals/map/ArroundMapModal";
 import { AnimatePresence } from "framer-motion";
 import useCoords from "@hooks/useCoords";
 import LocationPinIcon from "@public/static/icon/location_pin.svg";
@@ -42,7 +42,9 @@ function ToryRecommend({ mostThreeDepartment }: ToryRecommendProps) {
         </Warning>
       </ToryRecommendContainer>
       <AnimatePresence>
-        {showModal && <ArroundMap latitude={latitude!} longitude={longitude!} onClose={() => setShowModal(false)} />}
+        {showModal && (
+          <ArroundMapModal latitude={latitude!} longitude={longitude!} onClose={() => setShowModal(false)} />
+        )}
       </AnimatePresence>
     </>
   );
