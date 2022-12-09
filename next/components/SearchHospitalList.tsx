@@ -89,13 +89,13 @@ const SearchHospitalList = () => {
       </SearchBox>
       <HospitalContainer add={true}>
         <InnerContainer add={true}>
-          {hospitals?.length === 0 && isLoading && <ListSkeleton backgroundColor="rgb(225,227,255)" />}
+          {!searchWord || hospitals?.length === 0 && isLoading && <ListSkeleton backgroundColor="rgb(225,227,255)" />}
           {hospitals?.length !== 0 && (
             <HospitalLists>
               {hospitals?.map((hospital, idx) => (
                 <HospitalContent hospital={hospital} idx={hospital.id} add={true} key={hospital.id} shared={false} />
               ))}
-              {isLoading ? (
+              { isLoading ? (
                 <ListSkeleton backgroundColor="rgb(225,227,255)" />
               ) : (
                 <div
