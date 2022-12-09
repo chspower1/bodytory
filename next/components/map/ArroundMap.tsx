@@ -130,7 +130,6 @@ const ArroundMap = ({ width, height, latitude, longitude, department }: ArroundM
           <UserIcon width={30} height={30} fill="white" />
         </CircleButton>
       </ControlBox>
-
       <Map
         center={{
           lat: coords.latitude,
@@ -180,11 +179,12 @@ const MapContainer = styled(Container)<{ width: string; height: string }>`
   background-color: ${props => props.theme.color.weekPurple};
   border-radius: 20px;
   overflow: hidden;
+  position: relative;
 `;
 const ControlBox = styled(Box)`
   position: absolute;
   right: 0px;
-  top: 100px;
+  top: 30px;
   right: 30px;
   gap: 20px;
   z-index: 999;

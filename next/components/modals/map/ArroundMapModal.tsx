@@ -56,10 +56,10 @@ interface ArroundMapMaodalProps {
   onClose: () => void;
   latitude: number;
   longitude: number;
-  mostThreeDepartment: string[];
+  mostThreeDepartment: string[] | undefined;
 }
 const ArroundMapModal: NextPage<ArroundMapMaodalProps> = ({ onClose, latitude, longitude, mostThreeDepartment }) => {
-  const { department, DepartmentSelect } = useDepartmentSelect(mostThreeDepartment);
+  const { department, DepartmentSelect } = useDepartmentSelect(mostThreeDepartment ? mostThreeDepartment : []);
 
   const { getApi } = customApi(`/api/users/my-hospitals/map?latitude=${latitude}&longitude=${longitude}`);
   const { data: hospitals } = useQuery<AroundMapHospitalsResponse>(["hospitalsMap", "map"], getApi, {
