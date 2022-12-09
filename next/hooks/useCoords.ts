@@ -7,9 +7,9 @@ interface Coords {
 
 export default function useCoords() {
   const [coords, setCoords] = useState<Coords>({ latitude: null, longitude: null });
-  const onSuccess = useCallback(({ coords: { latitude, longitude } }: GeolocationPosition) => {
+  const onSuccess = ({ coords: { latitude, longitude } }: GeolocationPosition) => {
     setCoords({ latitude, longitude });
-  }, []);
+  };
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(onSuccess);
   }, []);
