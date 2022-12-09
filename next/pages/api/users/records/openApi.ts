@@ -1,15 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import client from "utils/server/client";
 import withHandler from "@utils/server/withHandler";
 import { withApiSession } from "@utils/server/withSession";
-import { NextResponse } from "next/server";
 import axios from "axios";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { user } = req.session;
   if (!user) return res.status(401).send("회원 정보를 확인해주세요");
-
-  if (req.method === "POST") return await createRecord(req, res);
+  return await createRecord(req, res);
 }
 
 async function createRecord(req: NextApiRequest, res: NextApiResponse) {
@@ -33,7 +30,6 @@ async function createRecord(req: NextApiRequest, res: NextApiResponse) {
   );
   console.log(audioRecognized);
 
-  if (!user) return res.status(400).end();
   return res.status(200).json(audioRecognized);
 }
 
