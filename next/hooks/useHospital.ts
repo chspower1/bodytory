@@ -3,7 +3,7 @@ import { theme } from "@styles/theme";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
 import { HOSPITALS } from "constant/queryKeys";
-import { SetStateAction, useState } from "react";
+import { SetStateAction, useCallback, useState } from "react";
 
 const useHospital = () => {
   const queryClient = useQueryClient();
@@ -29,20 +29,20 @@ const useHospital = () => {
       refreshHospitalCache();
     },
   });
-  const handleClickAddHospital = (id: number, option?: (value: SetStateAction<boolean | undefined>) => void) => {
+  const handleClickAddHospital = useCallback((id: number, option?: (value: SetStateAction<boolean | undefined>) => void) => {
     addHospitalMutate({ id });
     option && option(true);
     setShowModal(false);
-  };
-  const handleClickDeleteHospital = (id: number, option?: (value: SetStateAction<boolean | undefined>) => void) => {
+  }, []);
+  const handleClickDeleteHospital = useCallback((id: number, option?: (value: SetStateAction<boolean | undefined>) => void) => {
     deleteHospitalMutate({ id });
     option && option(false);
     setShowModal(false);
-  };
-  const handleClickShare = (id: number, option?: (value: SetStateAction<boolean>) => void) => {
+  }, []);
+  const handleClickShare = useCallback((id: number, option?: (value: SetStateAction<boolean>) => void) => {
     sharedHospitalMutate({ id });
     option && option(prev => !prev);
-  };
+  }, []);
 
   return {
     addHospitalMutate,
