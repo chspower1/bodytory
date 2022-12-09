@@ -65,9 +65,9 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
             {add && (
               <Department>
                 <Text weight="500" size="16px">
-                  {department[0].medicalDepartment && department[0].medicalDepartment.department}
+                  {department[0].medicalDepartment ? department[0].medicalDepartment.department : "기타"}
                 </Text>
-                <Text size="16px">&nbsp;{department.length === 1 || `외 ${department.length - 1} 과목`}</Text>
+                {department.length <= 1 ||<Text size="16px">&nbsp;외 {department.length - 1} 과목</Text>}
               </Department>
             )}
           </HospitalDescriptionBox>
