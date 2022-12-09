@@ -25,7 +25,7 @@ const MyHospitalList = ({ hospitals, add, isLoading }: MyHospitalListProps) => {
               <HospitalContent
                 hospital={hospital.hospital}
                 idx={idx}
-                add={add}
+                add={false}
                 key={hospital.hospital.id}
                 shared={hospital.shared}
               />
@@ -68,7 +68,6 @@ const HospitalContainer = styled.div<{ add: boolean }>`
   background-color: ${prop => (prop.add ? "#f2f3ff" : "#d9deff")};
   border-radius: 40px;
   padding: 0 30px 30px;
-
 `;
 
 const HospitalLists = styled.ul`

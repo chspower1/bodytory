@@ -1,5 +1,6 @@
 import useHospital from "@hooks/useHospital";
 import { Hospital, MedicalDepartment } from "@prisma/client";
+import { Box } from "@styles/Common";
 import { theme } from "@styles/theme";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
@@ -11,6 +12,7 @@ import type { MyHospital, MyHospitalResponse } from "pages/users/my-hospital";
 import { useEffect, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import styled, { css } from "styled-components";
+import { isNoSubstitutionTemplateLiteral } from "typescript";
 import { ChangeToHoverColor, RectangleButton, RoundButton } from "./buttons/Button";
 import DeleteBtn from "./buttons/DeleteBtn";
 import Modal from "./modals/Modal";
@@ -29,7 +31,7 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
   const setHospitalCurrentIdx = useSetRecoilState(currentHospitalIdx);
   const [onConnected, setOnConnected] = useState(hospital.my);
   const [detailModal, setDetailModal] = useState(false);
-
+  const department = hospital.medicalDepartments;
   const {
     deleteHospitalMutate,
     showModal,
@@ -50,7 +52,7 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
     <HospitalInfor add={add}>
       <HospitalInforContainer>
         <HospitalInforBox>
-          <HospitalDescriptionBox>
+          <HospitalDescriptionBox add={add}>
             <NameText
               size="18px"
               weight="900px"
@@ -60,9 +62,17 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
             >
               {sliceName(hospital.name)}
             </NameText>
+            {add && (
+              <Department>
+                <Text weight="500" size="16px">
+                  {department[0].medicalDepartment && department[0].medicalDepartment.department}
+                </Text>
+                <Text size="16px">&nbsp;{department.length === 1 || `외 ${department.length - 1} 과목`}</Text>
+              </Department>
+            )}
           </HospitalDescriptionBox>
-          <HospitalPlaceBox>
-            <SpaceText weight="200" size="17px" add={add} title={hospital.address} onClick={() => setDetailModal(true)}>
+          <HospitalPlaceBox add={add}>
+            <SpaceText weight="300" size="17px" add={add} title={hospital.address} onClick={() => setDetailModal(true)}>
               {hospital.address}
             </SpaceText>
           </HospitalPlaceBox>
@@ -84,7 +94,7 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
             <RectangleButton
               nonSubmit
               size="md"
-              bgColor={onConnected ? `rgba(188, 197, 255, 1)` : theme.color.darkBg}
+              bgColor={onConnected ? theme.color.error : theme.color.darkBg}
               onClick={() => {
                 setShowModal(true);
               }}
@@ -164,14 +174,14 @@ const AddButtonBox = styled.div`
   flex-shrink: 0;
   position: relative;
 
-  span{
-    position:absolute;
+  span {
+    position: absolute;
     left: -70px;
     top: 50%;
     transform: translateY(-50%);
-    font-size : 16px;
+    font-size: 16px;
     font-weight: 600;
-    color: ${({theme}) => theme.color.input};
+    color: ${({ theme }) => theme.color.input};
   }
 `;
 
@@ -184,18 +194,19 @@ const DeleteBtnBox = styled.div`
   height: 40px;
 `;
 
-const Text = styled.span<{ size?: string; weight?: string; add: boolean }>`
+const Text = styled.span<{ size?: string; weight?: string; add?: boolean }>`
   position: relative;
   font-size: ${prop => prop.size || "16px"};
   font-weight: ${prop => prop.weight || "300"};
-  color: ${prop => (prop.add ? "#000" : "#fff")};
+  color: ${prop => (prop.add ? prop.theme.color.text : "#fff")};
 `;
 
 const NameText = styled(Text)`
   display: inline-block;
   cursor: pointer;
   white-space: nowrap;
-  max-width: 200px;
+  width: 200px;
+  font-weight: 600;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
@@ -245,7 +256,13 @@ const HospitalInfor = styled.li<{ add: boolean }>`
   width: 100%;
   height: 80px;
   background-color: ${prop => (prop.add ? "rgb(225,227,255)" : "rgb(100,106,235)")};
+  transition: all 0.4s ease;
   border-radius: 20px;
+  &:hover {
+    width: 101%;
+    box-shadow: ${props => props.theme.boxShadow.normal};
+    background-color: ${prop => (prop.add ? "rgb(217, 219, 255)" : "#575dd4")};
+  }
   & + & {
     margin-top: 20px;
   }
@@ -259,17 +276,16 @@ const HospitalInforContainer = styled.div`
   justify-content: space-between;
 `;
 
-const HospitalPlaceBox = styled.div`
+const HospitalPlaceBox = styled.div<{ add?: boolean }>`
   display: flex;
   align-items: center;
-  min-width: 350px;
+  width: ${props => (props.add ? "500px" : "270px")};
 `;
 
-const HospitalDescriptionBox = styled.div`
+const HospitalDescriptionBox = styled.div<{ add?: boolean }>`
   display: flex;
   align-items: center;
-  min-width: 200px;
-  max-width: 200px;
+  width: ${props => (props.add ? "400px" : "270px")};
 `;
 
 export const HospitalStatusBox = styled.div`
@@ -281,14 +297,11 @@ export const HospitalStatusBox = styled.div`
   justify-content: space-between;
 `;
 
-const Department = styled.div`
-  display: flex;
-  justify-content: center;
+const Department = styled(Box)`
   background-color: rgb(54, 60, 191);
-  color: white;
+  color: ${props => props.theme.color.weekPurple};
   padding: 0 10px;
   border-radius: 5px;
-  height: 29px;
-  min-width: 87px;
+  height: 32px;
   margin-left: 20px;
 `;

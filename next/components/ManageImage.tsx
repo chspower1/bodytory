@@ -38,7 +38,7 @@ const ManageImage = ({ recordId, recordImages, isHospital }: { recordId: string;
         <ImageSlideContainer>
           <Swiper
             pagination={{
-              type: "progressbar",
+              clickable: true,
             }}
             mousewheel={true}
             navigation={true}
@@ -86,7 +86,7 @@ const ImageSlideContainer = styled.div`
   height: 300px;
 
   .swiper {
-    padding-bottom: 20px;
+    padding-bottom: 40px;
   }
 
   .swiper-slide {
@@ -120,22 +120,25 @@ const ImageSlideContainer = styled.div`
     opacity: 0;
   }
 
-  .swiper-horizontal > .swiper-pagination-progressbar,
-  .swiper-pagination-progressbar.swiper-pagination-horizontal {
+  .swiper-horizontal>.swiper-pagination-bullets, 
+  .swiper-pagination-bullets.swiper-pagination-horizontal {
     top: auto;
     bottom: 0;
-    height: 8px;
     border-radius: 8px;
   }
 
-  .swiper-pagination-progressbar {
-    background: #ebecfc;
-  }
-
-  .swiper-pagination-progressbar .swiper-pagination-progressbar-fill {
+  .swiper-pagination-bullet {
     background: #c6cdfa;
-    border-radius: 8px;
+    opacity: 1;
+    width: 10px;
+    height: 10px;
   }
+
+  .swiper-pagination-bullet-active {
+    background: #8085fa;
+    opacity: 1;
+  }
+
 `;
 
 const ImageBox = styled.div`

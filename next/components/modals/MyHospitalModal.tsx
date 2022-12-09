@@ -93,7 +93,7 @@ const MyHospitalModal = ({ show, hospitals, activeFunction, onClose }: MyHospita
       )}
     </AnimatePresence>
   );
-  return  isBrowser ? ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement) : null;
+  return isBrowser ? ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement) : null;
 };
 
 export default MyHospitalModal;

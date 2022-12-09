@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 import IconHospital from "@public/static/icon/icon_hospital.png";
 import { useState } from "react";
 import Modal from "@components/modals/Modal";
-import ArroundMap from "@components/modals/map/ArroundMap";
+import ArroundMap from "@components/modals/map/ArroundMapModal";
 import { AnimatePresence } from "framer-motion";
 import useCoords from "@hooks/useCoords";
 

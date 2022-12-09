@@ -1,80 +1,89 @@
-import { Hospital } from "@prisma/client";
+import useCoords from "@hooks/useCoords";
+import { Hospital, MedicalDepartment } from "@prisma/client";
 import { theme } from "@styles/theme";
 import { MyHospital, MyHospitalResponse } from "pages/users/my-hospital";
-import { LegacyRef, MouseEvent, useState } from "react";
+import { FormEvent, LegacyRef, MouseEvent, useState } from "react";
+import { useForm } from "react-hook-form";
+import { Map, MapMarker } from "react-kakao-maps-sdk";
 import styled from "styled-components";
 import HospitalContent from "./HospitalContent";
+import ArroundMap from "./map/ArroundMap";
+import { SearchContainer } from "./SearchHospitalList";
 import ListSkeleton from "./skeletonUI/ListSkeleton";
-
+import { MEDICALDEPARTMENT } from "constant/MedicalDepartment";
+import { Box, Col, Row } from "@styles/Common";
+import HospitalIcon from "@public/static/icon/hospital.svg";
 interface SearchHospitalMapProps {
   hospitals?: MyHospital[];
   add: boolean;
   setobserverTarget?: LegacyRef<HTMLDivElement> | null;
   isLoading?: boolean;
 }
+interface DepartmentSelectForm {
+  department: string;
+}
+const SearchHospitalMap = () => {
+  const { latitude, longitude } = useCoords();
+  const { register, handleSubmit } = useForm<DepartmentSelectForm>();
+  const [department, setDepartment] = useState("all");
+  const onValid = (department: string) => {
+    console.log("onValid", department);
+    setDepartment(department);
+  };
 
-const SearchHospitalMap = ({ hospitals, add, setobserverTarget, isLoading }: SearchHospitalMapProps) => {
-  return (
-    <HospitalContainer add={add}>
-      <InnerContainer add={add}>
-        {hospitals?.length === 0 && isLoading && <ListSkeleton backgroundColor="rgb(225,227,255)" />}
-        {hospitals?.length !== 0 && (
-          <HospitalLists>
-            {hospitals?.map((hospital, idx) => (
-              <HospitalContent hospital={hospital} idx={idx} add={add} key={idx} shared={false} />
+  return latitude && longitude ? (
+    <SearchContainer style={{ alignItems: "flex-end" }}>
+      <OptionBox>
+        <DepartmentSelectBox>
+          <DepartmentLabel>
+            <HospitalIcon width={20} height={20} fill={theme.color.darkBg} />
+            진료과목
+          </DepartmentLabel>
+
+          <DepartmentSelect
+            id="department"
+            {...register("department", {
+              onChange(e: React.FormEvent<HTMLSelectElement>) {
+                console.log("change");
+                onValid(e.currentTarget.value);
+              },
+            })}
+          >
+            <option value="all">전체</option>
+            {Object.values(MEDICALDEPARTMENT).map(department => (
+              <option key={department}>{department}</option>
             ))}
-            {isLoading ? <ListSkeleton backgroundColor="rgb(225,227,255)" /> : <div ref={setobserverTarget} />}
-          </HospitalLists>
-        )}
-        {hospitals?.length === 0 && !isLoading && (
-          <NoneMessage>{add ? "검색결과가 없습니다" : "병원내역이 없습니다"}</NoneMessage>
-        )}
-      </InnerContainer>
-    </HospitalContainer>
+          </DepartmentSelect>
+        </DepartmentSelectBox>
+      </OptionBox>
+      <ArroundMap width="1500px" height="600px" longitude={longitude} latitude={latitude} department={department} />
+    </SearchContainer>
+  ) : (
+    <SearchContainer>위치 정보를 허용해주세요!</SearchContainer>
   );
 };
 
 export default SearchHospitalMap;
-
-const NoneMessage = styled.div`
-  text-align: center;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translateY(-50%) translateX(-50%);
-  font-size: 30px;
-  color: ${theme.color.darkBg};
-`;
-
-const InnerContainer = styled.div<{ add: boolean }>`
+const OptionBox = styled(Box)`
   width: 100%;
-  height: 100%;
-  overflow-y: auto;
-  position: relative;
-  &::-webkit-scrollbar {
-    width: 10px;
-  }
-  &::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background-color: rgb(188, 197, 255);
-  }
-  &::-webkit-scrollbar-track {
-    border-radius: 10px;
-    background-color: ${prop => prop.add && "#e2e6ff"};
-  }
+  justify-content: flex-end;
 `;
 
-const HospitalContainer = styled.div<{ add: boolean }>`
-  width: 1600px;
-  height: 600px;
-  background-color: ${prop => (prop.add ? "#f2f3ff" : "#d9deff")};
-  border-radius: 40px;
-  padding: 30px;
+const DepartmentSelectBox = styled(Col)`
+  gap: 3px;
+  align-items: flex-start;
+  transform: translateY(-30%);
 `;
-
-const HospitalLists = styled.ul`
-  width: 1500px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+const DepartmentLabel = styled(Box)`
+  font-size: 20px;
+  color: ${props => props.theme.color.text};
+  font-weight: 500;
+  gap: 5px;
+`;
+const DepartmentSelect = styled.select`
+  border: 1px solid rgba(54, 60, 191, 0.4);
+  /* padding-left: 10px; */
+  width: 200px;
+  height: 35px;
+  padding-left: 10px;
 `;

@@ -1,11 +1,7 @@
-import useHospital from "@hooks/useHospital";
 import { Box } from "@styles/Common";
-import sliceName from "@utils/client/sliceHospitalName";
-import { HOSPITALS } from "constant/queryKeys";
-import { Dispatch, SetStateAction, useRef, useState } from "react";
+import { useState } from "react";
 import { CustomOverlayMap, CustomOverlayRoadview, MapMarker, MapInfoWindow } from "react-kakao-maps-sdk";
 import styled from "styled-components";
-import Modal from "./modals/Modal";
 
 interface EventMarkerContainerProps {
   hospital: any;
@@ -15,7 +11,7 @@ interface EventMarkerContainerProps {
 
 const EventMarkerContainer = ({ hospital, index, handleClickMarker }: EventMarkerContainerProps) => {
   const [isVisible, setIsVisible] = useState(false);
-  
+
   return (
     <>
       <MapMarker
@@ -44,8 +40,9 @@ const EventMarkerContainer = ({ hospital, index, handleClickMarker }: EventMarke
       >
         {/* {isVisible && <HoverBox>{hospital.name}</HoverBox>} */}
       </MapMarker>
+
       {isVisible && (
-        <CustomOverlayMap position={{ lat: hospital.y! + 0.00015, lng: hospital.x! }}>
+        <CustomOverlayMap position={{ lat: hospital.y! + 0.0002, lng: hospital.x! }}>
           <HoverBox>{hospital.name}</HoverBox>
         </CustomOverlayMap>
       )}
@@ -53,11 +50,8 @@ const EventMarkerContainer = ({ hospital, index, handleClickMarker }: EventMarke
   );
 };
 
-const HoverBox = styled.div`
-  width: 150px;
-  height: 30px;
-  display: flex;
-  justify-content: center;
+const HoverBox = styled(Box)`
+  padding: 0px 20px;
   border: 3px ${props => props.theme.color.weekPurple} solid;
   border-radius: 5px;
   background-color: white;

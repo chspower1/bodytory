@@ -11,30 +11,30 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "DELETE") return await removePatient(req, res);
 }
 
-async function findPatientList(req: NextApiRequest, res: NextApiResponse, user: { id: number; }) {
+async function findPatientList(req: NextApiRequest, res: NextApiResponse, user: { id: number }) {
   const foundUser = await client.hospitalToUser.findMany({
     where: {
-      hospitalId: user.id
+      hospitalId: user.id,
     },
-    select:{
-      id:true,
-      user : true,
-      shared: true
-    }
+    select: {
+      id: true,
+      user: true,
+      shared: true,
+    },
   });
 
   return res.status(200).json(foundUser);
 }
 async function removePatient(req: NextApiRequest, res: NextApiResponse) {
-  const {id} = req.body;
-  console.log(id)
+  const { id } = req.body;
+  console.log(id);
   await client.hospitalToUser.delete({
     where: {
-      id
-    }
+      id,
+    },
   });
 
   return res.status(200).end();
 }
 
-export default withApiSession(withHandler({ methods: ["GET","DELETE"], handler, isPrivate: false }));
+export default withApiSession(withHandler({ methods: ["GET", "DELETE"], handler, isPrivate: false }));
