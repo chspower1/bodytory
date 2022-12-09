@@ -8,6 +8,8 @@ export const RECORDS_CREATE = "recordsCreateKey";
 export const RECORDS_READ = "recordsReadKey";
 export const RECORDS_UPDATE = "recordsUpdateKey";
 export const RECORDS_DELETE = "recordDeleteKey";
+export const AI_RESULT_READ = "aiResultReadKey";
+export const CHART_RESULT_READ = "chartResultReadKey";
 
 /* User 관련 키 */
 export const USER_LOGIN = "userLoginKey";

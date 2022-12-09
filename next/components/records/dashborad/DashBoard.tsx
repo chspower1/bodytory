@@ -5,9 +5,21 @@ import ToryRecommend from "../ToryRecommend";
 import useUser from "@hooks/useUser";
 import customApi from "@utils/client/customApi";
 import { useQuery } from "@tanstack/react-query";
+import { AI_RESULT_READ } from "constant/queryKeys";
+import { KoreanPosition } from "types/write";
+import { bodyPartType } from "types/bodyParts";
+import { MedicalDepartment, Position } from "@prisma/client";
+
 
 function DashBoard() {
   const user = useUser();
+
+  const { getApi } = customApi(`/api/users/records/dashboard/aMonth`);
+  const { isLoading, data } = useQuery<any>([AI_RESULT_READ], getApi, {
+    onSuccess(data) {
+      // console.log(data);
+    }
+  });
 
   return user ? (
     <DashBoardWarp>
@@ -15,10 +27,20 @@ function DashBoard() {
         <ToryTextBox>
           <Tory26 />
           <ToryText26White>
-            <strong>{user?.name}님</strong> 최근 한달간 <strong>$손목</strong>에서 증상이 많이 발생하셨네요
+            {
+              data ? (
+                <>
+                  <strong>{user?.name}님</strong> 최근 한달간 <strong>{KoreanPosition[data.mostInAMonth as Position]}</strong>에서 증상이 많이 발생하셨네요
+                </>
+              ) : (
+                <>
+                  <strong>{user?.name}님</strong>의 건강상태 분석을 위해 증상을 기록해주세요!
+                </>
+              )
+            }
           </ToryText26White>
         </ToryTextBox>
-        <ToryRecommend />
+        <ToryRecommend mostThreeDepartment={data ? data.mostThreeDepartment : null} />
         <DashBoardStatistics />
       </DashBoardContainer>
     </DashBoardWarp>

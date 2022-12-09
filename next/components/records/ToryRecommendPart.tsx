@@ -11,7 +11,6 @@ import LocationPinIcon from "@public/static/icon/location_pin.svg";
 function ToryRecommend() {
   const [showModal, setShowModal] = useState(false);
   const { latitude, longitude } = useCoords();
-  const handleClickLogout = async () => {};
 
   return (
     <>

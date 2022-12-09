@@ -19,11 +19,15 @@ async function aMonthFn(req: NextApiRequest, res: NextApiResponse) {
   const aMonthData = await client.record.findMany({
     where: {
       userId: user.id,
+      type: "user",
       createAt: {
         gte: aMonthAgo,
       },
     },
   });
+
+  if(aMonthData.length === 0) return;
+
   const departMentName = await client.medicalDepartment.findMany({});
 
   const dataReduce = aMonthData.reduce((total: any, current: any) => {

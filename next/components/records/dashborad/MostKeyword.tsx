@@ -35,53 +35,24 @@ const CustomKeyword = (props: any) => {
   );
 };
 
-const KeywordChart = () => {
+const MostKeyword = () => {
   return (
-    <RechartContainer>
-      <RechartHeader>가장 많이 기록괸 키워드는 {data[0].name} 이에요</RechartHeader>
-      <TreemapBox>
-        <Treemap
-          data={data}
-          width={360}
-          height={360}
-          dataKey={"size"}
-          stroke={"#fff"}
-          content={<CustomKeyword colors={COLORS} />}
-        ></Treemap>
-      </TreemapBox>
-    </RechartContainer>
+    <TreemapBox>
+      <Treemap
+        data={data}
+        width={360}
+        height={360}
+        dataKey={"size"}
+        stroke={"#fff"}
+        content={<CustomKeyword colors={COLORS} />}
+      ></Treemap>
+    </TreemapBox>
   );
 };
-
-const RechartContainer = styled.div`
-  width: 510px;
-  height: 460px;
-
-  background: #ffffff;
-  box-shadow: 8px 8px 18px rgba(32, 36, 120, 0.3);
-  border-radius: 40px;
-
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-`;
-
-const RechartHeader = styled.div`
-  font-family: "Noto Sans KR";
-  font-style: normal;
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 60px;
-  /* identical to box height, or 333% */
-
-  text-align: center;
-
-  color: #2b2d64;
-`;
 
 const TreemapBox = styled.div`
   border-radius: 20px;
   overflow: hidden;
 `;
 
-export default KeywordChart;
+export default MostKeyword;

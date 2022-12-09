@@ -9,10 +9,11 @@ import { AnimatePresence } from "framer-motion";
 import useCoords from "@hooks/useCoords";
 import LocationPinIcon from "@public/static/icon/location_pin.svg";
 
-function ToryRecommend() {
+
+
+function ToryRecommend({ mostThreeDepartment }: any) {
   const [showModal, setShowModal] = useState(false);
   const { latitude, longitude } = useCoords();
-  const handleClickLogout = async () => {};
 
   return (
     <>
@@ -21,13 +22,16 @@ function ToryRecommend() {
           <RecommendText>
             <Tag>Ai 토리추천</Tag>
             <Text>
-              <strong>$정형외과, 가정의학과, 치과</strong>에 방문해보시는 것을 추천드려요!
+              <strong>{mostThreeDepartment ? mostThreeDepartment.join(", ") : ""}</strong>
+              {mostThreeDepartment ? "에 방문해보시는 것을 추천드려요!" : "증상을 기록해주시면 알맞는 병원을 추천해드릴게요!"}
             </Text>
           </RecommendText>
-          <RoundButton size="custom" height="50px" padding="0 30px" onClick={() => setShowModal(true)}>
-           <LocationPinIcon width={26} height={26} style={{ marginRight: "10px" }} />
-            <span>내 주변 해당 병원 찾기</span>
-          </RoundButton>
+          {mostThreeDepartment && (
+            <RoundButton size="custom" height="50px" padding="0 30px" onClick={() => setShowModal(true)}>
+              <LocationPinIcon width={26} height={26} style={{ marginRight: "10px" }} />
+              <span>내 주변 해당 병원 찾기</span>
+            </RoundButton>
+          )}
         </ToryRecommendBox>
         <Warning>
           Ai 토리추천 서비스는 의료행위가 아닌 정보 참고용 서비스임을 밝히며, 정확한 의학적 판단을 위해서는 반드시
