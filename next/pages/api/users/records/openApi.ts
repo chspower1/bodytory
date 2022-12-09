@@ -31,6 +31,7 @@ async function createRecord(req: NextApiRequest, res: NextApiResponse) {
       },
     },
   );
+  console.log(audioRecognized);
 
   if (!user) return res.status(400).end();
   return res.status(200).json(audioRecognized);
