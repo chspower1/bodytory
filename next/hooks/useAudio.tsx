@@ -99,6 +99,8 @@ const useAudio = () => {
       setStream(stream);
       setMedia(mediaRecorder);
       makeSound(stream);
+    }).catch((err) => {
+      throw '마이크 권한을 확인해주세요'
     });
   }, []);
 

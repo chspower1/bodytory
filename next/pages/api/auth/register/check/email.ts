@@ -21,6 +21,7 @@ const createEmailCheckToken = async (email: string) => {
     },
   });
   sendMail(email, payload, "이메일 인증");
+  console.log(payload);
 };
 
 const checkEmail = async (email: string, type: UserType) => {

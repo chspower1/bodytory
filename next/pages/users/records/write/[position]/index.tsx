@@ -69,9 +69,15 @@ const PositionPage = () => {
     (recordStatus === "error" && "인식에 실패했어요.. 다시 녹음하거나 타이핑으로 입력해 주세요.") ||
     "";
   const startRecord = () => {
-    setError(false);
-    setRecordStatus("listening");
-    onRecAudio();
+    try {
+      setError(false);
+      setRecordStatus("listening");
+      onRecAudio();
+    }
+    catch(e) {
+      setError(true);
+      setRecordStatus("initial");
+    }
   };
 
   const endRecord = async () => {
