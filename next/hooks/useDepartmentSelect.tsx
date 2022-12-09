@@ -7,8 +7,8 @@ interface DepartmentSelectForm {
   department: string;
 }
 
-const useDepartmentSelect = (departments: string[]) => {
-  const [department, setDepartment] = useState("all");
+const useDepartmentSelect = (departments: string[], isAll?: boolean) => {
+  const [department, setDepartment] = useState(isAll ? "all" : departments[0]);
   const { register } = useForm<DepartmentSelectForm>();
   const onValid = useCallback((department: string) => {
     console.log("onValid", department);
@@ -25,9 +25,11 @@ const useDepartmentSelect = (departments: string[]) => {
           },
         })}
       >
-        <option value="all">전체</option>
-        {departments.map(department => (
-          <option key={department}>{department}</option>
+        {isAll && <option value="all">전체</option>}
+        {departments.map((department, index) => (
+          <option key={department} defaultChecked={index === 0}>
+            {department}
+          </option>
         ))}
       </DepartmentSelectBox>
     );

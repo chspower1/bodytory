@@ -21,7 +21,7 @@ interface DepartmentSelectForm {
 }
 const SearchHospitalMap = () => {
   const { latitude, longitude } = useCoords();
-  const { department, DepartmentSelect } = useDepartmentSelect(Object.values(MEDICALDEPARTMENT));
+  const { department, DepartmentSelect } = useDepartmentSelect(Object.values(MEDICALDEPARTMENT), true);
 
   return latitude && longitude ? (
     <SearchContainer style={{ alignItems: "flex-end" }}>
