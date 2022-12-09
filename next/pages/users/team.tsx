@@ -22,6 +22,7 @@ const Team = () => {
             <BedgeBox>
               <Bedge backgroundColor="#4a50d3">FrontEnd</Bedge>
               <Bedge backgroundColor="#1dc3bb">BackEnd</Bedge>
+              <Bedge backgroundColor="#666666">Motion</Bedge>
             </BedgeBox>
             <Description>fdsfdsfasdfdas</Description>
           </DescriptionContainer>
