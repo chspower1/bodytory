@@ -334,7 +334,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
               bgColor={theme.color.mintBtn}
               disable={!checkEmptyObj(errors) || !user?.isCertified}
             >
-              {currentComment.includes("회원가입") ? "회원가입 완료" : "정보를 모두 입력해주세요"}
+              {(!isErrorsMessage && user?.isCertified) ? "회원가입 완료" : "정보를 모두 입력해주세요"}
             </RoundButton>
           </PrevNextButtonBox>
         </Form>
