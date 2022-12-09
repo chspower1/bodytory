@@ -18,12 +18,14 @@ async function aMonthFn(req: NextApiRequest, res: NextApiResponse) {
   aMonthAgo.setMonth(now.getMonth() - 1);
   const aMonthData = await client.record.findMany({
     where: {
+      type:"user",
       userId: user.id,
       createAt: {
         gte: aMonthAgo,
       },
     },
   });
+  if(aMonthData.length === 0) return;
   const departMentName = await client.medicalDepartment.findMany({});
 
   const dataReduce = aMonthData.reduce((total: any, current: any) => {
@@ -94,6 +96,7 @@ async function threeMonthFn(req: NextApiRequest, res: NextApiResponse) {
       },
     },
   });
+  if(threeMonthHospital.length === 0) return;
 
   reduceFn(threeMonthHospital, hospitalTemporaryStorage);
 
