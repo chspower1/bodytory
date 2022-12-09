@@ -106,7 +106,7 @@ const useAudio = () => {
     setAudioRecognized("");
     if (media) {
       media.ondataavailable = async e => {
-        await onSubmitAudioFile(e.data);
+        await submitAudioFile(e.data);
       };
       stream?.getAudioTracks().forEach(function (track) {
         track.stop();
@@ -116,7 +116,7 @@ const useAudio = () => {
     }
   }, [media, stream, source]);
 
-  const onSubmitAudioFile = useCallback(async (audioUrl: Blob) => {
+  const submitAudioFile = async (audioUrl: Blob) => {
     const reader = new FileReader();
     const sound = new Blob([audioUrl as BlobPart], { type: "audio/mpeg3" });
     reader.readAsArrayBuffer(sound);
@@ -157,7 +157,7 @@ const useAudio = () => {
       };
       PostAudio();
     };
-  }, []);
+  };
   return { offRecAudio, onRecAudio, audioRecognized, setAudioRecognized, error };
 };
 
