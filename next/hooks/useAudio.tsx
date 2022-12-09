@@ -1,3 +1,4 @@
+import customApi from "@utils/client/customApi";
 import { useCallback, useState } from "react";
 
 const bufferToBase64 = (buffer: any) => {
@@ -88,6 +89,7 @@ const useAudio = () => {
   const [error, setError] = useState(false);
   const [source, setSource] = useState<MediaStreamAudioSourceNode>();
   const [audioRecognized, setAudioRecognized] = useState<string>("");
+  const { postApi } = customApi("/api/users/records/openApi");
 
   const onRecAudio = useCallback(() => {
     setError(false);
@@ -140,31 +142,20 @@ const useAudio = () => {
       const reBlob = audioBufferToWav(resampled);
 
       const PostAudio = async () => {
-        await fetch("http://aiopen.etri.re.kr:8000/WiseASR/Recognition", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "8b10a352-acfc-483c-9816-52dbdc37181a",
-          },
-          body: JSON.stringify({
-            request_id: "chspower1@naver.com",
-            argument: {
-              language_code: "korean",
-              audio: bufferToBase64(reBlob),
-            },
-          }),
-        })
-          .then(data => data.json())
-          .then(json => json.return_object.recognized)
-          .then((recognized: string) => {
-            if (recognized === "" || recognized.includes("ERROR")) {
-              setError(true);
-            } else {
-              setError(false);
-              setAudioRecognized(recognized as string);
-            }
-          })
-          .catch(err => setError(true));
+        try {
+          const data = await postApi({ audio: bufferToBase64(reBlob) })
+            .then(data => data.json())
+            .then(json => json.return_object.recognized);
+          console.log(data);
+          if (data === "" || data.includes("ERROR")) {
+            setError(true);
+          } else {
+            setError(false);
+            setAudioRecognized(data as string);
+          }
+        } catch (e) {
+          setError(true);
+        }
       };
       PostAudio();
     };
