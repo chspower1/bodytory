@@ -23,6 +23,8 @@ function DashBoardStatistics() {
   const dashboardQuery = useQuery<any>([BODYPART_CHARTDATA_READ], dashboardGetApi.getApi, {
     onSuccess(data) {
 
+      console.log("하나 입력했는데 왜 안와", data);
+
       if (data) {
         // 가장 기록이 많은 부위 찾기
         let maxLength = 0;
@@ -49,6 +51,8 @@ function DashBoardStatistics() {
   const flaskGetApi = customApi(`/api/users/records/flask/allKeywords`);
   const flaskQuery = useQuery<any>([KEYWORDS_CHARTDATA_READ], flaskGetApi.getApi, {
     onSuccess(data) {
+
+      console.log("하나 입력했는데 왜 안와 키워드", data);
 
       if (data) {
         setKeywordChartData(data);
