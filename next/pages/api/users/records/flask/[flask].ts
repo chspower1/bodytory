@@ -25,11 +25,12 @@ async function allRecordsKeywords(req: NextApiRequest, res: NextApiResponse) {
           description:true
         }
       })
+    if(data.length === 0 ) return;
     const result = data.map(ele=>{
       return ele.description
     })
   
-    const postApi = await axios.post("http://localhost:8080/api/keywords",{
+    const postApi = await axios.post(`${process.env.FLASK_API}/api/keywords`,{
       headers: {
         "Content-Type": "application/json"
       },
@@ -58,11 +59,12 @@ async function threeMonthRecordsKeywords(req: NextApiRequest, res: NextApiRespon
           description:true
         }
       })
+    if(data.length === 0 ) return;
     const result = data.map(ele=>{
       return ele.description
     })
   
-    const postApi = await axios.post("http://localhost:8080/api/keywords",{
+    const postApi = await axios.post(`${process.env.FLASK_API}/api/keywords`,{
       headers: {
         "Content-Type": "application/json"
       },
