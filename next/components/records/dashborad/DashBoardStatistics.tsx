@@ -15,6 +15,8 @@ function DashBoardStatistics() {
   const [mostPart, setMostPart] = useState<string[]>();
   const [mostPartIdx, setMostPartIdx] = useState<number[]>();
   const [bodyPartChartData, setBodyPartChartData] = useState();
+
+  const [mostKeyword, setMostKeyword] = useState<string>();
   const [keywordChartData, setKeywordChartData] = useState();
 
   const dashboardGetApi = customApi(`/api/users/records/dashboard/threeMonth`);
@@ -47,7 +49,11 @@ function DashBoardStatistics() {
   const flaskGetApi = customApi(`/api/users/records/flask/allKeywords`);
   const flaskQuery = useQuery<any>([KEYWORDS_CHARTDATA_READ], flaskGetApi.getApi, {
     onSuccess(data) {
-      setKeywordChartData(data);
+
+      if (data) {
+        setKeywordChartData(data);
+        setMostKeyword(data[0]);
+      }
     }
   });
 
@@ -71,7 +77,11 @@ function DashBoardStatistics() {
           <MostBodyPart chartData={bodyPartChartData ? bodyPartChartData : null} mostPartIdx={mostPartIdx} />
         </ChartBox>
         <ChartBox>
-          <p>가장 많이 기록된 키워드는 <strong>{keywordChartData ? keywordChartData[0] : null}</strong> 입니다</p>
+          {
+            mostKeyword && (
+              <p>가장 많이 기록된 키워드는 <strong>{keywordChartData ? keywordChartData[0] : null}</strong> 입니다</p>
+            )
+          }
           <MostKeyword chartData={keywordChartData ? keywordChartData: null} />
         </ChartBox>
       </FlexContainer>
@@ -120,7 +130,6 @@ const ChartBox = styled.div`
     }
   }
 `;
-
 
 
 

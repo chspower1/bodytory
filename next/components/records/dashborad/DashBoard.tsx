@@ -34,14 +34,25 @@ function DashBoard() {
                 </>
               ) : (
                 <>
-                  <strong>{user?.name}님</strong>의 건강상태 분석을 위해 증상을 기록해주세요!
+                  <strong>{user?.name}님</strong>의 건강상태를 분석을 위해 증상 기록이 필요해요!
                 </>
               )
             }
           </ToryText26White>
         </ToryTextBox>
-        <ToryRecommend mostThreeDepartment={data ? data.mostThreeDepartment : null} />
-        <DashBoardStatistics />
+        {
+          data ? (
+            <>
+              <ToryRecommend mostThreeDepartment={data ? data.mostThreeDepartment : null} />
+              <DashBoardStatistics />
+            </>
+          ) : (
+            <NoChartContainer>
+              
+            </NoChartContainer>
+          )
+        }
+
       </DashBoardContainer>
     </DashBoardWarp>
   ) : null;
@@ -78,6 +89,14 @@ const Tory26 = styled.div`
 const ToryText26White = styled(ToryText26)`
   // 토리텍스트 추후 정리필요
   color: ${({ theme }) => theme.color.white};
+`;
+
+const NoChartContainer = styled.div`
+  width: 100%;
+  min-height: 600px;
+  background: ${({ theme }) => theme.color.white};
+  border-radius: 40px;
+  margin-top: 60px;
 `;
 
 export default DashBoard;
