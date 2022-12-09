@@ -43,7 +43,12 @@ function ToryRecommend({ mostThreeDepartment }: ToryRecommendProps) {
       </ToryRecommendContainer>
       <AnimatePresence>
         {showModal && (
-          <ArroundMapModal latitude={latitude!} longitude={longitude!} onClose={() => setShowModal(false)} />
+          <ArroundMapModal
+            latitude={latitude!}
+            longitude={longitude!}
+            onClose={() => setShowModal(false)}
+            mostThreeDepartment={mostThreeDepartment}
+          />
         )}
       </AnimatePresence>
     </>

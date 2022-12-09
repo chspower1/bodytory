@@ -51,13 +51,15 @@ interface medicalDepartment {
   medicalDepartment: { department: string };
 }
 type AroundMapHospitalsResponse = AroundMapHospital[];
+
 interface ArroundMapMaodalProps {
   onClose: () => void;
   latitude: number;
   longitude: number;
+  mostThreeDepartment: string[];
 }
-const ArroundMapModal: NextPage<ArroundMapMaodalProps> = ({ onClose, latitude, longitude }) => {
-  const { department, DepartmentSelect } = useDepartmentSelect(["내과", "정형외과"]);
+const ArroundMapModal: NextPage<ArroundMapMaodalProps> = ({ onClose, latitude, longitude, mostThreeDepartment }) => {
+  const { department, DepartmentSelect } = useDepartmentSelect(mostThreeDepartment);
 
   const { getApi } = customApi(`/api/users/my-hospitals/map?latitude=${latitude}&longitude=${longitude}`);
   const { data: hospitals } = useQuery<AroundMapHospitalsResponse>(["hospitalsMap", "map"], getApi, {
