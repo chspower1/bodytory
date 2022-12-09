@@ -2,7 +2,7 @@ import useUser from "@hooks/useUser";
 import { Position } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
-import { CHART_RESULT_READ } from "constant/queryKeys";
+import { BODYPART_CHARTDATA_READ, KEYWORDS_CHARTDATA_READ } from "constant/queryKeys";
 import { useState } from "react";
 import styled from "styled-components";
 import { KoreanPosition } from "types/write";
@@ -14,16 +14,14 @@ function DashBoardStatistics() {
 
   const [mostPart, setMostPart] = useState<string[]>();
   const [mostPartIdx, setMostPartIdx] = useState<number[]>();
-  const [chartData, setChartData] = useState();
+  const [bodyPartChartData, setBodyPartChartData] = useState();
+  const [keywordChartData, setKeywordChartData] = useState();
 
-  const { getApi } = customApi(`/api/users/records/dashboard/threeMonth`);
-  const { isLoading, data } = useQuery<any>([CHART_RESULT_READ], getApi, {
+  const dashboardGetApi = customApi(`/api/users/records/dashboard/threeMonth`);
+  const dashboardQuery = useQuery<any>([BODYPART_CHARTDATA_READ], dashboardGetApi.getApi, {
     onSuccess(data) {
 
-      console.log("데이터성공 후", data);
-
       if (data) {
-
         // 가장 기록이 많은 부위 찾기
         let maxLength = 0;
         let maxPart: string[] = [];
@@ -32,21 +30,24 @@ function DashBoardStatistics() {
         data.forEach((ele: any) => {
           if(ele.userLength > maxLength) maxLength = ele.userLength;
         });
-
         data.forEach((ele: any, idx: number) => {
           if(ele.userLength === maxLength) {
             maxPart.push(ele.position);
             maxIdx.push(idx);
-            console.log(maxPart);
           }
         });
 
         setMostPart(maxPart);
         setMostPartIdx(maxIdx);
-        setChartData(data);
+        setBodyPartChartData(data);
       }
+    }
+  });
 
-
+  const flaskGetApi = customApi(`/api/users/records/flask/allKeywords`);
+  const flaskQuery = useQuery<any>([KEYWORDS_CHARTDATA_READ], flaskGetApi.getApi, {
+    onSuccess(data) {
+      setKeywordChartData(data);
     }
   });
 
@@ -64,14 +65,14 @@ function DashBoardStatistics() {
                 ) : (
                   KoreanPosition[mostPart[0] as Position]
                 )
-            }</strong>입니다</p>
+            }</strong> 입니다</p>
             )
           }
-          <MostBodyPart chartData={data ? chartData : null} mostPartIdx={mostPartIdx} />
+          <MostBodyPart chartData={bodyPartChartData ? bodyPartChartData : null} mostPartIdx={mostPartIdx} />
         </ChartBox>
         <ChartBox>
-          <p>가장 많이 기록된 키워드는 <strong>$통증</strong>입니다</p>
-          <MostKeyword />
+          <p>가장 많이 기록된 키워드는 <strong>{keywordChartData ? keywordChartData[0] : null}</strong> 입니다</p>
+          <MostKeyword chartData={keywordChartData ? keywordChartData: null} />
         </ChartBox>
       </FlexContainer>
     </StatisticsContainer>
@@ -114,6 +115,8 @@ const ChartBox = styled.div`
 
     strong {
       font-weight: 700;
+      padding: 0 1px 2px;
+      background: linear-gradient(to top, rgba(18, 212, 201, .4) 40%, transparent 40%);
     }
   }
 `;

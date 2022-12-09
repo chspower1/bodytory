@@ -9,7 +9,8 @@ export const RECORDS_READ = "recordsReadKey";
 export const RECORDS_UPDATE = "recordsUpdateKey";
 export const RECORDS_DELETE = "recordDeleteKey";
 export const AI_RESULT_READ = "aiResultReadKey";
-export const CHART_RESULT_READ = "chartResultReadKey";
+export const BODYPART_CHARTDATA_READ = "bodyPartChartDataReadKey";
+export const KEYWORDS_CHARTDATA_READ = "keywordsChartDataReadKey";
 
 /* User 관련 키 */
 export const USER_LOGIN = "userLoginKey";
