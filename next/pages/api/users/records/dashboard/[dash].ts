@@ -8,6 +8,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   if(!dash) return res.status(401).send("api 주소가 잘못되었습니다");
   if (dash === "aMonth") return await aMonthFn(req, res);
   if (dash === "threeMonth") return await threeMonthFn(req, res);
+  if (dash === "toryRecommen") return await toryRecommen(req, res);
 }
 
 async function aMonthFn(req: NextApiRequest, res: NextApiResponse) {
@@ -63,6 +64,45 @@ async function aMonthFn(req: NextApiRequest, res: NextApiResponse) {
     }
   });
   return res.status(200).json({ mostInAMonth, mostThreeDepartment });
+}
+async function toryRecommen(req: NextApiRequest, res: NextApiResponse) {
+  const { user } = req.session;
+  if (!user) return res.status(401).send("회원 정보를 확인해주세요");
+  const aMonthData = await client.record.findMany({
+    where: {
+      type:"user",
+      userId: user.id,
+    },
+  });
+  if(aMonthData.length === 0) return;
+  const departMentName = await client.medicalDepartment.findMany({});
+  console.log({aMonthData})
+  let mostThreeDepartmentObj = {};
+  aMonthData.map(({ recommendDepartments }) => {
+    if (recommendDepartments) {
+      return recommendDepartments.split(",").reduce((total: any, current: any) => {
+        if (!total[current]) {
+          total[current] = 1;
+        } else if (current in total) {
+          total[current] += 1;
+        }
+        return total;
+      }, mostThreeDepartmentObj);
+    }
+  });
+  const mostThreeDepartment = Object.entries(mostThreeDepartmentObj)
+    .sort(([, a]: any, [, b]: any) => b - a)
+    .slice(0, 3)
+    .map(ele => {
+      return ele[0];
+    });
+  departMentName.map(ele => {
+    if (mostThreeDepartment.includes(`${ele.id}`)) {
+      mostThreeDepartment.splice(mostThreeDepartment.indexOf(`${ele.id}`), 1, `${ele.department}`);
+    }
+  });
+  console.log({mostThreeDepartment})
+  return res.status(200).json(mostThreeDepartment);
 }
 
 async function threeMonthFn(req: NextApiRequest, res: NextApiResponse) {
