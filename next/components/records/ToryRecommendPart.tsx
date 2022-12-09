@@ -3,14 +3,13 @@ import styled, { css } from "styled-components";
 import IconHospital from "@public/static/icon/icon_hospital.png";
 import { useState } from "react";
 import Modal from "@components/modals/Modal";
-import ArroundMap from "@components/modals/map/ArroundMapModal";
+import ArroundMapModal from "@components/modals/map/ArroundMapModal";
 import { AnimatePresence } from "framer-motion";
 import useCoords from "@hooks/useCoords";
 import LocationPinIcon from "@public/static/icon/location_pin.svg";
 
-function ToryRecommend() {
+function ToryRecommendPart() {
   const [showModal, setShowModal] = useState(false);
-  const { latitude, longitude } = useCoords();
 
   return (
     <>
@@ -24,14 +23,13 @@ function ToryRecommend() {
             </Text>
           </RecommendText>
           <RoundButton size="custom" height="50px" padding="0 30px" onClick={() => setShowModal(true)}>
-           <LocationPinIcon width={26} height={26} style={{ marginRight: "10px" }} />
+            <LocationPinIcon width={26} height={26} style={{ marginRight: "10px" }} />
             <span>내 주변 해당 병원 찾기</span>
           </RoundButton>
         </ToryRecommendBox>
       </ToryRecommendContainer>
-      <AnimatePresence>
-        {showModal && <ArroundMap latitude={latitude!} longitude={longitude!} onClose={() => setShowModal(false)} />}
-      </AnimatePresence>
+      {/* TODO : mostThreeDepartment 넣어주셈 */}
+      {/* <ArroundMapModal show={showModal} onClose={() => setShowModal(false)} mostThreeDepartment={} /> */}
     </>
   );
 }
@@ -76,6 +74,4 @@ const Text = styled.div`
   }
 `;
 
-const MapContainer = styled.div``;
-
-export default ToryRecommend;
+export default ToryRecommendPart;
