@@ -187,7 +187,7 @@ const ControlBox = styled(Box)`
   top: 100px;
   right: 30px;
   gap: 20px;
-  z-index: 1000;
+  z-index: 999;
 `;
 const HoverBox = styled.div`
   border: 3px ${props => props.theme.color.weekPurple} solid;
