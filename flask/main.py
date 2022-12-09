@@ -100,7 +100,7 @@ department_codes = {
 
 
 def keyword_extractor(sentence_list):
-    keyword_stopwords = {'은', '는', '이', '가', '그', '저', '그것', '이것', '저것', '했', '있었', '오늘', '다', '아프다', '아프'}
+    keyword_stopwords = {'은', '는', '이', '가', '그', '저', '그것', '이것', '저것', '했', '있었', '오늘', '다', '아프다', '아프', '머리', '이마', '눈', '코', '입', '볼', '턱', '귀', '등', '허리', '엉덩이', '가슴', '배', '골반', '생식기', '어깨', '윗팔', '팔꿈치', '아랫팔', '위팔', '아래팔', '팔', '손목', '손', '허벅지', '무릎', '종아리', '발목', '발'}
     keywords = summarize_with_keywords(sentence_list, min_count=2, max_length=10, beta=0.85, max_iter=10, stopwords=keyword_stopwords)
     rank = []
     for word, r in sorted(keywords.items(), key=lambda x:x[1], reverse=True)[:10]:
