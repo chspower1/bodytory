@@ -1,8 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import client from "utils/server/client";
 import withHandler from "@utils/server/withHandler";
 import { withApiSession } from "@utils/server/withSession";
-import { NextResponse } from "next/server";
 import axios from "axios";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
