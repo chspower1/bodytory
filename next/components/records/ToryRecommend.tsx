@@ -9,8 +9,6 @@ import { AnimatePresence } from "framer-motion";
 import useCoords from "@hooks/useCoords";
 import LocationPinIcon from "@public/static/icon/location_pin.svg";
 
-
-
 function ToryRecommend({ mostThreeDepartment }: any) {
   const [showModal, setShowModal] = useState(false);
   const { latitude, longitude } = useCoords();
@@ -23,7 +21,9 @@ function ToryRecommend({ mostThreeDepartment }: any) {
             <Tag>Ai 토리추천</Tag>
             <Text>
               <strong>{mostThreeDepartment ? mostThreeDepartment.join(", ") : ""}</strong>
-              {mostThreeDepartment ? "에 방문해보시는 것을 추천드려요!" : "증상을 기록해주시면 알맞는 병원을 추천해드릴게요!"}
+              {mostThreeDepartment
+                ? "에 방문해보시는 것을 추천드려요!"
+                : "증상을 기록해주시면 알맞는 병원을 추천해드릴게요!"}
             </Text>
           </RecommendText>
           {mostThreeDepartment && (

@@ -2,7 +2,7 @@ import useCoords from "@hooks/useCoords";
 import { Hospital, MedicalDepartment } from "@prisma/client";
 import { theme } from "@styles/theme";
 import { MyHospital, MyHospitalResponse } from "pages/users/my-hospital";
-import { FormEvent, LegacyRef, MouseEvent, useState } from "react";
+import { FormEvent, LegacyRef, MouseEvent, useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import styled from "styled-components";
@@ -26,10 +26,11 @@ const SearchHospitalMap = () => {
   const { latitude, longitude } = useCoords();
   const { register, handleSubmit } = useForm<DepartmentSelectForm>();
   const [department, setDepartment] = useState("all");
-  const onValid = (department: string) => {
+
+  const onValid = useCallback((department: string) => {
     console.log("onValid", department);
     setDepartment(department);
-  };
+  }, []);
 
   return latitude && longitude ? (
     <SearchContainer style={{ alignItems: "flex-end" }}>
