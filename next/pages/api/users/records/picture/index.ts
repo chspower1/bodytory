@@ -48,7 +48,6 @@ const handler = nextconnect<NextApiRequest, NextApiResponse>({
 handler.post(upload.array("image"), async (req, res) => {
   const { recordId } = req.body;
   const files: any = req.files;
-  console.log(files);
 
   const saveFiles = files.map(async (file: any) => {
     await addPicture(recordId, file.location);

@@ -68,7 +68,6 @@ const PositionPage = () => {
     (recordStatus === "finish" && "기록을 완료하려면 버튼을 눌러주세요") ||
     (recordStatus === "error" && "인식에 실패했어요.. 다시 녹음하거나 타이핑으로 입력해 주세요.") ||
     "";
-  console.log(audioRecognized);
   const startRecord = () => {
     setError(false);
     setRecordStatus("listening");
@@ -80,9 +79,7 @@ const PositionPage = () => {
     offRecAudio();
   };
   const hadleClickCreateRecord = (description: string) => {
-    console.log("hadleClickCreateRecord", recordStatus, description);
     if (recordStatus === "finish") {
-      console.log("mutate");
       if (description.length < 2) return setError(true);
       mutate({ position: router.query.position as string, description });
       router.push("/users/records/write/analysis");
@@ -90,7 +87,6 @@ const PositionPage = () => {
       setError(true);
     }
   };
-  console.log(aiError);
   const handleClickEditMode = () => {
     setError(false);
     setOnHoverRefreshBtn(false);
@@ -101,7 +97,6 @@ const PositionPage = () => {
     setIsEditMode(true);
   };
   useEffect(() => {
-    console.log(recordMessage);
     if (recordMessage === null) {
       setValue("description", "다시 한번 말씀해주세요");
     }

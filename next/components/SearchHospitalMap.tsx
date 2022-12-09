@@ -27,7 +27,6 @@ const SearchHospitalMap = () => {
   const { register, handleSubmit } = useForm<DepartmentSelectForm>();
   const [department, setDepartment] = useState("all");
   const onValid = (department: string) => {
-    console.log("onValid", department);
     setDepartment(department);
   };
 
@@ -44,7 +43,6 @@ const SearchHospitalMap = () => {
             id="department"
             {...register("department", {
               onChange(e: React.FormEvent<HTMLSelectElement>) {
-                console.log("change");
                 onValid(e.currentTarget.value);
               },
             })}

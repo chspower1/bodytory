@@ -61,7 +61,6 @@ const ArroundMapModal: NextPage<ArroundMapMaodalProps> = ({ onClose, latitude, l
   const { getApi } = customApi(`/api/users/my-hospitals/map?latitude=${latitude}&longitude=${longitude}`);
   const { data: hospitals } = useQuery<AroundMapHospitalsResponse>(["hospitalsMap", "map"], getApi, {
     onSuccess(data) {
-      console.log(data);
     },
   });
 

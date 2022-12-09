@@ -55,7 +55,6 @@ const ManageImage = ({ recordId, recordImages, isHospital }: { recordId: string;
                     alt="증상 이미지"
                     fill
                     onClick={() => {
-                      console.log(key);
                       setShowImageDetailModal(key);
                     }}
                   />

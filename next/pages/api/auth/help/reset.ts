@@ -11,7 +11,6 @@ import { passwordEncryption } from "utils/server/passwordHelper";
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { email, password, accountId } = req.body;
   const hashedPassword = await passwordEncryption(password);
-  console.log(email, password);
   const foundUser = await client.user.update({
     where: {
       accountId,

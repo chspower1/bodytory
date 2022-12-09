@@ -42,7 +42,6 @@ const HelpPage: NextPage = () => {
       setError("accountId", { message: `가입된 아이디가 없어요\n다시 한번 확인해주세요` });
     },
     onSuccess(data) {
-      console.log("t", data);
       if (isToken) {
         if (data.ok) {
           return router.push(
@@ -74,7 +73,6 @@ const HelpPage: NextPage = () => {
   } = useForm<HelpForm>({ mode: "onChange" });
   const [isToken, setIsToken] = useState(false);
   const onValid = (helpForm: HelpForm) => {
-    console.log(helpForm);
     mutate(helpForm);
   };
 

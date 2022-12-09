@@ -76,11 +76,9 @@ async function myHospitalList(req: NextApiRequest, res: NextApiResponse) {
       },
     },
   });
-  console.log(data?.hospitals);
   return res.status(200).json(data?.hospitals);
 }
 async function deleteHospital(req: NextApiRequest, res: NextApiResponse) {
-  console.log("delete 함수 실행");
   const { id } = req.body;
   const { user } = req.session;
   if (!user) return res.status(401).send("회원 정보를 확인해주세요");
@@ -97,7 +95,6 @@ async function deleteHospital(req: NextApiRequest, res: NextApiResponse) {
       userId: user.id,
     },
   });
-  console.log(result);
   return res.status(200).end();
 }
 

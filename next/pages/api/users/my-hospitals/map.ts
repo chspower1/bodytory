@@ -81,7 +81,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "GET") {
     const { longitude: lat, latitude: lng } = req.query;
     const [latitude, longitude] = [parseFloat(lat as string), parseFloat(lng as string)];
-    console.log(longitude, latitude);
     const getHospitalsProps = { latitude, longitude, method: "GET" as "GET", user };
     const myHospitals = await getHospitals({ ...getHospitalsProps, isMyHospital: true });
     const notMyHospitals = await getHospitals({ ...getHospitalsProps, isMyHospital: false });
@@ -89,7 +88,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       ...myHospitals.map(hospital => ({ ...hospital, my: true })),
       ...notMyHospitals.map(hospital => ({ ...hospital, my: false })),
     ];
-    console.log("inital 요청", hospitals.length);
     return res.status(200).json(hospitals);
   }
   if (req.method === "POST") {
@@ -103,7 +101,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       method: "POST" as "POST",
       user,
     };
-    console.log(minLatitude, minLongitude, maxLatitude, maxLongitude);
     if (updateValidate) {
       const myHospitals = await getHospitals({ ...getHospitalsProps, isMyHospital: true });
       const notMyHospitals = await getHospitals({ ...getHospitalsProps, isMyHospital: false });
@@ -111,7 +108,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         ...myHospitals.map(hospital => ({ ...hospital, my: true })),
         ...notMyHospitals.map(hospital => ({ ...hospital, my: false })),
       ];
-      console.log("update요청", hospitals.length);
       return res.status(200).json(hospitals);
     } else return res.status(401).end();
   }

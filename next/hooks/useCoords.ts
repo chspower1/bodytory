@@ -8,7 +8,6 @@ interface Coords {
 export default function useCoords() {
   const [coords, setCoords] = useState<Coords>({ latitude: null, longitude: null });
   const onSuccess = ({ coords: { latitude, longitude } }: GeolocationPosition) => {
-    console.log({ latitude, longitude });
     setCoords({ latitude, longitude });
   };
   useEffect(() => {

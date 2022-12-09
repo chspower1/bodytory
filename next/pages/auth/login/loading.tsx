@@ -31,11 +31,9 @@ const Loading = () => {
   const { postApi } = customApi("/api/auth/login");
   const { mutate } = useMutation([USER_LOGIN], postApi, {
     onError(error: any) {
-      console.log(error);
     },
     onSuccess(data) {
       if (data.isNew) {
-        console.log("----------------------------", data);
         return router.push(
           {
             pathname: "/auth/register",

@@ -40,7 +40,6 @@ const ChartTimeline = () => {
     },
     enabled: !!position,
   });
-  console.log("hihihhi", data);
   useEffect(() => {
     queryClient.invalidateQueries([RECORDS_READ, position]);
     setFilterItem("all"); // 부위마다 새로운 페이지가 아닌가..? 왜 이걸 해줘야하지

@@ -99,7 +99,6 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
   });
   const handleClickCheckEmail = async () => {
     try {
-      console.log("errors", errors.email);
       clearErrors(["email", "token"]);
       if (!watch("email")) return setError("email", { message: "앗! 이메일 칸이 비어있어요!" });
       if (watch("email") && !EMAIL_REGEX.test(watch("email")))
@@ -107,7 +106,6 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       if (isToken && !watch("token")) return setError("token", { message: "인증번호를 입력해주세요" });
       // if (errors.email?.type === "checkCertificate") {
       const data = await checkEmailApi(isTokenInData);
-      console.log(data, isToken);
       if (isToken && !watch("token")) {
         return setError("token", { type: "custom", message: "$$$" });
       }
@@ -118,7 +116,6 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       setIsToken(true);
       // }
     } catch (err: any) {
-      console.log("err", err);
       if (isToken) {
         return setError("token", { type: "custom", message: `이메일에서 인증번호 확인 후\n입력해주세요!` });
       }

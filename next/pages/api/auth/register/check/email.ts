@@ -21,7 +21,6 @@ const createEmailCheckToken = async (email: string) => {
     },
   });
   sendMail(email, payload, "이메일 인증");
-  console.log(payload);
 };
 
 const checkEmail = async (email: string, type: UserType) => {
@@ -51,7 +50,6 @@ const checkToken = async (email: string, token: string) => {
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { email, token, type }: HelpForm = req.body;
   if (!email) return res.status(400).end();
-  console.log("test", email, token);
   if (!token) {
     try {
       await checkEmail(email, type);

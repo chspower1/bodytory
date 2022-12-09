@@ -25,7 +25,6 @@ const LogoutBtn = ({isHospital}:{isHospital ?:boolean;}) => {
       await LogoutApi({});
       router.push(isHospital ? "/hospital/login" :"/auth/login");
     } catch (err) {
-      console.log("logout Err");
     }
   };
   return (

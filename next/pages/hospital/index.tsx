@@ -47,7 +47,6 @@ const HospitalHomePage = () => {
   const { mutate } = useMutation(["removePatientKey"], deleteApi);
   const [showdeleteModal, setShowDeleteModal] = useState(false);
   const [isClosingMent, setIsClosingMent] = useState(false);
-  console.log(data);
   const {
     register,
     watch,
@@ -154,7 +153,6 @@ const HospitalHomePage = () => {
                         width="76px"
                         onClick={() => {
                           setShowDeleteModal(true);
-                          console.log(id);
                         }}
                       >
                         삭제

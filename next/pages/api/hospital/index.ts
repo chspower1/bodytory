@@ -27,7 +27,6 @@ async function findPatientList(req: NextApiRequest, res: NextApiResponse, user: 
 }
 async function removePatient(req: NextApiRequest, res: NextApiResponse) {
   const { id } = req.body;
-  console.log(id);
   await client.hospitalToUser.delete({
     where: {
       id,

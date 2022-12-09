@@ -35,7 +35,6 @@ const LoginPage: NextPage = () => {
 
   const { mutate } = useMutation([HOSPITAL_LOGIN], postApi, {
     onError(error: any) {
-      console.log(error);
       setIsError(true);
     },
     onSuccess(data) {
