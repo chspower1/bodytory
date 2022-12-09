@@ -11,7 +11,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
 async function createRecord(req: NextApiRequest, res: NextApiResponse) {
   const { audio } = req.body;
-  const { user } = req.session;
   const audioRecognized = await axios.post(
     "http://aiopen.etri.re.kr:8000/WiseASR/Recognition",
     {
@@ -28,9 +27,9 @@ async function createRecord(req: NextApiRequest, res: NextApiResponse) {
       },
     },
   );
-  console.log(audioRecognized);
+  console.dir({ audioRecognized }, { depth: null });
 
-  return res.status(200).json(audioRecognized);
+  return res.status(200).json(audioRecognized.data?.return_object?.recognized);
 }
 
 export default withApiSession(withHandler({ methods: ["POST"], handler }));

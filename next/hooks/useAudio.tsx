@@ -130,6 +130,7 @@ const useAudio = () => {
   }, [media, stream, source]);
 
   const onSubmitAudioFile = async (audioUrl: Blob) => {
+    console.log("Test onSubmit");
     const reader = new FileReader();
     const sound = new Blob([audioUrl as BlobPart], { type: "audio/mpeg3" });
     reader.readAsArrayBuffer(sound);
@@ -143,15 +144,12 @@ const useAudio = () => {
 
       const PostAudio = async () => {
         try {
-          const data = await postApi({ audio: bufferToBase64(reBlob) })
-            .then(data => data.json())
-            .then(json => json.return_object.recognized);
-          console.log(data);
+          const data = await postApi({ audio: bufferToBase64(reBlob) });
           if (data === "" || data.includes("ERROR")) {
             setError(true);
           } else {
             setError(false);
-            setAudioRecognized(data as string);
+            setAudioRecognized(data);
           }
         } catch (e) {
           setError(true);
