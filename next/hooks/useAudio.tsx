@@ -13,18 +13,10 @@ const bufferToBase64 = (buffer: any) => {
 const resample = async (input_buffer: any, target_rate: any) => {
   const len = input_buffer.length;
   const src_rate = input_buffer.sampleRate;
-  // New sampleRate requires adjusted buffer length to retain duration
   const target_len = len * (target_rate / src_rate);
-
-  // Until better support for `AudioContext({sampleRate}),
-  // use `OfflineAudioContext` which supports setting the sampleRate
   const c = new OfflineAudioContext(1, target_len, target_rate);
-
-  // Copy the`AudioContext` buffer so `OfflineAudioContext` can use it
   const b = c.createBuffer(1, len, src_rate);
   b.copyToChannel(input_buffer.getChannelData(0), 0);
-
-  // Setup the audio graph to render (input buffer resampled into output buffer)
   const s = c.createBufferSource();
   s.buffer = b;
   s.connect(c.destination);
@@ -94,11 +86,8 @@ const useAudio = () => {
     const audioCtx = new window.AudioContext({ sampleRate: 16000 });
     const analyser = audioCtx.createScriptProcessor(0, 1, 1);
     function makeSound(stream: MediaStream) {
-      // 내 컴퓨터의 마이크나 다른 소스를 통해 발생한 오디오 스트림의 정보를 보여준다.
       const source = audioCtx.createMediaStreamSource(stream);
       setSource(source);
-
-      // AudioBufferSourceNode 연결
       source.connect(analyser);
     }
     navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
@@ -127,7 +116,7 @@ const useAudio = () => {
     }
   }, [media, stream, source]);
 
-  const onSubmitAudioFile = async (audioUrl: Blob) => {
+  const onSubmitAudioFile = useCallback(async (audioUrl: Blob) => {
     const reader = new FileReader();
     const sound = new Blob([audioUrl as BlobPart], { type: "audio/mpeg3" });
     reader.readAsArrayBuffer(sound);
@@ -168,7 +157,7 @@ const useAudio = () => {
       };
       PostAudio();
     };
-  };
+  }, []);
   return { offRecAudio, onRecAudio, audioRecognized, setAudioRecognized, error };
 };
 
