@@ -1,6 +1,6 @@
 FROM node:16.16.0-alpine AS BASE
 WORKDIR /next
-COPY package.json ./
+COPY package*.json ./
 RUN npm install
 
 FROM node:16.16.0-alpine AS BUILDER

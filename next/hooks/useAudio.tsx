@@ -75,7 +75,7 @@ function audioBufferToWav(aBuffer: AudioBuffer) {
   return btwArrBuff;
 }
 
-const useAudio = () => {
+const useAudio = (setRecordStatus: any, setErrorTest: any) => {
   const [stream, setStream] = useState<MediaStream>();
   const [media, setMedia] = useState<MediaRecorder>();
   const [error, setError] = useState(false);
@@ -105,7 +105,8 @@ const useAudio = () => {
         makeSound(stream);
       })
       .catch(err => {
-        throw "마이크 권한을 확인해주세요";
+        setRecordStatus("initial");
+        setErrorTest(true);
       });
   }, []);
 
