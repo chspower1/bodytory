@@ -129,7 +129,7 @@ const DescriptionContainer = styled.div`
   height: 300px;
   background-color: rgb(107, 112, 236);
   border-radius: 35px;
-  padding: 130px 30px 30px 30px;
+  padding: 130px 20px 20px 20px;
   z-index: 10;
   transform: translateY(-150px);
   transition: transform 0.5s, height 0.5s;
