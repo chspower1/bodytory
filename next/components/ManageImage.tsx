@@ -14,7 +14,15 @@ import { useState } from "react";
 import IconAddImage from "@public/static/icon/icon_addImage.png";
 import ImageDetailModal from "./modals/ImageDetailModal";
 
-const ManageImage = ({ recordId, recordImages, isHospital }: { recordId: string; recordImages: RecordImage[]; isHospital ?: boolean })=>{
+const ManageImage = ({
+  recordId,
+  recordImages,
+  isHospital,
+}: {
+  recordId: string;
+  recordImages: RecordImage[];
+  isHospital?: boolean;
+}) => {
   const queryClient = useQueryClient();
 
   const uploadImageMutation = useMutation(uploadImageApi, {
@@ -30,10 +38,14 @@ const ManageImage = ({ recordId, recordImages, isHospital }: { recordId: string;
   });
   const [showImageDetailModal, setShowImageDetailModal] = useState(-1);
   const [isHover, setIsHover] = useState(-1);
-
+  console.log(recordImages);
   return (
     <div>
-      {isHospital || <UploadImageButton onClick={() => uploadImage(recordId, uploadImageMutation.mutate)}>사진 추가</UploadImageButton>}
+      {isHospital || (
+        <UploadImageButton onClick={() => uploadImage(recordId, uploadImageMutation.mutate)}>
+          사진 추가
+        </UploadImageButton>
+      )}
       {recordImages.length !== 0 ? (
         <ImageSlideContainer>
           <Swiper
@@ -53,7 +65,8 @@ const ManageImage = ({ recordId, recordImages, isHospital }: { recordId: string;
                   <Image
                     src={elem.url}
                     alt="증상 이미지"
-                    fill
+                    width={300}
+                    height={300}
                     onClick={() => {
                       console.log(key);
                       setShowImageDetailModal(key);
@@ -79,8 +92,8 @@ const ManageImage = ({ recordId, recordImages, isHospital }: { recordId: string;
       )}
     </div>
   );
-}
-export default  ManageImage;
+};
+export default ManageImage;
 const ImageSlideContainer = styled.div`
   width: 100%;
   height: 300px;
@@ -120,7 +133,7 @@ const ImageSlideContainer = styled.div`
     opacity: 0;
   }
 
-  .swiper-horizontal>.swiper-pagination-bullets, 
+  .swiper-horizontal > .swiper-pagination-bullets,
   .swiper-pagination-bullets.swiper-pagination-horizontal {
     top: auto;
     bottom: 0;
@@ -138,7 +151,6 @@ const ImageSlideContainer = styled.div`
     background: #8085fa;
     opacity: 1;
   }
-
 `;
 
 const ImageBox = styled.div`

@@ -1,6 +1,6 @@
 FROM node:16.16.0-alpine AS BASE
 WORKDIR /next
-COPY package.json ./
+COPY package*.json ./
 RUN npm install
 
 FROM node:16.16.0-alpine AS BUILDER
@@ -18,6 +18,7 @@ COPY --from=BUILDER /next/.next ./.next
 COPY --from=BUILDER /next/public ./public
 COPY --from=BUILDER /next/package.json ./
 COPY --from=BUILDER /next/node_modules ./node_modules
+COPY --from=BUILDER /next/next.config.js ./
 
 EXPOSE 3000
 CMD ["npm","run","start"]
