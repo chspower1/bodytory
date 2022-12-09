@@ -4,6 +4,7 @@ import multer from "multer";
 import multerS3 from "multer-s3";
 import nextconnect from "next-connect";
 import { S3Client } from "@aws-sdk/client-s3";
+import { v4 as uuidv4 } from "uuid";
 
 const upload = multer({
   storage: multerS3({
@@ -21,18 +22,10 @@ const upload = multer({
       cb(null, { filedName: file.fieldname });
     },
     key: function (req, file, cb) {
-      cb(null, `uploads/${Date.now()}_${file.originalname}`);
+      cb(null, `uploads/${uuidv4()}.${file.mimetype.split("/")[1]}`);
     },
   }),
 });
-// const storage = multer.diskStorage({
-//   destination(req, file, cb) {
-//     cb(null, ".@public");
-//   },
-//   filename(req, file, cb) {
-//     cb(null, file.fieldname + "-" + Date.now() + file.originalname);
-//   },
-// });
 
 const handler = nextconnect<NextApiRequest, NextApiResponse>({
   onError: (err, req, res, next) => {
@@ -42,8 +35,6 @@ const handler = nextconnect<NextApiRequest, NextApiResponse>({
     res.status(404).end("not found");
   },
 });
-
-// const upload = multer({ storage: storage });
 
 handler.post(upload.array("image"), async (req, res) => {
   const { recordId } = req.body;
@@ -61,7 +52,7 @@ handler.post(upload.array("image"), async (req, res) => {
 
 export const config = {
   api: {
-    bodyParser: false, // Disallow body parsing, consume as stream
+    bodyParser: false,
   },
 };
 
@@ -82,19 +73,6 @@ async function addPicture(id: string, fileUrl: string) {
           id: data?.id!,
         },
       },
-    },
-  });
-}
-
-function saveImage() {}
-async function updatePicture(req: NextApiRequest) {
-  const { id, images } = req.body;
-  await client.record.update({
-    where: {
-      id,
-    },
-    data: {
-      images,
     },
   });
 }
