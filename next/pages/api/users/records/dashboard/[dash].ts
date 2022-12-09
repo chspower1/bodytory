@@ -5,6 +5,7 @@ import { withApiSession } from "@utils/server/withSession";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { dash } = req.query;
+  if(!dash) return res.status(401).send("api 주소가 잘못되었습니다");
   if (dash === "aMonth") return await aMonthFn(req, res);
   if (dash === "threeMonth") return await threeMonthFn(req, res);
 }

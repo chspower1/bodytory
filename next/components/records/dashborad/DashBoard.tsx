@@ -8,9 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 
 function DashBoard() {
   const user = useUser();
-  const {getApi} = customApi('/api/users/records/dashboard/threeMonth');
-  const {data} = useQuery(["TestKey"], getApi);
-  console.log(data)
+
   return user ? (
     <DashBoardWarp>
       <DashBoardContainer>
