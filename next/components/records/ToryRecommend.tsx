@@ -9,7 +9,10 @@ import { AnimatePresence } from "framer-motion";
 import useCoords from "@hooks/useCoords";
 import LocationPinIcon from "@public/static/icon/location_pin.svg";
 
-function ToryRecommend({ mostThreeDepartment }: any) {
+interface ToryRecommendProps {
+  mostThreeDepartment?: string[];
+}
+function ToryRecommend({ mostThreeDepartment }: ToryRecommendProps) {
   const [showModal, setShowModal] = useState(false);
   const { latitude, longitude } = useCoords();
 

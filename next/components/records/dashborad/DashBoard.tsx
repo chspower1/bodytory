@@ -10,13 +10,17 @@ import { KoreanPosition } from "types/write";
 import { bodyPartType } from "types/bodyParts";
 import { MedicalDepartment, Position } from "@prisma/client";
 
+interface AMonthResponse {
+  mostInAMonth: Position;
+  mostThreeDepartment: string[];
+}
+
 function DashBoard() {
   const user = useUser();
-
   const { getApi } = customApi(`/api/users/records/dashboard/aMonth`);
-  const { isLoading, data } = useQuery<any>([AI_RESULT_READ], getApi, {
+  const { isLoading, data } = useQuery<AMonthResponse | undefined>([AI_RESULT_READ], getApi, {
     onSuccess(data) {
-      // console.log(data);
+      console.log("dashBoard", data);
     },
   });
 
@@ -28,8 +32,8 @@ function DashBoard() {
           <ToryText26White>
             {data ? (
               <>
-                <strong>{user?.name}님</strong> 최근 한달간{" "}
-                <strong>{KoreanPosition[data.mostInAMonth as Position]}</strong>에서 증상이 많이 발생하셨네요
+                <strong>{user?.name}님</strong> 최근 한달간 <strong>{KoreanPosition[data.mostInAMonth]}</strong>에서
+                증상이 많이 발생하셨네요
               </>
             ) : (
               <>
@@ -38,7 +42,7 @@ function DashBoard() {
             )}
           </ToryText26White>
         </ToryTextBox>
-        <ToryRecommend mostThreeDepartment={data ? data.mostThreeDepartment : null} />
+        <ToryRecommend mostThreeDepartment={data?.mostThreeDepartment} />
         <DashBoardStatistics />
       </DashBoardContainer>
     </DashBoardWarp>
