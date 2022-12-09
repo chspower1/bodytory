@@ -21,7 +21,8 @@ const LogoutBtn = ({ isHospital }: { isHospital?: boolean }) => {
         name: "",
         id: null,
       });
-      queryClient.removeQueries({ queryKey: isHospital ? [HOSPITAL_LOGIN] : [USER_LOGIN, USE_USER] });
+      queryClient.removeQueries({ queryKey: isHospital ? [HOSPITAL_LOGIN] : [USER_LOGIN] });
+      queryClient.removeQueries({ queryKey: [USE_USER] });
       await LogoutApi({});
       router.push(isHospital ? "/hospital/login" : "/auth/login");
     } catch (err) {
