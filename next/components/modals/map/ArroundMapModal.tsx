@@ -86,7 +86,6 @@ const ArroundMapModal: NextPage<ArroundMapMaodalProps> = ({ onClose, latitude, l
       <ModalContainer flex width="1500px" height="800px">
         <ToryText>현재 소희님의 위치를 기준으로 주변 정형외과들을 찾았어요!</ToryText>
         <ArroundMap width="1500px" height="600px" longitude={longitude} latitude={latitude} department={department} />
-
         <ButtonBox>
           <RoundButton fontSize="16px" width="220px" height="40px" onClick={onClose}>
             닫기
