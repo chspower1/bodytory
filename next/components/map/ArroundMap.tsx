@@ -11,17 +11,15 @@ import MagnifierIcon from "@public/static/icon/magnifier.svg";
 import UserIcon from "@public/static/icon/user.svg";
 import { AxiosError } from "axios";
 
-interface ArroundMapProps {
+interface Coords {
+  latitude: number | null;
+  longitude: number | null;
+}
+type ArroundMapProps = Coords & {
   width: string;
   height: string;
-  latitude: number;
-  longitude: number;
   department?: string;
-}
-interface Coords {
-  latitude: number;
-  longitude: number;
-}
+};
 export interface AroundMapHospital {
   id: number;
   name: string;
@@ -34,12 +32,6 @@ export interface AroundMapHospital {
 }
 interface medicalDepartment {
   medicalDepartment: { department: string };
-}
-interface CurrentRangeCoords {
-  minLatitude: number;
-  maxLatitude: number;
-  minLongitude: number;
-  maxLongitude: number;
 }
 interface SearchHospitalRequest {
   minLatitude: number;
@@ -57,6 +49,7 @@ const ArroundMap = ({ width, height, latitude, longitude, department }: ArroundM
   const mapRef = useRef<kakao.maps.Map | undefined>();
   const { getApi, postApi } = customApi(`/api/users/my-hospitals/map?latitude=${latitude}&longitude=${longitude}`);
   const { data: initialHospitals } = useQuery<AroundMapHospitalsResponse>(["hospitalsMap", "map"], getApi, {
+    enabled: Boolean(latitude && longitude),
     onSuccess(data) {
       setAllHospitals(data);
     },
@@ -96,10 +89,12 @@ const ArroundMap = ({ width, height, latitude, longitude, department }: ArroundM
   };
 
   const handleClickReset = () => {
-    const coords = new kakao.maps.LatLng(latitude, longitude);
-    setAllHospitals(initialHospitals);
-    mapRef.current?.setCenter(coords);
-    mapRef.current?.setLevel(3);
+    if (latitude && longitude) {
+      const coords = new kakao.maps.LatLng(latitude, longitude);
+      setAllHospitals(initialHospitals);
+      mapRef.current?.setCenter(coords);
+      mapRef.current?.setLevel(3);
+    }
   };
 
   useEffect(() => {
@@ -107,7 +102,8 @@ const ArroundMap = ({ width, height, latitude, longitude, department }: ArroundM
     if (department === "all") setFilteredHospitals(allHospitals);
     else setFilteredHospitals(filterHospitals(allHospitals));
   }, [department, filterHospitals, allHospitals, initialHospitals]);
-  return (
+
+  return latitude && longitude && coords ? (
     <MapContainer width={width} height={height}>
       <ControlBox>
         <CircleButton
@@ -132,8 +128,8 @@ const ArroundMap = ({ width, height, latitude, longitude, department }: ArroundM
       </ControlBox>
       <Map
         center={{
-          lat: coords.latitude,
-          lng: coords.longitude,
+          lat: coords.latitude!,
+          lng: coords.longitude!,
         }}
         isPanto={true}
         style={{
@@ -170,7 +166,7 @@ const ArroundMap = ({ width, height, latitude, longitude, department }: ArroundM
         ))}
       </Map>
     </MapContainer>
-  );
+  ) : null;
 };
 export default ArroundMap;
 const MapContainer = styled(Container)<{ width: string; height: string }>`
