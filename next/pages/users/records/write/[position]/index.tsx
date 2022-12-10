@@ -194,6 +194,8 @@ const PositionPage = () => {
                   ? theme.color.error
                   : isEditMode && getValues("description")
                   ? theme.color.darkBg
+                  : recordStatus === "initial"
+                  ? theme.color.darkBg
                   : theme.color.disabled
               }
               onClick={() => {
