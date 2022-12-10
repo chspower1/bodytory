@@ -1,6 +1,5 @@
 stages:
   - deploy
-  - cleanup
 
 deploy:
   image: docker:latest
@@ -37,12 +36,5 @@ deploy:
     - cp .env /builds/ai_track/class05/ai_project/team01/team01/next
   script:
     - docker-compose up -d --build
-
-cleanup:
-  image: docker:latest
-  stage: cleanup
-  only:
-    - dev
-    - main
-  script:
-    - docker rmi $(docker images -f "dangling=true" -q)
+    - docker image prune
+    - docker images
