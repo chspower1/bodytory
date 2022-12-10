@@ -1,5 +1,5 @@
 import { MEDICALDEPARTMENT } from "constant/MedicalDepartment";
-import { Dispatch, SetStateAction, useCallback, useState } from "react";
+import { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 
@@ -8,14 +8,18 @@ interface DepartmentSelectForm {
 }
 
 const useDepartmentSelect = (departments: string[], isAll?: boolean) => {
-  const [department, setDepartment] = useState(isAll ? "all" : departments[0]);
+  console.log(departments, departments.length === 0);
+  const isDepartmentsEmpty = departments.length === 0;
+  const defaultDepartment = isAll ? "all" : isDepartmentsEmpty ? "all" : departments[0];
+  const [department, setDepartment] = useState(defaultDepartment);
   const { register } = useForm<DepartmentSelectForm>();
   const onValid = useCallback((department: string) => {
     console.log("onValid", department);
     setDepartment(department);
   }, []);
+
   const DepartmentSelect = () => {
-    return (
+    return !isDepartmentsEmpty ? (
       <DepartmentSelectBox
         id="department"
         {...register("department", {
@@ -32,7 +36,7 @@ const useDepartmentSelect = (departments: string[], isAll?: boolean) => {
           </option>
         ))}
       </DepartmentSelectBox>
-    );
+    ) : null;
   };
   return { department, DepartmentSelect };
 };
