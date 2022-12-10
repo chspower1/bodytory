@@ -15,6 +15,7 @@ import { Position } from "@prisma/client";
 
 interface ToryRecommendProps {
   mostThreeDepartment?: string[];
+  keywords: string[];
 }
 
 function ToryRecommendPart() {
