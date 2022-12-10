@@ -97,7 +97,13 @@ const PositionPage = () => {
     if (recordStatus === "finish") {
       if (description.length < 2) return setError(true);
       mutate({ position: router.query.position as string, description });
-      router.push("/users/records/write/analysis");
+      router.push(
+        {
+          pathname: "/users/records/write/analysis",
+          query: { position: position },
+        },
+        "/users/records/write/analysis",
+      );
     } else {
       setError(true);
     }
