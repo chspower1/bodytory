@@ -147,7 +147,10 @@ def predict():
 @app.route('/api/keywords', methods=['POST'])
 def send_keywords():
     body = request.get_json()
-    data = {'keywords_result': keyword_extractor(body['sentences'])}
+    try:
+        data = {'keywords_result': keyword_extractor(body['sentences'])}
+    except:
+        data = {'keywords_result': []}
     return jsonify(data)
 
 
