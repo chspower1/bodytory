@@ -12,6 +12,7 @@ import LocationPinIcon from "@public/static/icon/location_pin.svg";
 interface ToryRecommendProps {
   mostThreeDepartment?: string[];
 }
+
 function ToryRecommend({ mostThreeDepartment }: ToryRecommendProps) {
   const [showModal, setShowModal] = useState(false);
 

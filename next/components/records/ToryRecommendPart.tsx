@@ -1,15 +1,43 @@
 import { RoundButton } from "@components/buttons/Button";
 import styled, { css } from "styled-components";
 import IconHospital from "@public/static/icon/icon_hospital.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "@components/modals/Modal";
 import ArroundMapModal from "@components/modals/map/ArroundMapModal";
 import { AnimatePresence } from "framer-motion";
 import useCoords from "@hooks/useCoords";
 import LocationPinIcon from "@public/static/icon/location_pin.svg";
+import customApi from "@utils/client/customApi";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { CHART_RECOMMEND_READ } from "constant/queryKeys";
+import { useRouter } from "next/router";
+import { Position } from "@prisma/client";
+
+interface ToryRecommendProps {
+  mostThreeDepartment?: string[];
+}
 
 function ToryRecommendPart() {
   const [showModal, setShowModal] = useState(false);
+
+  const { query } = useRouter();
+  const position = query.position as Position;
+
+  const { getApi } = customApi(`/api/users/records/chart/${position}`);
+  const { data } = useQuery<ToryRecommendProps>([CHART_RECOMMEND_READ, position], getApi, {
+    onSuccess(data) {
+      console.log("차트", data);
+    },
+    onError(data) {
+      console.log("에러", position);
+    },
+    enabled: !!position,
+  });
+
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    queryClient.invalidateQueries([CHART_RECOMMEND_READ, position]);
+  }, [position]);
 
   return (
     <>
