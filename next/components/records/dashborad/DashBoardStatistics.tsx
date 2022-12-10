@@ -35,7 +35,7 @@ function DashBoardStatistics() {
     }
   });
 
-  const flaskGetApi = customApi(`/api/users/records/flask/allKeywords`);
+  const flaskGetApi = customApi(`/api/users/records/flask/threeMonth`);
   const flaskQuery = useQuery<any>([KEYWORDS_CHARTDATA_READ], flaskGetApi.getApi, {
     onSuccess(data) {
       // console.log(data);
