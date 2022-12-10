@@ -39,7 +39,7 @@ deploy:
     - docker-compose up -d --build
 
 cleanup:
-  image: ubuntu:latest
+  image: docker:latest
   stage: cleanup
   only:
     - dev
