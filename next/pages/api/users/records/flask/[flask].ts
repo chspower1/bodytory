@@ -19,6 +19,7 @@ async function allRecordsKeywords(req: NextApiRequest, res: NextApiResponse) {
   try{
     const data = await client.record.findMany({
         where:{
+          type:"user",
           userId: user.id,
         },
         select:{
@@ -26,16 +27,17 @@ async function allRecordsKeywords(req: NextApiRequest, res: NextApiResponse) {
         }
       })
     if(data.length === 0 ) return;
-    const result = data.map(ele=>{
+    const result: string[] = data.map((ele: { description: string; })=>{
       return ele.description
     })
-  
     const postApi = await axios.post(`${process.env.FLASK_API}/api/keywords`,{
       headers: {
         "Content-Type": "application/json"
       },
       sentences: result
     })
+    console.log(postApi.data.keywords_result)
+
     return res.status(200).json(postApi.data.keywords_result)
   }catch(err){
     return res.status(401).json({message: "flask 500 error"})
@@ -50,6 +52,7 @@ async function threeMonthRecordsKeywords(req: NextApiRequest, res: NextApiRespon
     threeMonthAgo.setMonth(now.getMonth() - 3);
     const data = await client.record.findMany({
         where:{
+          type:"user",
           userId: user.id,
           createAt:{
             gte: threeMonthAgo
@@ -60,7 +63,7 @@ async function threeMonthRecordsKeywords(req: NextApiRequest, res: NextApiRespon
         }
       })
     if(data.length === 0 ) return;
-    const result = data.map(ele=>{
+    const result: string[] = data.map((ele: { description: string; })=>{
       return ele.description
     })
   
