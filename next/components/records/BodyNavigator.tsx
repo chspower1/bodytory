@@ -1,5 +1,5 @@
 import { RoundButton } from "@components/buttons/Button";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { bodyPartType } from "types/bodyParts";
 import OutlineBack from "./svg/OutlineBack";
@@ -104,7 +104,7 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage, isH
               {bodyFront.map((part, index) => {
                 if (FrontPaths[part!].length > 1) {
                   return (
-                    <>
+                    <React.Fragment key={`${part} + front`}>
                       <HoverPath
                         isChecked={isWritePage ? selectedBodyPart === part : position === part}
                         onClick={() => {
@@ -141,7 +141,7 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage, isH
                         onMouseLeave={() => setHoveredPart("")}
                         d={FrontPaths[part!][1]}
                       />
-                    </>
+                    </React.Fragment>
                   );
                 } else {
                   return (
@@ -177,7 +177,7 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage, isH
               {bodyBack.map((part, index) => {
                 if (BackPaths[part!].length > 1) {
                   return (
-                    <>
+                    <React.Fragment key={`${part} + back`}>
                       <HoverPath
                         isChecked={isWritePage ? selectedBodyPart === part : position === part}
                         onClick={() => {
@@ -214,7 +214,7 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage, isH
                         onMouseLeave={() => setHoveredPart("")}
                         d={BackPaths[part!][1]}
                       />
-                    </>
+                    </React.Fragment>
                   );
                 } else {
                   return (
@@ -250,7 +250,7 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage, isH
               {face.map((part, index) => {
                 if (FacePaths[part!].length > 1) {
                   return (
-                    <>
+                    <React.Fragment key={`${part} + face`}>
                       <HoverPath
                         isChecked={isWritePage ? selectedBodyPart === part : position === part}
                         onClick={() => {
@@ -287,7 +287,7 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage, isH
                         onMouseLeave={() => setHoveredPart("")}
                         d={FacePaths[part!][1]}
                       />
-                    </>
+                    </React.Fragment>
                   );
                 } else {
                   return (

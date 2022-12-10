@@ -9,7 +9,7 @@ import { KoreanPosition } from "types/write";
 import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
-import { PositionBoxText, TextBox, ToryBox } from "@components/records/BodyPartChecker";
+import { PositionTextBox, TextBox, ToryBox } from "@components/records/BodyPartChecker";
 import ToryIcon from "@components/ToryIcon";
 import SpeakMotion from "@components/SpeakMotion";
 import useAudio from "@hooks/useAudio";
@@ -50,7 +50,10 @@ const PositionPage = () => {
   const { postApi } = customApi("/api/users/records");
   const { mutate } = useMutation<unknown, AxiosError, WriteRecordRequest>([RECORDS_CREATE], postApi, {
     onSuccess(data) {
-      router.push("/users/records/write/add");
+      router.push({
+        pathname: "/users/records/write/add",
+        query: { position },
+      });
     },
   });
 
@@ -97,6 +100,7 @@ const PositionPage = () => {
     if (!(recordStatus === "finish")) {
       setValue("description", "");
     }
+    setRecordStatus("finish");
     setIsEditMode(true);
   };
   useEffect(() => {
@@ -124,38 +128,29 @@ const PositionPage = () => {
   }, [recordStatus]);
   return (
     <WhiteWrapper>
-      <Link href="/users/records/write">
-        <BackButton>
-          <span>부위 선택</span>
-        </BackButton>
-      </Link>
+      <BackButton onClick={() => router.push("/users/records/write")}>
+        <span>부위 선택</span>
+      </BackButton>
       <SpeakMotion listening={listening} />
       <FlexContainer>
-        <Col height="100vh">
-          <Box height="20%">
+        <Col>
+          <ToryBox>
             <ToryIcon />
-          </Box>
-          <Box height="30%">
+          </ToryBox>
+          <TextBox>
             <BlackToryText>
-              <PositionBoxText>{KoreanPosition[position]}</PositionBoxText>에 어떤 증상이 있나요?
+              <PositionTextBox>{KoreanPosition[position]}</PositionTextBox>에 어떤 증상이 있나요?
             </BlackToryText>
-          </Box>
-          <VoiceBox height="30%">
+          </TextBox>
+          <VoiceBox>
+            <GuideMessage>마이크 사용이 어렵다면 아래 입력창에 직접 입력할 수 있어요!</GuideMessage>
             <MemoBox>
-              <GuideMessage>마이크 사용이 어렵다면 아래 입력창에 직접 입력할 수 있어요!</GuideMessage>
               <MemoInput
                 type="text"
                 disabled={!isEditMode}
                 onClick={handleClickEditMode}
                 {...register("description", {
                   required: "증상을 입력해주세요",
-                  onChange(){
-                    if(!watch("description")){
-                      setRecordStatus("initial");
-                    }else{
-                      setRecordStatus("finish");
-                    }
-                  },
                   onBlur: () => {
                     !(recordStatus === "finish") && setValue("description", recordMessage);
                     clearErrors("description");
@@ -215,13 +210,11 @@ const PositionPage = () => {
 };
 
 export default PositionPage;
-const BackBtn = styled(motion.div)`
-  position: fixed;
-  margin: 10px;
-  background-color: red;
-`;
-const VoiceBox = styled(Col)`
-  gap: 60px;
+
+const VoiceBox = styled.div`
+  > button {
+    margin: 60px auto 30px;
+  }
 `;
 const Rectangle = styled.div`
   width: 40px;
@@ -229,12 +222,13 @@ const Rectangle = styled.div`
   border-radius: 5px;
   background-color: white;
 `;
-const MemoBox = styled(Box)`
+const MemoBox = styled.div`
   position: relative;
-  gap: 15px;
 `;
 const RefreshBtnBox = styled(Box)`
   position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
   right: -60px;
 `;
 const RefreshText = styled.div`
@@ -259,6 +253,12 @@ const MemoInput = styled.input`
   &:hover {
     box-shadow: 0px 0px 0px 3px ${({ theme }) => theme.color.mintBtn};
   }
+  :-webkit-autofill,
+  :-webkit-autofill:hover,
+  :-webkit-autofill:focus,
+  :-webkit-autofill:active {
+    -webkit-text-fill-color: ${({ theme }) => theme.color.mintBtn} !important;
+  }
 `;
 const ErrorMessage = styled(Box)`
   position: absolute;
@@ -266,82 +266,16 @@ const ErrorMessage = styled(Box)`
   margin-top: 120px;
   font-size: 18px;
 `;
-const GuideMessage = styled(Box)`
-  position: absolute;
+const GuideMessage = styled.div`
+  width: 100%;
+  text-align: center;
   color: ${({ theme }) => theme.color.darkBg};
-  margin-bottom: 120px;
   font-size: 18px;
+  margin-bottom: 20px;
 `;
-const Pencil = styled(pencil)`
-  position: absolute;
-  right: 20px;
-  transition: all 0.5s ease;
-  &:hover {
-    fill: ${({ theme }) => theme.color.darkBg};
-  }
-`;
+
 const Mic = styled(mic)`
   &:hover {
     fill: red;
-  }
-`;
-const SubmitButton = styled.button<{ recordId?: number }>`
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 40px;
-  height: 100%;
-  background: #d9deff;
-  border-radius: 0 10px 10px 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: background 0.4s, width 0.4s;
-  z-index: 1000;
-
-  svg {
-    width: 22px;
-    height: 22px;
-    fill: #8c9af3;
-    transition: transform 0.4s;
-  }
-
-  span {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, 0);
-    width: 40px;
-    z-index: -1;
-    font-size: 14px;
-    font-weight: 700;
-    color: ${({ theme }) => theme.color.white};
-    margin-top: 7px;
-    opacity: 0;
-    transition: opacity 0.4s, zIndex 0.4s, transform 0.4s;
-  }
-
-  &:hover {
-    background: #c6cdfa;
-
-    svg {
-      fill: #5359e9;
-    }
-  }
-
-  &.active {
-    width: 70px;
-    background: ${({ theme }) => theme.color.darkBg};
-
-    svg {
-      transform: translate(0, -5px);
-      fill: #fff;
-    }
-
-    span {
-      opacity: 1;
-      z-index: 1;
-      transform: translate(-50%, 5px);
-    }
   }
 `;

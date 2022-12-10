@@ -1,12 +1,25 @@
+import LoadingDot from "@components/LoadingDot";
+import useUser from "@hooks/useUser";
+import { User } from "@prisma/client";
 import { Col, FlexContainer, ToryText, WhiteText, Wrapper } from "@styles/Common";
+import { loggedInUser } from "atoms/atoms";
+import { RegisterForm } from "pages/auth/register";
+import { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 
 const Analysis = () => {
+  const currentUser = useRecoilValue(loggedInUser);
+  const [user, setUser] = useState<User | RegisterForm>()
+useEffect(()=>{
+  if(currentUser) setUser(currentUser)
+},[currentUser])
+
   return (
     <AnalysisWrapper>
       <FlexContainer>
         <Col>
-          <ToryText color="#FFF">소희님의 건강상태를 기록하고 분석하고 있어요..</ToryText>
+          <ToryText color="#FFF">{user?.name}님의 건강상태를 기록하고 분석하고 있어요<LoadingDot/></ToryText>
           <Tory />
         </Col>
       </FlexContainer>

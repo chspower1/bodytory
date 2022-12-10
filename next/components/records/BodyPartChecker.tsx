@@ -21,7 +21,7 @@ const BodyPartChecker = ({ selectedBodyPart }: SelectBodyPartProps) => {
       animate={{ x: 0 }}
       transition={{ duration: 0.7, type: "tween", ease: "easeOut" }}
     >
-      <Col style={{ height: "100vh" }}>
+      <ContentBox>
         <ToryBox>
           <ToryIcon />
         </ToryBox>
@@ -30,14 +30,14 @@ const BodyPartChecker = ({ selectedBodyPart }: SelectBodyPartProps) => {
             <ToryText>증상을 기록할 부위를 선택해주세요</ToryText>
           ) : (
             <ToryText>
-              <PositionBoxText
+              <PositionTextBox
                 key={KoreanPosition[selectedBodyPart]}
                 initial={{ y: 30, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.6 }}
               >
                 {KoreanPosition[selectedBodyPart]}
-              </PositionBoxText>
+              </PositionTextBox>
               에 대한 증상을 기록할까요?
             </ToryText>
           )}
@@ -56,14 +56,14 @@ const BodyPartChecker = ({ selectedBodyPart }: SelectBodyPartProps) => {
             </BtnBox>
           )}
         </CreateBtnBox>
-      </Col>
+      </ContentBox>
     </FlexContainer>
   );
 };
 
 export default BodyPartChecker;
 
-export const PositionBoxText = styled(motion.span)`
+export const PositionTextBox = styled(motion.span)`
   border-radius: 10px;
   background-color: #e8e9ff;
   padding: 5px 20px;
@@ -71,12 +71,19 @@ export const PositionBoxText = styled(motion.span)`
   color: ${({ theme }) => theme.color.darkBg};
   font-weight: 800;
 `;
+
+const ContentBox = styled.div`
+  width: 540px;
+`
+
 export const ToryBox = styled(Box)`
-  height: 45%;
+  margin-bottom: 40px;
 `;
+
 export const TextBox = styled(Box)`
-  height: 10%;
+  margin-bottom: 90px;
 `;
 export const CreateBtnBox = styled(BtnBox)`
-  height: 45%;
+  height: 60px;
+  justify-content:center;
 `;

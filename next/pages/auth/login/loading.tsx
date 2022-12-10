@@ -8,6 +8,7 @@ import styled, { keyframes } from "styled-components";
 import { loggedInUser } from "atoms/atoms";
 import { useSetRecoilState } from "recoil";
 import Header from "@components/header/Header";
+import LoadingDot from "@components/LoadingDot";
 
 const LoadingBox = styled.div`
   width: 100%;
@@ -25,7 +26,6 @@ const ButtonBox = styled.div`
 `;
 
 const Loading = () => {
-  const iRef = useRef<HTMLElement>(null);
   const router = useRouter();
   const setCurrentUser = useSetRecoilState(loggedInUser);
   const { postApi } = customApi("/api/auth/login");
@@ -49,24 +49,10 @@ const Loading = () => {
       }
     },
   });
-
-  useEffect(() => {
-    const creater = setInterval(() => {
-      if (iRef.current !== null) {
-        iRef.current.innerText += ".";
-        if (iRef.current.innerText.length > 3) {
-          iRef.current.innerText = ".";
-        }
-      }
-    }, 500);
-    return () => {
-      clearInterval(creater);
-    };
-  }, []);
   return (
     <LoadingBox>
       <div>
-        유저 정보 조회중입니다<i ref={iRef}></i>
+        유저 정보 조회중입니다<LoadingDot/>
       </div>
       <ButtonBox>
         <NaverLoginBtn mutate={mutate} size={"sm"} kind={"login"} />
