@@ -4,7 +4,15 @@ import { RoundButton } from "./Button";
 import { currentPatientInfo, loggedInHospital, loggedInUser } from "atoms/atoms";
 import { useSetRecoilState } from "recoil";
 import { useQueryClient } from "@tanstack/react-query";
-import { AI_RESULT_READ, BODYPART_CHARTDATA_READ, HOSPITALS, HOSPITAL_LOGIN, KEYWORDS_CHARTDATA_READ, USER_LOGIN, USE_USER } from "constant/queryKeys";
+import {
+  AI_RESULT_READ,
+  BODYPART_CHARTDATA_READ,
+  HOSPITALS,
+  HOSPITAL_LOGIN,
+  KEYWORDS_CHARTDATA_READ,
+  USER_LOGIN,
+  USE_USER,
+} from "constant/queryKeys";
 
 const LogoutBtn = ({ isHospital }: { isHospital?: boolean }) => {
   const queryClient = useQueryClient();
@@ -21,13 +29,7 @@ const LogoutBtn = ({ isHospital }: { isHospital?: boolean }) => {
         name: "",
         id: null,
       });
-      queryClient.removeQueries({ queryKey: isHospital ? [HOSPITAL_LOGIN] : [USER_LOGIN] });
-      queryClient.removeQueries({ queryKey: [USE_USER] });
-      queryClient.removeQueries({ queryKey: [AI_RESULT_READ] });
-      queryClient.removeQueries({ queryKey: [BODYPART_CHARTDATA_READ] });
-      queryClient.removeQueries({ queryKey: [KEYWORDS_CHARTDATA_READ] });
-      queryClient.removeQueries({ queryKey: [HOSPITALS] });
-
+      queryClient.clear();
       await LogoutApi({});
       router.push(isHospital ? "/hospital/login" : "/auth/login");
     } catch (err) {
