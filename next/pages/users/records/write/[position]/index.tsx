@@ -36,6 +36,7 @@ const PositionPage = () => {
   const position = router.query.position as Position;
   const [isEditMode, setIsEditMode] = useState(true);
   const {
+    getValues,
     register,
     setValue,
     formState: { errors },
@@ -84,10 +85,6 @@ const PositionPage = () => {
       setRecordStatus("initial");
     }
   };
-
-  useEffect(() => {
-    console.log(recordStatus);
-  }, [recordStatus]);
 
   const endRecord = async () => {
     setRecordStatus("loading");
@@ -192,7 +189,13 @@ const PositionPage = () => {
             <CircleButton
               width="100px"
               height="100px"
-              bgColor={listening ? theme.color.error : theme.color.darkBg}
+              bgColor={
+                listening
+                  ? theme.color.error
+                  : isEditMode && getValues("description")
+                  ? theme.color.darkBg
+                  : theme.color.disabled
+              }
               onClick={() => {
                 recordStatus === "initial" && startRecord();
                 recordStatus === "listening" && endRecord();
