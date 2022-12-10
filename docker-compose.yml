@@ -1,13 +1,13 @@
 services:
   flask:
+    image: flask
     build: ./flask
-    image: flask_app:latest
     restart: always
     ports:
       - 8080:8080
   next:
+    image: next
     build: ./next
-    image: next_app:latest
     restart: always
     ports:
       - 3000:3000

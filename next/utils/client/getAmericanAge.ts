@@ -6,13 +6,14 @@
 
 const getAmericanAge = (birthDate: string) => {
   const today = new Date();
-  const birthYear = Number(birthDate.substring(0, 4));
-  const birthMonth = Number(birthDate.substring(4, 6));
-  const birthDay = Number(birthDate.substring(6, 8));
+  const converDate = birthDate.replace(/-/g,'')
+  const birthYear = Number(converDate.substring(0, 4));
+  const birthMonth = Number(converDate.substring(4, 6));
+  const birthDay = Number(converDate.substring(6, 8));
   const birth = new Date(birthYear, birthMonth, birthDay);
-
   let age = today.getFullYear() - birth.getFullYear();
   const month = today.getMonth() - birth.getMonth();
+  
   if (month < 0 || (month === 0 && today.getDate() < birth.getDate())) {
     age -= 1;
   }
