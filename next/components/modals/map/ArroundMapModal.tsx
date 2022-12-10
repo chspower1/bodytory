@@ -8,6 +8,7 @@ import { ModalContainer, ModalWrapper, Dim } from "@styles/ModalStyled";
 import useCoords from "@hooks/useCoords";
 import ArroundMap from "@components/map/ArroundMap";
 import useDepartmentSelect from "@hooks/useDepartmentSelect";
+import { useEffect, useState } from "react";
 
 interface ArroundMapMaodalProps {
   show: boolean;
@@ -17,7 +18,7 @@ interface ArroundMapMaodalProps {
 const ArroundMapModal: NextPage<ArroundMapMaodalProps> = ({ show, onClose, mostThreeDepartment }) => {
   const { latitude, longitude } = useCoords();
   const { department, DepartmentSelect } = useDepartmentSelect(mostThreeDepartment ? mostThreeDepartment : []);
-
+  const [isBrowser, setIsBrowser] = useState(false);
   const modalContent = (
     <AnimatePresence>
       {show && (
@@ -45,7 +46,10 @@ const ArroundMapModal: NextPage<ArroundMapMaodalProps> = ({ show, onClose, mostT
       )}
     </AnimatePresence>
   );
-  return ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement);
+  useEffect(() => {
+    setIsBrowser(true);
+  }, []);
+  return isBrowser ? ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement) : null;
 };
 export default ArroundMapModal;
 
