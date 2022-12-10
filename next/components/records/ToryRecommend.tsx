@@ -3,28 +3,26 @@ import styled, { css } from "styled-components";
 import IconHospital from "@public/static/icon/icon_hospital.png";
 import IconWarning from "@public/static/icon/icon_warning.png";
 import { useState } from "react";
-import Modal from "@components/modals/Modal";
 import ArroundMapModal from "@components/modals/map/ArroundMapModal";
-import { AnimatePresence } from "framer-motion";
-import useCoords from "@hooks/useCoords";
 import LocationPinIcon from "@public/static/icon/location_pin.svg";
 
 interface ToryRecommendProps {
   mostThreeDepartment?: string[];
+  inChart: boolean;
 }
 
-function ToryRecommend({ mostThreeDepartment }: ToryRecommendProps) {
+function ToryRecommend({ mostThreeDepartment, inChart }: ToryRecommendProps) {
   const [showModal, setShowModal] = useState(false);
 
   return (
     <>
       <ToryRecommendContainer>
-        <ToryRecommendBox>
+        <ToryRecommendBox inChart={inChart}>
           <RecommendText>
             <Tag>Ai 토리추천</Tag>
             <Text>
               {
-                mostThreeDepartment?.length !== 0 ? (
+                mostThreeDepartment ? (
                   <>
                     <strong>{mostThreeDepartment && mostThreeDepartment.join(", ")}</strong>에 방문해보시는 것을 추천드려요
                   </>
@@ -32,8 +30,6 @@ function ToryRecommend({ mostThreeDepartment }: ToryRecommendProps) {
                   <p>아직 추천하는 진료과목이 없어요</p>
                 )
               }
-
-              
             </Text>
           </RecommendText>
           {mostThreeDepartment && mostThreeDepartment.length > 0 && (
@@ -58,14 +54,25 @@ const ToryRecommendContainer = styled.div`
   margin-bottom: 60px;
 `;
 
-const ToryRecommendBox = styled.div`
+const ToryRecommendBox = styled.div<{inChart: boolean}>`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  min-height: 80px;
   border-radius: 20px;
   padding: 15px 20px;
   box-shadow: 8px 8px 18px 0px rgba(32, 36, 120, 0.3);
-  background: ${({ theme }) => theme.color.white};
+
+
+  ${({ inChart }) =>
+    inChart ? css`
+      background: ${({ theme }) => theme.color.input};
+      color: ${({ theme }) => theme.color.white};
+    ` 
+    : css`
+      background: ${({ theme }) => theme.color.white};
+    `
+  }
 `;
 
 const RecommendText = styled.div`
@@ -101,6 +108,5 @@ const Warning = styled.div`
   opacity: 0.8;
 `;
 
-const MapContainer = styled.div``;
 
 export default ToryRecommend;

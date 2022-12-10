@@ -7,10 +7,35 @@ import { KoreanPosition } from "types/write";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Position } from "@prisma/client";
+import customApi from "@utils/client/customApi";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { CHART_RECOMMEND_READ } from "constant/queryKeys";
+import { useEffect } from "react";
+import ToryRecommend from "../ToryRecommend";
+
+
+interface ChartRecommendResponse {
+  mostThreeDepartment?: string[];
+  keywords: string[];
+}
 
 function Chart() {
   const { query } = useRouter();
   const position = query.position as Position;
+
+  const { getApi } = customApi(`/api/users/records/chart/${position}`);
+  const { data } = useQuery<ChartRecommendResponse>([CHART_RECOMMEND_READ, position], getApi, {
+    onSuccess(data) {
+      console.log("차트", data);
+    },
+    enabled: !!position,
+  });
+
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    queryClient.invalidateQueries([CHART_RECOMMEND_READ, position]);
+  }, [position]);
+
 
   return (
     <ChartWrap>
@@ -26,7 +51,7 @@ function Chart() {
               </RoundButton>
             </Link>
           </TitleBox>
-          <ToryRecommendPart />
+          <ToryRecommend mostThreeDepartment={data?.mostThreeDepartment} inChart={true} />
           <ChartKeyword />
           <ChartTimeline />
         </ChartContainer>
