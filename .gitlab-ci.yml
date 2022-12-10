@@ -36,5 +36,5 @@ deploy:
     - cp .env /builds/ai_track/class05/ai_project/team01/team01/next
   script:
     - docker-compose up -d --build
-    - sudo docker rmi $(sudo docker images -f "dangling=true" -q)
+    - docker rmi $(docker images -f "dangling=true" -q)
 
