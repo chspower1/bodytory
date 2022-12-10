@@ -75,7 +75,7 @@ function audioBufferToWav(aBuffer: AudioBuffer) {
   return btwArrBuff;
 }
 
-const useAudio = (setRecordStatus: any, setErrorTest: any) => {
+const useAudio = () => {
   const [stream, setStream] = useState<MediaStream>();
   const [media, setMedia] = useState<MediaRecorder>();
   const [error, setError] = useState(false);
@@ -83,7 +83,7 @@ const useAudio = (setRecordStatus: any, setErrorTest: any) => {
   const [audioRecognized, setAudioRecognized] = useState<string>("");
   const { postApi } = customApi("/api/users/records/openApi");
 
-  const onRecAudio = useCallback(() => {
+  const onRecAudio = useCallback(async () => {
     setError(false);
     const audioCtx = new window.AudioContext({ sampleRate: 16000 });
     const analyser = audioCtx.createScriptProcessor(0, 1, 1);
@@ -92,9 +92,8 @@ const useAudio = (setRecordStatus: any, setErrorTest: any) => {
       setSource(source);
       source.connect(analyser);
     }
-    navigator.mediaDevices
-      .getUserMedia({ audio: true })
-      .then(stream => {
+    try {
+      await navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
         const mediaRecorder = new MediaRecorder(stream, {
           audioBitsPerSecond: 16000,
           mimeType: "audio/webm",
@@ -103,11 +102,10 @@ const useAudio = (setRecordStatus: any, setErrorTest: any) => {
         setStream(stream);
         setMedia(mediaRecorder);
         makeSound(stream);
-      })
-      .catch(err => {
-        setRecordStatus("initial");
-        setErrorTest(true);
       });
+    } catch {
+      throw new Error("마이크 권한 취득 실패");
+    }
   }, []);
 
   const offRecAudio = useCallback(async () => {

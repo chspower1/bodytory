@@ -46,7 +46,7 @@ const PositionPage = () => {
   const [listening, setListening] = useState(false);
   const [error, setError] = useState(false);
   const [recordStatus, setRecordStatus] = useState<RecordStatus>("initial");
-  const { offRecAudio, onRecAudio, audioRecognized, error: aiError } = useAudio(setRecordStatus, setError);
+  const { offRecAudio, onRecAudio, audioRecognized, error: aiError } = useAudio();
   const { postApi } = customApi("/api/users/records");
   const { mutate } = useMutation<unknown, AxiosError, WriteRecordRequest>([RECORDS_CREATE], postApi, {
     onSuccess(data) {
@@ -74,10 +74,15 @@ const PositionPage = () => {
     (recordStatus === "finish" && "기록을 완료하려면 버튼을 눌러주세요") ||
     (recordStatus === "error" && "인식에 실패했어요.. 다시 녹음하거나 타이핑으로 입력해 주세요.") ||
     "";
-  const startRecord = () => {
-    setError(false);
-    setRecordStatus("listening");
-    onRecAudio();
+  const startRecord = async () => {
+    try {
+      await onRecAudio();
+      setError(false);
+      setRecordStatus("listening");
+    } catch {
+      setError(true);
+      setRecordStatus("initial");
+    }
   };
 
   useEffect(() => {
