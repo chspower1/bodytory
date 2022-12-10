@@ -43,8 +43,8 @@ async function aMonthFn(req: NextApiRequest, res: NextApiResponse) {
   }, {});
   const mostInAMonth: string[]= []
   const mostInAMonthData = Object.entries(dataReduce).sort(([, a]: any, [, b]: any) => (a <= b ? 1 : -1));
-  mostInAMonth.map(ele =>{
-    if(mostInAMonth[0][1] === ele[1]){
+  mostInAMonthData.map(ele =>{
+    if(mostInAMonthData[0][1] === ele[1]){
       mostInAMonth.push(ele[0])
     }
   })
@@ -115,7 +115,6 @@ async function threeMonthFn(req: NextApiRequest, res: NextApiResponse) {
       },
     },
   });
-  if(threeMonthHospital.length === 0) return;
 
   reduceFn(threeMonthHospital, hospitalTemporaryStorage);
 

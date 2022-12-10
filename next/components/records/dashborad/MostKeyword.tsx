@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Treemap } from "recharts";
 import styled from "styled-components";
 
-
 const COLORS = ["#12D4C9", "#8889DD", "#7443FD", "#8085FA", "#5359E9", "#868AF1", "#20BEE1", "#7075DC", "#363CBF", "#08BEB3"].sort(() => Math.random() - 0.5);
 
 const CustomKeyword = (props: any) => {
@@ -38,7 +37,7 @@ const CustomKeyword = (props: any) => {
   );
 };
 
-const MostKeyword = ({ chartData }: any) => {
+const MostKeyword = ({ chartData }: any) => { // 여기 any
 
   console.log(chartData);
 
@@ -48,7 +47,7 @@ const MostKeyword = ({ chartData }: any) => {
   useEffect(() => {
     if (chartData) {
       setTreeChartData((prev) => (
-        chartData.map((ele: any, idx: number) => ({
+        chartData.map((ele: string, idx: number) => ({
           "name": ele,
           "value": chartData.length - idx,
         }))

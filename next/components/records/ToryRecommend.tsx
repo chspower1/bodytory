@@ -22,10 +22,20 @@ function ToryRecommend({ mostThreeDepartment }: ToryRecommendProps) {
           <RecommendText>
             <Tag>Ai 토리추천</Tag>
             <Text>
-              <strong>{mostThreeDepartment ? mostThreeDepartment.join(", ") : ""}</strong>에 방문해보시는 것을 추천드려요
+              {
+                mostThreeDepartment?.length !== 0 ? (
+                  <>
+                    <strong>{mostThreeDepartment && mostThreeDepartment.join(", ")}</strong>에 방문해보시는 것을 추천드려요
+                  </>
+                ) : (
+                  <p>아직 추천하는 진료과목이 없어요</p>
+                )
+              }
+
+              
             </Text>
           </RecommendText>
-          {mostThreeDepartment && (
+          {mostThreeDepartment && mostThreeDepartment.length > 0 && (
             <RoundButton size="custom" height="50px" padding="0 30px" onClick={() => setShowModal(true)}>
               <LocationPinIcon width={26} height={26} style={{ marginRight: "10px" }} />
               <span>내 주변 해당 병원 찾기</span>

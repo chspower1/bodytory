@@ -7,15 +7,14 @@ import customApi from "@utils/client/customApi";
 import { useQuery } from "@tanstack/react-query";
 import { AI_RESULT_READ } from "constant/queryKeys";
 import { KoreanPosition } from "types/write";
-import { bodyPartType } from "types/bodyParts";
-import { MedicalDepartment, Position } from "@prisma/client";
+import { Position } from "@prisma/client";
 import ChartAnim from "@src/lotties/ChartAnim";
 import { RoundButton } from "@components/buttons/Button";
 import MicIcon from "@public/static/icon/mic.svg";
 import Link from "next/link";
 
 interface AMonthResponse {
-  mostInAMonth: Position;
+  mostInAMonth: Position[];
   mostThreeDepartment: string[];
 }
 
@@ -36,9 +35,16 @@ function DashBoard() {
           <ToryText26White>
             {
               data ? (
-                <>
-                  <strong>{user?.name}님</strong> 최근 한달간 <strong>{KoreanPosition[data.mostInAMonth as Position]}</strong>에서 증상이 많이 발생하셨네요
-                </>
+                data.mostInAMonth.length > 3 ? (
+                  <>
+                    <strong>{user?.name}님</strong>, 최근 한달동안 증상 기록이 많아졌네요.. <br />
+                    토리랑 함께 건강관리에 힘써봐요!
+                  </>
+                ) : (
+                  <>
+                    <strong>{user?.name}님</strong>, 최근 한달간 <strong>{data.mostInAMonth.map((ele) => KoreanPosition[ele]).join(", ")}</strong>에서 증상이 많이 발생하셨네요
+                  </>
+                )
               ) : (
                 <>
                   아직 분석할 기록이 없어요.. <br /><strong>{user?.name}님</strong>의 몸 상태를 알려주시면 토리가 분석해드릴게요!

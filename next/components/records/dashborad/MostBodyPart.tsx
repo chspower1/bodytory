@@ -1,8 +1,25 @@
 import { Position } from "@prisma/client";
 import { useCallback, useEffect, useState } from "react";
-import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from "recharts";
-import styled from "styled-components";
+import { PieChart, Pie, Sector } from "recharts";
 import { KoreanPosition } from "types/write";
+
+interface ThreeMonthResponse {
+  position: Position;
+  userLength?: number;
+  hospitalLength?: number;
+}
+
+interface MostBodyPartChartProps  {
+  chartData: ThreeMonthResponse[] | null;
+  mostPartIdx: number[] | null;
+}
+
+interface PieChartData {
+  name: Position;
+  value: number;
+  user: number;
+  hospital: number;
+}
 
 const renderActiveShape = (props: any) => {
   const { cx, cy, innerRadius, outerRadius, startAngle, endAngle, payload } = props;
@@ -31,27 +48,28 @@ const renderActiveShape = (props: any) => {
   );
 };
 
-const MostBodyPart = ({ chartData, mostPartIdx }: any) => {
+const MostBodyPart = ({ chartData, mostPartIdx }: MostBodyPartChartProps) => {
 
-  console.log(chartData, mostPartIdx);
+  const [pieChartData, setPieChartData] = useState<any>();  // 여기 any
+  const [activeIndex, setActiveIndex] = useState<number>(0);
 
-  const [pieChartData, setPieChartData] = useState();
-  const [activeIndex, setActiveIndex] = useState(0);
+  console.log("chartData", chartData, mostPartIdx);
 
   useEffect(() => {
     if (chartData) {
-      setPieChartData((prev) => (
-        chartData.map((ele: any) => ({
-          "name": KoreanPosition[ele.position as Position],
+      setPieChartData(() => (
+        chartData.map((ele: ThreeMonthResponse) => ({
+          "name": KoreanPosition[ele.position],
           "value": ele.userLength,
           "user": ele.userLength ? ele.userLength : 0,
           "hospital": ele.hospitalLength ? ele.hospitalLength : 0,
         }))
       ));
-
-      setActiveIndex(mostPartIdx[0]);
     }
 
+    if(mostPartIdx) {
+      setActiveIndex(mostPartIdx[0]);
+    }
   }, [chartData]);
 
 
@@ -73,7 +91,7 @@ const MostBodyPart = ({ chartData, mostPartIdx }: any) => {
         innerRadius={130}
         outerRadius={170}
         fill="#D9DEFF"
-        paddingAngle={2}
+        paddingAngle={pieChartData && pieChartData.length < 2 ? 0 : 2}
         dataKey="value"
         onMouseEnter={onPieEnter}
       />
