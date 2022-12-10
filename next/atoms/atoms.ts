@@ -28,6 +28,11 @@ export const currentBodyPosition = atom<string>({
   effects_UNSTABLE: [persistAtom],
 });
 
+export const selectedKeyword = atom<string | null>({
+  key: "selectedKeywordKey",
+  default: null,
+});
+
 export const currentPatientInfo = atom<{ name: string; id: number | null }>({
   key: "currentPatientInfoKey",
   default: {

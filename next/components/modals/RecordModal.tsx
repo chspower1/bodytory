@@ -135,9 +135,8 @@ const RecordModal = ({ onClose, record, show, isHospital }: RecordModalProps) =>
                     onChange={handleTextChange}
                     onFocus={() => setShowMsg(false)}
                     disabled={isHospital}
-                  >
-                    {record!.description}
-                  </TextArea>
+                    value={record!.description}
+                  />
                   {isHospital || (
                     <RoundButton size="sm" bgColor="rgb(83,89,233)" boxShadow={false}>
                       수정하기

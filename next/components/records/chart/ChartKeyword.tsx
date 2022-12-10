@@ -1,10 +1,16 @@
+import { selectedKeyword } from 'atoms/atoms';
+import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
+import CloseIcon from '@public/static/icon/x.png';
 
 interface KeywordsProps {
   keywords?: string[];
 }
 
 function ChartKeyword({ keywords }: KeywordsProps) {
+
+  const [clickedKeyword, setClickedKeyword] = useRecoilState(selectedKeyword);
+
   return (
     <KeywordContainer>
       {
@@ -14,7 +20,12 @@ function ChartKeyword({ keywords }: KeywordsProps) {
             <Keywords>
               {
                 keywords.map((keyword) => (
-                  <span>{keyword}</span>
+                  <span className={clickedKeyword === keyword ? "active" : ""} onClick={() => clickedKeyword === keyword ? setClickedKeyword(null) : setClickedKeyword(keyword)} >
+                    {keyword}
+                    {
+                      clickedKeyword === keyword &&  <i />
+                    }
+                  </span>
                 ))
               }
             </Keywords>
@@ -36,24 +47,44 @@ const KeywordContainer = styled.div`
   margin-bottom: 10px;
 
   strong {
+    min-width: 150px;
     color: ${({ theme }) => theme.color.white};
     font-weight: 700;
-    margin-right: 30px;
+    margin-right: 20px;
   }
 `; 
 
 const Keywords = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+
   span {
-    display: inline-block;
+    position: relative;
     background: ${({ theme }) => theme.color.mintBtn};
     color: ${({ theme }) => theme.color.white};
-    padding: 4px 15px;
-    margin: 4px 0;
+    font-weight: 500;
+    padding: 2px 12px;
+    margin: 4px 10px 4px 0;
     border-radius: 8px;
-  }
+    cursor: pointer;
 
-  span + span {
-    margin-left: 10px;
+    &.active {
+      padding: 2px 26px 2px 12px;
+      background: rgb(63,69,213);
+      color: ${({ theme }) => theme.color.white};
+    }
+
+    i {
+      position: absolute;
+      top: 50%;
+      right: 8px;
+      transform: translate(0, -50%);
+      display: block;
+      width: 10px;
+      height: 10px;
+      background: url(${CloseIcon.src}) no-repeat 50% 50%/contain;
+      margin-left: 5px;
+    }
   }
 `;
 
