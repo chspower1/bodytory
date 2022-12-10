@@ -22,10 +22,7 @@ function ToryRecommend({ mostThreeDepartment }: ToryRecommendProps) {
           <RecommendText>
             <Tag>Ai 토리추천</Tag>
             <Text>
-              <strong>{mostThreeDepartment ? mostThreeDepartment.join(", ") : ""}</strong>
-              {mostThreeDepartment
-                ? "에 방문해보시는 것을 추천드려요!"
-                : "증상을 기록해주시면 알맞는 병원을 추천해드릴게요!"}
+              <strong>{mostThreeDepartment ? mostThreeDepartment.join(", ") : ""}</strong>에 방문해보시는 것을 추천드려요
             </Text>
           </RecommendText>
           {mostThreeDepartment && (

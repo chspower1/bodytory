@@ -21,7 +21,6 @@ async function aMonthFn(req: NextApiRequest, res: NextApiResponse) {
     where: {
       type:"user",
       userId: user.id,
-      type: "user",
       createAt: {
         gte: aMonthAgo,
       },

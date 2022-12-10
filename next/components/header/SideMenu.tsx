@@ -236,7 +236,7 @@ const Nav = styled.nav`
 const Footer = styled.div`
   flex-shrink: 0;
   padding: 18px 0;
-  background: ${({ theme }) => theme.color.disabled};
+  background: #4B50D3;
 `;
 const FooterUl = styled(Row)`
   justify-content: space-between;
