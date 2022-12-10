@@ -10,7 +10,7 @@ interface ModalProps {
   show: boolean;
   closingComment?: boolean;
   onClose: () => void;
-  activeFuction: () => void;
+  activeFunction: () => void;
   title?: string;
   children?: string | ReactNode;
   agreeType?: boolean;
@@ -26,7 +26,7 @@ function Modal({
   show,
   closingComment = false,
   onClose,
-  activeFuction,
+  activeFunction,
   children,
   title = "알림",
   agreeType = false,
@@ -49,7 +49,7 @@ function Modal({
             </ModalTitle>
             <ModalContent bgColor={terms}>{children}</ModalContent>
             <ConfirmBtnBox>
-              <RoundButton size="sm" onClick={activeFuction}>
+              <RoundButton size="sm" onClick={activeFunction}>
                 {agreeType ? `동의합니다` : !closingComment ? "네" : "확인"}
               </RoundButton>
               {!closingComment && (
@@ -64,7 +64,7 @@ function Modal({
     </AnimatePresence>
   );
 
-  return  isBrowser ? ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement) : null;
+  return isBrowser ? ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement) : null;
 }
 
 const ConfirmBtnBox = styled.div`

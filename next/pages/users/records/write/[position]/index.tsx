@@ -22,6 +22,7 @@ import mic from "@public/static/icon/mic.svg";
 import check from "@public/static/icon/check.png";
 import refresh from "@public/static/icon/refresh.png";
 import { useForm } from "react-hook-form";
+import Modal from "@components/modals/Modal";
 
 interface WriteRecordRequest {
   position: string;
@@ -46,6 +47,7 @@ const PositionPage = () => {
   const [onHoverRefreshBtn, setOnHoverRefreshBtn] = useState(false);
   const [listening, setListening] = useState(false);
   const [error, setError] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [recordStatus, setRecordStatus] = useState<RecordStatus>("initial");
   const { offRecAudio, onRecAudio, audioRecognized, error: aiError } = useAudio();
   const { postApi } = customApi("/api/users/records");
@@ -83,6 +85,7 @@ const PositionPage = () => {
     } catch {
       setError(true);
       setRecordStatus("initial");
+      setShowModal(true);
     }
   };
 
@@ -217,6 +220,15 @@ const PositionPage = () => {
         </Col>
       </FlexContainer>
       <SpeakMotion right listening={listening} />
+      <Modal
+        title={"녹음에 실패했습니다"}
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        closingComment={true}
+        activeFunction={() => setShowModal(false)}
+      >
+        브라우저 마이크 사용 권한을 확인해주세요
+      </Modal>
     </WhiteWrapper>
   );
 };
