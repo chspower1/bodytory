@@ -50,4 +50,8 @@ const MessageContainer = styled(motion.div)`
   justify-content: center;
   align-items: center;
   height: 166px;
+  // @media (max-width : 570px){
+  //   font-size: 5.9649vw;
+  //   height:29.1228vw;
+  // }
 `;
