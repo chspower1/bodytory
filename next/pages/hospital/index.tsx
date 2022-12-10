@@ -39,7 +39,7 @@ const HospitalHomePage = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const { getApi } = customApi("/api/hospital");
-  const { deleteApi } = customApi("/api/hospital/patientId");
+  const { deleteApi } = customApi("/api/hospital/removePatient");
   const hospitalInfo = useRecoilValue(loggedInHospital);
   const [currentHospital, setCurrentHospital] = useState("");
   const [currentData, setCurrentData] = useState<HospitalPatients[]>();
@@ -149,9 +149,11 @@ const HospitalHomePage = () => {
                       </RecordsLinkButton>
                     </div>
                     <SharedBox>
-                      <RecordShareStatus weight="200" size="15px" add status={shared}>
-                        {shared ? "기록 공유 중" : "기록 공유 중지"}
-                      </RecordShareStatus>
+                      <RecordShareBox>
+                        <RecordShareStatus weight="200" size="15px" add status={shared}>
+                          {shared ? "기록 공유 중" : "기록 공유 중지"}
+                        </RecordShareStatus>
+                      </RecordShareBox>
                       <RectangleButton
                         fontSize="16px"
                         width="76px"
@@ -251,6 +253,7 @@ const ListLi = styled.li`
 const Col = styled.div`
   text-align: center;
   margin: 0 20px;
+  font-weight: 500;
 `;
 const Name = styled(Col)`
   width: 100px;
@@ -268,6 +271,7 @@ const RecordsLinkButton = styled.button`
   width: 140px;
   text-align: center;
   margin: 0 20px;
+  font-weight: 700;
   color: ${({ theme }) => theme.color.darkBg};
   :not(:disabled):hover {
     text-decoration: underline;
@@ -279,6 +283,7 @@ const RecordsLinkButton = styled.button`
 `;
 const Shared = styled(Col)`
   width: 130px;
+  margin: 0;
 `;
 const SharedBox = styled.div`
   width: 300px;
@@ -290,7 +295,13 @@ const SharedBox = styled.div`
     background: ${({ theme }) => theme.color.input};
   }
 `;
+
+const RecordShareBox = styled.div`
+  width: 130px;
+`
+
 const RecordShareStatus = styled(ShareStatus)`
-  margin: 0 20px;
-  font-weight: 500;
+  display:block;
+  width: 106px;
+  font-weight: 600;
 `;

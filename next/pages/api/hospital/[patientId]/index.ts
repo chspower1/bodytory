@@ -31,7 +31,7 @@ async function removePatient(req: NextApiRequest, res: NextApiResponse) {
   const { patientId } = req.query;
   const { id } = req.body;
   if (!id) return res.status(401).send("id를 확인 해주세요") ;
-  if(patientId !== "patientId") return res.status(401).send("api 주소를 확인해주세요")
+  if(patientId !== "removePatient") return res.status(401).send("api 주소를 확인해주세요")
   await client.hospitalToUser.delete({
     where: {
       id,
