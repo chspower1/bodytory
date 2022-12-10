@@ -9,6 +9,7 @@ import useCoords from "@hooks/useCoords";
 import ArroundMap from "@components/map/ArroundMap";
 import useDepartmentSelect from "@hooks/useDepartmentSelect";
 import { useEffect, useState } from "react";
+import useUser from "@hooks/useUser";
 
 interface ArroundMapMaodalProps {
   onClose: () => void;
@@ -17,6 +18,7 @@ interface ArroundMapMaodalProps {
   latitude: number | null;
 }
 const ArroundMapModal: NextPage<ArroundMapMaodalProps> = ({ onClose, mostThreeDepartment, longitude, latitude }) => {
+  const user = useUser();
   const { department, DepartmentSelect } = useDepartmentSelect(mostThreeDepartment ? mostThreeDepartment : []);
   const [isBrowser, setIsBrowser] = useState(false);
   const modalContent = (
@@ -24,7 +26,9 @@ const ArroundMapModal: NextPage<ArroundMapMaodalProps> = ({ onClose, mostThreeDe
       <ModalWrapper>
         <Dim onClick={onClose} />
         <ModalContainer flex width="1500px" height="800px">
-          <ToryText>현재 소희님의 위치를 기준으로 주변 정형외과들을 찾았어요!</ToryText>
+          <ToryText>
+            현재 {user?.name}님의 위치를 기준으로 주변 {department}들을 찾았어요!
+          </ToryText>
           <DepartmentSelect />
 
           <ArroundMap width="1500px" height="600px" longitude={longitude} latitude={latitude} department={department} />
