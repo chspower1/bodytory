@@ -3,15 +3,12 @@ import HospitalSelectPart from '@components/hospital/HospitalSelectPart';
 import { RecordWrap } from 'pages/users/records/chart/[position]';
 import React, { useState } from 'react'
 import { bodyPartType } from 'types/bodyParts';
+import HospitalChartPositionPage from './[position]';
 
 const HospitalChartHomePage = () => {
-  const [selectedBodyPart, setSelectedBodyPart] = useState<bodyPartType>(null);
-  console.log(selectedBodyPart)
+
   return (
-    <RecordWrap>
-      <HospitalSelectPart selectedBodyPart={selectedBodyPart} setSelectedBodyPart={setSelectedBodyPart} />
-      <HospitalChart  />
-    </RecordWrap>
+    <HospitalChartPositionPage/>
   )
 }
 

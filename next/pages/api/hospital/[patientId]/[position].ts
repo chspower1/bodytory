@@ -14,7 +14,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 }
 
 async function findRecord(req: NextApiRequest, res: NextApiResponse, position: Position, patientId : string) {
-  const { user } = req.session;
   const data = await client.record.findMany({
     where: {
       userId : Number(patientId),

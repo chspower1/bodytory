@@ -40,7 +40,6 @@ const ChartTimeline = () => {
     },
     enabled: !!position,
   });
-  console.log("hihihhi", data);
   useEffect(() => {
     queryClient.invalidateQueries([RECORDS_READ, position]);
     setFilterItem("all"); // 부위마다 새로운 페이지가 아닌가..? 왜 이걸 해줘야하지
@@ -54,16 +53,6 @@ const ChartTimeline = () => {
     },
   });
 
-  // 기록 삭제
-  const [confirmDelete, setConfirmDelete] = useState(-1);
-
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>, recordId: number) => {
-    if (confirmDelete !== -1) {
-      mutate({ id: confirmDelete });
-    } else {
-      setConfirmDelete(recordId);
-    }
-  };
 
   // 이미지 업로드
   const uploadImageMutation = useMutation(uploadImageApi, {
