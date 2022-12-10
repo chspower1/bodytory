@@ -1,6 +1,6 @@
 import { CircleButton, RectangleButton, RoundButton } from "@components/buttons/Button";
 import { Position } from "@prisma/client";
-import { BlackToryText, BodyText, Box, Col, FlexContainer, WhiteWrapper } from "@styles/Common";
+import { BackButton, BlackToryText, BodyText, Box, Col, FlexContainer, WhiteWrapper } from "@styles/Common";
 import { theme } from "@styles/theme";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -97,7 +97,6 @@ const PositionPage = () => {
     if (!(recordStatus === "finish")) {
       setValue("description", "");
     }
-    setRecordStatus("finish");
     setIsEditMode(true);
   };
   useEffect(() => {
@@ -126,7 +125,9 @@ const PositionPage = () => {
   return (
     <WhiteWrapper>
       <Link href="/users/records/write">
-        <BackBtn>뒤로가기</BackBtn>
+        <BackButton>
+          <span>부위 선택</span>
+        </BackButton>
       </Link>
       <SpeakMotion listening={listening} />
       <FlexContainer>
@@ -148,6 +149,13 @@ const PositionPage = () => {
                 onClick={handleClickEditMode}
                 {...register("description", {
                   required: "증상을 입력해주세요",
+                  onChange(){
+                    if(!watch("description")){
+                      setRecordStatus("initial");
+                    }else{
+                      setRecordStatus("finish");
+                    }
+                  },
                   onBlur: () => {
                     !(recordStatus === "finish") && setValue("description", recordMessage);
                     clearErrors("description");
