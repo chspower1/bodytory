@@ -41,23 +41,17 @@ async function aMonthFn(req: NextApiRequest, res: NextApiResponse) {
     }
     return total;
   }, {});
-
-  const mostInAMonth = Object.entries(dataReduce).sort(([, a]: any, [, b]: any) => (a <= b ? 1 : -1))[0][0];
-
-  const aMonthPositionData = await client.record.findMany({
-    where: {
-      type:"user",
-      userId: user.id,
-      createAt: {
-        gte: aMonthAgo,
-      },
-      position: mostInAMonth as Position
-    },
-  });
+  const mostInAMonth: string[]= []
+  const mostInAMonthData = Object.entries(dataReduce).sort(([, a]: any, [, b]: any) => (a <= b ? 1 : -1));
+  mostInAMonth.map(ele =>{
+    if(mostInAMonth[0][1] === ele[1]){
+      mostInAMonth.push(ele[0])
+    }
+  })
 
   let mostThreeDepartmentObj = {};
 
-  aMonthPositionData.map(({ recommendDepartments }) => {
+  aMonthData.map(({ recommendDepartments }) => {
     if (recommendDepartments) {
       return recommendDepartments.split(",").reduce((total: any, current: any) => {
         if (!total[current]) {
@@ -100,7 +94,7 @@ async function threeMonthFn(req: NextApiRequest, res: NextApiResponse) {
   let userTemporaryStorage = {};
 
   let result: { position: string; hospitalLength?: any; userLength?: any }[] = [];
-  
+
   const reduceFn = (data: any[], storage: {}) => {
     data.reduce((total: any, current: any) => {
       if (!total[current.position]) {
