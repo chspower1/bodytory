@@ -50,7 +50,13 @@ const PositionPage = () => {
   const { postApi } = customApi("/api/users/records");
   const { mutate } = useMutation<unknown, AxiosError, WriteRecordRequest>([RECORDS_CREATE], postApi, {
     onSuccess(data) {
-      router.push("/users/records/write/add");
+      router.push(
+        {
+          pathname: "/users/records/write/add",
+          query: { position: KoreanPosition[position] },
+        },
+        "/users/records/write/add",
+      );
     },
   });
 

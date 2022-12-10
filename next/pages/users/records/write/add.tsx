@@ -3,14 +3,17 @@ import { PositionBoxText } from "@components/records/BodyPartChecker";
 import { BtnBox, Col, FlexContainer, ToryText, WhiteText, Wrapper } from "@styles/Common";
 import { theme } from "@styles/theme";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import styled from "styled-components";
 
 const AddPage = () => {
+  const router = useRouter();
+
   return (
     <FlexContainer>
       <Col>
         <ToryText>
-          <PositionBoxText>머리</PositionBoxText>에 대한 기록을 완료했어요.
+          <PositionBoxText>{router.query.position}</PositionBoxText>에 대한 기록을 완료했어요.
         </ToryText>
         <ToryText>다른 부위도 기록할까요?</ToryText>
         <BtnBox>
