@@ -38,7 +38,8 @@ interface HospitalPatients {
 const HospitalHomePage = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
-  const { getApi, deleteApi } = customApi("/api/hospital");
+  const { getApi } = customApi("/api/hospital");
+  const { deleteApi } = customApi("/api/hospital/patientId");
   const hospitalInfo = useRecoilValue(loggedInHospital);
   const [currentHospital, setCurrentHospital] = useState("");
   const [currentData, setCurrentData] = useState<HospitalPatients[]>();
@@ -46,6 +47,7 @@ const HospitalHomePage = () => {
   const { isLoading, data, error } = useQuery(["currentHospitalKey"], getApi);
   const { mutate } = useMutation(["removePatientKey"], deleteApi);
   const [showdeleteModal, setShowDeleteModal] = useState(false);
+  const [currentPatient, setCurrentPatient] = useState(-1);
   const [isClosingMent, setIsClosingMent] = useState(false);
   console.log(data);
   const {
@@ -58,6 +60,7 @@ const HospitalHomePage = () => {
     if (isClosingMent) {
       setIsClosingMent(false);
       setShowDeleteModal(false);
+      setCurrentPatient(-1);
       queryClient.invalidateQueries(["currentHospitalKey"]);
     } else {
       mutate({ id });
@@ -154,14 +157,14 @@ const HospitalHomePage = () => {
                         width="76px"
                         onClick={() => {
                           setShowDeleteModal(true);
-                          console.log(id);
+                          setCurrentPatient(user.id);
                         }}
                       >
                         삭제
                       </RectangleButton>
                     </SharedBox>
                     <Modal
-                      show={showdeleteModal}
+                      show={showdeleteModal && currentPatient === user.id}
                       onClose={handleClickOnClose}
                       activeFuction={handleClickRemovePatient(id)}
                       closingComment={isClosingMent}
