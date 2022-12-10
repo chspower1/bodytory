@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { RoundButton } from "@components/buttons/Button";
-import ToryRecommendPart from "../ToryRecommendPart";
 import ChartTimeline from "./ChartTimeline";
 import ChartKeyword from "./ChartKeyword";
 import { KoreanPosition } from "types/write";
@@ -52,7 +51,7 @@ function Chart() {
             </Link>
           </TitleBox>
           <ToryRecommend mostThreeDepartment={data?.mostThreeDepartment} inChart={true} />
-          <ChartKeyword />
+          <ChartKeyword keywords={data?.keywords} />
           <ChartTimeline />
         </ChartContainer>
       </ScrollContainer>

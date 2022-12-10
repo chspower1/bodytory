@@ -1,16 +1,28 @@
 import styled from 'styled-components';
 
-function ChartKeyword() {
+interface KeywordsProps {
+  keywords?: string[];
+}
+
+function ChartKeyword({ keywords }: KeywordsProps) {
   return (
     <KeywordContainer>
-      <strong>많이 기록된 키워드</strong>
-      <Keywords>
-        <span>저릿저릿</span>
-        <span>움직일때</span>
-        <span>통증</span>
-        <span>찌릿찌릿</span>
-        <span>오른쪽</span>
-      </Keywords>
+      {
+        (keywords && keywords.length !== 0) ? (
+          <>
+            <strong>많이 기록된 키워드</strong>
+            <Keywords>
+              {
+                keywords.map((keyword) => (
+                  <span>{keyword}</span>
+                ))
+              }
+            </Keywords>
+          </>
+        ) : (
+          <strong>기록이 충분히 쌓이면 키워드를 분석해드릴게요!</strong>
+        )
+      }
     </KeywordContainer>
   )
 }
@@ -20,7 +32,8 @@ const KeywordContainer = styled.div`
   display: flex;
   align-items: center;
   padding: 0 25px;
-  margin-bottom: 20px;
+  min-height: 48px;
+  margin-bottom: 10px;
 
   strong {
     color: ${({ theme }) => theme.color.white};
@@ -34,7 +47,7 @@ const Keywords = styled.div`
     display: inline-block;
     background: ${({ theme }) => theme.color.mintBtn};
     color: ${({ theme }) => theme.color.white};
-    padding: 5px 15px;
+    padding: 4px 15px;
     margin: 4px 0;
     border-radius: 8px;
   }

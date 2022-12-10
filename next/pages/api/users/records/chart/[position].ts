@@ -54,7 +54,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       mostThreeDepartment.splice(mostThreeDepartment.indexOf(`${ele.id}`), 1, `${ele.department}`);
     }
   });
-  return res.status(200).json({ mostThreeDepartment, keyword: postApi.data.keywords_result });
+  return res.status(200).json({ mostThreeDepartment, keywords: postApi.data.keywords_result });
 }
 
 export default withApiSession(withHandler({ methods: ["GET"], handler }));
