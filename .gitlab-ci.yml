@@ -45,4 +45,4 @@ cleanup:
     - dev
     - main
   script:
-    - sudo docker rmi $(sudo docker images -f "dangling=true" -q)
+    - docker rmi $(docker images -f "dangling=true" -q)
