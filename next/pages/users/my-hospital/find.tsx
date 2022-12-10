@@ -1,7 +1,6 @@
 import { RoundButton } from "@components/buttons/Button";
 import HospitalList from "@components/MyHospitalList";
 import Input from "@components/Input";
-import ArroundMap from "@components/modals/map/ArroundMapModal";
 import { theme } from "@styles/theme";
 import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
@@ -30,7 +29,7 @@ import SearchHospitalMap from "@components/SearchHospitalMap";
 
 type PageCategory = "search" | "map";
 const FindHospital = () => {
-  const [pageCategory, setPageCategory] = useState<PageCategory>("search");
+  const [pageCategory, setPageCategory] = useState<PageCategory>("map");
 
   return (
     <MainContainer>
@@ -56,13 +55,13 @@ const FindHospital = () => {
           >
             {pageCategory === "search" && (
               <>
-                <MapIcon width={30} style={{ marginBottom: "6px" }} />
+                <MapIcon width={30} height={30} style={{ marginBottom: "6px" }} />
                 &nbsp;&nbsp; 지도에서 병원 찾기
               </>
             )}
             {pageCategory === "map" && (
               <>
-                <List width={30} />
+                <List width={30} height={30} />
                 &nbsp;&nbsp; 리스트로 병원 찾기
               </>
             )}

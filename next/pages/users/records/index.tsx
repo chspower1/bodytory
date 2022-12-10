@@ -7,7 +7,6 @@ import { useSetRecoilState } from "recoil";
 import { currentBodyPosition } from "atoms/atoms";
 
 export default function RecordPage() {
-
   const [selectedBodyPart, setSelectedBodyPart] = useState<bodyPartType>(null);
   const setCurrentPosition = useSetRecoilState(currentBodyPosition);
 
@@ -18,10 +17,7 @@ export default function RecordPage() {
   return (
     <RecordWrap>
       <DashBoard />
-      <SelectPart 
-        selectedBodyPart={selectedBodyPart} 
-        setSelectedBodyPart={setSelectedBodyPart}
-      />
+      <SelectPart selectedBodyPart={selectedBodyPart} setSelectedBodyPart={setSelectedBodyPart} />
     </RecordWrap>
   );
 }

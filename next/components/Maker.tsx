@@ -42,7 +42,7 @@ const EventMarkerContainer = ({ hospital, index, handleClickMarker }: EventMarke
       </MapMarker>
 
       {isVisible && (
-        <CustomOverlayMap position={{ lat: hospital.y! + 0.00015, lng: hospital.x! }}>
+        <CustomOverlayMap position={{ lat: hospital.y! + 0.0002, lng: hospital.x! }}>
           <HoverBox>{hospital.name}</HoverBox>
         </CustomOverlayMap>
       )}

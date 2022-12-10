@@ -4,9 +4,9 @@ import { RoundButton } from "./Button";
 import { currentPatientInfo, loggedInHospital, loggedInUser } from "atoms/atoms";
 import { useSetRecoilState } from "recoil";
 import { useQueryClient } from "@tanstack/react-query";
-import { HOSPITAL_LOGIN, USER_LOGIN } from "constant/queryKeys";
+import { HOSPITAL_LOGIN, USER_LOGIN, USE_USER } from "constant/queryKeys";
 
-const LogoutBtn = ({isHospital}:{isHospital ?:boolean;}) => {
+const LogoutBtn = ({ isHospital }: { isHospital?: boolean }) => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const setCurrentUser = useSetRecoilState(loggedInUser);
@@ -18,12 +18,13 @@ const LogoutBtn = ({isHospital}:{isHospital ?:boolean;}) => {
       setCurrentUser(null);
       setCurrentHospital(null);
       setCurrentPatientInfo({
-        name : "",
-        id: null
+        name: "",
+        id: null,
       });
       queryClient.removeQueries({ queryKey: isHospital ? [HOSPITAL_LOGIN] : [USER_LOGIN] });
+      queryClient.removeQueries({ queryKey: [USE_USER] });
       await LogoutApi({});
-      router.push(isHospital ? "/hospital/login" :"/auth/login");
+      router.push(isHospital ? "/hospital/login" : "/auth/login");
     } catch (err) {
       console.log("logout Err");
     }

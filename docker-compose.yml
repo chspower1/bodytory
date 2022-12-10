@@ -1,10 +1,12 @@
 services:
   flask:
+    image: flask
     build: ./flask
     restart: always
     ports:
-      - 5001:8080
+      - 8080:8080
   next:
+    image: next
     build: ./next
     restart: always
     ports:

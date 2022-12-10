@@ -21,7 +21,7 @@ export default function withHandler({ methods, handler, isPrivate = true }: Conf
       return res.status(401).json({ ok: false, message: "로그인이 필요합니다!" });
     }
     try {
-      await handler(req, res);
+      handler(req, res);
     } catch (err) {
       console.log(err);
       return res.status(500).json({ err });

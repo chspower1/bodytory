@@ -22,15 +22,15 @@ async function createRecord(req: NextApiRequest, res: NextApiResponse) {
   const { position, description } = req.body;
   const { user } = req.session;
   if (!user) return res.status(400).end();
-  const departments = await axios.post(`${process.env.FLASK_API}/api/departments`, {
-    sentence: description,
-  });
+  // const departments = await axios.post(`${process.env.FLASK_API}/api/departments`, {
+  //   sentence: description,
+  // });
   await client.record.create({
     data: {
       type: "user",
       position,
       description,
-      recommendDepartments: departments.data.departments_result as string,
+      // recommendDepartments: departments.data.departments_result as string,
       user: {
         connect: {
           id: user!.id,
@@ -38,8 +38,7 @@ async function createRecord(req: NextApiRequest, res: NextApiResponse) {
       },
     },
   });
-  // // NextResponse.redirect(new URL("/", req.url));
-  return res.redirect(200, "/users/records/write/add");
+  return res.status(200).end();
 }
 
 async function findRecord(req: NextApiRequest, res: NextApiResponse) {
