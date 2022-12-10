@@ -5,6 +5,8 @@ import IconWarning from "@public/static/icon/icon_warning.png";
 import { useState } from "react";
 import ArroundMapModal from "@components/modals/map/ArroundMapModal";
 import LocationPinIcon from "@public/static/icon/location_pin.svg";
+import useCoords from "@hooks/useCoords";
+import { AnimatePresence } from "framer-motion";
 
 interface ToryRecommendProps {
   mostThreeDepartment?: string[];
@@ -13,6 +15,7 @@ interface ToryRecommendProps {
 
 function ToryRecommend({ mostThreeDepartment, inChart }: ToryRecommendProps) {
   const [showModal, setShowModal] = useState(false);
+  const { latitude, longitude } = useCoords();
 
   return (
     <>
@@ -21,15 +24,14 @@ function ToryRecommend({ mostThreeDepartment, inChart }: ToryRecommendProps) {
           <RecommendText>
             <Tag>Ai 토리추천</Tag>
             <Text>
-              {
-                mostThreeDepartment ? (
-                  <>
-                    <strong>{mostThreeDepartment && mostThreeDepartment.join(", ")}</strong>에 방문해보시는 것을 추천드려요
-                  </>
-                ) : (
-                  <p>아직 추천하는 진료과목이 없어요</p>
-                )
-              }
+              {mostThreeDepartment ? (
+                <>
+                  <strong>{mostThreeDepartment && mostThreeDepartment.join(", ")}</strong>에 방문해보시는 것을
+                  추천드려요
+                </>
+              ) : (
+                <p>아직 추천하는 진료과목이 없어요</p>
+              )}
             </Text>
           </RecommendText>
           {mostThreeDepartment && mostThreeDepartment.length > 0 && (
@@ -44,8 +46,16 @@ function ToryRecommend({ mostThreeDepartment, inChart }: ToryRecommendProps) {
           가까운 의료기관을 내원해주세요
         </Warning>
       </ToryRecommendContainer>
-
-      <ArroundMapModal show={showModal} onClose={() => setShowModal(false)} mostThreeDepartment={mostThreeDepartment} />
+      <AnimatePresence>
+        {showModal && (
+          <ArroundMapModal
+            latitude={latitude}
+            longitude={longitude}
+            onClose={() => setShowModal(false)}
+            mostThreeDepartment={mostThreeDepartment}
+          />
+        )}
+      </AnimatePresence>
     </>
   );
 }
@@ -54,7 +64,7 @@ const ToryRecommendContainer = styled.div`
   margin-bottom: 60px;
 `;
 
-const ToryRecommendBox = styled.div<{inChart: boolean}>`
+const ToryRecommendBox = styled.div<{ inChart: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -63,16 +73,15 @@ const ToryRecommendBox = styled.div<{inChart: boolean}>`
   padding: 15px 20px;
   box-shadow: 8px 8px 18px 0px rgba(32, 36, 120, 0.3);
 
-
   ${({ inChart }) =>
-    inChart ? css`
-      background: ${({ theme }) => theme.color.input};
-      color: ${({ theme }) => theme.color.white};
-    ` 
-    : css`
-      background: ${({ theme }) => theme.color.white};
-    `
-  }
+    inChart
+      ? css`
+          background: ${({ theme }) => theme.color.input};
+          color: ${({ theme }) => theme.color.white};
+        `
+      : css`
+          background: ${({ theme }) => theme.color.white};
+        `}
 `;
 
 const RecommendText = styled.div`
@@ -107,6 +116,5 @@ const Warning = styled.div`
   color: #d9deff;
   opacity: 0.8;
 `;
-
 
 export default ToryRecommend;
