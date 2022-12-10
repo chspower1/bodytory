@@ -7,13 +7,13 @@ import { useRouter } from "next/router";
 import styled from "styled-components";
 import { KoreanPosition } from "types/write";
 import { useEffect, useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
 import { PositionBoxText, TextBox, ToryBox } from "@components/records/BodyPartChecker";
 import ToryIcon from "@components/ToryIcon";
 import SpeakMotion from "@components/SpeakMotion";
 import useAudio from "@hooks/useAudio";
-import { RECORDS_CREATE } from "constant/queryKeys";
+import { AI_RESULT_READ, BODYPART_CHARTDATA_READ, KEYWORDS_CHARTDATA_READ, RECORDS_CREATE, RECORDS_READ } from "constant/queryKeys";
 import { AxiosError } from "axios";
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -47,9 +47,14 @@ const PositionPage = () => {
   const [listening, setListening] = useState(false);
   const [error, setError] = useState(false);
   const [recordStatus, setRecordStatus] = useState<RecordStatus>("initial");
+  const queryClient = useQueryClient();
   const { postApi } = customApi("/api/users/records");
   const { mutate } = useMutation<unknown, AxiosError, WriteRecordRequest>([RECORDS_CREATE], postApi, {
     onSuccess(data) {
+      queryClient.invalidateQueries([RECORDS_READ]);
+      queryClient.invalidateQueries([AI_RESULT_READ]);
+      queryClient.invalidateQueries([BODYPART_CHARTDATA_READ]);
+      queryClient.invalidateQueries([KEYWORDS_CHARTDATA_READ]);
       router.push("/users/records/write/add");
     },
   });

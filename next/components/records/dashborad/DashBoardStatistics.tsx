@@ -31,14 +31,14 @@ function DashBoardStatistics() {
   const dashboardGetApi = customApi(`/api/users/records/dashboard/threeMonth`);
   const dashboardQuery = useQuery<any>([BODYPART_CHARTDATA_READ], dashboardGetApi.getApi, {
     onSuccess(data) {
-      console.log("하나 입력했는데 왜 안와", data);
+      // console.log(data);
     }
   });
 
   const flaskGetApi = customApi(`/api/users/records/flask/allKeywords`);
   const flaskQuery = useQuery<any>([KEYWORDS_CHARTDATA_READ], flaskGetApi.getApi, {
     onSuccess(data) {
-      console.log("하나 입력했는데 왜 안와 키워드", data);
+      // console.log(data);
     }, onError(data) {
       console.log("키워드 에러", data);
       setNoKeyword(true); // 증상이 2개 이하일 때는 아예 에러가 남

@@ -1,7 +1,7 @@
 import { Position, Record, RecordImage } from "@prisma/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
-import { RECORDS_DELETE, RECORDS_READ } from "constant/queryKeys";
+import { AI_RESULT_READ, BODYPART_CHARTDATA_READ, KEYWORDS_CHARTDATA_READ, RECORDS_DELETE, RECORDS_READ } from "constant/queryKeys";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { uploadImageApi } from "@utils/client/imageApi";
@@ -51,6 +51,9 @@ const ChartTimeline = () => {
   const { mutate } = useMutation([RECORDS_DELETE], deleteApi, {
     onSuccess() {
       queryClient.invalidateQueries([RECORDS_READ, position]);
+      queryClient.invalidateQueries([AI_RESULT_READ]);
+      queryClient.invalidateQueries([BODYPART_CHARTDATA_READ]);
+      queryClient.invalidateQueries([KEYWORDS_CHARTDATA_READ]);
     },
   });
 

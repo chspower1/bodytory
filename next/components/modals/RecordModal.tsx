@@ -4,7 +4,7 @@ import { RecordWithImageAndHospital } from "@components/records/chart/ChartTimel
 import { Record, RecordImage } from "@prisma/client";
 import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
-import { RECORDS_DELETE, RECORDS_READ, RECORDS_UPDATE } from "constant/queryKeys";
+import { AI_RESULT_READ, BODYPART_CHARTDATA_READ, KEYWORDS_CHARTDATA_READ, RECORDS_DELETE, RECORDS_READ, RECORDS_UPDATE } from "constant/queryKeys";
 import React, { useEffect, useState } from "react";
 import { SubmitHandler, useController, useForm } from "react-hook-form";
 import { useRecoilValue } from "recoil";
@@ -35,6 +35,9 @@ const RecordModal = ({ onClose, record, show, isHospital }: RecordModalProps) =>
   const deleteMutate = useMutation([RECORDS_DELETE], deleteApi, {
     onSuccess() {
       queryClient.invalidateQueries([RECORDS_READ]);
+      queryClient.invalidateQueries([AI_RESULT_READ]);
+      queryClient.invalidateQueries([BODYPART_CHARTDATA_READ]);
+      queryClient.invalidateQueries([KEYWORDS_CHARTDATA_READ]);
       onClose();
     },
   });
@@ -42,6 +45,9 @@ const RecordModal = ({ onClose, record, show, isHospital }: RecordModalProps) =>
   const updateMutate = useMutation([RECORDS_UPDATE], putApi, {
     onSuccess(data, variables, context) {
       queryClient.invalidateQueries([RECORDS_READ]);
+      queryClient.invalidateQueries([AI_RESULT_READ]);
+      queryClient.invalidateQueries([BODYPART_CHARTDATA_READ]);
+      queryClient.invalidateQueries([KEYWORDS_CHARTDATA_READ]);
     },
   });
 
