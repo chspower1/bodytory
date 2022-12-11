@@ -10,7 +10,6 @@ import toriLink from "@public/static/icon/toriLink.png";
 import menuLogo from "@public/static/icon/menuLogo.png";
 import useUser from "@hooks/useUser";
 
-
 const SideMenu = () => {
   const router = useRouter();
   const dimRef = useRef<HTMLDivElement>(null);
@@ -92,7 +91,7 @@ const SideMenu = () => {
                   <Link href="">바디토리 소개</Link>
                 </li>
                 <li>
-                  <Link href="">팀 소개</Link>
+                  <Link href="/users/team">팀 소개</Link>
                 </li>
                 <li>© 2022. BODYTORY</li>
               </FooterUl>
@@ -235,7 +234,7 @@ const Nav = styled.nav`
 const Footer = styled.div`
   flex-shrink: 0;
   padding: 18px 0;
-  background: #4B50D3;
+  background: #4b50d3;
 `;
 const FooterUl = styled(Row)`
   justify-content: space-between;
