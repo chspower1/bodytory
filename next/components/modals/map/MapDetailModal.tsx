@@ -11,7 +11,7 @@ import cross from "@public/static/icon/map/hospital.png";
 import triangle from "@public/static/icon/map/triangle.png";
 import tory from "@public/static/icon/map/tory_circle.png";
 import x from "@public/static/icon/x.png";
-import { AroundMapHospital } from "./ArroundMapModal";
+import { AroundMapHospital } from "@components/map/ArroundMap";
 import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
