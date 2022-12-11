@@ -186,7 +186,6 @@ const PositionPage = () => {
                   {onHoverRefreshBtn && <RefreshText>다시 녹음하기</RefreshText>}
                 </RefreshBtnBox>
               )}
-              {(error || errors.description) && <ErrorMessage>증상을 입력해주세요!</ErrorMessage>}
             </MemoBox>
 
             <CircleButton
@@ -257,6 +256,7 @@ const MemoInput = styled.input`
   cursor: pointer;
   border-radius: 5px;
   position: relative;
+  text-align: center;
   &:hover {
     box-shadow: 0px 0px 0px 3px ${({ theme }) => theme.color.mintBtn};
   }
