@@ -15,20 +15,31 @@ datasource db {
 }
 
 model User {
-  id            Int              @id @default(autoincrement())
-  createAt      DateTime         @default(now())
-  email         String
-  gender        Gender
-  name          String
-  password      String
-  phone         String?
-  updateAt      DateTime         @updatedAt
-  type          UserType         @default(origin)
-  birth         String           @default("1993-10-23")
-  accountId     String           @unique
-  Certification Certification[]
-  records       Record[]
-  hospitals     HospitalToUser[]
+  id                          Int                   @id @default(autoincrement())
+  createAt                    DateTime              @default(now())
+  email                       String
+  gender                      Gender
+  name                        String
+  password                    String
+  phone                       String?
+  updateAt                    DateTime              @updatedAt
+  type                        UserType              @default(origin)
+  birth                       String                @default("1993-10-23")
+  accountId                   String                @unique
+  recommendMedicalDepartments RecommendDepartment[]
+  Certification               Certification[]
+  records                     Record[]
+  hospitals                   HospitalToUser[]
+}
+
+model RecommendDepartment {
+  id        Int      @id
+  position  Position
+  recommend String
+  userId    Int?
+  User      User?    @relation(fields: [userId], references: [id])
+
+  @@index([userId])
 }
 
 model Certification {
@@ -44,19 +55,20 @@ model Certification {
 }
 
 model Record {
-  id           Int           @id @default(autoincrement())
-  createAt     DateTime      @default(now())
-  updateAt     DateTime      @updatedAt
-  type         RecordType
-  position     Position
-  description  String
-  userId       Int
-  diagnosis    String?
-  prescription String?
-  hospitalId   Int?
-  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  hospital     Hospital?     @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
-  images       RecordImage[]
+  id                   Int           @id @default(autoincrement())
+  createAt             DateTime      @default(now())
+  updateAt             DateTime      @updatedAt
+  type                 RecordType
+  position             Position
+  description          String
+  userId               Int
+  diagnosis            String?
+  prescription         String?
+  hospitalId           Int?
+  recommendDepartments String?
+  user                 User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  hospital             Hospital?     @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
+  images               RecordImage[]
 
   @@index([userId])
   @@index([hospitalId])
@@ -99,6 +111,23 @@ model Hospital {
   @@fulltext([name])
 }
 
+model TestHospital {
+  id       Int      @id @default(autoincrement())
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+  password String   @default("123456")
+  name     String
+  area     String
+  address  String
+  city     String
+  class    String
+  homepage String?
+  x        Float?
+  y        Float?
+
+  @@fulltext([name])
+}
+
 model HospitalMedicalToDepartment {
   id                  Int                @id @default(autoincrement())
   medicalDepartmentId Int?
@@ -114,6 +143,7 @@ model HospitalToUser {
   id         Int      @id @default(autoincrement())
   hospitalId Int
   userId     Int
+  shared     Boolean  @default(true)
   hospital   Hospital @relation(fields: [hospitalId], references: [id])
   user       User     @relation(fields: [userId], references: [id])
 

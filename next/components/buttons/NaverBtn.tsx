@@ -24,7 +24,7 @@ const NaverLoginBtn = ({ mutate, size, kind }: SocialBtnProps) => {
     const login = () => {
       naverLogin = new naver.LoginWithNaverId({
         clientId: process.env.NEXT_PUBLIC_NAVER_CLIENT_ID, // ClientID
-        callbackUrl: "http://localhost:3000/auth/login/loading", // Callback URL
+        callbackUrl: "https://kdt-ai5-team01.elicecoding.com/auth/login/loading", // Callback URL
         isPopup: false, // 팝업 형태로 인증 여부
         loginButton: {
           color: "green", // 색상
@@ -39,13 +39,11 @@ const NaverLoginBtn = ({ mutate, size, kind }: SocialBtnProps) => {
       const hash = router.asPath.split("#")[1]; // 네이버 로그인을 통해 전달받은 hash 값
       if (hash) {
         const token = hash.split("=")[1].split("&")[0]; // token값 확인
-        console.log(token);
         localStorage.setItem("naverToken", token);
         naverLogin.getLoginStatus((status: boolean) => {
           // 로그인 상태 값이 있을 경우
           if (status) {
             // 사용자 정보 조회
-            console.log(naverLogin.user);
             const { email, mobile, name, birthyear, gender, id: accountId } = naverLogin.user;
             // 네이버 로그인 요청
             mutate({

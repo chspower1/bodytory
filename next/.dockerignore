@@ -1,0 +1,10 @@
+.git
+.gitignore
+.dockerignore
+.next
+.prettierrc
+node_modules
+Dockerfile
+*.md
+*.sh
+*.yml

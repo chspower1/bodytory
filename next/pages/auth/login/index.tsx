@@ -7,11 +7,11 @@ import { useRouter } from "next/router";
 import { ResponseType } from "@utils/server/withHandler";
 import Link from "next/link";
 import customApi from "utils/client/customApi";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Modal from "@components/modals/Modal";
 import NaverLoginBtn from "@components/buttons/NaverBtn";
 import KakaoLoginBtn from "@components/buttons/KakaoBtn";
-import { USER_LOGIN } from "constant/queryKeys";
+import { USER_LOGIN, USE_USER } from "constant/queryKeys";
 import { RoundButton } from "@components/buttons/Button";
 import Image from "next/image";
 import naver from "@public/static/icon/naver.svg";
@@ -32,8 +32,6 @@ import { watch } from "fs";
 import styled from "styled-components";
 import MessageBox from "@components/MessageBox";
 import { ACCOUNT_ID_REGEX, PASSWORD_REGEX } from "constant/regex";
-import { loggedInUser } from "atoms/atoms";
-import { useSetRecoilState } from "recoil";
 import Header from "@components/header/Header";
 
 export interface LoginForm {
@@ -43,22 +41,17 @@ export interface LoginForm {
 
 const LoginPage: NextPage = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const { postApi } = customApi("/api/auth/login");
   const [isError, setIsError] = useState(false);
   const [isCompletion, setIsCompletion] = useState(false);
-  const setCurrentUser = useSetRecoilState(loggedInUser);
 
   const { mutate } = useMutation([USER_LOGIN], postApi, {
     onError(error: any) {
-      console.log(error);
-
-      if (error.status === 401) {
-        setIsError(true);
-      }
+      setIsError(true);
     },
     onSuccess(data) {
       if (data.isNew) {
-        console.log("----------------------------", data);
         return router.push(
           {
             pathname: "/auth/register",
@@ -67,7 +60,8 @@ const LoginPage: NextPage = () => {
           "/auth/register",
         );
       } else {
-        setCurrentUser(data);
+        queryClient.refetchQueries([USE_USER]);
+        // setCurrentUser(data);
         return router.push("/");
       }
     },
@@ -83,7 +77,6 @@ const LoginPage: NextPage = () => {
   const onValid = (loginForm: LoginForm) => {
     mutate({ ...loginForm, type: "origin" });
   };
-  // console.log(errors, checkEmptyObj(errors));
 
   const isErrorsMessage = errors.accountId?.message || errors.password?.message;
 
@@ -95,13 +88,11 @@ const LoginPage: NextPage = () => {
     }
     setIsError(false);
   }, [watch("accountId"), watch("password"), isErrorsMessage]);
-
   return (
     <FlexContainer>
-      <Header />
       <InnerContainer>
         <MessageBox isErrorsMessage={isErrorsMessage}>
-          {!isErrorsMessage &&
+          {isErrorsMessage === undefined &&
             (isError ? <>앗! 로그인 정보를 다시 한번 확인해주세요</> : <>로그인 정보를 입력해주세요</>)}
         </MessageBox>
         <LoginForm as="form" onSubmit={handleSubmit(onValid)}>
@@ -117,7 +108,7 @@ const LoginPage: NextPage = () => {
                   },
                 })}
                 placeholder="아이디를 입력해주세요"
-                error={errors.accountId}
+                error={errors.accountId || isError}
               />
               <Input
                 name="password"
@@ -131,7 +122,8 @@ const LoginPage: NextPage = () => {
                   },
                 })}
                 placeholder="●●●●●●"
-                error={errors.password}
+                error={errors.password || isError}
+                delay={0.3}
               />
               {/* <Input
             name="autoLogin"
@@ -168,7 +160,7 @@ const LoginPage: NextPage = () => {
           </Link>
         </RegisterLinkBox>
         {/* <button onClick={() => setShowModal(true)}>Open Modal</button> */}
-        {/* <Modal onClose={() => setShowModal(false)} activeFuction={} show={showModal} title={"임시 타이틀"}>
+        {/* <Modal onClose={() => setShowModal(false)} activeFunction={} show={showModal} title={"임시 타이틀"}>
         children으로 주는거라 태그 사이에 쓰면 됩니다.
       </Modal> */}
       </InnerContainer>

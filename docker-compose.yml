@@ -1,0 +1,26 @@
+services:
+  flask:
+    image: flask
+    build: ./flask
+    restart: always
+    ports:
+      - 8080:8080
+  next:
+    image: next
+    build: ./next
+    restart: always
+    ports:
+      - 3000:3000
+    environment:
+      FLASK_API: http://flask:8080
+      DATABASE_URL: ${DATABASE_URL}
+      COOKIE_PASSWORD: ${COOKIE_PASSWORD}
+      MAIL_ID: ${MAIL_ID}
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
+      NEXT_PUBLIC_NAVER_CLIENT_ID: ${NEXT_PUBLIC_NAVER_CLIENT_ID}
+      NEXT_PUBLIC_NAVER_CLIENT_SECRET: ${NEXT_PUBLIC_NAVER_CLIENT_SECRET}
+      NEXT_PUBLIC_KAKAO_KEY: ${NEXT_PUBLIC_KAKAO_KEY}
+      AI_API_KEY: ${AI_API_KEY}
+      ACCESSKEYID: ${ACCESSKEYID}
+      SECRETACCESSKET: ${SECRETACCESSKET}
+      REGION: ${REGION}

@@ -1,48 +1,49 @@
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import LogoImg from "@public/static/icon/Logo.png";
-import useUser from "@hooks/useUser";
 import SideMenu from "./SideMenu";
-import { User } from "@prisma/client";
 import { useRecoilValue } from "recoil";
-import { loggedInUser } from "atoms/atoms";
-import { RegisterForm } from "pages/auth/register";
+import useUser from "@hooks/useUser";
 
 const Header = () => {
   const router = useRouter();
+  const {user, isFetching} = useUser();
 
-  return (
-    <HeaderWrap>
-      <HeaderContainer>
-        <HeaderInnerBox>
-          <HeaderUl>
-            <li>
-              <Link href="/">서비스 소개</Link>
-            </li>
-            <li>
-              {router.asPath.includes("login") ? (
-                <Link href="/auth/register" title="회원가입">
-                  회원가입
-                </Link>
-              ) : (
-                <Link href="/auth/login" title="로그인">
-                  로그인
-                </Link>
-              )}
-            </li>
-          </HeaderUl>
-          <HeaderLogoBox>
-            <Link href="/auth/login" title="바디토리">
-              <span>바디토리</span>
-            </Link>
-          </HeaderLogoBox>
-        </HeaderInnerBox>
-      </HeaderContainer>
-    </HeaderWrap>
-  );
+  return isFetching  ? null :  !user ?(
+      (
+      <HeaderWrap>
+        <HeaderContainer>
+          <HeaderInnerBox>
+            <HeaderUl>
+              <li>
+                <Link href="/">서비스 소개</Link>
+              </li>
+              <li>
+                {router.asPath.includes("login") ? (
+                  <Link href="/auth/register/choice" title="회원가입">
+                    회원가입
+                  </Link>
+                ) : (
+                  <Link href="/auth/login" title="로그인">
+                    로그인
+                  </Link>
+                )}
+              </li>
+            </HeaderUl>
+            <HeaderLogoBox>
+              <Link href="/auth/login" title="바디토리">
+                <span>바디토리</span>
+              </Link>
+            </HeaderLogoBox>
+          </HeaderInnerBox>
+        </HeaderContainer>
+      </HeaderWrap>
+    )
+  ) : (
+    <SideMenu />
+  )  ;
 };
 
 export default Header;
@@ -52,16 +53,25 @@ const HeaderWrap = styled.div`
   left: 0px;
   top: 0px;
   width: 100%;
-  z-index: 1000;
+  z-index: 2000;
 `;
 const HeaderContainer = styled.div`
   padding: 0 65px;
+  @media (max-width: 570px){
+    padding: 0 20px;
+  }
 `;
 const HeaderInnerBox = styled.div`
   padding: 30px 0;
   display: flex;
   align-items: center;
   justify-content: end;
+  @media (max-width: 1000px){
+    justify-content: space-between;
+  }
+  // @media (max-width: 570px){
+  //   justify-content: space-between;
+  // }
 `;
 const HeaderLogoBox = styled.div`
   margin-left: 42px;
@@ -80,8 +90,19 @@ const HeaderLogoBox = styled.div`
       overflow: hidden;
     }
   }
+  @media (max-width: 1000px){
+    margin-left: 0;
+    order: 1;
+  }
+  @media (max-width: 570px){
+      a {
+        width: 100px;
+        height: 30px;
+      }
+  }
 `;
 const HeaderUl = styled.ul`
+  
   display: flex;
   width: 270px;
   align-items: center;
@@ -92,6 +113,16 @@ const HeaderUl = styled.ul`
     font-weight: 600;
     a {
       color: #fff;
+    }
+  }
+  @media (max-width: 1000px){
+    width: 242px;
+    order: 2;
+  }
+  @media (max-width: 570px){
+    width: 210px;
+    li{
+      font-size: 14px;
     }
   }
 `;

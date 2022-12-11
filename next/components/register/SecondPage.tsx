@@ -13,6 +13,7 @@ import { checkEmptyObj } from "@utils/client/checkEmptyObj";
 import { createErrors } from "@utils/client/createErrors";
 import styled from "styled-components";
 import { LoginInputAreaBox } from "pages/auth/login";
+import { AnimatePresence } from "framer-motion";
 
 interface SecondRegisterForm {
   accountId: string;
@@ -128,21 +129,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       setCurrentComment("다음 단계로 넘어가주세요!");
     }
   }, [watch, watch(), user?.isNotDuplicate]);
-  /* useEffect(() => {
-    createErrors<SecondRegisterForm>({
-      user: user!,
-      checkList: ["accountId", "password"],
-      setError,
-      KoreanName,
-    });
 
-    // if (!user?.accountId) {
-    //   setError("accountId", { types: { required: "", validate: "" } });
-    // }
-    // if (!user?.password) {
-    //   setError("password", { types: { required: "", validate: "" } });
-    // } else clearErrors();
-  }, []); */
   return (
     <FlexContainer>
       <InnerContainer>
@@ -164,11 +151,11 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                     setCurrentInputIdx(1);
                     setValue("password", "");
                     setValue("passwordConfirm", "");
-                    console.log(errors.accountId);
                   },
                 })}
                 error={errors.accountId}
               />
+
               {(!user?.isNotDuplicate || !watch("accountId")) && (
                 <ButtonBox>
                   <RoundButton
@@ -185,52 +172,55 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                 </ButtonBox>
               )}
 
-              {currentInputIdx >= 2 && (
-                <Input
-                  name="password"
-                  type="password"
-                  placeholder="●●●●●●"
-                  register={register("password", {
-                    required: true,
-                    validate: {
-                      regexPassword: value =>
-                        PASSWORD_REGEX.test(value) ||
-                        "비밀번호는 6자리 이상\n영문 대소문자, 숫자를 조합해서 입력해주세요",
-                    },
-                    onChange() {
-                      if (watch("password").length < 6) {
-                        setValue("passwordConfirm", "");
-                        setCurrentInputIdx(2);
-                      } else {
-                        setCurrentInputIdx(3);
-                        if (watch("password") !== watch("passwordConfirm") && watch("passwordConfirm")) {
-                          setError("passwordConfirm", {
-                            message: "비밀번호가 일치하지 않아요!\n비밀번호를 다시 확인해주세요",
-                          });
+              <AnimatePresence>
+                {currentInputIdx >= 2 && (
+                  <Input
+                    name="password"
+                    type="password"
+                    placeholder="●●●●●●"
+                    register={register("password", {
+                      required: true,
+                      validate: {
+                        regexPassword: value =>
+                          PASSWORD_REGEX.test(value) ||
+                          "비밀번호는 6자리 이상\n영문 대소문자, 숫자를 조합해서 입력해주세요",
+                      },
+                      onChange() {
+                        if (watch("password").length < 6) {
+                          setValue("passwordConfirm", "");
+                          setCurrentInputIdx(2);
                         } else {
-                          clearErrors(["password", "passwordConfirm"]);
+                          setCurrentInputIdx(3);
+                          if (watch("password") !== watch("passwordConfirm") && watch("passwordConfirm")) {
+                            setError("passwordConfirm", {
+                              message: "비밀번호가 일치하지 않아요!\n비밀번호를 다시 확인해주세요",
+                            });
+                          } else {
+                            clearErrors(["password", "passwordConfirm"]);
+                          }
                         }
-                      }
-                    },
-                  })}
-                  error={errors.password}
-                />
-              )}
-
-              {currentInputIdx >= 3 && !errors.password?.message && (
-                <Input
-                  type="password"
-                  name="passwordConfirm"
-                  placeholder="●●●●●●"
-                  register={register("passwordConfirm", {
-                    required: true,
-                    validate: {
-                      checkPassword,
-                    },
-                  })}
-                  error={errors.passwordConfirm}
-                />
-              )}
+                      },
+                    })}
+                    error={errors.password}
+                  />
+                )}
+              </AnimatePresence>
+              <AnimatePresence>
+                {currentInputIdx >= 3 && !errors.password?.message && (
+                  <Input
+                    type="password"
+                    name="passwordConfirm"
+                    placeholder="●●●●●●"
+                    register={register("passwordConfirm", {
+                      required: true,
+                      validate: {
+                        checkPassword,
+                      },
+                    })}
+                    error={errors.passwordConfirm}
+                  />
+                )}
+              </AnimatePresence>
             </LoginInputAreaBox>
           </FormContents>
           <PrevNextButtonBox>
@@ -238,7 +228,6 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
               nonSubmit
               bgColor="rgb(75, 80, 211)"
               onClick={() => {
-                console.log("sdadasda");
                 pageReset();
               }}
             >

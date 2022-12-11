@@ -26,7 +26,6 @@ const HelpFindId: NextPage = () => {
   const [foundAccountId, setFoundAccountId] = useState("");
   const { mutate } = useMutation([HELP_FIND_ID], postApi, {
     onError(error: any) {
-      console.log(error.data);
       if (isToken) {
         return setError("token", { message: `${error.data}` });
       }
@@ -58,7 +57,6 @@ const HelpFindId: NextPage = () => {
   } = useForm<HelpForm>({ mode: "onChange" });
   const [isToken, setIsToken] = useState(false);
   const onValidHelpForm = (helpForm: HelpForm) => {
-    console.log(helpForm);
     mutate(helpForm);
   };
   const handleClickFindId = () => {
@@ -79,7 +77,6 @@ const HelpFindId: NextPage = () => {
 
   return (
     <FlexContainer>
-      <Header />
       <InnerContainer>
         {!foundAccountId ? (
           <>

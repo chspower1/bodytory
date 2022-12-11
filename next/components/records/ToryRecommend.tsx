@@ -3,35 +3,59 @@ import styled, { css } from "styled-components";
 import IconHospital from "@public/static/icon/icon_hospital.png";
 import IconWarning from "@public/static/icon/icon_warning.png";
 import { useState } from "react";
-import Modal from "@components/modals/Modal";
-import ArroundMap from "@components/modals/ArroundMap";
+import ArroundMapModal from "@components/modals/map/ArroundMapModal";
+import LocationPinIcon from "@public/static/icon/location_pin.svg";
+import useCoords from "@hooks/useCoords";
+import { AnimatePresence } from "framer-motion";
 
-function ToryRecommend() {
+interface ToryRecommendProps {
+  mostThreeDepartment?: string[];
+  inChart: boolean;
+}
+
+function ToryRecommend({ mostThreeDepartment, inChart }: ToryRecommendProps) {
   const [showModal, setShowModal] = useState(false);
-
-  const handleClickLogout = async () => {};
+  const { latitude, longitude } = useCoords();
 
   return (
     <>
       <ToryRecommendContainer>
-        <ToryRecommendBox>
+        <ToryRecommendBox inChart={inChart}>
           <RecommendText>
             <Tag>Ai 토리추천</Tag>
             <Text>
-              <strong>$정형외과, 가정의학과, 치과</strong>에 방문해보시는 것을 추천드려요!
+              {mostThreeDepartment ? (
+                <>
+                  <strong>{mostThreeDepartment && mostThreeDepartment.join(", ")}</strong>에 방문해보시는 것을
+                  추천드려요
+                </>
+              ) : (
+                <p>아직 추천하는 진료과목이 없어요</p>
+              )}
             </Text>
           </RecommendText>
-          <RoundButton size="md" onClick={() => setShowModal(true)}>
-            내 주변 해당 병원 찾기
-          </RoundButton>
+          {mostThreeDepartment && mostThreeDepartment.length > 0 && (
+            <RoundButton size="custom" height="50px" padding="0 30px" onClick={() => setShowModal(true)}>
+              <LocationPinIcon width={26} height={26} style={{ marginRight: "10px" }} />
+              <span>내 주변 해당 병원 찾기</span>
+            </RoundButton>
+          )}
         </ToryRecommendBox>
         <Warning>
           Ai 토리추천 서비스는 의료행위가 아닌 정보 참고용 서비스임을 밝히며, 정확한 의학적 판단을 위해서는 반드시
           가까운 의료기관을 내원해주세요
         </Warning>
       </ToryRecommendContainer>
-
-      {showModal && <ArroundMap setShowModal={setShowModal} />}
+      <AnimatePresence>
+        {showModal && (
+          <ArroundMapModal
+            latitude={latitude}
+            longitude={longitude}
+            onClose={() => setShowModal(false)}
+            mostThreeDepartment={mostThreeDepartment}
+          />
+        )}
+      </AnimatePresence>
     </>
   );
 }
@@ -40,14 +64,24 @@ const ToryRecommendContainer = styled.div`
   margin-bottom: 60px;
 `;
 
-const ToryRecommendBox = styled.div`
+const ToryRecommendBox = styled.div<{ inChart: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  min-height: 80px;
   border-radius: 20px;
   padding: 15px 20px;
   box-shadow: 8px 8px 18px 0px rgba(32, 36, 120, 0.3);
-  background: ${({ theme }) => theme.color.white};
+
+  ${({ inChart }) =>
+    inChart
+      ? css`
+          background: ${({ theme }) => theme.color.input};
+          color: ${({ theme }) => theme.color.white};
+        `
+      : css`
+          background: ${({ theme }) => theme.color.white};
+        `}
 `;
 
 const RecommendText = styled.div`
@@ -82,7 +116,5 @@ const Warning = styled.div`
   color: #d9deff;
   opacity: 0.8;
 `;
-
-const MapContainer = styled.div``;
 
 export default ToryRecommend;

@@ -1,6 +1,6 @@
 import Input from "@components/Input";
 import { useForm } from "react-hook-form";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { RegisterForm } from "pages/auth/register";
 import { CircleButton, RectangleButton, RoundButton } from "@components/buttons/Button";
 import { Box, Col, Container, FlexContainer, InnerContainer, Row, WhiteText, Wrapper } from "@styles/Common";
@@ -9,6 +9,10 @@ import CheckBoxInput from "@components/CheckBoxInput";
 import MessageBox from "@components/MessageBox";
 import styled from "styled-components";
 import { theme } from "@styles/theme";
+import Modal from "@components/modals/Modal";
+import PersonalInformation from "./PersonalInformation";
+import UseOfService from "./UseOfService";
+import { motion } from "framer-motion";
 interface FirstRegisterForm {
   agree: boolean;
 }
@@ -18,6 +22,8 @@ interface RegisterPageProps {
   setPage: Dispatch<SetStateAction<number>>;
 }
 const FirstPage = ({ user, setUser, setPage }: RegisterPageProps) => {
+  const [showModal, setShowModal] = useState(false);
+  const [isFirstOne, setIsFirstOne] = useState(false);
   const {
     register,
     formState: { errors },
@@ -52,13 +58,29 @@ const FirstPage = ({ user, setUser, setPage }: RegisterPageProps) => {
               <TermsBox>
                 <TermsRow>
                   <WhiteText fontSize="18px">[필수] 서비스 이용 약관 </WhiteText>
-                  <RectangleButton nonSubmit bgColor="rgb(61, 66, 191)" size="sm">
+                  <RectangleButton
+                    nonSubmit
+                    bgColor="rgb(61, 66, 191)"
+                    size="sm"
+                    onClick={() => {
+                      setShowModal(true);
+                      setIsFirstOne(true);
+                    }}
+                  >
                     내용 보기
                   </RectangleButton>
                 </TermsRow>
                 <TermsRow>
                   <WhiteText fontSize="18px">[필수] 개인 정보 수집 및 이용 약관 </WhiteText>
-                  <RectangleButton nonSubmit bgColor="rgb(61, 66, 191)" size="sm">
+                  <RectangleButton
+                    nonSubmit
+                    bgColor="rgb(61, 66, 191)"
+                    size="sm"
+                    onClick={() => {
+                      setShowModal(true);
+                      setIsFirstOne(false);
+                    }}
+                  >
                     내용 보기
                   </RectangleButton>
                 </TermsRow>
@@ -77,6 +99,16 @@ const FirstPage = ({ user, setUser, setPage }: RegisterPageProps) => {
           </PrevNextButtonBox>
         </Form>
       </InnerContainer>
+      <Modal
+        terms
+        closingComment
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        activeFunction={() => setShowModal(false)}
+        title={isFirstOne ? "[필수] 서비스 이용약관" : "[필수] 개인 정보 수집 및 이용 약관"}
+      >
+        {isFirstOne ? <UseOfService /> : <PersonalInformation />}
+      </Modal>
     </FlexContainer>
   );
 };
@@ -104,7 +136,7 @@ const TermsRow = styled(Row)`
     border-top: 1px solid #646aeb;
   }
 `;
-export const FormContents = styled.div``;
+export const FormContents = styled(motion.div)``;
 export const PrevNextButtonBox = styled(Row)`
   gap: 65px;
 `;

@@ -42,7 +42,6 @@ const HelpPage: NextPage = () => {
       setError("accountId", { message: `가입된 아이디가 없어요\n다시 한번 확인해주세요` });
     },
     onSuccess(data) {
-      console.log("t", data);
       if (isToken) {
         if (data.ok) {
           return router.push(
@@ -74,7 +73,6 @@ const HelpPage: NextPage = () => {
   } = useForm<HelpForm>({ mode: "onChange" });
   const [isToken, setIsToken] = useState(false);
   const onValid = (helpForm: HelpForm) => {
-    console.log(helpForm);
     mutate(helpForm);
   };
 
@@ -95,35 +93,22 @@ const HelpPage: NextPage = () => {
   }, [isToken]);
   return (
     <Container>
-      <Header />
       <InnerContainer>
         <MessageBox isErrorsMessage={isErrorsMessage} currentComment={currentComment} />
         <FindForm onSubmit={handleSubmit(onValid)}>
-          <Seperation>
-            {isToken ? (
-              <ButtonInInput
-                name="accountId"
-                register={register("accountId")}
-                error={helpErrors.accountId}
-                isCertified={false}
-                changeButtonValue="아이디"
-                disabled
-                nonSubmit
-                isToken={isToken}
-                setIsToken={setIsToken}
-              />
-            ) : (
-              <Input
-                name="accountId"
-                register={register("accountId", {
-                  required: true,
-                  validate: value => ACCOUNT_ID_REGEX.test(value!) || "아이디 형식에 맞지 않습니다",
-                })}
-                placeholder="toritori2022"
-                error={helpErrors.accountId}
-              />
+            {isToken || (
+              <Seperation>
+                <Input
+                  name="accountId"
+                  register={register("accountId", {
+                    required: true,
+                    validate: value => ACCOUNT_ID_REGEX.test(value!) || "아이디 형식에 맞지 않습니다",
+                  })}
+                  placeholder="toritori2022"
+                  error={helpErrors.accountId}
+                />
+              </Seperation>
             )}
-          </Seperation>
           <Seperation>
             <RoundButton size="lg" nonSubmit onClick={handleClickFindPassword}>
               {isToken ? "인증메일 다시 보내기" : "비밀번호 찾기"}
@@ -131,9 +116,6 @@ const HelpPage: NextPage = () => {
           </Seperation>
           {isToken && (
             <>
-              <Seperation>
-                <Input name="email" value={email} disabled />
-              </Seperation>
               <Seperation>
                 {isToken && (
                   <ButtonInInput

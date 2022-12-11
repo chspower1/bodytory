@@ -1,52 +1,93 @@
-import Link from 'next/link'
-import React from 'react'
-import styled from 'styled-components'
+import { FlexContainer } from "@styles/Common";
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
+import styled, { css } from "styled-components";
+import tory from "@public/static/icon/tory.png";
+import { motion } from "framer-motion";
+import { CircleButton } from "@components/buttons/Button";
+import { theme } from "@styles/theme";
+const LendingRoot = styled.div<{ flex: boolean }>`
+  margin: auto;
 
-const LendingRoot = styled.div`
+  ${({ flex }) =>
+    flex &&
+    css`
+      display: flex;
+      align-items: center;
+      gap: 120px;
+    `}
 
-  .btnBox{
-    display:flex;
-
-    a{
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      width:100px;
-      height:100px;
-      border-radius: 50%;
-      border : 1px solid #000;
-      &:first-child{ 
-        background:#fff;
-        color:#000;
-        box-shadow: 0 0 5px 3px #00000053, inset 0 0 0 #000;
-        &:active{
-          box-shadow: 0 0 0 0 #00000053, inset 0 0 5px 3px #000;
-        }
-      }
-      &:last-child{
-        background:#000;
-        color:#fff;
-        box-shadow: 0 0 5px 3px #fff, inset 0 0 0 #fff;
-        &:active{
-          box-shadow: 0 0 0 0 #fff, inset 0 0 5px 3px #fff;
-        }
-      }
-    }
+  .imgBox {
+    display: flex;
+    justify-content: center;
   }
-`
+
+  
+  }
+`;
+
+const ToriMessage = styled(motion.h2)`
+  font-size: 40px;
+  margin-bottom: 80px;
+  color:#fff;
+`;
+
+const QuestionBox = styled(motion.div)`
+
+  .btnBox {
+    display: flex;
+    justify-content:space-evenly;
+    
+    }
+`;
 
 export default function LendingPage() {
+  const [toriComment, setToriComment] = useState("반가워요!");
+  const [isFirst, setIsFrist] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setToriComment("저는 당신의 건강비서 토리에요!");
+      setTimeout(() => {
+        setIsFrist(true);
+      }, 3000);
+    }, 3000);
+  }, []);
   return (
-    <LendingRoot>
-      <h2>바디토리는 처음이신가요?</h2>
-      <div className="btnBox">
-        <Link href="/auth/choice">
-          네
-        </Link>
-        <Link href="/auth/login">
-          아니요
-        </Link>
-      </div>
-    </LendingRoot>
-  )
+    <FlexContainer>
+      <LendingRoot flex={isFirst}>
+        {!isFirst && (
+          <ToriMessage
+            key={toriComment}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" } }}
+          >
+            {toriComment}
+          </ToriMessage>
+        )}
+        <div className="imgBox">
+          <img src={tory.src} />
+        </div>
+        {isFirst && (
+          <QuestionBox
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" } }}
+          >
+            <ToriMessage>바디토리는 처음이신가요?</ToriMessage>
+            <div className="btnBox">
+              <Link href="/auth/register/choice">
+                <CircleButton bgColor={theme.color.mintBtn}>네</CircleButton>
+              </Link>
+              <Link href="/auth/login">
+                <CircleButton>아니요</CircleButton>
+              </Link>
+            </div>
+          </QuestionBox>
+        )}
+      </LendingRoot>
+    </FlexContainer>
+  );
+}
+{
+  /* */
 }

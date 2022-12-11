@@ -1,5 +1,6 @@
+import { motion } from "framer-motion";
 import styled from "styled-components";
-
+import IconArrowLeft from "@public/static/icon/icon_arrow_left.png";
 export const Wrapper = styled.div<{ bgColor?: string }>`
   position: relative;
   height: 100vh;
@@ -9,7 +10,7 @@ export const Wrapper = styled.div<{ bgColor?: string }>`
   // padding-top: 116px;
 `;
 
-export const Container = styled.div`
+export const Container = styled(motion.div)`
   width: 100%;
   max-width: 1600px;
   margin: 0 auto;
@@ -30,7 +31,7 @@ export const InnerContainer = styled.div`
   padding-top: 70px;
 `;
 
-export const Box = styled.div<{ height?: string; width?: string }>`
+export const Box = styled(motion.div)<{ height?: string; width?: string }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -81,4 +82,35 @@ export const Accent = styled(ToryText)`
 
 export const WhiteBoldText = styled(WhiteText)`
   font-weight: 600;
+`;
+export const BackButton = styled.button`
+  position: absolute;
+  top: 20px;
+  left: 30px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  background: url(${IconArrowLeft.src}) no-repeat 10px 50%/26px;
+  background-color: #5155ba;
+  overflow: hidden;
+  transition: width 0.4s;
+
+  span {
+    display: block;
+    font-size: 16px;
+    font-weight: 500;
+    color: ${({ theme }) => theme.color.lightBg};
+    width: 130px;
+    padding-left: 20px;
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+
+  &:hover {
+    width: 130px;
+
+    span {
+      opacity: 1;
+    }
+  }
 `;

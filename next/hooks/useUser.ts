@@ -5,8 +5,8 @@ import { USE_USER } from "constant/queryKeys";
 
 const useUser = () => {
   const { getApi } = customApi("/api/users/me");
-  const { data: user } = useQuery<User>([USE_USER], getApi);
+  const { data: user, isFetching } = useQuery<User>([USE_USER], getApi);
 
-  return user;
+  return {user, isFetching};
 };
 export default useUser;

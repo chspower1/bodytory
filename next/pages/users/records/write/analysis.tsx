@@ -1,12 +1,16 @@
-import { Col, FlexContainer, ToryText, WhiteText, Wrapper } from "@styles/Common";
+import LoadingDot from "@components/LoadingDot";
+import useUser from "@hooks/useUser";
+import { Col, FlexContainer, ToryText,  Wrapper } from "@styles/Common";
 import styled from "styled-components";
 
 const Analysis = () => {
+  const {user} = useUser();
+
   return (
     <AnalysisWrapper>
       <FlexContainer>
         <Col>
-          <ToryText color="#FFF">소희님의 건강상태를 기록하고 분석하고 있어요..</ToryText>
+          <ToryText color="#FFF">{user?.name}님의 건강상태를 기록하고 분석하고 있어요<LoadingDot/></ToryText>
           <Tory />
         </Col>
       </FlexContainer>

@@ -12,15 +12,15 @@ import { FlexContainer, InnerContainer } from "@styles/Common";
 import styled from "styled-components";
 import { theme } from "@styles/theme";
 import { RoundButton } from "@components/buttons/Button";
-import naver from "@public/static/icon/naver.svg";
-import kakao from "@public/static/icon/kakao.svg";
-import origin from "@public/static/icon/origin.svg";
+import Naver from "@public/static/icon/naver.svg";
+import Kakao from "@public/static/icon/kakao.svg";
+import Origin from "@public/static/icon/origin.svg";
 import Image from "next/image";
 import getAmericanAge from "@utils/client/getAmericanAge";
-import { loggedInUser } from "atoms/atoms";
 import { useRecoilValue } from "recoil";
 import { User } from "@prisma/client";
 import { RegisterForm } from "pages/auth/register";
+import { PASSWORD_REGEX } from "constant/regex";
 
 interface PasswordType {
   oldPassword: string;
@@ -31,17 +31,18 @@ interface PasswordType {
 export default function Edit() {
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
+  const [errorModal, setErrorModal] = useState(false);
   const [closingComment, setClosingComment] = useState(false);
-  const currentUser = useRecoilValue(loggedInUser);
-  const [test, setTest] = useState<User | RegisterForm | null>(null);
-  const americanAge = getAmericanAge(String(test?.birth!));
+  const {user} = useUser();
+  const americanAge = getAmericanAge(String(user?.birth!));
 
   const [{ oldPassword, newPassword }, setChangePassword] = useState({ oldPassword: "", newPassword: "" });
   const { putApi } = customApi("/api/users/edit");
   const { mutate } = useMutation([USER_CHANGE_PASSWORD], putApi, {
     onError(error: any) {
       setShowModal(false);
-      setError("oldPassword", { message: `${error.data}` });
+      setErrorModal(true);
+      setError("oldPassword", { message: `현재 비밀번호를 적어주세요!` });
     },
     onSuccess() {
       setClosingComment(true);
@@ -53,20 +54,26 @@ export default function Edit() {
     setError,
     formState: { errors },
   } = useForm<PasswordType>();
+  const isErrorMessage =
+    errors.oldPassword?.message || errors.newPassword?.message || errors.newPasswordConfirm?.message;
   const onValid: SubmitHandler<PasswordType> = ({ oldPassword, newPassword, newPasswordConfirm }) => {
-    if (newPassword !== newPasswordConfirm) {
-      setError("newPasswordConfirm", { message: "비밀번호가 일치하지 않습니다" });
+    if (!PASSWORD_REGEX.test(newPassword)) {
+      setError("newPassword", {
+        type: "custom",
+        message: "비밀번호는 6자리 이상 영문 대소문자, 숫자를 조합해서 입력해주세요",
+      });
+    } else if (newPassword !== newPasswordConfirm) {
+      setError("newPasswordConfirm", { type: "custom", message: "비밀번호가 일치하지 않습니다" });
     } else if (oldPassword === newPassword) {
-      setError("newPassword", { message: "새로운 비밀번호를 입력해주세요" });
+      setError("newPassword", { type: "custom", message: "새로운 비밀번호를 입력해주세요" });
     } else {
       setChangePassword({ oldPassword, newPassword });
-      setShowModal(true);
+      return setShowModal(true);
     }
+    setErrorModal(true);
   };
-  const handleClickOnClose = () => {
-    setShowModal(false);
-  };
-  const handleClickActiveFuction = () => {
+
+  const handleClickActiveFunction = () => {
     if (!closingComment) {
       mutate({ password: oldPassword, newPassword });
     } else {
@@ -75,36 +82,31 @@ export default function Edit() {
     }
   };
   useEffect(() => {
-    setTest(currentUser);
-  }, []);
-  useEffect(() => {
     document.body.style.backgroundColor = theme.color.lightBg;
     return () => {
       document.body.style.backgroundColor = theme.color.darkBg;
     };
   }, []);
+
   return (
     <Container>
       <InContainer>
         <div>
           <SeperationBox>
-            <Name>{test?.name}</Name>
+            <Name>{user?.name}</Name>
           </SeperationBox>
           <UserInfo>
             <span>
-              {test?.gender === "male" ? "남" : "여"},{` 만 ${americanAge}세`}
+              {user?.gender === "male" ? "남" : "여"},{` 만 ${americanAge}세`}
             </span>
           </UserInfo>
           <LoginStatusBox>
-            <Image
-              src={test?.type === "naver" ? naver : test?.type === "kakao" ? kakao : origin}
-              alt="logo"
-              height={50}
-              width={50}
-            />
+            {user?.type === "naver" && <Naver width={50} height={50} />}
+            {user?.type === "kakao" && <Kakao width={50} height={50} />}
+            {user?.type === "origin" && <Origin width={50} height={50} />}
           </LoginStatusBox>
           <EmailInputBox>
-            <Input disabled={true} type="text" name="user-email" value={test?.email} align="left" />
+            <Input disabled={true} type="text" name="user-email" value={user?.email} align="left" motion={false} />
           </EmailInputBox>
         </div>
         <div>
@@ -112,48 +114,49 @@ export default function Edit() {
             <h2>비밀번호 변경</h2>
             <SeperationBox>
               <Input
-                light
+                $light
                 name="oldPassword"
                 type="password"
-                register={register("oldPassword", { required: "필수값입니다" })}
+                register={register("oldPassword", { required: "현재 비밀번호를 입력해주세요" })}
                 placeholder="현재 비밀번호를 입력해주세요."
                 error={errors.oldPassword?.message}
                 align="left"
-                disabled={test?.type !== "origin"}
+                disabled={user?.type !== "origin"}
               />
               <Input
-                light
+                $light
                 name="newPassword"
                 type="password"
-                register={register("newPassword", { required: "필수값입니다" })}
+                register={register("newPassword", { required: "새로운 비밀번호를 입력해주세요" })}
                 placeholder="새로운 비밀번호를 입력해주세요."
                 error={errors.newPassword?.message}
                 align="left"
-                disabled={test?.type !== "origin"}
+                disabled={user?.type !== "origin"}
+                delay={0.3}
               />
               <Input
-                light
+                $light
                 name="newPasswordConfirm"
                 type="password"
-                register={register("newPasswordConfirm", { required: "필수값입니다" })}
+                register={register("newPasswordConfirm", { required: "새로운 비밀번호확인을 입력해주세요" })}
                 placeholder="새로운 비밀번호확인을 입력해주세요."
                 error={errors.newPasswordConfirm?.message}
                 align="left"
-                disabled={test?.type !== "origin"}
+                disabled={user?.type !== "origin"}
+                delay={0.6}
               />
             </SeperationBox>
             <SeperationBox style={{ display: "flex", justifyContent: "center" }}>
-              <RoundButton size="md" bgColor={theme.color.mintBtn} disabled={test?.type !== "origin"}>
+              <RoundButton size="md" bgColor={theme.color.mintBtn} disabled={user?.type !== "origin"}>
                 비밀번호 변경하기
               </RoundButton>
             </SeperationBox>
           </form>
           <Modal
-            onClose={handleClickOnClose}
-            activeFuction={handleClickActiveFuction}
+            onClose={() => setShowModal(false)}
+            activeFunction={handleClickActiveFunction}
             show={showModal}
             closingComment={closingComment}
-            title={"시스템"}
           >
             {!closingComment ? (
               <>비밀번호를 변경하시겠습니까?</>
@@ -164,6 +167,14 @@ export default function Edit() {
                 홈으로 이동합니다
               </>
             )}
+          </Modal>
+          <Modal
+            onClose={() => setErrorModal(false)}
+            activeFunction={() => setErrorModal(false)}
+            show={errorModal}
+            closingComment
+          >
+            {isErrorMessage}
           </Modal>
         </div>
         <WithdrawBox>

@@ -4,16 +4,15 @@ import { RecordWithImageAndHospital } from "@components/records/chart/ChartTimel
 import { Record, RecordImage } from "@prisma/client";
 import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
-import { selectedRecord } from "atoms/atoms";
-import { RECORDS_DELETE, RECORDS_READ, RECORDS_UPDATE } from "constant/queryKeys";
-import { format } from "date-fns";
-import { ko } from "date-fns/locale";
+import { AI_RESULT_READ, BODYPART_CHARTDATA_READ, KEYWORDS_CHARTDATA_READ, RECORDS_DELETE, RECORDS_READ, RECORDS_UPDATE } from "constant/queryKeys";
 import React, { useEffect, useState } from "react";
 import { SubmitHandler, useController, useForm } from "react-hook-form";
 import { useRecoilValue } from "recoil";
 import styled, { css, keyframes } from "styled-components";
-import { showFrame } from "./Modal";
 import ReactDOM from "react-dom";
+import { AnimatePresence, motion } from "framer-motion";
+import { ModalContainer, ModalWrapper, Dim } from "@styles/ModalStyled";
+import { changeDate } from "@utils/client/changeDate";
 export interface RecordWithImage extends Record {
   images: RecordImage[];
 }
@@ -22,10 +21,11 @@ interface RecordUpdateType {
   updateWrite: string;
 }
 interface RecordModalProps {
-  setShowRecordModal: React.Dispatch<React.SetStateAction<number>>;
   record: RecordWithImageAndHospital;
+  isHospital: boolean;
+  onClose: () => void;
 }
-const RecordModal = ({ setShowRecordModal, record }: RecordModalProps) => {
+const RecordModal = ({ onClose, record, isHospital }: RecordModalProps) => {
   const [isBrowser, setIsBrowser] = useState(false);
   const { putApi, deleteApi } = customApi("/api/users/records");
 
@@ -34,13 +34,19 @@ const RecordModal = ({ setShowRecordModal, record }: RecordModalProps) => {
   const deleteMutate = useMutation([RECORDS_DELETE], deleteApi, {
     onSuccess() {
       queryClient.invalidateQueries([RECORDS_READ]);
-      setShowRecordModal(-1);
+      queryClient.invalidateQueries([AI_RESULT_READ]);
+      queryClient.invalidateQueries([BODYPART_CHARTDATA_READ]);
+      queryClient.invalidateQueries([KEYWORDS_CHARTDATA_READ]);
+      onClose();
     },
   });
 
   const updateMutate = useMutation([RECORDS_UPDATE], putApi, {
     onSuccess(data, variables, context) {
       queryClient.invalidateQueries([RECORDS_READ]);
+      queryClient.invalidateQueries([AI_RESULT_READ]);
+      queryClient.invalidateQueries([BODYPART_CHARTDATA_READ]);
+      queryClient.invalidateQueries([KEYWORDS_CHARTDATA_READ]);
     },
   });
 
@@ -56,7 +62,7 @@ const RecordModal = ({ setShowRecordModal, record }: RecordModalProps) => {
   };
 
   // 기록 수정
-  const [textArea, setTextArea] = useState<string | undefined>("");
+  const [textArea, setTextArea] = useState<string | undefined>(record!.description);
   const [showMsg, setShowMsg] = useState<boolean>(false);
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTextArea(e.target.value);
@@ -70,9 +76,6 @@ const RecordModal = ({ setShowRecordModal, record }: RecordModalProps) => {
     formState: { errors },
   } = useForm<RecordUpdateType>({
     reValidateMode: "onSubmit",
-    defaultValues: {
-      updateWrite: record!.description,
-    },
   });
 
   const onValid: SubmitHandler<RecordUpdateType> = ({ updateWrite }) => {
@@ -82,30 +85,69 @@ const RecordModal = ({ setShowRecordModal, record }: RecordModalProps) => {
       setShowMsg(false);
     }, 1400);
   };
+
   useEffect(() => {
     setIsBrowser(true);
-    return setIsBrowser(true);
   }, []);
+
+
   const modalContent = (
-    <ModalBox>
-      <Dim onClick={() => setShowRecordModal(-1)} />
-      <Modal>
+    <ModalWrapper>
+      <Dim onClick={onClose} />
+      <ModalContainer width="800px" height="auto">
         <ScrollContainer>
           <RecordDetailContainer>
-            <ButtonBox>
-              <CircleDeleteButton
-                onClick={e => handleClick(e, record!.id)}
-                recordId={record!.id}
-                className={confirmDelete === record!.id ? "active" : ""}
-                onBlur={() => setConfirmDelete(-1)}
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                  <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
-                </svg>
-                <span>삭제하시겠습니까?</span>
-              </CircleDeleteButton>
+            {isHospital || (
+              <ButtonBox>
+                <CircleDeleteButton
+                  onClick={e => handleClick(e, record!.id)}
+                  recordId={record!.id}
+                  className={confirmDelete === record!.id ? "active" : ""}
+                  onBlur={() => setConfirmDelete(-1)}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                    <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+                  </svg>
+                  <span>삭제하시겠습니까?</span>
+                </CircleDeleteButton>
+                <RoundButton
+                  onClick={onClose}
+                  size="custom"
+                  bgColor="rgb(198,205,250)"
+                  textColor="#5D6BB2"
+                  boxShadow={false}
+                  height="40px"
+                  padding="0 40px"
+                >
+                  닫기
+                </RoundButton>
+              </ButtonBox>
+            )}
+            <Time byUser={record!.type === "user"}>{changeDate(record!.createAt)}</Time>
+            <EditTextBox onSubmit={handleSubmit(onValid)}>
+              <TextArea
+                {...register("updateWrite", {
+                  required: "증상을 입력해주세요",
+                })}
+                onChange={handleTextChange}
+                onFocus={() => setShowMsg(false)}
+                disabled={isHospital}
+                value={textArea}
+              />
+              {isHospital || (
+                <RoundButton size="sm" bgColor="rgb(83,89,233)" boxShadow={false}>
+                  수정하기
+                </RoundButton>
+              )}
+              {showMsg && <SuccessMsg>수정이 완료되었습니다!</SuccessMsg>}
+              {errors.updateWrite && <ErrorMsg>{errors.updateWrite.message}</ErrorMsg>}
+            </EditTextBox>
+            <ManageImage recordId={String(record.id)} recordImages={record.images} isHospital={isHospital} />
+          </RecordDetailContainer>
+          {isHospital && (
+            <HospitalModalCloseButtonBox>
               <RoundButton
-                onClick={() => setShowRecordModal(-1)}
+                onClick={onClose}
                 size="custom"
                 bgColor="rgb(198,205,250)"
                 textColor="#5D6BB2"
@@ -115,62 +157,16 @@ const RecordModal = ({ setShowRecordModal, record }: RecordModalProps) => {
               >
                 닫기
               </RoundButton>
-            </ButtonBox>
-            <Time byUser={record!.type === "user"}>
-              {format(new Date(record!.createAt), "yyyy년 M월 d일 EEEE aaaa h시 m분", { locale: ko })}
-            </Time>
-            <EditTextBox onSubmit={handleSubmit(onValid)}>
-              <TextArea
-                {...register("updateWrite", {
-                  required: "증상을 입력해주세요",
-                })}
-                onChange={handleTextChange}
-                onFocus={() => setShowMsg(false)}
-              >
-                {record!.description}
-              </TextArea>
-              <RoundButton size="sm" bgColor="rgb(83,89,233)" boxShadow={false}>
-                수정하기
-              </RoundButton>
-              {showMsg && <SuccessMsg>수정이 완료되었습니다!</SuccessMsg>}
-              {errors.updateWrite && <ErrorMsg>{errors.updateWrite.message}</ErrorMsg>}
-            </EditTextBox>
-            <ManageImage recordId={String(record.id)} recordImages={record.images} />
-          </RecordDetailContainer>
+            </HospitalModalCloseButtonBox>
+          )}
         </ScrollContainer>
-      </Modal>
-    </ModalBox>
+      </ModalContainer>
+    </ModalWrapper>
   );
-  if (isBrowser) {
-    return ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement);
-  } else {
-    return null;
-  }
+  return  isBrowser ? ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement) : null;
 };
 
 export default RecordModal;
-
-const ModalBox = styled.div`
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 100;
-  display: flex;
-  opacity: 0;
-  animation: ${showFrame} 0.3s forwards;
-`;
-
-const Dim = styled.div`
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.2);
-  z-index: 2;
-`;
 
 const Modal = styled.div`
   position: relative;
@@ -206,7 +202,7 @@ const ScrollContainer = styled.div`
 `;
 
 const RecordDetailContainer = styled.div`
-  padding: 30px 40px 40px 70px;
+  padding: 30px 40px 60px 70px;
 `;
 
 const Time = styled.div<{ byUser: boolean }>`
@@ -238,7 +234,7 @@ const Time = styled.div<{ byUser: boolean }>`
 
 const EditTextBox = styled.form`
   position: relative;
-  margin-bottom: 50px;
+  margin-bottom: 40px;
 
   & > * {
     margin: 0 auto 5px;
@@ -331,5 +327,12 @@ const CircleDeleteButton = styled.button<{ recordId: number }>`
       z-index: 1;
       transform: translate(-105%, -50%);
     }
+  }
+`;
+
+const HospitalModalCloseButtonBox = styled.div`
+  padding-bottom: 50px;
+  > button {
+    margin: 0 auto;
   }
 `;

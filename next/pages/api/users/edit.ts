@@ -11,7 +11,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (!user) return res.status(401).send("회원 정보를 확인해주세요");
   const foundUser = await client.user.findFirst({
     where: {
-      id: user?.id,
+      id: user.id,
     },
   });
   if (!foundUser) {
@@ -24,7 +24,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       const hashedPassword = await passwordEncryption(newPassword);
       await client.user.update({
         where: {
-          id: user?.id,
+          id: user.id,
         },
         data: {
           password: hashedPassword,

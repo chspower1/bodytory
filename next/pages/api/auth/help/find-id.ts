@@ -5,6 +5,8 @@ import { withApiSession } from "@utils/server/withSession";
 import { HelpForm } from "pages/auth/help/find-pw";
 import { getPayload } from "@utils/client/payload";
 import sendMail from "@utils/server/sendMail";
+import { createToken } from "@utils/server/createToken";
+import smtpTransport from "@utils/server/email";
 
 const haveUser = async (email: string) => {
   const user = await client.user.findFirst({
@@ -18,47 +20,6 @@ const haveUser = async (email: string) => {
 
   return user;
 };
-
-const createToken = async (email: string) => {
-  const user = await haveUser(email);
-  const payload = getPayload();
-
-  await client.certification.deleteMany({
-    where: { user: { id: user.id } },
-  });
-
-  await client.certification.create({
-    data: {
-      number: payload,
-      user: {
-        connect: {
-          id: user.id,
-        },
-      },
-    },
-  });
-  console.log(payload);
-  sendMail(email, payload, "아이디 찾기");
-};
-
-// const sendMail = (email: string, payload: string) => {
-//   const mailOptions = {
-//     from: process.env.MAIL_ID,
-//     to: email,
-//     subject: "아이디 찾기",
-//     text: `인증코드 : ${payload}`,
-//   };
-//   smtpTransport.sendMail(mailOptions, (error, responses) => {
-//     if (error) {
-//       console.log(error);
-//       return null;
-//     } else {
-//       console.log(responses);
-//       return null;
-//     }
-//   });
-//   smtpTransport.close();
-// };
 
 const deleteToken = async (email: string, token: string) => {
   const findToken = await client.certification.deleteMany({
@@ -75,23 +36,24 @@ const foundUser = async (email: string, token: string) => {
       email,
     },
   });
-  await deleteToken(email, token);
-
   if (!foundUser) throw new Error("회원정보가 없습니다");
+
+  await deleteToken(email, token);
 
   return foundUser;
 };
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { email, token }: HelpForm = req.body;
-  console.log(email, token);
   if (!email) {
     return res.status(400).end();
   }
 
   if (!token) {
     try {
-      await createToken(email);
+      const user = await haveUser(email);
+      const payload = await createToken(user);
+      sendMail(user.email, payload, "아이디 찾기");
       res.status(200).json({ ok: true });
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : (<Object>error).toString();
@@ -101,8 +63,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   if (token) {
     try {
-      const User = await foundUser(email, token);
-      res.status(200).json({ ok: true, data: User?.accountId });
+      const user = await foundUser(email, token);
+      res.status(200).json({ ok: true, data: user?.accountId });
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : (<Object>error).toString();
       res.status(403).send(errorMessage);

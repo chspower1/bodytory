@@ -3,46 +3,47 @@ import client from "utils/server/client";
 import withHandler from "@utils/server/withHandler";
 import { withApiSession } from "@utils/server/withSession";
 import { NextResponse } from "next/server";
+import axios from "axios";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { user } = req.session;
   if (!user) return res.status(401).send("회원 정보를 확인해주세요");
 
-  if (req.method === "POST") return await createRecord(req, res);
+  if (req.method === "POST") return await createRecord(req, res, user);
 
-  if (req.method === "GET") return await findRecord(req, res);
+  if (req.method === "GET") return await findRecord(req, res, user);
 
   if (req.method === "PUT") return await updateRecord(req, res);
 
   if (req.method === "DELETE") return await deleteRecord(req, res);
 }
 
-async function createRecord(req: NextApiRequest, res: NextApiResponse) {
+async function createRecord(req: NextApiRequest, res: NextApiResponse , user: {id: number;}) {
   const { position, description } = req.body;
-  const { user } = req.session;
   if (!user) return res.status(400).end();
-  console.log(position, description);
+  // const departments = await axios.post(`${process.env.FLASK_API}/api/departments`, {
+  //   sentence: description,
+  // });
   await client.record.create({
     data: {
       type: "user",
       position,
       description,
+      // recommendDepartments: departments.data.departments_result as string,
       user: {
         connect: {
-          id: user!.id,
+          id: user.id,
         },
       },
     },
   });
-  // // NextResponse.redirect(new URL("/", req.url));
-  return res.redirect(200, "/users/records/write/add");
+  return res.status(200).end();
 }
 
-async function findRecord(req: NextApiRequest, res: NextApiResponse) {
-  const { user } = req.session;
+async function findRecord(req: NextApiRequest, res: NextApiResponse, user: {id: number;}) {
   const data = await client.record.findMany({
     where: {
-      userId: user!.id,
+      userId: user.id,
     },
     include: {
       images: true,

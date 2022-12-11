@@ -5,16 +5,14 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import customApi from "utils/client/customApi";
 import { USER_WITHDRAW } from "constant/queryKeys";
 import { useRecoilState } from "recoil";
-import { loggedInUser } from "atoms/atoms";
 import Modal from "@components/modals/Modal";
-import { FlexContainer, InnerContainer } from "@styles/Common";
+import { BackButton, FlexContainer } from "@styles/Common";
 import MessageBox from "@components/MessageBox";
 import Input from "@components/Input";
 import { RectangleButton } from "@components/buttons/Button";
 import styled from "styled-components";
-import HospitalModalInner from "@components/hospitals/HospitalModalInner";
 import { PASSWORD_REGEX } from "constant/regex";
-import Header from "@components/header/Header";
+import useUser from "@hooks/useUser";
 
 export interface WithdrawType {
   password: string;
@@ -22,9 +20,8 @@ export interface WithdrawType {
 
 export default function Withdraw() {
   const router = useRouter();
-  const [currentUser, setCurrentUser] = useRecoilState(loggedInUser);
-  const [isOrigin, setIsOrigin] = useState<boolean>();
-  const userType = currentUser?.type;
+  const {user} = useUser();
+  const [userType, setUserType] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [closingComment, setClosingComment] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");
@@ -33,7 +30,6 @@ export default function Withdraw() {
   const { mutate } = useMutation([USER_WITHDRAW], deleteApi, {
     onError(error: any, variables, context) {
       setShowModal(false);
-      console.log(error);
 
       setError("password", { message: `${error.data}` });
     },
@@ -59,33 +55,35 @@ export default function Withdraw() {
   const handleClickOnClose = () => {
     setShowModal(false);
   };
-  const handleClickActiveFuction = async () => {
+  const handleClickActiveFunction = async () => {
     if (!closingComment) {
       mutate({ password: currentPassword, type: userType });
     } else {
       setShowModal(false);
-      const logout = await LogoutApi({});
+      await LogoutApi({});
       router.replace("/");
-      setCurrentUser(null);
     }
   };
   useEffect(() => {
-    userType === "origin" ? setIsOrigin(true) : setIsOrigin(false);
-  }, []);
-
+    if (user) {
+      setUserType(user.type);
+    };
+  }, [user]);
   const isErrorsMessage = errors.password?.message;
 
   return (
     <FlexContainer>
-      <Header />
+      <BackButton onClick={() => router.push("/users/profile/edit")}>
+        <span>계정 설정</span>
+      </BackButton>
       <Form onSubmit={handleSubmit(onValid)}>
         <MessageBox
           isErrorsMessage={isErrorsMessage}
-          currentComment={`${isOrigin ? `비밀번호를 입력하고 확인을` : `탈퇴하기를`} 누르시면\n회원탈퇴가 진행 됩니다`}
+          currentComment={`${userType === "origin" ? `비밀번호를 입력하고 확인을` : `탈퇴하기를`} 누르시면\n회원탈퇴가 진행 됩니다`}
         ></MessageBox>
-        {isOrigin && (
+        { userType === "origin" && (
           <Input
-            light
+            $light
             type="password"
             register={register("password", {
               required: "회원탈퇴를 하시려면\n비밀번호로 인증 해주셔야해요",
@@ -96,6 +94,7 @@ export default function Withdraw() {
             })}
             placeholder="●●●●●●"
             error={errors.password}
+            motion={false}
           />
         )}
         <ButtonBox>
@@ -104,7 +103,7 @@ export default function Withdraw() {
       </Form>
       <Modal
         onClose={handleClickOnClose}
-        activeFuction={handleClickActiveFuction}
+        activeFunction={handleClickActiveFunction}
         show={showModal}
         closingComment={closingComment}
       >

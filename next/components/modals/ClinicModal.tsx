@@ -4,7 +4,8 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import ReactDOM from "react-dom";
 import { RoundButton } from "../buttons/Button";
-import { showFrame } from "./Modal";
+import { AnimatePresence, motion } from "framer-motion";
+import { ModalContainer, ModalWrapper } from "@styles/ModalStyled";
 
 interface ClinicModalProps {
   id?: number;
@@ -18,8 +19,8 @@ interface ClinicModalProps {
   prescription?: string;
   hospitalId?: number;
   name?: string;
-  isModalOpen: boolean;
-  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  show: boolean;
+  onClose: () => void;
 }
 
 const ClinicModal = ({
@@ -28,69 +29,58 @@ const ClinicModal = ({
   diagnosis = "없음",
   prescription = "없음",
   description = "없음",
-  isModalOpen,
-  setIsModalOpen,
+  show = false,
+  onClose,
 }: ClinicModalProps) => {
   const [isBrowser, setIsBrowser] = useState(false);
-
   useEffect(() => {
     setIsBrowser(true);
-    return setIsBrowser(true);
   }, []);
-
-  const modalContent = isModalOpen ? (
-    <ModalBox>
-      <Dim />
-      <Modal>
-        <ModalHead>
-          <h3>{name}</h3>
-          <p>
-            <span>진료일시</span>
-            {changeDate(createAt!)}
-          </p>
-        </ModalHead>
-        <ModalContent>
-          <ul>
-            <li>
-              <Subject>진단결과</Subject>
-              <div>{diagnosis}</div>
-            </li>
-            <li>
-              <Subject>처방내용</Subject>
-              <div>{prescription}</div>
-            </li>
-            <li>
-              <Subject>상세소견</Subject>
-              <div>{description.includes("\\n") ? description.split("\\n").map(ele => <p>{ele}</p>) : description}</div>
-            </li>
-          </ul>
-          <RoundButton size="sm" nonSubmit onClick={() => setIsModalOpen(false)}>
-            닫기
-          </RoundButton>
-        </ModalContent>
-      </Modal>
-    </ModalBox>
-  ) : null;
-  if (isBrowser) {
-    return ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement);
-  } else {
-    return null;
-  }
+  const modalContent = (
+    <AnimatePresence>
+      {show && (
+        <ModalWrapper>
+          <Dim onClick={onClose} />
+          <ModalContainer width="860px" height="auto">
+            <ModalHead>
+              <h3>{name}</h3>
+              <p>
+                <span>진료일시</span>
+                {changeDate(createAt!)}
+              </p>
+            </ModalHead>
+            <ModalContent>
+              <ul>
+                <li>
+                  <Subject>진단결과</Subject>
+                  <div>{diagnosis}</div>
+                </li>
+                <li>
+                  <Subject>처방내용</Subject>
+                  <div>{prescription}</div>
+                </li>
+                <li>
+                  <Subject>상세소견</Subject>
+                  <div>
+                    {description.includes("\n")
+                      ? description.split("\n").map((ele, index) => <p key={index}>{ele}</p>)
+                      : description}
+                  </div>
+                </li>
+              </ul>
+              <RoundButton size="sm" nonSubmit onClick={onClose}>
+                닫기
+              </RoundButton>
+            </ModalContent>
+          </ModalContainer>
+        </ModalWrapper>
+      )}
+    </AnimatePresence>
+  );
+  return  isBrowser ? ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement) : null;
 };
 
 export default ClinicModal;
-
-const ModalBox = styled.div`
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  z-index: 1000;
-  opacity: 0;
-  animation: ${showFrame} 0.3s forwards;
-`;
 
 const Dim = styled.div`
   position: absolute;
@@ -144,11 +134,11 @@ const ModalContent = styled.div`
       & + li {
         margin-top: 20px;
       }
-      div + div{
-        width:100%;
+      div + div {
+        width: 100%;
         max-height: 170px;
-        overflow-y:scroll;
-        background:rgba(188, 197, 255, .2);
+        overflow-y: scroll;
+        background: rgba(188, 197, 255, 0.2);
         padding: 10px 20px;
         border-radius: 5px;
       }

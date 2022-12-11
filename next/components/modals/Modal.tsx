@@ -1,17 +1,22 @@
 import { theme } from "@styles/theme";
 import React, { ReactNode, useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
-import styled, { keyframes } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import { RoundButton } from "../buttons/Button";
+import { AnimatePresence, motion } from "framer-motion";
+import { Dim, ModalContainer, ModalWrapper } from "@styles/ModalStyled";
 
-interface ModalType {
+interface ModalProps {
   show: boolean;
   closingComment?: boolean;
   onClose: () => void;
-  activeFuction: () => void;
+  activeFunction: () => void;
   title?: string;
   children?: string | ReactNode;
   agreeType?: boolean;
+  terms?: boolean;
+  width?: string;
+  height?: string;
 }
 /**
  * @show 필수 입니다.
@@ -21,46 +26,50 @@ function Modal({
   show,
   closingComment = false,
   onClose,
-  activeFuction,
+  activeFunction,
   children,
-  title,
+  title = "알림",
   agreeType = false,
-}: ModalType) {
+  terms = false,
+  width = "600px",
+  height = "350px",
+}: ModalProps) {
   const [isBrowser, setIsBrowser] = useState(false);
-
   useEffect(() => {
     setIsBrowser(true);
-    return setIsBrowser(true);
   }, []);
+  const modalContent = (
+    <AnimatePresence>
+      {show && (
+        <ModalWrapper>
+          <Dim onClick={onClose} />
+          <ModalBox width="auto" height="auto">
+            <ModalTitle>
+              <h3>{title}</h3>
+            </ModalTitle>
+            <ModalContent bgColor={terms}>{children}</ModalContent>
+            <ConfirmBtnBox>
+              <RoundButton size="sm" onClick={activeFunction}>
+                {agreeType ? `동의합니다` : !closingComment ? "네" : "확인"}
+              </RoundButton>
+              {!closingComment && (
+                <RoundButton size="sm" bgColor={`rgba(188, 197, 255, 1)`} onClick={onClose}>
+                  {agreeType ? `동의하지 않습니다` : "아니요"}
+                </RoundButton>
+              )}
+            </ConfirmBtnBox>
+          </ModalBox>
+        </ModalWrapper>
+      )}
+    </AnimatePresence>
+  );
 
-  const modalContent = show ? (
-    <Dim>
-      <ModalBox>
-        <ModalTitle>
-          <h3>{title}</h3>
-        </ModalTitle>
-        <ModalContent>{children}</ModalContent>
-        <ConfirmBtnBox>
-          <RoundButton size="sm" onClick={activeFuction}>
-            {agreeType ? `동의합니다` : "네"}
-          </RoundButton>
-          {!closingComment && (
-            <RoundButton size="sm" bgColor={`rgba(188, 197, 255, 1)`} onClick={onClose}>
-              {agreeType ? `동의하지 않습니다` : "아니요"}
-            </RoundButton>
-          )}
-        </ConfirmBtnBox>
-      </ModalBox>
-    </Dim>
-  ) : null;
-  if (isBrowser) {
-    return ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement);
-  } else {
-    return null;
-  }
+  return isBrowser ? ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement) : null;
 }
 
 const ConfirmBtnBox = styled.div`
+  display: flex;
+  justify-content: center;
   margin-top: 30px;
   button {
     display: inline-block;
@@ -70,52 +79,36 @@ const ConfirmBtnBox = styled.div`
   }
 `;
 
-export const showFrame = keyframes`
-  100%{
-    opacity: 1;
-  }
-`;
-
-export const Dim = styled.div`
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  z-index: 1200;
-  background: #00000042;
-  display: flex;
-  text-align: center;
-  justify-content: center;
-  align-items: center;
-`;
-const ModalBox = styled.div`
-  display: inline-block;
-  min-width: 400px;
+const ModalBox = styled(ModalContainer)`
   background: #fff;
-  margin: auto;
-  opacity: 0;
-  animation: ${showFrame} 0.3s forwards;
   padding: 20px;
   border-radius: 10px;
+  text-align: center;
 `;
 
 const ModalTitle = styled.div`
   padding: 20px 0;
   font-size: 20px;
-  font-weight:700;
-
+  font-weight: 700;
 `;
-const ModalContent = styled.div`
+const ModalContent = styled.div<{ bgColor: boolean }>`
   font-size: 18px;
   padding: 30px 50px;
   border-radius: 10px;
-  // background : ${({ theme }) => theme.color.lightBg};
+  //
   line-height: 1.5;
-  p{
+  p {
     padding: 5px 0;
-    b{
-      font-weight:600;
+    b {
+      font-weight: 600;
     }
   }
+  ${({ bgColor, theme }) =>
+    bgColor &&
+    css`
+      background: ${theme.color.lightBg};
+      padding: 10px;
+    `}
 `;
 
 export default Modal;

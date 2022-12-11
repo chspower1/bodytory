@@ -53,6 +53,8 @@ ${reset}
     font-size: 100%;
     line-height: 1;
     margin: 0;
+    border:none;
+    outline:none;
   }
   
   button,
@@ -72,7 +74,14 @@ ${reset}
     padding: 0;
     cursor: pointer;
   }
+  select{
+    -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: url("/static/icon/select_arrow.png") no-repeat 97% 50%/15px auto;
+  background-color: white;
   
+  }
   button,
   [type="button"],
   [type="reset"],
@@ -120,7 +129,7 @@ ${reset}
   
   ::-webkit-scrollbar-track {
     border-radius: 10px;
-    background-color: ${prop => prop.add && "#e2e6ff"};
+    background-color: "#e2e6ff";
   }
 
   .blind {
