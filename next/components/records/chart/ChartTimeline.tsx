@@ -19,6 +19,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { currentPatientInfo, selectedKeyword } from "atoms/atoms";
 import { Subject } from "@components/modals/ClinicModal";
 import RecordSkeleton from "@components/skeletonUI/RecordSkeleton";
+import { AnimatePresence } from "framer-motion";
 
 export interface RecordWithImageAndHospital extends Record {
   images: RecordImage[];
@@ -227,12 +228,17 @@ const ChartTimeline = () => {
                       </Description>
                       {!Boolean(patientId) && <DeleteBtn id={record.id} mutate={mutate} />}
                     </Content>
-                    <RecordModal
-                      record={record}
-                      isHospital={Boolean(patientId)}
-                      show={showRecordModal === record.id}
-                      onClose={() => setShowRecordModal(-1)}
-                    />
+                    <AnimatePresence>
+                    {
+                      showRecordModal === record.id && (
+                        <RecordModal
+                          record={record}
+                          isHospital={Boolean(patientId)}
+                          onClose={() => setShowRecordModal(-1)}
+                        />
+                      )
+                    }
+                    </AnimatePresence>
                   </>
                 ) : (
                   <Content>
