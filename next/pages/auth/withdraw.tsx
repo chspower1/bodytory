@@ -5,7 +5,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import customApi from "utils/client/customApi";
 import { USER_WITHDRAW } from "constant/queryKeys";
 import { useRecoilState } from "recoil";
-import { loggedInUser } from "atoms/atoms";
 import Modal from "@components/modals/Modal";
 import { FlexContainer } from "@styles/Common";
 import MessageBox from "@components/MessageBox";
@@ -13,6 +12,7 @@ import Input from "@components/Input";
 import { RectangleButton } from "@components/buttons/Button";
 import styled from "styled-components";
 import { PASSWORD_REGEX } from "constant/regex";
+import useUser from "@hooks/useUser";
 
 export interface WithdrawType {
   password: string;
@@ -20,9 +20,9 @@ export interface WithdrawType {
 
 export default function Withdraw() {
   const router = useRouter();
-  const [currentUser, setCurrentUser] = useRecoilState(loggedInUser);
+  const user = useUser();
   const [isOrigin, setIsOrigin] = useState<boolean>();
-  const userType = currentUser?.type;
+  const [userType, setUserType] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [closingComment, setClosingComment] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");
@@ -62,15 +62,16 @@ export default function Withdraw() {
       mutate({ password: currentPassword, type: userType });
     } else {
       setShowModal(false);
-      const logout = await LogoutApi({});
+      await LogoutApi({});
       router.replace("/");
-      setCurrentUser(null);
     }
   };
   useEffect(() => {
     userType === "origin" ? setIsOrigin(true) : setIsOrigin(false);
   }, []);
-
+  useEffect(() => {
+    if (user) setUserType(user.type);
+  }, [user]);
   const isErrorsMessage = errors.password?.message;
 
   return (
