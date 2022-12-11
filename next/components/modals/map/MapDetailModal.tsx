@@ -101,7 +101,7 @@ const MapDetailModal = ({ clickIndex, setClickIndex, index, hospital }: MapDetai
       <Modal
         show={showModal}
         onClose={() => setShowModal(false)}
-        activeFuction={
+        activeFunction={
           isConnected
             ? () => {
                 handleClickDeleteHospital(hospital.id, () => setIsConnected(false));

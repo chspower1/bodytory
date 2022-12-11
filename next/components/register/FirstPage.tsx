@@ -104,7 +104,7 @@ const FirstPage = ({ user, setUser, setPage }: RegisterPageProps) => {
         closingComment
         show={showModal}
         onClose={() => setShowModal(false)}
-        activeFuction={() => setShowModal(false)}
+        activeFunction={() => setShowModal(false)}
         title={isFirstOne ? "[필수] 서비스 이용약관" : "[필수] 개인 정보 수집 및 이용 약관"}
       >
         {isFirstOne ? <UseOfService /> : <PersonalInformation />}

@@ -67,7 +67,7 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
                 <Text weight="500" size="16px">
                   {department[0].medicalDepartment ? department[0].medicalDepartment.department : "기타"}
                 </Text>
-                {department.length <= 1 ||<Text size="16px">&nbsp;외 {department.length - 1} 과목</Text>}
+                {department.length <= 1 || <Text size="16px">&nbsp;외 {department.length - 1} 과목</Text>}
               </Department>
             )}
           </HospitalDescriptionBox>
@@ -125,7 +125,7 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
       <Modal
         show={showModal}
         onClose={() => setShowModal(false)}
-        activeFuction={
+        activeFunction={
           onConnected
             ? () => {
                 handleClickDeleteHospital(hospital.id, setOnConnected);

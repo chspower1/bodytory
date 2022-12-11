@@ -18,7 +18,7 @@ interface ArroundMapMaodalProps {
   latitude: number | null;
 }
 const ArroundMapModal: NextPage<ArroundMapMaodalProps> = ({ onClose, mostThreeDepartment, longitude, latitude }) => {
-  const user = useUser();
+  const {user} = useUser();
   const { department, DepartmentSelect } = useDepartmentSelect(mostThreeDepartment ? mostThreeDepartment : []);
   const [isBrowser, setIsBrowser] = useState(false);
   const modalContent = (

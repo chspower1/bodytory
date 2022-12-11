@@ -33,7 +33,7 @@ export default function Edit() {
   const [showModal, setShowModal] = useState(false);
   const [errorModal, setErrorModal] = useState(false);
   const [closingComment, setClosingComment] = useState(false);
-  const user = useUser();
+  const {user} = useUser();
   const americanAge = getAmericanAge(String(user?.birth!));
 
   const [{ oldPassword, newPassword }, setChangePassword] = useState({ oldPassword: "", newPassword: "" });
@@ -73,7 +73,7 @@ export default function Edit() {
     setErrorModal(true);
   };
 
-  const handleClickActiveFuction = () => {
+  const handleClickActiveFunction = () => {
     if (!closingComment) {
       mutate({ password: oldPassword, newPassword });
     } else {
@@ -154,7 +154,7 @@ export default function Edit() {
           </form>
           <Modal
             onClose={() => setShowModal(false)}
-            activeFuction={handleClickActiveFuction}
+            activeFunction={handleClickActiveFunction}
             show={showModal}
             closingComment={closingComment}
           >
@@ -170,7 +170,7 @@ export default function Edit() {
           </Modal>
           <Modal
             onClose={() => setErrorModal(false)}
-            activeFuction={() => setErrorModal(false)}
+            activeFunction={() => setErrorModal(false)}
             show={errorModal}
             closingComment
           >
