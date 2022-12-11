@@ -13,7 +13,7 @@ import { theme } from "@styles/theme";
 import { ToryText } from "./users/records/write/add";
 
 const Home = () => {
-  const user = useUser();
+  const {user} = useUser();
 
   return (
     <FlexContainer>

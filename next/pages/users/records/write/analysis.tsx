@@ -4,7 +4,7 @@ import { Col, FlexContainer, ToryText,  Wrapper } from "@styles/Common";
 import styled from "styled-components";
 
 const Analysis = () => {
-  const user = useUser();
+  const {user} = useUser();
 
   return (
     <AnalysisWrapper>

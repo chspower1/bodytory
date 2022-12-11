@@ -28,7 +28,7 @@ export type MyHospital = Hospital & {
 const MyHospitalPage = () => {
   const { getApi } = customApi("/api/users/my-hospitals");
   const { data, isLoading } = useQuery<MyHospitalResponse[]>([HOSPITALS], getApi);
-  const user = useUser();
+  const {user} = useUser();
 
   useEffect(() => {
     document.body.style.backgroundColor = theme.color.lightBg;

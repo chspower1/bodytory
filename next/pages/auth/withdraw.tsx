@@ -20,7 +20,7 @@ export interface WithdrawType {
 
 export default function Withdraw() {
   const router = useRouter();
-  const user = useUser();
+  const {user} = useUser();
   const [isOrigin, setIsOrigin] = useState<boolean>();
   const [userType, setUserType] = useState("");
   const [showModal, setShowModal] = useState(false);

@@ -17,7 +17,7 @@ interface ThreeMonthResponse {
 }
 
 function DashBoardStatistics() {
-  const user = useUser();
+  const {user} = useUser();
 
   const [mostPart, setMostPart] = useState<string[]>();
   const [mostPartIdx, setMostPartIdx] = useState<number[]>();

@@ -9,21 +9,10 @@ import useUser from "@hooks/useUser";
 
 const Header = () => {
   const router = useRouter();
-  const user = useUser();
-  const [isLogin, setIsLogin] = useState(false);
-  const [refresh, setRefresh] = useState(true);
-  useEffect(() => {
-    if (user !== null) {
-      setIsLogin(true);
-      setRefresh(true);
-    } else {
-      setIsLogin(false);
-      setRefresh(false);
-    }
-  }, [user]);
+  const {user, isFetching} = useUser();
 
-  return !isLogin ? (
-    refresh ? null : (
+  return isFetching  ? null :  !user ?(
+      (
       <HeaderWrap>
         <HeaderContainer>
           <HeaderInnerBox>
@@ -54,7 +43,7 @@ const Header = () => {
     )
   ) : (
     <SideMenu />
-  );
+  )  ;
 };
 
 export default Header;

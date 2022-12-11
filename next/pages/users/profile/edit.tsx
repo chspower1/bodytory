@@ -33,7 +33,7 @@ export default function Edit() {
   const [showModal, setShowModal] = useState(false);
   const [errorModal, setErrorModal] = useState(false);
   const [closingComment, setClosingComment] = useState(false);
-  const user = useUser();
+  const {user} = useUser();
   const americanAge = getAmericanAge(String(user?.birth!));
 
   const [{ oldPassword, newPassword }, setChangePassword] = useState({ oldPassword: "", newPassword: "" });
