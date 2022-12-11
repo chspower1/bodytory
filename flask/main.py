@@ -10,7 +10,7 @@ from gensim.models import Word2Vec
 
 
 app = Flask(__name__)
-CORS(app, resources={r'/api/*': {'origins':['http://kdt-ai5-team01.elicecoding.com', 'https://kdt-ai5-team01.elicecoding.com', 'http://localhost:3000', 'https://localhost:3000']}})
+CORS(app, resources={r'/api/*': {'origins':['http://kdt-ai5-team01.elicecoding.com', 'https://kdt-ai5-team01.elicecoding.com', 'http://localhost:3000', 'https://localhost:8080']}})
 
 okt = Okt()
 stopwords = ['의', '가', '이', '은', '들', '는', '좀', '잘', '걍', '과', '도', '를', '으로', '자', '에', '와', '한', '하다', '이다', ',', '"',
@@ -26,7 +26,6 @@ stopwords = ['의', '가', '이', '은', '들', '는', '좀', '잘', '걍', '과
              '문제가', '크게', '떨어', '지나', '인지', '많으며', '대표적인', '이와', '경향이', '변하', '있거나', '먼저', '높은', '이외에도', '다음', '급격히',
              '기타', '시에', '있습니다', '주어', '편이다', '단순', '전에', '자율', '증세가', '의하여', '비특이적', '아무런', '쪽으로', '과도한', '병원을', '비슷한',
              '이에', '등과', '반드시']
-wordrank_extractor = KRWordRank(min_count=2, max_length=20, verbose=True)
 
 department_codes = {
     "일반의": '0',
@@ -101,10 +100,8 @@ department_codes = {
 
 
 def keyword_extractor(sentence_list):
-    # keywords, rank, graph = wordrank_extractor.extract(sentence_list, 0.9, 100)
-    keyword_stopwords = {'했다', '있었다', '오늘은'}
-    keywords = summarize_with_keywords(sentence_list, min_count=1, max_length=10, beta=0.85, max_iter=10,
-                                       stopwords=keyword_stopwords)
+    keyword_stopwords = {'은', '는', '이', '가', '그', '저', '그것', '이것', '저것', '했', '있었', '오늘', '다', '아프다', '아프', '머리', '이마', '눈', '코', '입', '볼', '턱', '귀', '등', '허리', '엉덩이', '가슴', '배', '골반', '생식기', '어깨', '윗팔', '팔꿈치', '아랫팔', '위팔', '아래팔', '팔', '손목', '손', '허벅지', '무릎', '종아리', '발목', '발', "머리가", "머리는", "이마가", "이마는", "눈이", "눈은", "코가", "코는", "입이", "입은", "볼이", "볼은", "턱이", "턱은", "귀가", "귀는", "등이", "등은", "허리가", "허리는", "엉덩이가", "엉덩이는", "가슴이", "가슴은", "배가", "배는", "골반이", "골반은", "생식기가", "생식기는", "어깨가", "어깨는", "윗팔이", "윗팔은", "팔꿈치가", "팔꿈치는", "아랫팔이", "아랫팔은", "팔이", "팔은", "손목이", "손목은", "손이", "손은", "허벅지가", "허벅지는", "무릎이", "무릎은", "종아리가", "종아리는", "발목이", "발목은", "발이", "발은"}
+    keywords = summarize_with_keywords(sentence_list, min_count=2, max_length=10, beta=0.85, max_iter=10, stopwords=keyword_stopwords)
     rank = []
     for word, r in sorted(keywords.items(), key=lambda x:x[1], reverse=True)[:10]:
         rank.append(word)
@@ -150,7 +147,10 @@ def predict():
 @app.route('/api/keywords', methods=['POST'])
 def send_keywords():
     body = request.get_json()
-    data = {'keywords_result': keyword_extractor(body['sentences'])}
+    try:
+        data = {'keywords_result': keyword_extractor(body['sentences'])}
+    except:
+        data = {'keywords_result': []}
     return jsonify(data)
 
 

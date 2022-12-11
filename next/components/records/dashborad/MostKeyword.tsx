@@ -1,87 +1,82 @@
+import { useEffect, useState } from "react";
 import { Treemap } from "recharts";
 import styled from "styled-components";
 
-const data = [
-  { name: "통증", size: 50 },
-  { name: "어지러움", size: 20 },
-  { name: "저릿저릿함", size: 30 },
-  { name: "메스꺼움", size: 90 },
-  { name: "화상", size: 60 },
-];
-
-const COLORS = ["#8889DD", "#9597E4", "#8DC77B", "#A5D297", "#E2CF45"];
+const COLORS = ["#12D4C9", "#8889DD", "#7443FD", "#8085FA", "#5359E9", "#868AF1", "#20BEE1", "#7075DC", "#363CBF", "#08BEB3"].sort(() => Math.random() - 0.5);
 
 const CustomKeyword = (props: any) => {
-  const { x, y, width, height, colors, name, index } = props;
+  const { x, y, width, height, colors, name, index, depth } = props;
 
   return (
     <g>
       <rect
         x={x}
         y={y}
+        rx={10}
+        ry={10}
         width={width}
         height={height}
         style={{
-          fill: colors[index],
+          fill: depth === 0 ? "transparent" : colors[index],
           stroke: "#fff",
-          strokeWidth: 2,
-          strokeOpacity: 1,
+          strokeWidth: 5,
+          strokeOpacity: 1
         }}
       />
-      <text x={x + width / 2} y={y + height / 2 + 7} textAnchor="middle" fill="#fff" fontSize={14}>
+      <text 
+        x={x + width / 2} 
+        y={y + height / 2 + 7} 
+        textAnchor="middle" 
+        fill="#fff" 
+        fontSize={14}
+        strokeWidth={0}
+      >
         {name}
       </text>
     </g>
   );
 };
 
-const KeywordChart = () => {
+const MostKeyword = ({ chartData }: any) => { // 여기 any
+
+  console.log(chartData);
+
+  const [treeChartData, setTreeChartData] = useState<string[]>();
+  const [randomOrderData, setRandomOrderData] = useState<string[]>();
+
+  useEffect(() => {
+    if (chartData) {
+      setTreeChartData((prev) => (
+        chartData.map((ele: string, idx: number) => ({
+          "name": ele,
+          "value": chartData.length - idx,
+        }))
+      ));
+    }
+  }, [chartData]);
+
+  useEffect(() => {
+    if (treeChartData) {
+      setRandomOrderData(treeChartData.sort(() => Math.random() - 0.5));
+    }
+  }, [treeChartData]);
+
+
   return (
-    <RechartContainer>
-      <RechartHeader>가장 많이 기록괸 키워드는 {data[0].name} 이에요</RechartHeader>
-      <TreemapBox>
-        <Treemap
-          data={data}
-          width={360}
-          height={360}
-          dataKey={"size"}
-          stroke={"#fff"}
-          content={<CustomKeyword colors={COLORS} />}
-        ></Treemap>
-      </TreemapBox>
-    </RechartContainer>
+    <TreemapBox>
+      <Treemap
+        data={randomOrderData}
+        width={360}
+        height={360}
+        dataKey={"value"}
+        stroke={"#fff"}
+        content={<CustomKeyword colors={COLORS} />}
+      ></Treemap>
+    </TreemapBox>
   );
 };
 
-const RechartContainer = styled.div`
-  width: 510px;
-  height: 460px;
-
-  background: #ffffff;
-  box-shadow: 8px 8px 18px rgba(32, 36, 120, 0.3);
-  border-radius: 40px;
-
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-`;
-
-const RechartHeader = styled.div`
-  font-family: "Noto Sans KR";
-  font-style: normal;
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 60px;
-  /* identical to box height, or 333% */
-
-  text-align: center;
-
-  color: #2b2d64;
-`;
-
 const TreemapBox = styled.div`
-  border-radius: 20px;
-  overflow: hidden;
 `;
 
-export default KeywordChart;
+export default MostKeyword;

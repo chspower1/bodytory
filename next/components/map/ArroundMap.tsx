@@ -1,7 +1,7 @@
 import { CircleButton } from "@components/buttons/Button";
 import EventMarkerContainer from "@components/Maker";
 import MapDetailModal from "@components/modals/map/MapDetailModal";
-import { Box, Container } from "@styles/Common";
+import { Box, Container, ToryText } from "@styles/Common";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -11,17 +11,15 @@ import MagnifierIcon from "@public/static/icon/magnifier.svg";
 import UserIcon from "@public/static/icon/user.svg";
 import { AxiosError } from "axios";
 
-interface ArroundMapProps {
+interface Coords {
+  latitude: number | null;
+  longitude: number | null;
+}
+type ArroundMapProps = Coords & {
   width: string;
   height: string;
-  latitude: number;
-  longitude: number;
   department?: string;
-}
-interface Coords {
-  latitude: number;
-  longitude: number;
-}
+};
 export interface AroundMapHospital {
   id: number;
   name: string;
@@ -34,12 +32,6 @@ export interface AroundMapHospital {
 }
 interface medicalDepartment {
   medicalDepartment: { department: string };
-}
-interface CurrentRangeCoords {
-  minLatitude: number;
-  maxLatitude: number;
-  minLongitude: number;
-  maxLongitude: number;
 }
 interface SearchHospitalRequest {
   minLatitude: number;
@@ -57,6 +49,7 @@ const ArroundMap = ({ width, height, latitude, longitude, department }: ArroundM
   const mapRef = useRef<kakao.maps.Map | undefined>();
   const { getApi, postApi } = customApi(`/api/users/my-hospitals/map?latitude=${latitude}&longitude=${longitude}`);
   const { data: initialHospitals } = useQuery<AroundMapHospitalsResponse>(["hospitalsMap", "map"], getApi, {
+    enabled: Boolean(latitude && longitude),
     onSuccess(data) {
       setAllHospitals(data);
     },
@@ -96,10 +89,12 @@ const ArroundMap = ({ width, height, latitude, longitude, department }: ArroundM
   };
 
   const handleClickReset = () => {
-    const coords = new kakao.maps.LatLng(latitude, longitude);
-    setAllHospitals(initialHospitals);
-    mapRef.current?.setCenter(coords);
-    mapRef.current?.setLevel(3);
+    if (latitude && longitude) {
+      const coords = new kakao.maps.LatLng(latitude, longitude);
+      setAllHospitals(initialHospitals);
+      mapRef.current?.setCenter(coords);
+      mapRef.current?.setLevel(3);
+    }
   };
 
   useEffect(() => {
@@ -107,69 +102,80 @@ const ArroundMap = ({ width, height, latitude, longitude, department }: ArroundM
     if (department === "all") setFilteredHospitals(allHospitals);
     else setFilteredHospitals(filterHospitals(allHospitals));
   }, [department, filterHospitals, allHospitals, initialHospitals]);
+
   return (
     <MapContainer width={width} height={height}>
-      <ControlBox>
-        <CircleButton
-          nonSubmit
-          size="custom"
-          height="50px"
-          width="50px"
-          onClick={() => {
-            mutate({
-              minLatitude: mapRef.current?.getBounds().getSouthWest().getLat()!,
-              minLongitude: mapRef.current?.getBounds().getSouthWest().getLng()!,
-              maxLatitude: mapRef.current?.getBounds().getNorthEast().getLat()!,
-              maxLongitude: mapRef.current?.getBounds().getNorthEast().getLng()!,
-            });
-          }}
-        >
-          <MagnifierIcon width={25} height={25} fill="white" />
-        </CircleButton>
-        <CircleButton nonSubmit size="custom" height="50px" width="50px" onClick={handleClickReset}>
-          <UserIcon width={30} height={30} fill="white" />
-        </CircleButton>
-      </ControlBox>
-
-      <Map
-        center={{
-          lat: coords.latitude,
-          lng: coords.longitude,
-        }}
-        isPanto={true}
-        style={{
-          width,
-          height,
-        }}
-        onCreate={map => (mapRef.current = map)}
-        level={3}
-        onBoundsChanged={() => {
-          console.log(mapRef.current?.getBounds().getSouthWest().getLat());
-        }}
-      >
-        <MapMarker
-          position={{ lat: latitude!, lng: longitude! }}
-          image={{
-            src: "https://imagedelivery.net/AbuMCvvnFZBtmCKKJV_e6Q/e545a9f3-61fc-49de-df91-a3f5b4e08200/avatar", // 마커이미지의 주소입니다
-            size: {
-              width: 45,
-              height: 45,
-            },
-            options: {
-              offset: {
-                x: 23,
-                y: 0,
-              },
-            },
-          }}
-        />
-        {filteredHospitals?.map((hospital, index) => (
-          <MarkerBox key={index}>
-            <EventMarkerContainer hospital={hospital} index={index} handleClickMarker={handleClickMarker} />
-            <MapDetailModal clickIndex={clickIndex} setClickIndex={setClickIndex} index={index} hospital={hospital} />
-          </MarkerBox>
-        ))}
-      </Map>
+      {latitude && longitude && coords ? (
+        <>
+          <ControlBox>
+            <CircleButton
+              nonSubmit
+              size="custom"
+              height="50px"
+              width="50px"
+              onClick={() => {
+                mutate({
+                  minLatitude: mapRef.current?.getBounds().getSouthWest().getLat()!,
+                  minLongitude: mapRef.current?.getBounds().getSouthWest().getLng()!,
+                  maxLatitude: mapRef.current?.getBounds().getNorthEast().getLat()!,
+                  maxLongitude: mapRef.current?.getBounds().getNorthEast().getLng()!,
+                });
+              }}
+            >
+              <MagnifierIcon width={25} height={25} fill="white" />
+            </CircleButton>
+            <CircleButton nonSubmit size="custom" height="50px" width="50px" onClick={handleClickReset}>
+              <UserIcon width={30} height={30} fill="white" />
+            </CircleButton>
+          </ControlBox>
+          <Map
+            center={{
+              lat: coords.latitude!,
+              lng: coords.longitude!,
+            }}
+            isPanto={true}
+            style={{
+              width,
+              height,
+            }}
+            onCreate={map => (mapRef.current = map)}
+            level={3}
+            onBoundsChanged={() => {
+              console.log(mapRef.current?.getBounds().getSouthWest().getLat());
+            }}
+          >
+            <MapMarker
+              position={{ lat: latitude!, lng: longitude! }}
+              image={{
+                src: "https://imagedelivery.net/AbuMCvvnFZBtmCKKJV_e6Q/e545a9f3-61fc-49de-df91-a3f5b4e08200/avatar", // 마커이미지의 주소입니다
+                size: {
+                  width: 45,
+                  height: 45,
+                },
+                options: {
+                  offset: {
+                    x: 23,
+                    y: 0,
+                  },
+                },
+              }}
+            />
+            {filteredHospitals?.map((hospital, index) => (
+              <MarkerBox key={index}>
+                <EventMarkerContainer hospital={hospital} index={index} handleClickMarker={handleClickMarker} />
+                <MapDetailModal
+                  clickIndex={clickIndex}
+                  setClickIndex={setClickIndex}
+                  index={index}
+                  hospital={hospital}
+                />
+              </MarkerBox>
+            ))}
+          </Map>
+        </>
+      ) : (
+        <NotAccessMessage>위치정보 없음</NotAccessMessage>
+      )}
     </MapContainer>
   );
 };
@@ -180,28 +186,19 @@ const MapContainer = styled(Container)<{ width: string; height: string }>`
   background-color: ${props => props.theme.color.weekPurple};
   border-radius: 20px;
   overflow: hidden;
+  position: relative;
 `;
 const ControlBox = styled(Box)`
   position: absolute;
   right: 0px;
-  top: 100px;
+  top: 30px;
   right: 30px;
   gap: 20px;
   z-index: 999;
-`;
-const HoverBox = styled.div`
-  border: 3px ${props => props.theme.color.weekPurple} solid;
-  border-radius: 5px;
-  background-color: white;
-  padding: 5px 10px;
-  transform: translateY(-60%);
-`;
-const ButtonBox = styled.div`
-  button {
-    margin: 0 auto;
-  }
 `;
 
 const MarkerBox = styled(Box)`
   position: absolute;
 `;
+
+const NotAccessMessage = styled(ToryText)``;

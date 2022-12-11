@@ -31,7 +31,7 @@ const Home = () => {
         <WriteBox>
           <Link href="users/records/write">
           <CircleButton>
-            <Mic fill={theme.color.mint} />
+            <Mic width={50} height={50} />
           </CircleButton>
           <BodyText>건강 관리를 위해 매일매일 잊지말고 기록해요!</BodyText>
           <Accent fontSize="26px">오늘 기록하기</Accent>

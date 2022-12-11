@@ -20,7 +20,6 @@ import { Form, FormContents, PrevNextButtonBox } from "./FirstPage";
 import { BIRTH_REGEX, EMAIL_REGEX, KR_EN_REGEX, ONLY_KR_REGEX } from "constant/regex";
 import { checkEmptyObj } from "@utils/client/checkEmptyObj";
 import { createErrors } from "@utils/client/createErrors";
-import { loggedInUser } from "atoms/atoms";
 import { useSetRecoilState } from "recoil";
 import { Variants, motion } from "framer-motion";
 
@@ -68,7 +67,6 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
   let MINDATE = new Date("1900-01-01 00:00:00");
   let MAXDATE = new Date();
 
-  const setCurrentUser = useSetRecoilState(loggedInUser);
 
   const { birth, email, gender, name, phone, type } = user!;
   const router = useRouter();
@@ -96,7 +94,6 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       alert(`${error.data}`);
     },
     onSuccess() {
-      setCurrentUser(user!);
       router.replace("/auth/register/success");
     },
   });

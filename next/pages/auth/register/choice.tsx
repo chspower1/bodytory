@@ -2,8 +2,8 @@ import ChoiceResiterBox from "@components/ChoiceResiterBox";
 import KakaoLoginBtn from "@components/buttons/KakaoBtn";
 import NaverLoginBtn from "@components/buttons/NaverBtn";
 import customApi from "utils/client/customApi";
-import { useMutation } from "@tanstack/react-query";
-import { USER_LOGIN } from "constant/queryKeys";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { USER_LOGIN, USE_USER } from "constant/queryKeys";
 import { useRouter } from "next/router";
 import React from "react";
 import { SocialButton } from "@components/buttons/Button";
@@ -38,6 +38,7 @@ const TYPE_VARIANTS: Variants = {
   },
 };
 const ChoicePage = () => {
+  const queryClient = useQueryClient();
   const router = useRouter();
   const { postApi } = customApi("/api/auth/login");
   const { mutate } = useMutation([USER_LOGIN], postApi, {
@@ -54,7 +55,10 @@ const ChoicePage = () => {
           },
           "/auth/register",
         );
-      } else return router.push("/");
+      } else {
+        queryClient.refetchQueries([USE_USER]);
+        router.push("/");
+      }
     },
   });
   return (

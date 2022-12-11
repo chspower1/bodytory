@@ -6,11 +6,6 @@ import { recoilPersist } from "recoil-persist";
 
 const { persistAtom } = recoilPersist();
 
-export const loggedInUser = atom<User | RegisterForm | null>({
-  key: "loggedInUserKey",
-  default: null,
-  effects_UNSTABLE: [persistAtom],
-});
 export const loggedInHospital = atom<HospitalName | null>({
   key: "loggedInHospitalKey",
   default: null,
@@ -26,6 +21,11 @@ export const currentBodyPosition = atom<string>({
   key: "currentBodyPositionKey",
   default: "front",
   effects_UNSTABLE: [persistAtom],
+});
+
+export const selectedKeyword = atom<string | null>({
+  key: "selectedKeywordKey",
+  default: null,
 });
 
 export const currentPatientInfo = atom<{ name: string; id: number | null }>({
