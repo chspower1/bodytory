@@ -58,10 +58,8 @@ function RegisterPage() {
   const router = useRouter();
   const [user, setUser] = useState<RegisterForm | undefined>();
   const [page, setPage] = useState(1);
-  console.log(user);
   useEffect(() => {
     if (router.query.isNew) {
-      console.log(router.query);
       const { accountId, email, phone, name, birth, gender, type } = router.query;
       const fakePassword = Math.floor(10000 + Math.random() * 1000000) + "";
       setUser(prev => ({

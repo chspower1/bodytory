@@ -49,7 +49,6 @@ const HospitalHomePage = () => {
   const [showdeleteModal, setShowDeleteModal] = useState(false);
   const [currentPatient, setCurrentPatient] = useState(-1);
   const [isClosingMent, setIsClosingMent] = useState(false);
-  console.log(data);
   const {
     register,
     watch,
@@ -298,10 +297,10 @@ const SharedBox = styled.div`
 
 const RecordShareBox = styled.div`
   width: 130px;
-`
+`;
 
 const RecordShareStatus = styled(ShareStatus)`
-  display:block;
+  display: block;
   width: 106px;
   font-weight: 600;
 `;

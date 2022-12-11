@@ -31,7 +31,6 @@ export default function Withdraw() {
   const { mutate } = useMutation([USER_WITHDRAW], deleteApi, {
     onError(error: any, variables, context) {
       setShowModal(false);
-      console.log(error);
 
       setError("password", { message: `${error.data}` });
     },

@@ -24,11 +24,9 @@ export const createErrors = <T extends FieldValues = any>({
   KoreanName,
 }: CreateErrorsProps<T>) => {
   if (user) {
-    console.log("error발생 시작");
     checkList.map((item, index) => {
       if (minLength) {
         if (String(user[item]).length < minLength[index]) {
-          console.log(item, "error발생");
           setError(item, {
             type: "minLength",
             message: `${
@@ -42,7 +40,6 @@ export const createErrors = <T extends FieldValues = any>({
         }
       }
       if (!user[item]) {
-        console.log(item, "error발생");
         setError(item, { types: { required: ``, validate: "", minLength: "" } });
       }
     });

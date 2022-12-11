@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const useIO = (hasLastPage: boolean, cb: () => void) => {
+const useIO = (hasLastPage: boolean, callback: () => void) => {
   const [target, setTarget] = useState<Element | null>(null);
 
   useEffect(() => {
@@ -8,17 +8,17 @@ const useIO = (hasLastPage: boolean, cb: () => void) => {
 
     const io: IntersectionObserver = new IntersectionObserver(
       (entries, observer) => {
-        if (hasLastPage) return io.unobserve(entries[0].target);
-        if (entries[0].isIntersecting) {
-          cb();
-        }
+        entries.forEach((entry) => {
+          if (hasLastPage) observer.unobserve(entry.target);
+          else if (entry.isIntersecting) callback();
+        })
       },
       { root: null, threshold: 1, rootMargin: "0px" },
     );
     io.observe(target);
 
     return () => io.disconnect();
-  }, [target, cb]);
+  }, [target, callback]);
 
   return { setTarget };
 };

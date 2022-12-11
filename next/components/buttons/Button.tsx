@@ -183,7 +183,6 @@ export const SocialButton = ({
   if (size === "sm") {
     [width, height, fontSize] = ["240px", "60px", "20px"];
   }
-  console.log(social);
   // useEffect(() => {}, [social]);
 
   return (

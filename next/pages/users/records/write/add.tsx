@@ -5,6 +5,7 @@ import { BtnBox, Col, FlexContainer, WhiteText, Wrapper } from "@styles/Common";
 import { theme } from "@styles/theme";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import styled from "styled-components";
 import { KoreanPosition } from "types/write";
 

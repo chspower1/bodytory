@@ -151,7 +151,6 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                     setCurrentInputIdx(1);
                     setValue("password", "");
                     setValue("passwordConfirm", "");
-                    console.log(errors.accountId);
                   },
                 })}
                 error={errors.accountId}
@@ -229,7 +228,6 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
               nonSubmit
               bgColor="rgb(75, 80, 211)"
               onClick={() => {
-                console.log("sdadasda");
                 pageReset();
               }}
             >

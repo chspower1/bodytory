@@ -45,7 +45,6 @@ const Reset: NextPage = () => {
   } = useForm<ResetForm>({ mode: "onChange" });
 
   const onValid = (resetForm: ResetForm) => {
-    console.log(resetForm);
     mutateAsync({ accountId: router.query.accountId, password: resetForm.password });
   };
 
@@ -59,7 +58,6 @@ const Reset: NextPage = () => {
   const isErrorsMessage = errors.password?.message || errors.passwordConfirm?.message;
 
   useEffect(() => {
-    console.log(router.query);
     if (router.asPath !== "/auth/help/reset" || !router.query.accountId) {
       router.push("/auth/login");
     }

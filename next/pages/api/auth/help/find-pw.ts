@@ -44,7 +44,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       sendMail(user.email, payload, "비밀번호 찾기");
       res.status(200).json({ email: user.email, accountId });
     } catch (error) {
-      console.log(error);
       const errorMessage = error instanceof Error ? error.message : (<Object>error).toString();
       res.status(403).send(errorMessage);
     }

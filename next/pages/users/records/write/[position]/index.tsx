@@ -28,6 +28,7 @@ import mic from "@public/static/icon/mic.svg";
 import check from "@public/static/icon/check.png";
 import refresh from "@public/static/icon/refresh.png";
 import { useForm } from "react-hook-form";
+import Modal from "@components/modals/Modal";
 
 interface WriteRecordRequest {
   position: string;
@@ -42,6 +43,7 @@ const PositionPage = () => {
   const position = router.query.position as Position;
   const [isEditMode, setIsEditMode] = useState(true);
   const {
+    getValues,
     register,
     setValue,
     formState: { errors },
@@ -49,10 +51,11 @@ const PositionPage = () => {
     clearErrors,
   } = useForm<WriteForm>();
   const [onHoverRefreshBtn, setOnHoverRefreshBtn] = useState(false);
-  const { offRecAudio, onRecAudio, audioRecognized, error: aiError } = useAudio();
   const [listening, setListening] = useState(false);
   const [error, setError] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [recordStatus, setRecordStatus] = useState<RecordStatus>("initial");
+  const { offRecAudio, onRecAudio, audioRecognized, error: aiError } = useAudio();
   const queryClient = useQueryClient();
   const { postApi } = customApi("/api/users/records");
   const { mutate } = useMutation<unknown, AxiosError, WriteRecordRequest>([RECORDS_CREATE], postApi, {
@@ -81,11 +84,16 @@ const PositionPage = () => {
     (recordStatus === "finish" && "기록을 완료하려면 버튼을 눌러주세요") ||
     (recordStatus === "error" && "인식에 실패했어요.. 다시 녹음하거나 타이핑으로 입력해 주세요.") ||
     "";
-  console.log(audioRecognized);
-  const startRecord = () => {
-    setError(false);
-    setRecordStatus("listening");
-    onRecAudio();
+  const startRecord = async () => {
+    try {
+      await onRecAudio();
+      setError(false);
+      setRecordStatus("listening");
+    } catch {
+      setError(true);
+      setRecordStatus("initial");
+      setShowModal(true);
+    }
   };
 
   const endRecord = async () => {
@@ -93,17 +101,20 @@ const PositionPage = () => {
     offRecAudio();
   };
   const hadleClickCreateRecord = (description: string) => {
-    console.log("hadleClickCreateRecord", recordStatus, description);
     if (recordStatus === "finish") {
-      console.log("mutate");
       if (description.length < 2) return setError(true);
       mutate({ position: router.query.position as string, description });
-      router.push("/users/records/write/analysis");
+      router.push(
+        {
+          pathname: "/users/records/write/analysis",
+          query: { position: position },
+        },
+        "/users/records/write/analysis",
+      );
     } else {
       setError(true);
     }
   };
-  console.log(aiError);
   const handleClickEditMode = () => {
     setError(false);
     setOnHoverRefreshBtn(false);
@@ -191,7 +202,15 @@ const PositionPage = () => {
             <CircleButton
               width="100px"
               height="100px"
-              bgColor={listening ? theme.color.error : theme.color.darkBg}
+              bgColor={
+                listening
+                  ? theme.color.error
+                  : isEditMode && getValues("description")
+                  ? theme.color.darkBg
+                  : recordStatus === "initial"
+                  ? theme.color.darkBg
+                  : theme.color.disabled
+              }
               onClick={() => {
                 recordStatus === "initial" && startRecord();
                 recordStatus === "listening" && endRecord();
@@ -211,6 +230,15 @@ const PositionPage = () => {
         </Col>
       </FlexContainer>
       <SpeakMotion right listening={listening} />
+      <Modal
+        title={"녹음에 실패했습니다"}
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        closingComment={true}
+        activeFunction={() => setShowModal(false)}
+      >
+        브라우저 마이크 사용 권한을 확인해주세요
+      </Modal>
     </WhiteWrapper>
   );
 };

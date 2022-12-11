@@ -68,7 +68,6 @@ const ManageImage = ({
                     width={300}
                     height={300}
                     onClick={() => {
-                      console.log(key);
                       setShowImageDetailModal(key);
                     }}
                   />

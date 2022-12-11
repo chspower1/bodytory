@@ -48,12 +48,10 @@ const LoginPage: NextPage = () => {
 
   const { mutate } = useMutation([USER_LOGIN], postApi, {
     onError(error: any) {
-      console.log(error);
       setIsError(true);
     },
     onSuccess(data) {
       if (data.isNew) {
-        console.log("----------------------------", data);
         return router.push(
           {
             pathname: "/auth/register",
@@ -79,7 +77,6 @@ const LoginPage: NextPage = () => {
   const onValid = (loginForm: LoginForm) => {
     mutate({ ...loginForm, type: "origin" });
   };
-  // console.log(errors, checkEmptyObj(errors));
 
   const isErrorsMessage = errors.accountId?.message || errors.password?.message;
 
@@ -91,8 +88,6 @@ const LoginPage: NextPage = () => {
     }
     setIsError(false);
   }, [watch("accountId"), watch("password"), isErrorsMessage]);
-  console.log(isError);
-  console.log(isErrorsMessage);
   return (
     <FlexContainer>
       <InnerContainer>

@@ -14,15 +14,10 @@ const uploadImage = (id: string, mutate: any) => {
   input.addEventListener("change", async () => {
     try {
       const formData = new FormData();
-      console.log(input.files);
       formData.append("recordId", id);
       Array.from(input?.files!).forEach(file => formData.append("image", file));
-
       mutate(formData);
-
-      console.log("보냄");
     } catch (err) {
-      console.log(err);
     }
   });
 };
