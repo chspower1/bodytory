@@ -22,6 +22,7 @@ import { checkEmptyObj } from "@utils/client/checkEmptyObj";
 import { createErrors } from "@utils/client/createErrors";
 import { useSetRecoilState } from "recoil";
 import { Variants, motion } from "framer-motion";
+import { checkBirth } from "@utils/client/leapYearCheck";
 
 interface ThirdRegisterForm {
   email: string;
@@ -220,7 +221,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                       checkBirth: value => {
                         if (value.length === 10) {
                           let currentDate = new Date(value);
-                          if (currentDate <= MINDATE || currentDate >= MAXDATE) {
+                          if (currentDate <= MINDATE || currentDate >= MAXDATE || !checkBirth(value)) {
                             return `이용자님의 생년월일을 적어주세요!`;
                           }
                         }
