@@ -56,7 +56,7 @@ export default function Withdraw() {
   const handleClickOnClose = () => {
     setShowModal(false);
   };
-  const handleClickActiveFuction = async () => {
+  const handleClickActiveFunction = async () => {
     if (!closingComment) {
       mutate({ password: currentPassword, type: userType });
     } else {
@@ -102,7 +102,7 @@ export default function Withdraw() {
       </Form>
       <Modal
         onClose={handleClickOnClose}
-        activeFuction={handleClickActiveFuction}
+        activeFunction={handleClickActiveFunction}
         show={showModal}
         closingComment={closingComment}
       >

@@ -125,7 +125,7 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
       <Modal
         show={showModal}
         onClose={() => setShowModal(false)}
-        activeFuction={
+        activeFunction={
           onConnected
             ? () => {
                 handleClickDeleteHospital(hospital.id, setOnConnected);
