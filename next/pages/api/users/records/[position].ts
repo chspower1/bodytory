@@ -15,9 +15,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
 async function findRecord(req: NextApiRequest, res: NextApiResponse, position: Position) {
   const { user } = req.session;
+  if (!user) return res.status(401).send("회원 정보를 확인해주세요");
   const data = await client.record.findMany({
     where: {
-      userId: user!.id,
+      userId: user.id,
       position: position,
     },
     include: {

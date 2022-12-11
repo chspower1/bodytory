@@ -7,7 +7,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { patientId , position, description, diagnosis, prescription, createAt  } = req.body;
   const { user } = req.session;
 
-  if (!user) return ;
+  if (!user) return res.status(401).end() ;
 
   await client.record.create({
     data: {
