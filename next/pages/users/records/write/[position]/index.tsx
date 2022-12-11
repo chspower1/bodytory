@@ -13,7 +13,13 @@ import { PositionTextBox, TextBox, ToryBox } from "@components/records/BodyPartC
 import ToryIcon from "@components/ToryIcon";
 import SpeakMotion from "@components/SpeakMotion";
 import useAudio from "@hooks/useAudio";
-import { AI_RESULT_READ, BODYPART_CHARTDATA_READ, KEYWORDS_CHARTDATA_READ, RECORDS_CREATE, RECORDS_READ } from "constant/queryKeys";
+import {
+  AI_RESULT_READ,
+  BODYPART_CHARTDATA_READ,
+  KEYWORDS_CHARTDATA_READ,
+  RECORDS_CREATE,
+  RECORDS_READ,
+} from "constant/queryKeys";
 import { AxiosError } from "axios";
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -67,7 +73,6 @@ const PositionPage = () => {
     (recordStatus === "listening" && "증상을 말씀해주세요! 토리가 듣고 정리해드릴게요.") ||
     (recordStatus === "loading" && "토리가 음성을 분석 중이에요! 잠시만 기다려 주세요!") ||
     (recordStatus === "error" && "인식에 실패했어요..") ||
-    (recordStatus === "finish" && audioRecognized) ||
     "";
   const buttonGuideMessage: string =
     (recordStatus === "initial" && "버튼을 누르고 증상을 말해주세요") ||
@@ -105,16 +110,7 @@ const PositionPage = () => {
     if (!(recordStatus === "finish")) {
       setValue("description", "");
     }
-    setRecordStatus("finish");
-    setIsEditMode(true);
   };
-  useEffect(() => {
-    console.log(recordMessage);
-    if (recordMessage === null) {
-      setValue("description", "다시 한번 말씀해주세요");
-    }
-    setValue("description", recordMessage);
-  }, [recordMessage, setValue]);
 
   useEffect(() => {
     if (aiError) {
@@ -122,6 +118,7 @@ const PositionPage = () => {
     } else {
       if (audioRecognized) {
         setRecordStatus("finish");
+        setValue("description", audioRecognized);
         setOnHoverRefreshBtn(false);
       }
     }
@@ -131,6 +128,14 @@ const PositionPage = () => {
     if (recordStatus === "listening") setListening(true);
     else setListening(false);
   }, [recordStatus]);
+
+  useEffect(() => {
+    if (watch("description").length > 0) {
+      setRecordStatus("finish");
+      return;
+    }
+    setRecordStatus("initial");
+  }, [watch("description")]);
   return (
     <WhiteWrapper>
       <BackButton onClick={() => router.push("/users/records/write")}>
@@ -154,12 +159,9 @@ const PositionPage = () => {
                 type="text"
                 disabled={!isEditMode}
                 onClick={handleClickEditMode}
+                placeholder={recordMessage}
                 {...register("description", {
                   required: "증상을 입력해주세요",
-                  onBlur: () => {
-                    !(recordStatus === "finish") && setValue("description", recordMessage);
-                    clearErrors("description");
-                  },
                 })}
               />
               {recordStatus === "finish" && (
@@ -263,6 +265,9 @@ const MemoInput = styled.input`
   :-webkit-autofill:focus,
   :-webkit-autofill:active {
     -webkit-text-fill-color: ${({ theme }) => theme.color.mintBtn} !important;
+  }
+  ::placeholder {
+    color: ${theme.color.mintBtn};
   }
 `;
 const ErrorMessage = styled(Box)`
