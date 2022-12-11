@@ -6,7 +6,7 @@ import customApi from "utils/client/customApi";
 import { USER_WITHDRAW } from "constant/queryKeys";
 import { useRecoilState } from "recoil";
 import Modal from "@components/modals/Modal";
-import { FlexContainer } from "@styles/Common";
+import { BackButton, FlexContainer } from "@styles/Common";
 import MessageBox from "@components/MessageBox";
 import Input from "@components/Input";
 import { RectangleButton } from "@components/buttons/Button";
@@ -21,7 +21,6 @@ export interface WithdrawType {
 export default function Withdraw() {
   const router = useRouter();
   const {user} = useUser();
-  const [isOrigin, setIsOrigin] = useState<boolean>();
   const [userType, setUserType] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [closingComment, setClosingComment] = useState(false);
@@ -66,21 +65,23 @@ export default function Withdraw() {
     }
   };
   useEffect(() => {
-    userType === "origin" ? setIsOrigin(true) : setIsOrigin(false);
-  }, []);
-  useEffect(() => {
-    if (user) setUserType(user.type);
+    if (user) {
+      setUserType(user.type);
+    };
   }, [user]);
   const isErrorsMessage = errors.password?.message;
 
   return (
     <FlexContainer>
+      <BackButton onClick={() => router.push("/users/profile/edit")}>
+        <span>계정 설정</span>
+      </BackButton>
       <Form onSubmit={handleSubmit(onValid)}>
         <MessageBox
           isErrorsMessage={isErrorsMessage}
-          currentComment={`${isOrigin ? `비밀번호를 입력하고 확인을` : `탈퇴하기를`} 누르시면\n회원탈퇴가 진행 됩니다`}
+          currentComment={`${userType === "origin" ? `비밀번호를 입력하고 확인을` : `탈퇴하기를`} 누르시면\n회원탈퇴가 진행 됩니다`}
         ></MessageBox>
-        {isOrigin && (
+        { userType === "origin" && (
           <Input
             $light
             type="password"
