@@ -86,9 +86,16 @@ const RecordModal = ({ onClose, record, show, isHospital }: RecordModalProps) =>
       setShowMsg(false);
     }, 1400);
   };
+
   useEffect(() => {
     setIsBrowser(true);
   }, []);
+
+  useEffect(() => {
+    setTextArea(record!.description);
+  }, [show]);
+
+
   const modalContent = (
     <AnimatePresence>
       {show && (
