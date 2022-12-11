@@ -33,7 +33,7 @@ export default function Edit() {
   const [showModal, setShowModal] = useState(false);
   const [errorModal, setErrorModal] = useState(false);
   const [closingComment, setClosingComment] = useState(false);
-  const [user, setUser] = useState<User | RegisterForm | null>(null);
+  const user = useUser();
   const americanAge = getAmericanAge(String(user?.birth!));
 
   const [{ oldPassword, newPassword }, setChangePassword] = useState({ oldPassword: "", newPassword: "" });
@@ -81,9 +81,6 @@ export default function Edit() {
       router.replace("/");
     }
   };
-  useEffect(() => {
-    setUser(currentUser);
-  }, []);
   useEffect(() => {
     document.body.style.backgroundColor = theme.color.lightBg;
     return () => {
