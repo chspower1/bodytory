@@ -63,7 +63,7 @@ const RecordModal = ({ onClose, record, show, isHospital }: RecordModalProps) =>
   };
 
   // 기록 수정
-  const [textArea, setTextArea] = useState<string | undefined>("");
+  const [textArea, setTextArea] = useState<string | undefined>(record!.description);
   const [showMsg, setShowMsg] = useState<boolean>(false);
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTextArea(e.target.value);
@@ -77,9 +77,6 @@ const RecordModal = ({ onClose, record, show, isHospital }: RecordModalProps) =>
     formState: { errors },
   } = useForm<RecordUpdateType>({
     reValidateMode: "onSubmit",
-    defaultValues: {
-      updateWrite: record!.description,
-    },
   });
 
   const onValid: SubmitHandler<RecordUpdateType> = ({ updateWrite }) => {
@@ -135,9 +132,8 @@ const RecordModal = ({ onClose, record, show, isHospital }: RecordModalProps) =>
                     onChange={handleTextChange}
                     onFocus={() => setShowMsg(false)}
                     disabled={isHospital}
-                  >
-                    {record!.description}
-                  </TextArea>
+                    value={textArea}
+                  />
                   {isHospital || (
                     <RoundButton size="sm" bgColor="rgb(83,89,233)" boxShadow={false}>
                       수정하기
