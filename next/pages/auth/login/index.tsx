@@ -7,11 +7,11 @@ import { useRouter } from "next/router";
 import { ResponseType } from "@utils/server/withHandler";
 import Link from "next/link";
 import customApi from "utils/client/customApi";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Modal from "@components/modals/Modal";
 import NaverLoginBtn from "@components/buttons/NaverBtn";
 import KakaoLoginBtn from "@components/buttons/KakaoBtn";
-import { USER_LOGIN } from "constant/queryKeys";
+import { USER_LOGIN, USE_USER } from "constant/queryKeys";
 import { RoundButton } from "@components/buttons/Button";
 import Image from "next/image";
 import naver from "@public/static/icon/naver.svg";
@@ -43,6 +43,7 @@ export interface LoginForm {
 
 const LoginPage: NextPage = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const { postApi } = customApi("/api/auth/login");
   const [isError, setIsError] = useState(false);
   const [isCompletion, setIsCompletion] = useState(false);
@@ -64,7 +65,8 @@ const LoginPage: NextPage = () => {
           "/auth/register",
         );
       } else {
-        setCurrentUser(data);
+        queryClient.refetchQueries([USE_USER]);
+        // setCurrentUser(data);
         return router.push("/");
       }
     },
@@ -129,7 +131,7 @@ const LoginPage: NextPage = () => {
                 })}
                 placeholder="●●●●●●"
                 error={errors.password || isError}
-                delay={.3}
+                delay={0.3}
               />
               {/* <Input
             name="autoLogin"

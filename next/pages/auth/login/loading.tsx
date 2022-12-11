@@ -1,7 +1,7 @@
 import NaverLoginBtn from "@components/buttons/NaverBtn";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueries, useQueryClient } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
-import { USER_LOGIN } from "constant/queryKeys";
+import { USER_LOGIN, USE_USER } from "constant/queryKeys";
 import { useRouter } from "next/router";
 import React, { useEffect, useRef } from "react";
 import styled, { keyframes } from "styled-components";
@@ -25,6 +25,7 @@ const ButtonBox = styled.div`
 `;
 
 const Loading = () => {
+  const queryClient = useQueryClient();
   const iRef = useRef<HTMLElement>(null);
   const router = useRouter();
   const setCurrentUser = useSetRecoilState(loggedInUser);
@@ -45,6 +46,7 @@ const Loading = () => {
         );
       } else {
         setCurrentUser(data);
+        queryClient.refetchQueries([USE_USER]);
         return router.push("/");
       }
     },

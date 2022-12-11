@@ -6,21 +6,22 @@ import LogoImg from "@public/static/icon/Logo.png";
 import SideMenu from "./SideMenu";
 import { useRecoilValue } from "recoil";
 import { loggedInUser } from "atoms/atoms";
+import useUser from "@hooks/useUser";
 
 const Header = () => {
   const router = useRouter();
-  const loggedUser = useRecoilValue(loggedInUser);
+  const user = useUser();
   const [isLogin, setIsLogin] = useState(false);
   const [refresh, setRefresh] = useState(true);
   useEffect(() => {
-    if (loggedUser !== null) {
+    if (user !== null) {
       setIsLogin(true);
       setRefresh(true);
     } else {
       setIsLogin(false);
       setRefresh(false);
     }
-  }, [loggedUser]);
+  }, [user]);
 
   return !isLogin ? (
     refresh ? null : (
