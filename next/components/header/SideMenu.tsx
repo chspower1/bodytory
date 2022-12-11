@@ -113,7 +113,7 @@ const SideMenuWrap = styled.div`
   top: 0;
   width: 100%;
   height: 100%;
-  z-index: 1000;
+  z-index: 2000;
 `;
 
 const LogoBox = styled.div`
@@ -236,7 +236,7 @@ const Nav = styled.nav`
 const Footer = styled.div`
   flex-shrink: 0;
   padding: 18px 0;
-  background: ${({ theme }) => theme.color.disabled};
+  background: #4B50D3;
 `;
 const FooterUl = styled(Row)`
   justify-content: space-between;

@@ -1,7 +1,7 @@
 import { Position, Record, RecordImage } from "@prisma/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
-import { RECORDS_DELETE, RECORDS_READ } from "constant/queryKeys";
+import { AI_RESULT_READ, BODYPART_CHARTDATA_READ, KEYWORDS_CHARTDATA_READ, RECORDS_DELETE, RECORDS_READ } from "constant/queryKeys";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { uploadImageApi } from "@utils/client/imageApi";
@@ -15,10 +15,11 @@ import checkIcon from "@public/static/icon/icon_checkbox.png";
 import checkedIcon from "@public/static/icon/checkbox_checked.png";
 import { changeDate } from "@utils/client/changeDate";
 import DeleteBtn from "@components/buttons/DeleteBtn";
-import { useRecoilValue } from "recoil";
-import { currentPatientInfo } from "atoms/atoms";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { currentPatientInfo, selectedKeyword } from "atoms/atoms";
 import { Subject } from "@components/modals/ClinicModal";
 import RecordSkeleton from "@components/skeletonUI/RecordSkeleton";
+import { AnimatePresence } from "framer-motion";
 
 export interface RecordWithImageAndHospital extends Record {
   images: RecordImage[];
@@ -40,10 +41,11 @@ const ChartTimeline = () => {
     },
     enabled: !!position,
   });
-  console.log("hihihhi", data);
+  
   useEffect(() => {
     queryClient.invalidateQueries([RECORDS_READ, position]);
     setFilterItem("all"); // 부위마다 새로운 페이지가 아닌가..? 왜 이걸 해줘야하지
+    setClickedKeyword(null);
   }, [position]);
 
   const [records, setRecords] = useState<RecordWithImageAndHospital[] | undefined>();
@@ -51,6 +53,9 @@ const ChartTimeline = () => {
   const { mutate } = useMutation([RECORDS_DELETE], deleteApi, {
     onSuccess() {
       queryClient.invalidateQueries([RECORDS_READ, position]);
+      queryClient.invalidateQueries([AI_RESULT_READ]);
+      queryClient.invalidateQueries([BODYPART_CHARTDATA_READ]);
+      queryClient.invalidateQueries([KEYWORDS_CHARTDATA_READ]);
     },
   });
 
@@ -76,6 +81,7 @@ const ChartTimeline = () => {
   const [showRecordModal, setShowRecordModal] = useState(-1);
 
   const handleRecordModal = (record: RecordWithImage) => {
+    console.log(record.id); // id값은 잘 찍힘 날짜나 다른것도 다 잘 찍히는데 textarea안에 설명글만 이상하게 찍힘 왜지?????
     setShowRecordModal(record.id);
   };
 
@@ -98,6 +104,20 @@ const ChartTimeline = () => {
       setFiltredRecord(records?.filter(record => record.type === filterItem));
     }
   }, [filterItem]);
+
+
+  // 키워드 핕터링
+  const [clickedKeyword, setClickedKeyword] = useRecoilState(selectedKeyword);
+  const [filtredRecordByKeywrod, setFiltredRecordByKeywrod] = useState<RecordWithImageAndHospital[] | undefined>();
+
+  useEffect(() => {
+    if(clickedKeyword) {
+      setFiltredRecordByKeywrod(filtredRecord?.filter(record => record.description.includes(clickedKeyword)));
+    } else {
+      setFiltredRecordByKeywrod(filtredRecord);
+    }
+  }, [clickedKeyword, filtredRecord]);
+
 
   return (
     <>
@@ -147,14 +167,14 @@ const ChartTimeline = () => {
               </label>
             </div>
           </Filter>
-          {filtredRecord?.length === 0 ? (
+          {filtredRecordByKeywrod?.length === 0 ? (
             <NoRecord>
               <img src={ToriQuestion.src} />
               <p>
                 <strong>{KoreanPosition[position!]}</strong>에 대한 기록이 없습니다
               </p>
             </NoRecord>
-          ) :  !query.position ? (
+          ) : !query.position ? (
             <NoRecord>
               <img src={ToriQuestion.src} />
               <p>자세한 기록을 확인하고 싶은 부위를 선택해주세요</p>
@@ -162,14 +182,31 @@ const ChartTimeline = () => {
           ) : isLoading ? (
             <RecordSkeleton />
           ) :(
-            filtredRecord?.map((record, index) => (
+            filtredRecordByKeywrod?.map((record, index) => (
               <RecordBox key={index}>
                 <Time byUser={record.type === "user"}>{changeDate(record.createAt)}</Time>
                 {record.type === "user" ? (
                   <>
                     <Content>
                       <Description cursorType={"pointer"}>
-                        <Text onClick={() => handleRecordModal(record)}>{record.description}</Text>
+                        <Text onClick={() => handleRecordModal(record)}>
+                          {
+                            (clickedKeyword && record.description.includes(clickedKeyword)) ? (
+                              <>
+                                {record.description.split(clickedKeyword).map((text, idx, arr) => (
+                                  (idx === arr.length-1) ? (
+                                    <span>{text}</span>
+                                    ) : (
+                                    <span>{text}<span className="keyword-mark">{clickedKeyword}</span>
+                                    </span>
+                                  )
+                                ))}
+                              </>
+                            ) : (
+                              record.description
+                            )
+                          }
+                        </Text>
                         <ImageBox isHospital={Boolean(patientId)}>
                           {record.images.length ? (
                             <Thumbnail onClick={() => handleRecordModal(record)}>
@@ -191,12 +228,17 @@ const ChartTimeline = () => {
                       </Description>
                       {!Boolean(patientId) && <DeleteBtn id={record.id} mutate={mutate} />}
                     </Content>
-                    <RecordModal
-                      record={record}
-                      isHospital={Boolean(patientId)}
-                      show={showRecordModal === record.id}
-                      onClose={() => setShowRecordModal(-1)}
-                    />
+                    <AnimatePresence>
+                    {
+                      showRecordModal === record.id && (
+                        <RecordModal
+                          record={record}
+                          isHospital={Boolean(patientId)}
+                          onClose={() => setShowRecordModal(-1)}
+                        />
+                      )
+                    }
+                    </AnimatePresence>
                   </>
                 ) : (
                   <Content>
@@ -385,6 +427,10 @@ const Description = styled.div<{ cursorType: string }>`
 const Text = styled.div`
   min-height: 140px;
   padding: 20px 200px 20px 30px;
+
+  .keyword-mark {
+    background: linear-gradient(to top,rgba(18,212,201,.4) 50%,transparent 50%);
+  }
 `;
 
 const ImageBox = styled.div<{ isHospital: boolean }>`

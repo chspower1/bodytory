@@ -64,7 +64,7 @@ const HeaderWrap = styled.div`
   left: 0px;
   top: 0px;
   width: 100%;
-  z-index: 1000;
+  z-index: 2000;
 `;
 const HeaderContainer = styled.div`
   padding: 0 65px;
