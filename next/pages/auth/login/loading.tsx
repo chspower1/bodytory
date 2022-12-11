@@ -5,7 +5,6 @@ import { USER_LOGIN, USE_USER } from "constant/queryKeys";
 import { useRouter } from "next/router";
 import React, { useEffect, useRef } from "react";
 import styled, { keyframes } from "styled-components";
-import { loggedInUser } from "atoms/atoms";
 import { useSetRecoilState } from "recoil";
 import Header from "@components/header/Header";
 
@@ -28,7 +27,6 @@ const Loading = () => {
   const queryClient = useQueryClient();
   const iRef = useRef<HTMLElement>(null);
   const router = useRouter();
-  const setCurrentUser = useSetRecoilState(loggedInUser);
   const { postApi } = customApi("/api/auth/login");
   const { mutate } = useMutation([USER_LOGIN], postApi, {
     onError(error: any) {
@@ -45,7 +43,6 @@ const Loading = () => {
           "/auth/register",
         );
       } else {
-        setCurrentUser(data);
         queryClient.refetchQueries([USE_USER]);
         return router.push("/");
       }

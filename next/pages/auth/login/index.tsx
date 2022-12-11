@@ -32,8 +32,6 @@ import { watch } from "fs";
 import styled from "styled-components";
 import MessageBox from "@components/MessageBox";
 import { ACCOUNT_ID_REGEX, PASSWORD_REGEX } from "constant/regex";
-import { loggedInUser } from "atoms/atoms";
-import { useSetRecoilState } from "recoil";
 import Header from "@components/header/Header";
 
 export interface LoginForm {
@@ -47,7 +45,6 @@ const LoginPage: NextPage = () => {
   const { postApi } = customApi("/api/auth/login");
   const [isError, setIsError] = useState(false);
   const [isCompletion, setIsCompletion] = useState(false);
-  const setCurrentUser = useSetRecoilState(loggedInUser);
 
   const { mutate } = useMutation([USER_LOGIN], postApi, {
     onError(error: any) {

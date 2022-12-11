@@ -5,7 +5,6 @@ import styled from "styled-components";
 import LogoImg from "@public/static/icon/Logo.png";
 import SideMenu from "./SideMenu";
 import { useRecoilValue } from "recoil";
-import { loggedInUser } from "atoms/atoms";
 import useUser from "@hooks/useUser";
 
 const Header = () => {

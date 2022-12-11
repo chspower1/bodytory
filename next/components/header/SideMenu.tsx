@@ -9,8 +9,7 @@ import LogoutBtn from "@components/buttons/LogoutBtn";
 import toriLink from "@public/static/icon/toriLink.png";
 import menuLogo from "@public/static/icon/menuLogo.png";
 import useUser from "@hooks/useUser";
-import { useRecoilValue } from "recoil";
-import { loggedInUser } from "atoms/atoms";
+
 
 const SideMenu = () => {
   const router = useRouter();

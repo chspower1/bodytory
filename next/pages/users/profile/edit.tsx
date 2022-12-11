@@ -17,7 +17,6 @@ import Kakao from "@public/static/icon/kakao.svg";
 import Origin from "@public/static/icon/origin.svg";
 import Image from "next/image";
 import getAmericanAge from "@utils/client/getAmericanAge";
-import { loggedInUser } from "atoms/atoms";
 import { useRecoilValue } from "recoil";
 import { User } from "@prisma/client";
 import { RegisterForm } from "pages/auth/register";
@@ -34,7 +33,6 @@ export default function Edit() {
   const [showModal, setShowModal] = useState(false);
   const [errorModal, setErrorModal] = useState(false);
   const [closingComment, setClosingComment] = useState(false);
-  const currentUser = useRecoilValue(loggedInUser);
   const [user, setUser] = useState<User | RegisterForm | null>(null);
   const americanAge = getAmericanAge(String(user?.birth!));
 

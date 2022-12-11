@@ -6,11 +6,6 @@ import { recoilPersist } from "recoil-persist";
 
 const { persistAtom } = recoilPersist();
 
-export const loggedInUser = atom<User | RegisterForm | null>({
-  key: "loggedInUserKey",
-  default: null,
-  effects_UNSTABLE: [persistAtom],
-});
 export const loggedInHospital = atom<HospitalName | null>({
   key: "loggedInHospitalKey",
   default: null,
