@@ -201,7 +201,7 @@ const Nav = styled.nav`
         background: url(${toriLink.src}) no-repeat center center;
         width: 50px;
         height: 50px;
-        margin-bottom: 10px;
+        margin: 0 0 10px 10px;
       }
       & + li {
         margin-top: 50px;

@@ -8,6 +8,7 @@ import { CircleButton, RoundButton } from "@components/buttons/Button";
 import { theme } from "@styles/theme";
 import skipIcon from "@public/static/icon/skipIcon.png";
 import { useRouter } from "next/router";
+import ToryWhiteAnim from "@src/lotties/ToryWhiteAnim";
 
 const LendingRoot = styled.div<{ flex: boolean }>`
   margin: auto;
@@ -17,28 +18,29 @@ const LendingRoot = styled.div<{ flex: boolean }>`
     css`
       display: flex;
       align-items: center;
-      gap: 120px;
+      gap: 60px;
     `}
-
-  .imgBox {
-    display: flex;
-    justify-content: center;
-  }
-
-  
   }
 `;
 
 const ToriMessage = styled(motion.h2)`
   font-size: 40px;
-  margin-bottom: 80px;
+  margin: 80px 0 40px;
   color: #fff;
+  text-align: center;
 `;
 
 const QuestionBox = styled(motion.div)`
+  padding-right: 160px;
+
+  ${ToriMessage} {
+    margin: 0 0 100px;
+  }
+
   .btnBox {
     display: flex;
     justify-content: space-evenly;
+    margin-bottom: 60px;
   }
 `;
 
@@ -59,12 +61,15 @@ export default function LendingPage() {
   const router = useRouter();
   const [toriComment, setToriComment] = useState("반가워요!");
   const [isFirst, setIsFrist] = useState(false);
+  const [toryMotionIdx, setToryMotionIdx] = useState<number>(0);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setToriComment("저는 당신의 건강비서 토리에요!");
+      setToryMotionIdx(1);
       setTimeout(() => {
         setIsFrist(true);
+        setToryMotionIdx(5);
       }, 3000);
     }, 3000);
     return () => {
@@ -83,9 +88,7 @@ export default function LendingPage() {
             {toriComment}
           </ToriMessage>
         )}
-        <div className="imgBox">
-          <img src={tory.src} />
-        </div>
+        <ToryWhiteAnim toryMotionIdx={toryMotionIdx} width={500} />
         {isFirst && (
           <QuestionBox
             initial={{ opacity: 0, y: 30 }}
@@ -104,7 +107,7 @@ export default function LendingPage() {
         )}
       </LendingRoot>
       <SkipBox>
-        <RoundButton width="200px" bgColor="rgb(75, 80, 211)" onClick={() => router.push("/")}>
+        <RoundButton size="md" width="200px" bgColor="rgb(70, 75, 206)" onClick={() => router.push("/")}>
           <span>건너뛰기</span>
           <span className="imgBox"></span>
         </RoundButton>
