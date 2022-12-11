@@ -32,7 +32,7 @@ const MyHospitalList = ({ hospitals, add, isLoading }: MyHospitalListProps) => {
             ))}
           </HospitalLists>
         )}
-        {!isLoading && !hospitals && <NoneMessage>{add ? "검색결과가 없습니다" : "병원내역이 없습니다"}</NoneMessage>}
+        {!isLoading && hospitals?.length === 0 && <NoneMessage>{add ? "검색결과가 없습니다" : "병원내역이 없습니다"}</NoneMessage>}
       </InnerContainer>
     </HospitalContainer>
   );
