@@ -167,7 +167,7 @@ const HospitalHomePage = () => {
                     <Modal
                       show={showdeleteModal && currentPatient === user.id}
                       onClose={handleClickOnClose}
-                      activeFuction={handleClickRemovePatient(id)}
+                      activeFunction={handleClickRemovePatient(id)}
                       closingComment={isClosingMent}
                     >
                       {isClosingMent ? `삭제되었습니다` : `리스트에서 ${user.name} 환자를 삭제 하시겠습니까?`}
