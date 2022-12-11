@@ -140,9 +140,6 @@ const ArroundMap = ({ width, height, latitude, longitude, department }: ArroundM
             }}
             onCreate={map => (mapRef.current = map)}
             level={3}
-            onBoundsChanged={() => {
-              console.log(mapRef.current?.getBounds().getSouthWest().getLat());
-            }}
           >
             <MapMarker
               position={{ lat: latitude!, lng: longitude! }}

@@ -21,11 +21,7 @@ interface AMonthResponse {
 function DashBoard() {
   const user = useUser();
   const { getApi } = customApi(`/api/users/records/dashboard/aMonth`);
-  const { isLoading, data } = useQuery<AMonthResponse | undefined>([AI_RESULT_READ], getApi, {
-    onSuccess(data) {
-      console.log("dashBoard", data);
-    },
-  });
+  const { isLoading, data } = useQuery<AMonthResponse | undefined>([AI_RESULT_READ], getApi);
 
   return user ? (
     <DashBoardWarp>

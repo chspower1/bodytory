@@ -12,7 +12,6 @@ import { CHART_RECOMMEND_READ } from "constant/queryKeys";
 import { useEffect } from "react";
 import ToryRecommend from "../ToryRecommend";
 
-
 interface ChartRecommendResponse {
   mostThreeDepartment?: string[];
   keywords: string[];
@@ -24,9 +23,6 @@ function Chart() {
 
   const { getApi } = customApi(`/api/users/records/chart/${position}`);
   const { data } = useQuery<ChartRecommendResponse>([CHART_RECOMMEND_READ, position], getApi, {
-    onSuccess(data) {
-      console.log("차트", data);
-    },
     enabled: !!position,
   });
 
@@ -34,7 +30,6 @@ function Chart() {
   useEffect(() => {
     queryClient.invalidateQueries([CHART_RECOMMEND_READ, position]);
   }, [position]);
-
 
   return (
     <ChartWrap>

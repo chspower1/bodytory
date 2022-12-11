@@ -38,7 +38,6 @@ const ManageImage = ({
   });
   const [showImageDetailModal, setShowImageDetailModal] = useState(-1);
   const [isHover, setIsHover] = useState(-1);
-  console.log(recordImages);
   return (
     <div>
       {isHospital || (

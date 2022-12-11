@@ -8,13 +8,11 @@ interface DepartmentSelectForm {
 }
 
 const useDepartmentSelect = (departments: string[], isAll?: boolean) => {
-  console.log(departments, departments.length === 0);
   const isDepartmentsEmpty = departments.length === 0;
   const defaultDepartment = isAll ? "all" : isDepartmentsEmpty ? "all" : departments[0];
   const [department, setDepartment] = useState(defaultDepartment);
   const { register } = useForm<DepartmentSelectForm>();
   const onValid = useCallback((department: string) => {
-    console.log("onValid", department);
     setDepartment(department);
   }, []);
 
@@ -24,7 +22,6 @@ const useDepartmentSelect = (departments: string[], isAll?: boolean) => {
         id="department"
         {...register("department", {
           onChange(e: React.FormEvent<HTMLSelectElement>) {
-            console.log("change");
             onValid(e.currentTarget.value);
           },
         })}

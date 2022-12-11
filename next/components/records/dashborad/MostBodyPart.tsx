@@ -9,7 +9,7 @@ interface ThreeMonthResponse {
   hospitalLength?: number;
 }
 
-interface MostBodyPartChartProps  {
+interface MostBodyPartChartProps {
   chartData: ThreeMonthResponse[] | null;
   mostPartIdx: number[] | null;
 }
@@ -49,29 +49,25 @@ const renderActiveShape = (props: any) => {
 };
 
 const MostBodyPart = ({ chartData, mostPartIdx }: MostBodyPartChartProps) => {
-
-  const [pieChartData, setPieChartData] = useState<any>();  // 여기 any
+  const [pieChartData, setPieChartData] = useState<any>(); // 여기 any
   const [activeIndex, setActiveIndex] = useState<number>(0);
-
-  console.log("chartData", chartData, mostPartIdx);
 
   useEffect(() => {
     if (chartData) {
-      setPieChartData(() => (
+      setPieChartData(() =>
         chartData.map((ele: ThreeMonthResponse) => ({
-          "name": KoreanPosition[ele.position],
-          "value": ele.userLength,
-          "user": ele.userLength ? ele.userLength : 0,
-          "hospital": ele.hospitalLength ? ele.hospitalLength : 0,
-        }))
-      ));
+          name: KoreanPosition[ele.position],
+          value: ele.userLength,
+          user: ele.userLength ? ele.userLength : 0,
+          hospital: ele.hospitalLength ? ele.hospitalLength : 0,
+        })),
+      );
     }
 
-    if(mostPartIdx) {
+    if (mostPartIdx) {
       setActiveIndex(mostPartIdx[0]);
     }
   }, [chartData]);
-
 
   const onPieEnter = useCallback(
     (_: any, index: number) => {

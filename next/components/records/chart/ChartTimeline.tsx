@@ -1,7 +1,13 @@
 import { Position, Record, RecordImage } from "@prisma/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
-import { AI_RESULT_READ, BODYPART_CHARTDATA_READ, KEYWORDS_CHARTDATA_READ, RECORDS_DELETE, RECORDS_READ } from "constant/queryKeys";
+import {
+  AI_RESULT_READ,
+  BODYPART_CHARTDATA_READ,
+  KEYWORDS_CHARTDATA_READ,
+  RECORDS_DELETE,
+  RECORDS_READ,
+} from "constant/queryKeys";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { uploadImageApi } from "@utils/client/imageApi";
@@ -58,7 +64,6 @@ const ChartTimeline = () => {
     },
   });
 
-
   // 이미지 업로드
   const uploadImageMutation = useMutation(uploadImageApi, {
     onSuccess(data) {
@@ -70,7 +75,6 @@ const ChartTimeline = () => {
   const [showRecordModal, setShowRecordModal] = useState(-1);
 
   const handleRecordModal = (record: RecordWithImage) => {
-    console.log(record.id); // id값은 잘 찍힘 날짜나 다른것도 다 잘 찍히는데 textarea안에 설명글만 이상하게 찍힘 왜지?????
     setShowRecordModal(record.id);
   };
 
@@ -94,19 +98,17 @@ const ChartTimeline = () => {
     }
   }, [filterItem]);
 
-
   // 키워드 핕터링
   const [clickedKeyword, setClickedKeyword] = useRecoilState(selectedKeyword);
   const [filtredRecordByKeywrod, setFiltredRecordByKeywrod] = useState<RecordWithImageAndHospital[] | undefined>();
 
   useEffect(() => {
-    if(clickedKeyword) {
+    if (clickedKeyword) {
       setFiltredRecordByKeywrod(filtredRecord?.filter(record => record.description.includes(clickedKeyword)));
     } else {
       setFiltredRecordByKeywrod(filtredRecord);
     }
   }, [clickedKeyword, filtredRecord]);
-
 
   return (
     <>
@@ -170,7 +172,7 @@ const ChartTimeline = () => {
             </NoRecord>
           ) : isLoading ? (
             <RecordSkeleton />
-          ) :(
+          ) : (
             filtredRecordByKeywrod?.map((record, index) => (
               <RecordBox key={index}>
                 <Time byUser={record.type === "user"}>{changeDate(record.createAt)}</Time>
@@ -179,22 +181,22 @@ const ChartTimeline = () => {
                     <Content>
                       <Description cursorType={"pointer"}>
                         <Text onClick={() => handleRecordModal(record)}>
-                          {
-                            (clickedKeyword && record.description.includes(clickedKeyword)) ? (
-                              <>
-                                {record.description.split(clickedKeyword).map((text, idx, arr) => (
-                                  (idx === arr.length-1) ? (
-                                    <span>{text}</span>
-                                    ) : (
-                                    <span>{text}<span className="keyword-mark">{clickedKeyword}</span>
-                                    </span>
-                                  )
-                                ))}
-                              </>
-                            ) : (
-                              record.description
-                            )
-                          }
+                          {clickedKeyword && record.description.includes(clickedKeyword) ? (
+                            <>
+                              {record.description.split(clickedKeyword).map((text, idx, arr) =>
+                                idx === arr.length - 1 ? (
+                                  <span>{text}</span>
+                                ) : (
+                                  <span>
+                                    {text}
+                                    <span className="keyword-mark">{clickedKeyword}</span>
+                                  </span>
+                                ),
+                              )}
+                            </>
+                          ) : (
+                            record.description
+                          )}
                         </Text>
                         <ImageBox isHospital={Boolean(patientId)}>
                           {record.images.length ? (
@@ -218,15 +220,13 @@ const ChartTimeline = () => {
                       {!Boolean(patientId) && <DeleteBtn id={record.id} mutate={mutate} />}
                     </Content>
                     <AnimatePresence>
-                    {
-                      showRecordModal === record.id && (
+                      {showRecordModal === record.id && (
                         <RecordModal
                           record={record}
                           isHospital={Boolean(patientId)}
                           onClose={() => setShowRecordModal(-1)}
                         />
-                      )
-                    }
+                      )}
                     </AnimatePresence>
                   </>
                 ) : (
@@ -418,7 +418,7 @@ const Text = styled.div`
   padding: 20px 200px 20px 30px;
 
   .keyword-mark {
-    background: linear-gradient(to top,rgba(18,212,201,.4) 50%,transparent 50%);
+    background: linear-gradient(to top, rgba(18, 212, 201, 0.4) 50%, transparent 50%);
   }
 `;
 

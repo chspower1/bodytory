@@ -1,12 +1,12 @@
 import smtpTransport from "@utils/server/email";
 import { MailOptions } from "nodemailer/lib/sendmail-transport";
-import email_authentication from "@public/static/email_authentication.png"
+import email_authentication from "@public/static/email_authentication.png";
 
 const sendMail = (email: string, payload: string, subject: string) => {
   const mailOptions: MailOptions = {
     from: process.env.MAIL_ID,
     to: email,
-    subject : "바디토리에서 인증번호가 왔어요!",
+    subject: "바디토리에서 인증번호가 왔어요!",
     // text: `인증코드 : ${payload}`,
     html: `
     <div style="width: 100%; height: 100%; display: flex;" >
@@ -21,10 +21,8 @@ const sendMail = (email: string, payload: string, subject: string) => {
   };
   smtpTransport.sendMail(mailOptions, (error, responses) => {
     if (error) {
-      console.log(error);
       return null;
     } else {
-      console.log(responses);
       return null;
     }
   });

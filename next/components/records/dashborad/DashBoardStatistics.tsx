@@ -16,7 +16,6 @@ interface ThreeMonthResponse {
   hospitalLength?: number;
 }
 
-
 function DashBoardStatistics() {
   const user = useUser();
 
@@ -29,22 +28,14 @@ function DashBoardStatistics() {
   const [noKeyword, setNoKeyword] = useState<boolean>(false);
 
   const dashboardGetApi = customApi(`/api/users/records/dashboard/threeMonth`);
-  const dashboardQuery = useQuery<any>([BODYPART_CHARTDATA_READ], dashboardGetApi.getApi, {
-    onSuccess(data) {
-      // console.log(data);
-    }
-  });
+  const dashboardQuery = useQuery<any>([BODYPART_CHARTDATA_READ], dashboardGetApi.getApi);
 
   const flaskGetApi = customApi(`/api/users/records/flask/threeMonth`);
   const flaskQuery = useQuery<any>([KEYWORDS_CHARTDATA_READ], flaskGetApi.getApi, {
-    onSuccess(data) {
-      // console.log(data);
-    }, onError(data) {
-      console.log("키워드 에러", data);
+    onError(data) {
       setNoKeyword(true); // 증상이 2개 이하일 때는 아예 에러가 남
-    }
+    },
   });
-
 
   useEffect(() => {
     // 가장 기록이 많은 부위 찾기
@@ -54,10 +45,10 @@ function DashBoardStatistics() {
       let maxIdx: number[] = [];
 
       dashboardQuery.data.forEach((ele: any) => {
-        if(ele.userLength > maxLength) maxLength = ele.userLength;
+        if (ele.userLength > maxLength) maxLength = ele.userLength;
       });
       dashboardQuery.data.forEach((ele: any, idx: number) => {
-        if(ele.userLength === maxLength) {
+        if (ele.userLength === maxLength) {
           maxPart.push(ele.position);
           maxIdx.push(idx);
         }
@@ -68,62 +59,59 @@ function DashBoardStatistics() {
       setBodyPartChartData(dashboardQuery.data);
     }
 
-
     // 키워드 데이터 전달
     if (flaskQuery.data) {
       setKeywordChartData(flaskQuery.data);
       setMostKeyword(flaskQuery.data[0]);
     }
-
   }, [dashboardQuery.data, flaskQuery.data]);
-
-
 
   return user ? (
     <StatisticsContainer>
       <Title>최근 3개월 동안 {user?.name}님의 건강상태를 분석했어요</Title>
       <FlexContainer>
         <ChartBox>
-          {
-            mostPart && (
-              <p>가장 많은 기록을 남긴 부위는 <strong>{
-                mostPart?.length > 1 ? (
-                  `${KoreanPosition[mostPart[0] as Position]} 외 ${mostPart.length-1}곳`
-                ) : (
-                  KoreanPosition[mostPart[0] as Position]
-                )
-            }</strong> 입니다</p>
-            )
-          }
-          <MostBodyPart chartData={bodyPartChartData ? bodyPartChartData : null} mostPartIdx={mostPartIdx ? mostPartIdx : null} />
+          {mostPart && (
+            <p>
+              가장 많은 기록을 남긴 부위는{" "}
+              <strong>
+                {mostPart?.length > 1
+                  ? `${KoreanPosition[mostPart[0] as Position]} 외 ${mostPart.length - 1}곳`
+                  : KoreanPosition[mostPart[0] as Position]}
+              </strong>{" "}
+              입니다
+            </p>
+          )}
+          <MostBodyPart
+            chartData={bodyPartChartData ? bodyPartChartData : null}
+            mostPartIdx={mostPartIdx ? mostPartIdx : null}
+          />
         </ChartBox>
         <ChartBox>
-          {
-            (keywordChartData?.length === 0 || noKeyword) ? (
-              <NoKeywordChart>
-                <LoadingAnim />
-                <p>기록이 더 많아지면 키워드를 분석할 수 있어요!</p>
-              </NoKeywordChart>
-        
-            ) : (
-              <>
-                <p>가장 많이 기록된 키워드는 <strong>{mostKeyword}</strong> 입니다</p>
-                <MostKeyword chartData={keywordChartData ? keywordChartData : null} />
-              </>
-            )
-          }
+          {keywordChartData?.length === 0 || noKeyword ? (
+            <NoKeywordChart>
+              <LoadingAnim />
+              <p>기록이 더 많아지면 키워드를 분석할 수 있어요!</p>
+            </NoKeywordChart>
+          ) : (
+            <>
+              <p>
+                가장 많이 기록된 키워드는 <strong>{mostKeyword}</strong> 입니다
+              </p>
+              <MostKeyword chartData={keywordChartData ? keywordChartData : null} />
+            </>
+          )}
         </ChartBox>
       </FlexContainer>
     </StatisticsContainer>
   ) : null;
 }
 
-const StatisticsContainer = styled.div`
-`;
+const StatisticsContainer = styled.div``;
 
 const Title = styled.p`
   padding: 0 25px;
-  margin-bottom: 30px; 
+  margin-bottom: 30px;
   font-size: 22px;
   font-weight: 700;
   color: ${({ theme }) => theme.color.white};
@@ -155,7 +143,7 @@ const ChartBox = styled.div`
     strong {
       font-weight: 700;
       padding: 0 1px 2px;
-      background: linear-gradient(to top, rgba(18, 212, 201, .4) 40%, transparent 40%);
+      background: linear-gradient(to top, rgba(18, 212, 201, 0.4) 40%, transparent 40%);
     }
   }
 `;
@@ -174,6 +162,4 @@ const NoKeywordChart = styled.div`
   }
 `;
 
-
-
-export default DashBoardStatistics
+export default DashBoardStatistics;
