@@ -26,7 +26,10 @@ export async function middleware(req: NextRequest) {
     if (req.url.includes("/hospital/chart" && "/hospital/chart" && "/hospital"))
       return NextResponse.redirect(new URL("/hospital/login", req.url));
     return NextResponse.redirect(new URL("/auth/login", req.url));
-  } else if (session.user && (req.url.includes("auth/login") || req.url.includes("/auth/help"))) {
+  } else if (
+    session.user &&
+    (req.url.includes("auth/login") || req.url.includes("/auth/help") || req.url.includes("/auth/register"))
+  ) {
     return NextResponse.redirect(new URL("/", req.url));
   }
 }
