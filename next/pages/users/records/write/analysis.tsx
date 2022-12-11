@@ -1,19 +1,10 @@
 import LoadingDot from "@components/LoadingDot";
 import useUser from "@hooks/useUser";
-import { User } from "@prisma/client";
-import { Col, FlexContainer, ToryText, WhiteText, Wrapper } from "@styles/Common";
-import { loggedInUser } from "atoms/atoms";
-import { RegisterForm } from "pages/auth/register";
-import { useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
+import { Col, FlexContainer, ToryText,  Wrapper } from "@styles/Common";
 import styled from "styled-components";
 
 const Analysis = () => {
-  const currentUser = useRecoilValue(loggedInUser);
-  const [user, setUser] = useState<User | RegisterForm>()
-useEffect(()=>{
-  if(currentUser) setUser(currentUser)
-},[currentUser])
+  const user = useUser();
 
   return (
     <AnalysisWrapper>
