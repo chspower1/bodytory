@@ -136,6 +136,7 @@ const PositionPage = () => {
   }, [audioRecognized, aiError]);
 
   useEffect(() => {
+    console.log(recordStatus);
     if (recordStatus === "listening") setListening(true);
     else setListening(false);
   }, [recordStatus]);
@@ -144,9 +145,11 @@ const PositionPage = () => {
     if (watch("description").length > 0) {
       setRecordStatus("finish");
       return;
+    } else if (recordStatus !== "listening") {
+      setRecordStatus("initial");
     }
-    setRecordStatus("initial");
   }, [watch("description")]);
+
   return (
     <WhiteWrapper>
       <BackButton onClick={() => router.push("/users/records/write")}>
@@ -168,7 +171,7 @@ const PositionPage = () => {
             <MemoBox>
               <MemoInput
                 type="text"
-                disabled={!isEditMode}
+                disabled={!isEditMode || recordStatus === "listening"}
                 onClick={handleClickEditMode}
                 placeholder={recordMessage}
                 {...register("description", {
@@ -270,7 +273,7 @@ const RefreshText = styled.div`
   right: -110px;
   color: ${({ theme }) => theme.color.mintBtn};
 `;
-const MemoInput = styled.input`
+const MemoInput = styled.input<{ disabled: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -285,6 +288,7 @@ const MemoInput = styled.input`
   border-radius: 5px;
   position: relative;
   text-align: center;
+  pointer-events: ${({ disabled }) => (disabled ? "none" : "auto")};
   &:hover {
     box-shadow: 0px 0px 0px 3px ${({ theme }) => theme.color.mintBtn};
   }
@@ -313,6 +317,8 @@ const GuideMessage = styled.div`
 `;
 
 const Mic = styled(mic)`
+  width: 55%;
+  height: 55%;
   &:hover {
     fill: red;
   }
