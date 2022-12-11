@@ -4,8 +4,11 @@ import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import tory from "@public/static/icon/tory.png";
 import { motion } from "framer-motion";
-import { CircleButton } from "@components/buttons/Button";
+import { CircleButton, RoundButton } from "@components/buttons/Button";
 import { theme } from "@styles/theme";
+import skipIcon from "@public/static/icon/skipIcon.png";
+import { useRouter } from "next/router";
+
 const LendingRoot = styled.div<{ flex: boolean }>`
   margin: auto;
 
@@ -29,29 +32,44 @@ const LendingRoot = styled.div<{ flex: boolean }>`
 const ToriMessage = styled(motion.h2)`
   font-size: 40px;
   margin-bottom: 80px;
-  color:#fff;
+  color: #fff;
 `;
 
 const QuestionBox = styled(motion.div)`
-
   .btnBox {
     display: flex;
-    justify-content:space-evenly;
-    
-    }
+    justify-content: space-evenly;
+  }
+`;
+
+const SkipBox = styled.div`
+  position: absolute;
+  right: 60px;
+  bottom: 40px;
+  .imgBox {
+    background: url(${skipIcon.src}) no-repeat center center;
+    background-size: contain;
+    width: 15px;
+    height: 15px;
+    margin: -2px 0 0 10px;
+  }
 `;
 
 export default function LendingPage() {
+  const router = useRouter();
   const [toriComment, setToriComment] = useState("반가워요!");
   const [isFirst, setIsFrist] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setToriComment("저는 당신의 건강비서 토리에요!");
       setTimeout(() => {
         setIsFrist(true);
       }, 3000);
     }, 3000);
+    return () => {
+      clearTimeout(timer);
+    };
   }, []);
   return (
     <FlexContainer>
@@ -85,9 +103,12 @@ export default function LendingPage() {
           </QuestionBox>
         )}
       </LendingRoot>
+      <SkipBox>
+        <RoundButton width="200px" bgColor="rgb(75, 80, 211)" onClick={() => router.push("/")}>
+          <span>건너뛰기</span>
+          <span className="imgBox"></span>
+        </RoundButton>
+      </SkipBox>
     </FlexContainer>
   );
-}
-{
-  /* */
 }
