@@ -53,11 +53,11 @@ const ClinicListWrap = styled.div`
   background: #fff;
 `;
 
-const PageHeadBox = styled(Container)``;
-
-const ClinicContainer = styled.div`
-  margin: auto 0;
+const PageHeadBox = styled(Container)`
+  margin-top: 75px;
 `;
+
+const ClinicContainer = styled.div``;
 
 const PageHead = styled.div`
   display: flex;

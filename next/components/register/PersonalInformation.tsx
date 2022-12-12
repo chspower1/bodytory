@@ -314,9 +314,11 @@ const PersonalInformation = () => {
 export default PersonalInformation;
 
 export const Article = styled.article`
-  width: 800px;
+  width: 600px;
   height: 400px;
   overflow-y: scroll;
   padding: 30px 50px;
+  font-weight: 500;
+  font-size: 14px;
   text-align: left;
 `;
