@@ -1,19 +1,18 @@
 import lottie, { AnimationItem, AnimationSegment } from "lottie-web";
-import ToryWhiteAnimation from "@src/lotties/data/tory_white.json";
+import ToryPurpleAnimation from "@src/assets/lotties/tory_purple.json";
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
+
 
 interface ToryAnimProps {
   toryMotionIdx: number;
   width: number;
 }
 
-const ToryWhiteAnim = ( { toryMotionIdx, width }: ToryAnimProps ) => {
+const ToryPurpleAnim = ( { toryMotionIdx, width }: ToryAnimProps ) => {
 
   const [ready, setReady] = useState<boolean>(false);
-  const [motionIndex, setMotionIndex] = useState<number>(0);
-
-  const [ToryWhite, setToryWhite] = useState<AnimationItem>();
+  const [toryPurple, setToryPurple] = useState<AnimationItem>();
 
   const lottieRef = useRef<any>();
 
@@ -21,12 +20,12 @@ const ToryWhiteAnim = ( { toryMotionIdx, width }: ToryAnimProps ) => {
 
 
   useEffect(() => {
-    setToryWhite(lottie.loadAnimation({
+    setToryPurple(lottie.loadAnimation({
       container: lottieRef.current,
       renderer: 'svg',
       loop: true,
       autoplay: false,
-      animationData: ToryWhiteAnimation,
+      animationData: ToryPurpleAnimation,
       // path: "/src/lotties/data/tory_white.json"
     }));
 
@@ -38,8 +37,8 @@ const ToryWhiteAnim = ( { toryMotionIdx, width }: ToryAnimProps ) => {
 
   useEffect(() => {
 
-    if(ToryWhite) {
-      ToryWhite.playSegments(frameSegments[toryMotionIdx], true);
+    if(toryPurple) {
+      toryPurple.playSegments(frameSegments[toryMotionIdx], true);
     }
 
     console.log(toryMotionIdx);
@@ -57,4 +56,4 @@ const LottieElem = styled.div<{width: number}>`
 `;
 
 
-export default ToryWhiteAnim;
+export default ToryPurpleAnim;

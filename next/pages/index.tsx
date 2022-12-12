@@ -11,7 +11,7 @@ import Setting from "@src/assets/icons/setting.svg";
 import ToryIcon from "@components/ToryIcon";
 import { theme } from "@styles/theme";
 import { ToryText } from "./users/records/write/add";
-import ToryPurpleAnim from "@src/lotties/ToryPurpleAnim";
+import ToryPurpleAnim from "@components/lotties/ToryPurpleAnim";
 
 const Home = () => {
   const { user } = useUser();
