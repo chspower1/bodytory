@@ -139,7 +139,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
             <LoginInputAreaBox>
               <Input
                 name="accountId"
-                placeholder="toritori2022"
+                placeholder="bodytory2022"
                 register={register("accountId", {
                   required: true,
                   validate: {
