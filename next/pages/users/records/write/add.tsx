@@ -20,14 +20,10 @@ const AddPage = () => {
           다른 부위도 기록할까요?
         </ToryText>
         <ButtonBox>
-          <Link href="/users/records/write">
-            <RoundButton>네, 다른 부위도 기록할래요</RoundButton>
-          </Link>
-          <Link href={`/users/records/chart/${position}`}>
-            <RoundButton bgColor={theme.color.weekPurple} textColor="rgb(93, 107, 178)">
-              아니요,더 기록할게 없어요
-            </RoundButton>
-          </Link>
+          <RoundButton onClick={()=> router.replace("/users/records/write")}>네, 다른 부위도 기록할래요</RoundButton>
+          <RoundButton onClick={()=> router.replace(`/users/records/chart/${position}`)} bgColor={theme.color.weekPurple} textColor="rgb(93, 107, 178)">
+            아니요,더 기록할게 없어요
+          </RoundButton>
         </ButtonBox>
       </div>
     </FlexContainer>
@@ -45,7 +41,7 @@ export const ToryText = styled.div`
 
 const ButtonBox = styled.div`
   display: flex;
-  > a {
+  > button{
     margin: 0 30px;
   }
 `;
