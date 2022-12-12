@@ -34,10 +34,14 @@ function DashBoardStatistics() {
   const flaskQuery = useQuery<any>([KEYWORDS_CHARTDATA_READ], flaskGetApi.getApi, {
     onSuccess(data) {
       // setNoKeyword(true); // 증상이 2개 이하일 때는 아예 에러가 남
-      console.log(data);
+
     },
   });
-  console.log(dashboardQuery.data)
+
+  console.log(flaskQuery.data);
+
+
+
   useEffect(() => {
     // 가장 기록이 많은 부위 찾기
     if (dashboardQuery.data && dashboardQuery.data.length !== 0) {

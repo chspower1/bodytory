@@ -17,6 +17,7 @@ import DeleteBtn from "@components/layout/buttons/DeleteBtn";
 import { AnimatePresence } from "framer-motion";
 import IconAddImage from "@src/assets/icons/icon_addImage.png";
 import customApi from "@utils/client/customApi";
+import SplitTextByKeyword from "./SplitTextByKeyword";
 
 interface ChartBoxProps {
   index: number;
@@ -57,21 +58,24 @@ const ChartBox = ({ index, record, clickedKeyword, patientId, position }: ChartB
           <Content>
             <Description cursorType={"pointer"}>
               <Text onClick={() => handleRecordModal(record)}>
-                {clickedKeyword && record.description.includes(clickedKeyword) ? (
-                  <>
-                    {record.description.split(clickedKeyword).map((text, idx, arr) =>
-                      idx === arr.length - 1 ? (
-                        <span>{text}</span>
-                      ) : (
-                        <span>
-                          {text}
-                          <span className="keyword-mark">{clickedKeyword}</span>
-                        </span>
-                      ),
-                    )}
-                  </>
-                ) : (
-                  record.description
+                {record.description.includes("\n")
+                  ? (
+                    record.description.split("\n").map((ele, idx) => (
+                      <p key={`${ele} + ${idx} + ${Date.now()}`}>
+                        {clickedKeyword && ele.includes(clickedKeyword) ? (
+                          <SplitTextByKeyword text={ele} clickedKeyword={clickedKeyword} />
+                        ) : (
+                          ele
+                        )}
+                      </p>
+                    ))
+                  )
+                  : (
+                    clickedKeyword && record.description.includes(clickedKeyword) ? (
+                      <SplitTextByKeyword text={record.description} clickedKeyword={clickedKeyword} />
+                    ) : (
+                      record.description
+                    )
                 )}
               </Text>
               <ImageBox isHospital={Boolean(patientId)}>
@@ -106,23 +110,50 @@ const ChartBox = ({ index, record, clickedKeyword, patientId, position }: ChartB
             <ResultTable>
               <TableRow>
                 <Subject>진단 결과</Subject>
-                <div>{record.diagnosis}</div>
+                <div>
+                  {
+                    clickedKeyword && record.diagnosis?.includes(clickedKeyword) ? (
+                      <SplitTextByKeyword text={record.diagnosis} clickedKeyword={clickedKeyword} />
+                    ) : (
+                      record.diagnosis
+                    )
+                  }
+                </div>
               </TableRow>
               <TableRow>
                 <Subject>처방 내용</Subject>
-                <div>{record.prescription}</div>
+                <div>
+                  {
+                    clickedKeyword && record.prescription?.includes(clickedKeyword) ? (
+                      <SplitTextByKeyword text={record.prescription} clickedKeyword={clickedKeyword} />
+                    ) : (
+                      record.prescription
+                    )
+                  }
+                </div>
               </TableRow>
               <TableRow>
                 <Subject>상세 소견</Subject>
                 <div>
                   {record.description.includes("\n")
-                    ? record.description.split("\n").map((ele, idx) => (
-                        <React.Fragment key={`${ele} + ${idx} + ${Date.now()}`}>
-                          {record.description}
-                          <br />
-                        </React.Fragment>
+                    ? (
+                      record.description.split("\n").map((ele, idx) => (
+                        <p key={`${ele} + ${idx} + ${Date.now()}`}>
+                          {clickedKeyword && ele.includes(clickedKeyword) ? (
+                            <SplitTextByKeyword text={ele} clickedKeyword={clickedKeyword} />
+                          ) : (
+                            ele
+                          )}
+                        </p>
                       ))
-                    : record.description}
+                    )
+                    : (
+                      clickedKeyword && record.description.includes(clickedKeyword) ? (
+                        <SplitTextByKeyword text={record.description} clickedKeyword={clickedKeyword} />
+                      ) : (
+                        record.description
+                      )
+                    )}
                 </div>
               </TableRow>
             </ResultTable>
@@ -192,15 +223,15 @@ const Description = styled.div<{ cursorType: string }>`
   border-radius: 20px;
   overflow: hidden;
   cursor: ${({ cursorType }) => cursorType};
+
+  .keyword-mark {
+    background: linear-gradient(to top, rgba(18, 212, 201, 0.4) 50%, transparent 50%);
+  }
 `;
 
 const Text = styled.div`
   min-height: 140px;
   padding: 20px 200px 20px 30px;
-
-  .keyword-mark {
-    background: linear-gradient(to top, rgba(18, 212, 201, 0.4) 50%, transparent 50%);
-  }
 `;
 
 const ImageBox = styled.div<{ isHospital: boolean }>`

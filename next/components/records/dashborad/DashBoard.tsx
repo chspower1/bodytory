@@ -23,16 +23,7 @@ function DashBoard() {
   const queryClient = useQueryClient();
   const { user } = useUser();
   const { getApi } = customApi(`/api/users/records/dashboard/aMonth`);
-  const { isLoading, data, error, isFetching } = useQuery<AMonthResponse | undefined>([AI_RESULT_READ], getApi, {
-    onSuccess(data) {
-      console.log("대시보드 진료과목", data);
-    },
-    onError(data) {
-      console.log("대시보드 진료과목 에러", data);
-    },
-  });
-
-
+  const { isLoading, data, error, isFetching } = useQuery<AMonthResponse | undefined>([AI_RESULT_READ], getApi);
 
   return user ? (
     <DashBoardWarp>

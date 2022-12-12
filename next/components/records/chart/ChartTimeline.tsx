@@ -68,7 +68,7 @@ const ChartTimeline = () => {
 
   useEffect(() => {
     if (clickedKeyword) {
-      setFiltredRecordByKeywrod(filtredRecord?.filter(record => record.description.includes(clickedKeyword)));
+      setFiltredRecordByKeywrod(filtredRecord?.filter(record => record.description.includes(clickedKeyword) || record.diagnosis?.includes(clickedKeyword) || record.prescription?.includes(clickedKeyword)));
     } else {
       setFiltredRecordByKeywrod(filtredRecord);
     }
