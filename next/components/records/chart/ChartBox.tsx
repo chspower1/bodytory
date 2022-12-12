@@ -29,7 +29,7 @@ interface ChartBoxProps {
 const ChartBox = ({ index, record, clickedKeyword, patientId, position }: ChartBoxProps) => {
   const queryClient = useQueryClient();
   const { deleteApi } = customApi(`/api/users/records`);
-  const { postApi } = customApi("api/users/records/picture");
+  const { postApi } = customApi("/api/users/records/picture");
   const { mutate } = useMutation([RECORDS_DELETE], deleteApi, {
     onSuccess() {
       queryClient.invalidateQueries([RECORDS_READ, position]);
@@ -84,9 +84,7 @@ const ChartBox = ({ index, record, clickedKeyword, patientId, position }: ChartB
                   </Thumbnail>
                 ) : (
                   <UploadImageButton
-                    onClick={() =>
-                      patientId ? handleRecordModal(record) : uploadImage(String(record.id), uploadImageMutate)
-                    }
+                    onClick={() => (patientId ? handleRecordModal(record) : uploadImage(record.id, uploadImageMutate))}
                   >
                     <span className="blind">사진 추가</span>
                   </UploadImageButton>

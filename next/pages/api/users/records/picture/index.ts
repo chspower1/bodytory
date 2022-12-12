@@ -5,14 +5,14 @@ import { withApiSession } from "@utils/server/withSession";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
-    const { url, recordId }: { url: string; recordId: number } = req.body;
+    const { url, recordId }: { url: string; recordId: string } = req.body;
     if (!(url && recordId)) return res.status(404).end();
     await client.recordImage.create({
       data: {
         url,
         record: {
           connect: {
-            id: recordId,
+            id: parseInt(recordId),
           },
         },
       },

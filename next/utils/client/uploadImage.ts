@@ -4,9 +4,10 @@
  * @param mutate  - mutate 함수
  */
 
+import { UseMutateFunction } from "@tanstack/react-query";
 import customApi from "./customApi";
 
-const uploadImage = async (id: string, mutate: any) => {
+const uploadImage = async (id: number, mutate: UseMutateFunction<any, unknown, any, unknown>) => {
   const { getApi } = customApi("/api/users/records/picture/get-url");
 
   const input = document.createElement("input");
@@ -19,17 +20,18 @@ const uploadImage = async (id: string, mutate: any) => {
     try {
       const formData = new FormData();
       const { uploadURL } = await getApi();
-      // formData.append("recordId", id);
       console.log(input?.files![0]);
       // Array.from(input?.files!).forEach(file => formData.append("image", file));
       formData.append("file", input?.files![0]);
-      const { result } = await (
+      const {
+        result: { id: cloudId },
+      } = await (
         await fetch(uploadURL, {
           method: "POST",
           body: formData,
         })
       ).json();
-      // mutate({ recordId: id, url: `${process.env.NEXT_PUBLIC_IMG_URL}/${id}/1` });
+      mutate({ recordId: id, url: `${process.env.NEXT_PUBLIC_IMG_URL}/${cloudId}/public` });
     } catch (err) {
       console.log(err);
     }
