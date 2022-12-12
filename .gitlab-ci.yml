@@ -20,6 +20,9 @@ deploy:
     AC_ID: $ACCESSKEYID
     SC_KET: $SECRETACCESSKET
     REG: $REGION
+    CFID: $CF_ID
+    CFTOKEN: $CF_TOKEN
+    NEXT_IMG: $NEXT_PUBLIC_IMG_URL
   before_script:
     - echo -e "DATABASE_URL="$DB_URL >> .env
     - echo -e "\nCOOKIE_PASSWORD="$COOKIE_PW >> .env
@@ -33,6 +36,9 @@ deploy:
     - echo -e "\nACCESSKEYID="$AC_ID >> .env
     - echo -e "\nSECRETACCESSKET="$SC_KET >> .env
     - echo -e "\nREGION="$REG >> .env
+    - echo -e "\nCF_ID="$CFID >> .env
+    - echo -e "\nCF_TOKEN="$CFTOKEN >> .env
+    - echo -e "\nNEXT_PUBLIC_IMG_URL="$NEXT_IMG >> .env
     - cp .env /builds/ai_track/class05/ai_project/team01/team01/next
   script:
     - docker-compose up -d --build
