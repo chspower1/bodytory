@@ -19,7 +19,7 @@ const ManageImage = ({
   recordImages,
   isHospital,
 }: {
-  recordId: string;
+  recordId: number;
   recordImages: RecordImage[];
   isHospital?: boolean;
 }) => {
@@ -56,11 +56,11 @@ const ManageImage = ({
             modules={[Pagination, Navigation, Mousewheel]}
             className="mySwiper"
           >
-            {recordImages.map((elem, key) => (
+            {recordImages.map((recordImage, key) => (
               <SwiperSlide key={key}>
                 <ImageBox onMouseEnter={() => setIsHover(key)} onMouseLeave={() => setIsHover(-1)}>
                   <Image
-                    src={elem.url}
+                    src={recordImage.url}
                     alt="증상 이미지"
                     width={300}
                     height={300}
@@ -68,13 +68,13 @@ const ManageImage = ({
                       setShowImageDetailModal(key);
                     }}
                   />
-                  {/* {isHover === key && <DeleteButton onClick={() => deleteImageMutate()}></DeleteButton>} */}
+                  {isHover === key && <DeleteButton onClick={() => deleteImageMutate(recordImage.id)} />}
 
                   <ImageDetailModal
                     show={showImageDetailModal}
                     onClose={() => setShowImageDetailModal(-1)}
                     setShow={setShowImageDetailModal}
-                    url={elem.url}
+                    url={recordImage.url}
                     index={key}
                     imagesLength={recordImages.length}
                   />

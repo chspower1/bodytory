@@ -148,7 +148,7 @@ const RecordModal = ({ onClose, record, isHospital }: RecordModalProps) => {
               {showMsg && <SuccessMsg>수정이 완료되었습니다!</SuccessMsg>}
               {errors.updateWrite && <ErrorMsg>{errors.updateWrite.message}</ErrorMsg>}
             </EditTextBox>
-            <ManageImage recordId={String(record.id)} recordImages={record.images} isHospital={isHospital} />
+            <ManageImage recordId={record.id} recordImages={record.images} isHospital={isHospital} />
           </RecordDetailContainer>
           {isHospital && (
             <HospitalModalCloseButtonBox>
