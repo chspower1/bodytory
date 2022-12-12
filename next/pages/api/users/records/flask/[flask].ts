@@ -37,7 +37,7 @@ async function allRecordsKeywords(req: NextApiRequest, res: NextApiResponse) {
 
     return res.status(200).json(postApi.data.keywords_result);
   } catch (err) {
-    return res.status(401).json({ message: "flask 500 error" });
+    return res.status(200).json(["empty"]);
   }
 }
 async function threeMonthRecordsKeywords(req: NextApiRequest, res: NextApiResponse) {
@@ -72,7 +72,7 @@ async function threeMonthRecordsKeywords(req: NextApiRequest, res: NextApiRespon
     });
     return res.status(200).json(postApi.data.keywords_result);
   } catch (err) {
-    return res.status(401).json({ message: "flask 500 error" });
+    return res.status(200).json(["empty"]);
   }
 }
 
