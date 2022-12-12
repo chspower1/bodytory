@@ -2,16 +2,12 @@ import type { AppProps } from "next/app";
 import { QueryClient, QueryClientProvider, QueryErrorResetBoundary } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Layout from "@components/layout/Layout";
-import { Suspense } from "react";
-import { ErrorBoundary } from "react-error-boundary";
 import GlobalStyled from "@styles/GlobalStyled";
 import Head from "next/head";
 import { theme } from "@styles/theme";
 import { ThemeProvider } from "styled-components";
-import Header from "@components/header/Header";
 import { RecoilRoot } from "recoil";
 import "@public/static/fonts/pretendardvariable.css";
-import "regenerator-runtime/runtime";
 
 const queryClient = new QueryClient({
   defaultOptions: {
