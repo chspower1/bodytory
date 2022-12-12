@@ -56,12 +56,7 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage, isH
   }, [currentPosition]);
 
   return (
-    <CustomContainer
-      initial={{ x: 500 }}
-      animate={{ x: 0 }}
-      transition={{ duration: 0.7, type: "tween", ease: "easeOut" }}
-      isWritePage={isWritePage}
-    >
+    <CustomContainer isWritePage={isWritePage}>
       {currentPos !== "face" ? (
         <ButtonsBox>
           <RoundButton
@@ -369,7 +364,7 @@ const Overlay = styled.div`
   height: 100%;
   position: absolute;
 `;
-const CustomContainer = styled(motion.div)<{ isWritePage: boolean }>`
+const CustomContainer = styled.div<{ isWritePage: boolean }>`
   position: relative;
   display: flex;
   aspect-ratio: 1/1.2;
@@ -378,7 +373,7 @@ const CustomContainer = styled(motion.div)<{ isWritePage: boolean }>`
     isWritePage
       ? css`
           aspect-ratio: 1/1;
-          width: 50%;
+          // width: 50%;
           background-color: #ebecfc;
           box-shadow: 8px 8px 18px rgba(174, 178, 228, 0.25);
           border-radius: 30px;

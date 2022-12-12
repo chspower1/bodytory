@@ -24,12 +24,13 @@ const Home = () => {
             <ToryPurpleAnim  toryMotionIdx={0} width={340}  />
           </ToryMotion>
           <TextBox>
-            <Accent>
-              <strong>{user ? user?.name : "OOO"}님, </strong>
-            </Accent>
-            건강한 하루에요!
-            <br />
-            어떤 서비스를 이용하실 건가요?
+            <p>    
+              <Accent>
+                <strong>{user ? user?.name : "OOO"}님, </strong>
+              </Accent>
+              건강한 하루에요!
+            </p>
+            <p>어떤 서비스를 이용하실 건가요?</p>
           </TextBox>
         </ToryBox>
         <WriteBox>

@@ -16,11 +16,7 @@ const BodyPartChecker = ({ selectedBodyPart }: SelectBodyPartProps) => {
   const router = useRouter();
 
   return (
-    <FlexContainer
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 1, type: "tween", ease: "easeOut" }}
-    >
+    <FlexContainer>
       <ContentBox>
         <ToryBox>
           <ToryIcon />
@@ -34,7 +30,7 @@ const BodyPartChecker = ({ selectedBodyPart }: SelectBodyPartProps) => {
                 key={KoreanPosition[selectedBodyPart]}
                 initial={{opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 0.6 }}
+                transition={{ duration: .5 }}
               >
                 {KoreanPosition[selectedBodyPart]}
               </PositionTextBox>

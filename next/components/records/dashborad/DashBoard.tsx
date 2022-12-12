@@ -87,7 +87,7 @@ function DashBoard() {
 }
 
 const DashBoardWarp = styled.div`
-  width: 62.5%;
+  width: 100%;
   height: 100%;
   background: ${({ theme }) => theme.color.darkBg};
 `;

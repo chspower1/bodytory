@@ -68,8 +68,10 @@ const SideMenu = () => {
                 </Link>
                 <div className="goEdit">
                   <Link href="/users/profile/edit">
-                    <i />
-                    계정 설정
+                    <span>
+                      <i />
+                      계정 설정
+                    </span>
                   </Link>
                 </div>
                 <Nav>
@@ -173,11 +175,39 @@ const InnerBox = styled(Col)`
 
 const ContentsBox = styled.div`
   width: 100%;
+
   .goEdit {
     text-align: right;
+
     a {
+      position: relative;
       display: inline-flex;
       align-items: center;
+
+      span {
+        position: relative;
+        z-index: 5;
+      }
+
+      &:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(to top, rgba(217, 222, 255, .5) 40%, transparent 40%);
+        z-index: 1;
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+    
+      &:hover {
+        &:before {
+          opacity: 1;
+        }
+      }
+
       i {
         width: 22px;
         height: 22px;
@@ -185,6 +215,7 @@ const ContentsBox = styled.div`
         background-size: cover;
         margin-right: 10px;
       }
+
     }
   }
 `;

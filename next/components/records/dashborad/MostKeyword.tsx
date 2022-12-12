@@ -73,6 +73,7 @@ const MostKeyword = ({ chartData }: any) => {
         dataKey={"value"}
         stroke={"#fff"}
         content={<CustomKeyword colors={COLORS} />}
+        animationDuration={1000}
       ></Treemap>
     </TreemapBox>
   );
