@@ -3,12 +3,14 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import tory from "@src/assets/icons/tory.png";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { CircleButton, RoundButton } from "@components/layout/buttons/Button";
 import { theme } from "@styles/theme";
 import skipIcon from "@src/assets/icons/skipIcon.png";
 import { useRouter } from "next/router";
 import ToryWhiteAnim from "@components/lotties/ToryWhiteAnim";
+import { isFirstUser } from "atoms/atoms";
+import { useSetRecoilState } from "recoil";
 
 const LendingRoot = styled.div<{ flex: boolean }>`
   margin: auto;
@@ -44,7 +46,7 @@ const QuestionBox = styled(motion.div)`
   }
 `;
 
-const SkipBox = styled.div`
+const SkipBox = styled(motion.div)`
   position: absolute;
   right: 60px;
   bottom: 40px;
@@ -62,6 +64,16 @@ export default function LendingPage() {
   const [toriComment, setToriComment] = useState("반가워요!");
   const [isFirst, setIsFrist] = useState(false);
   const [toryMotionIdx, setToryMotionIdx] = useState<number>(0);
+  const setIsNew  = useSetRecoilState(isFirstUser);
+
+  const handleClickPushRegister =()=>{
+    setIsNew(false);
+    router.push("/auth/register/choice");
+  }
+  const handleClickPushLogin =()=>{
+    setIsNew(false);
+    router.push("/auth/login");
+  }
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -96,22 +108,22 @@ export default function LendingPage() {
           >
             <ToriMessage>바디토리는 처음이신가요?</ToriMessage>
             <div className="btnBox">
-              <Link href="/auth/register/choice">
-                <CircleButton bgColor={theme.color.mintBtn}>네</CircleButton>
-              </Link>
-              <Link href="/auth/login">
-                <CircleButton>아니요</CircleButton>
-              </Link>
+              <CircleButton bgColor={theme.color.mintBtn} onClick={handleClickPushRegister}>네</CircleButton>
+              <CircleButton onClick={handleClickPushLogin}>아니요</CircleButton>
             </div>
           </QuestionBox>
         )}
       </LendingRoot>
-      <SkipBox>
-        <RoundButton size="md" width="200px" bgColor="rgb(70, 75, 206)" onClick={() => router.push("/")}>
-          <span>건너뛰기</span>
-          <span className="imgBox"></span>
-        </RoundButton>
-      </SkipBox>
+      <AnimatePresence>
+        {!isFirst && (
+          <SkipBox initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+            <RoundButton size="md" width="200px" bgColor="rgb(70, 75, 206)" onClick={handleClickPushLogin}>
+              <span>건너뛰기</span>
+              <span className="imgBox"></span>
+            </RoundButton>
+          </SkipBox>
+        )}
+      </AnimatePresence>
     </FlexContainer>
   );
 }
