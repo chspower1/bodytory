@@ -1,4 +1,5 @@
 import CheckBoxInput from "@components/layout/input/CheckBoxInput";
+import usePortal from "@hooks/usePortal";
 import { AnimatePresence, motion } from "framer-motion";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
@@ -10,10 +11,8 @@ interface AlertModalProps {
 }
 
 const AlertModal = ({ show, onClose }: AlertModalProps) => {
-  const [isBrowser, setIsBrowser] = useState(false);
-  useEffect(() => {
-    setIsBrowser(true);
-  }, []);
+  const Portal = usePortal();
+
   useEffect(() => {
     if (show) {
       const timer = setTimeout(onClose, 3000);
@@ -49,7 +48,7 @@ const AlertModal = ({ show, onClose }: AlertModalProps) => {
     </AnimatePresence>
   );
 
-  return isBrowser ? ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement) : null;
+  return Portal({ children: modalContent });
 };
 
 export default AlertModal;

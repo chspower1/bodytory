@@ -159,10 +159,6 @@ const LoginPage: NextPage = () => {
             <WhiteBoldText>회원가입</WhiteBoldText>
           </Link>
         </RegisterLinkBox>
-        {/* <button onClick={() => setShowModal(true)}>Open Modal</button> */}
-        {/* <Modal onClose={() => setShowModal(false)} activeFunction={} show={showModal} title={"임시 타이틀"}>
-        children으로 주는거라 태그 사이에 쓰면 됩니다.
-      </Modal> */}
       </InnerContainer>
     </FlexContainer>
   );

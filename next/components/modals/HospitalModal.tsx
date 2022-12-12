@@ -17,6 +17,7 @@ import { changeDate } from "@utils/client/changeDate";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
 import { RECORDS_READ } from "constant/queryKeys";
+import usePortal from "@hooks/usePortal";
 
 interface ModalType {
   show: boolean;
@@ -34,7 +35,7 @@ interface HospitalRecordType {
 }
 
 const HospitalModal = ({ show, onClose, name, gender, birth, position, patientId }: ModalType) => {
-  const [isBrowser, setIsBrowser] = useState(false);
+  const Portal = usePortal();
   const queryClient = useQueryClient();
   const {
     register,
@@ -67,9 +68,7 @@ const HospitalModal = ({ show, onClose, name, gender, birth, position, patientId
   useEffect(() => {
     setDateNow(new Date());
   }, [show]);
-  useEffect(() => {
-    setIsBrowser(true);
-  }, []);
+
   const modalContent = (
     <AnimatePresence>
       {show && (
@@ -151,7 +150,7 @@ const HospitalModal = ({ show, onClose, name, gender, birth, position, patientId
     </AnimatePresence>
   );
 
-  return isBrowser ? ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement) : null;
+  return Portal({ children: modalContent });
 };
 
 export default HospitalModal;

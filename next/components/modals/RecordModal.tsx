@@ -21,6 +21,7 @@ import ReactDOM from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { ModalContainer, ModalWrapper, Dim } from "@styles/ModalStyled";
 import { changeDate } from "@utils/client/changeDate";
+import usePortal from "@hooks/usePortal";
 export interface RecordWithImage extends Record {
   images: RecordImage[];
 }
@@ -34,8 +35,8 @@ interface RecordModalProps {
   onClose: () => void;
 }
 const RecordModal = ({ onClose, record, isHospital }: RecordModalProps) => {
-  const [isBrowser, setIsBrowser] = useState(false);
   const { putApi, deleteApi } = customApi("/api/users/records");
+  const Portal = usePortal();
 
   const queryClient = useQueryClient();
 
@@ -96,9 +97,6 @@ const RecordModal = ({ onClose, record, isHospital }: RecordModalProps) => {
     }, 1400);
   };
 
-  useEffect(() => {
-    setIsBrowser(true);
-  }, []);
 
   const modalContent = (
     <ModalWrapper>
@@ -172,7 +170,7 @@ const RecordModal = ({ onClose, record, isHospital }: RecordModalProps) => {
       </ModalContainer>
     </ModalWrapper>
   );
-  return isBrowser ? ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement) : null;
+  return Portal({ children: modalContent });
 };
 
 export default RecordModal;
