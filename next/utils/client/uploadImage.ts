@@ -17,8 +17,7 @@ const uploadImage = (id: string, mutate: any) => {
       formData.append("recordId", id);
       Array.from(input?.files!).forEach(file => formData.append("image", file));
       mutate(formData);
-    } catch (err) {
-    }
+    } catch (err) {}
   });
 };
 
