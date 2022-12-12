@@ -41,7 +41,6 @@ type RecordStatus = "initial" | "finish" | "listening" | "loading" | "error";
 const PositionPage = () => {
   const router = useRouter();
   const position = router.query.position as Position;
-  const [isEditMode, setIsEditMode] = useState(true);
   const {
     getValues,
     register,
@@ -93,6 +92,11 @@ const PositionPage = () => {
       setRecordStatus("initial");
       setShowModal(true);
     }
+  };
+
+  const reset = () => {
+    setValue("description", "");
+    setRecordStatus("initial");
   };
 
   const endRecord = async () => {
@@ -168,7 +172,7 @@ const PositionPage = () => {
             <MemoBox>
               <MemoInput
                 type="text"
-                disabled={!isEditMode || recordStatus === "listening"}
+                disabled={recordStatus === "listening"}
                 onClick={handleClickEditMode}
                 placeholder={recordMessage}
                 {...register("description", {
@@ -179,18 +183,15 @@ const PositionPage = () => {
                 <RefreshBtnBox>
                   <CircleButton
                     nonSubmit
-                    onClick={startRecord}
+                    onClick={reset}
                     bgColor={theme.color.mintBtn}
                     width="46px"
                     height="46px"
                     boxShadow={false}
                   >
-                    <Image src={refresh} width={30} height={30} alt="다시 녹음"
-                  />
+                    <Image src={refresh} width={30} height={30} alt="다시 녹음" />
                   </CircleButton>
-                    <RefreshText>
-                      새로고침
-                    </RefreshText>
+                  <RefreshText>새로고침</RefreshText>
                 </RefreshBtnBox>
               )}
             </MemoBox>
@@ -198,15 +199,8 @@ const PositionPage = () => {
             <CircleButton
               width="100px"
               height="100px"
-              bgColor={
-                listening
-                  ? theme.color.error
-                  : isEditMode && getValues("description")
-                  ? theme.color.darkBg
-                  : recordStatus === "initial"
-                  ? theme.color.darkBg
-                  : theme.color.disabled
-              }
+              disabled={watch("description") && watch("description")?.length < 2 ? true : false}
+              bgColor={listening ? theme.color.error : theme.color.darkBg}
               onClick={() => {
                 recordStatus === "initial" && startRecord();
                 recordStatus === "listening" && endRecord();
@@ -262,12 +256,12 @@ const RefreshBtnBox = styled(Box)`
   right: -150px;
   width: 130px;
   justify-content: start;
-  button:hover +  div{
-    display:block;
+  button:hover + div {
+    display: block;
   }
 `;
 const RefreshText = styled(motion.div)`
-  display:none;
+  display: none;
   color: ${({ theme }) => theme.color.mintBtn};
   margin-left: 20px;
   font-weight: 500;
