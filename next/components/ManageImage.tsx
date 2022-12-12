@@ -68,7 +68,7 @@ const ManageImage = ({
                       setShowImageDetailModal(key);
                     }}
                   />
-                  {isHover === key && <DeleteButton onClick={() => deleteImageMutate(recordImage.id)} />}
+                  {isHover === key && <DeleteButton onClick={() => deleteImageMutate({ imageId: recordImage.id })} />}
 
                   <ImageDetailModal
                     show={showImageDetailModal}
@@ -173,7 +173,8 @@ const DeleteButton = styled.button`
   right: 6px;
   width: 30px;
   height: 30px;
-  background: url("/static/icon/delete.png") no-repeat 50% 50%/80%;
+  background-color: red;
+  /* background: url("../src/assets/icons/delete.png") no-repeat 50% 50%/80%; */
 `;
 
 const UploadImageButton = styled.button`
