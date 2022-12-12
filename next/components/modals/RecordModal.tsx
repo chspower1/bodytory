@@ -1,10 +1,17 @@
-import { RoundButton } from "@components/buttons/Button";
+import { RoundButton } from "@components/layout/buttons/Button";
 import ManageImage from "@components/ManageImage";
 import { RecordWithImageAndHospital } from "@components/records/chart/ChartTimeline";
 import { Record, RecordImage } from "@prisma/client";
 import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
-import { AI_RESULT_READ, BODYPART_CHARTDATA_READ, KEYWORDS_CHARTDATA_READ, RECORDS_DELETE, RECORDS_READ, RECORDS_UPDATE } from "constant/queryKeys";
+import {
+  AI_RESULT_READ,
+  BODYPART_CHARTDATA_READ,
+  KEYWORDS_CHARTDATA_READ,
+  RECORDS_DELETE,
+  RECORDS_READ,
+  RECORDS_UPDATE,
+} from "constant/queryKeys";
 import React, { useEffect, useState } from "react";
 import { SubmitHandler, useController, useForm } from "react-hook-form";
 import { useRecoilValue } from "recoil";
@@ -90,7 +97,6 @@ const RecordModal = ({ onClose, record, isHospital }: RecordModalProps) => {
     setIsBrowser(true);
   }, []);
 
-
   const modalContent = (
     <ModalWrapper>
       <Dim onClick={onClose} />
@@ -163,7 +169,7 @@ const RecordModal = ({ onClose, record, isHospital }: RecordModalProps) => {
       </ModalContainer>
     </ModalWrapper>
   );
-  return  isBrowser ? ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement) : null;
+  return isBrowser ? ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement) : null;
 };
 
 export default RecordModal;

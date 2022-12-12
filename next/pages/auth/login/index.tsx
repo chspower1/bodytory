@@ -1,4 +1,4 @@
-import Input from "@components/Input";
+import Input from "@components/layout/input/Input";
 
 import { NextPage } from "next";
 import { useForm } from "react-hook-form";
@@ -9,12 +9,12 @@ import Link from "next/link";
 import customApi from "utils/client/customApi";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Modal from "@components/modals/Modal";
-import NaverLoginBtn from "@components/buttons/NaverBtn";
-import KakaoLoginBtn from "@components/buttons/KakaoBtn";
+import NaverLoginBtn from "@components/layout/buttons/NaverBtn";
+import KakaoLoginBtn from "@components/layout/buttons/KakaoBtn";
 import { USER_LOGIN, USE_USER } from "constant/queryKeys";
-import { RoundButton } from "@components/buttons/Button";
+import { RoundButton } from "@components/layout/buttons/Button";
 import Image from "next/image";
-import naver from "@public/static/icon/naver.svg";
+import naver from "@src/assets/icons/naver.svg";
 import {
   Box,
   Col,

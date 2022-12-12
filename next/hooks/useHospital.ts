@@ -1,4 +1,4 @@
-import { RectangleButton } from "@components/buttons/Button";
+import { RectangleButton } from "@components/layout/buttons/Button";
 import { theme } from "@styles/theme";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
@@ -29,16 +29,22 @@ const useHospital = () => {
       refreshHospitalCache();
     },
   });
-  const handleClickAddHospital = useCallback((id: number, option?: (value: SetStateAction<boolean | undefined>) => void) => {
-    addHospitalMutate({ id });
-    option && option(true);
-    setShowModal(false);
-  }, []);
-  const handleClickDeleteHospital = useCallback((id: number, option?: (value: SetStateAction<boolean | undefined>) => void) => {
-    deleteHospitalMutate({ id });
-    option && option(false);
-    setShowModal(false);
-  }, []);
+  const handleClickAddHospital = useCallback(
+    (id: number, option?: (value: SetStateAction<boolean | undefined>) => void) => {
+      addHospitalMutate({ id });
+      option && option(true);
+      setShowModal(false);
+    },
+    [],
+  );
+  const handleClickDeleteHospital = useCallback(
+    (id: number, option?: (value: SetStateAction<boolean | undefined>) => void) => {
+      deleteHospitalMutate({ id });
+      option && option(false);
+      setShowModal(false);
+    },
+    [],
+  );
   const handleClickShare = useCallback((id: number, option?: (value: SetStateAction<boolean>) => void) => {
     sharedHospitalMutate({ id });
     option && option(prev => !prev);

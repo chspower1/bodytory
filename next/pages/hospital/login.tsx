@@ -1,4 +1,4 @@
-import Input from "@components/Input";
+import Input from "@components/layout/input/Input";
 import { NextPage } from "next";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
@@ -7,13 +7,8 @@ import Link from "next/link";
 import customApi from "utils/client/customApi";
 import { useMutation } from "@tanstack/react-query";
 import { HOSPITAL_LOGIN } from "constant/queryKeys";
-import { RoundButton } from "@components/buttons/Button";
-import {
-  InnerContainer,
-  FlexContainer,
-  Row,
-  WhiteText,
-} from "@styles/Common";
+import { RoundButton } from "@components/layout/buttons/Button";
+import { InnerContainer, FlexContainer, Row, WhiteText } from "@styles/Common";
 import { theme } from "@styles/theme";
 import styled from "styled-components";
 import MessageBox from "@components/MessageBox";
@@ -73,7 +68,7 @@ const LoginPage: NextPage = () => {
         </TitleBox>
         <MessageBox isErrorsMessage={isErrorsMessage}>
           {isErrorsMessage === undefined &&
-            (isError ?  "앗! 로그인 정보를 다시 한번 확인해주세요" : "로그인 정보를 입력해주세요")}
+            (isError ? "앗! 로그인 정보를 다시 한번 확인해주세요" : "로그인 정보를 입력해주세요")}
         </MessageBox>
         <LoginForm as="form" onSubmit={handleSubmit(onValid)}>
           <LoginFormInnerBox>
@@ -111,19 +106,19 @@ const LoginPage: NextPage = () => {
 };
 export default LoginPage;
 
-const HospitalInnerContainer =styled(InnerContainer)`
-  .messageBox{
+const HospitalInnerContainer = styled(InnerContainer)`
+  .messageBox {
     color: #000;
   }
-`
-const TitleBox =styled.div`
+`;
+const TitleBox = styled.div`
   margin-bottom: 20px;
-  h2{
-    text-align:center;
+  h2 {
+    text-align: center;
     font-size: 34px;
     font-weight: 700;
   }
-`
+`;
 const LoginForm = styled.form`
   display: flex;
   justify-content: center;
@@ -131,4 +126,3 @@ const LoginForm = styled.form`
 const LoginFormInnerBox = styled.div`
   display: inline-block;
 `;
-

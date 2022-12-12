@@ -1,4 +1,4 @@
-import { RoundButton } from "@components/buttons/Button";
+import { RoundButton } from "@components/layout/buttons/Button";
 import ToryIcon from "@components/ToryIcon";
 import { BTN_VARIANTS } from "@styles/ButtonStyled";
 import { Box, BtnBox, Col, FlexContainer, ToryText } from "@styles/Common";
@@ -74,7 +74,7 @@ export const PositionTextBox = styled(motion.span)`
 
 const ContentBox = styled.div`
   width: 540px;
-`
+`;
 
 export const ToryBox = styled(Box)`
   margin-bottom: 40px;
@@ -85,5 +85,5 @@ export const TextBox = styled(Box)`
 `;
 export const CreateBtnBox = styled(BtnBox)`
   height: 60px;
-  justify-content:center;
+  justify-content: center;
 `;

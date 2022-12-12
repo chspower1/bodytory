@@ -2,12 +2,12 @@ import { Col, Row } from "@styles/Common";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import styled, { css } from "styled-components";
-import settingIcon from "@public/static/icon/settingIcon.png";
+import settingIcon from "@src/assets/icons/settingIcon.png";
 import HamburgerMenuButton from "./HamburgerMenuButton";
 import { useRouter } from "next/router";
-import LogoutBtn from "@components/buttons/LogoutBtn";
-import toriLink from "@public/static/icon/toriLink.png";
-import menuLogo from "@public/static/icon/menuLogo.png";
+import LogoutBtn from "@components/layout/buttons/LogoutBtn";
+import toriLink from "@src/assets/icons/toriLink.png";
+import menuLogo from "@src/assets/icons/menuLogo.png";
 import useUser from "@hooks/useUser";
 
 const SideMenu = () => {
@@ -88,10 +88,10 @@ const SideMenu = () => {
             <Footer>
               <FooterUl>
                 <li>
-                  <Link href="">바디토리 소개</Link>
+                  <Link href="about/bodytory">바디토리 소개</Link>
                 </li>
                 <li>
-                  <Link href="/users/team">팀 소개</Link>
+                  <Link href="/about/team">팀 소개</Link>
                 </li>
                 <li>© 2022. BODYTORY</li>
               </FooterUl>

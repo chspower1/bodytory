@@ -6,19 +6,25 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import { KoreanPosition } from "types/write";
-import mic from "@public/static/icon/mic.svg";
+import mic from "@src/assets/icons/mic.svg";
 import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useMutation } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
-import { CreateBtnBox, PositionBoxText, TextBox, ToryBox } from "@components/records/BodyPartChecker";
+import {
+  CreateBtnBox,
+  PositionBoxText,
+  TextBox,
+  ToryBox,
+} from "@components/records/BodyPartChecker";
 import ToryIcon from "@components/ToryIcon";
 export default function WritePositionPage() {
   const router = useRouter();
   const { postApi } = customApi("/api/users/records");
   const position = router.query.position as Position;
-  const { transcript, listening, resetTranscript, browserSupportsSpeechRecognition } = useSpeechRecognition();
+  const { transcript, listening, resetTranscript, browserSupportsSpeechRecognition } =
+    useSpeechRecognition();
   const [error, setError] = useState(false);
   const { mutate } = useMutation(["records", "write"], postApi, {
     onSuccess() {

@@ -3,7 +3,7 @@ import { changeDate } from "@utils/client/changeDate";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import ReactDOM from "react-dom";
-import { RoundButton } from "../buttons/Button";
+import { RoundButton } from "../layout/buttons/Button";
 import { AnimatePresence, motion } from "framer-motion";
 import { ModalContainer, ModalWrapper } from "@styles/ModalStyled";
 
@@ -77,7 +77,7 @@ const ClinicModal = ({
       )}
     </AnimatePresence>
   );
-  return  isBrowser ? ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement) : null;
+  return isBrowser ? ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement) : null;
 };
 
 export default ClinicModal;

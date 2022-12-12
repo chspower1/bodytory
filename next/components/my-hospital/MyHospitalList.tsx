@@ -5,7 +5,7 @@ import { MyHospitalResponse } from "pages/users/my-hospital";
 import { LegacyRef, MouseEvent, useState } from "react";
 import styled from "styled-components";
 import HospitalContent from "./HospitalContent";
-import ListSkeleton from "./skeletonUI/ListSkeleton";
+import ListSkeleton from "../skeletonUI/ListSkeleton";
 
 interface MyHospitalListProps {
   hospitals?: MyHospitalResponse[];
@@ -32,7 +32,9 @@ const MyHospitalList = ({ hospitals, add, isLoading }: MyHospitalListProps) => {
             ))}
           </HospitalLists>
         )}
-        {!isLoading && hospitals?.length === 0 && <NoneMessage>{add ? "검색결과가 없습니다" : "병원내역이 없습니다"}</NoneMessage>}
+        {!isLoading && hospitals?.length === 0 && (
+          <NoneMessage>{add ? "검색결과가 없습니다" : "병원내역이 없습니다"}</NoneMessage>
+        )}
       </InnerContainer>
     </HospitalContainer>
   );

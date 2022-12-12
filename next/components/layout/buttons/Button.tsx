@@ -4,9 +4,9 @@
 import Image from "next/image";
 import { useEffect } from "react";
 import styled, { css } from "styled-components";
-import Naver from "@public/static/icon/naver.svg";
-import Kakao from "@public/static/icon/kakao.svg";
-import Origin from "@public/static/icon/origin.svg";
+import Naver from "@src/assets/icons/naver.svg";
+import Kakao from "@src/assets/icons/kakao.svg";
+import Origin from "@src/assets/icons/origin.svg";
 import { theme } from "@styles/theme";
 import { Box, Col } from "@styles/Common";
 
@@ -70,7 +70,7 @@ const Button = styled.button<{
   &:hover {
     background-color: ${props => ChangeToHoverColor(props.bgColor)};
   }
-  transition: background-color .35s ease;
+  transition: background-color 0.35s ease;
   button {
     color: ${props => props.textColor};
   }

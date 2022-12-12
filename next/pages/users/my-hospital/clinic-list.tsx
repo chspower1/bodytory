@@ -1,11 +1,11 @@
-import { RoundButton } from "@components/buttons/Button";
-import SwiperBox from "@components/SwiperBox";
+import { RoundButton } from "@components/layout/buttons/Button";
+import SwiperBox from "@components/my-hospital/SwiperBox";
 import { BackButton, Container, InnerContainer, Row } from "@styles/Common";
 import { theme } from "@styles/theme";
 import { DescriptionBox, HighlightText, Pragraph } from "./";
 import React, { useState } from "react";
 import styled from "styled-components";
-import tory from "@public/static/icon/tory.png";
+import tory from "@src/assets/icons/tory.png";
 import { useRouter } from "next/router";
 import Link from "next/link";
 

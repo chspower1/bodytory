@@ -1,4 +1,4 @@
-import { RoundButton } from "@components/buttons/Button";
+import { RoundButton } from "@components/layout/buttons/Button";
 import { ToryText } from "@styles/Common";
 import styled from "styled-components";
 import { NextPage } from "next";
@@ -18,7 +18,7 @@ interface ArroundMapMaodalProps {
   latitude: number | null;
 }
 const ArroundMapModal: NextPage<ArroundMapMaodalProps> = ({ onClose, mostThreeDepartment, longitude, latitude }) => {
-  const {user} = useUser();
+  const { user } = useUser();
   const { department, DepartmentSelect } = useDepartmentSelect(mostThreeDepartment ? mostThreeDepartment : []);
   const [isBrowser, setIsBrowser] = useState(false);
   const modalContent = (

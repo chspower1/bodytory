@@ -1,8 +1,8 @@
-import { RectangleButton, RoundButton } from "@components/buttons/Button";
-import { ShareStatus } from "@components/HospitalContent";
-import Input from "@components/Input";
+import { RectangleButton, RoundButton } from "@components/layout/buttons/Button";
+import { ShareStatus } from "@components/my-hospital/HospitalContent";
+import Input from "@components/layout/input/Input";
 import Modal from "@components/modals/Modal";
-import { SearchForm } from "@components/SearchHospitalList";
+import { SearchForm } from "@components/search/SearchHospitalList";
 import { Container } from "@styles/Common";
 import { theme } from "@styles/theme";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";

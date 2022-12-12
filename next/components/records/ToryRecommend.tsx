@@ -1,10 +1,10 @@
-import { RoundButton } from "@components/buttons/Button";
+import { RoundButton } from "@components/layout/buttons/Button";
 import styled, { css } from "styled-components";
-import IconHospital from "@public/static/icon/icon_hospital.png";
-import IconWarning from "@public/static/icon/icon_warning.png";
+import IconHospital from "@src/assets/icons/icon_hospital.png";
+import IconWarning from "@src/assets/icons/icon_warning.png";
 import { useState } from "react";
 import ArroundMapModal from "@components/modals/map/ArroundMapModal";
-import LocationPinIcon from "@public/static/icon/location_pin.svg";
+import LocationPinIcon from "@src/assets/icons/location_pin.svg";
 import useCoords from "@hooks/useCoords";
 import { AnimatePresence } from "framer-motion";
 

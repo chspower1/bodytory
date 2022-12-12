@@ -1,6 +1,6 @@
 import useUser from "@hooks/useUser";
 import { Position } from "@prisma/client";
-import LoadingAnim from "@src/lotties/LoadingAnim";
+import LoadingAnim from "@components/lotties/LoadingAnim";
 import { useQuery } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
 import { BODYPART_CHARTDATA_READ, KEYWORDS_CHARTDATA_READ } from "constant/queryKeys";
@@ -17,7 +17,7 @@ interface ThreeMonthResponse {
 }
 
 function DashBoardStatistics() {
-  const {user} = useUser();
+  const { user } = useUser();
 
   const [mostPart, setMostPart] = useState<string[]>();
   const [mostPartIdx, setMostPartIdx] = useState<number[]>();

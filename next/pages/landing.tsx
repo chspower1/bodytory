@@ -2,11 +2,11 @@ import { FlexContainer } from "@styles/Common";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
-import tory from "@public/static/icon/tory.png";
+import tory from "@src/assets/icons/tory.png";
 import { motion } from "framer-motion";
-import { CircleButton, RoundButton } from "@components/buttons/Button";
+import { CircleButton, RoundButton } from "@components/layout/buttons/Button";
 import { theme } from "@styles/theme";
-import skipIcon from "@public/static/icon/skipIcon.png";
+import skipIcon from "@src/assets/icons/skipIcon.png";
 import { useRouter } from "next/router";
 
 const LendingRoot = styled.div<{ flex: boolean }>`
@@ -23,9 +23,6 @@ const LendingRoot = styled.div<{ flex: boolean }>`
   .imgBox {
     display: flex;
     justify-content: center;
-  }
-
-  
   }
 `;
 

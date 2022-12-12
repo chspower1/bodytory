@@ -2,13 +2,13 @@ import { theme } from "@styles/theme";
 import React, { ReactNode, useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import styled from "styled-components";
-import { RoundButton } from "../buttons/Button";
+import { RoundButton } from "../layout/buttons/Button";
 import { AnimatePresence } from "framer-motion";
 import { Dim, ModalContainer, ModalWrapper } from "@styles/ModalStyled";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Subject } from "./ClinicModal";
-import Input from "@components/Input";
-import Textarea from "@components/Textarea";
+import Input from "@components/layout/input/Input";
+import Textarea from "@components/layout/input/Textarea";
 import { Row } from "@styles/Common";
 import getAmericanAge from "@utils/client/getAmericanAge";
 import { KoreanPosition } from "types/write";
@@ -151,7 +151,7 @@ const HospitalModal = ({ show, onClose, name, gender, birth, position, patientId
     </AnimatePresence>
   );
 
-  return  isBrowser ? ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement) : null;
+  return isBrowser ? ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement) : null;
 };
 
 export default HospitalModal;

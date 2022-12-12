@@ -2,7 +2,7 @@ import { theme } from "@styles/theme";
 import React, { ReactNode, useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import styled, { css, keyframes } from "styled-components";
-import { RoundButton } from "../buttons/Button";
+import { RoundButton } from "../layout/buttons/Button";
 import { AnimatePresence, motion } from "framer-motion";
 import { Dim, ModalContainer, ModalWrapper } from "@styles/ModalStyled";
 

@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import React, { Dispatch, SetStateAction, useState } from "react";
 import { FieldValues, UseFormSetValue } from "react-hook-form";
 import styled from "styled-components";
-import { RoundButton } from "./buttons/Button";
+import { RoundButton } from "../buttons/Button";
 import { InputProps } from "./Input";
 
 interface ButtonInInputProps<T extends FieldValues = any> extends InputProps {

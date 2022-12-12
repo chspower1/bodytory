@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import checkIcon from "@public/static/icon/checkbox.png";
-import checkedIcon from "@public/static/icon/checkbox_checked.png";
+import checkIcon from "@src/assets/icons/checkbox.png";
+import checkedIcon from "@src/assets/icons/checkbox_checked.png";
 import { RadioProps } from "./RadioInput";
 
 const CheckBoxInput = ({ label, name, register, error, checked, disabled }: RadioProps) => {

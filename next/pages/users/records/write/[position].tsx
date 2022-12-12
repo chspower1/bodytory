@@ -1,4 +1,4 @@
-import { CircleButton, RectangleButton, RoundButton } from "@components/buttons/Button";
+import { CircleButton, RectangleButton, RoundButton } from "@components/layout/buttons/Button";
 import { Position } from "@prisma/client";
 import { BackButton, BlackToryText, BodyText, Box, Col, FlexContainer, WhiteWrapper } from "@styles/Common";
 import { theme } from "@styles/theme";
@@ -23,10 +23,10 @@ import {
 import { AxiosError } from "axios";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import pencil from "@public/static/icon/pencil.svg";
-import mic from "@public/static/icon/mic.svg";
-import check from "@public/static/icon/check.png";
-import refresh from "@public/static/icon/refresh.png";
+import pencil from "@src/assets/icons/pencil.svg";
+import mic from "@src/assets/icons/mic.svg";
+import check from "@src/assets/icons/check.png";
+import refresh from "@src/assets/icons/refresh.png";
 import { useForm } from "react-hook-form";
 import Modal from "@components/modals/Modal";
 

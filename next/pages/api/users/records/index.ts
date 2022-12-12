@@ -18,18 +18,18 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "DELETE") return await deleteRecord(req, res);
 }
 
-async function createRecord(req: NextApiRequest, res: NextApiResponse , user: {id: number;}) {
+async function createRecord(req: NextApiRequest, res: NextApiResponse, user: { id: number }) {
   const { position, description } = req.body;
   if (!user) return res.status(400).end();
-  // const departments = await axios.post(`${process.env.FLASK_API}/api/departments`, {
-  //   sentence: description,
-  // });
+  const departments = await axios.post(`${process.env.FLASK_API}/api/departments`, {
+    sentence: description,
+  });
   await client.record.create({
     data: {
       type: "user",
       position,
       description,
-      // recommendDepartments: departments.data.departments_result as string,
+      recommendDepartments: departments.data.departments_result as string,
       user: {
         connect: {
           id: user.id,
@@ -40,7 +40,7 @@ async function createRecord(req: NextApiRequest, res: NextApiResponse , user: {i
   return res.status(200).end();
 }
 
-async function findRecord(req: NextApiRequest, res: NextApiResponse, user: {id: number;}) {
+async function findRecord(req: NextApiRequest, res: NextApiResponse, user: { id: number }) {
   const data = await client.record.findMany({
     where: {
       userId: user.id,

@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import styled from "styled-components";
-import IconArrowLeft from "@public/static/icon/icon_arrow_left.png";
+import IconArrowLeft from "@src/assets/icons/icon_arrow_left.png";
 export const Wrapper = styled.div<{ bgColor?: string }>`
   position: relative;
   height: 100vh;

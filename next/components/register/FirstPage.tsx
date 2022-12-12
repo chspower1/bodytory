@@ -1,11 +1,11 @@
-import Input from "@components/Input";
+import Input from "@components/layout/input/Input";
 import { useForm } from "react-hook-form";
 import { Dispatch, SetStateAction, useState } from "react";
 import { RegisterForm } from "pages/auth/register";
-import { CircleButton, RectangleButton, RoundButton } from "@components/buttons/Button";
+import { CircleButton, RectangleButton, RoundButton } from "@components/layout/buttons/Button";
 import { Box, Col, Container, FlexContainer, InnerContainer, Row, WhiteText, Wrapper } from "@styles/Common";
 import Link from "next/link";
-import CheckBoxInput from "@components/CheckBoxInput";
+import CheckBoxInput from "@components/layout/input/CheckBoxInput";
 import MessageBox from "@components/MessageBox";
 import styled from "styled-components";
 import { theme } from "@styles/theme";

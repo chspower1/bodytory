@@ -1,27 +1,21 @@
 import lottie from "lottie-web";
-import ChartAnimation from "@src/lotties/data/chart_animation.json";
+import ChartAnimation from "@src/assets/lotties/chart_animation.json";
 import { useEffect, useRef } from "react";
 
 const ChartAnim = () => {
   const chartRef = useRef<any>();
 
   useEffect(() => {
-    
     const chart = lottie.loadAnimation({
       container: chartRef.current,
-      renderer: 'svg',
+      renderer: "svg",
       loop: true,
       autoplay: true,
-      animationData: ChartAnimation
+      animationData: ChartAnimation,
     });
-
   }, []);
 
-
-  return (
-      <div ref={chartRef}></ div>
-  );
+  return <div ref={chartRef}></div>;
 };
-
 
 export default ChartAnim;

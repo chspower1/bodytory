@@ -8,8 +8,8 @@ import { useRecoilState } from "recoil";
 import Modal from "@components/modals/Modal";
 import { BackButton, FlexContainer } from "@styles/Common";
 import MessageBox from "@components/MessageBox";
-import Input from "@components/Input";
-import { RectangleButton } from "@components/buttons/Button";
+import Input from "@components/layout/input/Input";
+import { RectangleButton } from "@components/layout/buttons/Button";
 import styled from "styled-components";
 import { PASSWORD_REGEX } from "constant/regex";
 import useUser from "@hooks/useUser";
@@ -20,7 +20,7 @@ export interface WithdrawType {
 
 export default function Withdraw() {
   const router = useRouter();
-  const {user} = useUser();
+  const { user } = useUser();
   const [userType, setUserType] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [closingComment, setClosingComment] = useState(false);
@@ -67,7 +67,7 @@ export default function Withdraw() {
   useEffect(() => {
     if (user) {
       setUserType(user.type);
-    };
+    }
   }, [user]);
   const isErrorsMessage = errors.password?.message;
 
@@ -79,9 +79,11 @@ export default function Withdraw() {
       <Form onSubmit={handleSubmit(onValid)}>
         <MessageBox
           isErrorsMessage={isErrorsMessage}
-          currentComment={`${userType === "origin" ? `비밀번호를 입력하고 확인을` : `탈퇴하기를`} 누르시면\n회원탈퇴가 진행 됩니다`}
+          currentComment={`${
+            userType === "origin" ? `비밀번호를 입력하고 확인을` : `탈퇴하기를`
+          } 누르시면\n회원탈퇴가 진행 됩니다`}
         ></MessageBox>
-        { userType === "origin" && (
+        {userType === "origin" && (
           <Input
             $light
             type="password"

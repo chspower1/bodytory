@@ -1,10 +1,10 @@
 import Header from "@components/header/Header";
 import styled from "styled-components";
-import Han from "@public/static/teamImage/Han.png";
-import Kim from "@public/static/teamImage/Kim.png";
-import Jung from "@public/static/teamImage/Jung.png";
-import Oh from "@public/static/teamImage/Oh.png";
-import Jo from "@public/static/teamImage/Jo.png";
+import Han from "@src/assets/images/team/Han.png";
+import Kim from "@src/assets/images/team/Kim.png";
+import Jung from "@src/assets/images/team/Jung.png";
+import Oh from "@src/assets/images/team/Oh.png";
+import Jo from "@src/assets/images/team/Cho.png";
 import Image from "next/image";
 const Team = () => {
   return (

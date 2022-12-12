@@ -9,10 +9,10 @@ import { MyHospital, MyHospitalResponse } from "pages/users/my-hospital";
 import { LegacyRef, MouseEvent, useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
-import { RoundButton } from "./buttons/Button";
-import HospitalContent from "./HospitalContent";
-import Input from "./Input";
-import ListSkeleton from "./skeletonUI/ListSkeleton";
+import { RoundButton } from "../layout/buttons/Button";
+import HospitalContent from "../my-hospital/HospitalContent";
+import Input from "../layout/input/Input";
+import ListSkeleton from "../skeletonUI/ListSkeleton";
 
 interface SearchHospitalListResponse {
   foundHospitals: MyHospital[];
@@ -89,15 +89,21 @@ const SearchHospitalList = () => {
       </SearchBox>
       <HospitalContainer add={true}>
         <InnerContainer add={true}>
-          {!searchWord || hospitals?.length === 0 && isLoading && <ListSkeleton backgroundColor="rgb(225,227,255)" />}
+          {!searchWord || (hospitals?.length === 0 && isLoading && <ListSkeleton backgroundColor="rgb(225,227,255)" />)}
           {hospitals?.length !== 0 && (
             <HospitalLists>
-              { isLoading ? (
+              {isLoading ? (
                 <ListSkeleton backgroundColor="rgb(225,227,255)" />
               ) : (
                 <>
                   {hospitals?.map((hospital, idx) => (
-                    <HospitalContent hospital={hospital} idx={hospital.id} add={true} key={hospital.id} shared={false} />
+                    <HospitalContent
+                      hospital={hospital}
+                      idx={hospital.id}
+                      add={true}
+                      key={hospital.id}
+                      shared={false}
+                    />
                   ))}
                   <div
                     style={{ width: "1px", height: "1px" }}

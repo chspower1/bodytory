@@ -1,4 +1,4 @@
-import { ChangeToHoverColor, RectangleButton, RoundButton } from "@components/buttons/Button";
+import { ChangeToHoverColor, RectangleButton, RoundButton } from "@components/layout/buttons/Button";
 import { Dim, ModalContainer, ModalWrapper } from "@styles/ModalStyled";
 import { AnimatePresence } from "framer-motion";
 import ReactDOM from "react-dom";
@@ -8,7 +8,7 @@ import type { MyHospital } from "pages/users/my-hospital";
 import hospital from "@api/hospital";
 import { theme } from "@styles/theme";
 import { useEffect, useState } from "react";
-import { ShareStatus } from "@components/HospitalContent";
+import { ShareStatus } from "@components/my-hospital/HospitalContent";
 import useHospital from "@hooks/useHospital";
 interface MyHospitalModalProps {
   show?: boolean;

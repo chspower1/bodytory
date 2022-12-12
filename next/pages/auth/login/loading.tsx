@@ -1,4 +1,4 @@
-import NaverLoginBtn from "@components/buttons/NaverBtn";
+import NaverLoginBtn from "@components/layout/buttons/NaverBtn";
 import { useMutation, useQueries, useQueryClient } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
 import { USER_LOGIN, USE_USER } from "constant/queryKeys";
@@ -29,8 +29,7 @@ const Loading = () => {
   const router = useRouter();
   const { postApi } = customApi("/api/auth/login");
   const { mutate } = useMutation([USER_LOGIN], postApi, {
-    onError(error: any) {
-    },
+    onError(error: any) {},
     onSuccess(data) {
       if (data.isNew) {
         return router.push(
@@ -49,7 +48,8 @@ const Loading = () => {
   return (
     <LoadingBox>
       <div>
-        유저 정보 조회중입니다<LoadingDot/>
+        유저 정보 조회중입니다
+        <LoadingDot />
       </div>
       <ButtonBox>
         <NaverLoginBtn mutate={mutate} size={"sm"} kind={"login"} />

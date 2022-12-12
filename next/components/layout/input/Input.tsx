@@ -1,7 +1,7 @@
 import Image, { StaticImageData } from "next/image";
 import { FieldError, UseFormRegisterReturn } from "react-hook-form";
 import styled, { css } from "styled-components";
-import checked from "@public/static/icon/check_checked.svg";
+import checked from "@src/assets/icons/check_checked.svg";
 import { theme } from "@styles/theme";
 import { motion } from "framer-motion";
 export interface InputProps {
@@ -22,7 +22,7 @@ export interface InputProps {
   $light?: boolean;
   $white?: boolean;
   motion?: boolean;
-  delay ?: number;
+  delay?: number;
 }
 
 export default function Input({
@@ -56,7 +56,7 @@ export default function Input({
                 opacity: 1,
                 transition: {
                   delay: delay,
-                  duration: .6,
+                  duration: 0.6,
                 },
               }
             : { opacity: 1 }
@@ -67,7 +67,7 @@ export default function Input({
                 y: 30,
                 opacity: 0,
                 transition: {
-                  duration: .6,
+                  duration: 0.6,
                 },
               }
             : { opacity: 1 }

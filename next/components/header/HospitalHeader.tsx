@@ -1,4 +1,4 @@
-import LogoutBtn from "@components/buttons/LogoutBtn";
+import LogoutBtn from "@components/layout/buttons/LogoutBtn";
 import { loggedInHospital } from "atoms/atoms";
 import React, { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";

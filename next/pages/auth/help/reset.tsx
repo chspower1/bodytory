@@ -1,4 +1,4 @@
-import Input from "@components/Input";
+import Input from "@components/layout/input/Input";
 
 import { NextPage } from "next";
 import { useForm } from "react-hook-form";
@@ -9,7 +9,7 @@ import Link from "next/link";
 import customApi from "utils/client/customApi";
 import { useMutation } from "@tanstack/react-query";
 import { HELP_FIND_PASSWORD } from "constant/queryKeys";
-import { RoundButton } from "@components/buttons/Button";
+import { RoundButton } from "@components/layout/buttons/Button";
 import { PASSWORD_REGEX } from "constant/regex";
 import MessageBox from "@components/MessageBox";
 import { FinalCommentBox } from "./find-id";

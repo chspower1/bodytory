@@ -1,4 +1,4 @@
-import Input from "@components/Input";
+import Input from "@components/layout/input/Input";
 import Modal from "@components/modals/Modal";
 import customApi from "utils/client/customApi";
 import { useMutation } from "@tanstack/react-query";
@@ -11,10 +11,10 @@ import useUser from "@hooks/useUser";
 import { FlexContainer, InnerContainer } from "@styles/Common";
 import styled from "styled-components";
 import { theme } from "@styles/theme";
-import { RoundButton } from "@components/buttons/Button";
-import Naver from "@public/static/icon/naver.svg";
-import Kakao from "@public/static/icon/kakao.svg";
-import Origin from "@public/static/icon/origin.svg";
+import { RoundButton } from "@components/layout/buttons/Button";
+import Naver from "@src/assets/icons/naver.svg";
+import Kakao from "@src/assets/icons/kakao.svg";
+import Origin from "@src/assets/icons/origin.svg";
 import Image from "next/image";
 import getAmericanAge from "@utils/client/getAmericanAge";
 import { useRecoilValue } from "recoil";
@@ -33,7 +33,7 @@ export default function Edit() {
   const [showModal, setShowModal] = useState(false);
   const [errorModal, setErrorModal] = useState(false);
   const [closingComment, setClosingComment] = useState(false);
-  const {user} = useUser();
+  const { user } = useUser();
   const americanAge = getAmericanAge(String(user?.birth!));
 
   const [{ oldPassword, newPassword }, setChangePassword] = useState({ oldPassword: "", newPassword: "" });

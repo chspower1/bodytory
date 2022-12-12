@@ -1,13 +1,13 @@
-import ChoiceResiterBox from "@components/ChoiceResiterBox";
-import KakaoLoginBtn from "@components/buttons/KakaoBtn";
-import NaverLoginBtn from "@components/buttons/NaverBtn";
+
+import KakaoLoginBtn from "@components/layout/buttons/KakaoBtn";
+import NaverLoginBtn from "@components/layout/buttons/NaverBtn";
 import customApi from "utils/client/customApi";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { USER_LOGIN, USE_USER } from "constant/queryKeys";
 import { useRouter } from "next/router";
 import React from "react";
-import { SocialButton } from "@components/buttons/Button";
-import OriginLoginBtn from "@components/buttons/OriginBtn";
+import { SocialButton } from "@components/layout/buttons/Button";
+import OriginLoginBtn from "@components/layout/buttons/OriginBtn";
 import { Box, Col, Container, FlexContainer, InnerContainer, ToryText, WhiteText } from "@styles/Common";
 import styled from "styled-components";
 import { ToryTextBox } from "../login";
@@ -42,8 +42,7 @@ const ChoicePage = () => {
   const router = useRouter();
   const { postApi } = customApi("/api/auth/login");
   const { mutate } = useMutation([USER_LOGIN], postApi, {
-    onError(error: any) {
-    },
+    onError(error: any) {},
     onSuccess(data) {
       if (data.isNew) {
         return router.push(

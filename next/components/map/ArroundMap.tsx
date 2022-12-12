@@ -1,5 +1,5 @@
-import { CircleButton } from "@components/buttons/Button";
-import EventMarkerContainer from "@components/Maker";
+import { CircleButton } from "@components/layout/buttons/Button";
+import EventMarkerContainer from "@components/map/Maker";
 import MapDetailModal from "@components/modals/map/MapDetailModal";
 import { Box, Container, ToryText } from "@styles/Common";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -7,8 +7,8 @@ import customApi from "@utils/client/customApi";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { CustomOverlayMap, Map, MapMarker } from "react-kakao-maps-sdk";
 import styled from "styled-components";
-import MagnifierIcon from "@public/static/icon/magnifier.svg";
-import UserIcon from "@public/static/icon/user.svg";
+import MagnifierIcon from "@src/assets/icons/magnifier.svg";
+import UserIcon from "@src/assets/icons/user.svg";
 import { AxiosError } from "axios";
 
 interface Coords {

@@ -1,4 +1,4 @@
-import { RoundButton } from "@components/buttons/Button";
+import { RoundButton } from "@components/layout/buttons/Button";
 import { PositionTextBox } from "@components/records/BodyPartChecker";
 import { Position } from "@prisma/client";
 import { BtnBox, Col, FlexContainer, WhiteText, Wrapper } from "@styles/Common";

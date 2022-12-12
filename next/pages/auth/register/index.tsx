@@ -1,4 +1,4 @@
-import Input from "@components/Input";
+import Input from "@components/layout/input/Input";
 import customApi from "utils/client/customApi";
 import { useMutation } from "@tanstack/react-query";
 import client from "utils/server/client";

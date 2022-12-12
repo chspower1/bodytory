@@ -33,7 +33,7 @@ const Textarea = ({
 
 export default Textarea;
 
-const TextAreaStyle = styled.textarea<{bgColor ?: string,  color ?: string}>`
+const TextAreaStyle = styled.textarea<{ bgColor?: string; color?: string }>`
   width: 500px;
   height: 200px;
   resize: none;
@@ -44,7 +44,7 @@ const TextAreaStyle = styled.textarea<{bgColor ?: string,  color ?: string}>`
   border: 2px solid transparent;
   background: rgba(217, 222, 255, 1);
   box-shadow: 8px 8px 24px rgba(49, 54, 167, 0.2);
-  color: ${({color}) => color ? color : `#232323`};
+  color: ${({ color }) => (color ? color : `#232323`)};
   outline: 0;
   &::-webkit-scrollbar {
     width: 20px;

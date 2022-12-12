@@ -1,6 +1,6 @@
-import { RoundButton } from "@components/buttons/Button";
-import HospitalList from "@components/MyHospitalList";
-import Input from "@components/Input";
+import { RoundButton } from "@components/layout/buttons/Button";
+import HospitalList from "@components/my-hospital/MyHospitalList";
+import Input from "@components/layout/input/Input";
 import { theme } from "@styles/theme";
 import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
@@ -17,15 +17,15 @@ import {
   MyHospitalResponse,
   Pragraph,
 } from ".";
-import MapIcon from "@public/static/icon/mapIcon.svg";
-import List from "@public/static/icon/list.svg";
+import MapIcon from "@src/assets/icons/mapIcon.svg";
+import List from "@src/assets/icons/list.svg";
 import useIO from "@hooks/useIO";
 import useCoords from "@hooks/useCoords";
 import { AnimatePresence } from "framer-motion";
 import { BackButton } from "@styles/Common";
 import Link from "next/link";
-import SearchHospitalList from "@components/SearchHospitalList";
-import SearchHospitalMap from "@components/SearchHospitalMap";
+import SearchHospitalList from "@components/search/SearchHospitalList";
+import SearchHospitalMap from "@components/search/SearchHospitalMap";
 
 type PageCategory = "search" | "map";
 const FindHospital = () => {

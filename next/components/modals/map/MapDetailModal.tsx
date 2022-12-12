@@ -1,16 +1,16 @@
-import { CircleButton, RoundButton } from "@components/buttons/Button";
+import { CircleButton, RoundButton } from "@components/layout/buttons/Button";
 import { BodyText, Box, Col, Row, WhiteBoldText } from "@styles/Common";
 import { CustomOverlayMap } from "react-kakao-maps-sdk";
 import styled from "styled-components";
 import { theme } from "@styles/theme";
 
-import kakaomap from "@public/static/icon/map/kakao_map.png";
-import pin from "@public/static/icon/map/pin.png";
-import web from "@public/static/icon/map/web.png";
-import cross from "@public/static/icon/map/hospital.png";
-import triangle from "@public/static/icon/map/triangle.png";
-import tory from "@public/static/icon/map/tory_circle.png";
-import x from "@public/static/icon/x.png";
+import kakaomap from "@src/assets/icons/map/kakao_map.png";
+import pin from "@src/assets/icons/map/pin.png";
+import web from "@src/assets/icons/map/web.png";
+import cross from "@src/assets/icons/map/hospital.png";
+import triangle from "@src/assets/icons/map/triangle.png";
+import tory from "@src/assets/icons/map/tory_circle.png";
+import x from "@src/assets/icons/x.png";
 import { AroundMapHospital } from "@components/map/ArroundMap";
 import Image from "next/image";
 import Link from "next/link";

@@ -1,4 +1,4 @@
-import Input from "@components/Input";
+import Input from "@components/layout/input/Input";
 import { useForm } from "react-hook-form";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { RegisterForm } from "pages/auth/register";
@@ -10,10 +10,10 @@ import { useMutation } from "@tanstack/react-query";
 import { REGISTER_SIGNUP } from "constant/queryKeys";
 import { useRouter } from "next/router";
 import MessageBox from "@components/MessageBox";
-import RadioInput from "@components/RadioInput";
-import ButtonInInput from "@components/ButtonInInput";
-import CheckBoxInput from "@components/CheckBoxInput";
-import { RoundButton } from "@components/buttons/Button";
+import RadioInput from "@components/layout/input/RadioInput";
+import ButtonInInput from "@components/layout/input/ButtonInInput";
+import CheckBoxInput from "@components/layout/input/CheckBoxInput";
+import { RoundButton } from "@components/layout/buttons/Button";
 import { Box, Col, Container, FlexContainer, InnerContainer, Row } from "@styles/Common";
 import { theme } from "@styles/theme";
 import { Form, FormContents, PrevNextButtonBox } from "./FirstPage";
@@ -67,7 +67,6 @@ const KoreanName = {
 const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
   let MINDATE = new Date("1900-01-01 00:00:00");
   let MAXDATE = new Date();
-
 
   const { birth, email, gender, name, phone, type } = user!;
   const router = useRouter();
@@ -180,7 +179,6 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       setCurrentComment("마지막 단계에요!\n이용자님의 이름, 생일, 성별, 이메일을 알려주세요");
     }
   }, [isToken]);
-
 
   return (
     <FlexContainer>
@@ -329,7 +327,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
               bgColor={theme.color.mintBtn}
               disable={!checkEmptyObj(errors) || !user?.isCertified}
             >
-              {(!isErrorsMessage && user?.isCertified) ? "회원가입 완료" : "정보를 모두 입력해주세요"}
+              {!isErrorsMessage && user?.isCertified ? "회원가입 완료" : "정보를 모두 입력해주세요"}
             </RoundButton>
           </PrevNextButtonBox>
         </Form>

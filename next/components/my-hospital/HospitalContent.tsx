@@ -13,10 +13,10 @@ import { useEffect, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import styled, { css } from "styled-components";
 import { isNoSubstitutionTemplateLiteral } from "typescript";
-import { ChangeToHoverColor, RectangleButton, RoundButton } from "./buttons/Button";
-import DeleteBtn from "./buttons/DeleteBtn";
-import Modal from "./modals/Modal";
-import MyHospitalModal from "./modals/MyHospitalModal";
+import { ChangeToHoverColor, RectangleButton, RoundButton } from "../layout/buttons/Button";
+import DeleteBtn from "../layout/buttons/DeleteBtn";
+import Modal from "../modals/Modal";
+import MyHospitalModal from "../modals/MyHospitalModal";
 
 interface HospitalContentProps {
   hospital: MyHospital;

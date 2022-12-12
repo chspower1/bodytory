@@ -1,4 +1,4 @@
-import Input from "@components/Input";
+import Input from "@components/layout/input/Input";
 
 import { NextPage } from "next";
 import { useForm } from "react-hook-form";
@@ -11,10 +11,10 @@ import { useMutation } from "@tanstack/react-query";
 import { UserType } from "@prisma/client";
 import { HELP_FIND_PASSWORD } from "constant/queryKeys";
 import useReset from "@hooks/useReset";
-import { RoundButton } from "@components/buttons/Button";
+import { RoundButton } from "@components/layout/buttons/Button";
 import { ACCOUNT_ID_REGEX, EMAIL_REGEX, PASSWORD_REGEX } from "constant/regex";
 import MessageBox from "@components/MessageBox";
-import ButtonInInput from "@components/ButtonInInput";
+import ButtonInInput from "@components/layout/input/ButtonInInput";
 import styled from "styled-components";
 import { FlexContainer, InnerContainer } from "@styles/Common";
 import { FindForm, Seperation } from "./find-id";
@@ -96,19 +96,19 @@ const HelpPage: NextPage = () => {
       <InnerContainer>
         <MessageBox isErrorsMessage={isErrorsMessage} currentComment={currentComment} />
         <FindForm onSubmit={handleSubmit(onValid)}>
-            {isToken || (
-              <Seperation>
-                <Input
-                  name="accountId"
-                  register={register("accountId", {
-                    required: true,
-                    validate: value => ACCOUNT_ID_REGEX.test(value!) || "아이디 형식에 맞지 않습니다",
-                  })}
-                  placeholder="toritori2022"
-                  error={helpErrors.accountId}
-                />
-              </Seperation>
-            )}
+          {isToken || (
+            <Seperation>
+              <Input
+                name="accountId"
+                register={register("accountId", {
+                  required: true,
+                  validate: value => ACCOUNT_ID_REGEX.test(value!) || "아이디 형식에 맞지 않습니다",
+                })}
+                placeholder="toritori2022"
+                error={helpErrors.accountId}
+              />
+            </Seperation>
+          )}
           <Seperation>
             <RoundButton size="lg" nonSubmit onClick={handleClickFindPassword}>
               {isToken ? "인증메일 다시 보내기" : "비밀번호 찾기"}

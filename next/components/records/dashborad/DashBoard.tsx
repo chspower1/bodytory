@@ -8,9 +8,9 @@ import { useQuery } from "@tanstack/react-query";
 import { AI_RESULT_READ } from "constant/queryKeys";
 import { KoreanPosition } from "types/write";
 import { Position } from "@prisma/client";
-import ChartAnim from "@src/lotties/ChartAnim";
-import { RoundButton } from "@components/buttons/Button";
-import MicIcon from "@public/static/icon/mic.svg";
+import ChartAnim from "@components/lotties/ChartAnim";
+import { RoundButton } from "@components/layout/buttons/Button";
+import MicIcon from "@src/assets/icons/mic.svg";
 import Link from "next/link";
 
 interface AMonthResponse {
@@ -19,7 +19,7 @@ interface AMonthResponse {
 }
 
 function DashBoard() {
-  const {user} = useUser();
+  const { user } = useUser();
   const { getApi } = customApi(`/api/users/records/dashboard/aMonth`);
   const { isLoading, data } = useQuery<AMonthResponse | undefined>([AI_RESULT_READ], getApi);
 

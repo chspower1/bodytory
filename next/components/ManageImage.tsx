@@ -11,7 +11,7 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Pagination, Navigation, Mousewheel } from "swiper";
 import { useState } from "react";
-import IconAddImage from "@public/static/icon/icon_addImage.png";
+import IconAddImage from "@src/assets/icons/icon_addImage.png";
 import ImageDetailModal from "./modals/ImageDetailModal";
 
 const ManageImage = ({
