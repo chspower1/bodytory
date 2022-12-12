@@ -145,7 +145,7 @@ model HospitalToUser {
   userId     Int
   shared     Boolean  @default(true)
   hospital   Hospital @relation(fields: [hospitalId], references: [id])
-  user       User     @relation(fields: [userId], references: [id])
+  user       User     @relation(fields: [userId], references: [id] ,onDelete: Cascade)
 
   @@index([hospitalId])
   @@index([userId])

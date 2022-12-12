@@ -61,7 +61,7 @@ export default function Withdraw() {
     } else {
       setShowModal(false);
       await LogoutApi({});
-      router.replace("/");
+      router.replace("/auth/login");
     }
   };
   useEffect(() => {

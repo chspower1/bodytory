@@ -23,7 +23,7 @@ const MyHospitalModal = ({ show, hospitals, activeFunction, onClose }: MyHospita
   useEffect(() => {
     setIsBrowser(true);
   }, []);
-  const modalContent = (
+  const modalContent = hospitals && (
     <AnimatePresence>
       {show && (
         <ModalWrapper>
@@ -59,7 +59,7 @@ const MyHospitalModal = ({ show, hospitals, activeFunction, onClose }: MyHospita
                 level={5}
               >
                 <MapMarker
-                  position={{ lat: Number(hospitals?.y), lng: Number(hospitals?.x) }}
+                  position={{ lat: Number(hospitals?.y) + 0.001, lng: Number(hospitals?.x) }}
                   image={{
                     src: "https://imagedelivery.net/AbuMCvvnFZBtmCKKJV_e6Q/ba695e48-c89f-4e8d-febb-10018a877600/avatar", // 마커이미지의 주소입니다
                     size: {
