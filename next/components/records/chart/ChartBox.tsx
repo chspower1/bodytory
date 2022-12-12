@@ -8,7 +8,6 @@ import {
   RECORDS_DELETE,
   RECORDS_READ,
 } from "constant/queryKeys";
-import { uploadImageApi } from "@utils/client/imageApi";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { RecordWithImageAndHospital } from "./ChartTimeline";
@@ -30,6 +29,7 @@ interface ChartBoxProps {
 const ChartBox = ({ index, record, clickedKeyword, patientId, position }: ChartBoxProps) => {
   const queryClient = useQueryClient();
   const { deleteApi } = customApi(`/api/users/records`);
+  const { postApi } = customApi("api/users/records/picture");
   const { mutate } = useMutation([RECORDS_DELETE], deleteApi, {
     onSuccess() {
       queryClient.invalidateQueries([RECORDS_READ, position]);
@@ -40,7 +40,7 @@ const ChartBox = ({ index, record, clickedKeyword, patientId, position }: ChartB
   });
 
   // 이미지 업로드
-  const uploadImageMutation = useMutation(uploadImageApi, {
+  const { mutate: uploadImageMutate } = useMutation(postApi, {
     onSuccess() {
       queryClient.invalidateQueries([RECORDS_READ]);
     },
@@ -85,7 +85,7 @@ const ChartBox = ({ index, record, clickedKeyword, patientId, position }: ChartB
                 ) : (
                   <UploadImageButton
                     onClick={() =>
-                      patientId ? handleRecordModal(record) : uploadImage(String(record.id), uploadImageMutation.mutate)
+                      patientId ? handleRecordModal(record) : uploadImage(String(record.id), uploadImageMutate)
                     }
                   >
                     <span className="blind">사진 추가</span>

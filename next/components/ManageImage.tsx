@@ -1,6 +1,5 @@
 import { RecordImage } from "@prisma/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteImageApi, uploadImageApi } from "@utils/client/imageApi";
 import uploadImage from "@utils/client/uploadImage";
 import { RECORDS_READ } from "constant/queryKeys";
 import Image from "next/image";
@@ -13,6 +12,7 @@ import { Pagination, Navigation, Mousewheel } from "swiper";
 import { useState } from "react";
 import IconAddImage from "@src/assets/icons/icon_addImage.png";
 import ImageDetailModal from "./modals/ImageDetailModal";
+import customApi from "@utils/client/customApi";
 
 const ManageImage = ({
   recordId,
@@ -24,14 +24,14 @@ const ManageImage = ({
   isHospital?: boolean;
 }) => {
   const queryClient = useQueryClient();
-
-  const uploadImageMutation = useMutation(uploadImageApi, {
+  const { postApi, deleteApi } = customApi("/api/users/records/picture");
+  const { mutate: uploadImageMutate } = useMutation(postApi, {
     onSuccess(data) {
       queryClient.invalidateQueries([RECORDS_READ]);
     },
   });
 
-  const deleteImageMutation = useMutation(deleteImageApi, {
+  const { mutate: deleteImageMutate } = useMutation(deleteApi, {
     onSuccess(data) {
       queryClient.invalidateQueries([RECORDS_READ]);
     },
@@ -41,9 +41,7 @@ const ManageImage = ({
   return (
     <div>
       {isHospital || (
-        <UploadImageButton onClick={() => uploadImage(recordId, uploadImageMutation.mutate)}>
-          사진 추가
-        </UploadImageButton>
+        <UploadImageButton onClick={() => uploadImage(recordId, uploadImageMutate)}>사진 추가</UploadImageButton>
       )}
       {recordImages.length !== 0 ? (
         <ImageSlideContainer>
@@ -70,7 +68,7 @@ const ManageImage = ({
                       setShowImageDetailModal(key);
                     }}
                   />
-                  {isHover === key && <DeleteButton onClick={() => deleteImageMutation.mutate(elem.id)}></DeleteButton>}
+                  {/* {isHover === key && <DeleteButton onClick={() => deleteImageMutate()}></DeleteButton>} */}
 
                   <ImageDetailModal
                     show={showImageDetailModal}

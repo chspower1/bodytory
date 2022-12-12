@@ -4,7 +4,11 @@
  * @param mutate  - mutate 함수
  */
 
-const uploadImage = (id: string, mutate: any) => {
+import customApi from "./customApi";
+
+const uploadImage = async (id: string, mutate: any) => {
+  const { getApi } = customApi("/api/users/records/picture/get-url");
+
   const input = document.createElement("input");
   input.setAttribute("type", "file");
   input.setAttribute("accept", "image/*");
@@ -14,10 +18,21 @@ const uploadImage = (id: string, mutate: any) => {
   input.addEventListener("change", async () => {
     try {
       const formData = new FormData();
-      formData.append("recordId", id);
-      Array.from(input?.files!).forEach(file => formData.append("image", file));
-      mutate(formData);
-    } catch (err) {}
+      const { uploadURL } = await getApi();
+      // formData.append("recordId", id);
+      console.log(input?.files![0]);
+      // Array.from(input?.files!).forEach(file => formData.append("image", file));
+      formData.append("file", input?.files![0]);
+      const { result } = await (
+        await fetch(uploadURL, {
+          method: "POST",
+          body: formData,
+        })
+      ).json();
+      // mutate({ recordId: id, url: `${process.env.NEXT_PUBLIC_IMG_URL}/${id}/1` });
+    } catch (err) {
+      console.log(err);
+    }
   });
 };
 
