@@ -32,6 +32,10 @@ const SideMenu = () => {
       subject: "내 병원 관리하기",
       link: "/users/my-hospital",
     },
+    {
+      subject: "병원 검색하기",
+      link: "/users/my-hospital/find",
+    },
   ]);
 
   const handleClickCloseMenu = () => {
@@ -191,7 +195,7 @@ const ButtonBox = styled.div`
 `;
 
 const Nav = styled.nav`
-  padding-top: 100px;
+  padding-top: 80px;
   ul {
     margin-left: 36px;
     li {
@@ -204,11 +208,11 @@ const Nav = styled.nav`
         margin: 0 0 10px 10px;
       }
       & + li {
-        margin-top: 50px;
+        margin-top: 30px;
       }
       a {
         position: relative;
-        font-size: 32px;
+        font-size: 30px;
         font-weight: bolder;
         padding-bottom: 10px;
         letter-spacing: -2px;

@@ -15,7 +15,6 @@ import { RecordWithImageAndHospital } from "./ChartTimeline";
 import uploadImage from "@utils/client/uploadImage";
 import DeleteBtn from "@components/layout/buttons/DeleteBtn";
 import { AnimatePresence } from "framer-motion";
-import { Subject } from "@components/modals/ClinicModal";
 import IconAddImage from "@src/assets/icons/icon_addImage.png";
 import customApi from "@utils/client/customApi";
 
@@ -108,24 +107,24 @@ const ChartBox = ({ index, record, clickedKeyword, patientId, position }: ChartB
             <ResultTable>
               <TableRow>
                 <Subject>진단 결과</Subject>
-                <p>{record.diagnosis}</p>
+                <div>{record.diagnosis}</div>
               </TableRow>
               <TableRow>
                 <Subject>처방 내용</Subject>
-                <p>{record.prescription}</p>
+                <div>{record.prescription}</div>
               </TableRow>
               <TableRow>
                 <Subject>상세 소견</Subject>
-                <p>
+                <div>
                   {record.description.includes("\n")
                     ? record.description.split("\n").map((ele, idx) => (
                         <React.Fragment key={`${ele} + ${idx} + ${Date.now()}`}>
-                          {ele}
+                          {record.description}
                           <br />
                         </React.Fragment>
                       ))
                     : record.description}
-                </p>
+                </div>
               </TableRow>
             </ResultTable>
           </Description>
@@ -272,6 +271,16 @@ const ResultTable = styled.div`
   padding: 30px 40px;
 `;
 
+
+const Subject = styled.div`
+  flex-shrink: 0;
+  font-weight: 600;
+  margin-right: 60px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+`;
+
 const TableRow = styled.div`
   display: flex;
 
@@ -279,9 +288,10 @@ const TableRow = styled.div`
     margin-top: 15px;
   }
 
-  div + p {
+  ${Subject} + div {
     width: 100%;
     padding: 10px 0;
     border-radius: 5px;
   }
 `;
+
