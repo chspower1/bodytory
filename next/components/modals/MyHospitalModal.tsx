@@ -46,12 +46,12 @@ const MyHospitalModal = ({ show, hospitals, activeFunction, onClose }: MyHospita
                     </a>
                   </Text>
                 </DetailBox>
-                <DepartmentListBox>
+                <DetailBox>
                   <Title>진료과목</Title>
                   <DepartmentLists>
                     {hospitals?.medicalDepartments.map(elem => elem.medicalDepartment?.department).join(",")}
                   </DepartmentLists>
-                </DepartmentListBox>
+                </DetailBox>
               </ContentBox>
               <Map
                 center={{ lat: Number(hospitals?.y), lng: Number(hospitals?.x) }}
@@ -140,9 +140,10 @@ const ContentContainer = styled.div`
 const ContentBox = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
-  width: 400px;
+  width: 440px;
   height: 100%;
+  padding-right: 20px;
+  overflow-y: scroll;
 `;
 
 const DetailBox = styled.div`
@@ -151,6 +152,9 @@ const DetailBox = styled.div`
   justify-content: space-between;
   text-align: left;
   height: 70px;
+  & + & {
+    margin-top: 40px;
+  }
 `;
 
 const Title = styled.span`
@@ -166,12 +170,7 @@ const CloseBox = styled.div`
   padding: 20px;
 `;
 
-const DepartmentListBox = styled(DetailBox)`
-  height: 100px;
-`;
-
 const DepartmentLists = styled.div`
   max-height: 100px;
-  overflow-y: scroll;
   word-break: keep-all;
 `;

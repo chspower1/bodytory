@@ -92,19 +92,13 @@ const SearchHospitalList = () => {
           {!searchWord || (hospitals?.length === 0 && isLoading && <ListSkeleton backgroundColor="rgb(225,227,255)" />)}
           {hospitals?.length !== 0 && (
             <HospitalLists>
+              {hospitals?.map((hospital, idx) => (
+                <HospitalContent hospital={hospital} idx={hospital.id} add={true} key={hospital.id} shared={false} />
+              ))}
               {isLoading ? (
                 <ListSkeleton backgroundColor="rgb(225,227,255)" />
               ) : (
                 <>
-                  {hospitals?.map((hospital, idx) => (
-                    <HospitalContent
-                      hospital={hospital}
-                      idx={hospital.id}
-                      add={true}
-                      key={hospital.id}
-                      shared={false}
-                    />
-                  ))}
                   <div
                     style={{ width: "1px", height: "1px" }}
                     ref={(ref: any) => {

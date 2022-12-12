@@ -94,7 +94,9 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
             <RectangleButton
               nonSubmit
               size="md"
-              bgColor={onConnected ? theme.color.error : theme.color.darkBg}
+              boxShadow={false}
+              textColor={onConnected ? "#3d42bf" : "white"}
+              bgColor={onConnected ? "rgb(197,205,251)" : theme.color.darkBg}
               onClick={() => {
                 setShowModal(true);
               }}
@@ -209,6 +211,9 @@ const NameText = styled(Text)`
   font-weight: 600;
   overflow: hidden;
   text-overflow: ellipsis;
+  :hover {
+    text-decoration: underline;
+  }
 `;
 
 const SpaceText = styled(Text)<{ add: boolean }>`
@@ -222,6 +227,9 @@ const SpaceText = styled(Text)<{ add: boolean }>`
       text-overflow: ellipsis;
     `}
   cursor: pointer;
+  :hover {
+    text-decoration: underline;
+  }
 `;
 export const ShareStatus = styled(Text)<{ status: boolean }>`
   padding-left: 20px;
@@ -258,11 +266,11 @@ const HospitalInfor = styled.li<{ add: boolean }>`
   background-color: ${prop => (prop.add ? "rgb(225,227,255)" : "rgb(100,106,235)")};
   transition: all 0.4s ease;
   border-radius: 20px;
-  &:hover {
-    width: 101%;
-    box-shadow: ${props => props.theme.boxShadow.normal};
-    background-color: ${prop => (prop.add ? "rgb(217, 219, 255)" : "#575dd4")};
-  }
+  // &:hover {
+  //   width: 101%;
+  //   box-shadow: ${props => props.theme.boxShadow.normal};
+  //   background-color: ${prop => (prop.add ? "rgb(217, 219, 255)" : "#575dd4")};
+  // }
   & + & {
     margin-top: 20px;
   }
