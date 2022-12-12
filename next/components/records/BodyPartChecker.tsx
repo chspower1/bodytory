@@ -17,9 +17,9 @@ const BodyPartChecker = ({ selectedBodyPart }: SelectBodyPartProps) => {
 
   return (
     <FlexContainer
-      initial={{ x: -500 }}
-      animate={{ x: 0 }}
-      transition={{ duration: 0.7, type: "tween", ease: "easeOut" }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1, type: "tween", ease: "easeOut" }}
     >
       <ContentBox>
         <ToryBox>
@@ -32,8 +32,8 @@ const BodyPartChecker = ({ selectedBodyPart }: SelectBodyPartProps) => {
             <ToryText>
               <PositionTextBox
                 key={KoreanPosition[selectedBodyPart]}
-                initial={{ y: 30, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
+                initial={{opacity: 0 }}
+                animate={{ opacity: 1 }}
                 transition={{ duration: 0.6 }}
               >
                 {KoreanPosition[selectedBodyPart]}

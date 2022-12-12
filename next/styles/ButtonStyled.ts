@@ -9,7 +9,7 @@ export const BTN_VARIANTS: Variants = {
     y: 0,
     opacity: 1,
     transition: {
-      duration: 1,
+      duration: .4,
     },
   },
   exit: {
