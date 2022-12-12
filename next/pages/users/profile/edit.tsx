@@ -9,7 +9,7 @@ import { useEffect, useMemo, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import useUser from "@hooks/useUser";
 import { FlexContainer, InnerContainer } from "@styles/Common";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { theme } from "@styles/theme";
 import { RoundButton } from "@components/layout/buttons/Button";
 import Naver from "@src/assets/icons/naver.svg";
@@ -33,6 +33,7 @@ export default function Edit() {
   const [showModal, setShowModal] = useState(false);
   const [errorModal, setErrorModal] = useState(false);
   const [closingComment, setClosingComment] = useState(false);
+  const [isFade, setIsFade] = useState(false);
   const { user } = useUser();
   const americanAge = getAmericanAge(String(user?.birth!));
 
@@ -81,16 +82,16 @@ export default function Edit() {
       router.replace("/");
     }
   };
+
   useEffect(() => {
-    document.body.style.backgroundColor = theme.color.lightBg;
-    return () => {
-      document.body.style.backgroundColor = theme.color.darkBg;
-    };
+    setTimeout(() => {
+      setIsFade(true);
+    }, 200);
   }, []);
 
   return (
     <Container>
-      <InContainer>
+      <InContainer isFade={isFade}>
         <div>
           <SeperationBox>
             <Name>{user?.name}</Name>
@@ -122,6 +123,7 @@ export default function Edit() {
                 error={errors.oldPassword?.message}
                 align="left"
                 disabled={user?.type !== "origin"}
+                motion={false}
               />
               <Input
                 $light
@@ -132,7 +134,7 @@ export default function Edit() {
                 error={errors.newPassword?.message}
                 align="left"
                 disabled={user?.type !== "origin"}
-                delay={0.3}
+                motion={false}
               />
               <Input
                 $light
@@ -143,7 +145,7 @@ export default function Edit() {
                 error={errors.newPasswordConfirm?.message}
                 align="left"
                 disabled={user?.type !== "origin"}
-                delay={0.6}
+                motion={false}
               />
             </SeperationBox>
             <SeperationBox style={{ display: "flex", justifyContent: "center" }}>
@@ -187,7 +189,7 @@ export default function Edit() {
   );
 }
 
-const InContainer = styled(InnerContainer)`
+const InContainer = styled(InnerContainer)<{ isFade: boolean }>`
   height: 830px;
   display: flex;
   flex-direction: column;
@@ -209,6 +211,13 @@ const InContainer = styled(InnerContainer)`
       }
     }
   }
+  opacity: 0;
+  transition: opacity 0.8s;
+  ${({ isFade }) =>
+    isFade &&
+    css`
+      opacity: 1;
+    `}
 `;
 
 const Name = styled.h1`

@@ -114,14 +114,15 @@ const MainInput = styled(motion.input)<{
       background: rgb(107, 114, 142);
       cursor: not-allowed;
     }
-    letter-spacing: 14.2px;
+    letter-spacing: 7.2px;
     font-family: Vandana;
-    font-size: 36px;
+    font-size: 24px;
   }
+
   width: 100%;
   height: 100%;
   text-align: ${prop => prop.align};
-  padding: 30px 20px;
+  padding: 30px;
   border-radius: 10px;
   transition: border 0.3s ease;
   border: 2px solid transparent;
@@ -148,6 +149,9 @@ const MainInput = styled(motion.input)<{
       :-webkit-autofill:focus,
       :-webkit-autofill:active {
         -webkit-text-fill-color: #232323 !important;
+      }
+      &[type="password"] {
+        color: #9497c1;
       }
     `}
   ${props =>
