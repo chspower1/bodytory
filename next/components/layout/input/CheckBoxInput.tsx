@@ -4,10 +4,14 @@ import checkIcon from "@src/assets/icons/checkbox.png";
 import checkedIcon from "@src/assets/icons/checkbox_checked.png";
 import { RadioProps } from "./RadioInput";
 
-const CheckBoxInput = ({ label, name, register, error, checked, disabled }: RadioProps) => {
+interface CheckBoxProps extends RadioProps{
+  isDeleteMessage ?: boolean;
+}
+
+const CheckBoxInput = ({ label, name, register, error, checked, disabled, isDeleteMessage }: CheckBoxProps) => {
   return (
-    <InputBox className={`${error ? "error" : ""} ${checked ? "completion" : ""}`}>
-      <Input type="checkbox" id={name} {...register} checked={checked} disabled={disabled} />
+    <InputBox className={`${error ? "error" : ""} ${checked ? "completion" : ""} ${isDeleteMessage ? "deleteMessage" : ""}`}>
+      <Input type="checkbox" id={name} {...register} readOnly={checked} checked={checked} disabled={disabled} />
       <Label htmlFor={name}>
         <i></i>
         {label}
@@ -43,6 +47,21 @@ const InputBox = styled.div`
       i {
         width: 20px;
         height: 20px;
+        margin-right: 15px;
+      }
+    }
+  }
+  &.deleteMessage{
+    width:100%;
+    height:100%;
+    label{
+      justify-content:center;
+      color: #000;
+      padding: 0 ;
+      font-size: 22px;
+      i {
+        width: 30px;
+        height: 30px;
         margin-right: 15px;
       }
     }
