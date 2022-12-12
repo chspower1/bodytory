@@ -37,10 +37,10 @@ function DashBoardStatistics() {
       console.log(data);
     },
   });
-
+  console.log(dashboardQuery.data)
   useEffect(() => {
     // 가장 기록이 많은 부위 찾기
-    if (dashboardQuery.data) {
+    if (dashboardQuery.data && dashboardQuery.data.length !== 0) {
       let maxLength = 0;
       let maxPart: string[] = [];
       let maxIdx: number[] = [];

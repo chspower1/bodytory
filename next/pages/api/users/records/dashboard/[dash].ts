@@ -29,7 +29,7 @@ async function aMonthFn(req: NextApiRequest, res: NextApiResponse) {
       },
     },
   });
-  if(aMonthData.length === 0) return res.status(401).send("데이터 없음");
+  if(aMonthData.length === 0) return res.status(200).json({mostInAMonth : [], mostThreeDepartment : []});
 
   const departMentName = await client.medicalDepartment.findMany({});
 
@@ -115,7 +115,7 @@ async function threeMonthFn(req: NextApiRequest, res: NextApiResponse) {
     },
   });
 
-  if(threeMonthUser.length === 0) return res.status(401).send("데이터 없음");
+  if(threeMonthUser.length === 0) return res.status(200).json({result:[]});
 
 
   const threeMonthHospital = await client.record.findMany({

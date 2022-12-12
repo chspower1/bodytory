@@ -31,10 +31,9 @@ const ChartBox = ({ index, record, clickedKeyword, patientId, position }: ChartB
   const { deleteApi } = customApi(`/api/users/records`);
   const { mutate } = useMutation([RECORDS_DELETE], deleteApi, {
     onSuccess() {
-      queryClient.invalidateQueries([RECORDS_READ, position]);
-      queryClient.invalidateQueries([AI_RESULT_READ]);
-      queryClient.invalidateQueries([BODYPART_CHARTDATA_READ]);
-      queryClient.invalidateQueries([KEYWORDS_CHARTDATA_READ]);
+      console.log("hji")
+      queryClient.invalidateQueries();
+  
     },
   });
 

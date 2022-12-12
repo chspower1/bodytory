@@ -29,7 +29,7 @@ async function threeMonthRecordsKeywords(req: NextApiRequest, res: NextApiRespon
         description: true,
       },
     });
-    if (data.length === 0) return res.status(401).send("데이터 없음");
+    if (data.length === 0) return res.status(200).json([]);
     const result: string[] = data.map((ele: { description: string }) => {
       return ele.description;
     });
