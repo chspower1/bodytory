@@ -1,5 +1,12 @@
 # BODYTORY
 
+왜?
+
+
+
+
+
+
 ## 사용 기술
 
 <div>
@@ -16,8 +23,10 @@
   <img src="https://img.shields.io/badge/GitLab-FC6D26?style=flat-square&logo=GitLab&logoColor=white"/>
 </div>
 
-왜?
-=> 탄생배경,고민
+##
+
+<details>
+<summary>기술 스택</summary>
 
 ## NextJS
 
@@ -144,3 +153,5 @@
 
 - ## GitlabRunner
   - 자동배포를 위해 사용 중 입니다.
+
+</details>
