@@ -8,7 +8,7 @@ import { CircleButton, RoundButton } from "@components/layout/buttons/Button";
 import { theme } from "@styles/theme";
 import skipIcon from "@src/assets/icons/skipIcon.png";
 import { useRouter } from "next/router";
-import ToryWhiteAnim from "@src/lotties/ToryWhiteAnim";
+import ToryWhiteAnim from "@components/lotties/ToryWhiteAnim";
 
 const LendingRoot = styled.div<{ flex: boolean }>`
   margin: auto;
