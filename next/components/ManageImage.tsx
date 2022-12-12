@@ -11,6 +11,7 @@ import "swiper/css/navigation";
 import { Pagination, Navigation, Mousewheel } from "swiper";
 import { useState } from "react";
 import IconAddImage from "@src/assets/icons/icon_addImage.png";
+import Delete from "@src/assets/icons/delete.png";
 import ImageDetailModal from "./modals/ImageDetailModal";
 import customApi from "@utils/client/customApi";
 
@@ -173,8 +174,7 @@ const DeleteButton = styled.button`
   right: 6px;
   width: 30px;
   height: 30px;
-  background-color: red;
-  /* background: url("../src/assets/icons/delete.png") no-repeat 50% 50%/80%; */
+  background: url(${Delete.src}) no-repeat 50% 50%/80%;
 `;
 
 const UploadImageButton = styled.button`
