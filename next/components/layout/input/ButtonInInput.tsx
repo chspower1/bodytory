@@ -88,6 +88,7 @@ export default ButtonInInput;
 const InputBox = styled(motion.div)`
   width: 500px;
   margin: 0 auto;
+  padding-right: 10px;
   transition: border 0.3s ease;
   border: 2px solid transparent;
   background-color: ${({ theme }) => theme.color.input};

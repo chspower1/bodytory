@@ -211,16 +211,16 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                   motion={false}
                   width="280px"
                   name="birth"
-                  placeholder="YYYY-MM-DD"
+                  placeholder="YYYYMMDD"
                   register={register("birth", {
                     required: "생일을 입력해주세요",
                     validate: {
-                      regexBirth: value => BIRTH_REGEX.test(value) || `이용자님의 생년월일을 적어주세요!`,
+                      regexBirth: value => BIRTH_REGEX.test(value) || `생년월일을 올바르게 입력해주세요!`,
                       checkBirth: value => {
                         if (value.length === 10) {
                           let currentDate = new Date(value);
                           if (currentDate <= MINDATE || currentDate >= MAXDATE || !checkBirth(value)) {
-                            return `이용자님의 생년월일을 적어주세요!`;
+                            return `생년월일을 올바르게 입력해주세요`;
                           }
                         }
                       },
@@ -275,7 +275,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
               <ButtonInInput
                 name="email"
                 disabled={isToken}
-                placeholder="toritori2022@naver.com"
+                placeholder="bodytory2022@naver.com"
                 register={register("email", {
                   required: "앗! 이메일 칸이 비어있어요!",
                   validate: {
@@ -299,19 +299,21 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
             </motion.div>
             {!user?.isCertified ? (
               isToken && (
-                <ButtonInInput
-                  name="token"
-                  placeholder="인증번호"
-                  register={register("token", {
-                    required: "인증번호를 입력해주세요",
-                    validate: { checkToken: value => /^[0-9]+$/.test(value) || "숫자만 입력해주세요" },
-                  })}
-                  activeFn={handleClickCheckEmail}
-                  buttonValue="인증번호 확인"
-                  nonSubmit
-                  isAuthenticationColumn
-                  error={errors.token}
-                />
+                <CheckTokenBox>
+                  <ButtonInInput
+                    name="token"
+                    placeholder="인증번호"
+                    register={register("token", {
+                      required: "인증번호를 입력해주세요",
+                      validate: { checkToken: value => /^[0-9]+$/.test(value) || "숫자만 입력해주세요" },
+                    })}
+                    activeFn={handleClickCheckEmail}
+                    buttonValue="인증번호 확인"
+                    nonSubmit
+                    isAuthenticationColumn
+                    error={errors.token}
+                  />
+                </CheckTokenBox>
               )
             ) : (
               <CheckBoxInput label="인증 완료되었습니다" name="completion" checked disabled />
@@ -353,4 +355,8 @@ const ThirdPageFormContents = styled(FormContents)`
 const SpaceBetweenRowBox = styled(Row)`
   width: 500px;
   margin: 0 auto;
+`;
+
+const CheckTokenBox = styled.div`
+  margin-top: 30px;
 `;
