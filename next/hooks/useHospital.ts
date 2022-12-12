@@ -19,12 +19,12 @@ const useHospital = () => {
       refreshHospitalCache();
     },
   });
-  const { mutate: deleteHospitalMutate } = useMutation(["addHospitalKey"], deleteApi, {
+  const { mutate: deleteHospitalMutate } = useMutation(["removeHospitalKey"], deleteApi, {
     onSuccess() {
       refreshHospitalCache();
     },
   });
-  const { mutate: sharedHospitalMutate } = useMutation(["addHospitalKey"], putApi, {
+  const { mutate: sharedHospitalMutate } = useMutation(["sharedHospitalKey"], putApi, {
     onSuccess() {
       refreshHospitalCache();
     },

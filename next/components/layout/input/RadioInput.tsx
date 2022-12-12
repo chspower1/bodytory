@@ -14,8 +14,8 @@ export interface RadioProps {
 
 function RadioInput({ label, name, register, error, value }: RadioProps) {
   return (
-    <InputBox className={`${error ? "error" : ""}`}>
-      <Input id={name} type="radio" value={value} {...register} />
+    <InputBox className={`${error ? "error" : ""}`} >
+      <Input id={name} type="radio" value={value} {...register} autoComplete="off" />
       <Label htmlFor={name}>{label}</Label>
     </InputBox>
   );

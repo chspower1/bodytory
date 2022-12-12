@@ -8,14 +8,17 @@ interface DeleteBtnProps {
   id: number;
   backgroundColor?: string;
   isCircle?: boolean;
+  setShowAlertModal: React.Dispatch<React.SetStateAction<boolean>>;
+  isdowntext ?: number;
 }
 
-const DeleteBtn = ({ mutate, id, backgroundColor, isCircle }: DeleteBtnProps) => {
+const DeleteBtn = ({ mutate, id, backgroundColor, isCircle,  setShowAlertModal, isdowntext = 0 }: DeleteBtnProps) => {
   const [confirmDelete, setConfirmDelete] = useState(-1);
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>, targetId: number) => {
     if (confirmDelete !== -1) {
       mutate({ id: confirmDelete });
       setConfirmDelete(-1);
+      setShowAlertModal(true);
     } else {
       setConfirmDelete(targetId);
     }
@@ -37,12 +40,13 @@ const DeleteBtn = ({ mutate, id, backgroundColor, isCircle }: DeleteBtnProps) =>
       {isCircle && (
         <AnimatePresence>
           {confirmDelete === id && (
-            <DeleteCofirmTextBox initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+            <DeleteCofirmTextBox initial={{ opacity: 0 }} animate={{ opacity: 1 ,transition:{duration: .3} }} exit={{ opacity: 0 ,transition:{duration: .3} }} isdowntext={isdowntext}>
               <span>삭제하시겠습니까?</span>
             </DeleteCofirmTextBox>
           )}
         </AnimatePresence>
       )}
+      
     </>
   );
 };
@@ -131,7 +135,7 @@ const DeleteButton = styled.button<{ bgColor?: string; isCircle?: boolean }>`
     `}
 `;
 
-const DeleteCofirmTextBox = styled(motion.div)`
+const DeleteCofirmTextBox = styled(motion.div)<{isdowntext ?: number;}>`
   position: absolute;
   left: -68px;
   top: -50px;
@@ -159,4 +163,13 @@ const DeleteCofirmTextBox = styled(motion.div)`
     z-index: 3;
     color: #fff;
   }
+  ${({isdowntext}) => isdowntext && css`
+    top: auto;  
+    bottom: -50px;
+    ::after {
+      right: 25px;
+      top: -8px;
+      bottom: auto;
+    }
+  `}
 `;

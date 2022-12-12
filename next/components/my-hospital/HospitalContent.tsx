@@ -23,9 +23,10 @@ interface HospitalContentProps {
   add: boolean;
   idx: number;
   shared: boolean;
+  setShowAlertModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) => {
+const HospitalContent = ({ hospital, add, idx, shared, setShowAlertModal }: HospitalContentProps) => {
   const router = useRouter();
   const [onShare, setOnShare] = useState<boolean>(shared);
   const setHospitalCurrentIdx = useSetRecoilState(currentHospitalIdx);
@@ -97,6 +98,7 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
               bgColor={onConnected ? theme.color.error : theme.color.darkBg}
               onClick={() => {
                 setShowModal(true);
+                
               }}
             >
               {onConnected ? "삭제" : "추가"}
@@ -115,7 +117,7 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
         )}
         {add || (
           <DeleteBtnBox>
-            <DeleteBtn mutate={deleteHospitalMutate} id={hospital.id} backgroundColor="rgb(100, 106, 235)" isCircle />
+            <DeleteBtn mutate={deleteHospitalMutate} setShowAlertModal={setShowAlertModal} id={hospital.id} backgroundColor="rgb(100, 106, 235)" isCircle />
           </DeleteBtnBox>
         )}
       </HospitalInforContainer>
@@ -129,6 +131,7 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
           onConnected
             ? () => {
                 handleClickDeleteHospital(hospital.id, setOnConnected);
+                setShowAlertModal(true);
               }
             : () => {
                 handleClickAddHospital(hospital.id, setOnConnected);
@@ -185,7 +188,7 @@ const AddButtonBox = styled.div`
   }
 `;
 
-const DeleteBtnBox = styled.div`
+export const DeleteBtnBox = styled.div`
   position: absolute;
   right: 30px;
   top: 50%;

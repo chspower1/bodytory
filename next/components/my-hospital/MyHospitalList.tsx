@@ -2,10 +2,11 @@ import { Hospital } from "@prisma/client";
 import { Box } from "@styles/Common";
 import { theme } from "@styles/theme";
 import { MyHospitalResponse } from "pages/users/my-hospital";
-import { LegacyRef, MouseEvent, useState } from "react";
+import React, { LegacyRef, MouseEvent, useState } from "react";
 import styled from "styled-components";
 import HospitalContent from "./HospitalContent";
 import ListSkeleton from "../skeletonUI/ListSkeleton";
+import AlertModal from "@components/modals/AlertModal";
 
 interface MyHospitalListProps {
   hospitals?: MyHospitalResponse[];
@@ -15,6 +16,8 @@ interface MyHospitalListProps {
 }
 
 const MyHospitalList = ({ hospitals, add, isLoading }: MyHospitalListProps) => {
+  const [showModal, setShowModal] = useState(false);
+  
   return (
     <HospitalContainer add={add}>
       <InnerContainer add={add}>
@@ -22,14 +25,16 @@ const MyHospitalList = ({ hospitals, add, isLoading }: MyHospitalListProps) => {
         {!isLoading && hospitals && (
           <HospitalLists>
             {hospitals?.map((hospital, idx) => (
-              <HospitalContent
-                hospital={hospital.hospital}
-                idx={idx}
-                add={false}
-                key={hospital.hospital.id}
-                shared={hospital.shared}
-              />
+                <HospitalContent
+                  hospital={hospital.hospital}
+                  idx={idx}
+                  add={false}
+                  shared={hospital.shared}
+                  key={hospital.hospital.id}
+                  setShowAlertModal={setShowModal}
+                />
             ))}
+            <AlertModal show={showModal} onClose={()=> setShowModal(false)}  />
           </HospitalLists>
         )}
         {!isLoading && hospitals?.length === 0 && (

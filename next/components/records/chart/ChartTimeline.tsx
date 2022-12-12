@@ -26,6 +26,8 @@ import { currentPatientInfo, selectedKeyword } from "atoms/atoms";
 import { Subject } from "@components/modals/ClinicModal";
 import RecordSkeleton from "@components/skeletonUI/RecordSkeleton";
 import { AnimatePresence } from "framer-motion";
+import AlertModal from "@components/modals/AlertModal";
+import { DeleteBtnBox } from "@components/my-hospital/HospitalContent";
 
 export interface RecordWithImageAndHospital extends Record {
   images: RecordImage[];
@@ -39,7 +41,8 @@ const ChartTimeline = () => {
   const queryClient = useQueryClient();
   const { getApi } = customApi(patientId ? `/api/hospital/${patientId}/${position}` : `/api/users/records/${position}`);
   const { deleteApi } = customApi(`/api/users/records`);
-
+  const { deleteApi: deleteHospitalRecordApi } = customApi(`/api/hospital/records`);
+  const [showModal, setShowModal] = useState(false);
   // 여기 key 2개 넣고, useEffect까지 써야지 되는 이 부분 나중에 리팩토링하기 (일단 기능은 맞게 동작)
   const { isLoading, data } = useQuery<RecordWithImageAndHospital[] | undefined>([RECORDS_READ, position], getApi, {
     onSuccess(data) {
@@ -61,6 +64,11 @@ const ChartTimeline = () => {
       queryClient.invalidateQueries([AI_RESULT_READ]);
       queryClient.invalidateQueries([BODYPART_CHARTDATA_READ]);
       queryClient.invalidateQueries([KEYWORDS_CHARTDATA_READ]);
+    },
+  });
+  const { mutate: deleteMutate } = useMutation(["removeHospitalRecode"], deleteHospitalRecordApi, {
+    onSuccess() {
+      queryClient.invalidateQueries([RECORDS_READ, position]);
     },
   });
 
@@ -100,16 +108,15 @@ const ChartTimeline = () => {
 
   // 키워드 핕터링
   const [clickedKeyword, setClickedKeyword] = useRecoilState(selectedKeyword);
-  const [filtredRecordByKeywrod, setFiltredRecordByKeywrod] = useState<RecordWithImageAndHospital[] | undefined>();
+  const [filtredRecordByKeyword, setFiltredRecordByKeyword] = useState<RecordWithImageAndHospital[] | undefined>();
 
   useEffect(() => {
     if (clickedKeyword) {
-      setFiltredRecordByKeywrod(filtredRecord?.filter(record => record.description.includes(clickedKeyword)));
+      setFiltredRecordByKeyword(filtredRecord?.filter(record => record.description.includes(clickedKeyword)));
     } else {
-      setFiltredRecordByKeywrod(filtredRecord);
+      setFiltredRecordByKeyword(filtredRecord);
     }
   }, [clickedKeyword, filtredRecord]);
-
   return (
     <>
       <TimelineContainer>
@@ -158,7 +165,7 @@ const ChartTimeline = () => {
               </label>
             </div>
           </Filter>
-          {filtredRecordByKeywrod?.length === 0 ? (
+          {filtredRecordByKeyword?.length === 0 ? (
             <NoRecord>
               <img src={ToriQuestion.src} />
               <p>
@@ -173,7 +180,7 @@ const ChartTimeline = () => {
           ) : isLoading ? (
             <RecordSkeleton />
           ) : (
-            filtredRecordByKeywrod?.map((record, index) => (
+            filtredRecordByKeyword?.map((record, index) => (
               <RecordBox key={index}>
                 <Time byUser={record.type === "user"}>{changeDate(record.createAt)}</Time>
                 {record.type === "user" ? (
@@ -217,7 +224,9 @@ const ChartTimeline = () => {
                           )}
                         </ImageBox>
                       </Description>
-                      {!Boolean(patientId) && <DeleteBtn id={record.id} mutate={mutate} />}
+                      {!Boolean(patientId) && (
+                        <DeleteBtn id={record.id} mutate={mutate} setShowAlertModal={setShowModal} />
+                      )}
                     </Content>
                     <AnimatePresence>
                       {showRecordModal === record.id && (
@@ -232,7 +241,21 @@ const ChartTimeline = () => {
                 ) : (
                   <Content>
                     <Description cursorType={"auto"}>
-                      <HospitalName>{record.hospital?.name}</HospitalName>
+                      <HospitalName>
+                        {record.hospital?.name}
+                        {Boolean(patientId) && (
+                          <DeleteBtnBox>
+                            <DeleteBtn
+                              isdowntext={1}
+                              mutate={deleteMutate}
+                              setShowAlertModal={setShowModal}
+                              id={record.id}
+                              backgroundColor="rgb(100, 106, 235)"
+                              isCircle
+                            />
+                          </DeleteBtnBox>
+                        )}
+                      </HospitalName>
                       <ResultTable>
                         <TableRow>
                           <Subject>진단 결과</Subject>
@@ -263,6 +286,7 @@ const ChartTimeline = () => {
             ))
           )}
         </Timeline>
+        <AlertModal show={showModal} onClose={() => setShowModal(false)} />
       </TimelineContainer>
     </>
   );
@@ -479,6 +503,7 @@ const UploadImageButton = styled.button`
 `;
 
 const HospitalName = styled.div`
+  position: relative;
   background: #4b50d3;
   color: ${({ theme }) => theme.color.white};
   font-weight: 500;

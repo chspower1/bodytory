@@ -11,7 +11,7 @@ interface CheckBoxProps extends RadioProps{
 const CheckBoxInput = ({ label, name, register, error, checked, disabled, isDeleteMessage }: CheckBoxProps) => {
   return (
     <InputBox className={`${error ? "error" : ""} ${checked ? "completion" : ""} ${isDeleteMessage ? "deleteMessage" : ""}`}>
-      <Input type="checkbox" id={name} {...register} readOnly={checked} checked={checked} disabled={disabled} />
+      <Input type="checkbox" id={name} {...register} readOnly={checked} checked={checked} disabled={disabled} autoComplete="off"  />
       <Label htmlFor={name}>
         <i></i>
         {label}

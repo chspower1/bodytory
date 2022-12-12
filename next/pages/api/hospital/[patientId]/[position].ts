@@ -5,19 +5,14 @@ import { withApiSession } from "@utils/server/withSession";
 import { NextResponse } from "next/server";
 import { Position } from "@prisma/client";
 
+
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { user } = req.session;
   const { position, patientId } = req.query;
-  if (!user) return res.status(401).send("회원 정보를 확인해주세요");
-
-  if (req.method === "GET") return await findRecord(req, res, position as Position, patientId as string);
-}
-
-async function findRecord(req: NextApiRequest, res: NextApiResponse, position: Position, patientId : string) {
+  if( !position || !patientId) return res.status(401).send("api 주소가 잘못되었습니다")
   const data = await client.record.findMany({
     where: {
       userId : Number(patientId),
-      position: position,
+      position: position as Position,
     },
     include: {
       images: true,
@@ -35,5 +30,6 @@ async function findRecord(req: NextApiRequest, res: NextApiResponse, position: P
 
   return res.status(200).json(data);
 }
+
 
 export default withApiSession(withHandler({ methods: ["POST", "GET", "PUT", "DELETE"], handler }));

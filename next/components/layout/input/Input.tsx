@@ -84,6 +84,7 @@ export default function Input({
         color={color}
         $light={$light}
         $white={$white}
+        autoComplete="off"
       />
     </InputBox>
   );

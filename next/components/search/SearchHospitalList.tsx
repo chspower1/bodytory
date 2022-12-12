@@ -13,6 +13,7 @@ import { RoundButton } from "../layout/buttons/Button";
 import HospitalContent from "../my-hospital/HospitalContent";
 import Input from "../layout/input/Input";
 import ListSkeleton from "../skeletonUI/ListSkeleton";
+import AlertModal from "@components/modals/AlertModal";
 
 interface SearchHospitalListResponse {
   foundHospitals: MyHospital[];
@@ -26,6 +27,7 @@ const SearchHospitalList = () => {
   const [hospitals, setHospitals] = useState<MyHospital[]>([]);
   const [page, setPage] = useState<number>(0);
   const [searchWord, setSearchWord] = useState<string>("");
+  const [showModal, setShowModal] = useState(false);
 
   const {
     register,
@@ -63,6 +65,7 @@ const SearchHospitalList = () => {
       page === 0 ? setHospitals(data.foundHospitals) : setHospitals(prev => [...prev, ...data?.foundHospitals]);
     }
   }, [data]);
+
   return (
     <SearchContainer>
       <SearchBox>
@@ -103,6 +106,7 @@ const SearchHospitalList = () => {
                       add={true}
                       key={hospital.id}
                       shared={false}
+                      setShowAlertModal={setShowModal}
                     />
                   ))}
                   <div
@@ -113,6 +117,7 @@ const SearchHospitalList = () => {
                   />
                 </>
               )}
+              <AlertModal show={showModal} onClose={()=> setShowModal(false)}  />
             </HospitalLists>
           )}
           {hospitals?.length === 0 && !isLoading && <NoneMessage>{"검색결과가 없습니다"}</NoneMessage>}
