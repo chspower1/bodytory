@@ -7,6 +7,6 @@ module.exports = {
     return config;
   },
   images: {
-    domains: ["toriai.s3.ap-northeast-2.amazonaws.com"],
+    domains: ["imagedelivery.net"],
   },
 };
