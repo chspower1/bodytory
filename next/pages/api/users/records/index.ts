@@ -63,6 +63,9 @@ async function findRecord(req: NextApiRequest, res: NextApiResponse, user: { id:
 
 async function updateRecord(req: NextApiRequest, res: NextApiResponse) {
   const { id, position, description } = req.body;
+  const departments = await axios.post(`${process.env.FLASK_API}/api/departments`, {
+    sentence: description,
+  });
   await client.record.update({
     where: {
       id,
@@ -70,6 +73,7 @@ async function updateRecord(req: NextApiRequest, res: NextApiResponse) {
     data: {
       position,
       description,
+      recommendDepartments: departments.data.departments_result as string,
     },
   });
   return res.status(200).end();

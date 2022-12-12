@@ -29,7 +29,7 @@ async function aMonthFn(req: NextApiRequest, res: NextApiResponse) {
       },
     },
   });
-  if(aMonthData.length === 0) return;
+  if(aMonthData.length === 0) return res.status(200).json({mostInAMonth : [], mostThreeDepartment : []});
 
   const departMentName = await client.medicalDepartment.findMany({});
 
@@ -105,23 +105,6 @@ async function threeMonthFn(req: NextApiRequest, res: NextApiResponse) {
       return total;
     }, storage);
   };
-
-  const threeMonthHospital = await client.record.findMany({
-    where: {
-      userId: user.id,
-      type: "hospital",
-      createAt: {
-        gte: threeMonthAgo,
-      },
-    },
-  });
-
-  reduceFn(threeMonthHospital, hospitalTemporaryStorage);
-
-  Object.entries(hospitalTemporaryStorage).map(ele => {
-    result.push({ position: ele[0], hospitalLength: ele[1] });
-  });
-
   const threeMonthUser = await client.record.findMany({
     where: {
       userId: user.id,
@@ -132,11 +115,32 @@ async function threeMonthFn(req: NextApiRequest, res: NextApiResponse) {
     },
   });
 
+  if(threeMonthUser.length === 0) return res.status(200).json({result:[]});
+
+
+  const threeMonthHospital = await client.record.findMany({
+    where: {
+      userId: user.id,
+      type: "hospital",
+      createAt: {
+        gte: threeMonthAgo,
+      },
+    },
+  });
   reduceFn(threeMonthUser, userTemporaryStorage);
 
-  Object.entries(userTemporaryStorage).forEach(elem => {
+
+  Object.entries(userTemporaryStorage).map(ele => {
+    result.push({ position: ele[0], userLength: ele[1] });
+  });
+
+
+
+  reduceFn(threeMonthHospital, hospitalTemporaryStorage);
+
+  Object.entries(hospitalTemporaryStorage).forEach(elem => {
     if (!result.some(record => record.position === elem[0])) {
-      return result.push({ position: elem[0], userLength: elem[1] });
+      return result.push({ position: elem[0], hospitalLength: elem[1] });
     }
 
     result.forEach(record => {

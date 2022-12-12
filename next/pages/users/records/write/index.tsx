@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { bodyPartType } from "../../../../types/bodyParts";
 import { useSetRecoilState } from "recoil";
 import { currentBodyPosition } from "atoms/atoms";
+import { motion } from "framer-motion";
 
 export default function WritePage() {
   const [selectedBodyPart, setSelectedBodyPart] = useState<bodyPartType>(null);
@@ -16,8 +17,20 @@ export default function WritePage() {
 
   return (
     <RecordContainer>
-      <BodyPartChecker selectedBodyPart={selectedBodyPart} />
-      <BodyNavigator selectedBodyPart={selectedBodyPart} setSelectedBodyPart={setSelectedBodyPart} isWritePage={true} />
+      <BodyPartCheckerArea 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, type: "tween", ease: "easeOut"}}
+      >
+        <BodyPartChecker selectedBodyPart={selectedBodyPart} />
+      </BodyPartCheckerArea>
+      <BodyNavigatorArea
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, type: "tween", ease: "easeOut", delay: .4 }}
+      >
+        <BodyNavigator selectedBodyPart={selectedBodyPart} setSelectedBodyPart={setSelectedBodyPart} isWritePage={true} />
+      </BodyNavigatorArea>
     </RecordContainer>
   );
 }
@@ -28,4 +41,12 @@ const RecordContainer = styled.div`
   height: 100vh;
   display: flex;
   justify-content: space-between;
+`;
+
+const BodyPartCheckerArea = styled(motion.div)`
+  width: 55%;
+`;
+
+const BodyNavigatorArea = styled(motion.div)`
+  width: 45%;
 `;

@@ -18,7 +18,7 @@ function ChartKeyword({ keywords }: KeywordsProps) {
           <Keywords>
             {keywords.map(keyword => (
               <span
-                className={clickedKeyword === keyword ? "active" : ""}
+                className={clickedKeyword && clickedKeyword !== keyword ? "noActive" : ""}
                 onClick={() => (clickedKeyword === keyword ? setClickedKeyword(null) : setClickedKeyword(keyword))}
               >
                 {keyword}
@@ -54,6 +54,8 @@ const Keywords = styled.div`
   flex-wrap: wrap;
 
   span {
+    display: flex;
+    align-items: center;
     position: relative;
     background: ${({ theme }) => theme.color.mintBtn};
     color: ${({ theme }) => theme.color.white};
@@ -63,22 +65,16 @@ const Keywords = styled.div`
     border-radius: 8px;
     cursor: pointer;
 
-    &.active {
-      padding: 2px 26px 2px 12px;
-      background: rgb(63, 69, 213);
-      color: ${({ theme }) => theme.color.white};
+    &.noActive {
+      opacity: .3;
     }
 
     i {
-      position: absolute;
-      top: 50%;
-      right: 8px;
-      transform: translate(0, -50%);
       display: block;
       width: 10px;
       height: 10px;
       background: url(${CloseIcon.src}) no-repeat 50% 50% / contain;
-      margin-left: 5px;
+      margin-left: 8px;
     }
   }
 `;

@@ -56,7 +56,7 @@ function Chart() {
 
 export const ChartWrap = styled.div`
   position: relative;
-  width: 62.5%;
+  width: 100%;
   height: 100%;
   background: ${({ theme }) => theme.color.darkBg};
 `;

@@ -1,24 +1,13 @@
 import useCoords from "@hooks/useCoords";
-import { Hospital, MedicalDepartment } from "@prisma/client";
 import { theme } from "@styles/theme";
-import { MyHospital, MyHospitalResponse } from "pages/users/my-hospital";
-import { FormEvent, LegacyRef, MouseEvent, useCallback, useState } from "react";
-import { useForm } from "react-hook-form";
-import { Map, MapMarker } from "react-kakao-maps-sdk";
 import styled from "styled-components";
-import HospitalContent from "./my-hospital/HospitalContent";
-import ArroundMap from "./map/ArroundMap";
 import { SearchContainer } from "./SearchHospitalList";
-import ListSkeleton from "./skeletonUI/ListSkeleton";
 import { MEDICALDEPARTMENT } from "constant/MedicalDepartment";
-import { Box, Col, Row } from "@styles/Common";
+import { Box, Col } from "@styles/Common";
 import HospitalIcon from "@src/assets/icons/hospital.svg";
-import DepartmentSelect from "../hooks/useDepartmentSelect";
-import useDepartmentSelect from "../hooks/useDepartmentSelect";
+import ArroundMap from "@components/map/ArroundMap";
+import useDepartmentSelect from "@hooks/useDepartmentSelect";
 
-interface DepartmentSelectForm {
-  department: string;
-}
 const SearchHospitalMap = () => {
   const { latitude, longitude } = useCoords();
   const { department, DepartmentSelect } = useDepartmentSelect(Object.values(MEDICALDEPARTMENT), true);
@@ -42,6 +31,7 @@ const SearchHospitalMap = () => {
 };
 
 export default SearchHospitalMap;
+
 const OptionBox = styled(Box)`
   width: 100%;
   justify-content: flex-end;

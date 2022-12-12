@@ -21,7 +21,7 @@ import {
   RECORDS_READ,
 } from "constant/queryKeys";
 import { AxiosError } from "axios";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import pencil from "@src/assets/icons/pencil.svg";
 import mic from "@src/assets/icons/mic.svg";
@@ -50,7 +50,6 @@ const PositionPage = () => {
     watch,
     clearErrors,
   } = useForm<WriteForm>();
-  const [onHoverRefreshBtn, setOnHoverRefreshBtn] = useState(false);
   const [listening, setListening] = useState(false);
   const [error, setError] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -64,7 +63,7 @@ const PositionPage = () => {
       queryClient.invalidateQueries([AI_RESULT_READ]);
       queryClient.invalidateQueries([BODYPART_CHARTDATA_READ]);
       queryClient.invalidateQueries([KEYWORDS_CHARTDATA_READ]);
-      router.push({
+      router.replace({
         pathname: "/users/records/write/add",
         query: { position },
       });
@@ -104,7 +103,7 @@ const PositionPage = () => {
     if (recordStatus === "finish") {
       if (description.length < 2) return setError(true);
       mutate({ position: router.query.position as string, description });
-      router.push(
+      router.replace(
         {
           pathname: "/users/records/write/analysis",
           query: { position: position },
@@ -117,7 +116,6 @@ const PositionPage = () => {
   };
   const handleClickEditMode = () => {
     setError(false);
-    setOnHoverRefreshBtn(false);
     if (!(recordStatus === "finish")) {
       setValue("description", "");
     }
@@ -130,7 +128,6 @@ const PositionPage = () => {
       if (audioRecognized) {
         setRecordStatus("finish");
         setValue("description", audioRecognized);
-        setOnHoverRefreshBtn(false);
       }
     }
   }, [audioRecognized, aiError]);
@@ -188,16 +185,12 @@ const PositionPage = () => {
                     height="46px"
                     boxShadow={false}
                   >
-                    <Image
-                      src={refresh}
-                      width={30}
-                      height={30}
-                      alt="다시 녹음"
-                      onMouseEnter={() => setOnHoverRefreshBtn(true)}
-                      onMouseLeave={() => setOnHoverRefreshBtn(false)}
-                    />
+                    <Image src={refresh} width={30} height={30} alt="다시 녹음"
+                  />
                   </CircleButton>
-                  {onHoverRefreshBtn && <RefreshText>다시 녹음하기</RefreshText>}
+                    <RefreshText>
+                      새로고침
+                    </RefreshText>
                 </RefreshBtnBox>
               )}
             </MemoBox>
@@ -266,12 +259,18 @@ const RefreshBtnBox = styled(Box)`
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  right: -60px;
+  right: -150px;
+  width: 130px;
+  justify-content: start;
+  button:hover +  div{
+    display:block;
+  }
 `;
-const RefreshText = styled.div`
-  position: absolute;
-  right: -110px;
+const RefreshText = styled(motion.div)`
+  display:none;
   color: ${({ theme }) => theme.color.mintBtn};
+  margin-left: 20px;
+  font-weight: 500;
 `;
 const MemoInput = styled.input<{ disabled: boolean }>`
   display: flex;

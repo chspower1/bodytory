@@ -43,18 +43,24 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   const result: string[] = records.map((ele: { description: string }) => {
     return ele.description;
   });
-  const postApi = await axios.post(`${process.env.FLASK_API}/api/keywords`, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-    sentences: result,
-  });
-  departMentName.map(ele => {
-    if (mostThreeDepartment.includes(`${ele.id}`)) {
-      mostThreeDepartment.splice(mostThreeDepartment.indexOf(`${ele.id}`), 1, `${ele.department}`);
-    }
-  });
-  return res.status(200).json({ mostThreeDepartment, keywords: postApi.data.keywords_result });
+  if(!result) return res.status(401).send("데이터 없음")
+  try{
+    const postApi = await axios.post(`${process.env.FLASK_API}/api/keywords`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      sentences: result,
+    });
+    departMentName.map(ele => {
+      if (mostThreeDepartment.includes(`${ele.id}`)) {
+        mostThreeDepartment.splice(mostThreeDepartment.indexOf(`${ele.id}`), 1, `${ele.department}`);
+      }
+    });
+    return res.status(200).json({ mostThreeDepartment, keywords: postApi.data.keywords_result });
+  }catch(err){
+    return res.status(200).json(["empty"]);
+  }
+
 }
 
 export default withApiSession(withHandler({ methods: ["GET"], handler }));

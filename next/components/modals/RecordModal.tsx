@@ -7,6 +7,7 @@ import customApi from "@utils/client/customApi";
 import {
   AI_RESULT_READ,
   BODYPART_CHARTDATA_READ,
+  CHART_RECOMMEND_READ,
   KEYWORDS_CHARTDATA_READ,
   RECORDS_DELETE,
   RECORDS_READ,
@@ -44,6 +45,7 @@ const RecordModal = ({ onClose, record, isHospital }: RecordModalProps) => {
       queryClient.invalidateQueries([AI_RESULT_READ]);
       queryClient.invalidateQueries([BODYPART_CHARTDATA_READ]);
       queryClient.invalidateQueries([KEYWORDS_CHARTDATA_READ]);
+      queryClient.invalidateQueries([CHART_RECOMMEND_READ]);
       onClose();
     },
   });
@@ -54,6 +56,7 @@ const RecordModal = ({ onClose, record, isHospital }: RecordModalProps) => {
       queryClient.invalidateQueries([AI_RESULT_READ]);
       queryClient.invalidateQueries([BODYPART_CHARTDATA_READ]);
       queryClient.invalidateQueries([KEYWORDS_CHARTDATA_READ]);
+      queryClient.invalidateQueries([CHART_RECOMMEND_READ]);
     },
   });
 
@@ -255,6 +258,7 @@ const TextArea = styled.textarea`
   width: 100%;
   min-height: 140px;
   padding: 20px 30px;
+  line-height: 1.6;
 
   &:focus {
     outline: 2px solid #8c9af3;

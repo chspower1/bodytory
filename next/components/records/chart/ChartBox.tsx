@@ -14,9 +14,9 @@ import { RecordWithImageAndHospital } from "./ChartTimeline";
 import uploadImage from "@utils/client/uploadImage";
 import DeleteBtn from "@components/layout/buttons/DeleteBtn";
 import { AnimatePresence } from "framer-motion";
-import { Subject } from "@components/modals/ClinicModal";
 import IconAddImage from "@src/assets/icons/icon_addImage.png";
 import customApi from "@utils/client/customApi";
+import SplitTextByKeyword from "./SplitTextByKeyword";
 
 interface ChartBoxProps {
   index: number;
@@ -32,10 +32,9 @@ const ChartBox = ({ index, record, clickedKeyword, patientId, position }: ChartB
   const { postApi } = customApi("/api/users/records/picture");
   const { mutate } = useMutation([RECORDS_DELETE], deleteApi, {
     onSuccess() {
-      queryClient.invalidateQueries([RECORDS_READ, position]);
-      queryClient.invalidateQueries([AI_RESULT_READ]);
-      queryClient.invalidateQueries([BODYPART_CHARTDATA_READ]);
-      queryClient.invalidateQueries([KEYWORDS_CHARTDATA_READ]);
+      console.log("hji")
+      queryClient.invalidateQueries();
+  
     },
   });
 
@@ -59,21 +58,24 @@ const ChartBox = ({ index, record, clickedKeyword, patientId, position }: ChartB
           <Content>
             <Description cursorType={"pointer"}>
               <Text onClick={() => handleRecordModal(record)}>
-                {clickedKeyword && record.description.includes(clickedKeyword) ? (
-                  <>
-                    {record.description.split(clickedKeyword).map((text, idx, arr) =>
-                      idx === arr.length - 1 ? (
-                        <span>{text}</span>
-                      ) : (
-                        <span>
-                          {text}
-                          <span className="keyword-mark">{clickedKeyword}</span>
-                        </span>
-                      ),
-                    )}
-                  </>
-                ) : (
-                  record.description
+                {record.description.includes("\n")
+                  ? (
+                    record.description.split("\n").map((ele, idx) => (
+                      <p key={`${ele} + ${idx} + ${Date.now()}`}>
+                        {clickedKeyword && ele.includes(clickedKeyword) ? (
+                          <SplitTextByKeyword text={ele} clickedKeyword={clickedKeyword} />
+                        ) : (
+                          ele
+                        )}
+                      </p>
+                    ))
+                  )
+                  : (
+                    clickedKeyword && record.description.includes(clickedKeyword) ? (
+                      <SplitTextByKeyword text={record.description} clickedKeyword={clickedKeyword} />
+                    ) : (
+                      record.description
+                    )
                 )}
               </Text>
               <ImageBox isHospital={Boolean(patientId)}>
@@ -106,24 +108,51 @@ const ChartBox = ({ index, record, clickedKeyword, patientId, position }: ChartB
             <ResultTable>
               <TableRow>
                 <Subject>진단 결과</Subject>
-                <p>{record.diagnosis}</p>
+                <div>
+                  {
+                    clickedKeyword && record.diagnosis?.includes(clickedKeyword) ? (
+                      <SplitTextByKeyword text={record.diagnosis} clickedKeyword={clickedKeyword} />
+                    ) : (
+                      record.diagnosis
+                    )
+                  }
+                </div>
               </TableRow>
               <TableRow>
                 <Subject>처방 내용</Subject>
-                <p>{record.prescription}</p>
+                <div>
+                  {
+                    clickedKeyword && record.prescription?.includes(clickedKeyword) ? (
+                      <SplitTextByKeyword text={record.prescription} clickedKeyword={clickedKeyword} />
+                    ) : (
+                      record.prescription
+                    )
+                  }
+                </div>
               </TableRow>
               <TableRow>
                 <Subject>상세 소견</Subject>
-                <p>
+                <div>
                   {record.description.includes("\n")
-                    ? record.description.split("\n").map((ele, idx) => (
-                        <React.Fragment key={`${ele} + ${idx} + ${Date.now()}`}>
-                          {ele}
-                          <br />
-                        </React.Fragment>
+                    ? (
+                      record.description.split("\n").map((ele, idx) => (
+                        <p key={`${ele} + ${idx} + ${Date.now()}`}>
+                          {clickedKeyword && ele.includes(clickedKeyword) ? (
+                            <SplitTextByKeyword text={ele} clickedKeyword={clickedKeyword} />
+                          ) : (
+                            ele
+                          )}
+                        </p>
                       ))
-                    : record.description}
-                </p>
+                    )
+                    : (
+                      clickedKeyword && record.description.includes(clickedKeyword) ? (
+                        <SplitTextByKeyword text={record.description} clickedKeyword={clickedKeyword} />
+                      ) : (
+                        record.description
+                      )
+                    )}
+                </div>
               </TableRow>
             </ResultTable>
           </Description>
@@ -192,15 +221,15 @@ const Description = styled.div<{ cursorType: string }>`
   border-radius: 20px;
   overflow: hidden;
   cursor: ${({ cursorType }) => cursorType};
+
+  .keyword-mark {
+    background: linear-gradient(to top, rgba(18, 212, 201, 0.4) 50%, transparent 50%);
+  }
 `;
 
 const Text = styled.div`
   min-height: 140px;
   padding: 20px 200px 20px 30px;
-
-  .keyword-mark {
-    background: linear-gradient(to top, rgba(18, 212, 201, 0.4) 50%, transparent 50%);
-  }
 `;
 
 const ImageBox = styled.div<{ isHospital: boolean }>`
@@ -270,6 +299,16 @@ const ResultTable = styled.div`
   padding: 30px 40px;
 `;
 
+
+const Subject = styled.div`
+  flex-shrink: 0;
+  font-weight: 600;
+  margin-right: 60px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+`;
+
 const TableRow = styled.div`
   display: flex;
 
@@ -277,9 +316,10 @@ const TableRow = styled.div`
     margin-top: 15px;
   }
 
-  div + p {
+  ${Subject} + div {
     width: 100%;
     padding: 10px 0;
     border-radius: 5px;
   }
 `;
+
