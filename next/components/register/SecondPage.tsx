@@ -25,33 +25,6 @@ interface RegisterPageProps {
   setUser: Dispatch<SetStateAction<RegisterForm | undefined>>;
   setPage: Dispatch<SetStateAction<number>>;
 }
-const KoreanName = {
-  accountId: "아이디",
-  password: "비밀번호",
-  passwordConfirm: "비밀번호 확인",
-};
-
-// 안쓸듯
-const SecondRegisterPageErrorMessage = {
-  accountId: {
-    required: "",
-    minLength: "",
-    validate: {
-      checkAccountId: "아이디는 6자리 이상\n영문 대소문자, 숫자를 입력해주세요",
-      checkIsNotDuplicate: "아이디 중복 확인을 해주세요",
-    },
-  },
-  password: {
-    required: "비밀번호를 입력해주세요!",
-    validate: "비밀번호는 6자리 이상\n영문 대소문자, 숫자를 조합해서 입력해주세요",
-  },
-  passwordConfirm: {
-    required: "비밀번호를 다시 한번 입력해주세요!",
-    validate: {
-      checkPassword: "비밀번호가 일치하지 않아요!\n비밀번호를 다시 확인해주세요",
-    },
-  },
-};
 
 const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
   const {
@@ -144,7 +117,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                   required: true,
                   validate: {
                     checkAccountId: value =>
-                      ACCOUNT_ID_REGEX.test(value) || "아이디는 6자리 이상\n영문 대소문자, 숫자를 입력해주세요",
+                      ACCOUNT_ID_REGEX.test(value) || "아이디는 6글자이상으로 입력해주세요",
                   },
                   onChange() {
                     setUser(prev => ({ ...prev!, isNotDuplicate: false }));

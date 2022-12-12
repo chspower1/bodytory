@@ -27,6 +27,7 @@ const Textarea = ({
       value={value}
       className={error ? "error" : ""}
       color={color}
+      autoComplete="off"
     ></TextAreaStyle>
   );
 };

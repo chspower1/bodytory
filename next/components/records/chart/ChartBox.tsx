@@ -17,6 +17,8 @@ import { AnimatePresence } from "framer-motion";
 import IconAddImage from "@src/assets/icons/icon_addImage.png";
 import customApi from "@utils/client/customApi";
 import SplitTextByKeyword from "./SplitTextByKeyword";
+import { DeleteBtnBox } from "@components/my-hospital/HospitalContent";
+import AlertModal from "@components/modals/AlertModal";
 
 interface ChartBoxProps {
   index: number;
@@ -24,17 +26,24 @@ interface ChartBoxProps {
   clickedKeyword: string | null;
   patientId: number | null;
   position: string;
+  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ChartBox = ({ index, record, clickedKeyword, patientId, position }: ChartBoxProps) => {
+const ChartBox = ({ index, record, clickedKeyword, patientId, position, setShowModal }: ChartBoxProps) => {
   const queryClient = useQueryClient();
   const { deleteApi } = customApi(`/api/users/records`);
+  const { deleteApi: deleteHospitalRecordApi } = customApi(`/api/hospital/records`);
   const { postApi } = customApi("/api/users/records/picture");
   const { mutate } = useMutation([RECORDS_DELETE], deleteApi, {
     onSuccess() {
       console.log("hji")
       queryClient.invalidateQueries();
   
+    },
+  });
+    const { mutate: deleteMutate } = useMutation(["removeHospitalRecode"], deleteHospitalRecordApi, {
+    onSuccess() {
+      queryClient.invalidateQueries([RECORDS_READ, position]);
     },
   });
 
@@ -93,7 +102,7 @@ const ChartBox = ({ index, record, clickedKeyword, patientId, position }: ChartB
                 )}
               </ImageBox>
             </Description>
-            {!Boolean(patientId) && <DeleteBtn id={record.id} mutate={mutate} />}
+            {!Boolean(patientId) && <DeleteBtn id={record.id} mutate={mutate} setShowAlertModal={setShowModal} />}
           </Content>
           <AnimatePresence>
             {showRecordModal === record.id && (
@@ -104,7 +113,20 @@ const ChartBox = ({ index, record, clickedKeyword, patientId, position }: ChartB
       ) : (
         <Content>
           <Description cursorType={"auto"}>
-            <HospitalName>{record.hospital?.name}</HospitalName>
+            <HospitalName>{record.hospital?.name}
+            {Boolean(patientId) && (
+              <DeleteBtnBox>
+                <DeleteBtn
+                  isdowntext={1}
+                  mutate={deleteMutate}
+                  setShowAlertModal={setShowModal}
+                  id={record.id}
+                  backgroundColor="rgb(100, 106, 235)"
+                  isCircle
+                />
+              </DeleteBtnBox>
+            )}
+            </HospitalName>
             <ResultTable>
               <TableRow>
                 <Subject>진단 결과</Subject>
@@ -289,6 +311,7 @@ const UploadImageButton = styled.button`
 `;
 
 const HospitalName = styled.div`
+  position:relative;
   background: #4b50d3;
   color: ${({ theme }) => theme.color.white};
   font-weight: 500;

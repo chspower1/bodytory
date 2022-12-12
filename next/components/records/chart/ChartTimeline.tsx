@@ -13,6 +13,8 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { currentPatientInfo, selectedKeyword } from "atoms/atoms";
 import RecordSkeleton from "@components/skeletonUI/RecordSkeleton";
 import ChartBox from "./ChartBox";
+import AlertModal from "@components/modals/AlertModal";
+import { DeleteBtnBox } from "@components/my-hospital/HospitalContent";
 
 export interface RecordWithImageAndHospital extends Record {
   images: RecordImage[];
@@ -25,7 +27,7 @@ const ChartTimeline = () => {
   const { id: patientId } = useRecoilValue(currentPatientInfo);
   const queryClient = useQueryClient();
   const { getApi } = customApi(patientId ? `/api/hospital/${patientId}/${position}` : `/api/users/records/${position}`);
-
+  const [showModal, setShowModal] = useState(false);
   // 여기 key 2개 넣고, useEffect까지 써야지 되는 이 부분 나중에 리팩토링하기 (일단 기능은 맞게 동작)
   const { isLoading } = useQuery<RecordWithImageAndHospital[] | undefined>([RECORDS_READ, position], getApi, {
     onSuccess(data) {
@@ -64,16 +66,15 @@ const ChartTimeline = () => {
 
   // 키워드 핕터링
   const [clickedKeyword, setClickedKeyword] = useRecoilState(selectedKeyword);
-  const [filtredRecordByKeywrod, setFiltredRecordByKeywrod] = useState<RecordWithImageAndHospital[] | undefined>();
+  const [filtredRecordByKeyword, setFiltredRecordByKeyword] = useState<RecordWithImageAndHospital[] | undefined>();
 
   useEffect(() => {
     if (clickedKeyword) {
-      setFiltredRecordByKeywrod(filtredRecord?.filter(record => record.description.includes(clickedKeyword) || record.diagnosis?.includes(clickedKeyword) || record.prescription?.includes(clickedKeyword)));
+      setFiltredRecordByKeyword(filtredRecord?.filter(record => record.description.includes(clickedKeyword) || record.diagnosis?.includes(clickedKeyword) || record.prescription?.includes(clickedKeyword)));
     } else {
-      setFiltredRecordByKeywrod(filtredRecord);
+      setFiltredRecordByKeyword(filtredRecord);
     }
   }, [clickedKeyword, filtredRecord]);
-
   return (
     <>
       <TimelineContainer>
@@ -122,7 +123,7 @@ const ChartTimeline = () => {
               </label>
             </div>
           </Filter>
-          {filtredRecordByKeywrod?.length === 0 ? (
+          {filtredRecordByKeyword?.length === 0 ? (
             <NoRecord>
               <img src={ToriQuestion.src} />
               <p>
@@ -137,17 +138,19 @@ const ChartTimeline = () => {
           ) : isLoading ? (
             <RecordSkeleton />
           ) : (
-            filtredRecordByKeywrod?.map((record, index) => (
+            filtredRecordByKeyword?.map((record, index) => (
               <ChartBox
                 index={index}
                 record={record}
                 clickedKeyword={clickedKeyword}
                 patientId={patientId}
                 position={position}
+                setShowModal={setShowModal}
               />
             ))
           )}
         </Timeline>
+        <AlertModal show={showModal} onClose={() => setShowModal(false)} />
       </TimelineContainer>
     </>
   );
