@@ -5,7 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 import { USER_CHANGE_PASSWORD } from "constant/queryKeys";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import useUser from "@hooks/useUser";
 import { FlexContainer, InnerContainer } from "@styles/Common";
@@ -15,11 +15,7 @@ import { RoundButton } from "@components/layout/buttons/Button";
 import Naver from "@src/assets/icons/naver.svg";
 import Kakao from "@src/assets/icons/kakao.svg";
 import Origin from "@src/assets/icons/origin.svg";
-import Image from "next/image";
 import getAmericanAge from "@utils/client/getAmericanAge";
-import { useRecoilValue } from "recoil";
-import { User } from "@prisma/client";
-import { RegisterForm } from "pages/auth/register";
 import { PASSWORD_REGEX } from "constant/regex";
 
 interface PasswordType {
@@ -118,7 +114,7 @@ export default function Edit() {
                 name="oldPassword"
                 type="password"
                 register={register("oldPassword", { required: "현재 비밀번호를 입력해주세요" })}
-                placeholder="현재 비밀번호를 입력해주세요."
+                placeholder={user?.type === "origin" ? "현재 비밀번호를 입력해주세요" : "변경할 수 없습니다"}
                 error={errors.oldPassword?.message}
                 align="left"
                 disabled={user?.type !== "origin"}
@@ -128,7 +124,7 @@ export default function Edit() {
                 name="newPassword"
                 type="password"
                 register={register("newPassword", { required: "새로운 비밀번호를 입력해주세요" })}
-                placeholder="새로운 비밀번호를 입력해주세요."
+                placeholder={user?.type === "origin" ? "새로운 비밀번호를 입력해주세요" : "변경할 수 없습니다"}
                 error={errors.newPassword?.message}
                 align="left"
                 disabled={user?.type !== "origin"}
@@ -139,18 +135,18 @@ export default function Edit() {
                 name="newPasswordConfirm"
                 type="password"
                 register={register("newPasswordConfirm", { required: "새로운 비밀번호확인을 입력해주세요" })}
-                placeholder="새로운 비밀번호확인을 입력해주세요."
+                placeholder={user?.type === "origin" ? "새로운 비밀번호확인을 입력해주세요" : "변경할 수 없습니다"}
                 error={errors.newPasswordConfirm?.message}
                 align="left"
                 disabled={user?.type !== "origin"}
                 delay={0.6}
               />
             </SeperationBox>
-            <SeperationBox style={{ display: "flex", justifyContent: "center" }}>
-              <RoundButton size="md" bgColor={theme.color.mintBtn} disabled={user?.type !== "origin"}>
+            {user?.type === "origin" && <SeperationBox style={{ display: "flex", justifyContent: "center" }}>
+              <RoundButton size="md" bgColor={theme.color.mintBtn}>
                 비밀번호 변경하기
               </RoundButton>
-            </SeperationBox>
+            </SeperationBox>}
           </form>
           <Modal
             onClose={() => setShowModal(false)}
@@ -241,6 +237,28 @@ const EmailInputBox = styled(SeperationBox)`
 `;
 
 const WithdrawBox = styled.div`
-  display: flex;
-  justify-content: center;
+  margin: 0 auto;
+  position : relative;
+  a{
+    position : relative;
+    z-index:2;
+  }
+  &:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to top, rgba(217, 222, 255, 1) 40%, transparent 40%);
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+&:hover {
+  &:before {
+    opacity: 1;
+  }
+}
 `;

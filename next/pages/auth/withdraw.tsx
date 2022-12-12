@@ -9,7 +9,7 @@ import Modal from "@components/modals/Modal";
 import { BackButton, FlexContainer } from "@styles/Common";
 import MessageBox from "@components/MessageBox";
 import Input from "@components/layout/input/Input";
-import { RectangleButton } from "@components/layout/buttons/Button";
+import { RectangleButton, RoundButton } from "@components/layout/buttons/Button";
 import styled from "styled-components";
 import { PASSWORD_REGEX } from "constant/regex";
 import useUser from "@hooks/useUser";
@@ -100,7 +100,7 @@ export default function Withdraw() {
           />
         )}
         <ButtonBox>
-          <RectangleButton>탈퇴하기</RectangleButton>
+          <RoundButton width="240px" fontSize="20px">탈퇴하기</RoundButton>
         </ButtonBox>
       </Form>
       <Modal
