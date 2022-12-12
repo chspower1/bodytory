@@ -11,6 +11,7 @@ import Setting from "@src/assets/icons/setting.svg";
 import ToryIcon from "@components/ToryIcon";
 import { theme } from "@styles/theme";
 import { ToryText } from "./users/records/write/add";
+import ToryPurpleAnim from "@src/lotties/ToryPurpleAnim";
 
 const Home = () => {
   const { user } = useUser();
@@ -19,7 +20,9 @@ const Home = () => {
     <FlexContainer>
       <Col>
         <ToryBox>
-          <ToryIcon />
+          <ToryMotion>
+            <ToryPurpleAnim  toryMotionIdx={0} width={340}  />
+          </ToryMotion>
           <TextBox>
             <Accent>
               <strong>{user ? user?.name : "OOO"}님, </strong>
@@ -31,11 +34,13 @@ const Home = () => {
         </ToryBox>
         <WriteBox>
           <Link href="users/records/write">
-            <CircleButton>
-              <Mic width={50} height={50} />
-            </CircleButton>
-            <BodyText>건강 관리를 위해 매일매일 잊지말고 기록해요!</BodyText>
-            <Accent fontSize="26px">오늘 기록하기</Accent>
+            <div>
+              <CircleButton bgColor="rgba(83, 89, 233)" width="80px" height="80px">
+                <Mic width={50} height={50} />
+              </CircleButton>
+              <BodyText>건강 관리를 위해 매일매일 잊지말고 기록해요!</BodyText>
+            </div>
+            <Accent fontSize="24px">오늘 기록하기</Accent>
           </Link>
         </WriteBox>
         <ButtonBox>
@@ -73,49 +78,95 @@ export default Home;
 const EditButtonBox = styled.div``;
 
 const ToryBox = styled(Row)`
-  width: 806px;
+  position: relative;
   justify-content: space-around;
-  margin-bottom: 50px;
+  margin: 100px 0;
 `;
 const WriteBox = styled.div`
   margin-bottom: 50px;
+  
   > a {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display:flex;
+    align-items:center;
+    justify-content: space-between;
     flex-direction: column;
     width: 860px;
     height: 280px;
+    padding: 30px;
     background-color: rgb(217, 222, 255);
-    border-radius: 20px;
-    gap: 20px;
+    box-shadow: 4px 4px 15px 0px rgba(173, 182, 241, 0.25);
+    border-radius: 40px;
+    font-weight: 700;
+    transition: background .3s;
+
+    button {
+      margin: 0 auto 20px;
+    }
+
+    &:hover {
+      background-color: rgb(210, 216, 255);
+    }
   }
 `;
 const ButtonBox = styled(Row)`
   width: 100%;
-  justify-content: space-between;
+  justify-content: center;
+
+  a + a {
+    margin-left: 60px;
+  }
 `;
 const BtnIcon = styled.div`
   margin-right: 20px;
 `;
 const AccountBtnBox = styled.div`
-  transition: color 0.3s ease;
-  &:hover {
-    color: ${({ theme }) => theme.color.darkBg};
-  }
-  margin-top: 100px;
+  position: relative;
+  font-weight: 500;
+  margin-top: 120px;
+
   > a {
     > div {
-      display: flex;
-      align-items: center;
-
+      display:flex;
+      align-items:center;
+      position: relative;
+      z-index: 5;
+      
       svg {
-        margin: -2px 10px 0 0;
+        margin-right: 10px;
       }
     }
   }
+
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to top, rgba(217, 222, 255, 1) 40%, transparent 40%);
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  &:hover {
+    &:before {
+      opacity: 1;
+    }
+  }
+
+
 `;
 const TextBox = styled(ToryText)`
-  margin-bottom: 0;
-  text-align: left;
+  margin-bottom:0;
+  text-align:left;
+  padding-left: 170px;
+`;
+
+const ToryMotion = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translate(-50%, -46%);
 `;

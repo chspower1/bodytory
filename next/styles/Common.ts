@@ -58,6 +58,7 @@ export const WhiteText = styled.span<{ fontSize?: string }>`
 `;
 export const BodyText = styled(WhiteText)`
   color: ${({ theme }) => theme.color.text};
+  font-weight: 400;
 `;
 export const ToryText = styled(WhiteText)<{ color?: string }>`
   font-size: ${props => (props.fontSize ? props.fontSize : "36px")};
