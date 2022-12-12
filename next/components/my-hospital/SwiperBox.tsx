@@ -101,7 +101,7 @@ const SwiperWrap = styled(Swiper)`
     z-index: 10;
     height: 8px;
     top: auto;
-    bottom: 10px;
+    bottom: 0;
     left: 50%;
     transform: translateX(-50%);
     width: 60%;
@@ -118,7 +118,6 @@ const SwiperSlideItem = styled(SwiperSlide)`
   height: 500px;
   opacity: 0.5;
   transition: opacity 0.6s;
-  padding: 0 50px;
   &.swiper-slide-active {
     opacity: 1;
     > div {
@@ -143,7 +142,7 @@ const ItemHeader = styled.div`
   display: flex;
   align-items: center;
   flex-shrink: 0;
-  padding: 30px 50px;
+  padding: 20px 50px;
   background: ${({ theme }) => theme.color.darkBg};
   color: ${({ theme }) => theme.color.white};
 `;
@@ -166,7 +165,7 @@ const HospitalAddress = styled.div`
 `;
 const ClinicListBox = styled.div`
   height: 100%;
-  padding: 30px 40px;
+  padding: 30px 20px;
   background: ${({ theme }) => theme.color.lightBg};
   overflow-y: scroll;
   &::-webkit-scrollbar {
