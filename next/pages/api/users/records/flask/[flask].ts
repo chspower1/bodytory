@@ -7,39 +7,9 @@ import axios from "axios";
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { flask } = req.query;
   if (!flask) return res.status(401).send("api 주소가 잘못되었습니다");
-  if (flask === "allKeywords") return await allRecordsKeywords(req, res);
   if (flask === "threeMonth") return await threeMonthRecordsKeywords(req, res);
 }
 
-async function allRecordsKeywords(req: NextApiRequest, res: NextApiResponse) {
-  const { user } = req.session;
-  if (!user) return res.status(401).send("회원 정보를 확인해주세요");
-  try {
-    const data = await client.record.findMany({
-      where: {
-        type: "user",
-        userId: user.id,
-      },
-      select: {
-        description: true,
-      },
-    });
-    if (data.length === 0) return;
-    const result: string[] = data.map((ele: { description: string }) => {
-      return ele.description;
-    });
-    const postApi = await axios.post(`${process.env.FLASK_API}/api/keywords`, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      sentences: result,
-    });
-
-    return res.status(200).json(postApi.data.keywords_result);
-  } catch (err) {
-    return res.status(200).json(["empty"]);
-  }
-}
 async function threeMonthRecordsKeywords(req: NextApiRequest, res: NextApiResponse) {
   const { user } = req.session;
   if (!user) return res.status(401).send("회원 정보를 확인해주세요");
@@ -59,7 +29,7 @@ async function threeMonthRecordsKeywords(req: NextApiRequest, res: NextApiRespon
         description: true,
       },
     });
-    if (data.length === 0) return;
+    if (data.length === 0) return res.status(401).send("데이터 없음");
     const result: string[] = data.map((ele: { description: string }) => {
       return ele.description;
     });
