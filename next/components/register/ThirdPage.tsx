@@ -321,7 +321,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
             )}
           </ThirdPageFormContents>
           <PrevNextButtonBox>
-            <PreviousButton bgColor="rgb(75, 80, 211)" onClick={handleClickPrevPage}>
+            <PreviousButton type="button" bgColor="rgb(75, 80, 211)" onClick={handleClickPrevPage}>
               이전 단계
             </PreviousButton>
             <SubmitButton bgColor={theme.color.mintBtn} disable={!checkEmptyObj(errors) || !user?.isCertified}>

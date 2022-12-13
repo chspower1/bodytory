@@ -88,7 +88,7 @@ const FirstPage = ({ user, setUser, setPage }: RegisterPageProps) => {
           </FormContents>
           <PrevNextButtonBox>
             <Link href="/auth/register/choice">
-              <CircleDefaultButton bgColor="rgb(75, 80, 211)">이전 단계</CircleDefaultButton>
+              <CircleDefaultButton type="button" bgColor="rgb(75, 80, 211)">이전 단계</CircleDefaultButton>
             </Link>
             <CircleDefaultButton bgColor={theme.color.mintBtn} disable={Boolean(errors.agree) || !watch("agree")}>
               다음 단계

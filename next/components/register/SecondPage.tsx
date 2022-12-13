@@ -132,6 +132,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
               {(!user?.isNotDuplicate || !watch("accountId")) && (
                 <ButtonBox>
                   <RoundedDefaultButton
+                    type="button"
                     bgColor={
                       errors.accountId?.message?.includes("다른아이디") ? theme.color.error : theme.color.mintBtn
                     }
@@ -196,6 +197,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
           </FormContents>
           <PrevNextButtonBox>
             <CircleDefaultButton
+              type="button"
               bgColor="rgb(75, 80, 211)"
               onClick={() => {
                 pageReset();
