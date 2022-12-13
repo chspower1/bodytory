@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 
 
-const RoundedDefaultButton = styled.button<{lg ?: boolean; sm ?: boolean;}>`
+const RoundedDefaultButton = styled.button<{lg ?: boolean; sm ?: boolean; disable?: boolean;}>`
   font-size: 18px;
   font-weight: medium;
   padding: 10px 50px;
@@ -23,9 +23,12 @@ const RoundedDefaultButton = styled.button<{lg ?: boolean; sm ?: boolean;}>`
     font-size:16px;
     border-radius: 40px;
   `}
+  ${({disable, theme}) => disable && css`
+    background: ${theme.color.disabled};
+  `}
 `
 
-const CircleDefaultButton = styled.button<{lg ?: boolean; sm ?: boolean;}>`
+const CircleDefaultButton = styled.button<{lg ?: boolean; sm ?: boolean; disable?: boolean;}>`
   width: 100px;
   height: 100px;
   border-radius: 50%;
@@ -40,9 +43,12 @@ const CircleDefaultButton = styled.button<{lg ?: boolean; sm ?: boolean;}>`
     width: 62px;
     height: 62px;
   `}
+  ${({disable, theme}) => disable && css`
+    background: ${theme.color.disabled};
+  `}
 `
 
-const RectangleDefaultButton = styled.button<{ sm ?: boolean;}>`
+const RectangleDefaultButton = styled.button<{ sm ?: boolean; }>`
   width:88px;
   text-align:center;
   padding: 10px 0; 
