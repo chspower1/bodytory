@@ -1,5 +1,5 @@
 import { RoundButton } from "@components/layout/buttons/Button";
-import { ToryText } from "@styles/Common";
+import { ToryText, ToryText26 } from "@styles/Common";
 import styled from "styled-components";
 import { NextPage } from "next";
 import ReactDOM from "react-dom";
@@ -27,10 +27,10 @@ const ArroundMapModal: NextPage<ArroundMapMaodalProps> = ({ onClose, mostThreeDe
     <AnimatePresence>
       <ModalWrapper>
         <Dim onClick={onClose} />
-        <ModalContainer flex width="1500px" height="800px">
-          <ToryText>
-            현재 {user?.name}님의 위치를 기준으로 주변 {department}들을 찾았어요!
-          </ToryText>
+        <ModalPaddingContainer flex width="1500px" height="800px">
+          <ToryText26>
+            현재 <strong>{user?.name}님</strong>의 위치를 기준으로 주변 <strong>{mostThreeDepartment?.join(", ")}</strong>들을 찾았어요!
+          </ToryText26>
           <DepartmentSelect />
 
           <ArroundMap width="1500px" height="600px" longitude={longitude} latitude={latitude} department={department} />
@@ -40,7 +40,7 @@ const ArroundMapModal: NextPage<ArroundMapMaodalProps> = ({ onClose, mostThreeDe
               닫기
             </RoundButton>
           </ButtonBox>
-        </ModalContainer>
+        </ModalPaddingContainer>
       </ModalWrapper>
     </AnimatePresence>
   );
@@ -49,6 +49,10 @@ const ArroundMapModal: NextPage<ArroundMapMaodalProps> = ({ onClose, mostThreeDe
 
 };
 export default ArroundMapModal;
+
+const ModalPaddingContainer = styled(ModalContainer)`
+  padding: 30px 0 10px;
+`;
 
 const ButtonBox = styled.div`
   button {
