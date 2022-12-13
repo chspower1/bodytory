@@ -13,6 +13,7 @@ import { RoundButton } from "@components/layout/buttons/Button";
 import MicIcon from "@src/assets/icons/mic.svg";
 import Link from "next/link";
 import { useEffect } from "react";
+import ToryPurpleAnim from "@components/lotties/ToryPurpleAnim";
 
 interface AMonthResponse {
   mostInAMonth: Position[];
@@ -31,7 +32,9 @@ function DashBoard() {
         {isFetching || 
         <>
           <ToryTextBox>
-            <Tory26 />
+            <ToryMotion>
+              <ToryPurpleAnim toryMotionIdx={0} width={150} />
+            </ToryMotion>
             <ToryText26White>
               <>
                 {data &&
@@ -106,8 +109,7 @@ const ToryTextBox = styled.div`
   margin-bottom: 20px;
 `;
 
-const Tory26 = styled.div`
-  // 추후 토리로 변경
+const ToryMotion = styled.div`
   background: #fff;
   width: 120px;
   height: 120px;

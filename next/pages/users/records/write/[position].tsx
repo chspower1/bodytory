@@ -29,6 +29,7 @@ import check from "@src/assets/icons/check.png";
 import refresh from "@src/assets/icons/refresh.png";
 import { useForm } from "react-hook-form";
 import Modal from "@components/modals/Modal";
+import ToryPurpleAnim from "@components/lotties/ToryPurpleAnim";
 
 interface WriteRecordRequest {
   position: string;
@@ -156,7 +157,7 @@ const PositionPage = () => {
       <FlexContainer>
         <Col>
           <ToryBox>
-            <ToryIcon />
+            <ToryPurpleAnim toryMotionIdx={0} width={360} />
           </ToryBox>
           <TextBox>
             <BlackToryText>

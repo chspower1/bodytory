@@ -21,7 +21,7 @@ const Home = () => {
       <Col>
         <ToryBox>
           <ToryMotion>
-            <ToryPurpleAnim  toryMotionIdx={0} width={340}  />
+            <ToryPurpleAnim toryMotionIdx={0} width={340} />
           </ToryMotion>
           <TextBox>
             <p>    

@@ -40,13 +40,16 @@ const RecordContainer = styled.div`
   width: 100vw;
   height: 100vh;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
 `;
 
 const BodyPartCheckerArea = styled(motion.div)`
   width: 55%;
+  max-width: 1200px;
 `;
 
 const BodyNavigatorArea = styled(motion.div)`
   width: 45%;
+  max-width: 820px;
 `;
