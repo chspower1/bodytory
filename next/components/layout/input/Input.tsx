@@ -109,6 +109,7 @@ const MainInput = styled(motion.input)<{
   &[type="password"] {
     &::placeholder {
       letter-spacing: 7.2px;
+      font-size: 40px;
     }
     &:disabled {
       background: rgb(107, 114, 142);
@@ -116,13 +117,13 @@ const MainInput = styled(motion.input)<{
     }
     letter-spacing: 7.2px;
     font-family: Vandana;
-    font-size: 28px;
+    font-size: 36px;
   }
 
   width: 100%;
   height: 100%;
   text-align: ${prop => prop.align};
-  padding: 30px;
+  padding: 0 30px;
   border-radius: 10px;
   transition: border 0.3s ease;
   border: 2px solid transparent;
