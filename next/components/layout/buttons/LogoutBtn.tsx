@@ -13,6 +13,7 @@ import {
   USER_LOGIN,
   USE_USER,
 } from "constant/queryKeys";
+import { RoundedDefaultButton } from "./DefaultButtons";
 
 const LogoutBtn = ({ isHospital }: { isHospital?: boolean }) => {
   const queryClient = useQueryClient();
@@ -35,9 +36,9 @@ const LogoutBtn = ({ isHospital }: { isHospital?: boolean }) => {
   };
   return (
     <>
-      <RoundButton size={isHospital ? "sm" : "md"} onClick={handleClickLogout}>
+      <RoundedDefaultButton sm={isHospital} onClick={handleClickLogout}>
         로그아웃
-      </RoundButton>
+      </RoundedDefaultButton>
     </>
   );
 };
