@@ -180,7 +180,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       setCurrentComment("마지막 단계에요!\n이용자님의 이름, 생일, 성별, 이메일을 알려주세요");
     }
   }, [isToken]);
-
+  console.log(errors)
   return (
     <FlexContainer>
       <InnerContainer>
@@ -313,6 +313,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                     nonSubmit
                     isAuthenticationColumn
                     error={errors.token}
+                    isRegister
                   />
                 </CheckTokenBox>
               )
@@ -321,11 +322,11 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
             )}
           </ThirdPageFormContents>
           <PrevNextButtonBox>
-            <PreviousButton type="button" bgColor="rgb(75, 80, 211)" onClick={handleClickPrevPage}>
+            <PreviousButton sm type="button" bgColor="rgb(75, 80, 211)" onClick={handleClickPrevPage}>
               이전 단계
             </PreviousButton>
-            <SubmitButton bgColor={theme.color.mintBtn} disable={!checkEmptyObj(errors) || !user?.isCertified}>
-              {!isErrorsMessage && user?.isCertified ? "회원가입 완료" : "정보를 모두 입력해주세요"}
+            <SubmitButton sm bgColor={theme.color.mintBtn} disable={!watch("name") || !watch("gender") || !watch("birth") || !user?.isCertified}>
+              {watch("name") && watch("gender") && watch("birth") && user?.isCertified ? "회원가입 완료" : "정보를 모두 입력해주세요"}
             </SubmitButton>
           </PrevNextButtonBox>
         </Form>
