@@ -31,6 +31,7 @@ const FindHospital = () => {
         </DescriptionBox>
         <ButtonBox>
           <SearchModeTogleButton
+            img
             bgColor={theme.color.mintBtn}
             type="button"
             onClick={() => setPageCategory(prev => (prev === "search" ? "map" : "search"))}
