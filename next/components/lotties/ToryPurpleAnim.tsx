@@ -6,37 +6,45 @@ import styled from "styled-components";
 interface ToryAnimProps {
   toryMotionIdx: number;
   width: number;
+  delay?: number;
 }
 
-const ToryPurpleAnim = ({ toryMotionIdx, width }: ToryAnimProps) => {
+const ToryPurpleAnim = ( { toryMotionIdx, width, delay }: ToryAnimProps ) => {
+
   const [ready, setReady] = useState<boolean>(false);
-  const [toryPurple, setToryPurple] = useState<AnimationItem>();
+  const [ToryPurple, setToryPurple] = useState<AnimationItem>();
 
   const lottieRef = useRef<any>();
 
-  // const frameSegments: AnimationSegment[] = [ [0, 149], [150, 215], [216, 276], [277, 456], [457, 576], [577, 725] ];
+  const frameSegments: AnimationSegment[] = [ [0, 149], [150, 215], [216, 276], [277, 456], [457, 576], [577, 725] ];
+
 
   useEffect(() => {
-    setToryPurple(
-      lottie.loadAnimation({
-        container: lottieRef.current,
-        renderer: "canvas",
-        loop: true,
-        autoplay: true,
-        animationData: ToryPurpleAnimation,
-      }),
-    );
+    setToryPurple(lottie.loadAnimation({
+      container: lottieRef.current,
+      renderer: 'canvas',
+      loop: true,
+      autoplay: false,
+      animationData: ToryPurpleAnimation,
+    }));
 
-    setReady(true);
-  }, []);
-
-  useEffect(() => {
-    if (toryPurple) {
-      toryPurple;
+    if(delay) {
+      setTimeout(() => {
+        setReady(true);
+      }, delay);
+    } else {
+      setReady(true);
     }
 
-    console.log(toryMotionIdx);
-  }, [ready]);
+  }, []);
+  
+
+  useEffect(() => {
+    if(ToryPurple) {
+      ToryPurple.playSegments(frameSegments[toryMotionIdx], true);
+    }
+
+  }, [ready, toryMotionIdx]);
 
   return <LottieElem ref={lottieRef} width={width} />;
 };
