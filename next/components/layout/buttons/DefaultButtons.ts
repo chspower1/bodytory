@@ -30,6 +30,7 @@ export const RoundedDefaultButton = styled.button<{lg ?: boolean; sm ?: boolean;
     width: 140px;
     font-size:16px;
     border-radius: 40px;
+    padding: 12px 0;
   `}
   ${({disable, theme}) => disable && css`
     background: ${theme.color.disabled};
