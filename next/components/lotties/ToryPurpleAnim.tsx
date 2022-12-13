@@ -38,7 +38,8 @@ const ToryPurpleAnim = ({ toryMotionIdx, width, delay }: ToryAnimProps) => {
           loop: true,
           autoplay: false,
           path: "/static/lottie/tory_purple.json",
-        }),
+          initialSegment: frameSegments[toryMotionIdx]
+        })
       );
     }
 
