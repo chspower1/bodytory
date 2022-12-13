@@ -1,4 +1,3 @@
-import { CircleButton, RectangleButton, RoundButton } from "@components/layout/buttons/Button";
 import { Position } from "@prisma/client";
 import { BackButton, BlackToryText, BodyText, Box, Col, FlexContainer, WhiteWrapper } from "@styles/Common";
 import { theme } from "@styles/theme";
@@ -183,12 +182,9 @@ const PositionPage = () => {
               {recordStatus === "finish" && (
                 <RefreshBtnBox>
                   <CircleButton
-                    nonSubmit
+                    type="button"
                     onClick={reset}
                     bgColor={theme.color.mintBtn}
-                    width="46px"
-                    height="46px"
-                    boxShadow={false}
                   >
                     <Image src={refresh} width={30} height={30} alt="다시 녹음" />
                   </CircleButton>
@@ -232,6 +228,11 @@ const PositionPage = () => {
 };
 
 export default PositionPage;
+
+const CircleButton = styled(CircleDefaultButton)`
+  width: 46px;
+  height: 46px;
+`;  
 
 const VoiceBox = styled.div`
   > button {
