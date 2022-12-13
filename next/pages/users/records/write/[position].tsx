@@ -156,58 +156,63 @@ const PositionPage = () => {
         <span>부위 선택</span>
       </BackButton>
       <SpeakMotion listening={listening} />
-      <FlexContainer>
-        <Col>
-          <ToryBox>
-            <ToryPurpleAnim toryMotionIdx={0} width={360} />
-          </ToryBox>
-          <TextBox>
-            <BlackToryText>
-              <PositionTextBox>{KoreanPosition[position]}</PositionTextBox>에 어떤 증상이 있나요?
-            </BlackToryText>
-          </TextBox>
-          <VoiceBox>
-            <GuideMessage>마이크 사용이 어렵다면 아래 입력창에 직접 입력할 수 있어요!</GuideMessage>
-            <MemoBox>
-              <MemoInput
-                type="text"
-                disabled={recordStatus === "listening"}
-                onClick={handleClickEditMode}
-                placeholder={recordMessage}
-                {...register("description", {
-                  required: "증상을 입력해주세요",
-                })}
-              />
-              {recordStatus === "finish" && (
-                <RefreshBtnBox>
-                  <CircleButton type="button" onClick={reset} bgColor={theme.color.mintBtn}>
-                    <Image src={refresh} width={30} height={30} alt="다시 녹음" />
-                  </CircleButton>
-                  <RefreshText>새로고침</RefreshText>
-                </RefreshBtnBox>
-              )}
-            </MemoBox>
+      <FadeInMotionDiv
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1, transition: { duration: 1, ease: "easeOut", delay: .3 } }}
+      >
+        <FlexContainer>
+          <Col>
+            <ToryBox>
+              <ToryPurpleAnim segmentIndex={0} width={360} />
+            </ToryBox>
+            <TextBox>
+              <BlackToryText>
+                <PositionTextBox>{KoreanPosition[position]}</PositionTextBox>에 어떤 증상이 있나요?
+              </BlackToryText>
+            </TextBox>
+            <VoiceBox>
+              <GuideMessage>마이크 사용이 어렵다면 아래 입력창에 직접 입력할 수 있어요</GuideMessage>
+              <MemoBox>
+                <MemoInput
+                  type="text"
+                  disabled={recordStatus === "listening" || recordStatus === "loading"}
+                  onClick={handleClickEditMode}
+                  placeholder={recordMessage}
+                  {...register("description", {
+                    required: "증상을 입력해주세요",
+                  })}
+                />
+                {recordStatus === "finish" && (
+                  <RefreshBtnBox>
+                    <CircleButton type="button" onClick={reset} bgColor={theme.color.mintBtn}>
+                      <Image src={refresh} width={30} height={30} alt="다시 녹음" />
+                    </CircleButton>
+                    <RefreshText>새로고침</RefreshText>
+                  </RefreshBtnBox>
+                )}
+              </MemoBox>
 
-            <CircleDefaultButton
-              disable={watch("description") && watch("description")?.length < 2 ? true : false}
-              bgColor={listening ? theme.color.error : theme.color.darkBg}
-              onClick={() => {
-                recordStatus === "initial" && startRecord();
-                recordStatus === "listening" && endRecord();
-                recordStatus === "finish" && hadleClickCreateRecord(watch("description"));
-                recordStatus === "error" && startRecord();
-              }}
-            >
-              {recordStatus === "initial" && <Mic />}
-              {recordStatus === "listening" && <Rectangle />}
-              {recordStatus === "loading" && "loading"}
-              {recordStatus === "finish" && <Image src={check} width={55} height={55} alt="제출" />}
-              {recordStatus === "error" && <Mic />}
-            </CircleDefaultButton>
-          </VoiceBox>
-          <BodyText>{buttonGuideMessage}</BodyText>
-        </Col>
-      </FlexContainer>
+              <CircleDefaultButton
+                disable={watch("description") && watch("description")?.length < 2 ? true : false}
+                bgColor={listening ? theme.color.error : theme.color.darkBg}
+                onClick={() => {
+                  recordStatus === "initial" && startRecord();
+                  recordStatus === "listening" && endRecord();
+                  recordStatus === "finish" && hadleClickCreateRecord(watch("description"));
+                  recordStatus === "error" && startRecord();
+                }}
+              >
+                {recordStatus === "initial" && <Mic />}
+                {recordStatus === "listening" && <Rectangle />}
+                {recordStatus === "loading" && "loading"}
+                {recordStatus === "finish" && <Image src={check} width={55} height={55} alt="제출" />}
+                {recordStatus === "error" && <Mic />}
+              </CircleDefaultButton>
+            </VoiceBox>
+            <BodyText>{buttonGuideMessage}</BodyText>
+          </Col>
+        </FlexContainer>
+      </FadeInMotionDiv>
       <SpeakMotion right listening={listening} />
       <Modal
         title={"녹음에 실패했습니다"}
@@ -224,6 +229,9 @@ const PositionPage = () => {
 
 export default PositionPage;
 
+const FadeInMotionDiv = styled(motion.div)`
+`;
+
 const CircleButton = styled(CircleDefaultButton)`
   width: 46px;
   height: 46px;
@@ -231,7 +239,7 @@ const CircleButton = styled(CircleDefaultButton)`
 
 const VoiceBox = styled.div`
   > button {
-    margin: 60px auto 30px;
+    margin: 120px auto 24px;
   }
 `;
 const Rectangle = styled.div`
@@ -293,7 +301,7 @@ const GuideMessage = styled.div`
   width: 100%;
   text-align: center;
   color: ${({ theme }) => theme.color.darkBg};
-  font-size: 18px;
+  font-size: 16px;
   margin-bottom: 20px;
 `;
 

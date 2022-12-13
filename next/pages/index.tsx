@@ -36,7 +36,7 @@ const Home = () => {
           >
             <ToryBox>
               <ToryMotion>
-                <ToryPurpleAnim toryMotionIdx={toryMotionIdx} width={340} />
+                <ToryPurpleAnim segmentIndex={toryMotionIdx} width={340} />
               </ToryMotion>
               <TextBox>
                 <p>    

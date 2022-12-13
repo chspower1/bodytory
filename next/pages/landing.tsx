@@ -56,7 +56,7 @@ export default function LendingPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1, transition: { duration: 0.6, ease: "easeOut", delay: 0.2 } }}
         >
-          <ToryWhiteAnim toryMotionIdx={toryMotionIdx} width={480} />
+          <ToryWhiteAnim segmentIndex={toryMotionIdx} width={480} />
         </ToryMotion>
         {isFirst && (
           <QuestionBox
