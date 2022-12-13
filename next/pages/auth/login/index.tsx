@@ -104,7 +104,7 @@ const LoginPage: NextPage = () => {
                   required: "아이디를 입력해주세요",
                   validate: {
                     checkAccountId: value =>
-                      ACCOUNT_ID_REGEX.test(value) || "아이디는 6자리 이상\n영문 대소문자, 숫자를 입력해주세요",
+                      ACCOUNT_ID_REGEX.test(value) || "아이디는 6글자 이상 입력해주세요",
                   },
                 })}
                 placeholder="아이디를 입력해주세요"
