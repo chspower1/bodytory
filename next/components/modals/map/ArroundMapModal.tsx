@@ -20,27 +20,27 @@ interface ArroundMapMaodalProps {
 }
 const ArroundMapModal: NextPage<ArroundMapMaodalProps> = ({ onClose, mostThreeDepartment, longitude, latitude }) => {
   const { user } = useUser();
-  const { department, DepartmentSelect } = useDepartmentSelect(mostThreeDepartment ? mostThreeDepartment : []);
+  // const { department, DepartmentSelect } = useDepartmentSelect(mostThreeDepartment ? mostThreeDepartment : []);
   const Portal = usePortal();
 
   const modalContent = (
     <AnimatePresence>
       <ModalWrapper>
         <Dim onClick={onClose} />
-        <ModalPaddingContainer flex width="1500px" height="800px">
-          <ToryText26>
-            현재 <strong>{user?.name}님</strong>의 위치를 기준으로 주변 <strong>{mostThreeDepartment?.join(", ")}</strong>들을 찾았어요!
-          </ToryText26>
-          <DepartmentSelect />
+        <ModalContainer flex width="1500px" height="800px">
+          <ToryBox>
+            <ToryText26>
+              현재 <strong>{user?.name}님</strong>의 위치를 기준으로 주변 <strong>{mostThreeDepartment?.join(", ")}</strong>들을 찾았어요!
+            </ToryText26>
+          </ToryBox>
 
-          <ArroundMap width="1500px" height="600px" longitude={longitude} latitude={latitude} department={department} />
-
+          <ArroundMap width="1500px" height="600px" longitude={longitude} latitude={latitude} departmentList={mostThreeDepartment} />
           <ButtonBox>
             <RoundButton fontSize="16px" width="220px" height="40px" onClick={onClose}>
               닫기
             </RoundButton>
           </ButtonBox>
-        </ModalPaddingContainer>
+        </ModalContainer>
       </ModalWrapper>
     </AnimatePresence>
   );
@@ -50,12 +50,12 @@ const ArroundMapModal: NextPage<ArroundMapMaodalProps> = ({ onClose, mostThreeDe
 };
 export default ArroundMapModal;
 
-const ModalPaddingContainer = styled(ModalContainer)`
-  padding: 30px 0 10px;
-`;
-
 const ButtonBox = styled.div`
   button {
     margin: 0 auto;
   }
+`;
+
+const ToryBox = styled.div`
+  padding: 15px 0 10px;
 `;
