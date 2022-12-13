@@ -8,7 +8,7 @@ const ChartAnim = () => {
   useEffect(() => {
     const chart = lottie.loadAnimation({
       container: chartRef.current,
-      renderer: "svg",
+      renderer: "canvas",
       loop: true,
       autoplay: true,
       animationData: ChartAnimation,

@@ -22,7 +22,7 @@ const ListeningAnim = ( { listeningMotionIdx, width }: ToryAnimProps ) => {
   useEffect(() => {
     setListening(lottie.loadAnimation({
       container: lottieRef.current,
-      renderer: 'svg',
+      renderer: 'canvas',
       loop: true,
       autoplay: false,
       animationData: ListeningAnimation,
