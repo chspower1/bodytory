@@ -1,19 +1,10 @@
-import Input from "@components/layout/input/Input";
-import customApi from "utils/client/customApi";
-import { useMutation } from "@tanstack/react-query";
-import client from "utils/server/client";
 import { useRouter } from "next/router";
-import { useForm } from "react-hook-form";
-import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
-import axios from "axios";
-import styled from "styled-components";
+import { useEffect, useState } from "react";
+
 import { Gender, UserType } from "@prisma/client";
-import { REGISTER_SIGNUP } from "constant/queryKeys";
-import useReset from "@hooks/useReset";
 import FirstPage from "@components/register/FirstPage";
 import ThirdPage from "@components/register/ThirdPage";
 import SecondPage from "@components/register/SecondPage";
-import Header from "@components/header/Header";
 
 export interface RegisterForm {
   agree: boolean;

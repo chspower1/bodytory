@@ -1,10 +1,9 @@
 import { Position, RecordType } from "@prisma/client";
 import { changeDate } from "@utils/client/changeDate";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import ReactDOM from "react-dom";
 import { RoundButton } from "../layout/buttons/Button";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import { Dim, ModalContainer, ModalWrapper } from "@styles/ModalStyled";
 import usePortal from "@hooks/usePortal";
 
@@ -80,9 +79,6 @@ const ClinicModal = ({
 };
 
 export default ClinicModal;
-
-
-
 
 const ModalHead = styled.div`
   padding: 20px 60px;

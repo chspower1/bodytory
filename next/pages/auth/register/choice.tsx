@@ -1,4 +1,3 @@
-
 import KakaoLoginBtn from "@components/layout/buttons/KakaoBtn";
 import NaverLoginBtn from "@components/layout/buttons/NaverBtn";
 import customApi from "utils/client/customApi";
@@ -6,13 +5,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { USER_LOGIN, USE_USER } from "constant/queryKeys";
 import { useRouter } from "next/router";
 import React from "react";
-import { SocialButton } from "@components/layout/buttons/Button";
 import OriginLoginBtn from "@components/layout/buttons/OriginBtn";
-import { Box, Col, Container, FlexContainer, InnerContainer, ToryText, WhiteText } from "@styles/Common";
+import { Box, Col, FlexContainer, InnerContainer } from "@styles/Common";
 import styled from "styled-components";
-import { ToryTextBox } from "../login";
 import MessageBox from "@components/MessageBox";
-import Header from "@components/header/Header";
 import { Variants, motion } from "framer-motion";
 
 const CHOICE_VARIANTS: Variants = {

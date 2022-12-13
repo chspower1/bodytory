@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Header from "../header/Header";
 import HospitalHeader from "../header/HospitalHeader";
-import SideMenu from "../header/SideMenu";
 
 interface LayoutProps {
   children?: React.ReactNode;

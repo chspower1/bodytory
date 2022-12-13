@@ -1,10 +1,9 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import LogoImg from "@src/assets/icons/Logo.png";
 import SideMenu from "./SideMenu";
-import { useRecoilValue } from "recoil";
 import useUser from "@hooks/useUser";
 import { media } from "@styles/theme";
 

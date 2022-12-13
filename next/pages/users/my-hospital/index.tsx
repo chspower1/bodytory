@@ -1,18 +1,15 @@
-import { RoundButton } from "@components/layout/buttons/Button";
 import { theme } from "@styles/theme";
 import { useQuery } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
 import { HOSPITALS } from "constant/queryKeys";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import medicalIcon from "@src/assets/icons/medical.png";
-import HospitalList from "@components/my-hospital/MyHospitalList";
 import Image from "next/image";
 import useUser from "@hooks/useUser";
 import { Hospital, MedicalDepartment } from "@prisma/client";
 import MyHospitalList from "@components/my-hospital/MyHospitalList";
-import MyHospitalModal from "@components/modals/MyHospitalModal";
 import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 
 export interface MyHospitalResponse {

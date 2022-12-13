@@ -1,20 +1,14 @@
 import { RectangleDefaultButton, RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 import useHospital from "@hooks/useHospital";
-import { Hospital, MedicalDepartment } from "@prisma/client";
 import { Box } from "@styles/Common";
 import { theme } from "@styles/theme";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import customApi from "@utils/client/customApi";
 import sliceName from "@utils/client/sliceHospitalName";
 import { currentHospitalIdx } from "atoms/atoms";
-import { HOSPITALS } from "constant/queryKeys";
 import { useRouter } from "next/router";
-import type { MyHospital, MyHospitalResponse } from "pages/users/my-hospital";
-import { useEffect, useState } from "react";
+import type { MyHospital } from "pages/users/my-hospital";
+import { useState } from "react";
 import { useSetRecoilState } from "recoil";
 import styled, { css } from "styled-components";
-import { isNoSubstitutionTemplateLiteral } from "typescript";
-import { ChangeToHoverColor, RectangleButton, RoundButton } from "../layout/buttons/Button";
 import DeleteBtn from "../layout/buttons/DeleteBtn";
 import Modal from "../modals/Modal";
 import MyHospitalModal from "../modals/MyHospitalModal";
@@ -46,10 +40,6 @@ const HospitalContent = ({ hospital, add, idx, shared, setShowAlertModal }: Hosp
     router.push("/users/my-hospital/clinic-list");
     setHospitalCurrentIdx(idx);
   };
-  // console.log(hospital.name, shared, onShare);
-  // useEffect(() => {
-  //   setOnShare(shared);
-  // }, [shared]);
   return (
     <HospitalInfor add={add}>
       <HospitalInforContainer>

@@ -1,11 +1,9 @@
-import { RoundButton } from "@components/layout/buttons/Button";
 import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 import ToryIcon from "@components/ToryIcon";
 import { BTN_VARIANTS } from "@styles/ButtonStyled";
-import { Box, BtnBox, Col, FlexContainer, ToryText } from "@styles/Common";
-import { AnimatePresence, motion } from "framer-motion";
+import { Box, BtnBox, FlexContainer, ToryText } from "@styles/Common";
+import { motion } from "framer-motion";
 import { useRouter } from "next/router";
-import { EditButton } from "pages/users/profile/edit";
 import styled from "styled-components";
 import { bodyPartType } from "types/bodyParts";
 import { KoreanPosition } from "types/write";
@@ -30,9 +28,9 @@ const BodyPartChecker = ({ selectedBodyPart }: SelectBodyPartProps) => {
             <ToryText>
               <PositionTextBox
                 key={KoreanPosition[selectedBodyPart]}
-                initial={{opacity: 0 }}
+                initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: .5 }}
+                transition={{ duration: 0.5 }}
               >
                 {KoreanPosition[selectedBodyPart]}
               </PositionTextBox>

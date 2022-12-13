@@ -1,9 +1,8 @@
 import { theme } from "@styles/theme";
 import { motion } from "framer-motion";
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { FieldValues, UseFormSetValue } from "react-hook-form";
 import styled from "styled-components";
-import { RoundButton } from "../buttons/Button";
 import { RoundedDefaultButton } from "../buttons/DefaultButtons";
 import { InputProps } from "./Input";
 
@@ -47,7 +46,11 @@ const ButtonInInput = ({
   };
 
   return (
-    <InputBox className={`${error ? "error" : ""} ${isAuthenticationColumn ? "authenticationColumn" : ""} ${isRegister ? "register" : ""}`}>
+    <InputBox
+      className={`${error ? "error" : ""} ${isAuthenticationColumn ? "authenticationColumn" : ""} ${
+        isRegister ? "register" : ""
+      }`}
+    >
       <Input
         id={name}
         className={isAuthenticationColumn && error ? "error" : ""}
@@ -115,7 +118,7 @@ const InputBox = styled(motion.div)`
   &.authenticationColumn {
     margin: 0 auto;
     background-color: #00000000;
-    &:not(.register){
+    &:not(.register) {
       justify-content: center;
     }
     input {
@@ -135,9 +138,7 @@ const InputBox = styled(motion.div)`
       letter-spacing: -1px;
       margin-left: 20px;
     }
-    
   }
-
 `;
 const Input = styled.input`
   width: 100%;

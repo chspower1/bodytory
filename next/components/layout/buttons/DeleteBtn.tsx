@@ -1,6 +1,6 @@
 import { UseMutateFunction } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
-import { FocusEventHandler, MouseEventHandler, useState } from "react";
+import { useState } from "react";
 import styled, { css } from "styled-components";
 
 interface DeleteBtnProps {
@@ -9,10 +9,10 @@ interface DeleteBtnProps {
   backgroundColor?: string;
   isCircle?: boolean;
   setShowAlertModal: React.Dispatch<React.SetStateAction<boolean>>;
-  isdowntext ?: number;
+  isdowntext?: number;
 }
 
-const DeleteBtn = ({ mutate, id, backgroundColor, isCircle,  setShowAlertModal, isdowntext = 0 }: DeleteBtnProps) => {
+const DeleteBtn = ({ mutate, id, backgroundColor, isCircle, setShowAlertModal, isdowntext = 0 }: DeleteBtnProps) => {
   const [confirmDelete, setConfirmDelete] = useState(-1);
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>, targetId: number) => {
     if (confirmDelete !== -1) {
@@ -40,13 +40,17 @@ const DeleteBtn = ({ mutate, id, backgroundColor, isCircle,  setShowAlertModal, 
       {isCircle && (
         <AnimatePresence>
           {confirmDelete === id && (
-            <DeleteCofirmTextBox initial={{ opacity: 0 }} animate={{ opacity: 1 ,transition:{duration: .3} }} exit={{ opacity: 0 ,transition:{duration: .3} }} isdowntext={isdowntext}>
+            <DeleteCofirmTextBox
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1, transition: { duration: 0.3 } }}
+              exit={{ opacity: 0, transition: { duration: 0.3 } }}
+              isdowntext={isdowntext}
+            >
               <span>삭제하시겠습니까?</span>
             </DeleteCofirmTextBox>
           )}
         </AnimatePresence>
       )}
-      
     </>
   );
 };
@@ -135,7 +139,7 @@ const DeleteButton = styled.button<{ bgColor?: string; isCircle?: boolean }>`
     `}
 `;
 
-const DeleteCofirmTextBox = styled(motion.div)<{isdowntext ?: number;}>`
+const DeleteCofirmTextBox = styled(motion.div)<{ isdowntext?: number }>`
   position: absolute;
   left: -68px;
   top: -50px;
@@ -163,13 +167,15 @@ const DeleteCofirmTextBox = styled(motion.div)<{isdowntext ?: number;}>`
     z-index: 3;
     color: #fff;
   }
-  ${({isdowntext}) => isdowntext && css`
-    top: auto;  
-    bottom: -50px;
-    ::after {
-      right: 25px;
-      top: -8px;
-      bottom: auto;
-    }
-  `}
+  ${({ isdowntext }) =>
+    isdowntext &&
+    css`
+      top: auto;
+      bottom: -50px;
+      ::after {
+        right: 25px;
+        top: -8px;
+        bottom: auto;
+      }
+    `}
 `;

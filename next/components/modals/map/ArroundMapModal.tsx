@@ -2,13 +2,10 @@ import { RoundButton } from "@components/layout/buttons/Button";
 import { ToryText } from "@styles/Common";
 import styled from "styled-components";
 import { NextPage } from "next";
-import ReactDOM from "react-dom";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import { ModalContainer, ModalWrapper, Dim } from "@styles/ModalStyled";
-import useCoords from "@hooks/useCoords";
 import ArroundMap from "@components/map/ArroundMap";
 import useDepartmentSelect from "@hooks/useDepartmentSelect";
-import { useEffect, useState } from "react";
 import useUser from "@hooks/useUser";
 import usePortal from "@hooks/usePortal";
 
@@ -46,7 +43,6 @@ const ArroundMapModal: NextPage<ArroundMapMaodalProps> = ({ onClose, mostThreeDe
   );
 
   return Portal({ children: modalContent });
-
 };
 export default ArroundMapModal;
 

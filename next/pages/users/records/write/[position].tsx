@@ -1,4 +1,4 @@
-import { CircleButton, RectangleButton, RoundButton } from "@components/layout/buttons/Button";
+import { CircleButton } from "@components/layout/buttons/Button";
 import { Position } from "@prisma/client";
 import { BackButton, BlackToryText, BodyText, Box, Col, FlexContainer, WhiteWrapper } from "@styles/Common";
 import { theme } from "@styles/theme";
@@ -21,9 +21,7 @@ import {
   RECORDS_READ,
 } from "constant/queryKeys";
 import { AxiosError } from "axios";
-import { AnimatePresence, motion } from "framer-motion";
-import Link from "next/link";
-import pencil from "@src/assets/icons/pencil.svg";
+import { motion } from "framer-motion";
 import mic from "@src/assets/icons/mic.svg";
 import check from "@src/assets/icons/check.png";
 import refresh from "@src/assets/icons/refresh.png";

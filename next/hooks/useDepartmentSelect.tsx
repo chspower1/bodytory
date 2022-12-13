@@ -1,5 +1,4 @@
-import { MEDICALDEPARTMENT } from "constant/MedicalDepartment";
-import { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 

@@ -1,10 +1,7 @@
 import { FlexContainer } from "@styles/Common";
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
-import tory from "@src/assets/icons/tory.png";
 import { AnimatePresence, motion } from "framer-motion";
-import { CircleButton, RoundButton } from "@components/layout/buttons/Button";
 import { theme } from "@styles/theme";
 import skipIcon from "@src/assets/icons/skipIcon.png";
 import { useRouter } from "next/router";
@@ -51,8 +48,7 @@ const SelectButton = styled(CircleDefaultButton)`
   width: 120px;
   height: 120px;
   font-size: 20px;
-`
-
+`;
 
 const SkipBox = styled(motion.div)`
   position: absolute;
@@ -66,25 +62,25 @@ const SkipBox = styled(motion.div)`
     margin: -2px 0 0 10px;
   }
 `;
-const SkipButton =styled(RoundedDefaultButton)`
+const SkipButton = styled(RoundedDefaultButton)`
   padding: 18px 40px;
-`
+`;
 
 export default function LendingPage() {
   const router = useRouter();
   const [toriComment, setToriComment] = useState("반가워요!");
   const [isFirst, setIsFrist] = useState(false);
   const [toryMotionIdx, setToryMotionIdx] = useState<number>(0);
-  const setIsNew  = useSetRecoilState(isFirstUser);
+  const setIsNew = useSetRecoilState(isFirstUser);
 
-  const handleClickPushRegister =()=>{
+  const handleClickPushRegister = () => {
     setIsNew(false);
     router.push("/auth/register/choice");
-  }
-  const handleClickPushLogin =()=>{
+  };
+  const handleClickPushLogin = () => {
     setIsNew(false);
     router.push("/auth/login");
-  }
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -119,8 +115,10 @@ export default function LendingPage() {
           >
             <ToriMessage>바디토리는 처음이신가요?</ToriMessage>
             <div className="btnBox">
-              <SelectButton  bgColor={theme.color.mintBtn} onClick={handleClickPushRegister}>네</SelectButton>
-              <SelectButton  onClick={handleClickPushLogin}>아니요</SelectButton>
+              <SelectButton bgColor={theme.color.mintBtn} onClick={handleClickPushRegister}>
+                네
+              </SelectButton>
+              <SelectButton onClick={handleClickPushLogin}>아니요</SelectButton>
             </div>
           </QuestionBox>
         )}
