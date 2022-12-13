@@ -26,6 +26,7 @@ import { BackButton } from "@styles/Common";
 import Link from "next/link";
 import SearchHospitalList from "@components/search/SearchHospitalList";
 import SearchHospitalMap from "@components/search/SearchHospitalMap";
+import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 
 type PageCategory = "search" | "map";
 const FindHospital = () => {
@@ -47,25 +48,24 @@ const FindHospital = () => {
           </Pragraph>
         </DescriptionBox>
         <ButtonBox>
-          <RoundButton
-            size="md"
+          <SearchModeTogleButton
             bgColor={theme.color.mintBtn}
-            nonSubmit
+            type="button"
             onClick={() => setPageCategory(prev => (prev === "search" ? "map" : "search"))}
           >
             {pageCategory === "search" && (
               <>
-                <MapIcon width={30} height={30} style={{ marginBottom: "6px" }} />
+                <MapIcon width={26} height={26} />
                 &nbsp;&nbsp; 지도에서 병원 찾기
               </>
             )}
             {pageCategory === "map" && (
               <>
-                <List width={30} height={30} />
+                <List width={26} height={26} />
                 &nbsp;&nbsp; 리스트로 병원 찾기
               </>
             )}
-          </RoundButton>
+          </SearchModeTogleButton>
         </ButtonBox>
 
         {pageCategory === "search" && <SearchHospitalList />}
@@ -76,6 +76,10 @@ const FindHospital = () => {
 };
 
 export default FindHospital;
+
+const SearchModeTogleButton = styled(RoundedDefaultButton)`
+  padding: 12px 50px;
+`;
 
 const ErrorMessage = styled.div`
   position: absolute;

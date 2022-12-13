@@ -13,6 +13,7 @@ import useUser from "@hooks/useUser";
 import { Hospital, MedicalDepartment } from "@prisma/client";
 import MyHospitalList from "@components/my-hospital/MyHospitalList";
 import MyHospitalModal from "@components/modals/MyHospitalModal";
+import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 
 export interface MyHospitalResponse {
   hospital: MyHospital;
@@ -48,9 +49,9 @@ const MyHospitalPage = () => {
         </DescriptionBox>
         <ButtonBox>
           <Link href={"/users/my-hospital/find"}>
-            <RoundButton size="custom" width="260px" height="50px">
+            <RoundedDefaultButton>
               <ImageIcon src={medicalIcon} width={20} height={20} alt="병원" /> 병원 추가하기
-            </RoundButton>
+            </RoundedDefaultButton>
           </Link>
         </ButtonBox>
         <MyHospitalList hospitals={data} add={false} isLoading={isLoading} />
