@@ -14,6 +14,7 @@ import { createErrors } from "@utils/client/createErrors";
 import styled from "styled-components";
 import { LoginInputAreaBox } from "pages/auth/login";
 import { AnimatePresence } from "framer-motion";
+import { CircleDefaultButton, RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 
 interface SecondRegisterForm {
   accountId: string;
@@ -130,9 +131,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
 
               {(!user?.isNotDuplicate || !watch("accountId")) && (
                 <ButtonBox>
-                  <RoundButton
-                    nonSubmit
-                    size="sm"
+                  <RoundedDefaultButton
                     bgColor={
                       errors.accountId?.message?.includes("다른아이디") ? theme.color.error : theme.color.mintBtn
                     }
@@ -140,7 +139,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                     onClick={handleClickCheckAccountId}
                   >
                     중복확인
-                  </RoundButton>
+                  </RoundedDefaultButton>
                 </ButtonBox>
               )}
 
@@ -196,21 +195,20 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
             </LoginInputAreaBox>
           </FormContents>
           <PrevNextButtonBox>
-            <CircleButton
-              nonSubmit
+            <CircleDefaultButton
               bgColor="rgb(75, 80, 211)"
               onClick={() => {
                 pageReset();
               }}
             >
               이전 단계
-            </CircleButton>
-            <CircleButton
+            </CircleDefaultButton>
+            <CircleDefaultButton
               bgColor={theme.color.mintBtn}
               disable={/* !checkEmptyObj(error) */ currentInputIdx !== 4 || Boolean(isErrorsMessage)}
             >
               다음 단계
-            </CircleButton>
+            </CircleDefaultButton>
           </PrevNextButtonBox>
         </Form>
       </InnerContainer>

@@ -6,6 +6,7 @@ import { theme } from "@styles/theme";
 import { NextPage } from "next";
 import Link from "next/link";
 import { FinalCommentBox } from "../help/find-id";
+import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 
 const SuccessPage: NextPage = () => {
   return (
@@ -19,9 +20,9 @@ const SuccessPage: NextPage = () => {
             </MessageBox>
             <div className="linkButton">
               <Link href="/">
-                <RoundButton size="lg" bgColor={theme.color.mintBtn}>
+                <RoundedDefaultButton lg bgColor={theme.color.mintBtn}>
                   바디토리 시작하기
-                </RoundButton>
+                </RoundedDefaultButton>
               </Link>
             </div>
           </div>
