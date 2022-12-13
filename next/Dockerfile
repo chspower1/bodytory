@@ -19,6 +19,7 @@ COPY --from=BUILDER /next/public ./public
 COPY --from=BUILDER /next/package.json ./
 COPY --from=BUILDER /next/node_modules ./node_modules
 COPY --from=BUILDER /next/next.config.js ./
+COPY --from=BUILDER /next/src ./src
 
 EXPOSE 3000
 CMD ["npm","run","start"]
