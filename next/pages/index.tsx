@@ -1,13 +1,11 @@
-import styled, { isStyledComponent } from "styled-components";
+import styled from "styled-components";
 import Link from "next/link";
 import useUser from "@hooks/useUser";
-import { Accent, BlackToryText, BodyText, Box, Col, Container, FlexContainer, Row } from "@styles/Common";
-import Image from "next/image";
+import { Accent, BodyText, Col, FlexContainer, Row } from "@styles/Common";
 import Mic from "@src/assets/icons/mic.svg";
 import Record from "@src/assets/icons/record.svg";
 import Hospital from "@src/assets/icons/hospital.svg";
 import Setting from "@src/assets/icons/setting.svg";
-import ToryIcon from "@components/ToryIcon";
 import { theme } from "@styles/theme";
 import { ToryText } from "./users/records/write/add";
 import ToryPurpleAnim from "@components/lotties/ToryPurpleAnim";
@@ -24,7 +22,7 @@ const Home = () => {
             <ToryPurpleAnim toryMotionIdx={0} width={340} />
           </ToryMotion>
           <TextBox>
-            <p>    
+            <p>
               <Accent>
                 <strong>{user ? user?.name : "OOO"}님, </strong>
               </Accent>
@@ -36,7 +34,7 @@ const Home = () => {
         <WriteBox>
           <Link href="users/records/write">
             <div>
-              <CircleButton bgColor="rgba(83, 89, 233)" >
+              <CircleButton bgColor="rgba(83, 89, 233)">
                 <Mic width={50} height={50} />
               </CircleButton>
               <BodyText>건강 관리를 위해 매일매일 잊지말고 기록해요!</BodyText>
@@ -53,8 +51,7 @@ const Home = () => {
           </Link>
           <Link href="/users/my-hospital">
             <RoundedButton lg img bgColor="rgb(108, 113, 240)">
-              <Hospital width={30} height={30} fill={theme.color.mint} />
-              내 병원 관리하기
+              <Hospital width={30} height={30} fill={theme.color.mint} />내 병원 관리하기
             </RoundedButton>
           </Link>
         </ButtonBox>
@@ -87,10 +84,10 @@ const ToryBox = styled(Row)`
 `;
 const WriteBox = styled.div`
   margin-bottom: 50px;
-  
+
   > a {
-    display:flex;
-    align-items:center;
+    display: flex;
+    align-items: center;
     justify-content: space-between;
     flex-direction: column;
     width: 860px;
@@ -100,7 +97,7 @@ const WriteBox = styled.div`
     box-shadow: 4px 4px 15px 0px rgba(173, 182, 241, 0.25);
     border-radius: 40px;
     font-weight: 700;
-    transition: background .3s;
+    transition: background 0.3s;
 
     button {
       margin: 0 auto 20px;
@@ -128,14 +125,14 @@ const AccountBtnBox = styled.div`
   margin-top: 120px;
 
   > a {
-    position : relative;
-    z-index:2;
+    position: relative;
+    z-index: 2;
     > div {
-      display:flex;
-      align-items:center;
+      display: flex;
+      align-items: center;
       position: relative;
       z-index: 5;
-      
+
       svg {
         margin-right: 10px;
       }
@@ -160,12 +157,10 @@ const AccountBtnBox = styled.div`
       opacity: 1;
     }
   }
-
-
 `;
 const TextBox = styled(ToryText)`
-  margin-bottom:0;
-  text-align:left;
+  margin-bottom: 0;
+  text-align: left;
   padding-left: 170px;
 `;
 

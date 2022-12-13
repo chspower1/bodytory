@@ -1,5 +1,3 @@
-import { ReactComponentElement, ReactElement } from "react";
-
 interface IconProps {
   width: number;
   height: number;

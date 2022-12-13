@@ -2,11 +2,10 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import client from "utils/server/client";
 import withHandler from "@utils/server/withHandler";
 import { withApiSession } from "@utils/server/withSession";
-import { Position } from "@prisma/client";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { dash } = req.query;
-  if(!dash) return res.status(401).send("api 주소가 잘못되었습니다");
+  if (!dash) return res.status(401).send("api 주소가 잘못되었습니다");
   if (dash === "aMonth") return await aMonthFn(req, res);
   if (dash === "threeMonth") return await threeMonthFn(req, res);
 }
@@ -22,14 +21,14 @@ async function aMonthFn(req: NextApiRequest, res: NextApiResponse) {
 
   const aMonthData = await client.record.findMany({
     where: {
-      type:"user",
+      type: "user",
       userId: user.id,
       createAt: {
         gte: aMonthAgo,
       },
     },
   });
-  if(aMonthData.length === 0) return res.status(200).json({mostInAMonth : [], mostThreeDepartment : []});
+  if (aMonthData.length === 0) return res.status(200).json({ mostInAMonth: [], mostThreeDepartment: [] });
 
   const departMentName = await client.medicalDepartment.findMany({});
 
@@ -41,13 +40,13 @@ async function aMonthFn(req: NextApiRequest, res: NextApiResponse) {
     }
     return total;
   }, {});
-  const mostInAMonth: string[]= []
+  const mostInAMonth: string[] = [];
   const mostInAMonthData = Object.entries(dataReduce).sort(([, a]: any, [, b]: any) => (a <= b ? 1 : -1));
-  mostInAMonthData.map(ele =>{
-    if(mostInAMonthData[0][1] === ele[1]){
-      mostInAMonth.push(ele[0])
+  mostInAMonthData.map(ele => {
+    if (mostInAMonthData[0][1] === ele[1]) {
+      mostInAMonth.push(ele[0]);
     }
-  })
+  });
 
   let mostThreeDepartmentObj = {};
 
@@ -79,7 +78,6 @@ async function aMonthFn(req: NextApiRequest, res: NextApiResponse) {
 
   return res.status(200).json({ mostInAMonth, mostThreeDepartment });
 }
-
 
 async function threeMonthFn(req: NextApiRequest, res: NextApiResponse) {
   const { user } = req.session;
@@ -115,8 +113,7 @@ async function threeMonthFn(req: NextApiRequest, res: NextApiResponse) {
     },
   });
 
-  if(threeMonthUser.length === 0) return res.status(200).json({result:[]});
-
+  if (threeMonthUser.length === 0) return res.status(200).json({ result: [] });
 
   const threeMonthHospital = await client.record.findMany({
     where: {
@@ -129,12 +126,9 @@ async function threeMonthFn(req: NextApiRequest, res: NextApiResponse) {
   });
   reduceFn(threeMonthUser, userTemporaryStorage);
 
-
   Object.entries(userTemporaryStorage).map(ele => {
     result.push({ position: ele[0], userLength: ele[1] });
   });
-
-
 
   reduceFn(threeMonthHospital, hospitalTemporaryStorage);
 
@@ -149,7 +143,6 @@ async function threeMonthFn(req: NextApiRequest, res: NextApiResponse) {
       }
     });
   });
-
 
   return res.status(200).json(result);
 }

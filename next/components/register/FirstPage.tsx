@@ -1,9 +1,7 @@
-import Input from "@components/layout/input/Input";
 import { useForm } from "react-hook-form";
 import { Dispatch, SetStateAction, useState } from "react";
 import { RegisterForm } from "pages/auth/register";
-import { CircleButton, RectangleButton, RoundButton } from "@components/layout/buttons/Button";
-import { Box, Col, Container, FlexContainer, InnerContainer, Row, WhiteText, Wrapper } from "@styles/Common";
+import { Col, FlexContainer, InnerContainer, Row, WhiteText } from "@styles/Common";
 import Link from "next/link";
 import CheckBoxInput from "@components/layout/input/CheckBoxInput";
 import MessageBox from "@components/MessageBox";
@@ -88,7 +86,9 @@ const FirstPage = ({ user, setUser, setPage }: RegisterPageProps) => {
           </FormContents>
           <PrevNextButtonBox>
             <Link href="/auth/register/choice">
-              <CircleDefaultButton type="button" bgColor="rgb(75, 80, 211)">이전 단계</CircleDefaultButton>
+              <CircleDefaultButton type="button" bgColor="rgb(75, 80, 211)">
+                이전 단계
+              </CircleDefaultButton>
             </Link>
             <CircleDefaultButton bgColor={theme.color.mintBtn} disable={Boolean(errors.agree) || !watch("agree")}>
               다음 단계

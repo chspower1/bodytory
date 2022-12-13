@@ -14,6 +14,7 @@ import HospitalContent from "../my-hospital/HospitalContent";
 import Input from "../layout/input/Input";
 import ListSkeleton from "../skeletonUI/ListSkeleton";
 import AlertModal from "@components/modals/AlertModal";
+import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 
 interface SearchHospitalListResponse {
   foundHospitals: MyHospital[];
@@ -85,9 +86,7 @@ const SearchHospitalList = () => {
             motion={false}
             error={errors.search?.message}
           />
-          <RoundButton size="custom" height="60px" bgColor="rgb(100,106,235)">
-            검색
-          </RoundButton>
+          <SearchButton bgColor="rgb(100,106,235)">검색</SearchButton>
         </SearchForm>
       </SearchBox>
       <HospitalContainer add={true}>
@@ -126,6 +125,11 @@ const SearchHospitalList = () => {
 };
 
 export default SearchHospitalList;
+
+const SearchButton = styled(RoundedDefaultButton)`
+  height: 60px;
+  padding: 0 50px;
+`;
 
 export const SearchContainer = styled(FlexContainer)`
   position: relative;
@@ -169,15 +173,15 @@ const InnerContainer = styled.div<{ add: boolean }>`
   }
 `;
 
-const HospitalContainer = styled.div<{ add: boolean; }>`
+const HospitalContainer = styled.div<{ add: boolean }>`
   width: 1600px;
   height: 540px;
   background-color: ${prop => (prop.add ? "#f2f3ff" : "#d9deff")};
   border-radius: 40px;
   padding: 0 30px 0;
   margin-top: 20px;
-  background: rgba(231, 232, 255,.5);
-  transition : background .3s;
+  background: rgba(231, 232, 255, 0.5);
+  transition: background 0.3s;
 `;
 
 const HospitalLists = styled.ul`

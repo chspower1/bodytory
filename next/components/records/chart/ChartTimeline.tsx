@@ -14,7 +14,6 @@ import { currentPatientInfo, selectedKeyword } from "atoms/atoms";
 import RecordSkeleton from "@components/skeletonUI/RecordSkeleton";
 import ChartBox from "./ChartBox";
 import AlertModal from "@components/modals/AlertModal";
-import { DeleteBtnBox } from "@components/my-hospital/HospitalContent";
 
 export interface RecordWithImageAndHospital extends Record {
   images: RecordImage[];
@@ -70,7 +69,14 @@ const ChartTimeline = () => {
 
   useEffect(() => {
     if (clickedKeyword) {
-      setFiltredRecordByKeyword(filtredRecord?.filter(record => record.description.includes(clickedKeyword) || record.diagnosis?.includes(clickedKeyword) || record.prescription?.includes(clickedKeyword)));
+      setFiltredRecordByKeyword(
+        filtredRecord?.filter(
+          record =>
+            record.description.includes(clickedKeyword) ||
+            record.diagnosis?.includes(clickedKeyword) ||
+            record.prescription?.includes(clickedKeyword),
+        ),
+      );
     } else {
       setFiltredRecordByKeyword(filtredRecord);
     }

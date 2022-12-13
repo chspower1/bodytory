@@ -1,8 +1,8 @@
 import { RoundButton } from "@components/layout/buttons/Button";
 import SwiperBox from "@components/my-hospital/SwiperBox";
-import { BackButton, Container, InnerContainer, Row } from "@styles/Common";
+import { BackButton, Container, Row } from "@styles/Common";
 import { theme } from "@styles/theme";
-import { DescriptionBox, HighlightText, Pragraph } from "./";
+import { DescriptionBox, Pragraph } from "./";
 import React, { useState } from "react";
 import styled from "styled-components";
 import tory from "@src/assets/icons/tory.png";

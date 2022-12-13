@@ -1,8 +1,6 @@
-import Image, { StaticImageData } from "next/image";
 import { FieldError, UseFormRegisterReturn } from "react-hook-form";
 import styled, { css } from "styled-components";
-import checked from "@src/assets/icons/check_checked.svg";
-import { media, theme } from "@styles/theme";
+import { media } from "@styles/theme";
 import { motion } from "framer-motion";
 export interface InputProps {
   label?: string;
@@ -97,10 +95,9 @@ const InputBox = styled.div<{ width?: string; height?: string }>`
   & + & {
     margin: 40px auto 0;
   }
-  ${media.tablet}{
-    
+  ${media.tablet} {
   }
-  ${media.mobile}{
+  ${media.mobile} {
     width: 360px;
   }
 `;

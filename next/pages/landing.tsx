@@ -1,10 +1,7 @@
 import { FlexContainer } from "@styles/Common";
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
-import tory from "@src/assets/icons/tory.png";
 import { AnimatePresence, motion } from "framer-motion";
-import { CircleButton, RoundButton } from "@components/layout/buttons/Button";
 import { theme } from "@styles/theme";
 import skipIcon from "@src/assets/icons/skipIcon.png";
 import { useRouter } from "next/router";
@@ -18,16 +15,16 @@ export default function LendingPage() {
   const [toriComment, setToriComment] = useState("반가워요!");
   const [isFirst, setIsFrist] = useState(false);
   const [toryMotionIdx, setToryMotionIdx] = useState<number>(0);
-  const setIsNew  = useSetRecoilState(isFirstUser);
+  const setIsNew = useSetRecoilState(isFirstUser);
 
-  const handleClickPushRegister =()=>{
+  const handleClickPushRegister = () => {
     setIsNew(false);
     router.push("/auth/register/choice");
-  }
-  const handleClickPushLogin =()=>{
+  };
+  const handleClickPushLogin = () => {
     setIsNew(false);
     router.push("/auth/login");
-  }
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -50,26 +47,28 @@ export default function LendingPage() {
           <ToriMessage
             key={toriComment}
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0, transition: { duration: .3, ease: "easeOut", delay: .7 } }}
+            animate={{ opacity: 1, y: 0, transition: { duration: 0.3, ease: "easeOut", delay: 0.7 } }}
           >
             {toriComment}
           </ToriMessage>
         )}
         <ToryMotion
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1, transition: { duration: .6, ease: "easeOut", delay: .2 } }}
+          animate={{ opacity: 1, transition: { duration: 0.6, ease: "easeOut", delay: 0.2 } }}
         >
           <ToryWhiteAnim toryMotionIdx={toryMotionIdx} width={480} />
         </ToryMotion>
         {isFirst && (
           <QuestionBox
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0, transition: { duration: .5, ease: "easeOut" } }}
+            animate={{ opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }}
           >
             <ToriMessage>바디토리는 처음이신가요?</ToriMessage>
             <div className="btnBox">
-              <SelectButton  bgColor={theme.color.mintBtn} onClick={handleClickPushRegister}>네</SelectButton>
-              <SelectButton  onClick={handleClickPushLogin}>아니요</SelectButton>
+              <SelectButton bgColor={theme.color.mintBtn} onClick={handleClickPushRegister}>
+                네
+              </SelectButton>
+              <SelectButton onClick={handleClickPushLogin}>아니요</SelectButton>
             </div>
           </QuestionBox>
         )}
@@ -87,7 +86,6 @@ export default function LendingPage() {
     </FlexContainer>
   );
 }
-
 
 const LendingRoot = styled.div<{ flex: boolean }>`
   margin: auto;
@@ -127,7 +125,7 @@ const SelectButton = styled(CircleDefaultButton)`
   width: 120px;
   height: 120px;
   font-size: 20px;
-`
+`;
 
 const SkipBox = styled(motion.div)`
   position: absolute;
@@ -142,10 +140,10 @@ const SkipBox = styled(motion.div)`
   }
 `;
 
-const SkipButton =styled(RoundedDefaultButton)`
+const SkipButton = styled(RoundedDefaultButton)`
   padding: 18px 40px;
-`
+`;
 
 const ToryMotion = styled(motion.div)`
-  transform: translate(0 , -50px);
+  transform: translate(0, -50px);
 `;

@@ -1,10 +1,8 @@
-import { RoundButton } from "@components/layout/buttons/Button";
-import { WhiteBoldText, WhiteText } from "@styles/Common";
+import { WhiteText } from "@styles/Common";
 import { Dim, ModalWrapper, MODAL_VARIANTS } from "@styles/ModalStyled";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import ReactDOM from "react-dom";
 import styled, { css } from "styled-components";
 import Next from "@src/assets/icons/right_bracket.svg";
 import Previus from "@src/assets/icons/left_bracket.svg";
@@ -63,7 +61,6 @@ const ImageDetailModal = ({ show, onClose, url, index, imagesLength, setShow }: 
     </AnimatePresence>
   );
   return Portal({ children: modalContent });
-
 };
 export default ImageDetailModal;
 const ModalContainer = styled(motion.div).attrs({

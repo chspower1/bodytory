@@ -1,21 +1,13 @@
-import Input from "@components/layout/input/Input";
-import customApi from "utils/client/customApi";
-import { useMutation } from "@tanstack/react-query";
-import client from "utils/server/client";
 import { useRouter } from "next/router";
-import { useForm } from "react-hook-form";
-import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
-import axios from "axios";
-import styled from "styled-components";
+import { useEffect, useState } from "react";
 import { Gender, UserType } from "@prisma/client";
-import { REGISTER_SIGNUP } from "constant/queryKeys";
-import useReset from "@hooks/useReset";
 import FirstPage from "@components/register/FirstPage";
 import ThirdPage from "@components/register/ThirdPage";
 import SecondPage from "@components/register/SecondPage";
 import Header from "@components/header/Header";
 import ToryWhiteAnim from "@components/lotties/ToryWhiteAnim";
 import { motion } from "framer-motion";
+import styled from "styled-components";
 
 export interface RegisterForm {
   agree: boolean;
@@ -88,8 +80,8 @@ function RegisterPage() {
       {page === 2 && <SecondPage user={user} setUser={setUser} setPage={setPage} />}
       {page === 3 && <ThirdPage user={user} setUser={setUser} setPage={setPage} />}
       <ToryMotion
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1, transition: { duration: .6, ease: "easeOut", delay: .2 } }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1, transition: { duration: 0.6, ease: "easeOut", delay: 0.2 } }}
       >
         <ToryWhiteAnim toryMotionIdx={0} width={480} />
       </ToryMotion>

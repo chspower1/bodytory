@@ -2,7 +2,7 @@ import { RoundButton } from "@components/layout/buttons/Button";
 import ManageImage from "@components/ManageImage";
 import { RecordWithImageAndHospital } from "@components/records/chart/ChartTimeline";
 import { Record, RecordImage } from "@prisma/client";
-import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
 import {
   AI_RESULT_READ,
@@ -13,12 +13,9 @@ import {
   RECORDS_READ,
   RECORDS_UPDATE,
 } from "constant/queryKeys";
-import React, { useEffect, useState } from "react";
-import { SubmitHandler, useController, useForm } from "react-hook-form";
-import { useRecoilValue } from "recoil";
-import styled, { css, keyframes } from "styled-components";
-import ReactDOM from "react-dom";
-import { AnimatePresence, motion } from "framer-motion";
+import React, { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import styled, { css } from "styled-components";
 import { ModalContainer, ModalWrapper, Dim } from "@styles/ModalStyled";
 import { changeDate } from "@utils/client/changeDate";
 import usePortal from "@hooks/usePortal";
@@ -82,8 +79,6 @@ const RecordModal = ({ onClose, record, isHospital }: RecordModalProps) => {
   const {
     register,
     handleSubmit,
-    setError,
-    watch,
     formState: { errors },
   } = useForm<RecordUpdateType>({
     reValidateMode: "onSubmit",
@@ -96,7 +91,6 @@ const RecordModal = ({ onClose, record, isHospital }: RecordModalProps) => {
       setShowMsg(false);
     }, 1400);
   };
-
 
   const modalContent = (
     <ModalWrapper>
@@ -174,17 +168,6 @@ const RecordModal = ({ onClose, record, isHospital }: RecordModalProps) => {
 };
 
 export default RecordModal;
-
-const Modal = styled.div`
-  position: relative;
-  z-index: 3;
-  width: 800px;
-  height: 780px;
-  border-radius: 40px;
-  margin: auto;
-  overflow: hidden;
-  background: ${({ theme }) => theme.color.white};
-`;
 
 const ScrollContainer = styled.div`
   width: 100%;
