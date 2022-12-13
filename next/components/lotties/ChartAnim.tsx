@@ -16,7 +16,7 @@ const ChartAnim = () => {
         renderer: "svg",
         loop: true,
         autoplay: true,
-        path: "../../public/static/lottie/chart_animation.json",
+        path: "/static/lottie/chart_animation.json",
       });
     }
 

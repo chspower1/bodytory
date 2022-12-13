@@ -36,7 +36,7 @@ const ToryWhiteAnim = ({ toryMotionIdx, width, delay }: ToryAnimProps) => {
           renderer: "svg",
           loop: true,
           autoplay: false,
-          path: "../../public/static/lottie/tory_white.json",
+          path: "/static/lottie/tory_white.json",
         }),
       );
     }
@@ -60,7 +60,7 @@ const ToryWhiteAnim = ({ toryMotionIdx, width, delay }: ToryAnimProps) => {
     }
 
     console.log(toryMotionIdx);
-  }, [ready, toryMotionIdx]);
+  }, [ready, toryMotionIdx, ToryWhite]);
 
   return <LottieElem ref={lottieRef} width={width} />;
 };

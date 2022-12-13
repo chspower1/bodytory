@@ -31,7 +31,7 @@ const ListeningAnim = ({ listeningMotionIdx, width }: ToryAnimProps) => {
           renderer: "svg",
           loop: true,
           autoplay: false,
-          path: "../../public/static/lottie/listening.json",
+          path: "/static/lottie/listening.json",
         }),
       );
     }
@@ -49,7 +49,7 @@ const ListeningAnim = ({ listeningMotionIdx, width }: ToryAnimProps) => {
     }
 
     console.log(listeningMotionIdx);
-  }, [ready, listeningMotionIdx]);
+  }, [ready, listeningMotionIdx, listening]);
 
   return <LottieElem ref={lottieRef} width={width} />;
 };

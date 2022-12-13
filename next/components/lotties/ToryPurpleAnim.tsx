@@ -30,13 +30,14 @@ const ToryPurpleAnim = ({ toryMotionIdx, width, delay }: ToryAnimProps) => {
 
   useEffect(() => {
     if (lottie && lottieRef.current) {
+      console.log("setToryPurple");
       setToryPurple(
         lottie.loadAnimation({
           container: lottieRef.current,
           renderer: "svg",
           loop: true,
           autoplay: false,
-          path: "../../public/static/lottie/tory_purple.json",
+          path: "/static/lottie/tory_purple.json",
         }),
       );
     }
@@ -55,10 +56,10 @@ const ToryPurpleAnim = ({ toryMotionIdx, width, delay }: ToryAnimProps) => {
   }, [lottie]);
 
   useEffect(() => {
-    if (ToryPurple) {
+    if (ToryPurple && ready) {
       ToryPurple.playSegments(frameSegments[toryMotionIdx], true);
     }
-  }, [ready, toryMotionIdx]);
+  }, [ready, toryMotionIdx, ToryPurple]);
 
   return <LottieElem ref={lottieRef} width={width} />;
 };

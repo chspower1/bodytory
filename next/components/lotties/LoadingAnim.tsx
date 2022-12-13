@@ -17,7 +17,7 @@ const LoadingAnim = () => {
         renderer: "svg",
         loop: true,
         autoplay: true,
-        path: "../../public/static/lottie/loading_animation.json",
+        path: "/static/lottie/loading_animation.json",
       });
       loading.setSpeed(0.8);
     }
