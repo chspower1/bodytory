@@ -9,13 +9,17 @@ const LoadingAnim = () => {
   useEffect(() => {
     const loading = lottie.loadAnimation({
       container: loadingRef.current,
-      renderer: "svg",
+      renderer: "canvas",
       loop: true,
       autoplay: true,
       animationData: LoadingAnimation,
     });
 
     loading.setSpeed(0.8);
+
+    return () => {
+      lottie.destroy();
+    };
   }, []);
 
   return <LoadingElem ref={loadingRef} />;
