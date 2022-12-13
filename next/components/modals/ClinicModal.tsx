@@ -7,6 +7,7 @@ import { RoundButton } from "../layout/buttons/Button";
 import { AnimatePresence, motion } from "framer-motion";
 import { Dim, ModalContainer, ModalWrapper } from "@styles/ModalStyled";
 import usePortal from "@hooks/usePortal";
+import { ModalButton } from "./RecordModal";
 
 interface ClinicModalProps {
   id?: number;
@@ -67,9 +68,11 @@ const ClinicModal = ({
                   </div>
                 </li>
               </ul>
-              <RoundButton size="sm" nonSubmit onClick={onClose}>
-                닫기
-              </RoundButton>
+              <div>
+                <ModalButton sm onClick={onClose} bgColor='rgb(197,205,251)' color="rgb(93,107,178)">
+                  닫기
+                </ModalButton>
+              </div>
             </ModalContent>
           </ModalContainer>
         </ModalWrapper>
@@ -106,10 +109,10 @@ const ModalHead = styled.div`
 const ModalContent = styled.div`
   background: ${({ theme }) => theme.color.white};
   padding: 60px 80px 40px;
-  button {
-    width: 100px;
-    margin: 50px auto 0;
-    background: rgba(188, 197, 255, 1);
+  > div{
+    display:flex;
+    justify-content:center;
+    margin: 50px 0 0;
   }
   ul {
     li {

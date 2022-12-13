@@ -138,6 +138,7 @@ const Form = styled.form`
 
 const ButtonBox = styled.div`
   margin-top: 50px;
+  display:flex;
   button {
     margin: 0 auto;
   }

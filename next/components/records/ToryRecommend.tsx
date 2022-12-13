@@ -47,16 +47,13 @@ function ToryRecommend({ mostThreeDepartment, inChart }: ToryRecommendProps) {
           가까운 의료기관을 내원해주세요
         </Warning>
       </ToryRecommendContainer>
-      <AnimatePresence>
-        {showModal && (
-          <ArroundMapModal
-            latitude={latitude}
-            longitude={longitude}
-            onClose={() => setShowModal(false)}
-            mostThreeDepartment={mostThreeDepartment}
-          />
-        )}
-      </AnimatePresence>
+      <ArroundMapModal
+        show={showModal}
+        latitude={latitude}
+        longitude={longitude}
+        onClose={() => setShowModal(false)}
+        mostThreeDepartment={mostThreeDepartment}
+      />
     </>
   );
 }

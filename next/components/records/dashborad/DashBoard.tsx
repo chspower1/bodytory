@@ -72,7 +72,7 @@ function DashBoard() {
               <NoChartButtonContainer>
                 <p>오늘부터 매일매일 내 몸을 위한 건강한 기록을 시작해볼까요?</p>
                 <Link href={"/users/records/write"}>
-                  <RoundedDefaultButton>
+                  <RoundedDefaultButton img>
                     <SmallMicIcon />
                     오늘 기록하기
                   </RoundedDefaultButton>

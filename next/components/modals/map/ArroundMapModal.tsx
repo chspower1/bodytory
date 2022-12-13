@@ -11,37 +11,41 @@ import useDepartmentSelect from "@hooks/useDepartmentSelect";
 import { useEffect, useState } from "react";
 import useUser from "@hooks/useUser";
 import usePortal from "@hooks/usePortal";
+import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 
 interface ArroundMapMaodalProps {
   onClose: () => void;
+  show : boolean; 
   mostThreeDepartment: string[] | undefined;
   longitude: number | null;
   latitude: number | null;
 }
-const ArroundMapModal: NextPage<ArroundMapMaodalProps> = ({ onClose, mostThreeDepartment, longitude, latitude }) => {
+const ArroundMapModal: NextPage<ArroundMapMaodalProps> = ({ show, onClose, mostThreeDepartment, longitude, latitude }) => {
   const { user } = useUser();
   const { department, DepartmentSelect } = useDepartmentSelect(mostThreeDepartment ? mostThreeDepartment : []);
   const Portal = usePortal();
 
   const modalContent = (
     <AnimatePresence>
-      <ModalWrapper>
-        <Dim onClick={onClose} />
-        <ModalContainer flex width="1500px" height="800px">
-          <ToryText>
-            현재 {user?.name}님의 위치를 기준으로 주변 {department}들을 찾았어요!
-          </ToryText>
-          <DepartmentSelect />
+      {show &&
+        <ModalWrapper>
+          <Dim onClick={onClose} />
+          <ModalContainer flex width="1500px" height="800px">
+            <ToryText>
+              현재 {user?.name}님의 위치를 기준으로 주변 {department}들을 찾았어요!
+            </ToryText>
+            <DepartmentSelect />
 
-          <ArroundMap width="1500px" height="600px" longitude={longitude} latitude={latitude} department={department} />
+            <ArroundMap width="1500px" height="600px" longitude={longitude} latitude={latitude} department={department} />
 
-          <ButtonBox>
-            <RoundButton fontSize="16px" width="220px" height="40px" onClick={onClose}>
-              닫기
-            </RoundButton>
-          </ButtonBox>
-        </ModalContainer>
-      </ModalWrapper>
+            <ButtonBox>
+              <RoundedDefaultButton sm onClick={onClose}>
+                닫기
+              </RoundedDefaultButton>
+            </ButtonBox>
+          </ModalContainer>
+        </ModalWrapper>
+      }
     </AnimatePresence>
   );
 
