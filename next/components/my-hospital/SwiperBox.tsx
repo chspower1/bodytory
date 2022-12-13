@@ -94,27 +94,27 @@ const SwiperBox = ({
 export default SwiperBox;
 
 const SwiperWrap = styled(Swiper)`
-  padding: 30px 0 30px;
+  padding: 30px 0 50px;
   .swiper-pagination {
     position: absolute;
     z-index: 10;
+    width: 100%;
+    max-width: 1920px;
     height: 8px;
     top: auto;
-    bottom: 0;
+    bottom: 2px;
     left: 50%;
     transform: translateX(-50%);
-    width: 60%;
-    border-radius: 10px;
     overflow: hidden;
-    background: rgba(49, 54, 167, 0.15);
+    background: #D0EEF7;
     span {
-      background: rgba(188, 197, 255, 1);
+      background: #12D4C9;
     }
   }
 `;
 const SwiperSlideItem = styled(SwiperSlide)`
   width: 760px;
-  height: 500px;
+  height: 520px;
   opacity: 0.5;
   transition: opacity 0.6s;
   &.swiper-slide-active {
@@ -149,14 +149,14 @@ const ItemHeader = styled.div`
 const HospitalName = styled.div`
   max-width: 50%;
   font-size: 22px;
-  margin-right: 20px;
+  margin-right: 30px;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
   flex-shrink: 0;
 `;
 const HospitalAddress = styled.div`
-  font-size: 18px;
+  font-size: 16px;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
@@ -164,9 +164,10 @@ const HospitalAddress = styled.div`
 `;
 const ClinicListBox = styled.div`
   height: 100%;
-  padding: 30px 20px;
-  background: ${({ theme }) => theme.color.lightBg};
-  overflow-y: scroll;
+  padding: 30px;
+  background: #D9DEFF;
+  overflow-y: auto;
+
   &::-webkit-scrollbar {
     width: 20px;
   }
@@ -187,7 +188,7 @@ const ClinicItem = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 20px;
+  padding: 15px 20px;
   background: rgba(188, 197, 255, 1);
   border-radius: 10px;
   & + & {

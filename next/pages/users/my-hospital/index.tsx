@@ -41,7 +41,7 @@ const MyHospitalPage = () => {
       <MainInnerContainer>
         <DescriptionBox>
           <ToryMotion>
-            <ToryPurpleAnim toryMotionIdx={0} width={260} />
+            <ToryPurpleAnim segmentIndex={0} width={260} />
           </ToryMotion>
           <Pragraph>
             <HighlightText>{user.name}님</HighlightText>의 기록을 공유받고 있는 병원 목록이에요
@@ -91,7 +91,7 @@ export const DescriptionBox = styled.div`
   width: 100%;
   height: 200px;
   text-align: left;
-  padding: 50px 50px 50px 180px;
+  padding: 50px 50px 50px 190px;
 `;
 
 export const ImageIcon = styled(Image)`
@@ -108,8 +108,7 @@ const ToryMotion = styled.div`
   position: absolute;
   top: 50%;
   left: 0;
-  transform: translate(0, -50%);
-  width: 120px;
-  height: 120px;
-  margin-right: 30px;
+  transform: translate(-20%, -60%);
+  width: 260px;
+  height: 260px;
 `;
