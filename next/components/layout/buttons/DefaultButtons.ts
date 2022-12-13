@@ -46,9 +46,9 @@ export const CircleDefaultButton = styled.button<{lg ?: boolean; sm ?: boolean; 
   display:flex;
   justify-content:center;
   align-items:center;
+  font-size: 18px;
   background : ${({bgColor}) => bgColor || "rgb(61, 66, 191)"};
   color : ${({color}) => color || "rgb(255, 255, 255)"};
-  font-size: 18px;
   transition: background 0.35s ease;
   :hover{
     background: ${({bgColor}) => ChangeToHoverColor(bgColor || "rgb(61, 66, 191)")};
@@ -72,13 +72,19 @@ export const CircleDefaultButton = styled.button<{lg ?: boolean; sm ?: boolean; 
   `}
 `
 
-export const RectangleDefaultButton = styled.button<{ sm ?: boolean; }>`
+export const RectangleDefaultButton = styled.button<{ sm ?: boolean;  bgColor ?: string; color ?: string; }>`
   width:88px;
   text-align:center;
   padding: 10px 0; 
   color:#fff;
   font-size: 18px;
   border-radius: 5px;
+  background : ${({bgColor}) => bgColor || "rgb(61, 66, 191)"};
+  color : ${({color}) => color || "rgb(255, 255, 255)"};
+  transition: background 0.35s ease;
+  :hover{
+    background: ${({bgColor}) => ChangeToHoverColor(bgColor || "rgb(61, 66, 191)")};
+  }
   ${({sm}) => sm && css`
     padding: 5px 0; 
     font-size: 16px;
