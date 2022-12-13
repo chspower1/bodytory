@@ -151,13 +151,6 @@ const MainInput = styled(motion.input)<{
       &[type="password"] {
       }
       background: rgba(217, 222, 255, 1);
-      color: #232323;
-      :-webkit-autofill,
-      :-webkit-autofill:hover,
-      :-webkit-autofill:focus,
-      :-webkit-autofill:active {
-        -webkit-text-fill-color: #232323 !important;
-      }
       &[type="password"] {
         color: #9497c1;
       }
@@ -167,11 +160,5 @@ const MainInput = styled(motion.input)<{
     css`
       background: rgba(255, 255, 255, 1);
       color: #232323;
-      :-webkit-autofill,
-      :-webkit-autofill:hover,
-      :-webkit-autofill:focus,
-      :-webkit-autofill:active {
-        -webkit-text-fill-color: #232323 !important;
-      }
     `}
 `;

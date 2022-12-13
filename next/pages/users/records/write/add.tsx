@@ -1,4 +1,4 @@
-import { RoundButton } from "@components/layout/buttons/Button";
+import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 import { PositionTextBox } from "@components/records/BodyPartChecker";
 import { Position } from "@prisma/client";
 import { BtnBox, Col, FlexContainer, WhiteText, Wrapper } from "@styles/Common";
@@ -21,7 +21,7 @@ const AddPage = () => {
         </ToryText>
         <ButtonBox>
           <RoundButton onClick={()=> router.replace("/users/records/write")}>네, 다른 부위도 기록할래요</RoundButton>
-          <RoundButton onClick={()=> router.replace(`/users/records/chart/${position}`)} bgColor={theme.color.weekPurple} textColor="rgb(93, 107, 178)">
+          <RoundButton onClick={()=> router.replace(`/users/records/chart/${position}`)} bgColor={theme.color.weekPurple} color="rgb(93, 107, 178)">
             아니요,더 기록할게 없어요
           </RoundButton>
         </ButtonBox>
@@ -30,6 +30,10 @@ const AddPage = () => {
   );
 };
 export default AddPage;
+
+const RoundButton = styled(RoundedDefaultButton)`
+  padding: 21px 50px;
+`
 
 export const ToryText = styled.div`
   font-size: 36px;

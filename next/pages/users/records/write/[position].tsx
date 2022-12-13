@@ -29,6 +29,7 @@ import check from "@src/assets/icons/check.png";
 import refresh from "@src/assets/icons/refresh.png";
 import { useForm } from "react-hook-form";
 import Modal from "@components/modals/Modal";
+import { CircleDefaultButton } from "@components/layout/buttons/DefaultButtons";
 
 interface WriteRecordRequest {
   position: string;
@@ -196,9 +197,7 @@ const PositionPage = () => {
               )}
             </MemoBox>
 
-            <CircleButton
-              width="100px"
-              height="100px"
+            <CircleDefaultButton
               disabled={watch("description") && watch("description")?.length < 2 ? true : false}
               bgColor={listening ? theme.color.error : theme.color.darkBg}
               onClick={() => {
@@ -207,14 +206,13 @@ const PositionPage = () => {
                 recordStatus === "finish" && hadleClickCreateRecord(watch("description"));
                 recordStatus === "error" && startRecord();
               }}
-              boxShadow={false}
             >
               {recordStatus === "initial" && <Mic />}
               {recordStatus === "listening" && <Rectangle />}
               {recordStatus === "loading" && "loading"}
               {recordStatus === "finish" && <Image src={check} width={55} height={55} alt="제출" />}
               {recordStatus === "error" && <Mic />}
-            </CircleButton>
+            </CircleDefaultButton>
           </VoiceBox>
           <BodyText>{buttonGuideMessage}</BodyText>
         </Col>
@@ -284,12 +282,6 @@ const MemoInput = styled.input<{ disabled: boolean }>`
   pointer-events: ${({ disabled }) => (disabled ? "none" : "auto")};
   &:hover {
     box-shadow: 0px 0px 0px 3px ${({ theme }) => theme.color.mintBtn};
-  }
-  :-webkit-autofill,
-  :-webkit-autofill:hover,
-  :-webkit-autofill:focus,
-  :-webkit-autofill:active {
-    -webkit-text-fill-color: ${({ theme }) => theme.color.mintBtn} !important;
   }
   ::placeholder {
     color: ${theme.color.mintBtn};

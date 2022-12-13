@@ -13,6 +13,7 @@ import { RoundButton } from "@components/layout/buttons/Button";
 import MicIcon from "@src/assets/icons/mic.svg";
 import Link from "next/link";
 import { useEffect } from "react";
+import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 
 interface AMonthResponse {
   mostInAMonth: Position[];
@@ -71,10 +72,10 @@ function DashBoard() {
               <NoChartButtonContainer>
                 <p>오늘부터 매일매일 내 몸을 위한 건강한 기록을 시작해볼까요?</p>
                 <Link href={"/users/records/write"}>
-                  <RoundButton>
+                  <RoundedDefaultButton>
                     <SmallMicIcon />
                     오늘 기록하기
-                  </RoundButton>
+                  </RoundedDefaultButton>
                 </Link>
               </NoChartButtonContainer>
             </>

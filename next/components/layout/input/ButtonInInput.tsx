@@ -155,10 +155,4 @@ const Input = styled.input`
   &.error {
     border: 2px solid ${({ theme }) => theme.color.error};
   }
-  &:-webkit-autofill,
-  &:-webkit-autofill:hover,
-  &:-webkit-autofill:focus,
-  &:-webkit-autofill:active {
-    -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
-  }
 `;

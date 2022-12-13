@@ -4,6 +4,7 @@ import { ChangeToHoverColor } from "./Button";
 export const RoundedDefaultButton = styled.button<{
   lg?: boolean;
   sm?: boolean;
+  img?: boolean;
   disable?: boolean;
   bgColor?: string;
   color?: string;
@@ -12,9 +13,6 @@ export const RoundedDefaultButton = styled.button<{
   font-weight: 500;
   padding: 16px 50px;
   text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   border-radius: 50px;
   background: ${({ bgColor }) => bgColor || "rgb(61, 66, 191)"};
   color: ${({ color }) => color || "rgb(255, 255, 255)"};
@@ -37,6 +35,12 @@ export const RoundedDefaultButton = styled.button<{
     font-size:16px;
     border-radius: 40px;
     padding: 12px 0;
+  `}
+  ${({img}) => img && css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 30px;
   `}
   ${({disable, theme}) => disable && css`
     background: ${theme.color.disabled};
