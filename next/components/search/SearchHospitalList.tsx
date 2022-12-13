@@ -8,7 +8,7 @@ import axios from "axios";
 import { MyHospital, MyHospitalResponse } from "pages/users/my-hospital";
 import { LegacyRef, MouseEvent, useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { RoundButton } from "../layout/buttons/Button";
 import HospitalContent from "../my-hospital/HospitalContent";
 import Input from "../layout/input/Input";
@@ -162,19 +162,22 @@ const InnerContainer = styled.div<{ add: boolean }>`
   width: 100%;
   height: 100%;
   overflow-y: scroll;
-  padding: 30px 0;
+  padding: 30px 0 0;
   position: relative;
   &::-webkit-scrollbar-track {
     margin: 30px 0;
   }
 `;
 
-const HospitalContainer = styled.div<{ add: boolean }>`
+const HospitalContainer = styled.div<{ add: boolean; }>`
   width: 1600px;
-  height: 574px;
+  height: 540px;
   background-color: ${prop => (prop.add ? "#f2f3ff" : "#d9deff")};
   border-radius: 40px;
-  padding: 30px 30px 0;
+  padding: 0 30px 0;
+  margin-top: 20px;
+  background: rgba(231, 232, 255,.5);
+  transition : background .3s;
 `;
 
 const HospitalLists = styled.ul`

@@ -269,11 +269,6 @@ const HospitalInfor = styled.li<{ add: boolean }>`
   background-color: ${prop => (prop.add ? "rgb(225,227,255)" : "rgb(100,106,235)")};
   transition: all 0.4s ease;
   border-radius: 20px;
-  // &:hover {
-  //   width: 101%;
-  //   box-shadow: ${props => props.theme.boxShadow.normal};
-  //   background-color: ${prop => (prop.add ? "rgb(217, 219, 255)" : "#575dd4")};
-  // }
   & + & {
     margin-top: 20px;
   }

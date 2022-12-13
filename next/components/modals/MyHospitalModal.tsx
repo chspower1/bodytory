@@ -33,9 +33,11 @@ const MyHospitalModal = ({ show, hospitals,  onClose }: MyHospitalModalProps) =>
                 <DetailBox>
                   <Title>홈페이지</Title>
                   <Text>
+                    {hospitals?.homepage ?
                     <Link href={String(hospitals?.homepage)} target="blank">
                       {hospitals?.homepage}
                     </Link>
+                    : "-"}
                   </Text>
                 </DetailBox>
                 <DetailBox>
