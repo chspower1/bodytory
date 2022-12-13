@@ -2,7 +2,7 @@ import Image, { StaticImageData } from "next/image";
 import { FieldError, UseFormRegisterReturn } from "react-hook-form";
 import styled, { css } from "styled-components";
 import checked from "@src/assets/icons/check_checked.svg";
-import { theme } from "@styles/theme";
+import { media, theme } from "@styles/theme";
 import { motion } from "framer-motion";
 export interface InputProps {
   label?: string;
@@ -89,7 +89,6 @@ export default function Input({
     </InputBox>
   );
 }
-
 const InputBox = styled.div<{ width?: string; height?: string }>`
   width: ${({ width }) => width};
   height: ${({ height }) => height};
@@ -97,6 +96,12 @@ const InputBox = styled.div<{ width?: string; height?: string }>`
   position: relative;
   & + & {
     margin: 40px auto 0;
+  }
+  ${media.tablet}{
+    
+  }
+  ${media.mobile}{
+    width: 360px;
   }
 `;
 
