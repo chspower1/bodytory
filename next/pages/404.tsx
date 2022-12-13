@@ -2,10 +2,9 @@ import { FlexContainer } from "@styles/Common";
 import styled from "styled-components";
 import { ToryIcon } from "./users/my-hospital/clinic-list";
 import toriQuestionIcon from "@src/assets/icons/toriQuestion.png";
-import { CircleButton } from "@components/layout/buttons/Button";
 import { theme } from "@styles/theme";
-import { useRouter } from "next/router";
 import Link from "next/link";
+import { CircleDefaultButton } from "@components/layout/buttons/DefaultButtons";
 
 const NotFoundPage = () => {
   return (
@@ -18,9 +17,9 @@ const NotFoundPage = () => {
           <p>요청하신 페이지를 찾지 못했어요</p>
           <p>바디토리로 돌아갈까요?</p>
           <Link href="/">
-            <CircleButton size="sm" bgColor={theme.color.input}>
+            <CircleDefaultButton sm bgColor={theme.color.input}>
               네
-            </CircleButton>
+            </CircleDefaultButton>
           </Link>
         </TextBox>
       </ContentBox>

@@ -1,4 +1,3 @@
-import { RoundButton } from "@components/layout/buttons/Button";
 import ToryPurpleAnim from "@components/lotties/ToryPurpleAnim";
 import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 import ToryIcon from "@components/ToryIcon";

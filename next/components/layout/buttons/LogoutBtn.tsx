@@ -1,6 +1,6 @@
 import customApi from "utils/client/customApi";
 import { useRouter } from "next/router";
-import { RoundButton } from "./Button";
+import { RoundButton } from "./SocialButton";
 import { currentPatientInfo, loggedInHospital } from "atoms/atoms";
 import { useSetRecoilState } from "recoil";
 import { useQueryClient } from "@tanstack/react-query";

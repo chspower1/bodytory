@@ -1,5 +1,4 @@
-import { RoundButton } from "@components/layout/buttons/Button";
-import { ToryText, ToryText26 } from "@styles/Common";
+import { ToryText } from "@styles/Common";
 import styled from "styled-components";
 import { NextPage } from "next";
 import { AnimatePresence } from "framer-motion";
@@ -12,19 +11,25 @@ import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons"
 
 interface ArroundMapMaodalProps {
   onClose: () => void;
-  show : boolean; 
+  show: boolean;
   mostThreeDepartment: string[] | undefined;
   longitude: number | null;
   latitude: number | null;
 }
-const ArroundMapModal: NextPage<ArroundMapMaodalProps> = ({ show, onClose, mostThreeDepartment, longitude, latitude }) => {
+const ArroundMapModal: NextPage<ArroundMapMaodalProps> = ({
+  show,
+  onClose,
+  mostThreeDepartment,
+  longitude,
+  latitude,
+}) => {
   const { user } = useUser();
   const { department, DepartmentSelect } = useDepartmentSelect(mostThreeDepartment ? mostThreeDepartment : []);
   const Portal = usePortal();
 
   const modalContent = (
     <AnimatePresence>
-      {show &&
+      {show && (
         <ModalWrapper>
           <Dim onClick={onClose} />
           <ModalContainer flex width="1500px" height="800px">
@@ -33,7 +38,7 @@ const ArroundMapModal: NextPage<ArroundMapMaodalProps> = ({ show, onClose, mostT
             </ToryText>
             <DepartmentSelect />
 
-            <ArroundMap width="1500px" height="600px" longitude={longitude} latitude={latitude}/>
+            <ArroundMap width="1500px" height="600px" longitude={longitude} latitude={latitude} />
 
             <ButtonBox>
               <RoundedDefaultButton sm onClick={onClose}>
@@ -42,7 +47,7 @@ const ArroundMapModal: NextPage<ArroundMapMaodalProps> = ({ show, onClose, mostT
             </ButtonBox>
           </ModalContainer>
         </ModalWrapper>
-      }
+      )}
     </AnimatePresence>
   );
 
@@ -56,6 +61,4 @@ const ButtonBox = styled.div`
   }
 `;
 
-const ToryBox = styled.div`
-  padding: 15px 0 10px;
-`;
+

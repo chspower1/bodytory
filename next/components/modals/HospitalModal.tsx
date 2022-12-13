@@ -1,8 +1,6 @@
 import { theme } from "@styles/theme";
-import React, { ReactNode, useEffect, useRef, useState } from "react";
-import ReactDOM from "react-dom";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { RoundButton } from "../layout/buttons/Button";
 import { AnimatePresence } from "framer-motion";
 import { Dim, ModalContainer, ModalWrapper } from "@styles/ModalStyled";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -18,6 +16,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
 import { RECORDS_READ } from "constant/queryKeys";
 import usePortal from "@hooks/usePortal";
+import { ModalButton } from "./RecordModal";
 
 interface ModalType {
   show: boolean;
@@ -122,12 +121,12 @@ const HospitalModal = ({ show, onClose, name, gender, birth, position, patientId
                     </ul>
                   </InnerContent>
                   <ButtonBox>
-                    <RoundButton size="sm" bgColor={theme.color.mintBtn}>
+                    <ModalButton sm bgColor={theme.color.mintBtn}>
                       작성완료
-                    </RoundButton>
-                    <RoundButton nonSubmit size="sm" bgColor={`rgba(188, 197, 255, 1)`} onClick={handleClickReset}>
+                    </ModalButton>
+                    <ModalButton type="button" sm bgColor="rgb(188, 197, 255)" onClick={handleClickReset}>
                       닫기
-                    </RoundButton>
+                    </ModalButton>
                   </ButtonBox>
                 </Form>
               </InnerBox>
@@ -138,9 +137,9 @@ const HospitalModal = ({ show, onClose, name, gender, birth, position, patientId
                 </div>
                 <div>진료내역 작성이 완료되었어요!</div>
                 <div>
-                  <RoundButton size="sm" bgColor={`rgba(188, 197, 255, 1)`} onClick={handleClickReset}>
+                  <ModalButton sm bgColor="rgb(188, 197, 255)" onClick={handleClickReset}>
                     닫기
-                  </RoundButton>
+                  </ModalButton>
                 </div>
               </CompelteBox>
             )}

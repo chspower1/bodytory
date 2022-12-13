@@ -1,4 +1,3 @@
-import { RoundButton } from "@components/layout/buttons/Button";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { bodyPartType } from "types/bodyParts";
@@ -357,7 +356,7 @@ BodyNavigator.defaultProps = {
 
 const FrontBackButton = styled(RoundedDefaultButton)`
   padding: 16px 40px;
-`
+`;
 
 const Overlay = styled.div`
   width: 100%;

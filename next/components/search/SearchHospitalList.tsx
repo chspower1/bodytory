@@ -9,7 +9,6 @@ import { MyHospital, MyHospitalResponse } from "pages/users/my-hospital";
 import { LegacyRef, MouseEvent, useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import styled, { css } from "styled-components";
-import { RoundButton } from "../layout/buttons/Button";
 import HospitalContent from "../my-hospital/HospitalContent";
 import Input from "../layout/input/Input";
 import ListSkeleton from "../skeletonUI/ListSkeleton";
@@ -131,12 +130,10 @@ const SearchButton = styled(RoundedDefaultButton)`
   padding: 0 50px;
 `;
 
-export const SearchContainer = styled(FlexContainer)`
+export const SearchContainer = styled.div`
   position: relative;
-  width: 1500px;
-  height: 800px;
-  flex-direction: column;
-  justify-content: flex-start;
+  max-width: 1600px;
+  width: 100%;
 `;
 const NoneMessage = styled.div`
   text-align: center;
@@ -174,12 +171,12 @@ const InnerContainer = styled.div<{ add: boolean }>`
 `;
 
 const HospitalContainer = styled.div<{ add: boolean }>`
-  width: 1600px;
+  width: 100%;
   height: 540px;
   background-color: ${prop => (prop.add ? "#f2f3ff" : "#d9deff")};
   border-radius: 40px;
   padding: 0 30px 0;
-  margin-top: 20px;
+  margin-top: 10px;
   background: rgba(231, 232, 255, 0.5);
   transition: background 0.3s;
 `;

@@ -29,7 +29,9 @@ const FindHospital = () => {
             지도에서 내 주변 병원도 확인할 수 있어요
           </Pragraph>
         </DescriptionBox>
-        <ButtonBox>
+        <ButtonBox
+            isMap={pageCategory === "search"}
+        >
           <SearchModeTogleButton
             img
             bgColor={theme.color.mintBtn}

@@ -1,5 +1,4 @@
 import Input from "@components/layout/input/Input";
-
 import { NextPage } from "next";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
@@ -123,8 +122,8 @@ const LoginPage: NextPage = () => {
         </LoginFindBox>
         <SocialLoginBox>
           <div className="soscialInnerBox">
-            <NaverLoginBtn size="sm" mutate={mutate} kind="login" />
-            <KakaoLoginBtn size="sm" mutate={mutate} kind="login" />
+            <NaverLoginBtn  mutate={mutate} kind="login" />
+            <KakaoLoginBtn  mutate={mutate} kind="login" />
           </div>
         </SocialLoginBox>
         <RegisterLinkBox>

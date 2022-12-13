@@ -98,10 +98,11 @@ export const ImageIcon = styled(Image)`
   margin-right: 20px;
 `;
 
-export const ButtonBox = styled.div`
+export const ButtonBox = styled.div<{isMap ?: boolean;}>`
   display: flex;
   justify-content: center;
-  padding: 0 0 50px;
+  padding:${({isMap}) => isMap ? ` 0 0 30px` : ` 0 0 42px`};
+  
 `;
 
 const ToryMotion = styled.div`

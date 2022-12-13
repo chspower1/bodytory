@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { ChangeToHoverColor } from "./Button";
+import { ChangeToHoverColor } from "./SocialButton";
 
 export const RoundedDefaultButton = styled.button<{
   lg?: boolean;
@@ -17,6 +17,7 @@ export const RoundedDefaultButton = styled.button<{
   background: ${({ bgColor }) => bgColor || "rgb(61, 66, 191)"};
   color: ${({ color }) => color || "rgb(255, 255, 255)"};
   transition: background 0.35s ease;
+  box-shadow: 8px 8px 24px rgb(49, 54, 167, 0.2);
   img,
   svg {
     margin-right: 15px;
@@ -76,6 +77,7 @@ export const CircleDefaultButton = styled.button<{
   background: ${({ bgColor }) => bgColor || "rgb(61, 66, 191)"};
   color: ${({ color }) => color || "rgb(255, 255, 255)"};
   transition: background 0.35s ease;
+  box-shadow: 8px 8px 24px rgb(49, 54, 167, 0.2);
   :hover {
     background: ${({ bgColor }) => ChangeToHoverColor(bgColor || "rgb(61, 66, 191)")};
   }
@@ -108,12 +110,13 @@ export const RectangleDefaultButton = styled.button<{ sm?: boolean; bgColor?: st
   text-align: center;
   padding: 10px 0;
   color: #fff;
-  font-size: 18px;
+  font-size: 16px;
   border-radius: 5px;
   text-weight: 500;
   background: ${({ bgColor }) => bgColor || "rgb(61, 66, 191)"};
   color: ${({ color }) => color || "rgb(255, 255, 255)"};
   transition: background 0.35s ease;
+  box-shadow: 8px 8px 24px rgb(49, 54, 167, 0.2);
   :hover {
     background: ${({ bgColor }) => ChangeToHoverColor(bgColor || "rgb(61, 66, 191)")};
   }

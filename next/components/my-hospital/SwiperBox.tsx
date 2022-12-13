@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import styled from "styled-components";
 import { Pagination } from "swiper";
-import { RectangleButton } from "../layout/buttons/Button";
 import ClinicModal from "../modals/ClinicModal";
 import customApi from "@utils/client/customApi";
 import { useQuery } from "@tanstack/react-query";
@@ -12,6 +11,7 @@ import { Row } from "@styles/Common";
 import sliceName from "@utils/client/sliceHospitalName";
 import { useRecoilValue } from "recoil";
 import { currentHospitalIdx } from "atoms/atoms";
+import { RectangleDefaultButton } from "@components/layout/buttons/DefaultButtons";
 
 import "swiper/css";
 import "swiper/css/pagination";
@@ -66,14 +66,11 @@ const SwiperBox = ({
                     <ClinicItem key={`${obj.userId} + ${obj.id} + ${Date.now()}`}>
                       <ClinicDate>{changeDate(obj.createAt)}</ClinicDate>
                       <ClinicDetailButtonBox>
-                        <RectangleButton
-                          width="90px"
-                          nonSubmit
-                          fontSize="16px"
+                        <RectangleDefaultButton
                           onClick={handleClickModalOpen(obj, hospital.name)}
                         >
                           진료내역
-                        </RectangleButton>
+                        </RectangleDefaultButton>
                       </ClinicDetailButtonBox>
                     </ClinicItem>
                   ))
@@ -86,7 +83,7 @@ const SwiperBox = ({
             </SlideItemInnerBox>
           </SwiperSlideItem>
         ))}
-      <ClinicModal {...currentContent} show={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      {currentContent &&  <ClinicModal {...currentContent} show={isModalOpen} onClose={() => setIsModalOpen(false)} />}
     </SwiperWrap>
   );
 };
@@ -96,11 +93,11 @@ export default SwiperBox;
 const SwiperWrap = styled(Swiper)`
   padding: 30px 0 30px;
   .swiper-pagination {
-    position: absolute;
+    position: fixed;
     z-index: 10;
     height: 8px;
     top: auto;
-    bottom: 0;
+    bottom: 10px;
     left: 50%;
     transform: translateX(-50%);
     width: 60%;

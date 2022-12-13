@@ -1,4 +1,3 @@
-import { RoundButton } from "@components/layout/buttons/Button";
 import SwiperBox from "@components/my-hospital/SwiperBox";
 import { BackButton, Container, Row } from "@styles/Common";
 import { theme } from "@styles/theme";
@@ -6,19 +5,17 @@ import { DescriptionBox, Pragraph } from "./";
 import React, { useState } from "react";
 import styled from "styled-components";
 import tory from "@src/assets/icons/tory.png";
-import { useRouter } from "next/router";
-import Link from "next/link";
+import {  useRouter } from "next/router";
+import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 
 const ClinicList = () => {
-  const rounter = useRouter();
+  const router = useRouter();
   const [currentHospitalName, setCurrentHospitalName] = useState("");
   return (
     <ClinicListWrap>
-      <Link href="/users/my-hospital">
-        <BackButton>
-          <span>병원관리</span>
-        </BackButton>
-      </Link>
+      <BackButton onClick={()=> router.push("/users/my-hospital")}>
+        <span>병원관리</span>
+      </BackButton>
       <ClinicContainer>
         <PageHeadBox>
           <PageHead>
@@ -33,9 +30,9 @@ const ClinicList = () => {
             </DescriptionBox>
           </PageHead>
           <ButtonBox>
-            <RoundButton nonSubmit bgColor={theme.color.mintBtn} onClick={() => rounter.push("/users/my-hospital")}>
+            <RoundedDefaultButton bgColor={theme.color.mintBtn} onClick={() => router.push("/users/my-hospital")}>
               나의 병원 전체 목록보기
-            </RoundButton>
+            </RoundedDefaultButton>
           </ButtonBox>
         </PageHeadBox>
         <SwiperBox setCurrentHospitalName={setCurrentHospitalName} />
@@ -47,17 +44,18 @@ const ClinicList = () => {
 export default ClinicList;
 
 const ClinicListWrap = styled.div`
-  display: flex;
-  flex-direction: column;
   height: 100%;
-  background: #fff;
+  display:flex;
+  align-items:center;
 `;
 
 const PageHeadBox = styled(Container)`
   margin-top: 75px;
 `;
 
-const ClinicContainer = styled.div``;
+const ClinicContainer = styled.div`
+  overflow:hidden;
+`;
 
 const PageHead = styled.div`
   display: flex;

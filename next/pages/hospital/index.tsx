@@ -1,4 +1,3 @@
-import { RectangleButton, RoundButton } from "@components/layout/buttons/Button";
 import { ShareStatus } from "@components/my-hospital/HospitalContent";
 import Input from "@components/layout/input/Input";
 import Modal from "@components/modals/Modal";
@@ -17,6 +16,7 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
+import { RectangleDefaultButton } from "@components/layout/buttons/DefaultButtons";
 
 export interface HospitalName {
   id: number;
@@ -153,16 +153,14 @@ const HospitalHomePage = () => {
                           {shared ? "기록 공유 중" : "기록 공유 중지"}
                         </RecordShareStatus>
                       </RecordShareBox>
-                      <RectangleButton
-                        fontSize="16px"
-                        width="76px"
+                      <RectangleDefaultButton
                         onClick={() => {
                           setShowDeleteModal(true);
                           setCurrentPatient(user.id);
                         }}
                       >
                         삭제
-                      </RectangleButton>
+                      </RectangleDefaultButton>
                     </SharedBox>
                     <Modal
                       show={showdeleteModal && currentPatient === user.id}

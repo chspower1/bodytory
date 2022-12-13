@@ -9,7 +9,6 @@ import { AI_RESULT_READ } from "constant/queryKeys";
 import { KoreanPosition } from "types/write";
 import { Position } from "@prisma/client";
 import ChartAnim from "@components/lotties/ChartAnim";
-import { RoundButton } from "@components/layout/buttons/Button";
 import MicIcon from "@src/assets/icons/mic.svg";
 import Link from "next/link";
 import { useEffect } from "react";

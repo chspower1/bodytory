@@ -1,4 +1,3 @@
-import { CircleButton, RoundButton } from "@components/layout/buttons/Button";
 import { BodyText, Box, Col, Row, WhiteBoldText } from "@styles/Common";
 import { CustomOverlayMap } from "react-kakao-maps-sdk";
 import styled from "styled-components";
@@ -19,6 +18,7 @@ import { Dispatch, SetStateAction, useState } from "react";
 import Modal from "../Modal";
 import useHospital from "@hooks/useHospital";
 import sliceName from "@utils/client/sliceHospitalName";
+import { CircleDefaultButton, RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 
 interface MapDetailModalProps {
   clickIndex: number;
@@ -44,7 +44,7 @@ const MapDetailModal = ({ clickIndex, setClickIndex, index, hospital }: MapDetai
               <Image src={tory} alt="사진" />
               <Name fontSize="20px">{hospital.name}</Name>
               <Box style={{ position: "absolute", right: "20px" }}>
-                <CircleButton width="30px" height="30px" bgColor={theme.color.error} onClick={() => setClickIndex(-1)}>
+                <CircleButton bgColor={theme.color.error} onClick={() => setClickIndex(-1)}>
                   <Image src={x} alt="x" />
                 </CircleButton>
               </Box>
@@ -85,11 +85,7 @@ const MapDetailModal = ({ clickIndex, setClickIndex, index, hospital }: MapDetai
               </HomepageBox>
             </ContentBox>
             <RoundButton
-              width="88px"
-              height="40px"
               bgColor={isConnected ? theme.color.error : "rgb(18, 212, 201)"}
-              fontSize="16px"
-              boxShadow={false}
               onClick={() => setShowModal(true)}
             >
               {isConnected ? "삭제" : "추가"}
@@ -130,6 +126,17 @@ const MapDetailModal = ({ clickIndex, setClickIndex, index, hospital }: MapDetai
   );
 };
 export default MapDetailModal;
+
+const CircleButton  = styled(CircleDefaultButton)`
+  width: 30px;
+  height: 30px;
+`
+const RoundButton = styled(RoundedDefaultButton)`
+  width :88px;
+  height :40px;
+  fontSize :16px;
+`
+
 const InfoWindowBox = styled(Col)`
   background-color: white;
   border: none;

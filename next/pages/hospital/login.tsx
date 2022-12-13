@@ -6,7 +6,6 @@ import { useRouter } from "next/router";
 import customApi from "utils/client/customApi";
 import { useMutation } from "@tanstack/react-query";
 import { HOSPITAL_LOGIN } from "constant/queryKeys";
-import { RoundButton } from "@components/layout/buttons/Button";
 import { InnerContainer, FlexContainer } from "@styles/Common";
 import { theme } from "@styles/theme";
 import styled from "styled-components";
@@ -14,6 +13,7 @@ import MessageBox from "@components/MessageBox";
 import { loggedInHospital } from "atoms/atoms";
 import { useSetRecoilState } from "recoil";
 import { LoginInputAreaBox } from "pages/auth/login";
+import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 
 export interface LoginForm {
   accountId: string;
@@ -94,9 +94,9 @@ const LoginPage: NextPage = () => {
                 motion={false}
               />
             </LoginInputAreaBox>
-            <RoundButton size="lg" bgColor={theme.color.mintBtn} disable={!isCompletion}>
+            <RoundedDefaultButton lg bgColor={theme.color.mintBtn} disable={!isCompletion}>
               로그인
-            </RoundButton>
+            </RoundedDefaultButton>
           </LoginFormInnerBox>
         </LoginForm>
       </HospitalInnerContainer>

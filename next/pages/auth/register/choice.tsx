@@ -61,13 +61,13 @@ const ChoicePage = () => {
         <ButtonBox>
           <ButtonInnerBox variants={CHOICE_VARIANTS} initial="initial" animate="animate">
             <motion.div variants={TYPE_VARIANTS}>
-              <OriginLoginBtn size="lg" kind="register" />
+              <OriginLoginBtn kind="register" />
             </motion.div>
             <motion.div variants={TYPE_VARIANTS}>
-              <NaverLoginBtn size="lg" mutate={mutate} kind="register" />
+              <NaverLoginBtn  mutate={mutate} kind="register" />
             </motion.div>
             <motion.div variants={TYPE_VARIANTS}>
-              <KakaoLoginBtn size="lg" mutate={mutate} kind="register" />
+              <KakaoLoginBtn  mutate={mutate} kind="register" />
             </motion.div>
           </ButtonInnerBox>
         </ButtonBox>
