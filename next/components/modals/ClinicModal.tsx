@@ -5,7 +5,7 @@ import styled from "styled-components";
 import ReactDOM from "react-dom";
 import { RoundButton } from "../layout/buttons/Button";
 import { AnimatePresence, motion } from "framer-motion";
-import { ModalContainer, ModalWrapper } from "@styles/ModalStyled";
+import { Dim, ModalContainer, ModalWrapper } from "@styles/ModalStyled";
 import usePortal from "@hooks/usePortal";
 
 interface ClinicModalProps {
@@ -81,24 +81,8 @@ const ClinicModal = ({
 
 export default ClinicModal;
 
-const Dim = styled.div`
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.2);
-  z-index: 2;
-`;
 
-const Modal = styled.div`
-  position: relative;
-  z-index: 3;
-  width: 860px;
-  border-radius: 40px;
-  margin: auto;
-  overflow: hidden;
-`;
+
 
 const ModalHead = styled.div`
   padding: 20px 60px;
