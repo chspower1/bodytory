@@ -28,7 +28,7 @@ const ToryPurpleAnim = ({ toryMotionIdx, width, delay }: ToryAnimProps) => {
     setToryPurple(
       lottie.loadAnimation({
         container: lottieRef.current,
-        renderer: "canvas",
+        renderer: "svg",
         loop: true,
         autoplay: false,
         animationData: ToryPurpleAnimation,

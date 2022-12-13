@@ -28,7 +28,7 @@ const ToryWhiteAnim = ({ toryMotionIdx, width, delay }: ToryAnimProps) => {
     setToryWhite(
       lottie.loadAnimation({
         container: lottieRef.current,
-        renderer: "canvas",
+        renderer: "svg",
         loop: true,
         autoplay: false,
         animationData: ToryWhiteAnimation,

@@ -9,7 +9,7 @@ const LoadingAnim = () => {
   useEffect(() => {
     const loading = lottie.loadAnimation({
       container: loadingRef.current,
-      renderer: "canvas",
+      renderer: "svg",
       loop: true,
       autoplay: true,
       animationData: LoadingAnimation,
