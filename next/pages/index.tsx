@@ -87,6 +87,7 @@ const Home = () => {
 export default Home;
 
 const FadeInMotionWrap = styled(motion.div)`
+  height:100%;
 `;
 
 const RoundedButton = styled(RoundedDefaultButton)`
