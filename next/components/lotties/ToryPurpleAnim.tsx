@@ -1,4 +1,4 @@
-import lottie, { AnimationItem, AnimationSegment } from "lottie-web";
+import { AnimationItem, AnimationSegment, LottiePlayer } from "lottie-web";
 import ToryPurpleAnimation from "@src/assets/lotties/tory_purple.json";
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
@@ -12,6 +12,7 @@ interface ToryAnimProps {
 const ToryPurpleAnim = ({ toryMotionIdx, width, delay }: ToryAnimProps) => {
   const [ready, setReady] = useState<boolean>(false);
   const [ToryPurple, setToryPurple] = useState<AnimationItem>();
+  const [lottie, setLottie] = useState<LottiePlayer | null>(null);
 
   const lottieRef = useRef<any>();
 
@@ -25,15 +26,21 @@ const ToryPurpleAnim = ({ toryMotionIdx, width, delay }: ToryAnimProps) => {
   ];
 
   useEffect(() => {
-    setToryPurple(
-      lottie.loadAnimation({
-        container: lottieRef.current,
-        renderer: "svg",
-        loop: true,
-        autoplay: false,
-        animationData: ToryPurpleAnimation,
-      }),
-    );
+    import("lottie-web").then(Lottie => setLottie(Lottie.default));
+  }, []);
+
+  useEffect(() => {
+    if (lottie && lottieRef.current) {
+      setToryPurple(
+        lottie.loadAnimation({
+          container: lottieRef.current,
+          renderer: "svg",
+          loop: true,
+          autoplay: false,
+          animationData: ToryPurpleAnimation,
+        }),
+      );
+    }
 
     if (delay) {
       setTimeout(() => {
@@ -44,9 +51,9 @@ const ToryPurpleAnim = ({ toryMotionIdx, width, delay }: ToryAnimProps) => {
     }
 
     return () => {
-      lottie.destroy();
+      lottie && lottie.destroy();
     };
-  }, []);
+  }, [lottie]);
 
   useEffect(() => {
     if (ToryPurple) {

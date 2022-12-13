@@ -1,4 +1,4 @@
-import lottie, { AnimationItem, AnimationSegment } from "lottie-web";
+import lottie, { AnimationItem, AnimationSegment, LottiePlayer } from "lottie-web";
 import ListeningAnimation from "@src/assets/lotties/listening.json";
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
@@ -11,6 +11,7 @@ interface ToryAnimProps {
 const ListeningAnim = ({ listeningMotionIdx, width }: ToryAnimProps) => {
   const [ready, setReady] = useState<boolean>(false);
   const [listening, setListening] = useState<AnimationItem>();
+  const [lottie, setLottie] = useState<LottiePlayer | null>(null);
 
   const lottieRef = useRef<any>();
 
@@ -20,23 +21,29 @@ const ListeningAnim = ({ listeningMotionIdx, width }: ToryAnimProps) => {
   ];
 
   useEffect(() => {
-    setListening(
-      lottie.loadAnimation({
-        container: lottieRef.current,
-        renderer: "svg",
-        loop: true,
-        autoplay: false,
-        animationData: ListeningAnimation,
-        // path: "/src/lotties/data/tory_white.json"
-      }),
-    );
+    import("lottie-web").then(Lottie => setLottie(Lottie.default));
+  }, []);
+
+  useEffect(() => {
+    if (lottie && lottieRef.current) {
+      setListening(
+        lottie.loadAnimation({
+          container: lottieRef.current,
+          renderer: "svg",
+          loop: true,
+          autoplay: false,
+          animationData: ListeningAnimation,
+          // path: "/src/lotties/data/tory_white.json"
+        }),
+      );
+    }
 
     setReady(true);
 
     return () => {
-      lottie.destroy();
+      lottie && lottie.destroy();
     };
-  }, []);
+  }, [lottie]);
 
   useEffect(() => {
     if (listening) {

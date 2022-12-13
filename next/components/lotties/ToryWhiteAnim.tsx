@@ -1,4 +1,4 @@
-import lottie, { AnimationItem, AnimationSegment } from "lottie-web";
+import { AnimationItem, AnimationSegment, LottiePlayer } from "lottie-web";
 import ToryWhiteAnimation from "@src/assets/lotties/tory_white.json";
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
@@ -12,6 +12,7 @@ interface ToryAnimProps {
 const ToryWhiteAnim = ({ toryMotionIdx, width, delay }: ToryAnimProps) => {
   const [ready, setReady] = useState<boolean>(false);
   const [ToryWhite, setToryWhite] = useState<AnimationItem>();
+  const [lottie, setLottie] = useState<LottiePlayer | null>(null);
 
   const lottieRef = useRef<any>();
 
@@ -25,16 +26,22 @@ const ToryWhiteAnim = ({ toryMotionIdx, width, delay }: ToryAnimProps) => {
   ];
 
   useEffect(() => {
-    setToryWhite(
-      lottie.loadAnimation({
-        container: lottieRef.current,
-        renderer: "svg",
-        loop: true,
-        autoplay: false,
-        animationData: ToryWhiteAnimation,
-        // path: "/src/lotties/data/tory_white.json"
-      }),
-    );
+    import("lottie-web").then(Lottie => setLottie(Lottie.default));
+  }, []);
+
+  useEffect(() => {
+    if (lottie && lottieRef.current) {
+      setToryWhite(
+        lottie.loadAnimation({
+          container: lottieRef.current,
+          renderer: "svg",
+          loop: true,
+          autoplay: false,
+          animationData: ToryWhiteAnimation,
+          // path: "/src/lotties/data/tory_white.json"
+        }),
+      );
+    }
 
     if (delay) {
       setTimeout(() => {
@@ -45,9 +52,9 @@ const ToryWhiteAnim = ({ toryMotionIdx, width, delay }: ToryAnimProps) => {
     }
 
     return () => {
-      lottie.destroy();
+      lottie && lottie.destroy();
     };
-  }, []);
+  }, [lottie]);
 
   useEffect(() => {
     if (ToryWhite) {
