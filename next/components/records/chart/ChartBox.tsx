@@ -1,13 +1,7 @@
 import styled, { css } from "styled-components";
 import { changeDate } from "@utils/client/changeDate";
 import RecordModal, { RecordWithImage } from "@components/modals/RecordModal";
-import {
-  AI_RESULT_READ,
-  BODYPART_CHARTDATA_READ,
-  KEYWORDS_CHARTDATA_READ,
-  RECORDS_DELETE,
-  RECORDS_READ,
-} from "constant/queryKeys";
+import { RECORDS_DELETE, RECORDS_READ } from "constant/queryKeys";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { RecordWithImageAndHospital } from "./ChartTimeline";
@@ -18,7 +12,6 @@ import IconAddImage from "@src/assets/icons/icon_addImage.png";
 import customApi from "@utils/client/customApi";
 import SplitTextByKeyword from "./SplitTextByKeyword";
 import { DeleteBtnBox } from "@components/my-hospital/HospitalContent";
-import AlertModal from "@components/modals/AlertModal";
 
 interface ChartBoxProps {
   index: number;
@@ -36,12 +29,11 @@ const ChartBox = ({ index, record, clickedKeyword, patientId, position, setShowM
   const { postApi } = customApi("/api/users/records/picture");
   const { mutate } = useMutation([RECORDS_DELETE], deleteApi, {
     onSuccess() {
-      console.log("hji")
+      console.log("hji");
       queryClient.invalidateQueries();
-  
     },
   });
-    const { mutate: deleteMutate } = useMutation(["removeHospitalRecode"], deleteHospitalRecordApi, {
+  const { mutate: deleteMutate } = useMutation(["removeHospitalRecode"], deleteHospitalRecordApi, {
     onSuccess() {
       queryClient.invalidateQueries([RECORDS_READ, position]);
     },
@@ -67,9 +59,10 @@ const ChartBox = ({ index, record, clickedKeyword, patientId, position, setShowM
           <Content>
             <Description cursorType={"pointer"}>
               <Text onClick={() => handleRecordModal(record)}>
-                {record.description.includes("\n")
-                  ? (
-                    record.description.split("\n").map((ele, idx) => (
+                {record.description.includes("\n") ? (
+                  record.description
+                    .split("\n")
+                    .map((ele, idx) => (
                       <p key={`${ele} + ${idx} + ${Date.now()}`}>
                         {clickedKeyword && ele.includes(clickedKeyword) ? (
                           <SplitTextByKeyword text={ele} clickedKeyword={clickedKeyword} />
@@ -78,13 +71,10 @@ const ChartBox = ({ index, record, clickedKeyword, patientId, position, setShowM
                         )}
                       </p>
                     ))
-                  )
-                  : (
-                    clickedKeyword && record.description.includes(clickedKeyword) ? (
-                      <SplitTextByKeyword text={record.description} clickedKeyword={clickedKeyword} />
-                    ) : (
-                      record.description
-                    )
+                ) : clickedKeyword && record.description.includes(clickedKeyword) ? (
+                  <SplitTextByKeyword text={record.description} clickedKeyword={clickedKeyword} />
+                ) : (
+                  record.description
                 )}
               </Text>
               <ImageBox isHospital={Boolean(patientId)}>
@@ -113,51 +103,49 @@ const ChartBox = ({ index, record, clickedKeyword, patientId, position, setShowM
       ) : (
         <Content>
           <Description cursorType={"auto"}>
-            <HospitalName>{record.hospital?.name}
-            {Boolean(patientId) && (
-              <DeleteBtnBox>
-                <DeleteBtn
-                  isdowntext={1}
-                  mutate={deleteMutate}
-                  setShowAlertModal={setShowModal}
-                  id={record.id}
-                  backgroundColor="rgb(100, 106, 235)"
-                  isCircle
-                />
-              </DeleteBtnBox>
-            )}
+            <HospitalName>
+              {record.hospital?.name}
+              {Boolean(patientId) && (
+                <DeleteBtnBox>
+                  <DeleteBtn
+                    isdowntext={1}
+                    mutate={deleteMutate}
+                    setShowAlertModal={setShowModal}
+                    id={record.id}
+                    backgroundColor="rgb(100, 106, 235)"
+                    isCircle
+                  />
+                </DeleteBtnBox>
+              )}
             </HospitalName>
             <ResultTable>
               <TableRow>
                 <Subject>진단 결과</Subject>
                 <div>
-                  {
-                    clickedKeyword && record.diagnosis?.includes(clickedKeyword) ? (
-                      <SplitTextByKeyword text={record.diagnosis} clickedKeyword={clickedKeyword} />
-                    ) : (
-                      record.diagnosis
-                    )
-                  }
+                  {clickedKeyword && record.diagnosis?.includes(clickedKeyword) ? (
+                    <SplitTextByKeyword text={record.diagnosis} clickedKeyword={clickedKeyword} />
+                  ) : (
+                    record.diagnosis
+                  )}
                 </div>
               </TableRow>
               <TableRow>
                 <Subject>처방 내용</Subject>
                 <div>
-                  {
-                    clickedKeyword && record.prescription?.includes(clickedKeyword) ? (
-                      <SplitTextByKeyword text={record.prescription} clickedKeyword={clickedKeyword} />
-                    ) : (
-                      record.prescription
-                    )
-                  }
+                  {clickedKeyword && record.prescription?.includes(clickedKeyword) ? (
+                    <SplitTextByKeyword text={record.prescription} clickedKeyword={clickedKeyword} />
+                  ) : (
+                    record.prescription
+                  )}
                 </div>
               </TableRow>
               <TableRow>
                 <Subject>상세 소견</Subject>
                 <div>
-                  {record.description.includes("\n")
-                    ? (
-                      record.description.split("\n").map((ele, idx) => (
+                  {record.description.includes("\n") ? (
+                    record.description
+                      .split("\n")
+                      .map((ele, idx) => (
                         <p key={`${ele} + ${idx} + ${Date.now()}`}>
                           {clickedKeyword && ele.includes(clickedKeyword) ? (
                             <SplitTextByKeyword text={ele} clickedKeyword={clickedKeyword} />
@@ -166,14 +154,11 @@ const ChartBox = ({ index, record, clickedKeyword, patientId, position, setShowM
                           )}
                         </p>
                       ))
-                    )
-                    : (
-                      clickedKeyword && record.description.includes(clickedKeyword) ? (
-                        <SplitTextByKeyword text={record.description} clickedKeyword={clickedKeyword} />
-                      ) : (
-                        record.description
-                      )
-                    )}
+                  ) : clickedKeyword && record.description.includes(clickedKeyword) ? (
+                    <SplitTextByKeyword text={record.description} clickedKeyword={clickedKeyword} />
+                  ) : (
+                    record.description
+                  )}
                 </div>
               </TableRow>
             </ResultTable>
@@ -311,7 +296,7 @@ const UploadImageButton = styled.button`
 `;
 
 const HospitalName = styled.div`
-  position:relative;
+  position: relative;
   background: #4b50d3;
   color: ${({ theme }) => theme.color.white};
   font-weight: 500;
@@ -321,7 +306,6 @@ const HospitalName = styled.div`
 const ResultTable = styled.div`
   padding: 30px 40px;
 `;
-
 
 const Subject = styled.div`
   flex-shrink: 0;
@@ -345,4 +329,3 @@ const TableRow = styled.div`
     border-radius: 5px;
   }
 `;
-

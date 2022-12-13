@@ -7,12 +7,10 @@ import { Row } from "@styles/Common";
 import { useQuery } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
 import { currentPatientInfo } from "atoms/atoms";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { bodyPartType } from "types/bodyParts";
 import { KoreanPosition } from "types/write";
 
 const HospitalChart = () => {

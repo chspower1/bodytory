@@ -3,17 +3,15 @@ import { useForm } from "react-hook-form";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { RegisterForm } from "pages/auth/register";
 import customApi from "utils/client/customApi";
-import { CircleButton, RoundButton } from "@components/layout/buttons/Button";
-import { Box, Col, Container, FlexContainer, InnerContainer, Row } from "@styles/Common";
+import { FlexContainer, InnerContainer, Row } from "@styles/Common";
 import MessageBox from "@components/MessageBox";
 import { ACCOUNT_ID_REGEX, PASSWORD_REGEX } from "constant/regex";
 import { PrevNextButtonBox, Form, FormContents } from "./FirstPage";
 import { theme } from "@styles/theme";
-import { checkEmptyObj } from "@utils/client/checkEmptyObj";
-import { createErrors } from "@utils/client/createErrors";
 import styled from "styled-components";
 import { LoginInputAreaBox } from "pages/auth/login";
 import { AnimatePresence } from "framer-motion";
+import { CircleDefaultButton, RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 
 interface SecondRegisterForm {
   accountId: string;
@@ -116,8 +114,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                 register={register("accountId", {
                   required: true,
                   validate: {
-                    checkAccountId: value =>
-                      ACCOUNT_ID_REGEX.test(value) || "아이디는 6글자이상으로 입력해주세요",
+                    checkAccountId: value => ACCOUNT_ID_REGEX.test(value) || "아이디는 6글자이상으로 입력해주세요",
                   },
                   onChange() {
                     setUser(prev => ({ ...prev!, isNotDuplicate: false }));
@@ -131,9 +128,9 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
 
               {(!user?.isNotDuplicate || !watch("accountId")) && (
                 <ButtonBox>
-                  <RoundButton
-                    nonSubmit
-                    size="sm"
+                  <RoundedDefaultButton
+                    type="button"
+                    sm
                     bgColor={
                       errors.accountId?.message?.includes("다른아이디") ? theme.color.error : theme.color.mintBtn
                     }
@@ -141,7 +138,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                     onClick={handleClickCheckAccountId}
                   >
                     중복확인
-                  </RoundButton>
+                  </RoundedDefaultButton>
                 </ButtonBox>
               )}
 
@@ -150,7 +147,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                   <Input
                     name="password"
                     type="password"
-                    placeholder="●●●●●●"
+                    placeholder="••••••"
                     register={register("password", {
                       required: true,
                       validate: {
@@ -183,7 +180,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                   <Input
                     type="password"
                     name="passwordConfirm"
-                    placeholder="●●●●●●"
+                    placeholder="••••••"
                     register={register("passwordConfirm", {
                       required: true,
                       validate: {
@@ -197,21 +194,21 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
             </LoginInputAreaBox>
           </FormContents>
           <PrevNextButtonBox>
-            <CircleButton
-              nonSubmit
+            <CircleDefaultButton
+              type="button"
               bgColor="rgb(75, 80, 211)"
               onClick={() => {
                 pageReset();
               }}
             >
               이전 단계
-            </CircleButton>
-            <CircleButton
+            </CircleDefaultButton>
+            <CircleDefaultButton
               bgColor={theme.color.mintBtn}
               disable={/* !checkEmptyObj(error) */ currentInputIdx !== 4 || Boolean(isErrorsMessage)}
             >
               다음 단계
-            </CircleButton>
+            </CircleDefaultButton>
           </PrevNextButtonBox>
         </Form>
       </InnerContainer>

@@ -1,12 +1,10 @@
 import NaverLoginBtn from "@components/layout/buttons/NaverBtn";
-import { useMutation, useQueries, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
 import { USER_LOGIN, USE_USER } from "constant/queryKeys";
 import { useRouter } from "next/router";
-import React, { useEffect, useRef } from "react";
-import styled, { keyframes } from "styled-components";
-import { useSetRecoilState } from "recoil";
-import Header from "@components/header/Header";
+import React from "react";
+import styled from "styled-components";
 import LoadingDot from "@components/LoadingDot";
 
 const LoadingBox = styled.div`

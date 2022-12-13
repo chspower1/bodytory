@@ -6,6 +6,8 @@ import { RoundButton } from "../layout/buttons/Button";
 import { AnimatePresence, motion } from "framer-motion";
 import { Dim, ModalContainer, ModalWrapper } from "@styles/ModalStyled";
 import usePortal from "@hooks/usePortal";
+import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
+import { ModalButton } from "./RecordModal";
 
 interface ModalProps {
   show: boolean;
@@ -46,13 +48,13 @@ function Modal({
             </ModalTitle>
             <ModalContent bgColor={terms}>{children}</ModalContent>
             <ConfirmBtnBox>
-              <RoundButton size="sm" onClick={activeFunction}>
+              <ModalButton sm onClick={activeFunction}>
                 {agreeType ? `동의합니다` : !closingComment ? "네" : "확인"}
-              </RoundButton>
+              </ModalButton>
               {!closingComment && (
-                <RoundButton size="sm" bgColor={`rgba(188, 197, 255, 1)`} onClick={onClose}>
+                <ModalButton sm bgColor="rgb(188, 197, 255)" onClick={onClose}>
                   {agreeType ? `동의하지 않습니다` : "아니요"}
-                </RoundButton>
+                </ModalButton>
               )}
             </ConfirmBtnBox>
           </ModalBox>
@@ -68,12 +70,7 @@ const ConfirmBtnBox = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 30px;
-  button {
-    display: inline-block;
-    margin: 0 10px;
-    width: auto;
-    padding: 0 30px;
-  }
+  gap : 40px;
 `;
 
 const ModalBox = styled(ModalContainer)`

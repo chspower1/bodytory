@@ -4,35 +4,18 @@ import { NextPage } from "next";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { ResponseType } from "@utils/server/withHandler";
 import Link from "next/link";
 import customApi from "utils/client/customApi";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import Modal from "@components/modals/Modal";
 import NaverLoginBtn from "@components/layout/buttons/NaverBtn";
 import KakaoLoginBtn from "@components/layout/buttons/KakaoBtn";
 import { USER_LOGIN, USE_USER } from "constant/queryKeys";
-import { RoundButton } from "@components/layout/buttons/Button";
-import Image from "next/image";
-import naver from "@src/assets/icons/naver.svg";
-import {
-  Box,
-  Col,
-  InnerContainer,
-  FlexContainer,
-  Row,
-  ToryText,
-  WhiteBoldText,
-  WhiteText,
-  Wrapper,
-} from "@styles/Common";
+import { InnerContainer, FlexContainer, Row, WhiteBoldText, WhiteText } from "@styles/Common";
 import { theme } from "@styles/theme";
-import { checkEmptyObj } from "@utils/client/checkEmptyObj";
-import { watch } from "fs";
 import styled from "styled-components";
 import MessageBox from "@components/MessageBox";
 import { ACCOUNT_ID_REGEX, PASSWORD_REGEX } from "constant/regex";
-import Header from "@components/header/Header";
+import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 
 export interface LoginForm {
   accountId: string;
@@ -61,7 +44,6 @@ const LoginPage: NextPage = () => {
         );
       } else {
         queryClient.refetchQueries([USE_USER]);
-        // setCurrentUser(data);
         return router.push("/");
       }
     },
@@ -103,8 +85,7 @@ const LoginPage: NextPage = () => {
                 register={register("accountId", {
                   required: "아이디를 입력해주세요",
                   validate: {
-                    checkAccountId: value =>
-                      ACCOUNT_ID_REGEX.test(value) || "아이디는 6글자 이상 입력해주세요",
+                    checkAccountId: value => ACCOUNT_ID_REGEX.test(value) || "아이디는 6글자 이상 입력해주세요",
                   },
                 })}
                 placeholder="아이디를 입력해주세요"
@@ -125,17 +106,10 @@ const LoginPage: NextPage = () => {
                 error={errors.password || isError}
                 delay={0.3}
               />
-              {/* <Input
-            name="autoLogin"
-            label="자동로그인"
-            type="checkbox"
-            register={register("autoLogin")}
-            errorMessage={errors.password?.message}
-          /> */}
             </LoginInputAreaBox>
-            <RoundButton size="lg" bgColor={theme.color.mintBtn} disable={!isCompletion}>
+            <RoundedDefaultButton lg disable={!isCompletion} bgColor={theme.color.mintBtn}>
               로그인
-            </RoundButton>
+            </RoundedDefaultButton>
           </LoginFormInnerBox>
         </LoginForm>
         <LoginFindBox>

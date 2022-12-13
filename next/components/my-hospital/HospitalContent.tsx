@@ -1,19 +1,14 @@
+import { RectangleDefaultButton, RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 import useHospital from "@hooks/useHospital";
-import { Hospital, MedicalDepartment } from "@prisma/client";
 import { Box } from "@styles/Common";
 import { theme } from "@styles/theme";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import customApi from "@utils/client/customApi";
 import sliceName from "@utils/client/sliceHospitalName";
 import { currentHospitalIdx } from "atoms/atoms";
-import { HOSPITALS } from "constant/queryKeys";
 import { useRouter } from "next/router";
-import type { MyHospital, MyHospitalResponse } from "pages/users/my-hospital";
-import { useEffect, useState } from "react";
+import type { MyHospital } from "pages/users/my-hospital";
+import { useState } from "react";
 import { useSetRecoilState } from "recoil";
 import styled, { css } from "styled-components";
-import { isNoSubstitutionTemplateLiteral } from "typescript";
-import { ChangeToHoverColor, RectangleButton, RoundButton } from "../layout/buttons/Button";
 import DeleteBtn from "../layout/buttons/DeleteBtn";
 import Modal from "../modals/Modal";
 import MyHospitalModal from "../modals/MyHospitalModal";
@@ -45,10 +40,6 @@ const HospitalContent = ({ hospital, add, idx, shared, setShowAlertModal }: Hosp
     router.push("/users/my-hospital/clinic-list");
     setHospitalCurrentIdx(idx);
   };
-  // console.log(hospital.name, shared, onShare);
-  // useEffect(() => {
-  //   setOnShare(shared);
-  // }, [shared]);
   return (
     <HospitalInfor add={add}>
       <HospitalInforContainer>
@@ -78,33 +69,23 @@ const HospitalContent = ({ hospital, add, idx, shared, setShowAlertModal }: Hosp
             </SpaceText>
           </HospitalPlaceBox>
           {!add && (
-            <RectangleButton
-              size="md"
-              fontSize="16px"
-              width="120px"
-              bgColor={`rgba(75, 80, 211, 1)`}
-              textColor={theme.color.white}
-              onClick={handleClickGoClinicList}
-            >
+            <ShowMedicalDetailButton bgColor={`rgba(75, 80, 211, 1)`} onClick={handleClickGoClinicList}>
               진료내역 보기
-            </RectangleButton>
+            </ShowMedicalDetailButton>
           )}
         </HospitalInforBox>
         {add ? (
           <AddButtonBox>
-            <RectangleButton
-              nonSubmit
-              size="md"
-              boxShadow={false}
-              textColor={onConnected ? "#3d42bf" : "white"}
+            <RectangleDefaultButton
+              type="button"
+              color={onConnected ? "#3d42bf" : "white"}
               bgColor={onConnected ? "rgb(197,205,251)" : theme.color.darkBg}
               onClick={() => {
                 setShowModal(true);
-                
               }}
             >
               {onConnected ? "삭제" : "추가"}
-            </RectangleButton>
+            </RectangleDefaultButton>
             {onConnected && <span>내 병원</span>}
           </AddButtonBox>
         ) : (
@@ -112,14 +93,24 @@ const HospitalContent = ({ hospital, add, idx, shared, setShowAlertModal }: Hosp
             <ShareStatus weight="200" size="15px" add={add} status={onShare}>
               {onShare ? "기록 공유 중" : "기록 공유 중지"}
             </ShareStatus>
-            <ShareButton status={onShare} onClick={() => handleClickShare(hospital.id, setOnShare)}>
+            <RoundedDefaultButton
+              sm
+              bgColor={onShare ? "rgb(128,133,251)" : theme.color.mintBtn}
+              onClick={() => handleClickShare(hospital.id, setOnShare)}
+            >
               {onShare ? "공유 중지" : "공유 시작"}
-            </ShareButton>
+            </RoundedDefaultButton>
           </HospitalStatusBox>
         )}
         {add || (
           <DeleteBtnBox>
-            <DeleteBtn mutate={deleteHospitalMutate} setShowAlertModal={setShowAlertModal} id={hospital.id} backgroundColor="rgb(100, 106, 235)" isCircle />
+            <DeleteBtn
+              mutate={deleteHospitalMutate}
+              setShowAlertModal={setShowAlertModal}
+              id={hospital.id}
+              backgroundColor="rgb(100, 106, 235)"
+              isCircle
+            />
           </DeleteBtnBox>
         )}
       </HospitalInforContainer>
@@ -161,18 +152,9 @@ const HospitalContent = ({ hospital, add, idx, shared, setShowAlertModal }: Hosp
 
 export default HospitalContent;
 
-const ShareButton = styled.button<{ status: boolean }>`
-  width: auto;
+const ShowMedicalDetailButton = styled(RectangleDefaultButton)`
+  width: 120px;
   font-size: 16px;
-  padding: 12px 25px;
-
-  transition: background-color 0.5s ease;
-  &:hover {
-    background-color: ${props => ChangeToHoverColor(props.status ? "rgb(128,133,251)" : "rgb(18, 212, 201)")};
-  }
-  background-color: ${prop => (prop.status ? "rgb(128,133,251)" : theme.color.mintBtn)};
-  border-radius: 50px;
-  color: white;
 `;
 
 const AddButtonBox = styled.div`
@@ -269,11 +251,6 @@ const HospitalInfor = styled.li<{ add: boolean }>`
   background-color: ${prop => (prop.add ? "rgb(225,227,255)" : "rgb(100,106,235)")};
   transition: all 0.4s ease;
   border-radius: 20px;
-  // &:hover {
-  //   width: 101%;
-  //   box-shadow: ${props => props.theme.boxShadow.normal};
-  //   background-color: ${prop => (prop.add ? "rgb(217, 219, 255)" : "#575dd4")};
-  // }
   & + & {
     margin-top: 20px;
   }
@@ -303,7 +280,7 @@ export const HospitalStatusBox = styled.div`
   flex-shrink: 0;
   display: flex;
   align-items: center;
-  width: 250px;
+  width: 280px;
   margin-right: 90px;
   justify-content: space-between;
 `;

@@ -14,6 +14,7 @@ import MicIcon from "@src/assets/icons/mic.svg";
 import Link from "next/link";
 import { useEffect } from "react";
 import ToryPurpleAnim from "@components/lotties/ToryPurpleAnim";
+import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 
 interface AMonthResponse {
   mostInAMonth: Position[];
@@ -21,69 +22,68 @@ interface AMonthResponse {
 }
 
 function DashBoard() {
-  const queryClient = useQueryClient();
   const { user } = useUser();
   const { getApi } = customApi(`/api/users/records/dashboard/aMonth`);
-  const { isLoading, data, error, isFetching } = useQuery<AMonthResponse | undefined>([AI_RESULT_READ], getApi);
+  const { data, isFetching } = useQuery<AMonthResponse | undefined>([AI_RESULT_READ], getApi);
 
   return user ? (
     <DashBoardWarp>
       <DashBoardContainer>
-        {isFetching || 
-        <>
-          <ToryTextBox>
-            <ToryMotion>
-              <ToryPurpleAnim toryMotionIdx={0} width={150} />
-            </ToryMotion>
-            <ToryText26White>
+        {isFetching || (
+          <>
+            <ToryTextBox>
+              <ToryMotion>
+                <ToryPurpleAnim toryMotionIdx={0} width={150} />
+              </ToryMotion>
+              <ToryText26White>
+                <>
+                  {data &&
+                    data.mostInAMonth.length !== 0 &&
+                    (data.mostInAMonth.length > 3 ? (
+                      <>
+                        <strong>{user?.name}님</strong>, 최근 한달동안 증상 기록이 많아졌네요.. <br />
+                        토리랑 함께 건강관리에 힘써봐요!
+                      </>
+                    ) : (
+                      <>
+                        <strong>{user?.name}님</strong>, 최근 한달간{" "}
+                        <strong>{data.mostInAMonth.map(ele => KoreanPosition[ele]).join(", ")}</strong>에서 증상이 많이
+                        발생하셨네요
+                      </>
+                    ))}
+                  {data && data.mostInAMonth.length === 0 && (
+                    <>
+                      아직 분석할 기록이 없어요.. <br />
+                      <strong>{user?.name}님</strong>의 몸 상태를 알려주시면 토리가 분석해드릴게요!
+                    </>
+                  )}
+                </>
+              </ToryText26White>
+            </ToryTextBox>
+            {data && data.mostInAMonth.length !== 0 && (
               <>
-                {data &&
-                  data.mostInAMonth.length !== 0 &&
-                  (data.mostInAMonth.length > 3 ? (
-                    <>
-                      <strong>{user?.name}님</strong>, 최근 한달동안 증상 기록이 많아졌네요.. <br />
-                      토리랑 함께 건강관리에 힘써봐요!
-                    </>
-                  ) : (
-                    <>
-                      <strong>{user?.name}님</strong>, 최근 한달간{" "}
-                      <strong>{data.mostInAMonth.map(ele => KoreanPosition[ele]).join(", ")}</strong>에서 증상이 많이
-                      발생하셨네요
-                    </>
-                  ))}
-                {data && data.mostInAMonth.length === 0 && (
-                  <>
-                    아직 분석할 기록이 없어요.. <br />
-                    <strong>{user?.name}님</strong>의 몸 상태를 알려주시면 토리가 분석해드릴게요!
-                  </>
-                )}
+                <ToryRecommend mostThreeDepartment={data?.mostThreeDepartment} inChart={false} />
+                <DashBoardStatistics />
               </>
-            </ToryText26White>
-          </ToryTextBox>
-          {data && data.mostInAMonth.length !== 0 && (
-            <>
-              <ToryRecommend mostThreeDepartment={data?.mostThreeDepartment} inChart={false} />
-              <DashBoardStatistics />
-            </>
-          )}
-          {data && data.mostInAMonth.length === 0 && (
-            <>
-              <NoChartContainer>
-                <ChartAnim />
-              </NoChartContainer>
-              <NoChartButtonContainer>
-                <p>오늘부터 매일매일 내 몸을 위한 건강한 기록을 시작해볼까요?</p>
-                <Link href={"/users/records/write"}>
-                  <RoundButton>
-                    <SmallMicIcon />
-                    오늘 기록하기
-                  </RoundButton>
-                </Link>
-              </NoChartButtonContainer>
-            </>
-          )}
-        </>
-        }
+            )}
+            {data && data.mostInAMonth.length === 0 && (
+              <>
+                <NoChartContainer>
+                  <ChartAnim />
+                </NoChartContainer>
+                <NoChartButtonContainer>
+                  <p>오늘부터 매일매일 내 몸을 위한 건강한 기록을 시작해볼까요?</p>
+                  <Link href={"/users/records/write"}>
+                    <RoundedDefaultButton img>
+                      <SmallMicIcon />
+                      오늘 기록하기
+                    </RoundedDefaultButton>
+                  </Link>
+                </NoChartButtonContainer>
+              </>
+            )}
+          </>
+        )}
       </DashBoardContainer>
     </DashBoardWarp>
   ) : null;

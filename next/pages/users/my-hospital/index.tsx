@@ -1,18 +1,16 @@
-import { RoundButton } from "@components/layout/buttons/Button";
 import { theme } from "@styles/theme";
 import { useQuery } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
 import { HOSPITALS } from "constant/queryKeys";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import medicalIcon from "@src/assets/icons/medical.png";
-import HospitalList from "@components/my-hospital/MyHospitalList";
 import Image from "next/image";
 import useUser from "@hooks/useUser";
 import { Hospital, MedicalDepartment } from "@prisma/client";
 import MyHospitalList from "@components/my-hospital/MyHospitalList";
-import MyHospitalModal from "@components/modals/MyHospitalModal";
+import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 import ToryPurpleAnim from "@components/lotties/ToryPurpleAnim";
 
 export interface MyHospitalResponse {
@@ -52,9 +50,9 @@ const MyHospitalPage = () => {
         </DescriptionBox>
         <ButtonBox>
           <Link href={"/users/my-hospital/find"}>
-            <RoundButton size="custom" width="260px" height="50px">
+            <RoundedDefaultButton>
               <ImageIcon src={medicalIcon} width={20} height={20} alt="병원" /> 병원 추가하기
-            </RoundButton>
+            </RoundedDefaultButton>
           </Link>
         </ButtonBox>
         <MyHospitalList hospitals={data} add={false} isLoading={isLoading} />

@@ -40,7 +40,7 @@ export const createErrors = <T extends FieldValues = any>({
         }
       }
       if (!user[item]) {
-        setError(item, { types: { required: ``, validate: "", minLength: "" } });
+        setError(item, { types: { required: true, validate: "", minLength: "" },message:"" });
       }
     });
   }

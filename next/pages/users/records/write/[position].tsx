@@ -1,4 +1,3 @@
-import { CircleButton, RectangleButton, RoundButton } from "@components/layout/buttons/Button";
 import { Position } from "@prisma/client";
 import { BackButton, BlackToryText, BodyText, Box, Col, FlexContainer, WhiteWrapper } from "@styles/Common";
 import { theme } from "@styles/theme";
@@ -21,15 +20,14 @@ import {
   RECORDS_READ,
 } from "constant/queryKeys";
 import { AxiosError } from "axios";
-import { AnimatePresence, motion } from "framer-motion";
-import Link from "next/link";
-import pencil from "@src/assets/icons/pencil.svg";
+import { motion } from "framer-motion";
 import mic from "@src/assets/icons/mic.svg";
 import check from "@src/assets/icons/check.png";
 import refresh from "@src/assets/icons/refresh.png";
 import { useForm } from "react-hook-form";
 import Modal from "@components/modals/Modal";
 import ToryPurpleAnim from "@components/lotties/ToryPurpleAnim";
+import { CircleDefaultButton } from "@components/layout/buttons/DefaultButtons";
 
 interface WriteRecordRequest {
   position: string;
@@ -182,14 +180,7 @@ const PositionPage = () => {
               />
               {recordStatus === "finish" && (
                 <RefreshBtnBox>
-                  <CircleButton
-                    nonSubmit
-                    onClick={reset}
-                    bgColor={theme.color.mintBtn}
-                    width="46px"
-                    height="46px"
-                    boxShadow={false}
-                  >
+                  <CircleButton type="button" onClick={reset} bgColor={theme.color.mintBtn}>
                     <Image src={refresh} width={30} height={30} alt="다시 녹음" />
                   </CircleButton>
                   <RefreshText>새로고침</RefreshText>
@@ -197,10 +188,8 @@ const PositionPage = () => {
               )}
             </MemoBox>
 
-            <CircleButton
-              width="100px"
-              height="100px"
-              disabled={watch("description") && watch("description")?.length < 2 ? true : false}
+            <CircleDefaultButton
+              disable={watch("description") && watch("description")?.length < 2 ? true : false}
               bgColor={listening ? theme.color.error : theme.color.darkBg}
               onClick={() => {
                 recordStatus === "initial" && startRecord();
@@ -208,14 +197,13 @@ const PositionPage = () => {
                 recordStatus === "finish" && hadleClickCreateRecord(watch("description"));
                 recordStatus === "error" && startRecord();
               }}
-              boxShadow={false}
             >
               {recordStatus === "initial" && <Mic />}
               {recordStatus === "listening" && <Rectangle />}
               {recordStatus === "loading" && "loading"}
               {recordStatus === "finish" && <Image src={check} width={55} height={55} alt="제출" />}
               {recordStatus === "error" && <Mic />}
-            </CircleButton>
+            </CircleDefaultButton>
           </VoiceBox>
           <BodyText>{buttonGuideMessage}</BodyText>
         </Col>
@@ -235,6 +223,11 @@ const PositionPage = () => {
 };
 
 export default PositionPage;
+
+const CircleButton = styled(CircleDefaultButton)`
+  width: 46px;
+  height: 46px;
+`;
 
 const VoiceBox = styled.div`
   > button {
@@ -285,12 +278,6 @@ const MemoInput = styled.input<{ disabled: boolean }>`
   pointer-events: ${({ disabled }) => (disabled ? "none" : "auto")};
   &:hover {
     box-shadow: 0px 0px 0px 3px ${({ theme }) => theme.color.mintBtn};
-  }
-  :-webkit-autofill,
-  :-webkit-autofill:hover,
-  :-webkit-autofill:focus,
-  :-webkit-autofill:active {
-    -webkit-text-fill-color: ${({ theme }) => theme.color.mintBtn} !important;
   }
   ::placeholder {
     color: ${theme.color.mintBtn};

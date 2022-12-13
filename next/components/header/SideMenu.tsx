@@ -1,6 +1,6 @@
 import { Col, Row } from "@styles/Common";
 import Link from "next/link";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import settingIcon from "@src/assets/icons/settingIcon.png";
 import HamburgerMenuButton from "./HamburgerMenuButton";
@@ -8,11 +8,9 @@ import { useRouter } from "next/router";
 import LogoutBtn from "@components/layout/buttons/LogoutBtn";
 import toriLink from "@src/assets/icons/toriLink.png";
 import menuLogo from "@src/assets/icons/menuLogo.png";
-import useUser from "@hooks/useUser";
 
 const SideMenu = () => {
   const router = useRouter();
-  const dimRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [menuList, _] = useState([
@@ -196,12 +194,12 @@ const ContentsBox = styled.div`
         left: 0;
         right: 0;
         bottom: 0;
-        background: linear-gradient(to top, rgba(217, 222, 255, .5) 40%, transparent 40%);
+        background: linear-gradient(to top, rgba(217, 222, 255, 0.5) 40%, transparent 40%);
         z-index: 1;
         opacity: 0;
         transition: opacity 0.3s;
       }
-    
+
       &:hover {
         &:before {
           opacity: 1;
@@ -215,7 +213,6 @@ const ContentsBox = styled.div`
         background-size: cover;
         margin-right: 10px;
       }
-
     }
   }
 `;

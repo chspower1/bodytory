@@ -7,6 +7,7 @@ import type { MyHospital } from "pages/users/my-hospital";
 import { theme } from "@styles/theme";
 import usePortal from "@hooks/usePortal";
 import Link from "next/link";
+import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 interface MyHospitalModalProps {
   show?: boolean;
   hospitals?: MyHospital;
@@ -33,9 +34,11 @@ const MyHospitalModal = ({ show, hospitals,  onClose }: MyHospitalModalProps) =>
                 <DetailBox>
                   <Title>홈페이지</Title>
                   <Text>
+                    {hospitals?.homepage ?
                     <Link href={String(hospitals?.homepage)} target="blank">
                       {hospitals?.homepage}
                     </Link>
+                    : "-"}
                   </Text>
                 </DetailBox>
                 <DetailBox>
@@ -69,16 +72,14 @@ const MyHospitalModal = ({ show, hospitals,  onClose }: MyHospitalModalProps) =>
               </Map>
             </ContentContainer>
             <CloseBox>
-              <RoundButton
-                size="custom"
-                width="150px"
-                height="40px"
-                textColor="rgb(93,107,178)"
+              <RoundedDefaultButton
+                sm
+                color="rgb(93,107,178)"
                 bgColor="rgb(197,205,251)"
                 onClick={onClose}
               >
                 닫기
-              </RoundButton>
+              </RoundedDefaultButton>
             </CloseBox>
           </ModalBox>
         </ModalWrapper>

@@ -8,12 +8,13 @@ import axios from "axios";
 import { MyHospital, MyHospitalResponse } from "pages/users/my-hospital";
 import { LegacyRef, MouseEvent, useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { RoundButton } from "../layout/buttons/Button";
 import HospitalContent from "../my-hospital/HospitalContent";
 import Input from "../layout/input/Input";
 import ListSkeleton from "../skeletonUI/ListSkeleton";
 import AlertModal from "@components/modals/AlertModal";
+import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 
 interface SearchHospitalListResponse {
   foundHospitals: MyHospital[];
@@ -85,9 +86,7 @@ const SearchHospitalList = () => {
             motion={false}
             error={errors.search?.message}
           />
-          <RoundButton size="custom" height="60px" bgColor="rgb(100,106,235)">
-            검색
-          </RoundButton>
+          <SearchButton bgColor="rgb(100,106,235)">검색</SearchButton>
         </SearchForm>
       </SearchBox>
       <HospitalContainer add={true}>
@@ -127,6 +126,11 @@ const SearchHospitalList = () => {
 
 export default SearchHospitalList;
 
+const SearchButton = styled(RoundedDefaultButton)`
+  height: 60px;
+  padding: 0 50px;
+`;
+
 export const SearchContainer = styled(FlexContainer)`
   position: relative;
   width: 1500px;
@@ -162,7 +166,7 @@ const InnerContainer = styled.div<{ add: boolean }>`
   width: 100%;
   height: 100%;
   overflow-y: scroll;
-  padding: 30px 0;
+  padding: 30px 0 0;
   position: relative;
   &::-webkit-scrollbar-track {
     margin: 30px 0;
@@ -171,10 +175,13 @@ const InnerContainer = styled.div<{ add: boolean }>`
 
 const HospitalContainer = styled.div<{ add: boolean }>`
   width: 1600px;
-  height: 574px;
+  height: 540px;
   background-color: ${prop => (prop.add ? "#f2f3ff" : "#d9deff")};
   border-radius: 40px;
-  padding: 30px 30px 0;
+  padding: 0 30px 0;
+  margin-top: 20px;
+  background: rgba(231, 232, 255, 0.5);
+  transition: background 0.3s;
 `;
 
 const HospitalLists = styled.ul`

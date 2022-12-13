@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import styled from "styled-components";
 import { Pagination } from "swiper";
@@ -10,7 +10,6 @@ import { Record } from "@prisma/client";
 import { changeDate } from "@utils/client/changeDate";
 import { Row } from "@styles/Common";
 import sliceName from "@utils/client/sliceHospitalName";
-import { useRouter } from "next/router";
 import { useRecoilValue } from "recoil";
 import { currentHospitalIdx } from "atoms/atoms";
 

@@ -5,7 +5,6 @@ import { RegisterForm } from "pages/auth/register";
 import customApi from "utils/client/customApi";
 import { Gender } from "@prisma/client";
 import styled from "styled-components";
-import useReset from "@hooks/useReset";
 import { useMutation } from "@tanstack/react-query";
 import { REGISTER_SIGNUP } from "constant/queryKeys";
 import { useRouter } from "next/router";
@@ -13,16 +12,14 @@ import MessageBox from "@components/MessageBox";
 import RadioInput from "@components/layout/input/RadioInput";
 import ButtonInInput from "@components/layout/input/ButtonInInput";
 import CheckBoxInput from "@components/layout/input/CheckBoxInput";
-import { RoundButton } from "@components/layout/buttons/Button";
-import { Box, Col, Container, FlexContainer, InnerContainer, Row } from "@styles/Common";
+import { Box, FlexContainer, InnerContainer, Row } from "@styles/Common";
 import { theme } from "@styles/theme";
 import { Form, FormContents, PrevNextButtonBox } from "./FirstPage";
 import { BIRTH_REGEX, EMAIL_REGEX, KR_EN_REGEX, ONLY_KR_REGEX } from "constant/regex";
-import { checkEmptyObj } from "@utils/client/checkEmptyObj";
 import { createErrors } from "@utils/client/createErrors";
-import { useSetRecoilState } from "recoil";
 import { Variants, motion } from "framer-motion";
 import { checkBirth } from "@utils/client/leapYearCheck";
+import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 
 interface ThirdRegisterForm {
   email: string;
@@ -179,7 +176,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       setCurrentComment("마지막 단계에요!\n이용자님의 이름, 생일, 성별, 이메일을 알려주세요");
     }
   }, [isToken]);
-
+  console.log(errors);
   return (
     <FlexContainer>
       <InnerContainer>
@@ -312,6 +309,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                     nonSubmit
                     isAuthenticationColumn
                     error={errors.token}
+                    isRegister
                   />
                 </CheckTokenBox>
               )
@@ -320,17 +318,18 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
             )}
           </ThirdPageFormContents>
           <PrevNextButtonBox>
-            <RoundButton nonSubmit size="custom" height="60px" bgColor="rgb(75, 80, 211)" onClick={handleClickPrevPage}>
+            <PreviousButton sm type="button" bgColor="rgb(75, 80, 211)" onClick={handleClickPrevPage}>
               이전 단계
-            </RoundButton>
-            <RoundButton
-              size="custom"
-              width="360px"
+            </PreviousButton>
+            <SubmitButton
+              sm
               bgColor={theme.color.mintBtn}
-              disable={!checkEmptyObj(errors) || !user?.isCertified}
+              disable={!watch("name") || !watch("gender") || !watch("birth") || !user?.isCertified}
             >
-              {!isErrorsMessage && user?.isCertified ? "회원가입 완료" : "정보를 모두 입력해주세요"}
-            </RoundButton>
+              {watch("name") && watch("gender") && watch("birth") && user?.isCertified
+                ? "회원가입 완료"
+                : "정보를 모두 입력해주세요"}
+            </SubmitButton>
           </PrevNextButtonBox>
         </Form>
       </InnerContainer>
@@ -339,6 +338,18 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
 };
 
 export default ThirdPage;
+
+const PreviousButton = styled(RoundedDefaultButton)`
+  width: 160px;
+  height: 60px;
+  font-size: 18px;
+`;
+
+const SubmitButton = styled(RoundedDefaultButton)`
+  width: 360px;
+  height: 60px;
+  font-size: 18px;
+`;
 
 const GenderBox = styled(Box)`
   gap: 26px;

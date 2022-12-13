@@ -1,6 +1,6 @@
 import { Box } from "@styles/Common";
 import { useState } from "react";
-import { CustomOverlayMap, CustomOverlayRoadview, MapMarker, MapInfoWindow } from "react-kakao-maps-sdk";
+import { CustomOverlayMap, MapMarker } from "react-kakao-maps-sdk";
 import styled from "styled-components";
 
 interface EventMarkerContainerProps {

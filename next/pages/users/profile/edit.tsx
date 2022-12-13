@@ -11,12 +11,12 @@ import useUser from "@hooks/useUser";
 import { FlexContainer, InnerContainer } from "@styles/Common";
 import styled, { css } from "styled-components";
 import { theme } from "@styles/theme";
-import { RoundButton } from "@components/layout/buttons/Button";
 import Naver from "@src/assets/icons/naver.svg";
 import Kakao from "@src/assets/icons/kakao.svg";
 import Origin from "@src/assets/icons/origin.svg";
 import getAmericanAge from "@utils/client/getAmericanAge";
 import { PASSWORD_REGEX } from "constant/regex";
+import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 
 interface PasswordType {
   oldPassword: string;
@@ -24,7 +24,7 @@ interface PasswordType {
   newPasswordConfirm: string;
 }
 
-export default function Edit() {
+const Edit = () => {
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
   const [errorModal, setErrorModal] = useState(false);
@@ -144,11 +144,11 @@ export default function Edit() {
                 motion={false}
               />
             </SeperationBox>
-            {user?.type === "origin" && <SeperationBox style={{ display: "flex", justifyContent: "center" }}>
-              <RoundButton size="md" bgColor={theme.color.mintBtn}>
-                비밀번호 변경하기
-              </RoundButton>
-            </SeperationBox>}
+            {user?.type === "origin" && (
+              <SeperationBox style={{ display: "flex", justifyContent: "center" }}>
+                <EditButton bgColor={theme.color.mintBtn}>비밀번호 변경하기</EditButton>
+              </SeperationBox>
+            )}
           </form>
           <Modal
             onClose={() => setShowModal(false)}
@@ -183,7 +183,13 @@ export default function Edit() {
       </InContainer>
     </Container>
   );
-}
+};
+export default Edit;
+
+export const EditButton = styled(RoundedDefaultButton)`
+  font-size: 18px;
+  padding: 16px 50px;
+`;
 
 const InContainer = styled(InnerContainer)<{ isFade: boolean }>`
   height: 830px;
@@ -247,27 +253,27 @@ const EmailInputBox = styled(SeperationBox)`
 
 const WithdrawBox = styled.div`
   margin: 0 auto;
-  position : relative;
-  a{
-    position : relative;
-    z-index:2;
+  position: relative;
+  a {
+    position: relative;
+    z-index: 2;
   }
   &:before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(to top, rgba(217, 222, 255, 1) 40%, transparent 40%);
-  z-index: 1;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to top, rgba(217, 222, 255, 1) 40%, transparent 40%);
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
 
-&:hover {
-  &:before {
-    opacity: 1;
+  &:hover {
+    &:before {
+      opacity: 1;
+    }
   }
-}
 `;

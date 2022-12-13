@@ -11,6 +11,7 @@ import { Position } from "@prisma/client";
 import { useRecoilState } from "recoil";
 import { currentBodyPosition } from "atoms/atoms";
 import { motion } from "framer-motion";
+import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 
 export interface SelectBodyPartProps {
   selectedBodyPart: bodyPartType;
@@ -59,34 +60,28 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage, isH
     <CustomContainer isWritePage={isWritePage}>
       {currentPos !== "face" ? (
         <ButtonsBox>
-          <RoundButton
-            width="90px"
-            height="50px"
+          <FrontBackButton
             onClick={() => setCurrentPosition("front")}
             bgColor={currentPos !== "front" ? "rgb(188, 197, 255)" : undefined}
           >
             앞
-          </RoundButton>
-          <RoundButton
-            width="90px"
-            height="50px"
+          </FrontBackButton>
+          <FrontBackButton
             onClick={() => setCurrentPosition("back")}
             bgColor={currentPos !== "back" ? "rgb(188, 197, 255)" : undefined}
           >
             뒤
-          </RoundButton>
+          </FrontBackButton>
         </ButtonsBox>
       ) : (
         <ButtonsBox>
           {currentPos !== "face" || (
-            <RoundButton
-              width="90px"
-              height="50px"
+            <FrontBackButton
               bgColor={currentPos === "face" ? "rgb(188, 197, 255)" : undefined}
               onClick={() => setCurrentPosition("front")}
             >
               몸
-            </RoundButton>
+            </FrontBackButton>
           )}
         </ButtonsBox>
       )}
@@ -359,6 +354,11 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage, isH
 BodyNavigator.defaultProps = {
   isWritePage: true,
 };
+
+const FrontBackButton = styled(RoundedDefaultButton)`
+  padding: 16px 40px;
+`
+
 const Overlay = styled.div`
   width: 100%;
   height: 100%;

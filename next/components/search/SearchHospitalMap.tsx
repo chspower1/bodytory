@@ -10,41 +10,21 @@ import useDepartmentSelect from "@hooks/useDepartmentSelect";
 
 const SearchHospitalMap = () => {
   const { latitude, longitude } = useCoords();
-  const { department, DepartmentSelect } = useDepartmentSelect(Object.values(MEDICALDEPARTMENT), true);
 
   return latitude && longitude ? (
-    <SearchContainer style={{ alignItems: "flex-end" }}>
-      <OptionBox>
-        <DepartmentSelectBox>
-          <DepartmentLabel>
-            <HospitalIcon width={20} height={20} fill={theme.color.darkBg} />
-            진료과목
-          </DepartmentLabel>
-          <DepartmentSelect />
-        </DepartmentSelectBox>
-      </OptionBox>
-      <ArroundMap width="1500px" height="600px" longitude={longitude} latitude={latitude} department={department} />
-    </SearchContainer>
+    <ShadowSearchContainer style={{ alignItems: "flex-end" }}>
+      <ArroundMap width="1500px" height="600px" longitude={longitude} latitude={latitude} departmentList={Object.values(MEDICALDEPARTMENT)} isAll={true} />
+    </ShadowSearchContainer>
   ) : (
     <SearchContainer>위치 정보를 허용해주세요!</SearchContainer>
   );
 };
 
+const ShadowSearchContainer = styled(SearchContainer)`
+  height: 600px;
+  margin-bottom: 200px;
+  border-radius: 20px;
+  box-shadow: 8px 8px 24px 0px rgba(49, 54, 167, 0.2);
+`;
+
 export default SearchHospitalMap;
-
-const OptionBox = styled(Box)`
-  width: 100%;
-  justify-content: flex-end;
-`;
-
-const DepartmentSelectBox = styled(Col)`
-  gap: 3px;
-  align-items: flex-start;
-  transform: translateY(-30%);
-`;
-const DepartmentLabel = styled(Box)`
-  font-size: 20px;
-  color: ${props => props.theme.color.text};
-  font-weight: 500;
-  gap: 5px;
-`;

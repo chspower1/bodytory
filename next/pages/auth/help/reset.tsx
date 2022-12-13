@@ -4,12 +4,10 @@ import { NextPage } from "next";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { ResponseType } from "@utils/server/withHandler";
 import Link from "next/link";
 import customApi from "utils/client/customApi";
 import { useMutation } from "@tanstack/react-query";
 import { HELP_FIND_PASSWORD } from "constant/queryKeys";
-import { RoundButton } from "@components/layout/buttons/Button";
 import { PASSWORD_REGEX } from "constant/regex";
 import MessageBox from "@components/MessageBox";
 import { FinalCommentBox } from "./find-id";
@@ -17,7 +15,7 @@ import { theme } from "@styles/theme";
 import { checkEmptyObj } from "@utils/client/checkEmptyObj";
 import styled from "styled-components";
 import { FlexContainer, InnerContainer } from "@styles/Common";
-import Header from "@components/header/Header";
+import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 
 interface ResetForm {
   password: string;
@@ -73,7 +71,7 @@ const Reset: NextPage = () => {
                 <Input
                   name="password"
                   type="password"
-                  placeholder="●●●●●●"
+                  placeholder="••••••"
                   register={register("password", {
                     required: true,
                     validate: {
@@ -105,7 +103,7 @@ const Reset: NextPage = () => {
                     <Input
                       name="passwordConfirm"
                       type="password"
-                      placeholder="●●●●●●"
+                      placeholder="••••••"
                       register={register("passwordConfirm", {
                         required: true,
                         validate: {
@@ -116,13 +114,13 @@ const Reset: NextPage = () => {
                     />
                   </Seperation>
                   <Seperation>
-                    <RoundButton
-                      size="lg"
+                    <RoundedDefaultButton
+                      lg
                       bgColor={theme.color.mintBtn}
                       disable={!checkEmptyObj(errors) || !watch("password") || !watch("passwordConfirm")}
                     >
                       비밀번호 재설정 완료
-                    </RoundButton>
+                    </RoundedDefaultButton>
                   </Seperation>
                 </>
               )}
@@ -137,9 +135,9 @@ const Reset: NextPage = () => {
               </MessageBox>
               <div className="linkButton">
                 <Link href="/auth/login">
-                  <RoundButton size="lg" bgColor={theme.color.mintBtn} onClick={() => router.push("/auth/login")}>
+                  <RoundedDefaultButton lg bgColor={theme.color.mintBtn} onClick={() => router.push("/auth/login")}>
                     로그인하러 가기
-                  </RoundButton>
+                  </RoundedDefaultButton>
                 </Link>
               </div>
             </div>

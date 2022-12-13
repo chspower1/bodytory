@@ -1,9 +1,7 @@
-import Input from "@components/layout/input/Input";
 import { useForm } from "react-hook-form";
 import { Dispatch, SetStateAction, useState } from "react";
 import { RegisterForm } from "pages/auth/register";
-import { CircleButton, RectangleButton, RoundButton } from "@components/layout/buttons/Button";
-import { Box, Col, Container, FlexContainer, InnerContainer, Row, WhiteText, Wrapper } from "@styles/Common";
+import { Col, FlexContainer, InnerContainer, Row, WhiteText } from "@styles/Common";
 import Link from "next/link";
 import CheckBoxInput from "@components/layout/input/CheckBoxInput";
 import MessageBox from "@components/MessageBox";
@@ -13,6 +11,7 @@ import Modal from "@components/modals/Modal";
 import PersonalInformation from "./PersonalInformation";
 import UseOfService from "./UseOfService";
 import { motion } from "framer-motion";
+import { CircleDefaultButton, RectangleDefaultButton } from "@components/layout/buttons/DefaultButtons";
 interface FirstRegisterForm {
   agree: boolean;
 }
@@ -58,44 +57,42 @@ const FirstPage = ({ user, setUser, setPage }: RegisterPageProps) => {
               <TermsBox>
                 <TermsRow>
                   <WhiteText fontSize="18px">[필수] 서비스 이용 약관 </WhiteText>
-                  <RectangleButton
-                    nonSubmit
+                  <RectangleDefaultButton
+                    sm
                     bgColor="rgb(61, 66, 191)"
-                    size="sm"
                     onClick={() => {
                       setShowModal(true);
                       setIsFirstOne(true);
                     }}
                   >
                     내용 보기
-                  </RectangleButton>
+                  </RectangleDefaultButton>
                 </TermsRow>
                 <TermsRow>
                   <WhiteText fontSize="18px">[필수] 개인 정보 수집 및 이용 약관 </WhiteText>
-                  <RectangleButton
-                    nonSubmit
+                  <RectangleDefaultButton
+                    sm
                     bgColor="rgb(61, 66, 191)"
-                    size="sm"
                     onClick={() => {
                       setShowModal(true);
                       setIsFirstOne(false);
                     }}
                   >
                     내용 보기
-                  </RectangleButton>
+                  </RectangleDefaultButton>
                 </TermsRow>
               </TermsBox>
             </Col>
           </FormContents>
           <PrevNextButtonBox>
             <Link href="/auth/register/choice">
-              <CircleButton nonSubmit bgColor="rgb(75, 80, 211)">
+              <CircleDefaultButton type="button" bgColor="rgb(75, 80, 211)">
                 이전 단계
-              </CircleButton>
+              </CircleDefaultButton>
             </Link>
-            <CircleButton bgColor={theme.color.mintBtn} disable={Boolean(errors.agree) || !watch("agree")}>
+            <CircleDefaultButton bgColor={theme.color.mintBtn} disable={Boolean(errors.agree) || !watch("agree")}>
               다음 단계
-            </CircleButton>
+            </CircleDefaultButton>
           </PrevNextButtonBox>
         </Form>
       </InnerContainer>

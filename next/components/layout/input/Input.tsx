@@ -1,8 +1,6 @@
-import Image, { StaticImageData } from "next/image";
 import { FieldError, UseFormRegisterReturn } from "react-hook-form";
 import styled, { css } from "styled-components";
-import checked from "@src/assets/icons/check_checked.svg";
-import { theme } from "@styles/theme";
+import { media } from "@styles/theme";
 import { motion } from "framer-motion";
 export interface InputProps {
   label?: string;
@@ -89,7 +87,6 @@ export default function Input({
     </InputBox>
   );
 }
-
 const InputBox = styled.div<{ width?: string; height?: string }>`
   width: ${({ width }) => width};
   height: ${({ height }) => height};
@@ -97,6 +94,11 @@ const InputBox = styled.div<{ width?: string; height?: string }>`
   position: relative;
   & + & {
     margin: 40px auto 0;
+  }
+  ${media.tablet} {
+  }
+  ${media.mobile} {
+    width: 360px;
   }
 `;
 
@@ -146,13 +148,6 @@ const MainInput = styled(motion.input)<{
       &[type="password"] {
       }
       background: rgba(217, 222, 255, 1);
-      color: #232323;
-      :-webkit-autofill,
-      :-webkit-autofill:hover,
-      :-webkit-autofill:focus,
-      :-webkit-autofill:active {
-        -webkit-text-fill-color: #232323 !important;
-      }
       &[type="password"] {
         color: #9497c1;
       }
@@ -162,11 +157,5 @@ const MainInput = styled(motion.input)<{
     css`
       background: rgba(255, 255, 255, 1);
       color: #232323;
-      :-webkit-autofill,
-      :-webkit-autofill:hover,
-      :-webkit-autofill:focus,
-      :-webkit-autofill:active {
-        -webkit-text-fill-color: #232323 !important;
-      }
     `}
 `;

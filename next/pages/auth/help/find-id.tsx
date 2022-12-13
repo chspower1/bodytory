@@ -9,18 +9,16 @@ import customApi from "utils/client/customApi";
 import { useMutation } from "@tanstack/react-query";
 import { HelpForm } from "./find-pw";
 import { HELP_FIND_ID } from "constant/queryKeys";
-import useReset from "@hooks/useReset";
-import { RoundButton } from "@components/layout/buttons/Button";
+
 import { theme } from "@styles/theme";
 import { EMAIL_REGEX } from "constant/regex";
 import ButtonInInput from "@components/layout/input/ButtonInInput";
 import MessageBox from "@components/MessageBox";
 import styled from "styled-components";
 import { FlexContainer, InnerContainer, Row } from "@styles/Common";
-import Header from "@components/header/Header";
+import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 
 const HelpFindId: NextPage = () => {
-  const router = useRouter();
   const { postApi } = customApi("/api/auth/help/find-id");
   const [currentComment, setCurrentComment] = useState("아이디를 잊으셨나요?\n가입 시 입력한 이메일을 알려주세요");
   const [foundAccountId, setFoundAccountId] = useState("");
@@ -90,15 +88,15 @@ const HelpFindId: NextPage = () => {
                       required: true,
                       validate: value => EMAIL_REGEX.test(value!) || "이메일 형식에 맞지 않습니다",
                     })}
-                    placeholder="toritori2022@naver.com"
+                    placeholder="bodytory2022@naver.com"
                     error={helpErrors.email}
                   />
                 </Seperation>
               )}
               <Seperation>
-                <RoundButton size="lg" nonSubmit onClick={handleClickFindId}>
+                <RoundedDefaultButton lg type="button" onClick={handleClickFindId}>
                   {isToken ? "인증메일 다시 보내기" : "아이디 찾기"}
-                </RoundButton>
+                </RoundedDefaultButton>
               </Seperation>
               {isToken && (
                 <Seperation>
@@ -127,9 +125,9 @@ const HelpFindId: NextPage = () => {
               </MessageBox>
               <div className="linkButton">
                 <Link href="/auth/login">
-                  <RoundButton size="lg" bgColor={theme.color.mintBtn}>
+                  <RoundedDefaultButton lg bgColor={theme.color.mintBtn}>
                     로그인하러 가기
-                  </RoundButton>
+                  </RoundedDefaultButton>
                 </Link>
               </div>
             </div>

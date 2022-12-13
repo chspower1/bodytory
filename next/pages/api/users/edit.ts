@@ -3,7 +3,7 @@ import { withApiSession } from "@utils/server/withSession";
 import { NextApiRequest, NextApiResponse } from "next";
 import bcrypt from "bcrypt";
 import client from "utils/server/client";
-import { passwordCompare, passwordEncryption } from "utils/server/passwordHelper";
+import { passwordEncryption } from "utils/server/passwordHelper";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { password, newPassword } = req.body;

@@ -1,6 +1,4 @@
-import { useMemo } from "react";
 import styled, { keyframes } from "styled-components";
-import SkeletonItem from "./SkeletonUI";
 
 const ListSkeleton = ({ backgroundColor }: { backgroundColor: string }) => {
   return (
