@@ -24,6 +24,12 @@ export const RoundedDefaultButton = styled.button<{
   :hover {
     background: ${({ bgColor }) => ChangeToHoverColor(bgColor || "rgb(61, 66, 191)")};
   }
+  ${({img}) => img && css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 30px;
+  `}
   ${({lg}) => lg && css`
     width: 500px;
     padding: 20px 0;
@@ -35,12 +41,6 @@ export const RoundedDefaultButton = styled.button<{
     font-size:16px;
     border-radius: 40px;
     padding: 12px 0;
-  `}
-  ${({img}) => img && css`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 12px 30px;
   `}
   ${({disable, theme}) => disable && css`
     background: ${theme.color.disabled};
