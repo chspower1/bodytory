@@ -121,7 +121,7 @@ const LoginPage: NextPage = () => {
                       "비밀번호는 6자리 이상\n영문 대소문자, 숫자를 조합해서 입력해주세요",
                   },
                 })}
-                placeholder="●●●●●●"
+                placeholder="••••••"
                 error={errors.password || isError}
                 delay={0.3}
               />
