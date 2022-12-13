@@ -90,7 +90,7 @@ const LoginPage: NextPage = () => {
                 register={register("password", {
                   required: "비밀번호를 입력해주세요",
                 })}
-                placeholder="●●●●●●"
+                placeholder="••••••"
                 error={errors.password || isError}
                 motion={false}
               />

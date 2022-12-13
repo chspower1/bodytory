@@ -94,13 +94,15 @@ export default function Withdraw() {
                   PASSWORD_REGEX.test(value) || "비밀번호는 6자리 이상\n영문 대소문자, 숫자를 조합해서 입력해주세요",
               },
             })}
-            placeholder="●●●●●●"
+            placeholder="••••••"
             error={errors.password}
             motion={false}
           />
         )}
         <ButtonBox>
-          <RoundButton width="240px" fontSize="20px">탈퇴하기</RoundButton>
+          <RoundButton width="240px" fontSize="20px">
+            탈퇴하기
+          </RoundButton>
         </ButtonBox>
       </Form>
       <Modal

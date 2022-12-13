@@ -116,8 +116,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                 register={register("accountId", {
                   required: true,
                   validate: {
-                    checkAccountId: value =>
-                      ACCOUNT_ID_REGEX.test(value) || "아이디는 6글자이상으로 입력해주세요",
+                    checkAccountId: value => ACCOUNT_ID_REGEX.test(value) || "아이디는 6글자이상으로 입력해주세요",
                   },
                   onChange() {
                     setUser(prev => ({ ...prev!, isNotDuplicate: false }));
@@ -150,7 +149,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                   <Input
                     name="password"
                     type="password"
-                    placeholder="●●●●●●"
+                    placeholder="••••••"
                     register={register("password", {
                       required: true,
                       validate: {
@@ -183,7 +182,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                   <Input
                     type="password"
                     name="passwordConfirm"
-                    placeholder="●●●●●●"
+                    placeholder="••••••"
                     register={register("passwordConfirm", {
                       required: true,
                       validate: {

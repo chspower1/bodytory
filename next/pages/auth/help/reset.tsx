@@ -73,7 +73,7 @@ const Reset: NextPage = () => {
                 <Input
                   name="password"
                   type="password"
-                  placeholder="●●●●●●"
+                  placeholder="••••••"
                   register={register("password", {
                     required: true,
                     validate: {
@@ -105,7 +105,7 @@ const Reset: NextPage = () => {
                     <Input
                       name="passwordConfirm"
                       type="password"
-                      placeholder="●●●●●●"
+                      placeholder="••••••"
                       register={register("passwordConfirm", {
                         required: true,
                         validate: {
