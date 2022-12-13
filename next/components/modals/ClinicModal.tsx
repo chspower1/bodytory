@@ -6,6 +6,7 @@ import ReactDOM from "react-dom";
 import { RoundButton } from "../layout/buttons/Button";
 import { AnimatePresence, motion } from "framer-motion";
 import { ModalContainer, ModalWrapper } from "@styles/ModalStyled";
+import usePortal from "@hooks/usePortal";
 
 interface ClinicModalProps {
   id?: number;
@@ -32,10 +33,8 @@ const ClinicModal = ({
   show = false,
   onClose,
 }: ClinicModalProps) => {
-  const [isBrowser, setIsBrowser] = useState(false);
-  useEffect(() => {
-    setIsBrowser(true);
-  }, []);
+  const Portal = usePortal();
+
   const modalContent = (
     <AnimatePresence>
       {show && (
@@ -77,7 +76,7 @@ const ClinicModal = ({
       )}
     </AnimatePresence>
   );
-  return isBrowser ? ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement) : null;
+  return Portal({ children: modalContent });
 };
 
 export default ClinicModal;

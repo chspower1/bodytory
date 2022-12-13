@@ -1,29 +1,20 @@
 import { ChangeToHoverColor, RectangleButton, RoundButton } from "@components/layout/buttons/Button";
 import { Dim, ModalContainer, ModalWrapper } from "@styles/ModalStyled";
 import { AnimatePresence } from "framer-motion";
-import ReactDOM from "react-dom";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import styled from "styled-components";
 import type { MyHospital } from "pages/users/my-hospital";
-import hospital from "@api/hospital";
 import { theme } from "@styles/theme";
-import { useEffect, useState } from "react";
-import { ShareStatus } from "@components/my-hospital/HospitalContent";
-import useHospital from "@hooks/useHospital";
+import usePortal from "@hooks/usePortal";
 interface MyHospitalModalProps {
   show?: boolean;
   hospitals?: MyHospital;
-  activeFunction?: () => void;
   onClose?: () => void;
 }
 
-const MyHospitalModal = ({ show, hospitals, activeFunction, onClose }: MyHospitalModalProps) => {
-  const { handleClickShare } = useHospital();
-  const [isBrowser, setIsBrowser] = useState(false);
-  useEffect(() => {
-    setIsBrowser(true);
-  }, []);
-  const modalContent = hospitals && (
+const MyHospitalModal = ({ show, hospitals,  onClose }: MyHospitalModalProps) => {
+  const Portal = usePortal();
+  const modalContent = (
     <AnimatePresence>
       {show && (
         <ModalWrapper>
@@ -93,7 +84,7 @@ const MyHospitalModal = ({ show, hospitals, activeFunction, onClose }: MyHospita
       )}
     </AnimatePresence>
   );
-  return isBrowser ? ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement) : null;
+return Portal({ children: modalContent });
 };
 
 export default MyHospitalModal;

@@ -5,6 +5,7 @@ import styled, { css, keyframes } from "styled-components";
 import { RoundButton } from "../layout/buttons/Button";
 import { AnimatePresence, motion } from "framer-motion";
 import { Dim, ModalContainer, ModalWrapper } from "@styles/ModalStyled";
+import usePortal from "@hooks/usePortal";
 
 interface ModalProps {
   show: boolean;
@@ -31,13 +32,9 @@ function Modal({
   title = "알림",
   agreeType = false,
   terms = false,
-  width = "600px",
-  height = "350px",
+
 }: ModalProps) {
-  const [isBrowser, setIsBrowser] = useState(false);
-  useEffect(() => {
-    setIsBrowser(true);
-  }, []);
+  const Portal = usePortal();
   const modalContent = (
     <AnimatePresence>
       {show && (
@@ -64,7 +61,7 @@ function Modal({
     </AnimatePresence>
   );
 
-  return isBrowser ? ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement) : null;
+  return Portal({ children: modalContent });
 }
 
 const ConfirmBtnBox = styled.div`

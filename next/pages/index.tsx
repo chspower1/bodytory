@@ -126,6 +126,8 @@ const AccountBtnBox = styled.div`
   margin-top: 120px;
 
   > a {
+    position : relative;
+    z-index:2;
     > div {
       display:flex;
       align-items:center;

@@ -10,6 +10,7 @@ import ArroundMap from "@components/map/ArroundMap";
 import useDepartmentSelect from "@hooks/useDepartmentSelect";
 import { useEffect, useState } from "react";
 import useUser from "@hooks/useUser";
+import usePortal from "@hooks/usePortal";
 
 interface ArroundMapMaodalProps {
   onClose: () => void;
@@ -20,7 +21,8 @@ interface ArroundMapMaodalProps {
 const ArroundMapModal: NextPage<ArroundMapMaodalProps> = ({ onClose, mostThreeDepartment, longitude, latitude }) => {
   const { user } = useUser();
   const { department, DepartmentSelect } = useDepartmentSelect(mostThreeDepartment ? mostThreeDepartment : []);
-  const [isBrowser, setIsBrowser] = useState(false);
+  const Portal = usePortal();
+
   const modalContent = (
     <AnimatePresence>
       <ModalWrapper>
@@ -42,10 +44,9 @@ const ArroundMapModal: NextPage<ArroundMapMaodalProps> = ({ onClose, mostThreeDe
       </ModalWrapper>
     </AnimatePresence>
   );
-  useEffect(() => {
-    setIsBrowser(true);
-  }, []);
-  return isBrowser ? ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement) : null;
+
+  return Portal({ children: modalContent });
+
 };
 export default ArroundMapModal;
 
