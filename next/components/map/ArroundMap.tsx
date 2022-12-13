@@ -4,7 +4,7 @@ import { Box, Container, ToryText } from "@styles/Common";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Map, MapMarker } from "react-kakao-maps-sdk";
+import { CustomOverlayMap, Map, MapMarker } from "react-kakao-maps-sdk";
 import styled from "styled-components";
 import MagnifierIcon from "@src/assets/icons/magnifier.svg";
 import MarkerMe from "@src/assets/icons/marker_me.png";

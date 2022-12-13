@@ -1,19 +1,29 @@
-import lottie from "lottie-web";
-import ChartAnimation from "@src/assets/lotties/chart_animation.json";
-import { useEffect, useRef } from "react";
+import { LottiePlayer } from "lottie-web";
+import { useEffect, useRef, useState } from "react";
 
 const ChartAnim = () => {
   const chartRef = useRef<any>();
+  const [lottie, setLottie] = useState<LottiePlayer | null>(null);
 
   useEffect(() => {
-    const chart = lottie.loadAnimation({
-      container: chartRef.current,
-      renderer: "svg",
-      loop: true,
-      autoplay: true,
-      animationData: ChartAnimation,
-    });
+    import("lottie-web").then(Lottie => setLottie(Lottie.default));
   }, []);
+
+  useEffect(() => {
+    if (lottie && chartRef.current) {
+      const chart = lottie.loadAnimation({
+        container: chartRef.current,
+        renderer: "svg",
+        loop: true,
+        autoplay: true,
+        path: "/static/lottie/chart_animation.json",
+      });
+    }
+
+    return () => {
+      lottie && lottie.destroy();
+    };
+  }, [lottie]);
 
   return <div ref={chartRef}></div>;
 };
