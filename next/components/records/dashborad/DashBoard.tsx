@@ -12,9 +12,10 @@ import ChartAnim from "@components/lotties/ChartAnim";
 import { RoundButton } from "@components/layout/buttons/Button";
 import MicIcon from "@src/assets/icons/mic.svg";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import ToryPurpleAnim from "@components/lotties/ToryPurpleAnim";
 import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
+import ToryWhiteAnim from "@components/lotties/ToryWhiteAnim";
 
 interface AMonthResponse {
   mostInAMonth: Position[];
@@ -26,6 +27,14 @@ function DashBoard() {
   const { getApi } = customApi(`/api/users/records/dashboard/aMonth`);
   const { data, isFetching } = useQuery<AMonthResponse | undefined>([AI_RESULT_READ], getApi);
 
+  const [toryMotionIdx, setToryMotionIdx] = useState<number>(2);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setToryMotionIdx(0);
+    }, 2200);
+  }, []);
+
   return user ? (
     <DashBoardWarp>
       <DashBoardContainer>
@@ -33,7 +42,7 @@ function DashBoard() {
           <>
             <ToryTextBox>
               <ToryMotion>
-                <ToryPurpleAnim toryMotionIdx={0} width={150} />
+                <ToryWhiteAnim segmentIndex={toryMotionIdx} width={180} />
               </ToryMotion>
               <ToryText26White>
                 <>
@@ -104,16 +113,19 @@ const DashBoardContainer = styled.div`
 `;
 
 const ToryTextBox = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
+  height: 110px;
   margin-bottom: 20px;
+  padding-left: 140px;
 `;
 
 const ToryMotion = styled.div`
-  background: #fff;
-  width: 120px;
-  height: 120px;
-  margin-right: 30px;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translate(-15%, -60%);
 `;
 
 const ToryText26White = styled(ToryText26)`

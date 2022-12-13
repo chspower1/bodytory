@@ -209,13 +209,10 @@ const ControlBox = styled(Box)`
   padding: 10px 15px;
   border-radius: 10px;
   box-shadow: 8px 8px 24px rgb(49 54 167 / 20%);
+  transition: background .3s;
 
-  select {
-    border-radius: 20px;
-
-    option {
-      border: 0;
-    }
+  &:hover {
+    background: rgba(255,255,255, .9);
   }
 `;
 
