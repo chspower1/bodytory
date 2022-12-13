@@ -180,11 +180,7 @@ const PositionPage = () => {
               />
               {recordStatus === "finish" && (
                 <RefreshBtnBox>
-                  <CircleButton
-                    type="button"
-                    onClick={reset}
-                    bgColor={theme.color.mintBtn}
-                  >
+                  <CircleButton type="button" onClick={reset} bgColor={theme.color.mintBtn}>
                     <Image src={refresh} width={30} height={30} alt="다시 녹음" />
                   </CircleButton>
                   <RefreshText>새로고침</RefreshText>
@@ -193,7 +189,7 @@ const PositionPage = () => {
             </MemoBox>
 
             <CircleDefaultButton
-              disabled={watch("description") && watch("description")?.length < 2 ? true : false}
+              disable={watch("description") && watch("description")?.length < 2 ? true : false}
               bgColor={listening ? theme.color.error : theme.color.darkBg}
               onClick={() => {
                 recordStatus === "initial" && startRecord();
@@ -231,7 +227,7 @@ export default PositionPage;
 const CircleButton = styled(CircleDefaultButton)`
   width: 46px;
   height: 46px;
-`;  
+`;
 
 const VoiceBox = styled.div`
   > button {
