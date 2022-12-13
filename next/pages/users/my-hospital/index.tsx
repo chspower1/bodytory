@@ -13,6 +13,7 @@ import useUser from "@hooks/useUser";
 import { Hospital, MedicalDepartment } from "@prisma/client";
 import MyHospitalList from "@components/my-hospital/MyHospitalList";
 import MyHospitalModal from "@components/modals/MyHospitalModal";
+import ToryPurpleAnim from "@components/lotties/ToryPurpleAnim";
 
 export interface MyHospitalResponse {
   hospital: MyHospital;
@@ -41,6 +42,9 @@ const MyHospitalPage = () => {
     <MainContainer>
       <MainInnerContainer>
         <DescriptionBox>
+          <ToryMotion>
+            <ToryPurpleAnim toryMotionIdx={0} width={260} />
+          </ToryMotion>
           <Pragraph>
             <HighlightText>{user.name}님</HighlightText>의 기록을 공유받고 있는 병원 목록이에요
             <br /> 병원을 클릭하면 해당 병원에서의 진료내역을 확인할 수 있어요
@@ -85,10 +89,11 @@ export const HighlightText = styled.span`
 `;
 
 export const DescriptionBox = styled.div`
+  position: relative;
   width: 100%;
   height: 200px;
   text-align: left;
-  padding: 50px;
+  padding: 50px 50px 50px 180px;
 `;
 
 export const ImageIcon = styled(Image)`
@@ -99,4 +104,14 @@ export const ButtonBox = styled.div`
   display: flex;
   justify-content: center;
   padding: 0 0 50px;
+`;
+
+const ToryMotion = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translate(0, -50%);
+  width: 120px;
+  height: 120px;
+  margin-right: 30px;
 `;

@@ -12,52 +12,6 @@ import ToryWhiteAnim from "@components/lotties/ToryWhiteAnim";
 import { isFirstUser } from "atoms/atoms";
 import { useSetRecoilState } from "recoil";
 
-const LendingRoot = styled.div<{ flex: boolean }>`
-  margin: auto;
-
-  ${({ flex }) =>
-    flex &&
-    css`
-      display: flex;
-      align-items: center;
-      gap: 60px;
-    `}
-  }
-`;
-
-const ToriMessage = styled(motion.h2)`
-  font-size: 40px;
-  margin: 80px 0 40px;
-  color: #fff;
-  text-align: center;
-`;
-
-const QuestionBox = styled(motion.div)`
-  padding-right: 160px;
-
-  ${ToriMessage} {
-    margin: 0 0 100px;
-  }
-
-  .btnBox {
-    display: flex;
-    justify-content: space-evenly;
-    margin-bottom: 60px;
-  }
-`;
-
-const SkipBox = styled(motion.div)`
-  position: absolute;
-  right: 60px;
-  bottom: 40px;
-  .imgBox {
-    background: url(${skipIcon.src}) no-repeat center center;
-    background-size: contain;
-    width: 15px;
-    height: 15px;
-    margin: -2px 0 0 10px;
-  }
-`;
 
 export default function LendingPage() {
   const router = useRouter();
@@ -82,29 +36,35 @@ export default function LendingPage() {
       setTimeout(() => {
         setIsFrist(true);
         setToryMotionIdx(5);
-      }, 3000);
-    }, 3000);
+      }, 2700);
+    }, 2700);
     return () => {
       clearTimeout(timer);
     };
   }, []);
+
   return (
     <FlexContainer>
       <LendingRoot flex={isFirst}>
         {!isFirst && (
           <ToriMessage
             key={toriComment}
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" } }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0, transition: { duration: .3, ease: "easeOut", delay: .7 } }}
           >
             {toriComment}
           </ToriMessage>
         )}
-        <ToryWhiteAnim toryMotionIdx={toryMotionIdx} width={500} />
+        <ToryMotion
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1, transition: { duration: .6, ease: "easeOut", delay: .2 } }}
+        >
+          <ToryWhiteAnim toryMotionIdx={toryMotionIdx} width={480} />
+        </ToryMotion>
         {isFirst && (
           <QuestionBox
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" } }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0, transition: { duration: .5, ease: "easeOut" } }}
           >
             <ToriMessage>바디토리는 처음이신가요?</ToriMessage>
             <div className="btnBox">
@@ -127,3 +87,55 @@ export default function LendingPage() {
     </FlexContainer>
   );
 }
+
+
+const LendingRoot = styled.div<{ flex: boolean }>`
+  margin: auto;
+
+  ${({ flex }) =>
+    flex &&
+    css`
+      display: flex;
+      align-items: center;
+      gap: 60px;
+    `}
+  }
+`;
+
+const ToriMessage = styled(motion.h2)`
+  font-size: 40px;
+  margin: 80px 0 0;
+  color: #fff;
+  text-align: center;
+`;
+
+const QuestionBox = styled(motion.div)`
+  padding-right: 160px;
+
+  ${ToriMessage} {
+    margin: 0 0 100px;
+  }
+
+  .btnBox {
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: 60px;
+  }
+`;
+
+const SkipBox = styled.div`
+  position: absolute;
+  right: 60px;
+  bottom: 40px;
+  .imgBox {
+    background: url(${skipIcon.src}) no-repeat center center;
+    background-size: contain;
+    width: 15px;
+    height: 15px;
+    margin: -2px 0 0 10px;
+  }
+`;
+
+const ToryMotion = styled(motion.div)`
+  transform: translate(0 , -50px);
+`;
