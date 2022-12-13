@@ -87,7 +87,7 @@ const SwiperBox = ({
             </SlideItemInnerBox>
           </SwiperSlideItem>
         ))}
-      {currentContent && <ClinicModal {...currentContent} show={isModalOpen} onClose={() => setIsModalOpen(false)} />}
+      <ClinicModal {...currentContent} show={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </SwiperWrap>
   );
 };
@@ -95,7 +95,7 @@ const SwiperBox = ({
 export default SwiperBox;
 
 const SwiperWrap = styled(Swiper)`
-  padding: 30px 0 40px;
+  padding: 30px 0 30px;
   .swiper-pagination {
     position: absolute;
     z-index: 10;

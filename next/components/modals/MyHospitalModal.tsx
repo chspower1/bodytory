@@ -6,6 +6,7 @@ import styled from "styled-components";
 import type { MyHospital } from "pages/users/my-hospital";
 import { theme } from "@styles/theme";
 import usePortal from "@hooks/usePortal";
+import Link from "next/link";
 interface MyHospitalModalProps {
   show?: boolean;
   hospitals?: MyHospital;
@@ -32,9 +33,9 @@ const MyHospitalModal = ({ show, hospitals,  onClose }: MyHospitalModalProps) =>
                 <DetailBox>
                   <Title>홈페이지</Title>
                   <Text>
-                    <a href={String(hospitals?.homepage)} target="blank">
+                    <Link href={String(hospitals?.homepage)} target="blank">
                       {hospitals?.homepage}
-                    </a>
+                    </Link>
                   </Text>
                 </DetailBox>
                 <DetailBox>
@@ -151,7 +152,11 @@ const DetailBox = styled.div`
 const Title = styled.span`
   color: #5359e9;
 `;
-const Text = styled.span``;
+const Text = styled.span`
+  a:hover{
+    text-decoration: underline;
+  }
+`;
 
 const CloseBox = styled.div`
   display: flex;
