@@ -46,13 +46,13 @@ const Home = () => {
         </WriteBox>
         <ButtonBox>
           <Link href="/users/records">
-            <RoundedButton lg bgColor="rgb(108, 113, 240)">
+            <RoundedButton lg img bgColor="rgb(108, 113, 240)">
               <Record width={30} height={30} fill={theme.color.mint} />
               기록 확인하기
             </RoundedButton>
           </Link>
           <Link href="/users/my-hospital">
-            <RoundedButton lg bgColor="rgb(108, 113, 240)">
+            <RoundedButton lg img bgColor="rgb(108, 113, 240)">
               <Hospital width={30} height={30} fill={theme.color.mint} />
               내 병원 관리하기
             </RoundedButton>
