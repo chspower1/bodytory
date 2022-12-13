@@ -14,6 +14,8 @@ import FirstPage from "@components/register/FirstPage";
 import ThirdPage from "@components/register/ThirdPage";
 import SecondPage from "@components/register/SecondPage";
 import Header from "@components/header/Header";
+import ToryWhiteAnim from "@components/lotties/ToryWhiteAnim";
+import { motion } from "framer-motion";
 
 export interface RegisterForm {
   agree: boolean;
@@ -85,8 +87,20 @@ function RegisterPage() {
       {page === 1 && <FirstPage user={user} setUser={setUser} setPage={setPage} />}
       {page === 2 && <SecondPage user={user} setUser={setUser} setPage={setPage} />}
       {page === 3 && <ThirdPage user={user} setUser={setUser} setPage={setPage} />}
+      <ToryMotion
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1, transition: { duration: .6, ease: "easeOut", delay: .2 } }}
+      >
+        <ToryWhiteAnim toryMotionIdx={0} width={480} />
+      </ToryMotion>
     </>
   );
 }
+
+const ToryMotion = styled(motion.div)`
+  position: fixed;
+  left: 0px;
+  bottom: 80px;
+`;
 
 export default RegisterPage;

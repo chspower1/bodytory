@@ -1,4 +1,5 @@
 import { RoundButton } from "@components/layout/buttons/Button";
+import ToryPurpleAnim from "@components/lotties/ToryPurpleAnim";
 import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 import ToryIcon from "@components/ToryIcon";
 import { BTN_VARIANTS } from "@styles/ButtonStyled";
@@ -21,7 +22,7 @@ const BodyPartChecker = ({ selectedBodyPart }: SelectBodyPartProps) => {
     <FlexContainer>
       <ContentBox>
         <ToryBox>
-          <ToryIcon />
+          <ToryPurpleAnim toryMotionIdx={0} width={360} />
         </ToryBox>
         <TextBox>
           {!selectedBodyPart ? (
@@ -70,10 +71,10 @@ export const PositionTextBox = styled(motion.span)`
 
 const ContentBox = styled.div`
   width: 540px;
+  padding-bottom: 170px;
 `;
 
 export const ToryBox = styled(Box)`
-  margin-bottom: 40px;
 `;
 
 export const TextBox = styled(Box)`

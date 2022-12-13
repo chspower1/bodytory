@@ -1,5 +1,5 @@
 import { RoundButton } from "@components/layout/buttons/Button";
-import { ToryText } from "@styles/Common";
+import { ToryText, ToryText26 } from "@styles/Common";
 import styled from "styled-components";
 import { NextPage } from "next";
 import ReactDOM from "react-dom";
@@ -20,7 +20,7 @@ interface ArroundMapMaodalProps {
 }
 const ArroundMapModal: NextPage<ArroundMapMaodalProps> = ({ onClose, mostThreeDepartment, longitude, latitude }) => {
   const { user } = useUser();
-  const { department, DepartmentSelect } = useDepartmentSelect(mostThreeDepartment ? mostThreeDepartment : []);
+  // const { department, DepartmentSelect } = useDepartmentSelect(mostThreeDepartment ? mostThreeDepartment : []);
   const Portal = usePortal();
 
   const modalContent = (
@@ -28,13 +28,13 @@ const ArroundMapModal: NextPage<ArroundMapMaodalProps> = ({ onClose, mostThreeDe
       <ModalWrapper>
         <Dim onClick={onClose} />
         <ModalContainer flex width="1500px" height="800px">
-          <ToryText>
-            현재 {user?.name}님의 위치를 기준으로 주변 {department}들을 찾았어요!
-          </ToryText>
-          <DepartmentSelect />
+          <ToryBox>
+            <ToryText26>
+              현재 <strong>{user?.name}님</strong>의 위치를 기준으로 주변 <strong>{mostThreeDepartment?.join(", ")}</strong>들을 찾았어요!
+            </ToryText26>
+          </ToryBox>
 
-          <ArroundMap width="1500px" height="600px" longitude={longitude} latitude={latitude} department={department} />
-
+          <ArroundMap width="1500px" height="600px" longitude={longitude} latitude={latitude} departmentList={mostThreeDepartment} />
           <ButtonBox>
             <RoundButton fontSize="16px" width="220px" height="40px" onClick={onClose}>
               닫기
@@ -54,4 +54,8 @@ const ButtonBox = styled.div`
   button {
     margin: 0 auto;
   }
+`;
+
+const ToryBox = styled.div`
+  padding: 15px 0 10px;
 `;

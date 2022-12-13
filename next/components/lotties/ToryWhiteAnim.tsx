@@ -6,13 +6,12 @@ import styled from "styled-components";
 interface ToryAnimProps {
   toryMotionIdx: number;
   width: number;
+  delay?: number;
 }
 
-const ToryWhiteAnim = ( { toryMotionIdx, width }: ToryAnimProps ) => {
+const ToryWhiteAnim = ( { toryMotionIdx, width, delay }: ToryAnimProps ) => {
 
   const [ready, setReady] = useState<boolean>(false);
-  const [motionIndex, setMotionIndex] = useState<number>(0);
-
   const [ToryWhite, setToryWhite] = useState<AnimationItem>();
 
   const lottieRef = useRef<any>();
@@ -30,11 +29,17 @@ const ToryWhiteAnim = ( { toryMotionIdx, width }: ToryAnimProps ) => {
       // path: "/src/lotties/data/tory_white.json"
     }));
 
-    setReady(true);
+    if(delay) {
+      setTimeout(() => {
+        setReady(true);
+      }, delay);
+    } else {
+      setReady(true);
+    }
+
 
   }, []);
   
-
 
   useEffect(() => {
 
