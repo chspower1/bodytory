@@ -50,9 +50,9 @@ const MyHospitalPage = () => {
         </DescriptionBox>
         <ButtonBox>
           <Link href={"/users/my-hospital/find"}>
-            <RoundedDefaultButton>
+            <AddHospitalButton img>
               <ImageIcon src={medicalIcon} width={20} height={20} alt="병원" /> 병원 추가하기
-            </RoundedDefaultButton>
+            </AddHospitalButton>
           </Link>
         </ButtonBox>
         <MyHospitalList hospitals={data} add={false} isLoading={isLoading} />
@@ -62,6 +62,9 @@ const MyHospitalPage = () => {
 };
 
 export default MyHospitalPage;
+const AddHospitalButton = styled(RoundedDefaultButton)`
+  padding: 15px 50px;
+`;
 
 export const MainContainer = styled.div`
   height: 100%;
