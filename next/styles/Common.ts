@@ -1,19 +1,26 @@
 import { motion } from "framer-motion";
 import styled from "styled-components";
 import IconArrowLeft from "@src/assets/icons/icon_arrow_left.png";
+import { media } from "./theme";
+
 export const Wrapper = styled.div<{ bgColor?: string }>`
   position: relative;
   height: 100vh;
   width: 100%;
   overflow: hidden;
   background-color: ${props => props.bgColor};
-  // padding-top: 116px;
+  ${media.tablet}{
+    overflow-y:scroll;
+  }
 `;
 
 export const Container = styled(motion.div)`
   width: 100%;
   max-width: 1600px;
   margin: 0 auto;
+  ${media.tablet}{
+    padding: 0 30px;
+  }
 `;
 export const WhiteWrapper = styled(Wrapper)`
   background-color: ${({ theme }) => theme.color.lightBg};
@@ -91,8 +98,7 @@ export const BackButton = styled.button`
   width: 50px;
   height: 50px;
   border-radius: 50px;
-  background: url(${IconArrowLeft.src}) no-repeat 10px 50%/26px;
-  background-color: #5155ba;
+  background: #5155ba url(${IconArrowLeft.src}) no-repeat 10px 50%/26px;
   overflow: hidden;
   transition: width 0.4s;
 
@@ -112,6 +118,14 @@ export const BackButton = styled.button`
 
     span {
       opacity: 1;
+    }
+  }
+  ${media.tablet}{
+    width: 40px;
+    height: 40px;
+    background: #5155ba url(${IconArrowLeft.src}) no-repeat 10px 50%/18px;
+    span {
+      font-size: 14px;
     }
   }
 `;

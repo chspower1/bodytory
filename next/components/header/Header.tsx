@@ -6,6 +6,7 @@ import LogoImg from "@src/assets/icons/Logo.png";
 import SideMenu from "./SideMenu";
 import { useRecoilValue } from "recoil";
 import useUser from "@hooks/useUser";
+import { media } from "@styles/theme";
 
 const Header = () => {
   const router = useRouter();
@@ -55,7 +56,7 @@ const HeaderWrap = styled.div`
 `;
 const HeaderContainer = styled.div`
   padding: 0 65px;
-  @media (max-width: 570px) {
+  ${media.mobile} {
     padding: 0 20px;
   }
 `;
@@ -64,10 +65,10 @@ const HeaderInnerBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: end;
-  @media (max-width: 1000px) {
+  ${media.tablet} {
     justify-content: space-between;
   }
-  // @media (max-width: 570px){
+  //${media.mobile}{
   //   justify-content: space-between;
   // }
 `;
@@ -88,11 +89,11 @@ const HeaderLogoBox = styled.div`
       overflow: hidden;
     }
   }
-  @media (max-width: 1000px) {
+  ${media.tablet} {
     margin-left: 0;
     order: 1;
   }
-  @media (max-width: 570px) {
+  ${media.mobile} {
     a {
       width: 100px;
       height: 30px;
@@ -112,11 +113,11 @@ const HeaderUl = styled.ul`
       color: #fff;
     }
   }
-  @media (max-width: 1000px) {
+  ${media.tablet} {
     width: 242px;
     order: 2;
   }
-  @media (max-width: 570px) {
+  ${media.mobile} {
     width: 210px;
     li {
       font-size: 14px;
