@@ -81,7 +81,7 @@ export const Pragraph = styled.p`
   }
 `;
 export const HighlightText = styled.span`
-  color: rgb(100, 106, 235);
+  color: rgb(83, 89, 233);
   font-size: 32px;
   font-weight: 700;
 `;
