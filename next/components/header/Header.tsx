@@ -11,7 +11,7 @@ const Header = () => {
   const router = useRouter();
   const { user, isFetching } = useUser();
 
-  return isFetching ? null : !user ? (
+  return (isFetching || router.pathname.includes("/landing")) ? null : !user ? (
     <HeaderWrap>
       <HeaderContainer>
         <HeaderInnerBox>
