@@ -23,6 +23,7 @@ import { createErrors } from "@utils/client/createErrors";
 import { useSetRecoilState } from "recoil";
 import { Variants, motion } from "framer-motion";
 import { checkBirth } from "@utils/client/leapYearCheck";
+import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 
 interface ThirdRegisterForm {
   email: string;
@@ -320,17 +321,12 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
             )}
           </ThirdPageFormContents>
           <PrevNextButtonBox>
-            <RoundButton nonSubmit size="custom" height="60px" bgColor="rgb(75, 80, 211)" onClick={handleClickPrevPage}>
+            <PreviousButton bgColor="rgb(75, 80, 211)" onClick={handleClickPrevPage}>
               이전 단계
-            </RoundButton>
-            <RoundButton
-              size="custom"
-              width="360px"
-              bgColor={theme.color.mintBtn}
-              disable={!checkEmptyObj(errors) || !user?.isCertified}
-            >
+            </PreviousButton>
+            <SubmitButton bgColor={theme.color.mintBtn} disable={!checkEmptyObj(errors) || !user?.isCertified}>
               {!isErrorsMessage && user?.isCertified ? "회원가입 완료" : "정보를 모두 입력해주세요"}
-            </RoundButton>
+            </SubmitButton>
           </PrevNextButtonBox>
         </Form>
       </InnerContainer>
@@ -339,6 +335,18 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
 };
 
 export default ThirdPage;
+
+const PreviousButton = styled(RoundedDefaultButton)`
+  width: 160px;
+  height: 60px;
+  font-size: 18px;
+`;
+
+const SubmitButton = styled(RoundedDefaultButton)`
+  width: 360px;
+  height: 60px;
+  font-size: 18px;
+`;
 
 const GenderBox = styled(Box)`
   gap: 26px;
