@@ -8,9 +8,9 @@ export const RoundedDefaultButton = styled.button<{
   bgColor?: string;
   color?: string;
 }>`
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 500;
-  padding: 12px 40px;
+  padding: 16px 50px;
   text-align: center;
   display: flex;
   align-items: center;

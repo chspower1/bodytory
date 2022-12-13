@@ -1,9 +1,11 @@
 import { RoundButton } from "@components/layout/buttons/Button";
+import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 import ToryIcon from "@components/ToryIcon";
 import { BTN_VARIANTS } from "@styles/ButtonStyled";
 import { Box, BtnBox, Col, FlexContainer, ToryText } from "@styles/Common";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/router";
+import { EditButton } from "pages/users/profile/edit";
 import styled from "styled-components";
 import { bodyPartType } from "types/bodyParts";
 import { KoreanPosition } from "types/write";
@@ -41,14 +43,12 @@ const BodyPartChecker = ({ selectedBodyPart }: SelectBodyPartProps) => {
         <CreateBtnBox>
           {selectedBodyPart && (
             <BtnBox variants={BTN_VARIANTS} initial="initial" animate="animate" exit="exit">
-              <RoundButton
-                width="250px"
-                height="60px"
+              <RoundedDefaultButton
                 bgColor="rgb(83, 89, 233)"
                 onClick={() => router.push(`./write/${selectedBodyPart}`)}
               >
                 네, 기록할게요!
-              </RoundButton>
+              </RoundedDefaultButton>
             </BtnBox>
           )}
         </CreateBtnBox>

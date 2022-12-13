@@ -17,6 +17,7 @@ interface ButtonInInputProps<T extends FieldValues = any> extends InputProps {
   setIsToken?: Dispatch<SetStateAction<boolean>>;
   isAuthenticationColumn?: boolean;
   isCertified?: boolean;
+  isRegister?: boolean;
 }
 
 const ButtonInInput = ({
@@ -36,6 +37,7 @@ const ButtonInInput = ({
   isAuthenticationColumn,
   isCertified,
   value,
+  isRegister,
 }: ButtonInInputProps) => {
   const handleClickResetBtn = () => {
     setIsToken!(false);
@@ -45,7 +47,7 @@ const ButtonInInput = ({
   };
 
   return (
-    <InputBox className={`${error ? "error" : ""} ${isAuthenticationColumn ? "authenticationColumn" : ""}`}>
+    <InputBox className={`${error ? "error" : ""} ${isAuthenticationColumn ? "authenticationColumn" : ""} ${isRegister ? "register" : ""}`}>
       <Input
         id={name}
         className={isAuthenticationColumn && error ? "error" : ""}
@@ -113,7 +115,9 @@ const InputBox = styled(motion.div)`
   &.authenticationColumn {
     margin: 0 auto;
     background-color: #00000000;
-    justify-content: center;
+    &:not(.register){
+      justify-content: center;
+    }
     input {
       width: 190px;
       height: 50px;
@@ -131,7 +135,9 @@ const InputBox = styled(motion.div)`
       letter-spacing: -1px;
       margin-left: 20px;
     }
+    
   }
+
 `;
 const Input = styled.input`
   width: 100%;

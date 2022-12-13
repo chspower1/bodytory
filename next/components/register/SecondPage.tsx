@@ -133,6 +133,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                 <ButtonBox>
                   <RoundedDefaultButton
                     type="button"
+                    sm
                     bgColor={
                       errors.accountId?.message?.includes("다른아이디") ? theme.color.error : theme.color.mintBtn
                     }

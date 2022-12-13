@@ -13,6 +13,7 @@ import { RectangleButton, RoundButton } from "@components/layout/buttons/Button"
 import styled from "styled-components";
 import { PASSWORD_REGEX } from "constant/regex";
 import useUser from "@hooks/useUser";
+import { EditButton } from "pages/users/profile/edit";
 
 export interface WithdrawType {
   password: string;
@@ -100,9 +101,9 @@ export default function Withdraw() {
           />
         )}
         <ButtonBox>
-          <RoundButton width="240px" fontSize="20px">
+          <WithdrawButton>
             탈퇴하기
-          </RoundButton>
+          </WithdrawButton>
         </ButtonBox>
       </Form>
       <Modal
@@ -124,6 +125,8 @@ export default function Withdraw() {
     </FlexContainer>
   );
 }
+
+const WithdrawButton =styled(EditButton)``;
 
 const Form = styled.form`
   .messageBox {

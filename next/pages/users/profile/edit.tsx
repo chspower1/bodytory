@@ -17,6 +17,7 @@ import Kakao from "@src/assets/icons/kakao.svg";
 import Origin from "@src/assets/icons/origin.svg";
 import getAmericanAge from "@utils/client/getAmericanAge";
 import { PASSWORD_REGEX } from "constant/regex";
+import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 
 interface PasswordType {
   oldPassword: string;
@@ -24,7 +25,7 @@ interface PasswordType {
   newPasswordConfirm: string;
 }
 
-export default function Edit() {
+const Edit = () => {
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
   const [errorModal, setErrorModal] = useState(false);
@@ -145,9 +146,9 @@ export default function Edit() {
               />
             </SeperationBox>
             {user?.type === "origin" && <SeperationBox style={{ display: "flex", justifyContent: "center" }}>
-              <RoundButton size="md" bgColor={theme.color.mintBtn}>
+              <EditButton  bgColor={theme.color.mintBtn}>
                 비밀번호 변경하기
-              </RoundButton>
+              </EditButton>
             </SeperationBox>}
           </form>
           <Modal
@@ -184,6 +185,12 @@ export default function Edit() {
     </Container>
   );
 }
+export default  Edit;
+
+export const EditButton = styled(RoundedDefaultButton)`
+  font-size: 18px;
+  padding: 16px 50px;
+`
 
 const InContainer = styled(InnerContainer)<{ isFade: boolean }>`
   height: 830px;

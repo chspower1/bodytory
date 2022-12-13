@@ -2,7 +2,6 @@ import styled, { isStyledComponent } from "styled-components";
 import Link from "next/link";
 import useUser from "@hooks/useUser";
 import { Accent, BlackToryText, BodyText, Box, Col, Container, FlexContainer, Row } from "@styles/Common";
-import { CircleButton, RectangleButton, RoundButton } from "@components/layout/buttons/Button";
 import Image from "next/image";
 import Mic from "@src/assets/icons/mic.svg";
 import Record from "@src/assets/icons/record.svg";
@@ -12,6 +11,7 @@ import ToryIcon from "@components/ToryIcon";
 import { theme } from "@styles/theme";
 import { ToryText } from "./users/records/write/add";
 import ToryPurpleAnim from "@components/lotties/ToryPurpleAnim";
+import { CircleDefaultButton, RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 
 const Home = () => {
   const { user } = useUser();
@@ -36,7 +36,7 @@ const Home = () => {
         <WriteBox>
           <Link href="users/records/write">
             <div>
-              <CircleButton bgColor="rgba(83, 89, 233)" width="80px" height="80px">
+              <CircleButton bgColor="rgba(83, 89, 233)" >
                 <Mic width={50} height={50} />
               </CircleButton>
               <BodyText>건강 관리를 위해 매일매일 잊지말고 기록해요!</BodyText>
@@ -46,20 +46,16 @@ const Home = () => {
         </WriteBox>
         <ButtonBox>
           <Link href="/users/records">
-            <RoundButton width="400px" height="70px" bgColor="rgb(108, 113, 240)">
-              <BtnIcon>
-                <Record width={30} height={30} fill={theme.color.mint} />
-              </BtnIcon>
+            <RoundedButton lg bgColor="rgb(108, 113, 240)">
+              <Record width={30} height={30} fill={theme.color.mint} />
               기록 확인하기
-            </RoundButton>
+            </RoundedButton>
           </Link>
-          <Link href={`/users/my-hospital`}>
-            <RoundButton width="400px" height="70px" bgColor="rgb(108, 113, 240)">
-              <BtnIcon>
-                <Hospital width={30} height={30} fill={theme.color.mint} />
-              </BtnIcon>
+          <Link href="/users/my-hospital">
+            <RoundedButton lg bgColor="rgb(108, 113, 240)">
+              <Hospital width={30} height={30} fill={theme.color.mint} />
               내 병원 관리하기
-            </RoundButton>
+            </RoundedButton>
           </Link>
         </ButtonBox>
         <AccountBtnBox>
@@ -76,7 +72,13 @@ const Home = () => {
 };
 export default Home;
 
-const EditButtonBox = styled.div``;
+const RoundedButton = styled(RoundedDefaultButton)`
+  width: 400px;
+`;
+const CircleButton = styled(CircleDefaultButton)`
+  width 80px;
+  height 80px;
+`;
 
 const ToryBox = styled(Row)`
   position: relative;
