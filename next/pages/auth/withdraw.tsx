@@ -4,12 +4,10 @@ import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import customApi from "utils/client/customApi";
 import { USER_WITHDRAW } from "constant/queryKeys";
-import { useRecoilState } from "recoil";
 import Modal from "@components/modals/Modal";
 import { BackButton, FlexContainer } from "@styles/Common";
 import MessageBox from "@components/MessageBox";
 import Input from "@components/layout/input/Input";
-import { RectangleButton, RoundButton } from "@components/layout/buttons/Button";
 import styled from "styled-components";
 import { PASSWORD_REGEX } from "constant/regex";
 import useUser from "@hooks/useUser";
@@ -101,9 +99,7 @@ export default function Withdraw() {
           />
         )}
         <ButtonBox>
-          <WithdrawButton>
-            탈퇴하기
-          </WithdrawButton>
+          <WithdrawButton>탈퇴하기</WithdrawButton>
         </ButtonBox>
       </Form>
       <Modal
@@ -126,7 +122,7 @@ export default function Withdraw() {
   );
 }
 
-const WithdrawButton =styled(EditButton)``;
+const WithdrawButton = styled(EditButton)``;
 
 const Form = styled.form`
   .messageBox {

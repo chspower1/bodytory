@@ -8,8 +8,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "GET") return await myHospitalList(req, res);
   if (req.method === "PUT") return await shareHospital(req, res);
   if (req.method === "DELETE") return await deleteHospital(req, res);
-
-  // if (req.method === "DELETE") return await deleteHospital(req, res);
 }
 
 async function addHospital(req: NextApiRequest, res: NextApiResponse) {

@@ -4,12 +4,10 @@ import { NextPage } from "next";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { ResponseType } from "@utils/server/withHandler";
 import Link from "next/link";
 import customApi from "utils/client/customApi";
 import { useMutation } from "@tanstack/react-query";
 import { HELP_FIND_PASSWORD } from "constant/queryKeys";
-import { RoundButton } from "@components/layout/buttons/Button";
 import { PASSWORD_REGEX } from "constant/regex";
 import MessageBox from "@components/MessageBox";
 import { FinalCommentBox } from "./find-id";
@@ -17,7 +15,6 @@ import { theme } from "@styles/theme";
 import { checkEmptyObj } from "@utils/client/checkEmptyObj";
 import styled from "styled-components";
 import { FlexContainer, InnerContainer } from "@styles/Common";
-import Header from "@components/header/Header";
 import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 
 interface ResetForm {
@@ -117,7 +114,8 @@ const Reset: NextPage = () => {
                     />
                   </Seperation>
                   <Seperation>
-                    <RoundedDefaultButton lg 
+                    <RoundedDefaultButton
+                      lg
                       bgColor={theme.color.mintBtn}
                       disable={!checkEmptyObj(errors) || !watch("password") || !watch("passwordConfirm")}
                     >
@@ -137,7 +135,7 @@ const Reset: NextPage = () => {
               </MessageBox>
               <div className="linkButton">
                 <Link href="/auth/login">
-                  <RoundedDefaultButton lg  bgColor={theme.color.mintBtn} onClick={() => router.push("/auth/login")}>
+                  <RoundedDefaultButton lg bgColor={theme.color.mintBtn} onClick={() => router.push("/auth/login")}>
                     로그인하러 가기
                   </RoundedDefaultButton>
                 </Link>

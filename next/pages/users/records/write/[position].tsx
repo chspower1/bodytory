@@ -20,14 +20,13 @@ import {
   RECORDS_READ,
 } from "constant/queryKeys";
 import { AxiosError } from "axios";
-import { AnimatePresence, motion } from "framer-motion";
-import Link from "next/link";
-import pencil from "@src/assets/icons/pencil.svg";
+import { motion } from "framer-motion";
 import mic from "@src/assets/icons/mic.svg";
 import check from "@src/assets/icons/check.png";
 import refresh from "@src/assets/icons/refresh.png";
 import { useForm } from "react-hook-form";
 import Modal from "@components/modals/Modal";
+import ToryPurpleAnim from "@components/lotties/ToryPurpleAnim";
 import { CircleDefaultButton } from "@components/layout/buttons/DefaultButtons";
 
 interface WriteRecordRequest {
@@ -160,7 +159,7 @@ const PositionPage = () => {
       <FlexContainer>
         <Col>
           <ToryBox>
-            <ToryIcon />
+            <ToryPurpleAnim toryMotionIdx={0} width={360} />
           </ToryBox>
           <TextBox>
             <BlackToryText>

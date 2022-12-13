@@ -9,19 +9,16 @@ import customApi from "utils/client/customApi";
 import { useMutation } from "@tanstack/react-query";
 import { HelpForm } from "./find-pw";
 import { HELP_FIND_ID } from "constant/queryKeys";
-import useReset from "@hooks/useReset";
-import { RoundButton } from "@components/layout/buttons/Button";
+
 import { theme } from "@styles/theme";
 import { EMAIL_REGEX } from "constant/regex";
 import ButtonInInput from "@components/layout/input/ButtonInInput";
 import MessageBox from "@components/MessageBox";
 import styled from "styled-components";
 import { FlexContainer, InnerContainer, Row } from "@styles/Common";
-import Header from "@components/header/Header";
 import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 
 const HelpFindId: NextPage = () => {
-  const router = useRouter();
   const { postApi } = customApi("/api/auth/help/find-id");
   const [currentComment, setCurrentComment] = useState("아이디를 잊으셨나요?\n가입 시 입력한 이메일을 알려주세요");
   const [foundAccountId, setFoundAccountId] = useState("");

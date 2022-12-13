@@ -3,7 +3,6 @@ import client from "utils/server/client";
 import withHandler from "@utils/server/withHandler";
 import { withApiSession } from "@utils/server/withSession";
 import { HelpForm } from "pages/auth/help/find-pw";
-import { getPayload } from "@utils/client/payload";
 import sendMail from "@utils/server/sendMail";
 import { createToken } from "@utils/server/createToken";
 

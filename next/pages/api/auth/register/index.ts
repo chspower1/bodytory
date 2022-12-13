@@ -2,7 +2,6 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import client from "utils/server/client";
 import withHandler from "@utils/server/withHandler";
 import { withApiSession } from "@utils/server/withSession";
-import * as bcrypt from "bcrypt";
 import { RegisterForm } from "pages/auth/register";
 import { passwordEncryption } from "utils/server/passwordHelper";
 

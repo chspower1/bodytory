@@ -1,8 +1,7 @@
-import customApi from "utils/client/customApi";
-import { UseMutateFunction, useMutation } from "@tanstack/react-query";
+import { UseMutateFunction } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ButtonSize, RoundButton, SocialButton } from "./Button";
+import { ButtonSize, SocialButton } from "./Button";
 
 export interface SocialBtnProps {
   mutate: UseMutateFunction<any, any, any, unknown>;

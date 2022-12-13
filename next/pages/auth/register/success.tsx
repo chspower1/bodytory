@@ -1,7 +1,5 @@
-import { RoundButton } from "@components/layout/buttons/Button";
-import Header from "@components/header/Header";
 import MessageBox from "@components/MessageBox";
-import { Col, FlexContainer, InnerContainer, WhiteText } from "@styles/Common";
+import { FlexContainer, InnerContainer } from "@styles/Common";
 import { theme } from "@styles/theme";
 import { NextPage } from "next";
 import Link from "next/link";

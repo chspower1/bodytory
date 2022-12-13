@@ -1,5 +1,3 @@
-import { RectangleButton } from "@components/layout/buttons/Button";
-import { theme } from "@styles/theme";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
 import { HOSPITALS } from "constant/queryKeys";

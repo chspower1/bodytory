@@ -1,11 +1,11 @@
 import { RoundButton } from "@components/layout/buttons/Button";
+import ToryPurpleAnim from "@components/lotties/ToryPurpleAnim";
 import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 import ToryIcon from "@components/ToryIcon";
 import { BTN_VARIANTS } from "@styles/ButtonStyled";
-import { Box, BtnBox, Col, FlexContainer, ToryText } from "@styles/Common";
-import { AnimatePresence, motion } from "framer-motion";
+import { Box, BtnBox, FlexContainer, ToryText } from "@styles/Common";
+import { motion } from "framer-motion";
 import { useRouter } from "next/router";
-import { EditButton } from "pages/users/profile/edit";
 import styled from "styled-components";
 import { bodyPartType } from "types/bodyParts";
 import { KoreanPosition } from "types/write";
@@ -21,7 +21,7 @@ const BodyPartChecker = ({ selectedBodyPart }: SelectBodyPartProps) => {
     <FlexContainer>
       <ContentBox>
         <ToryBox>
-          <ToryIcon />
+          <ToryPurpleAnim toryMotionIdx={0} width={360} />
         </ToryBox>
         <TextBox>
           {!selectedBodyPart ? (
@@ -30,9 +30,9 @@ const BodyPartChecker = ({ selectedBodyPart }: SelectBodyPartProps) => {
             <ToryText>
               <PositionTextBox
                 key={KoreanPosition[selectedBodyPart]}
-                initial={{opacity: 0 }}
+                initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: .5 }}
+                transition={{ duration: 0.5 }}
               >
                 {KoreanPosition[selectedBodyPart]}
               </PositionTextBox>
@@ -70,11 +70,10 @@ export const PositionTextBox = styled(motion.span)`
 
 const ContentBox = styled.div`
   width: 540px;
+  padding-bottom: 170px;
 `;
 
-export const ToryBox = styled(Box)`
-  margin-bottom: 40px;
-`;
+export const ToryBox = styled(Box)``;
 
 export const TextBox = styled(Box)`
   margin-bottom: 90px;
