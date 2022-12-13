@@ -123,7 +123,7 @@ const QuestionBox = styled(motion.div)`
   }
 `;
 
-const SkipBox = styled.div`
+const SkipBox = styled(motion.div)`
   position: absolute;
   right: 60px;
   bottom: 40px;
