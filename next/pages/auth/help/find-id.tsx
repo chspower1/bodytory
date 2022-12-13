@@ -18,6 +18,7 @@ import MessageBox from "@components/MessageBox";
 import styled from "styled-components";
 import { FlexContainer, InnerContainer, Row } from "@styles/Common";
 import Header from "@components/header/Header";
+import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 
 const HelpFindId: NextPage = () => {
   const router = useRouter();
@@ -90,15 +91,15 @@ const HelpFindId: NextPage = () => {
                       required: true,
                       validate: value => EMAIL_REGEX.test(value!) || "이메일 형식에 맞지 않습니다",
                     })}
-                    placeholder="toritori2022@naver.com"
+                    placeholder="bodytory2022@naver.com"
                     error={helpErrors.email}
                   />
                 </Seperation>
               )}
               <Seperation>
-                <RoundButton size="lg" nonSubmit onClick={handleClickFindId}>
+                <RoundedDefaultButton lg type="button" onClick={handleClickFindId}>
                   {isToken ? "인증메일 다시 보내기" : "아이디 찾기"}
-                </RoundButton>
+                </RoundedDefaultButton>
               </Seperation>
               {isToken && (
                 <Seperation>
@@ -127,9 +128,9 @@ const HelpFindId: NextPage = () => {
               </MessageBox>
               <div className="linkButton">
                 <Link href="/auth/login">
-                  <RoundButton size="lg" bgColor={theme.color.mintBtn}>
+                  <RoundedDefaultButton lg bgColor={theme.color.mintBtn}>
                     로그인하러 가기
-                  </RoundButton>
+                  </RoundedDefaultButton>
                 </Link>
               </div>
             </div>

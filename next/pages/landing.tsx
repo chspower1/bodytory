@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import ToryWhiteAnim from "@components/lotties/ToryWhiteAnim";
 import { isFirstUser } from "atoms/atoms";
 import { useSetRecoilState } from "recoil";
+import { CircleDefaultButton, RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 
 const LendingRoot = styled.div<{ flex: boolean }>`
   margin: auto;
@@ -41,10 +42,17 @@ const QuestionBox = styled(motion.div)`
 
   .btnBox {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-around;
     margin-bottom: 60px;
   }
 `;
+
+const SelectButton = styled(CircleDefaultButton)`
+  width: 120px;
+  height: 120px;
+  font-size: 20px;
+`
+
 
 const SkipBox = styled(motion.div)`
   position: absolute;
@@ -58,6 +66,9 @@ const SkipBox = styled(motion.div)`
     margin: -2px 0 0 10px;
   }
 `;
+const SkipButton =styled(RoundedDefaultButton)`
+  padding: 18px 40px;
+`
 
 export default function LendingPage() {
   const router = useRouter();
@@ -108,8 +119,8 @@ export default function LendingPage() {
           >
             <ToriMessage>바디토리는 처음이신가요?</ToriMessage>
             <div className="btnBox">
-              <CircleButton bgColor={theme.color.mintBtn} onClick={handleClickPushRegister}>네</CircleButton>
-              <CircleButton onClick={handleClickPushLogin}>아니요</CircleButton>
+              <SelectButton  bgColor={theme.color.mintBtn} onClick={handleClickPushRegister}>네</SelectButton>
+              <SelectButton  onClick={handleClickPushLogin}>아니요</SelectButton>
             </div>
           </QuestionBox>
         )}
@@ -117,10 +128,10 @@ export default function LendingPage() {
       <AnimatePresence>
         {!isFirst && (
           <SkipBox initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-            <RoundButton size="md" width="200px" bgColor="rgb(70, 75, 206)" onClick={handleClickPushLogin}>
+            <SkipButton bgColor="rgb(70, 75, 206)" onClick={handleClickPushLogin}>
               <span>건너뛰기</span>
               <span className="imgBox"></span>
-            </RoundButton>
+            </SkipButton>
           </SkipBox>
         )}
       </AnimatePresence>

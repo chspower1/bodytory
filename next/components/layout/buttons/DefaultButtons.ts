@@ -4,8 +4,7 @@ import { ChangeToHoverColor } from "./Button";
 
 export const RoundedDefaultButton = styled.button<{lg ?: boolean; sm ?: boolean; disable?: boolean; bgColor ?: string; color ?: string;}>`
   font-size: 18px;
-  font-weight: medium;
-  padding: 10px 50px;
+  padding: 12px 40px;
   text-align:center;
   display:flex;
   align-items:center;
@@ -14,6 +13,7 @@ export const RoundedDefaultButton = styled.button<{lg ?: boolean; sm ?: boolean;
   background : ${({bgColor}) => bgColor || "rgb(61, 66, 191)"};
   color : ${({color}) => color || "rgb(255, 255, 255)"};
   transition: background 0.35s ease;
+  text-weight: 500;
   img, svg{
     margin-right: 15px
   }
@@ -48,6 +48,7 @@ export const CircleDefaultButton = styled.button<{lg ?: boolean; sm ?: boolean; 
   justify-content:center;
   align-items:center;
   font-size: 18px;
+  text-weight: 500;
   background : ${({bgColor}) => bgColor || "rgb(61, 66, 191)"};
   color : ${({color}) => color || "rgb(255, 255, 255)"};
   transition: background 0.35s ease;
@@ -57,13 +58,11 @@ export const CircleDefaultButton = styled.button<{lg ?: boolean; sm ?: boolean; 
   ${({lg}) => lg && css`
     width: 140px;
     height: 140px;
-    text-weight: 700;
     font-size: 26px;
   `}
   ${({sm}) => sm && css`
     width: 62px;
     height: 62px;
-    text-weight: 700;
   `}
   ${({disable, theme}) => disable && css`
     background: ${theme.color.disabled} ;
@@ -80,6 +79,7 @@ export const RectangleDefaultButton = styled.button<{ sm ?: boolean;  bgColor ?:
   color:#fff;
   font-size: 18px;
   border-radius: 5px;
+  text-weight: 500;
   background : ${({bgColor}) => bgColor || "rgb(61, 66, 191)"};
   color : ${({color}) => color || "rgb(255, 255, 255)"};
   transition: background 0.35s ease;

@@ -19,6 +19,7 @@ import styled from "styled-components";
 import { FlexContainer, InnerContainer } from "@styles/Common";
 import { FindForm, Seperation } from "./find-id";
 import Header from "@components/header/Header";
+import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 export interface HelpForm {
   type: UserType;
   accountId?: string;
@@ -104,15 +105,15 @@ const HelpPage: NextPage = () => {
                   required: true,
                   validate: value => ACCOUNT_ID_REGEX.test(value!) || "아이디 형식에 맞지 않습니다",
                 })}
-                placeholder="toritori2022"
+                placeholder="bodytory2022"
                 error={helpErrors.accountId}
               />
             </Seperation>
           )}
           <Seperation>
-            <RoundButton size="lg" nonSubmit onClick={handleClickFindPassword}>
+            <RoundedDefaultButton lg type="button" onClick={handleClickFindPassword}>
               {isToken ? "인증메일 다시 보내기" : "비밀번호 찾기"}
-            </RoundButton>
+            </RoundedDefaultButton>
           </Seperation>
           {isToken && (
             <>
@@ -139,12 +140,5 @@ const HelpPage: NextPage = () => {
   );
 };
 export default HelpPage;
-
-const Test = styled(InnerContainer)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
 
 const Container = styled(FlexContainer)``;

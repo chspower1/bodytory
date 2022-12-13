@@ -18,6 +18,7 @@ import { checkEmptyObj } from "@utils/client/checkEmptyObj";
 import styled from "styled-components";
 import { FlexContainer, InnerContainer } from "@styles/Common";
 import Header from "@components/header/Header";
+import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 
 interface ResetForm {
   password: string;
@@ -116,13 +117,12 @@ const Reset: NextPage = () => {
                     />
                   </Seperation>
                   <Seperation>
-                    <RoundButton
-                      size="lg"
+                    <RoundedDefaultButton lg 
                       bgColor={theme.color.mintBtn}
                       disable={!checkEmptyObj(errors) || !watch("password") || !watch("passwordConfirm")}
                     >
                       비밀번호 재설정 완료
-                    </RoundButton>
+                    </RoundedDefaultButton>
                   </Seperation>
                 </>
               )}
@@ -137,9 +137,9 @@ const Reset: NextPage = () => {
               </MessageBox>
               <div className="linkButton">
                 <Link href="/auth/login">
-                  <RoundButton size="lg" bgColor={theme.color.mintBtn} onClick={() => router.push("/auth/login")}>
+                  <RoundedDefaultButton lg  bgColor={theme.color.mintBtn} onClick={() => router.push("/auth/login")}>
                     로그인하러 가기
-                  </RoundButton>
+                  </RoundedDefaultButton>
                 </Link>
               </div>
             </div>

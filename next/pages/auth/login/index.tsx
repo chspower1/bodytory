@@ -127,9 +127,9 @@ const LoginPage: NextPage = () => {
                 delay={0.3}
               />
             </LoginInputAreaBox>
-            <RoundedButton lg disable={!isCompletion} bgColor={'rgb(18, 212, 201)'}>
+            <RoundedDefaultButton lg disable={!isCompletion} bgColor={theme.color.mintBtn}>
               로그인
-            </RoundedButton>
+            </RoundedDefaultButton>
           </LoginFormInnerBox>
         </LoginForm>
         <LoginFindBox>
@@ -159,11 +159,7 @@ const LoginPage: NextPage = () => {
 };
 export default LoginPage;
 
-const RoundedButton = styled(RoundedDefaultButton)`
 
-  font-weight: bold;
-  
-`
 
 export const ToryTextBox = styled.div`
   text-align: center;

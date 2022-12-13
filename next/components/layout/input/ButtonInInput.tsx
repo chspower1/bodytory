@@ -4,6 +4,7 @@ import React, { Dispatch, SetStateAction, useState } from "react";
 import { FieldValues, UseFormSetValue } from "react-hook-form";
 import styled from "styled-components";
 import { RoundButton } from "../buttons/Button";
+import { RoundedDefaultButton } from "../buttons/DefaultButtons";
 import { InputProps } from "./Input";
 
 interface ButtonInInputProps<T extends FieldValues = any> extends InputProps {
@@ -58,25 +59,25 @@ const ButtonInInput = ({
         {!name?.includes("token") ? (
           isToken ? (
             !isCertified && (
-              <RoundButton size="sm" onClick={handleClickResetBtn} nonSubmit={nonSubmit}>
+              <RoundedDefaultButton sm onClick={handleClickResetBtn} type={nonSubmit ? "button" : "submit"}>
                 {`${changeButtonValue} `}재설정
-              </RoundButton>
+              </RoundedDefaultButton>
             )
           ) : (
-            <RoundButton size="sm" onClick={activeFn} nonSubmit={nonSubmit}>
+            <RoundedDefaultButton sm onClick={activeFn} type={nonSubmit ? "button" : "submit"}>
               {buttonValue}
-            </RoundButton>
+            </RoundedDefaultButton>
           )
         ) : (
-          <RoundButton
-            size="sm"
+          <RoundedDefaultButton
+            sm
             onClick={activeFn}
-            nonSubmit={nonSubmit}
+            type={nonSubmit ? "button" : "submit"}
             bgColor={theme.color.lightBg}
-            textColor={theme.color.darkBg}
+            color={theme.color.darkBg}
           >
             {buttonValue}
-          </RoundButton>
+          </RoundedDefaultButton>
         )}
       </div>
     </InputBox>
@@ -112,6 +113,7 @@ const InputBox = styled(motion.div)`
   &.authenticationColumn {
     margin: 0 auto;
     background-color: #00000000;
+    justify-content: center;
     input {
       width: 190px;
       height: 50px;
