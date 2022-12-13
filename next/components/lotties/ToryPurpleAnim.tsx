@@ -16,7 +16,7 @@ const ToryPurpleAnim = ( { toryMotionIdx, width }: ToryAnimProps ) => {
 
   const lottieRef = useRef<any>();
 
-  const frameSegments: AnimationSegment[] = [ [0, 149], [150, 215], [216, 276], [277, 456], [457, 576], [577, 725] ];
+  // const frameSegments: AnimationSegment[] = [ [0, 149], [150, 215], [216, 276], [277, 456], [457, 576], [577, 725] ];
 
 
   useEffect(() => {
@@ -24,7 +24,7 @@ const ToryPurpleAnim = ( { toryMotionIdx, width }: ToryAnimProps ) => {
       container: lottieRef.current,
       renderer: 'svg',
       loop: true,
-      autoplay: false,
+      autoplay: true,
       animationData: ToryPurpleAnimation
     }));
 
@@ -37,12 +37,12 @@ const ToryPurpleAnim = ( { toryMotionIdx, width }: ToryAnimProps ) => {
   useEffect(() => {
 
     if(toryPurple) {
-      toryPurple.playSegments(frameSegments[toryMotionIdx], true);
+      toryPurple
     }
 
     console.log(toryMotionIdx);
 
-  }, [ready, toryMotionIdx]);
+  }, [ready]);
 
 
   return (
