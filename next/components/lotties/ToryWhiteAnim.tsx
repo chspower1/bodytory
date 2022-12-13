@@ -1,5 +1,4 @@
 import { AnimationItem, AnimationSegment, LottiePlayer } from "lottie-web";
-import ToryWhiteAnimation from "@src/assets/lotties/tory_white.json";
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
@@ -37,8 +36,7 @@ const ToryWhiteAnim = ({ toryMotionIdx, width, delay }: ToryAnimProps) => {
           renderer: "svg",
           loop: true,
           autoplay: false,
-          animationData: ToryWhiteAnimation,
-          // path: "/src/lotties/data/tory_white.json"
+          path: "../../public/static/lottie/tory_white.json",
         }),
       );
     }

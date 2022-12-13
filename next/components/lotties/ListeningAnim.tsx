@@ -1,5 +1,4 @@
 import lottie, { AnimationItem, AnimationSegment, LottiePlayer } from "lottie-web";
-import ListeningAnimation from "@src/assets/lotties/listening.json";
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
@@ -32,8 +31,7 @@ const ListeningAnim = ({ listeningMotionIdx, width }: ToryAnimProps) => {
           renderer: "svg",
           loop: true,
           autoplay: false,
-          animationData: ListeningAnimation,
-          // path: "/src/lotties/data/tory_white.json"
+          path: "../../public/static/lottie/listening.json",
         }),
       );
     }

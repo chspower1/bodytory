@@ -1,4 +1,3 @@
-import ChartAnimation from "@src/assets/lotties/chart_animation.json";
 import { LottiePlayer } from "lottie-web";
 import { useEffect, useRef, useState } from "react";
 
@@ -17,7 +16,7 @@ const ChartAnim = () => {
         renderer: "svg",
         loop: true,
         autoplay: true,
-        animationData: ChartAnimation,
+        path: "../../public/static/lottie/chart_animation.json",
       });
     }
 

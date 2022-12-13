@@ -1,5 +1,4 @@
 import { AnimationItem, AnimationSegment, LottiePlayer } from "lottie-web";
-import ToryPurpleAnimation from "@src/assets/lotties/tory_purple.json";
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
@@ -37,7 +36,7 @@ const ToryPurpleAnim = ({ toryMotionIdx, width, delay }: ToryAnimProps) => {
           renderer: "svg",
           loop: true,
           autoplay: false,
-          animationData: ToryPurpleAnimation,
+          path: "../../public/static/lottie/tory_purple.json",
         }),
       );
     }

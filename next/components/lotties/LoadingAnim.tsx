@@ -1,5 +1,4 @@
 import { LottiePlayer } from "lottie-web";
-import LoadingAnimation from "@src/assets/lotties/loading_animation.json";
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
@@ -18,7 +17,7 @@ const LoadingAnim = () => {
         renderer: "svg",
         loop: true,
         autoplay: true,
-        animationData: LoadingAnimation,
+        path: "../../public/static/lottie/loading_animation.json",
       });
       loading.setSpeed(0.8);
     }
