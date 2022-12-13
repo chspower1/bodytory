@@ -33,6 +33,7 @@ import styled from "styled-components";
 import MessageBox from "@components/MessageBox";
 import { ACCOUNT_ID_REGEX, PASSWORD_REGEX } from "constant/regex";
 import Header from "@components/header/Header";
+import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 
 export interface LoginForm {
   accountId: string;
@@ -125,17 +126,10 @@ const LoginPage: NextPage = () => {
                 error={errors.password || isError}
                 delay={0.3}
               />
-              {/* <Input
-            name="autoLogin"
-            label="자동로그인"
-            type="checkbox"
-            register={register("autoLogin")}
-            errorMessage={errors.password?.message}
-          /> */}
             </LoginInputAreaBox>
-            <RoundButton size="lg" bgColor={theme.color.mintBtn} disable={!isCompletion}>
+            <RoundedButton lg disable={!isCompletion} bgColor={'rgb(18, 212, 201)'}>
               로그인
-            </RoundButton>
+            </RoundedButton>
           </LoginFormInnerBox>
         </LoginForm>
         <LoginFindBox>
@@ -164,6 +158,12 @@ const LoginPage: NextPage = () => {
   );
 };
 export default LoginPage;
+
+const RoundedButton = styled(RoundedDefaultButton)`
+
+  font-weight: bold;
+  
+`
 
 export const ToryTextBox = styled.div`
   text-align: center;
