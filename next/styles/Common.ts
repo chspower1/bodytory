@@ -10,7 +10,7 @@ export const Wrapper = styled.div<{ bgColor?: string }>`
   overflow: hidden;
   background-color: ${props => props.bgColor};
   ${media.tablet}{
-    overflow-y:scroll;
+    overflow-y:auto;
   }
 `;
 
@@ -18,8 +18,8 @@ export const Container = styled(motion.div)`
   width: 100%;
   max-width: 1600px;
   margin: 0 auto;
-  ${media.tablet}{
-    padding: 0 30px;
+  ${media.custom(770)}{
+    padding: 0 20px;
   }
 `;
 export const WhiteWrapper = styled(Wrapper)`

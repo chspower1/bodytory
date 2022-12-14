@@ -10,7 +10,7 @@ import { useMutation } from "@tanstack/react-query";
 import { HelpForm } from "./find-pw";
 import { HELP_FIND_ID } from "constant/queryKeys";
 
-import { theme } from "@styles/theme";
+import { media, theme } from "@styles/theme";
 import { EMAIL_REGEX } from "constant/regex";
 import ButtonInInput from "@components/layout/input/ButtonInInput";
 import MessageBox from "@components/MessageBox";
@@ -19,6 +19,7 @@ import { FlexContainer, InnerContainer, Row } from "@styles/Common";
 import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 
 const HelpFindId: NextPage = () => {
+  const router = useRouter();
   const { postApi } = customApi("/api/auth/help/find-id");
   const [currentComment, setCurrentComment] = useState("아이디를 잊으셨나요?\n가입 시 입력한 이메일을 알려주세요");
   const [foundAccountId, setFoundAccountId] = useState("");
@@ -124,11 +125,9 @@ const HelpFindId: NextPage = () => {
                 </p>
               </MessageBox>
               <div className="linkButton">
-                <Link href="/auth/login">
-                  <RoundedDefaultButton lg bgColor={theme.color.mintBtn}>
-                    로그인하러 가기
-                  </RoundedDefaultButton>
-                </Link>
+                <RoundedDefaultButton lg bgColor={theme.color.mintBtn} onClick={()=> router.push("/auth/login")}>
+                  로그인하러 가기
+                </RoundedDefaultButton>
               </div>
             </div>
           </FinalCommentBox>
@@ -141,6 +140,9 @@ export default HelpFindId;
 
 export const FindForm = styled.form`
   margin-top: 100px;
+  ${media.mobile}{
+    margin-top: 50px;
+  }
 `;
 
 export const Seperation = styled(Row)`
@@ -150,6 +152,12 @@ export const Seperation = styled(Row)`
     > button,
     > div {
       margin-top: 30px;
+    }
+    ${media.mobile}{
+      > button,
+      > div {
+        margin-top: 20px;
+      }
     }
   }
 `;
@@ -170,9 +178,19 @@ export const FinalCommentBox = styled.div`
     .linkButton {
       display: flex;
       justify-content: center;
-      a {
-        display: inline-block;
+    }
+  }
+  ${media.mobile}{
+    .innerBox {
+      .messageBox {
+        font-size: 20px;
+        height:136px;
+        margin-bottom: 80px;
+        strong {
+          margin: 0 10px;
+        }
       }
     }
   }
 `;
+  
