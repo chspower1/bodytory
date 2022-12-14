@@ -24,7 +24,7 @@ const SohiAnim = ({ segmentIndex, width, delay, play }: LottieAnimProps) => {
         lottie.loadAnimation({
           container: lottieRef.current,
           renderer: "svg",
-          loop: true,
+          loop: false,
           autoplay: false,
           path: "/static/lottie/sohi.json",
           initialSegment: frameSegments[segmentIndex]
@@ -48,14 +48,12 @@ const SohiAnim = ({ segmentIndex, width, delay, play }: LottieAnimProps) => {
   useEffect(() => {
     if (sohi && ready) {
       if(play) {
-        sohi.playSegments(frameSegments[1], false);
-      } else {
-        sohi.pause();
+        sohi.playSegments(frameSegments[0], false);
       }
-
     }
 
-  }, [ready, segmentIndex, sohi, play]);
+  }, [ready, sohi, play]);
+
 
   return <LottieElem ref={lottieRef} width={width} />;
 };
