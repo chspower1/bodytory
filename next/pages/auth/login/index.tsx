@@ -127,7 +127,7 @@ const LoginPage: NextPage = () => {
           </div>
         </SocialLoginBox>
         <RegisterLinkBox>
-          <WhiteText>아직 회원이 아니신가요?</WhiteText>
+          아직 회원이 아니신가요?
           <Link href="/auth/register/choice">
             <WhiteBoldText>회원가입</WhiteBoldText>
           </Link>
@@ -163,6 +163,8 @@ const LoginFindBox = styled(Row)`
   margin: 0 0 70px;
   a {
     margin: 0 12px;
+    width: 82px;
+    text-align:right;
     span {
       font-size: 15px;
     }
@@ -175,9 +177,13 @@ const LoginFindBox = styled(Row)`
     margin: 0 0 30px;
     a {
       margin: 0 10px;
+      width: 71px;
       span {
         font-size: 13px;
       }
+    }
+    i {
+      font-size: 16px;
     }
   }
 `;
@@ -197,15 +203,12 @@ const SocialLoginBox = styled(Row)`
 
 const RegisterLinkBox = styled(Row)`
   padding: 20px 0;
-  > span {
-    font-size: 15px;
-  }
+  font-size: 15px;
+  color: #fff;
   a {
     margin: 0 0 0 10px;
   }
   ${media.mobile} {
-    > span {
-      font-size: 13px;
-    }
+    font-size: 13px;
   }
 `;

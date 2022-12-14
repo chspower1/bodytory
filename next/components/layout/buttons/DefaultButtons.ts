@@ -22,6 +22,7 @@ export const RoundedDefaultButton = styled.button<{
   img,
   svg {
     margin-right: 15px;
+
   }
   :hover {
     background: ${({ bgColor }) => ChangeToHoverColor(bgColor || "rgb(61, 66, 191)")};
@@ -42,6 +43,9 @@ export const RoundedDefaultButton = styled.button<{
       padding: 20px 0;
       border-radius: 60px;
       font-size: 20px;
+      ${media.custom(1366)}{
+        
+      }
       ${media.mobile}{
         font-size: 16px;
         padding: 15px 0;

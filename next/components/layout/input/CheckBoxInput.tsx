@@ -23,7 +23,8 @@ const CheckBoxInput = ({ label, name, register, error, checked, disabled, isDele
 export default CheckBoxInput;
 
 const InputBox = styled.div`
-  width: 630px;
+  max-width: 630px;
+  width: 100%;
   height: 106px;
   transition: border 0.3s;
   border: 2px solid transparent;
