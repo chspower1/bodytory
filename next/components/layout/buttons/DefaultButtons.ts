@@ -59,6 +59,11 @@ export const RoundedDefaultButton = styled.button<{
       font-size: 16px;
       border-radius: 40px;
       padding: 12px 0;
+      ${media.mobile}{
+        width: 90px;
+        font-size: 12px;
+        padding: 10px 0;
+      }
     `}
   ${({ disable, theme }) =>
     disable &&
@@ -92,18 +97,29 @@ export const CircleDefaultButton = styled.button<{
   :hover {
     background: ${({ bgColor }) => ChangeToHoverColor(bgColor || "rgb(61, 66, 191)")};
   }
+  ${media.mobile}{
+    width: 80px;
+    height: 80px;
+    font-size: 14px;
+  }
   ${({ lg }) =>
     lg &&
     css`
       width: 140px;
       height: 140px;
       font-size: 26px;
+      ${media.mobile}{
+        width: 100px;
+        height: 100px;
+        font-size: 20px;
+      }
     `}
   ${({ sm }) =>
     sm &&
     css`
       width: 62px;
       height: 62px;
+      font-size: 16px;
     `}
   ${({ disable, theme }) =>
     disable &&
@@ -131,11 +147,18 @@ export const RectangleDefaultButton = styled.button<{ sm?: boolean; bgColor?: st
   :hover {
     background: ${({ bgColor }) => ChangeToHoverColor(bgColor || "rgb(61, 66, 191)")};
   }
+  ${media.mobile}{
+    width: 70px;
+
+  }
   ${({ sm }) =>
     sm &&
     css`
       padding: 7px 0;
       font-size: 14px;
-      font-weight: 500;
+      ${media.mobile}{
+        padding: 7px 0;
+        font-size: 12px;
+      }
     `}
 `;

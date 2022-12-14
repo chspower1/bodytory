@@ -1,4 +1,4 @@
-import { theme } from "@styles/theme";
+import { media, theme } from "@styles/theme";
 import React, { ReactNode } from "react";
 import ReactDOM from "react-dom";
 import styled, { css } from "styled-components";
@@ -75,6 +75,9 @@ const ModalBox = styled(ModalContainer)`
   padding: 20px;
   border-radius: 10px;
   text-align: center;
+  ${media.custom(730)}{
+    width: 90%;
+  }
 `;
 
 const ModalTitle = styled.div`

@@ -1,4 +1,4 @@
-import { theme } from "@styles/theme";
+import { media, theme } from "@styles/theme";
 import { motion } from "framer-motion";
 import React, { Dispatch, SetStateAction } from "react";
 import { FieldValues, UseFormSetValue } from "react-hook-form";
@@ -59,6 +59,7 @@ const ButtonInInput = ({
         value={value}
         placeholder={placeholder}
         disabled={disabled}
+        autoComplete="off"
       />
       <div>
         {!name?.includes("token") ? (
@@ -93,6 +94,7 @@ export default ButtonInInput;
 
 const InputBox = styled(motion.div)`
   width: 500px;
+  height: 62px;
   margin: 0 auto;
   padding-right: 10px;
   transition: border 0.3s ease;
@@ -115,9 +117,15 @@ const InputBox = styled(motion.div)`
   & + & {
     margin-top: 10px;
   }
+  ${media.mobile} {
+    width: 79.8611vw;
+    min-width: 287px;
+    height: 50px; 
+    font-size: 14px;
+  }
   &.authenticationColumn {
     margin: 0 auto;
-    background-color: #00000000;
+    background-color: transparent;
     &:not(.register) {
       justify-content: center;
     }
@@ -138,11 +146,22 @@ const InputBox = styled(motion.div)`
       letter-spacing: -1px;
       margin-left: 20px;
     }
+    ${media.mobile} {
+      justify-content: center;
+      input{
+        width: 100px;
+        height: 40px;
+      }
+      button{
+        margin-left: 10px;
+      }
+    }
   }
+
 `;
 const Input = styled.input`
   width: 100%;
-  height: 62px;
+  height: 100%;
   text-align: center;
   background: transparent;
   border: 0;

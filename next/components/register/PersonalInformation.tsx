@@ -1,3 +1,4 @@
+import { media } from "@styles/theme";
 import React from "react";
 import styled from "styled-components";
 
@@ -314,11 +315,16 @@ const PersonalInformation = () => {
 export default PersonalInformation;
 
 export const Article = styled.article`
-  width: 600px;
+  max-width: 600px;
+  width:100%;
   height: 400px;
   overflow-y: scroll;
   padding: 30px 50px;
   font-weight: 500;
   font-size: 14px;
   text-align: left;
+  ${media.mobile}{
+    height: 200px;
+    padding: 20px;
+  }
 `;

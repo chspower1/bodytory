@@ -12,6 +12,7 @@ import styled from "styled-components";
 import { PASSWORD_REGEX } from "constant/regex";
 import useUser from "@hooks/useUser";
 import { EditButton } from "pages/users/profile/edit";
+import { media } from "@styles/theme";
 
 export interface WithdrawType {
   password: string;
@@ -129,6 +130,12 @@ const Form = styled.form`
     color: #232323;
     margin-bottom: 100px;
     font-size: 40px;
+  }
+  ${media.mobile}{
+    .messageBox {
+      margin-bottom: 50px;
+      font-size: 25px;
+    }
   }
 `;
 
