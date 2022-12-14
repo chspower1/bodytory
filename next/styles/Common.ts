@@ -36,6 +36,9 @@ export const InnerContainer = styled.div`
   margin: auto;
   height: 800px;
   padding-top: 70px;
+  @media (max-height: 800px){
+    height: 100%;
+  }
 `;
 
 export const Box = styled(motion.div)<{ height?: string; width?: string }>`

@@ -10,6 +10,7 @@ import { Box, Col, FlexContainer, InnerContainer } from "@styles/Common";
 import styled from "styled-components";
 import MessageBox from "@components/MessageBox";
 import { Variants, motion } from "framer-motion";
+import { media } from "@styles/theme";
 
 const CHOICE_VARIANTS: Variants = {
   animate: {
@@ -82,9 +83,15 @@ const ChoiceWrapper = styled.div``;
 
 const ButtonBox = styled(Box)`
   margin: 50px 0;
+  ${media.mobile}{
+    margin: 20px 0;
+  }
 `;
 
 const ButtonInnerBox = styled(Col)`
   display: inline-flex;
   gap: 50px;
+  ${media.mobile}{
+    gap: 30px;
+  }
 `;

@@ -41,6 +41,16 @@ const Button = styled.button<{sm ?: boolean; bgColor?: string;}>`
   &:hover {
     background-color: ${ChangeToHoverColor("rgb(61, 66, 191)")};
   }
+  ${media.mobile}{
+    width: 240px;
+    height: 60px;
+    font-size: 16px;
+    padding: 0 0 0 80px;
+    svg{
+      width: 60px;
+      height: 60px;
+    }
+  }
   ${({sm}) => sm && css`
     width: 240px;
     height: 60px;
