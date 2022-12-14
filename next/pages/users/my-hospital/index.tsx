@@ -145,8 +145,6 @@ export const ButtonBox = styled.div<{ isMap?: boolean }>`
   display: flex;
   justify-content: center;
   padding: ${({ isMap }) => (isMap ? ` 0 0 30px` : ` 0 0 42px`)};
-  ${media.mobile} {
-  }
 `;
 
 const ToryMotion = styled.div`

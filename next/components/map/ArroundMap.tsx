@@ -11,14 +11,15 @@ import MarkerMe from "@src/assets/icons/marker_me.png";
 import UserIcon from "@src/assets/icons/user.png";
 import { AxiosError } from "axios";
 import useDepartmentSelect from "@hooks/useDepartmentSelect";
+import { media } from "@styles/theme";
 
 interface Coords {
   latitude: number | null;
   longitude: number | null;
 }
 type ArroundMapProps = Coords & {
-  width: string;
-  height: string;
+  width?: string;
+  height?: string;
   departmentList?: string[];
   isAll?: boolean;
 };
@@ -111,7 +112,7 @@ const ArroundMap = ({ width, height, latitude, longitude, departmentList, isAll 
   }, [department, filterHospitals, allHospitals, initialHospitals]);
 
   return (
-    <MapContainer width={width} height={height}>
+    <MapContainer>
       {latitude && longitude && coords ? (
         <>
           <ControlBox>
@@ -132,20 +133,20 @@ const ArroundMap = ({ width, height, latitude, longitude, departmentList, isAll 
                 setCenterChange(false);
               }}
             >
-              <MagnifierIcon width={20} height={20} fill="white" /> 현 지도에서 병원 검색
+              <MagnifierIcon width={20} height={20} fill="white" /> 현 지도에서 검색
             </SearchHereBtn>
           )}
-          <Map
+          <Maps
             center={{
               lat: coords.latitude!,
               lng: coords.longitude!,
             }}
             isPanto={true}
-            style={{
-              width,
-              height,
-            }}
-            onCreate={map => (mapRef.current = map)}
+            // style={{
+            //   width: 1500,
+            //   height: 600,
+            // }}
+            onCreate={(map: kakao.maps.Map | undefined) => (mapRef.current = map)}
             level={3}
             onCenterChanged={() => !centerChange && setCenterChange(true)}
           >
@@ -176,7 +177,7 @@ const ArroundMap = ({ width, height, latitude, longitude, departmentList, isAll 
                 />
               </MarkerBox>
             ))}
-          </Map>
+          </Maps>
         </>
       ) : (
         <NotAccessMessage>위치정보 없음</NotAccessMessage>
@@ -186,13 +187,25 @@ const ArroundMap = ({ width, height, latitude, longitude, departmentList, isAll 
 };
 export default ArroundMap;
 
-const MapContainer = styled(Container)<{ width: string; height: string }>`
-  width: ${props => (props.width ? props.width : "100%")};
-  height: ${props => (props.height ? props.height : "100%")};
+const MapContainer = styled(Container)`
+  width: 100%;
+  height: 100%;
   background-color: ${props => props.theme.color.weekPurple};
   border-radius: 20px;
   overflow: hidden;
   position: relative;
+  padding: 0;
+`;
+
+const Maps = styled(Map)`
+  max-width: 1500px;
+  width: 100%;
+  height: 100%;
+  background-color: ${props => props.theme.color.weekPurple};
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  padding: 0;
 `;
 
 const ControlBox = styled(Box)`
@@ -202,13 +215,13 @@ const ControlBox = styled(Box)`
   right: 20px;
   z-index: 5;
   background: rgba(255, 255, 255, 0.5);
-  padding: 10px 15px;
-  border-radius: 10px;
+  padding: 0;
+  border-radius: 30px;
   box-shadow: 8px 8px 24px rgb(49 54 167 / 20%);
-  transition: background .3s;
+  transition: background 0.3s;
 
   &:hover {
-    background: rgba(255,255,255, .9);
+    background: rgba(255, 255, 255, 0.9);
   }
 `;
 
@@ -251,6 +264,10 @@ const MoveToMeBtn = styled.button`
       left: -5px;
     }
   }
+  ${media.mobile} {
+    width: 40px;
+    height: 40px;
+  }
 `;
 
 const SearchHereBtn = styled.button`
@@ -275,6 +292,15 @@ const SearchHereBtn = styled.button`
 
   &:hover {
     background: #4b50d3;
+  }
+  ${media.mobile} {
+    img,
+    svg {
+      width: 15px;
+      height: 15px;
+    }
+    font-size: 12px;
+    padding: 10px;
   }
 `;
 
