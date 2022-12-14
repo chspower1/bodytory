@@ -48,6 +48,10 @@ const mapPathToSeo: MapPathToSeo = {
     title: "계정관리",
     description: "아이디 혹은 비밀번호를 잊으셨나요? 바디토리가 같이 찾을 수 있게 도와드릴게요.",
   },
+  "/auth/help/reset": {
+    title: "계정관리",
+    description: "아이디 혹은 비밀번호를 잊으셨나요? 바디토리가 같이 찾을 수 있게 도와드릴게요.",
+  },
   "/auth/withdraw": { title: "회원탈퇴", description: "바디토리를 나가시겠어요? 다음에 또 좋은 서비스로 보답할게요." },
   // hospital
   "/hospital": {
@@ -82,7 +86,6 @@ const mapPathToSeo: MapPathToSeo = {
   },
 
   //ETC
-  "/404": { title: "병원", description: "홈 화면 입니다." },
   "/landing": { title: "병원", description: "홈 화면 입니다." },
 };
 

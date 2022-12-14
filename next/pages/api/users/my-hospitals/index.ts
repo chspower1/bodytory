@@ -4,6 +4,8 @@ import withHandler from "@utils/server/withHandler";
 import { withApiSession } from "@utils/server/withSession";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { user } = req.session;
+  if (user?.id === 35) return res.status(204).end();
   if (req.method === "POST") return await addHospital(req, res);
   if (req.method === "GET") return await myHospitalList(req, res);
   if (req.method === "PUT") return await shareHospital(req, res);
@@ -13,6 +15,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 async function addHospital(req: NextApiRequest, res: NextApiResponse) {
   const { id } = req.body;
   const { user } = req.session;
+  if (user?.id === 142) return res.status(204).end();
   if (!user) return res.status(401).send("회원 정보를 확인해주세요");
   const isConnected = await client.hospitalToUser.findFirst({
     where: {
@@ -79,6 +82,7 @@ async function myHospitalList(req: NextApiRequest, res: NextApiResponse) {
 async function deleteHospital(req: NextApiRequest, res: NextApiResponse) {
   const { id } = req.body;
   const { user } = req.session;
+  if (user?.id === 142) return res.status(204).end();
   if (!user) return res.status(401).send("회원 정보를 확인해주세요");
   const isConnected = await client.hospitalToUser.findFirst({
     where: {

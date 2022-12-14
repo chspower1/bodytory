@@ -31,12 +31,7 @@ function DashBoardStatistics() {
   const dashboardQuery = useQuery<any>([BODYPART_CHARTDATA_READ], dashboardGetApi.getApi);
 
   const flaskGetApi = customApi(`/api/users/records/flask/threeMonth`);
-  const flaskQuery = useQuery<any>([KEYWORDS_CHARTDATA_READ], flaskGetApi.getApi, {
-    onSuccess(data) {
-      // setNoKeyword(true); // 증상이 2개 이하일 때는 아예 에러가 남
-
-    },
-  });
+  const flaskQuery = useQuery<any>([KEYWORDS_CHARTDATA_READ], flaskGetApi.getApi);
 
   console.log(flaskQuery.data);
 
@@ -95,24 +90,20 @@ function DashBoardStatistics() {
           )}
         </ChartBox>
         <ChartBox>
-          {
-            keywordChartData?.length === 0 && (
-              <NoKeywordChart>
-                <LoadingAnim />
-                <p>기록이 더 많아지면 키워드를 분석할 수 있어요!</p>
-              </NoKeywordChart>
-            )
-          }
-          {
-            keywordChartData?.length !== 0 && (
-              <>
-                <p>
-                  가장 많이 기록된 키워드는 <strong>{mostKeyword}</strong> 입니다
-                </p>
-                <MostKeyword chartData={keywordChartData ? keywordChartData : null} />
-              </>
-            )
-          }
+          {keywordChartData?.length === 0 && (
+            <NoKeywordChart>
+              <LoadingAnim />
+              <p>기록이 더 많아지면 키워드를 분석할 수 있어요!</p>
+            </NoKeywordChart>
+          )}
+          {keywordChartData?.length !== 0 && (
+            <>
+              <p>
+                가장 많이 기록된 키워드는 <strong>{mostKeyword}</strong> 입니다
+              </p>
+              <MostKeyword chartData={keywordChartData ? keywordChartData : null} />
+            </>
+          )}
         </ChartBox>
       </FlexContainer>
     </StatisticsContainer>

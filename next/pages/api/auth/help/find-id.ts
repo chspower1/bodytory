@@ -42,6 +42,7 @@ const foundUser = async (email: string, token: string) => {
 };
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+
   const { email, token }: HelpForm = req.body;
   if (!email) {
     return res.status(400).end();

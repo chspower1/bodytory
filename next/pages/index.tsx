@@ -32,6 +32,7 @@ const Home = () => {
 
   return (
       <FlexContainer>
+        
         <Col>
           <FadeInMotionDiv
             animate={{ opacity: [0, 1, 1], y: [200, 200, 0], transition: { duration: 3, ease: "easeInOut", times: [0, .6, 1]} }}

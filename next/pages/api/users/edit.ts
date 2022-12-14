@@ -9,6 +9,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { password, newPassword } = req.body;
   const { user } = req.session;
   if (!user) return res.status(401).send("회원 정보를 확인해주세요");
+  if (user?.id === 35) return res.status(204).end();
   const foundUser = await client.user.findFirst({
     where: {
       id: user.id,

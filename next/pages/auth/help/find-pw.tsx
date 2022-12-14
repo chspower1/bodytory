@@ -16,6 +16,8 @@ import { FlexContainer, InnerContainer } from "@styles/Common";
 import { FindForm, Seperation } from "./find-id";
 import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 import withGetServerSideProps from "@utils/client/withGetServerSideProps";
+import { useSetRecoilState } from "recoil";
+import { accountIdForFindPasswordAtom } from "atoms/atoms";
 export interface HelpForm {
   type: UserType;
   accountId?: string;
@@ -28,7 +30,8 @@ export interface HelpForm {
 const HelpPage: NextPage = () => {
   const router = useRouter();
   const { postApi } = customApi("/api/auth/help/find-pw");
-  const [email, setEmail] = useState("");
+  const [_, setEmail] = useState("");
+  const setaccountIdForFindPassword = useSetRecoilState(accountIdForFindPasswordAtom);
   const [currentComment, setCurrentComment] = useState("비밀번호를 잊으셨나요?\n가입한 아이디을 알려주세요");
   const [accountId, setAccountId] = useState("");
   const { mutate } = useMutation([HELP_FIND_PASSWORD], postApi, {
@@ -41,13 +44,8 @@ const HelpPage: NextPage = () => {
     onSuccess(data) {
       if (isToken) {
         if (data.ok) {
-          return router.push(
-            {
-              pathname: "/auth/help/reset",
-              query: { accountId },
-            },
-            "/auth/help/reset",
-          );
+          setaccountIdForFindPassword(accountId);
+          return router.push("/auth/help/reset");
         }
         setValue("token", "");
         clearErrors();
