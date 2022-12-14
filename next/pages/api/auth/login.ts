@@ -36,7 +36,7 @@ async function loginByOrigin(req: NextApiRequest, res: NextApiResponse) {
       },
       data: {
         count: {
-          decrement: 1,
+          increment: 1,
         },
       },
     });
