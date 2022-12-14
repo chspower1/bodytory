@@ -1,6 +1,5 @@
 import ToryPurpleAnim from "@components/lotties/ToryPurpleAnim";
 import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
-import ToryIcon from "@components/ToryIcon";
 import { BTN_VARIANTS } from "@styles/ButtonStyled";
 import { Box, BtnBox, FlexContainer, ToryText } from "@styles/Common";
 import { motion } from "framer-motion";

@@ -4,7 +4,6 @@ import { theme } from "@styles/theme";
 import { DescriptionBox, Pragraph } from "./";
 import React, { useState } from "react";
 import styled from "styled-components";
-import tory from "@src/assets/icons/tory.png";
 import {  useRouter } from "next/router";
 import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 import ToryPurpleAnim from "@components/lotties/ToryPurpleAnim";
