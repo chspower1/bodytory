@@ -86,7 +86,7 @@ const BodyPartCheckerArea = styled(motion.div)`
   }
 `;
 
-const MobBodyNavigatorArea = styled.div<{ isSelect: boolean }>`
+export const MobBodyNavigatorArea = styled.div<{ isSelect: boolean }>`
   display: none;
   width: 45%;
   max-width: 820px;
@@ -118,7 +118,7 @@ const BodyNavigatorArea = styled(motion.div)`
     display: none;
   }
 `;
-const EnterNavigatorButton = styled.button<{ isSelect: boolean }>`
+export const EnterNavigatorButton = styled.button<{ isSelect: boolean }>`
   display: none;
   position: absolute;
   left: 50%;
