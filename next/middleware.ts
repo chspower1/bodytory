@@ -21,7 +21,8 @@ export async function middleware(req: NextRequest) {
     !req.url.includes("/auth/register") &&
     !req.url.includes("/auth/choice") &&
     !req.url.includes("/landing") &&
-    !req.url.includes("/hospital/login")
+    !req.url.includes("/hospital/login") &&
+    !req.url.includes("/about/team")
   ) {
     if (req.url.includes("/hospital/chart" && "/hospital/chart" && "/hospital"))
       return NextResponse.redirect(new URL("/hospital/login", req.url));

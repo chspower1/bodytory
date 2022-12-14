@@ -6,6 +6,7 @@ import Jung from "@src/assets/images/team/Jung.png";
 import Oh from "@src/assets/images/team/Oh.png";
 import Jo from "@src/assets/images/team/Cho.png";
 import Image from "next/image";
+import SohiAnim from "@components/lotties/SohiAnim";
 const Team = () => {
   return (
     <Container>
@@ -60,7 +61,8 @@ const Team = () => {
         </DaHyen>
         <SoHee>
           <Profile>
-            <Image src={Jung} fill alt="SoHee"></Image>
+            <SohiAnim segmentIndex={0} width={300} />
+            {/* <Image src={Jung} fill alt="SoHee"></Image> */}
           </Profile>
           <DescriptionContainer>
             <Name>
@@ -128,23 +130,20 @@ const DescriptionContainer = styled.div`
   width: 100%;
   height: 300px;
   background-color: rgb(107, 112, 236);
-  border-radius: 35px;
+  border-radius: 0 0 30px 30px;
   padding: 130px 20px 20px 20px;
   z-index: 10;
-  transform: translateY(-150px);
-  transition: transform 0.5s, height 0.5s;
   overflow: hidden;
   position: relative;
 `;
 const Profile = styled.div`
   width: 300px;
   height: 300px;
-  border-radius: 30px;
+  border-radius: 30px 30px 0 0;
   overflow: hidden;
-  transform: translateY(150px);
-  transition: transform 0.5s;
   z-index: 11;
   position: relative;
+  background: #fff;
 `;
 const Description = styled.div`
   width: 100%;
@@ -174,15 +173,6 @@ const Position = styled.span`
 const HoSung = styled.div`
   width: 300px;
   height: 600px;
-  &:hover {
-    > div:first-child {
-      transform: translateY(0);
-    }
-    > div:nth-child(2) {
-      transform: translateY(-100px);
-      height: 400px;
-    }
-  }
 `;
 const DongRyong = styled(HoSung)``;
 const KyeongWon = styled(HoSung)``;
