@@ -10,14 +10,26 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import NaverLoginBtn from "@components/layout/buttons/NaverBtn";
 import KakaoLoginBtn from "@components/layout/buttons/KakaoBtn";
 import { USER_LOGIN, USE_USER } from "constant/queryKeys";
-import { InnerContainer, FlexContainer, Row, WhiteBoldText, WhiteText } from "@styles/Common";
+import {
+  InnerContainer,
+  FlexContainer,
+  Row,
+  WhiteBoldText,
+  WhiteText,
+  Box,
+  Col,
+  ToryText,
+  BodyText,
+} from "@styles/Common";
 import { theme } from "@styles/theme";
 import styled from "styled-components";
 import MessageBox from "@components/MessageBox";
 import { ACCOUNT_ID_REGEX, PASSWORD_REGEX } from "constant/regex";
 import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 import withGetServerSideProps from "@utils/client/withGetServerSideProps";
-
+import Testcard from "@public/static/test_card.png";
+import Image from "next/image";
+import { AnimatePresence, motion } from "framer-motion";
 export interface LoginForm {
   accountId: string;
   password: string;
@@ -29,7 +41,7 @@ const LoginPage: NextPage = () => {
   const { postApi } = customApi("/api/auth/login");
   const [isError, setIsError] = useState(false);
   const [isCompletion, setIsCompletion] = useState(false);
-
+  const [isOnTestBox, setIsOnTestBox] = useState(false);
   const { mutate } = useMutation([USER_LOGIN], postApi, {
     onError(error: any) {
       setIsError(true);
@@ -71,8 +83,20 @@ const LoginPage: NextPage = () => {
     }
     setIsError(false);
   }, [watch("accountId"), watch("password"), isErrorsMessage]);
+  console.log(Testcard.src);
   return (
     <FlexContainer>
+      <TestButton onClick={() => setIsOnTestBox(cur => !cur)}>테스트 아이디 보기</TestButton>
+      <AnimatePresence>
+        {isOnTestBox && (
+          <TestBox
+            initial={{ opacity: 0, y: -30 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+          />
+        )}
+      </AnimatePresence>
       <InnerContainer>
         <MessageBox isErrorsMessage={isErrorsMessage}>
           {isErrorsMessage === undefined &&
@@ -144,6 +168,29 @@ export const getServerSideProps = withGetServerSideProps(async (context: GetServ
     props: {},
   };
 });
+
+const TestBox = styled(motion.div)`
+  width: 514px;
+  height: 300px;
+  background: url(${Testcard.src});
+  position: absolute;
+  left: 20px;
+  top: 70px;
+`;
+const TestButton = styled.div`
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  cursor: pointer;
+  padding: 10px 20px;
+  background-color: ${props => props.theme.color.mintBtn};
+  border-radius: 10px;
+  color: white;
+  transition: all 0.3s ease;
+  &:hover {
+    background-color: ${props => props.theme.color.mint};
+  }
+`;
 export const ToryTextBox = styled.div`
   text-align: center;
   padding: 50px 0 65px;

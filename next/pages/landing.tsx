@@ -97,7 +97,6 @@ const LendingRoot = styled.div<{ flex: boolean }>`
       align-items: center;
       gap: 60px;
     `}
-  }
 `;
 
 const ToriMessage = styled(motion.h2)`
