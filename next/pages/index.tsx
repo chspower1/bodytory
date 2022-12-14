@@ -5,8 +5,8 @@ import { Accent, BodyText, Col, FlexContainer, Row } from "@styles/Common";
 import Mic from "@src/assets/icons/mic.svg";
 import Record from "@src/assets/icons/record.svg";
 import Hospital from "@src/assets/icons/hospital.svg";
-import Setting from "@src/assets/icons/setting.svg";
-import { theme } from "@styles/theme";
+import Setting from "@src/assets/icons/icon_setting.png";
+import { media, theme } from "@styles/theme";
 import { ToryText } from "./users/records/write/add";
 import ToryPurpleAnim from "@components/lotties/ToryPurpleAnim";
 import { CircleDefaultButton, RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
@@ -83,7 +83,7 @@ const Home = () => {
             <AccountBtnBox>
               <Link href="/users/profile/edit">
                 <div>
-                  <Setting />
+                  <i />
                   계정 설정
                 </div>
               </Link>
@@ -125,7 +125,8 @@ const WriteBox = styled.div`
     align-items: center;
     justify-content: space-between;
     flex-direction: column;
-    width: 860px;
+    width: 100%;
+    max-width: 860px;
     height: 280px;
     padding: 30px;
     background-color: rgb(217, 222, 255);
@@ -142,6 +143,9 @@ const WriteBox = styled.div`
       background-color: rgb(210, 216, 255);
     }
   }
+
+
+  
 `;
 const ButtonBox = styled(Row)`
   width: 100%;
@@ -169,7 +173,10 @@ const AccountBtnBox = styled.div`
       position: relative;
       z-index: 5;
 
-      svg {
+      i {
+        width: 20px;
+        height: 20px;
+        background: url(${Setting.src}) no-repeat 50% 50%/contain;
         margin-right: 10px;
       }
     }
@@ -198,6 +205,11 @@ const TextBox = styled(ToryText)`
   margin-bottom: 0;
   text-align: left;
   padding-left: 170px;
+
+  ${media.custom(1280)} {
+    padding-left: 140px;
+  }
+
 `;
 
 const ToryMotion = styled.div`
@@ -208,4 +220,10 @@ const ToryMotion = styled.div`
   width: 340px;
   height: 340px;
   overflow: hidden;
+
+  ${media.custom(1280)} {
+    width: 300px;
+    height: 300px;
+  }
+
 `;
