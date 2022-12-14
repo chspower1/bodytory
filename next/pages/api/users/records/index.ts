@@ -8,7 +8,7 @@ import axios from "axios";
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { user } = req.session;
   if (!user) return res.status(401).send("회원 정보를 확인해주세요");
-
+  if (user?.id === 35) return res.status(204).end();
   if (req.method === "POST") return await createRecord(req, res, user);
 
   if (req.method === "GET") return await findRecord(req, res, user);

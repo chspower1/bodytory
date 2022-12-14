@@ -6,9 +6,9 @@ import { passwordEncryption } from "utils/server/passwordHelper";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { user } = req.session;
-  // if (user?.id === 35) {
-  //   return res.status(204).end();
-  // }
+  if (user?.id === 35) {
+    return res.status(204).end();
+  }
   const { email, password, accountId } = req.body;
   console.log(accountId, password);
   const hashedPassword = await passwordEncryption(password);
