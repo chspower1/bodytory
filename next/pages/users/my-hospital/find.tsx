@@ -1,7 +1,7 @@
-import { theme } from "@styles/theme";
+import { media, theme } from "@styles/theme";
 import { useState } from "react";
 import styled from "styled-components";
-import { ButtonBox, DescriptionBox, MainContainer, MainInnerContainer, Pragraph } from ".";
+import { ButtonBox, DescriptionBox, MainContainer, MainInnerContainer } from ".";
 import MapIcon from "@src/assets/icons/mapIcon.svg";
 import List from "@src/assets/icons/list.svg";
 import { BackButton } from "@styles/Common";
@@ -46,9 +46,7 @@ const FindHospital = () => {
             )}
           </Pragraph>
         </DescriptionBox>
-        <ButtonBox
-            isMap={pageCategory === "search"}
-        >
+        <ButtonBox isMap={pageCategory === "search"}>
           <SearchModeTogleButton
             img
             bgColor={theme.color.mintBtn}
@@ -83,8 +81,46 @@ export const getServerSideProps = withGetServerSideProps(async (context: GetServ
     props: {},
   };
 });
+
+const Pragraph = styled.p`
+  font-size: 32px;
+  strong {
+    font-weight: 700;
+  }
+  ${media.custom(1366)} {
+    display: block;
+    position: absolute;
+    left: 150px;
+    font-size: 22px;
+  }
+  ${media.tablet} {
+    display: block;
+    position: absolute;
+    left: 200px;
+    font-size: 18px;
+  }
+  ${media.mobile} {
+    font-size: 14px;
+    width: auto;
+    display: block;
+    position: absolute;
+    top: 80px;
+    left: 40px;
+  }
+`;
+
 const SearchModeTogleButton = styled(RoundedDefaultButton)`
   padding: 12px 50px;
+  ${media.mobile} {
+    padding: 10px;
+    font-size: 12px;
+    width: 200px;
+    img,
+    svg {
+      width: 15px;
+      height: 15px;
+    }
+  }
 `;
 
 const ErrorMessage = styled.div`
@@ -104,4 +140,20 @@ const ToryMotion = styled.div`
   transform: translate(-20%, -60%);
   width: 260px;
   height: 260px;
+  ${media.custom(1366)} {
+    width: 200px;
+    height: 200px;
+  }
+  ${media.tablet} {
+    width: 200px;
+    height: 200px;
+    top: 80px;
+    left: 60px;
+  }
+  ${media.mobile} {
+    width: 100px;
+    height: 100px;
+    top: 30px;
+    left: 10px;
+  }
 `;

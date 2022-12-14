@@ -151,7 +151,9 @@ export const SearchContainer = styled.div`
   position: relative;
   max-width: 1600px;
   width: 100%;
+  height: calc(100% - 335px);
 `;
+
 const NoneMessage = styled.div`
   text-align: center;
   position: absolute;
@@ -193,15 +195,13 @@ const InnerContainer = styled.div<{ add: boolean }>`
     margin: 30px 0 0;
   }
   ${media.mobile} {
-    width: 100%;
-    height: 100%;
     padding: 10px;
   }
 `;
 
 const HospitalContainer = styled.div<{ add: boolean }>`
   width: 100%;
-  height: 540px;
+  height: 100%;
   background-color: ${prop => (prop.add ? "#f2f3ff" : "#d9deff")};
   border-radius: 40px;
   padding: 0 30px 0;
@@ -209,7 +209,9 @@ const HospitalContainer = styled.div<{ add: boolean }>`
   background: rgba(231, 232, 255, 0.5);
   transition: background 0.3s;
   ${media.custom(1440)} {
-    width: 100%;
+    padding: 10px;
+  }
+  ${media.mobile} {
     padding: 10px;
   }
 `;

@@ -9,9 +9,9 @@ export const Wrapper = styled.div<{ bgColor?: string }>`
   width: 100%;
   overflow: hidden;
   background-color: ${props => props.bgColor};
-  ${media.tablet}{
-    overflow-y:auto;
-    overflow-y:auto;
+  ${media.tablet} {
+    overflow-y: auto;
+    overflow-y: auto;
   }
 `;
 
@@ -19,7 +19,7 @@ export const Container = styled(motion.div)`
   width: 100%;
   max-width: 1600px;
   margin: 0 auto;
-  ${media.custom(770)}{
+  ${media.custom(770)} {
     padding: 0 20px;
   }
 `;
@@ -37,7 +37,7 @@ export const InnerContainer = styled.div`
   margin: auto;
   height: 800px;
   padding-top: 70px;
-  @media (max-height: 800px){
+  @media (max-height: 800px) {
     height: 100%;
   }
 `;
@@ -70,7 +70,6 @@ export const WhiteText = styled.span<{ fontSize?: string }>`
   ${media.mobile} {
     font-size: ${({ fontSize }) => fontSize || "14px"};
   }
-
 `;
 export const BodyText = styled(WhiteText)`
   color: ${({ theme }) => theme.color.text};
@@ -94,7 +93,6 @@ export const ToryText = styled(WhiteText)<{ color?: string }>`
   ${media.mobile} {
     font-size: ${props => (props.fontSize ? props.fontSize : "22px")};
   }
-
 `;
 export const BlackToryText = styled(ToryText)`
   color: ${({ theme }) => theme.color.text};
@@ -140,12 +138,15 @@ export const BackButton = styled.button`
       opacity: 1;
     }
   }
-  ${media.tablet}{
+  ${media.tablet} {
     width: 40px;
     height: 40px;
     background: #5155ba url(${IconArrowLeft.src}) no-repeat 10px 50%/18px;
     span {
       font-size: 14px;
     }
+  }
+  ${media.mobile} {
+    display: none;
   }
 `;
