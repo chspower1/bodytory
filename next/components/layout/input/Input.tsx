@@ -88,8 +88,7 @@ export default function Input({
   );
 }
 const InputBox = styled.div<{ width?: string; height?: string }>`
-  width:100%;
-  max-width: ${({ width }) => width};
+  width: ${({ width }) => width};
   height: ${({ height }) => height};
   margin: 0 auto;
   position: relative;
@@ -97,6 +96,8 @@ const InputBox = styled.div<{ width?: string; height?: string }>`
     margin: 40px auto 0;
   }
   ${media.mobile} {
+    width: 79.8611vw;
+    min-width: 287px;
     height: 50px; 
     & + & {
       margin: 20px auto 0;
@@ -124,8 +125,8 @@ const MainInput = styled(motion.input)<{
     font-family: Vandana;
     font-size: 36px;
   }
-
-  width: 100%;
+  display:block;
+  width:100%;
   height: 100%;
   text-align: ${prop => prop.align};
   padding: 0 30px;
@@ -148,9 +149,8 @@ const MainInput = styled(motion.input)<{
   ${props =>
     props.$light &&
     css`
-      &[type="password"] {
-      }
       background: rgba(217, 222, 255, 1);
+      color: #232323;
       &[type="password"] {
         color: #9497c1;
       }
@@ -162,7 +162,7 @@ const MainInput = styled(motion.input)<{
       color: #232323;
     `}
   ${media.mobile} {
-    font-size: 16px;
+    font-size: 14px;
     &[type="password"] {
       &::placeholder {
         letter-spacing: 3.2px;

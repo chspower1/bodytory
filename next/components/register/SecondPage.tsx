@@ -7,7 +7,7 @@ import { FlexContainer, InnerContainer, Row } from "@styles/Common";
 import MessageBox from "@components/MessageBox";
 import { ACCOUNT_ID_REGEX, PASSWORD_REGEX } from "constant/regex";
 import { PrevNextButtonBox, Form, FormContents } from "./FirstPage";
-import { theme } from "@styles/theme";
+import { media, theme } from "@styles/theme";
 import styled from "styled-components";
 import { LoginInputAreaBox } from "pages/auth/login";
 import { AnimatePresence } from "framer-motion";
@@ -220,4 +220,7 @@ export default SecondPage;
 
 const ButtonBox = styled(Row)`
   margin-top: 80px;
+  ${media.mobile}{
+    margin-top: 30px;
+  }
 `;

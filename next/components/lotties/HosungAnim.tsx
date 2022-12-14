@@ -3,20 +3,15 @@ import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { LottieAnimProps } from "types/lottieProps";
 
-const ToryWhiteAnim = ({ segmentIndex, width, delay }: LottieAnimProps) => {
+const HosungAnim = ({ segmentIndex, width, delay, play }: LottieAnimProps) => {
   const [ready, setReady] = useState<boolean>(false);
-  const [toryWhite, setToryWhite] = useState<AnimationItem>();
+  const [hosung, setHosung] = useState<AnimationItem>();
   const [lottie, setLottie] = useState<LottiePlayer | null>(null);
 
   const lottieRef = useRef<any>();
 
   const frameSegments: AnimationSegment[] = [
-    [0, 149],
-    [150, 215],
-    [216, 276],
-    [277, 456],
-    [457, 576],
-    [577, 725],
+    [0, 119],
   ];
 
   useEffect(() => {
@@ -25,15 +20,15 @@ const ToryWhiteAnim = ({ segmentIndex, width, delay }: LottieAnimProps) => {
 
   useEffect(() => {
     if (lottie && lottieRef.current) {
-      setToryWhite(
+      setHosung(
         lottie.loadAnimation({
           container: lottieRef.current,
           renderer: "svg",
-          loop: true,
+          loop: false,
           autoplay: false,
-          path: "/static/lottie/tory_white.json",
+          path: "/static/lottie/hosung.json",
           initialSegment: frameSegments[segmentIndex]
-        })
+        }),
       );
     }
 
@@ -51,10 +46,13 @@ const ToryWhiteAnim = ({ segmentIndex, width, delay }: LottieAnimProps) => {
   }, [lottie]);
 
   useEffect(() => {
-    if (toryWhite && ready) {
-      toryWhite.playSegments(frameSegments[segmentIndex], true);
+    if (hosung && ready) {
+      if(play) {
+        hosung.playSegments(frameSegments[0], false);
+      }
     }
-  }, [ready, segmentIndex, toryWhite]);
+
+  }, [ready, hosung, play]);
 
   return <LottieElem ref={lottieRef} width={width} />;
 };
@@ -63,4 +61,4 @@ const LottieElem = styled.div<{ width: number }>`
   width: ${({ width }) => width}px;
 `;
 
-export default ToryWhiteAnim;
+export default HosungAnim;

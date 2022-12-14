@@ -1,4 +1,4 @@
-import { RoundButton } from "@components/layout/buttons/SocialButton";
+import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 import HospitalModal from "@components/modals/HospitalModal";
 import { ChartContainer, ChartWrap, ScrollContainer } from "@components/records/chart/Chart";
 import ChartTimeline from "@components/records/chart/ChartTimeline";
@@ -45,14 +45,13 @@ const HospitalChart = () => {
               부위
             </PositionBox>
             {position && (
-              <RoundButton
-                size="md"
+              <RoundedDefaultButton
                 bgColor="rgb(244,245,255)"
-                textColor="rgb(83,89,233)"
+                color="rgb(83,89,233)"
                 onClick={() => setHospitalShowModal(true)}
               >
                 진료내역 작성
-              </RoundButton>
+              </RoundedDefaultButton>
             )}
           </PositionRecordsWriteBox>
           <ChartTimeline />

@@ -52,10 +52,6 @@ const MessageContainer = styled(motion.div)`
   align-items: center;
   height: 166px;
   word-break:keep-all;
-  ${media.custom(700)}{
-    font-size: 4.8571vw;
-    height:23.7142vw;
-  }
   ${media.mobile}{
     font-size: 24px;
     height:136px;
