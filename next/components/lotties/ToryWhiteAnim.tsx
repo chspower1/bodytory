@@ -2,6 +2,7 @@ import { AnimationItem, AnimationSegment, LottiePlayer } from "lottie-web";
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { LottieAnimProps } from "types/lottieProps";
+import LottieData from "@public/static/lottie/tory_white.json"
 
 const ToryWhiteAnim = ({ segmentIndex, width, delay }: LottieAnimProps) => {
   const [ready, setReady] = useState<boolean>(false);
@@ -31,7 +32,8 @@ const ToryWhiteAnim = ({ segmentIndex, width, delay }: LottieAnimProps) => {
           renderer: "svg",
           loop: true,
           autoplay: false,
-          path: "/static/lottie/tory_white.json",
+          // path: "/static/lottie/tory_white.json",
+          animationData: LottieData,
           initialSegment: frameSegments[segmentIndex]
         })
       );

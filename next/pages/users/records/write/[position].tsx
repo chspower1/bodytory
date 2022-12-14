@@ -230,6 +230,7 @@ const PositionPage = () => {
 export default PositionPage;
 
 const FadeInMotionDiv = styled(motion.div)`
+  height: 100%;
 `;
 
 const CircleButton = styled(CircleDefaultButton)`
