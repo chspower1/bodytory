@@ -6,10 +6,12 @@ import { bodyPartType } from "../../../../types/bodyParts";
 import { useSetRecoilState } from "recoil";
 import { currentBodyPosition } from "atoms/atoms";
 import { motion } from "framer-motion";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
+import { GetServerSidePropsContext, NextPage } from "next";
 import { media } from "@styles/theme";
 import doubleArrowIcon from "@src/assets/icons/doubleRight.png";
 
-export default function WritePage() {
+const WritePage: NextPage = () => {
   const [selectedBodyPart, setSelectedBodyPart] = useState<bodyPartType>(null);
   const setCurrentPosition = useSetRecoilState(currentBodyPosition);
   const [isSelect, setIsSelect] = useState(false);
@@ -52,8 +54,13 @@ export default function WritePage() {
       </MobBodyNavigatorArea>
     </RecordContainer>
   );
-}
-
+};
+export default WritePage;
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});
 const RecordContainer = styled.div`
   position: relative;
   padding: 50px;

@@ -1,5 +1,5 @@
 import Input from "@components/layout/input/Input";
-import { NextPage } from "next";
+import { GetServerSidePropsContext, NextPage } from "next";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
@@ -14,6 +14,7 @@ import { loggedInHospital } from "atoms/atoms";
 import { useSetRecoilState } from "recoil";
 import { LoginInputAreaBox } from "pages/auth/login";
 import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
 
 export interface LoginForm {
   accountId: string;
@@ -104,6 +105,11 @@ const LoginPage: NextPage = () => {
   );
 };
 export default LoginPage;
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});
 
 const HospitalInnerContainer = styled(InnerContainer)`
   .messageBox {

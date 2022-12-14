@@ -14,6 +14,8 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 const ramdomIntroText = ["건강한 하루에요!", "오늘도 반가워요!", "날씨가 추우니 건강에 유의하세요!", "오늘도 즐거운 하루에요!", "행복한 하루에요!"];
+import { GetServerSideProps, GetServerSidePropsContext } from "next";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
 
 const Home = () => {
   const { user } = useUser();
@@ -36,7 +38,7 @@ const Home = () => {
           >
             <ToryBox>
               <ToryMotion>
-                <ToryPurpleAnim segmentIndex={toryMotionIdx} width={340} />
+                <ToryPurpleAnim segmentIndex={toryMotionIdx} />
               </ToryMotion>
               <TextBox>
                 <p>    
@@ -92,6 +94,11 @@ const Home = () => {
   );
 };
 export default Home;
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});
 
 const FadeInMotionDiv = styled(motion.div)`
   height: 100%;
@@ -101,8 +108,8 @@ const RoundedButton = styled(RoundedDefaultButton)`
   width: 400px;
 `;
 const CircleButton = styled(CircleDefaultButton)`
-  width 80px;
-  height 80px;
+  width: 80px;
+  height: 80px;
 `;
 
 const ToryBox = styled(Row)`
@@ -198,4 +205,7 @@ const ToryMotion = styled.div`
   top: 50%;
   left: 0;
   transform: translate(-50%, -60%);
+  width: 340px;
+  height: 340px;
+  overflow: hidden;
 `;

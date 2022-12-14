@@ -26,5 +26,5 @@ export const KoreanPosition = {
   calf: "종아리",
   ankle: "발목",
   foot: "발",
-  undefined
+  undefined,
 };

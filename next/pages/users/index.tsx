@@ -17,6 +17,8 @@ import Origin from "@src/assets/icons/origin.svg";
 import getAmericanAge from "@utils/client/getAmericanAge";
 import { PASSWORD_REGEX } from "constant/regex";
 import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
+import { GetServerSidePropsContext } from "next";
 
 interface PasswordType {
   oldPassword: string;
@@ -24,7 +26,7 @@ interface PasswordType {
   newPasswordConfirm: string;
 }
 
-const Edit = () => {
+const UserPage = () => {
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
   const [errorModal, setErrorModal] = useState(false);
@@ -184,8 +186,12 @@ const Edit = () => {
     </Container>
   );
 };
-export default Edit;
-
+export default UserPage;
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});
 export const EditButton = styled(RoundedDefaultButton)`
   font-size: 18px;
   padding: 16px 50px;

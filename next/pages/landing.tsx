@@ -56,7 +56,7 @@ export default function LendingPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1, transition: { duration: 0.6, ease: "easeOut", delay: 0.2 } }}
         >
-          <ToryWhiteAnim segmentIndex={toryMotionIdx} width={480} />
+          <ToryWhiteAnim segmentIndex={toryMotionIdx} />
         </ToryMotion>
         {isFirst && (
           <QuestionBox
@@ -146,4 +146,6 @@ const SkipButton = styled(RoundedDefaultButton)`
 
 const ToryMotion = styled(motion.div)`
   transform: translate(0, -50px);
+  width: 480px;
+  height: 480px;
 `;

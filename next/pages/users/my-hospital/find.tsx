@@ -10,6 +10,8 @@ import SearchHospitalList from "@components/search/SearchHospitalList";
 import SearchHospitalMap from "@components/search/SearchHospitalMap";
 import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 import ToryPurpleAnim from "@components/lotties/ToryPurpleAnim";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
+import { GetServerSidePropsContext } from "next";
 
 type PageCategory = "search" | "map";
 const FindHospital = () => {
@@ -25,7 +27,7 @@ const FindHospital = () => {
       <MainInnerContainer>
         <DescriptionBox>
           <ToryMotion>
-            <ToryPurpleAnim segmentIndex={0} width={260} />
+            <ToryPurpleAnim segmentIndex={0} />
           </ToryMotion>
           <Pragraph>
             {pageCategory === "search" && (
@@ -76,7 +78,11 @@ const FindHospital = () => {
 };
 
 export default FindHospital;
-
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});
 const SearchModeTogleButton = styled(RoundedDefaultButton)`
   padding: 12px 50px;
 `;

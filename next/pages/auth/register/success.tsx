@@ -1,11 +1,12 @@
 import MessageBox from "@components/MessageBox";
 import { FlexContainer, InnerContainer } from "@styles/Common";
 import { theme } from "@styles/theme";
-import { NextPage } from "next";
+import { GetServerSidePropsContext, NextPage } from "next";
 import Link from "next/link";
 import { FinalCommentBox } from "../help/find-id";
 import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 import { useRouter } from "next/router";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
 
 const SuccessPage: NextPage = () => {
   const router = useRouter();
@@ -30,3 +31,8 @@ const SuccessPage: NextPage = () => {
   );
 };
 export default SuccessPage;
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});
