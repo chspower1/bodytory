@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { LottieAnimProps } from "types/lottieProps";
 
-const ToryPurpleAnim = ({ segmentIndex, width, delay }: LottieAnimProps) => {
+const ToryPurpleAnim = ({ segmentIndex, delay }: LottieAnimProps) => {
   const [ready, setReady] = useState<boolean>(false);
   const [toryPurple, setToryPurple] = useState<AnimationItem>();
   const [lottie, setLottie] = useState<LottiePlayer | null>(null);
@@ -57,11 +57,11 @@ const ToryPurpleAnim = ({ segmentIndex, width, delay }: LottieAnimProps) => {
     }
   }, [ready, segmentIndex, toryPurple]);
 
-  return <LottieElem ref={lottieRef} width={width} />;
+  return <LottieElem ref={lottieRef} />;
 };
 
-const LottieElem = styled.div<{ width: number }>`
-  width: ${({ width }) => width}px;
+const LottieElem = styled.div`
+  width: 100%;
 `;
 
 export default ToryPurpleAnim;

@@ -25,7 +25,7 @@ const FindHospital = () => {
       <MainInnerContainer>
         <DescriptionBox>
           <ToryMotion>
-            <ToryPurpleAnim segmentIndex={0} width={260} />
+            <ToryPurpleAnim segmentIndex={0} />
           </ToryMotion>
           <Pragraph>
             {pageCategory === "search" && (

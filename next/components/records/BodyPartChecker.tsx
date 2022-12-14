@@ -20,7 +20,7 @@ const BodyPartChecker = ({ selectedBodyPart }: SelectBodyPartProps) => {
     <FlexContainer>
       <ContentBox>
         <ToryBox>
-          <ToryPurpleAnim segmentIndex={0} width={360} />
+          <ToryPurpleAnim segmentIndex={0} />
         </ToryBox>
         <TextBox>
           {!selectedBodyPart ? (

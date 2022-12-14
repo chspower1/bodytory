@@ -21,7 +21,7 @@ const ClinicList = () => {
         <PageHeadBox>
           <PageHead>
             <ToriBox>
-              <ToryPurpleAnim segmentIndex={0} width={260} />
+              <ToryPurpleAnim segmentIndex={0} />
             </ToriBox>
             <DescriptionBox>
               <Pragraph>

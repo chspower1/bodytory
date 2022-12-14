@@ -163,7 +163,7 @@ const PositionPage = () => {
         <FlexContainer>
           <Col>
             <ToryBox>
-              <ToryPurpleAnim segmentIndex={0} width={360} />
+              <ToryPurpleAnim segmentIndex={0} />
             </ToryBox>
             <TextBox>
               <BlackToryText>

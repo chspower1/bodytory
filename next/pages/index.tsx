@@ -36,7 +36,7 @@ const Home = () => {
           >
             <ToryBox>
               <ToryMotion>
-                <ToryPurpleAnim segmentIndex={toryMotionIdx} width={340} />
+                <ToryPurpleAnim segmentIndex={toryMotionIdx} />
               </ToryMotion>
               <TextBox>
                 <p>    
@@ -198,4 +198,7 @@ const ToryMotion = styled.div`
   top: 50%;
   left: 0;
   transform: translate(-50%, -60%);
+  width: 340px;
+  height: 340px;
+  overflow: hidden;
 `;

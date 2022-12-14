@@ -3,7 +3,7 @@ import ToryPurpleAnim from "@components/lotties/ToryPurpleAnim";
 import { PositionTextBox } from "@components/records/BodyPartChecker";
 import { Position } from "@prisma/client";
 import { FlexContainer } from "@styles/Common";
-import { theme } from "@styles/theme";
+import { media, theme } from "@styles/theme";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -29,7 +29,7 @@ const AddPage = () => {
         animate={{ opacity: 1, transition: { duration: 1, ease: "easeOut", delay: .3 } }}
       >
         <ToryMotion>
-          <ToryPurpleAnim segmentIndex={toryMotionIdx} width={360} />
+          <ToryPurpleAnim segmentIndex={toryMotionIdx} />
         </ToryMotion>
         <ToryText>
           <PositionTextBox>{KoreanPosition[position]}</PositionTextBox>에 대한 기록을 완료했어요.
@@ -65,6 +65,11 @@ export const ToryText = styled.div`
   line-height: 1.8;
   text-align: center;
   margin-bottom: 100px;
+
+  ${media.custom(1280)} {
+    font-size: 30px;
+  }
+
 `;
 
 const ButtonBox = styled.div`

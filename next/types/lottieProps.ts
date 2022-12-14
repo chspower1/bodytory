@@ -1,6 +1,6 @@
 export interface LottieAnimProps {
   segmentIndex: number;
-  width: number;
+  width?: string;
   delay?: number;
   play?: boolean;
 }

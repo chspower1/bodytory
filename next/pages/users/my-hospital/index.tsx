@@ -41,7 +41,7 @@ const MyHospitalPage = () => {
       <MainInnerContainer>
         <DescriptionBox>
           <ToryMotion>
-            <ToryPurpleAnim segmentIndex={0} width={260} />
+            <ToryPurpleAnim segmentIndex={0} />
           </ToryMotion>
           <Pragraph>
             <HighlightText>{user.name}님</HighlightText>의 기록을 공유받고 있는 병원 목록이에요
@@ -153,9 +153,9 @@ const ToryMotion = styled.div`
   position: absolute;
   top: 50%;
   left: 0;
-  transform: translate(0, -50%);
-  width: 120px;
-  height: 120px;
+  transform: translate(-25%, -60%);
+  width: 260px;
+  height: 260px;
   margin-right: 30px;
   ${media.mobile} {
     top: -10px;
