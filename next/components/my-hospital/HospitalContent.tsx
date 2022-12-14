@@ -246,6 +246,11 @@ const SpaceText = styled(Text)<{ add: boolean }>`
   }
   ${media.mobile} {
     font-size: 14px;
+    min-width: 150px;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 `;
 export const ShareStatus = styled(Text)<{ status: boolean }>`
@@ -286,15 +291,13 @@ const HospitalInforBox = styled.div`
     flex-direction: column;
     row-gap: 15px;
   }
-  ${media.mobile} {
-  }
 `;
 
 const HospitalInfor = styled.li<{ add: boolean }>`
   display: inline-block;
   position: relative;
   padding: 20px 40px;
-  width: 100%;
+  width: 98%;
   background-color: ${prop => (prop.add ? "rgb(225,227,255)" : "rgb(100,106,235)")};
   transition: all 0.4s ease;
   border-radius: 20px;
@@ -322,6 +325,10 @@ const HospitalPlaceBox = styled.div<{ add?: boolean }>`
   display: flex;
   align-items: center;
   width: ${props => (props.add ? "500px" : "270px")};
+  ${media.mobile} {
+    display: block;
+    width: 100%;
+  }
 `;
 
 const HospitalDescriptionBox = styled.div<{ add?: boolean }>`

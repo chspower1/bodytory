@@ -160,6 +160,7 @@ const NoneMessage = styled.div`
   transform: translateY(-50%) translateX(-50%);
   font-size: 30px;
   color: ${theme.color.darkBg};
+  word-break: keep-all;
 `;
 const SearchForm = styled.form`
   display: flex;
@@ -214,7 +215,8 @@ const HospitalContainer = styled.div<{ add: boolean }>`
 `;
 
 const HospitalLists = styled.ul`
-  width: 1500px;
+  max-width: 1500px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
