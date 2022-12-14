@@ -1,6 +1,6 @@
 import Input from "@components/layout/input/Input";
 
-import { NextPage } from "next";
+import { GetServerSidePropsContext, NextPage } from "next";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
@@ -15,6 +15,7 @@ import styled from "styled-components";
 import { FlexContainer, InnerContainer } from "@styles/Common";
 import { FindForm, Seperation } from "./find-id";
 import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
 export interface HelpForm {
   type: UserType;
   accountId?: string;
@@ -135,5 +136,9 @@ const HelpPage: NextPage = () => {
   );
 };
 export default HelpPage;
-
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});
 const Container = styled(FlexContainer)``;

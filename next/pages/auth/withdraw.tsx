@@ -12,12 +12,14 @@ import styled from "styled-components";
 import { PASSWORD_REGEX } from "constant/regex";
 import useUser from "@hooks/useUser";
 import { EditButton } from "pages/users/profile/edit";
+import { GetServerSidePropsContext, NextPage } from "next";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
 
 export interface WithdrawType {
   password: string;
 }
 
-export default function Withdraw() {
+const Withdraw: NextPage = () => {
   const router = useRouter();
   const { user } = useUser();
   const [userType, setUserType] = useState("");
@@ -120,7 +122,14 @@ export default function Withdraw() {
       </Modal>
     </FlexContainer>
   );
-}
+};
+
+export default Withdraw;
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});
 
 const WithdrawButton = styled(EditButton)``;
 
@@ -134,7 +143,7 @@ const Form = styled.form`
 
 const ButtonBox = styled.div`
   margin-top: 50px;
-  display:flex;
+  display: flex;
   button {
     margin: 0 auto;
   }

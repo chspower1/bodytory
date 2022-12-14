@@ -12,6 +12,8 @@ import ToryPurpleAnim from "@components/lotties/ToryPurpleAnim";
 import { CircleDefaultButton, RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { GetServerSideProps, GetServerSidePropsContext } from "next";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
 
 const Home = () => {
   const { user } = useUser();
@@ -22,13 +24,10 @@ const Home = () => {
     setTimeout(() => {
       setToryMotionIdx(0);
     }, 2100);
-  }, [])
+  }, []);
 
   return (
-    <FadeInMotionWrap
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1, transition: { duration: .5, ease: "easeOut" } }}
-    >
+    <FadeInMotionWrap initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { duration: 0.5, ease: "easeOut" } }}>
       <FlexContainer>
         <Col>
           <ToryBox>
@@ -36,7 +35,7 @@ const Home = () => {
               <ToryPurpleAnim toryMotionIdx={toryMotionIdx} width={340} />
             </ToryMotion>
             <TextBox>
-              <p>    
+              <p>
                 <Accent>
                   <strong>{user ? user?.name : "OOO"}님, </strong>
                 </Accent>
@@ -48,7 +47,7 @@ const Home = () => {
           <WriteBox>
             <Link href="users/records/write">
               <div>
-                <CircleButton bgColor="rgba(83, 89, 233)" >
+                <CircleButton bgColor="rgba(83, 89, 233)">
                   <Mic width={50} height={50} />
                 </CircleButton>
                 <BodyText>건강 관리를 위해 매일매일 잊지말고 기록해요!</BodyText>
@@ -65,8 +64,7 @@ const Home = () => {
             </Link>
             <Link href="/users/my-hospital">
               <RoundedButton lg img bgColor="rgb(108, 113, 240)">
-                <Hospital width={30} height={30} fill={theme.color.mint} />
-                내 병원 관리하기
+                <Hospital width={30} height={30} fill={theme.color.mint} />내 병원 관리하기
               </RoundedButton>
             </Link>
           </ButtonBox>
@@ -81,20 +79,24 @@ const Home = () => {
         </Col>
       </FlexContainer>
     </FadeInMotionWrap>
-
   );
 };
 export default Home;
 
-const FadeInMotionWrap = styled(motion.div)`
-`;
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});
+
+const FadeInMotionWrap = styled(motion.div)``;
 
 const RoundedButton = styled(RoundedDefaultButton)`
   width: 400px;
 `;
 const CircleButton = styled(CircleDefaultButton)`
-  width 80px;
-  height 80px;
+  width: 80px;
+  height: 80px;
 `;
 
 const ToryBox = styled(Row)`

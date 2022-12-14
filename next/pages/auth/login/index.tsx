@@ -1,6 +1,6 @@
 import Input from "@components/layout/input/Input";
 
-import { NextPage } from "next";
+import { GetServerSidePropsContext, NextPage } from "next";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
@@ -16,6 +16,7 @@ import styled from "styled-components";
 import MessageBox from "@components/MessageBox";
 import { ACCOUNT_ID_REGEX, PASSWORD_REGEX } from "constant/regex";
 import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
 
 export interface LoginForm {
   accountId: string;
@@ -138,7 +139,11 @@ const LoginPage: NextPage = () => {
   );
 };
 export default LoginPage;
-
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});
 export const ToryTextBox = styled.div`
   text-align: center;
   padding: 50px 0 65px;

@@ -10,6 +10,8 @@ import { Box, Col, FlexContainer, InnerContainer } from "@styles/Common";
 import styled from "styled-components";
 import MessageBox from "@components/MessageBox";
 import { Variants, motion } from "framer-motion";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
+import { GetServerSidePropsContext, NextPage } from "next";
 
 const CHOICE_VARIANTS: Variants = {
   animate: {
@@ -33,7 +35,7 @@ const TYPE_VARIANTS: Variants = {
     },
   },
 };
-const ChoicePage = () => {
+const ChoicePage: NextPage = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const { postApi } = customApi("/api/auth/login");
@@ -77,8 +79,11 @@ const ChoicePage = () => {
 };
 
 export default ChoicePage;
-
-const ChoiceWrapper = styled.div``;
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});
 
 const ButtonBox = styled(Box)`
   margin: 50px 0;

@@ -4,7 +4,7 @@ import withHandler from "@utils/server/withHandler";
 import { withApiSession } from "@utils/server/withSession";
 import { Position } from "@prisma/client";
 
-async function handler(req: NextApiRequest, res: NextApiResponse) {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { position, patientId } = req.query;
   if (!position || !patientId) return res.status(401).send("api 주소가 잘못되었습니다");
   const data = await client.record.findMany({
@@ -27,6 +27,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   });
 
   return res.status(200).json(data);
-}
+};
 
 export default withApiSession(withHandler({ methods: ["POST", "GET", "PUT", "DELETE"], handler }));

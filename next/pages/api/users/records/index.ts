@@ -5,7 +5,7 @@ import { withApiSession } from "@utils/server/withSession";
 import { NextResponse } from "next/server";
 import axios from "axios";
 
-async function handler(req: NextApiRequest, res: NextApiResponse) {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { user } = req.session;
   if (!user) return res.status(401).send("회원 정보를 확인해주세요");
 
@@ -16,7 +16,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "PUT") return await updateRecord(req, res);
 
   if (req.method === "DELETE") return await deleteRecord(req, res);
-}
+};
 
 async function createRecord(req: NextApiRequest, res: NextApiResponse, user: { id: number }) {
   const { position, description } = req.body;

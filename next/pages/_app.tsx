@@ -8,6 +8,10 @@ import { theme } from "@styles/theme";
 import { ThemeProvider } from "styled-components";
 import { RecoilRoot } from "recoil";
 import "@public/static/fonts/pretendardvariable.css";
+import CustomSeo from "@components/CustomSeo";
+interface PageCommonProps {
+  pagePath: string;
+}
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -31,17 +35,15 @@ declare global {
   }
 }
 export default function App({ Component, pageProps }: AppProps) {
+  const { seoData } = pageProps;
   return (
     <>
-      <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>바디토리</title>
-      </Head>
       <QueryClientProvider client={queryClient}>
         <RecoilRoot>
           <ThemeProvider theme={theme}>
             <GlobalStyled />
             <Layout>
+              <CustomSeo seoData={seoData} />
               <Component {...pageProps} />
             </Layout>
           </ThemeProvider>
