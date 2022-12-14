@@ -1,3 +1,4 @@
+import { media } from "@styles/theme";
 import React from "react";
 import styled from "styled-components";
 
@@ -69,11 +70,47 @@ const MenuButtonBox = styled.div`
       }
     }
   }
+
+  ${media.custom(1280)} {
+    width: 70px;
+    height: 70px;
+  }
+
+  ${media.mobile} {
+    width: 52px;
+    height: 52px;
+
+    &.active {
+      button {
+        div {
+          span:nth-child(1) {
+            width: 60%;
+            transform: translate(-2px, 3.5px) rotate(-45deg);
+          }
+          span:nth-child(3) {
+            width: 60%;
+            transform: translate(-2px, -3.5px) rotate(45deg);
+          }
+        }
+      }
+    }
+
+  }
+
+
 `;
 const MenuButton = styled.button`
   width: 100%;
   height: 100%;
   padding: 26px 22px;
+
+  ${media.custom(1280)} {
+    padding: 22px 18px;
+  }
+
+  ${media.mobile} {
+    padding: 16px 12px;
+  }
 `;
 
 const LineBox = styled.div`
