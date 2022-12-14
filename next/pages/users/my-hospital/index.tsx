@@ -1,4 +1,4 @@
-import { theme } from "@styles/theme";
+import { media, theme } from "@styles/theme";
 import { useQuery } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
 import { HOSPITALS } from "constant/queryKeys";
@@ -75,12 +75,20 @@ export const MainContainer = styled.div`
 export const MainInnerContainer = styled.div`
   width: 1600px;
   margin: auto;
+  ${media.mobile} {
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+  }
 `;
 
 export const Pragraph = styled.p`
   font-size: 32px;
   strong {
     font-weight: 700;
+  }
+  ${media.mobile} {
+    font-size: 11px;
   }
 `;
 export const HighlightText = styled.span`
@@ -94,25 +102,30 @@ export const DescriptionBox = styled.div`
   width: 100%;
   height: 200px;
   text-align: left;
-  padding: 50px 50px 50px 190px;
+  padding: 50px 50px 50px 180px;
+  ${media.mobile} {
+    padding: 80px 50px 50px 130px;
+  }
 `;
 
 export const ImageIcon = styled(Image)`
   margin-right: 20px;
 `;
 
-export const ButtonBox = styled.div<{isMap ?: boolean;}>`
+export const ButtonBox = styled.div<{ isMap?: boolean }>`
   display: flex;
   justify-content: center;
-  padding:${({isMap}) => isMap ? ` 0 0 30px` : ` 0 0 42px`};
-  
+  padding: ${({ isMap }) => (isMap ? ` 0 0 30px` : ` 0 0 42px`)};
+  ${media.mobile} {
+  }
 `;
 
 const ToryMotion = styled.div`
   position: absolute;
   top: 50%;
   left: 0;
-  transform: translate(-20%, -60%);
-  width: 260px;
-  height: 260px;
+  transform: translate(0, -50%);
+  width: 120px;
+  height: 120px;
+  margin-right: 30px;
 `;

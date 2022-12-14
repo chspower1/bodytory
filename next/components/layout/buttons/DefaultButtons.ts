@@ -22,7 +22,6 @@ export const RoundedDefaultButton = styled.button<{
   img,
   svg {
     margin-right: 15px;
-
   }
   :hover {
     background: ${({ bgColor }) => ChangeToHoverColor(bgColor || "rgb(61, 66, 191)")};
@@ -39,14 +38,13 @@ export const RoundedDefaultButton = styled.button<{
     lg &&
     css`
       max-width: 500px;
-      width:100%;
+      width: 100%;
       padding: 20px 0;
       border-radius: 60px;
       font-size: 20px;
-      ${media.custom(1366)}{
-        
+      ${media.custom(1366)} {
       }
-      ${media.mobile}{
+      ${media.mobile} {
         font-size: 16px;
         padding: 15px 0;
         border-radius: 40px;
@@ -59,6 +57,11 @@ export const RoundedDefaultButton = styled.button<{
       font-size: 16px;
       border-radius: 40px;
       padding: 12px 0;
+      ${media.mobile} {
+        font-size: 12px;
+        padding: 8px 0;
+        width: 80px;
+      }
     `}
   ${({ disable, theme }) =>
     disable &&
