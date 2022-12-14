@@ -167,17 +167,28 @@ const AddButtonBox = styled.div`
 
   span {
     position: absolute;
-    left: -70px;
+    left: -60px;
     top: 50%;
     transform: translateY(-50%);
     font-size: 16px;
     font-weight: 600;
     color: ${({ theme }) => theme.color.input};
   }
-  ${media.mobile} {
+  ${media.custom(1440)} {
     position: absolute;
-    top: 15px;
+    top: 18px;
     right: 20px;
+    font-size: 14px;
+    span {
+      font-size: 14px;
+    }
+  }
+  ${media.mobile} {
+    > button {
+      width: 50px;
+      padding: 8px 0;
+      font-size: 14px;
+    }
   }
 `;
 
@@ -302,7 +313,7 @@ const HospitalInforContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  ${media.mobile} {
+  ${media.custom(1440)} {
     display: block;
   }
 `;
@@ -345,8 +356,7 @@ const Department = styled(Box)`
   border-radius: 5px;
   height: 32px;
   margin-left: 20px;
-  ${media.mobile} {
-    width: 150px;
-    margin-left: 0;
+  ${media.custom(1440)} {
+    display: none;
   }
 `;

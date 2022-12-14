@@ -131,6 +131,20 @@ export default SearchHospitalList;
 const SearchButton = styled(RoundedDefaultButton)`
   height: 60px;
   padding: 0 50px;
+  ${media.custom(1440)} {
+    width: 100px;
+    font-size: 16px;
+    padding: 5px;
+    margin-left: 20px;
+  }
+  ${media.mobile} {
+    position: absolute;
+    right: 10px;
+    height: 40px;
+    width: 50px;
+    font-size: 14px;
+    border-radius: 10px;
+  }
 `;
 
 export const SearchContainer = styled.div`
@@ -161,6 +175,12 @@ const SearchBox = styled.div`
   align-items: center;
   width: 60%;
   margin: 0 auto;
+  ${media.custom(1440)} {
+    width: 80%;
+  }
+  ${media.mobile} {
+    width: 90%;
+  }
 `;
 const InnerContainer = styled.div<{ add: boolean }>`
   width: 100%;
@@ -187,6 +207,10 @@ const HospitalContainer = styled.div<{ add: boolean }>`
   margin-top: 10px;
   background: rgba(231, 232, 255, 0.5);
   transition: background 0.3s;
+  ${media.custom(1440)} {
+    width: 100%;
+    padding: 10px;
+  }
 `;
 
 const HospitalLists = styled.ul`
@@ -195,8 +219,7 @@ const HospitalLists = styled.ul`
   flex-direction: column;
   align-items: center;
   margin: 0 auto;
-  ${media.mobile} {
-    width: 100%;
-    align-items: start;
+  ${media.custom(1440)} {
+    width: auto;
   }
 `;
