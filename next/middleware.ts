@@ -9,7 +9,6 @@ export async function middleware(req: NextRequest) {
     cookieName: "userSession",
     password: process.env.COOKIE_PASSWORD!,
   });
-
   if (req.url.includes("/users/records/write/add") || req.url.includes("/users/records/write/analysis")) {
     if (!req.nextUrl.search.includes("position")) return NextResponse.redirect(new URL("/", req.url));
   }
@@ -28,7 +27,9 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL("/auth/login", req.url));
   } else if (
     session.user &&
-    (req.url.includes("auth/login") || req.url.includes("/auth/help") || (req.url.includes("/auth/register") && !req.url.includes("/success")))
+    (req.url.includes("auth/login") ||
+      req.url.includes("/auth/help") ||
+      (req.url.includes("/auth/register") && !req.url.includes("/success")))
   ) {
     return NextResponse.redirect(new URL("/", req.url));
   }

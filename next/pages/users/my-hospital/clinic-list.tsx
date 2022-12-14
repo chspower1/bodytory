@@ -8,6 +8,8 @@ import styled from "styled-components";
 import tory from "@src/assets/icons/tory.png";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
+import { GetServerSidePropsContext } from "next";
 
 const ClinicList = () => {
   const rounter = useRouter();
@@ -45,7 +47,11 @@ const ClinicList = () => {
 };
 
 export default ClinicList;
-
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});
 const ClinicListWrap = styled.div`
   display: flex;
   flex-direction: column;

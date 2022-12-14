@@ -12,6 +12,8 @@ import ToryPurpleAnim from "@components/lotties/ToryPurpleAnim";
 import { CircleDefaultButton, RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { GetServerSideProps, GetServerSidePropsContext } from "next";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
 
 const Home = () => {
   const { user } = useUser();
@@ -67,7 +69,7 @@ const Home = () => {
             </Link>
           </ButtonBox>
           <AccountBtnBox>
-            <Link href="/users/profile/edit">
+            <Link href="/users">
               <div>
                 <Setting />
                 계정 설정
@@ -80,6 +82,11 @@ const Home = () => {
   );
 };
 export default Home;
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});
 
 const FadeInMotionWrap = styled(motion.div)``;
 

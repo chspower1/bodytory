@@ -3,9 +3,9 @@ import client from "utils/server/client";
 import withHandler from "@utils/server/withHandler";
 import { withApiSession } from "@utils/server/withSession";
 
-async function handler(req: NextApiRequest, res: NextApiResponse) {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "GET") return await myClinicList(req, res);
-}
+};
 
 async function myClinicList(req: NextApiRequest, res: NextApiResponse) {
   const { user } = req.session;

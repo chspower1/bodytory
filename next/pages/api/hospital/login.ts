@@ -4,14 +4,14 @@ import withHandler from "@utils/server/withHandler";
 import { withApiSession } from "@utils/server/withSession";
 import { LoginForm } from "pages/auth/login";
 
-async function handler(req: NextApiRequest, res: NextApiResponse) {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     await loginByOrigin(req, res);
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : (<Object>error).toString();
     return res.status(401).send(errorMessage);
   }
-}
+};
 
 async function loginByOrigin(req: NextApiRequest, res: NextApiResponse) {
   const { accountId, password }: LoginForm = req.body;

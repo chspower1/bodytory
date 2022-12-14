@@ -6,6 +6,8 @@ import Jung from "@src/assets/images/team/Jung.png";
 import Oh from "@src/assets/images/team/Oh.png";
 import Jo from "@src/assets/images/team/Cho.png";
 import Image from "next/image";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
+import { GetServerSidePropsContext } from "next";
 const Team = () => {
   return (
     <Container>
@@ -190,3 +192,8 @@ const DaHyen = styled(HoSung)``;
 const SoHee = styled(HoSung)``;
 
 export default Team;
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});

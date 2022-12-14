@@ -1,6 +1,6 @@
 import Input from "@components/layout/input/Input";
 
-import { NextPage } from "next";
+import { GetServerSidePropsContext, NextPage } from "next";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
@@ -17,6 +17,7 @@ import MessageBox from "@components/MessageBox";
 import styled from "styled-components";
 import { FlexContainer, InnerContainer, Row } from "@styles/Common";
 import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
 
 const HelpFindId: NextPage = () => {
   const { postApi } = customApi("/api/auth/help/find-id");
@@ -138,7 +139,11 @@ const HelpFindId: NextPage = () => {
   );
 };
 export default HelpFindId;
-
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});
 export const FindForm = styled.form`
   margin-top: 100px;
 `;

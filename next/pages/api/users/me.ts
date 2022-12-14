@@ -3,7 +3,7 @@ import client from "utils/server/client";
 import withHandler from "@utils/server/withHandler";
 import { withApiSession } from "@utils/server/withSession";
 
-async function handler(req: NextApiRequest, res: NextApiResponse) {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { user } = req.session;
   if (!user) return res.status(401).send("유저 정보가 없습니다");
   const foundUser = await client.user.findFirst({
@@ -23,6 +23,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   });
 
   return res.status(200).json(foundUser);
-}
+};
 
 export default withApiSession(withHandler({ methods: ["GET"], handler, isPrivate: false }));

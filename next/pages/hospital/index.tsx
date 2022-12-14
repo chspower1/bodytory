@@ -17,6 +17,8 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
+import { GetServerSidePropsContext, NextPage } from "next";
 
 export interface HospitalName {
   id: number;
@@ -35,7 +37,7 @@ interface HospitalPatients {
   };
 }
 
-const HospitalHomePage = () => {
+const HospitalHomePage: NextPage = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const { getApi } = customApi("/api/hospital");
@@ -183,6 +185,11 @@ const HospitalHomePage = () => {
 };
 
 export default HospitalHomePage;
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});
 
 const HospitalWrapper = styled.div`
   display: flex;
