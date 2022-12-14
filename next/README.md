@@ -38,10 +38,10 @@
   <img src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=Next.js&logoColor=white"/>
   <img src="https://img.shields.io/badge/Typescript-3178C6?style=flat-square&logo=Typescript&logoColor=white"/>
   <img src="https://img.shields.io/badge/Recoil-black?style=flat-square&logo=Recoil&logoColor=white"/>
-  <img src="https://img.shields.io/badge/ReactQuery-FF4154?style=flat-square&logo=ReactQuery&logoColor=white"/>
-  <img src="https://img.shields.io/badge/ReactHookForm-EC5990?style=flat-square&logo=ReactHookForm&logoColor=white"/>
+  <img src="https://img.shields.io/badge/React Query-FF4154?style=flat-square&logo=ReactQuery&logoColor=white"/>
+  <img src="https://img.shields.io/badge/React Hook Form-EC5990?style=flat-square&logo=ReactHookForm&logoColor=white"/>
   <img src="https://img.shields.io/badge/Axios-5A29E4?style=flat-square&logo=Axios&logoColor=white"/>
-  <img src="https://img.shields.io/badge/styledcomponents-DB7093?style=flat-square&logo=styled-components&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Styled Components-DB7093?style=flat-square&logo=styled-components&logoColor=white"/>
   <img src="https://img.shields.io/badge/Framer-0055FF?style=flat-square&logo=Framer&logoColor=white"/>
   <br/>
   <br/>
@@ -50,14 +50,14 @@
   <br/>
    <img src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=Next.js&logoColor=white"/>
    <img src="https://img.shields.io/badge/Flask-555555?style=flat-square&logo=Flask&logoColor=white"/>
-   <img src="https://img.shields.io/badge/IronSession-DB7093?style=flat-square&logoColor=white"/>
+   <img src="https://img.shields.io/badge/Iron Session-DB7093?style=flat-square&logoColor=white"/>
    <img src="https://img.shields.io/badge/NodeMailer-black?style=flat-square&logo=Recoil&logoColor=white"/>
   <br/>
   <br/>
   <!-- 데이터베이스 -->
   <img src="https://img.shields.io/badge/DataBase-3178C6?style=for-the-badge"/>
   <br/>
-   <img src="https://img.shields.io/badge/PlanetScale-000000?style=flat-square&logo=PlanetScale&logoColor=white"/>
+   <img src="https://img.shields.io/badge/Planet Scale-000000?style=flat-square&logo=PlanetScale&logoColor=white"/>
     <img src="https://img.shields.io/badge/Cloudflare-F38020?style=flat-square&logo=Cloudflare&logoColor=white"/>
     <img src="https://img.shields.io/badge/Prisma-2D3748?style=flat-square&logo=Prisma&logoColor=white"/>
      <br/>
@@ -103,7 +103,7 @@
 
 ## Front-End
 
-<img src="https://img.shields.io/badge/ReactQuery-FF4154?style=for-the-badge&logo=ReactQuery&logoColor=white"/>
+<img src="https://img.shields.io/badge/React Query-FF4154?style=for-the-badge&logo=ReactQuery&logoColor=white"/>
 
 - 보다 편한 비동기 처리
   - Api 호출을 하는 일련의 과정을 Tanstack-Query에서 제공하는 hook을 통해 편리하게 사용할 수 있습니다.
@@ -117,7 +117,7 @@
     api 호출 시 발생되는 복잡한 이벤트 처리에도 강력한 힘을 발휘합니다.  
     // Suspense에서 관리하는 3가지 상태를 react-query에서 직접적으로 접근할 수 있게 해준다.
 
-<img src="https://img.shields.io/badge/ReactHookForm-EC5990?style=for-the-badge&logo=ReactHookForm&logoColor=white"/>
+<img src="https://img.shields.io/badge/React Hook Form-EC5990?style=for-the-badge&logo=ReactHookForm&logoColor=white"/>
 
 - 간편하고 강력한 Form 관리
 
@@ -138,7 +138,7 @@
 
 ## Style
 
-  <img src="https://img.shields.io/badge/styledcomponents-DB7093?style=for-the-badge&logo=styled-components&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Styled Components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white"/>
 
 - 효율적인 재사용
   - 한번 선언으로 여러 곳에서 재사용이 가능하며, 필요의 경우 상속을 통해 부가적으로 수정하는 것 또한 가능합니다.
@@ -183,7 +183,7 @@
 
 ## DB
 
-<img src="https://img.shields.io/badge/PlanetScale-000000?style=for-the-badge&logo=PlanetScale&logoColor=white"/>
+<img src="https://img.shields.io/badge/Planet Scale-000000?style=for-the-badge&logo=PlanetScale&logoColor=white"/>
 
 - Cloud MySQL
   - 바디토리는 데이터 간의 종속성이 짙어서 관계형DB를 사용할 필요가 있었습니다.
