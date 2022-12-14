@@ -29,6 +29,18 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
 async function loginByOrigin(req: NextApiRequest, res: NextApiResponse) {
   const { accountId, password }: LoginForm = req.body;
+  if (accountId === "bodytory123") {
+    await client.testAccountCount.update({
+      where: {
+        id: 1,
+      },
+      data: {
+        count: {
+          decrement: 1,
+        },
+      },
+    });
+  }
   let foundUser = await client.user.findFirst({
     where: {
       accountId,
