@@ -42,9 +42,7 @@ deploy:
     - echo -e "\nCF_TOKEN="$CFTOKEN >> .env
     - echo -e "\nNEXT_PUBLIC_IMG_URL="$NEXT_IMG >> .env
     - cp .env /builds/ai_track/class05/ai_project/team01/team01/next
-    - cat << _EOF_ > /etc/cron.weekly/gitlab_runner_clear_cache#!/bin/sh/usr/share/gitlab-runner/clear-docker-cache_EOF_
   script:
     - docker-compose up -d --build
     - docker image prune -f
     - docker images
-    - chmod +x /etc/cron.weekly/gitlab_runner_clear_cache
