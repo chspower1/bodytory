@@ -11,6 +11,7 @@ export const Wrapper = styled.div<{ bgColor?: string }>`
   background-color: ${props => props.bgColor};
   ${media.tablet}{
     overflow-y:auto;
+    overflow-y:auto;
   }
 `;
 
