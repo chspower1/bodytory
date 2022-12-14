@@ -8,6 +8,7 @@ import styled from "styled-components";
 import { bodyPartType } from "types/bodyParts";
 import { KoreanPosition } from "types/write";
 import { Dispatch, SetStateAction } from "react";
+import { media } from "@styles/theme";
 
 interface SelectBodyPartProps {
   selectedBodyPart: bodyPartType;
@@ -52,14 +53,14 @@ const BodyPartChecker = ({ selectedBodyPart, setIsSelect }: SelectBodyPartProps)
             </BtnBox>
           )
           :
-          <BtnBox variants={BTN_VARIANTS} initial="initial" animate="animate" exit="exit">
+          <MobBtnBox variants={BTN_VARIANTS} initial="initial" animate="animate" exit="exit">
               <RoundedDefaultButton
                 bgColor="rgb(83, 89, 233)"
                 onClick={() => setIsSelect(true)}
               >
                 부위 선택하기
               </RoundedDefaultButton>
-            </BtnBox>
+            </MobBtnBox>
         }
         </CreateBtnBox>
       </ContentBox>
@@ -68,6 +69,13 @@ const BodyPartChecker = ({ selectedBodyPart, setIsSelect }: SelectBodyPartProps)
 };
 
 export default BodyPartChecker;
+
+const MobBtnBox = styled(BtnBox)`
+  display:none;
+  ${media.custom(1366)}{
+    display:flex;
+  }
+`
 
 export const PositionTextBox = styled(motion.span)`
   border-radius: 10px;

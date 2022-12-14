@@ -50,7 +50,9 @@ const WritePage: NextPage = () => {
           setSelectedBodyPart={setSelectedBodyPart}
           isWritePage={true}
         />
-        <EnterNavigatorButton isSelect={isSelect} onClick={() => setIsSelect(prev => !prev)} />
+        <EnterNavigatorButton isSelect={isSelect} onClick={() => setIsSelect(prev => !prev)} >
+          <i/>
+        </EnterNavigatorButton>
       </MobBodyNavigatorArea>
     </RecordContainer>
   );
@@ -81,16 +83,16 @@ const MobBodyNavigatorArea = styled.div<{ isSelect: boolean }>`
   width: 45%;
   max-width: 820px;
   position: absolute;
-  left: 0;
-  top: 50%;
+  left: 50%;
+  bottom: 0;
   height: 90%;
   width: 88%;
-  transform: translate(-100%, -50%);
+  transform: translate(-50%, 100%);
   transition: transform 0.8s;
   ${({ isSelect }) =>
     isSelect &&
     css`
-      transform: translate(0%, -50%);
+      transform: translate(-50%, 0%);
     `}
   ${media.custom(1366)} {
     display: block;
@@ -107,26 +109,32 @@ const BodyNavigatorArea = styled(motion.div)`
 const EnterNavigatorButton = styled.button<{ isSelect: boolean }>`
   display: none;
   position: absolute;
-  right: -40px;
-  top: 50%;
-  transform: translateY(-50%);
+  left: 50%;
+  top: -40px;
+  transform: translateX(-50%);
   width: 80px;
   height: 80px;
-  padding: 20px;
-  background: url(${doubleArrowIcon.src}) no-repeat 90% 50%;
   background-color: ${({ theme }) => theme.color.darkBg};
-  background-size: 30px 30px;
   border-radius: 50%;
   z-index: 5;
   box-shadow: 8px 8px 18px rgba(3, 231, 203, 0.25);
-  transition: right 0.6s, transform 0.6s, background-position 0.6s;
+  justify-content:center;
+  i{
+    width:30px;
+    height:30px;
+    background: url(${doubleArrowIcon.src}) no-repeat 50% 10%;
+    background-size:contain;
+    transform: rotate(-90deg);
+    margin-top: 5px;
+  }
   ${media.custom(1366)} {
-    display: block;
+    display:flex;
     ${({ isSelect }) =>
       isSelect &&
       css`
-        transform: rotate(180deg) translateY(50%);
-        background-position: 10% 50%;
+        i{
+          transform: rotate(-1350deg);
+        }
       `}
   }
 `;

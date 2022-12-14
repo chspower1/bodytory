@@ -66,9 +66,7 @@ export const WhiteText = styled.span<{ fontSize?: string }>`
   strong {
     font-weight: 700;
   }
-  ${media.mobile}{
-    font-size: ${({ fontSize }) => fontSize || "16px"};
-  }
+
 `;
 export const BodyText = styled(WhiteText)`
   color: ${({ theme }) => theme.color.text};
@@ -86,8 +84,9 @@ export const ToryText = styled(WhiteText)<{ color?: string }>`
   ${media.custom(1280)} {
     font-size: ${props => (props.fontSize ? props.fontSize : "30px")};
   }
-
-
+  ${media.custom(980)} {
+    font-size: ${props => (props.fontSize ? props.fontSize : "22px")};
+  }
 
 `;
 export const BlackToryText = styled(ToryText)`
