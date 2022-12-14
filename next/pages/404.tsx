@@ -31,11 +31,7 @@ const NotFoundPage: NextPage = () => {
 };
 
 export default NotFoundPage;
-export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
-  return {
-    props: {},
-  };
-});
+
 const ContentBox = styled.div`
   display: flex;
   align-items: center;
