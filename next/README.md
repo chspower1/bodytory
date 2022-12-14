@@ -1,40 +1,57 @@
+<img src="public/bodytory_banner.png" width="400px">
+
 # BODYTORY
 
-몸이 아픈데 어떤 진료과에 가야 하는지 햇갈리시나요?  
-병원에 갔는데 증상이 명확하게 떠오르지 않아서 애먹은적이 있으신가요?  
-예전에 진료받았던 내용이 기억나지 않아서 아쉬웠던 적이 있으신가요?  
+몸이 아픈데 <strong>어떤 진료과</strong>에 가야 하는지 햇갈리시나요?  
+병원에 갔는데 <strong>증상이 명확하게 떠오르지 않아서</strong> 애먹은적이 있으신가요?  
+예전에 진료받았던 내용이 <strong>기억나지 않아서</strong> 아쉬웠던 적이 있으신가요?  
 그렇다면 바디토리(Bodytory)에서 각종 증상들을 부위별로 기록하고, 진료과를 추천받아보세요!
 
-### 간편한 증상 기록
+### **간편한 증상 기록**
+
+<div>-------이미지첨부------</div>
 
 - 현재 자신이 겪는 증상과 관련이 있는 부위를 선택해 증상을 기록할 수 있음
 - 단순히 글로 서술하기 힘든 증상의 경우, 추후에 사진 자료 첨부 가능
 - 부족하거나 잘못된 증상 기록의 수정/삭제 기능 지원
+  <br/>
+  <br/>
 
-### 다양한 AI 서비스
+### **다양한 AI 서비스**
+
+<div>-------이미지첨부------</div>
 
 - 증상 기록들을 분석하여 어떤 진료과에 가야 하는지를 사용자에게 추천
 - 전반적인 기록들을 토대로 사용자가 어떤 키워드를 자주 사용했는지 보여줌
 - ETRI, 과학기술정보통신부에서 제공하는 AI를 기반으로 정확도 높은 음성 인식 기능 구현
+  <br/>
+  <br/>
 
-### 병원 검색
+### **병원 검색**
+
+<div>-------이미지첨부------</div>
 
 - 지도에서 사용자의 위치정보를 기반으로 주변 병원들을 검색하는 기능 제공
 - 위치 기반 검색 외에도 병원명으로 검색하는 기능 또한 제공중
+  <br/>
+  <br/>
 
-### 병원에 기록 공유
+### **병원에 기록 공유**
+
+<div>-------이미지첨부------</div>
 
 - 서비스와 연계된 병원들 중 원하는 병원을 선택해 자신의 증상 기록들을 공유 가능
 - 병원에서 사용자의 기록을 보고 간단한 진료내역을 작성 및 사용자에게 제공 가능함
 
 ---
 
-## 사용 기술
+## 기술 스택
 
 <div>
  <!-- 프론트엔드 -->
-  <img src="https://img.shields.io/badge/FrontEnd-3178C6?style=for-the-badge"/>
-  <br/>
+  <!-- <img src="https://img.shields.io/badge/FrontEnd-5359E9?style=for-the-badge"/>
+  <br/> -->
+  <h3><strong>Front-End</strong></h3>
   <img src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=Next.js&logoColor=white"/>
   <img src="https://img.shields.io/badge/Typescript-3178C6?style=flat-square&logo=Typescript&logoColor=white"/>
   <img src="https://img.shields.io/badge/Recoil-black?style=flat-square&logo=Recoil&logoColor=white"/>
@@ -46,26 +63,25 @@
   <br/>
   <br/>
   <!-- 백엔드 -->
-  <img src="https://img.shields.io/badge/BackEnd-3178C6?style=for-the-badge"/>
-  <br/>
+ <h3><strong>Back-End</strong></h3>
    <img src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=Next.js&logoColor=white"/>
    <img src="https://img.shields.io/badge/Flask-555555?style=flat-square&logo=Flask&logoColor=white"/>
    <img src="https://img.shields.io/badge/Iron Session-DB7093?style=flat-square&logoColor=white"/>
    <img src="https://img.shields.io/badge/NodeMailer-black?style=flat-square&logo=Recoil&logoColor=white"/>
   <br/>
   <br/>
-  <!-- 데이터베이스 -->
-  <img src="https://img.shields.io/badge/DataBase-3178C6?style=for-the-badge"/>
-  <br/>
+  <!-- <img src="https://img.shields.io/badge/DataBase-39A182?style=for-the-badge"/>
+  <br/> -->
+   <h3><strong>DataBase</strong></h3>
    <img src="https://img.shields.io/badge/Planet Scale-000000?style=flat-square&logo=PlanetScale&logoColor=white"/>
     <img src="https://img.shields.io/badge/Cloudflare-F38020?style=flat-square&logo=Cloudflare&logoColor=white"/>
     <img src="https://img.shields.io/badge/Prisma-2D3748?style=flat-square&logo=Prisma&logoColor=white"/>
      <br/>
       <br/>
      <!-- CI/CD -->
-  <img src="https://img.shields.io/badge/CI/CD-3178C6?style=for-the-badge"/>
-  <br/>
-
+  <!-- <img src="https://img.shields.io/badge/CI/CD-3178C6?style=for-the-badge"/>
+  <br/> -->
+<h3><strong>CI / CD</strong></h3>
   <img src="https://img.shields.io/badge/Git-F05032?style=flat-square&logo=Git&logoColor=white"/>
   <img src="https://img.shields.io/badge/GitLab-FC6D26?style=flat-square&logo=GitLab&logoColor=white"/>
   <img src="https://img.shields.io/badge/GitLab Runner-FC6D26?style=flat-square&logo=GitLab&logoColor=white"/>
@@ -76,9 +92,12 @@
 ##
 
 <!-- <details> -->
-<summary>기술 스택</summary>
+<summary>기술 스택 자세히 보기</summary>
 
-<img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=Next.js&logoColor=white"/>
+<details>
+
+<summary><img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=Next.js&logoColor=white"/>
+</summary>
 
 - SSR + CSR
 
@@ -90,9 +109,10 @@
     시간이 짧은 프로젝트에서 Next는 저희팀에게 프론트엔드,백엔드를 빠르고,효율적으로 구축할 수 있는 최고의 프레임 워크였기에 채택하게 되었습니다.
 
 - NextJS의 개발환경
-  - API router,Page router,middleware,Image,document 등 NextJS에서 제공하는 기능들은 개발자에게 편리한 개발환경을 제공하기에 NextJS를 채택하였습니다.
 
-<img src="https://img.shields.io/badge/Typescript-3178C6?style=for-the-badge&logo=Typescript&logoColor=white"/>
+  - API router,Page router,middleware,Image,document 등 NextJS에서 제공하는 기능들은 개발자에게 편리한 개발환경을 제공하기에 NextJS를 채택하였습니다.
+  </details>
+  <img src="https://img.shields.io/badge/Typescript-3178C6?style=for-the-badge&logo=Typescript&logoColor=white"/>
 
 - Javascript의 한계
   - Javascript는 타입에 제약이 없어 의도치 않은 문제점을 발생시킬 수 있습니다.  
