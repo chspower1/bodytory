@@ -93,7 +93,7 @@ export default SwiperBox;
 const SwiperWrap = styled(Swiper)`
   padding: 30px 0 50px;
   .swiper-pagination {
-    position: fixed;
+    position: abosolute;
     z-index: 10;
     width: 100%;
     max-width: 1920px;
