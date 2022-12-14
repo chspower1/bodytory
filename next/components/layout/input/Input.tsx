@@ -88,18 +88,21 @@ export default function Input({
   );
 }
 const InputBox = styled.div<{ width?: string; height?: string }>`
-  width: ${({ width }) => width};
+  width:100%;
+  max-width: ${({ width }) => width};
   height: ${({ height }) => height};
   margin: 0 auto;
   position: relative;
   & + & {
     margin: 40px auto 0;
   }
-  ${media.tablet} {
-  }
   ${media.mobile} {
-    width: 360px;
+    height: 50px; 
+    & + & {
+      margin: 20px auto 0;
+    }
   }
+  
 `;
 
 const MainInput = styled(motion.input)<{
@@ -158,4 +161,15 @@ const MainInput = styled(motion.input)<{
       background: rgba(255, 255, 255, 1);
       color: #232323;
     `}
+  ${media.mobile} {
+    font-size: 16px;
+    &[type="password"] {
+      &::placeholder {
+        letter-spacing: 3.2px;
+        font-size: 28px;
+      }
+      letter-spacing: 3.2px;
+      font-size: 24px;
+    }
+  }
 `;

@@ -62,6 +62,9 @@ export const WhiteText = styled.span<{ fontSize?: string }>`
   strong {
     font-weight: 700;
   }
+  ${media.mobile}{
+    font-size: ${({ fontSize }) => fontSize || "16px"};
+  }
 `;
 export const BodyText = styled(WhiteText)`
   color: ${({ theme }) => theme.color.text};

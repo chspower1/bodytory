@@ -233,7 +233,7 @@ export const ShareStatus = styled(Text)<{ status: boolean }>`
 const HospitalInforBox = styled.div`
   display: flex;
   column-gap: 120px;
-
+  
   button {
     font-weight: 600;
     :hover {

@@ -26,10 +26,11 @@ const AlertModal = ({ show, onClose }: AlertModalProps) => {
       {show && (
         <ModalWrapper
           onClick={onClose}
-          initial={{x: `-50%`, y: -130}}
+          initial={{x: `-50%`, y: -130, opacity: 0}}
           animate={{
             x: `-50%`,
             y: 30,
+            opacity: 1, 
             transition: {
               duration: 0.8,
             },
@@ -37,6 +38,7 @@ const AlertModal = ({ show, onClose }: AlertModalProps) => {
           exit={{
             x: `-50%`,
             y: -130,
+            opacity: 0, 
             transition: {
               duration: 0.8,
             },

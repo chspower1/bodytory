@@ -1,3 +1,4 @@
+import { media } from "@styles/theme";
 import styled, { css } from "styled-components";
 import { ChangeToHoverColor } from "./SocialButton";
 
@@ -36,10 +37,16 @@ export const RoundedDefaultButton = styled.button<{
   ${({ lg }) =>
     lg &&
     css`
-      width: 500px;
+      max-width: 500px;
+      width:100%;
       padding: 20px 0;
       border-radius: 60px;
       font-size: 20px;
+      ${media.mobile}{
+        font-size: 16px;
+        padding: 15px 0;
+        border-radius: 40px;
+      }
     `}
   ${({ sm }) =>
     sm &&

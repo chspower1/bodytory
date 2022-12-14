@@ -47,6 +47,7 @@ const ClinicListWrap = styled.div`
   height: 100%;
   display:flex;
   align-items:center;
+  justify-content:center;
 `;
 
 const PageHeadBox = styled(Container)`
@@ -54,7 +55,6 @@ const PageHeadBox = styled(Container)`
 `;
 
 const ClinicContainer = styled.div`
-  overflow:hidden;
 `;
 
 const PageHead = styled.div`

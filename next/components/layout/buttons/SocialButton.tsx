@@ -2,6 +2,7 @@ import styled, { css } from "styled-components";
 import Naver from "@src/assets/icons/naver.svg";
 import Kakao from "@src/assets/icons/kakao.svg";
 import Origin from "@src/assets/icons/origin.svg";
+import { media } from "@styles/theme";
 
 export const ChangeToHoverColor = (color: string) => {
   if (color.includes("rgb")) {
@@ -49,6 +50,16 @@ const Button = styled.button<{sm ?: boolean; bgColor?: string;}>`
     &:hover {
       background-color: ${ChangeToHoverColor("rgb(75, 80, 211)")};
     }
+    ${media.mobile}{
+      width: 160px;
+      height: 44px;
+      font-size: 14px;
+      padding: 0 0 0 50px;
+      svg{
+        width: 40px;
+        height: 40px;
+      }
+    }
   `}
 
   svg{
@@ -74,9 +85,9 @@ export const SocialButton = ({
       sm={sm}
       onClick={onClick}
     >
-      {social === "naver" && <Naver width={sm ? 60 : 78} height={sm ? 60 : 78} />}
-      {social === "kakao" && <Kakao width={sm ? 60 : 78} height={sm ? 60 : 78} />}
-      {social === "origin" && <Origin width={sm ? 60 : 78} height={sm ? 60 : 78} />}
+      {social === "naver" && <Naver width={sm ? 56 : 80} height={sm ? 56 : 80} />}
+      {social === "kakao" && <Kakao width={sm ? 56 : 80} height={sm ? 56 : 80} />}
+      {social === "origin" && <Origin width={sm ? 56 : 80} height={sm ? 56 : 80} />}
       <ButtonText>{children}</ButtonText>
     </Button>
   );

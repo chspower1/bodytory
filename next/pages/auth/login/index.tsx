@@ -10,7 +10,7 @@ import NaverLoginBtn from "@components/layout/buttons/NaverBtn";
 import KakaoLoginBtn from "@components/layout/buttons/KakaoBtn";
 import { USER_LOGIN, USE_USER } from "constant/queryKeys";
 import { InnerContainer, FlexContainer, Row, WhiteBoldText, WhiteText } from "@styles/Common";
-import { theme } from "@styles/theme";
+import { media, theme } from "@styles/theme";
 import styled from "styled-components";
 import MessageBox from "@components/MessageBox";
 import { ACCOUNT_ID_REGEX, PASSWORD_REGEX } from "constant/regex";
@@ -151,6 +151,9 @@ const LoginForm = styled.form`
 `;
 export const LoginInputAreaBox = styled.div`
   margin-bottom: 40px;
+  ${media.mobile} {
+    margin-bottom: 20px;
+  }
 `;
 const LoginFormInnerBox = styled.div`
   display: inline-block;
@@ -168,19 +171,28 @@ const LoginFindBox = styled(Row)`
     color: #fff;
     user-select: none;
   }
+  ${media.mobile} {
+    margin: 0 0 30px;
+    a {
+      margin: 0 10px;
+      span {
+        font-size: 13px;
+      }
+    }
+  }
 `;
 const SocialLoginBox = styled(Row)`
   margin: 0 0 30px;
   .soscialInnerBox {
     display: flex;
-    > div,
-    > button {
-      margin: 0 20px;
-      div {
-        font-size: 16px;
-      }
+    column-gap: 30px;
+  }
+  ${media.mobile} {
+    .soscialInnerBox {
+      column-gap: 10px;
     }
   }
+
 `;
 
 const RegisterLinkBox = styled(Row)`
@@ -190,5 +202,10 @@ const RegisterLinkBox = styled(Row)`
   }
   a {
     margin: 0 0 0 10px;
+  }
+  ${media.mobile} {
+    > span {
+      font-size: 13px;
+    }
   }
 `;
