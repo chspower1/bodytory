@@ -13,6 +13,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 async function addHospital(req: NextApiRequest, res: NextApiResponse) {
   const { id } = req.body;
   const { user } = req.session;
+  if (user?.id === 142) return res.status(204).end();
   if (!user) return res.status(401).send("회원 정보를 확인해주세요");
   const isConnected = await client.hospitalToUser.findFirst({
     where: {
@@ -79,6 +80,7 @@ async function myHospitalList(req: NextApiRequest, res: NextApiResponse) {
 async function deleteHospital(req: NextApiRequest, res: NextApiResponse) {
   const { id } = req.body;
   const { user } = req.session;
+  if (user?.id === 142) return res.status(204).end();
   if (!user) return res.status(401).send("회원 정보를 확인해주세요");
   const isConnected = await client.hospitalToUser.findFirst({
     where: {

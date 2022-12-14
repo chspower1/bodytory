@@ -17,6 +17,8 @@ import styled from "styled-components";
 import { FlexContainer, InnerContainer } from "@styles/Common";
 import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 import withGetServerSideProps from "@utils/client/withGetServerSideProps";
+import { useRecoilValue } from "recoil";
+import { accountIdForFindPasswordAtom } from "atoms/atoms";
 
 interface ResetForm {
   password: string;
@@ -25,6 +27,7 @@ interface ResetForm {
 
 const Reset: NextPage = () => {
   const router = useRouter();
+  const accountIdForFindPassword = useRecoilValue(accountIdForFindPasswordAtom);
   const { putApi } = customApi("/api/auth/help/reset");
   const [currentComment, setCurrentComment] = useState("인증이 완료되었어요\n새로운 비밀번호를 설정해주세요");
   const [isSuccess, setIsSuccess] = useState(false);
@@ -44,7 +47,7 @@ const Reset: NextPage = () => {
   } = useForm<ResetForm>({ mode: "onChange" });
 
   const onValid = (resetForm: ResetForm) => {
-    mutateAsync({ accountId: router.query.accountId, password: resetForm.password });
+    mutateAsync({ accountId: accountIdForFindPassword, password: resetForm.password });
   };
 
   const checkPassword = () => {
@@ -57,10 +60,11 @@ const Reset: NextPage = () => {
   const isErrorsMessage = errors.password?.message || errors.passwordConfirm?.message;
 
   useEffect(() => {
-    if (router.asPath !== "/auth/help/reset" || !router.query.accountId) {
+    console.log(accountIdForFindPassword);
+    if (!accountIdForFindPassword) {
       router.push("/auth/login");
     }
-  }, [router]);
+  }, [accountIdForFindPassword]);
   return (
     <Container>
       <InnerContainer>

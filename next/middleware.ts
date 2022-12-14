@@ -3,8 +3,6 @@ import { NextRequest, NextResponse, userAgent } from "next/server";
 
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next();
-  const latitude = req.geo?.latitude;
-  const longitude = req.geo?.longitude;
   const session = await getIronSession(req, res, {
     cookieName: "userSession",
     password: process.env.COOKIE_PASSWORD!,
