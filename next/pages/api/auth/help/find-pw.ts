@@ -33,9 +33,12 @@ const checkToken = async (accountId: string, token: string) => {
 };
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { user } = req.session;
   const { token, accountId }: HelpForm = req.body;
   if (!accountId) return res.status(400).end();
-
+  if (user?.id === 35) {
+    return res.status(204).end();
+  }
   if (!token) {
     try {
       const user = await checkId(accountId);

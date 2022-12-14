@@ -9,8 +9,10 @@ import ToryWhiteAnim from "@components/lotties/ToryWhiteAnim";
 import { isFirstUser } from "atoms/atoms";
 import { useSetRecoilState } from "recoil";
 import { CircleDefaultButton, RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
+import { GetServerSidePropsContext } from "next";
 
-export default function LendingPage() {
+const LandingPage = () => {
   const router = useRouter();
   const [toriComment, setToriComment] = useState("반가워요!");
   const [isFirst, setIsFrist] = useState(false);
@@ -85,7 +87,14 @@ export default function LendingPage() {
       </AnimatePresence>
     </FlexContainer>
   );
-}
+};
+export default LandingPage;
+
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});
 
 const LendingRoot = styled.div<{ flex: boolean }>`
   margin: auto;
