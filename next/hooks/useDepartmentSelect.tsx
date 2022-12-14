@@ -62,7 +62,9 @@ const SelectWrap = styled.div`
 const DepartmentSelectBox = styled.select`
   border: 2px solid #5359E9;
   padding: 10px 35px 10px 20px;
+  border-radius: 20px;
   width: 210px;
   font-size: 16px;
   font-weight: 500;
+  cursor: pointer;
 `;

@@ -1,18 +1,36 @@
 import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
+import ToryPurpleAnim from "@components/lotties/ToryPurpleAnim";
 import { PositionTextBox } from "@components/records/BodyPartChecker";
 import { Position } from "@prisma/client";
 import { FlexContainer } from "@styles/Common";
 import { theme } from "@styles/theme";
+import { motion } from "framer-motion";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { KoreanPosition } from "types/write";
 
 const AddPage = () => {
   const router = useRouter();
   const position = router.query.position as Position;
+
+  const [toryMotionIdx, setToryMotionIdx] = useState<number>(1);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setToryMotionIdx(0);
+    }, 2300);
+  }, []);
+
   return (
     <FlexContainer>
-      <div>
+      <FadeInMotionDiv
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1, transition: { duration: 1, ease: "easeOut", delay: .3 } }}
+      >
+        <ToryMotion>
+          <ToryPurpleAnim segmentIndex={toryMotionIdx} width={360} />
+        </ToryMotion>
         <ToryText>
           <PositionTextBox>{KoreanPosition[position]}</PositionTextBox>에 대한 기록을 완료했어요.
           <br />
@@ -28,11 +46,14 @@ const AddPage = () => {
             아니요,더 기록할게 없어요
           </RoundButton>
         </ButtonBox>
-      </div>
+      </FadeInMotionDiv>
     </FlexContainer>
   );
 };
 export default AddPage;
+
+const FadeInMotionDiv = styled(motion.div)`
+`;
 
 const RoundButton = styled(RoundedDefaultButton)`
   padding: 21px 50px;
@@ -43,12 +64,20 @@ export const ToryText = styled.div`
   color: ${({ theme }) => theme.color.text};
   line-height: 1.8;
   text-align: center;
-  margin-bottom: 80px;
+  margin-bottom: 100px;
 `;
 
 const ButtonBox = styled.div`
   display: flex;
+  padding: 0 0 200px;
+
   > button {
     margin: 0 30px;
   }
+`;
+
+const ToryMotion = styled.div`
+  width: 360px;
+  height: 360px;
+  margin: 0 auto 40px;
 `;

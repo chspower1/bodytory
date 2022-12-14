@@ -20,7 +20,7 @@ const BodyPartChecker = ({ selectedBodyPart }: SelectBodyPartProps) => {
     <FlexContainer>
       <ContentBox>
         <ToryBox>
-          <ToryPurpleAnim toryMotionIdx={0} width={360} />
+          <ToryPurpleAnim segmentIndex={0} width={360} />
         </ToryBox>
         <TextBox>
           {!selectedBodyPart ? (
@@ -31,7 +31,7 @@ const BodyPartChecker = ({ selectedBodyPart }: SelectBodyPartProps) => {
                 key={KoreanPosition[selectedBodyPart]}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 0.5 }}
+                transition={{ duration: 0.6 }}
               >
                 {KoreanPosition[selectedBodyPart]}
               </PositionTextBox>
@@ -72,7 +72,12 @@ const ContentBox = styled.div`
   padding-bottom: 170px;
 `;
 
-export const ToryBox = styled(Box)``;
+export const ToryBox = styled(Box)`
+  width: 360px;
+  height: 360px;
+  margin: 0 auto;
+  transform: translate(0, -10%);
+`;
 
 export const TextBox = styled(Box)`
   margin-bottom: 90px;

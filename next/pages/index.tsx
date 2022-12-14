@@ -13,81 +13,88 @@ import { CircleDefaultButton, RoundedDefaultButton } from "@components/layout/bu
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
+const ramdomIntroText = ["건강한 하루에요!", "오늘도 반가워요!", "날씨가 추우니 건강에 유의하세요!", "오늘도 즐거운 하루에요!", "행복한 하루에요!"];
+
 const Home = () => {
   const { user } = useUser();
 
   const [toryMotionIdx, setToryMotionIdx] = useState<number>(1);
+  const [randomText, setRandomText] = useState<string>();
 
   useEffect(() => {
+    setRandomText(ramdomIntroText[Math.floor(Math.random() * ramdomIntroText.length)]);
     setTimeout(() => {
       setToryMotionIdx(0);
-    }, 2100);
-  }, [])
+    }, 2300);
+  }, []);
 
   return (
-    <FadeInMotionWrap
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1, transition: { duration: .5, ease: "easeOut" } }}
-    >
       <FlexContainer>
         <Col>
-          <ToryBox>
-            <ToryMotion>
-              <ToryPurpleAnim toryMotionIdx={toryMotionIdx} width={340} />
-            </ToryMotion>
-            <TextBox>
-              <p>    
-                <Accent>
-                  <strong>{user ? user?.name : "OOO"}님, </strong>
-                </Accent>
-                건강한 하루에요!
-              </p>
-              <p>어떤 서비스를 이용하실 건가요?</p>
-            </TextBox>
-          </ToryBox>
-          <WriteBox>
-            <Link href="users/records/write">
-              <div>
-                <CircleButton bgColor="rgba(83, 89, 233)" >
-                  <Mic width={50} height={50} />
-                </CircleButton>
-                <BodyText>건강 관리를 위해 매일매일 잊지말고 기록해요!</BodyText>
-              </div>
-              <Accent fontSize="24px">오늘 기록하기</Accent>
-            </Link>
-          </WriteBox>
-          <ButtonBox>
-            <Link href="/users/records">
-              <RoundedButton lg img bgColor="rgb(108, 113, 240)">
-                <Record width={30} height={30} fill={theme.color.mint} />
-                기록 확인하기
-              </RoundedButton>
-            </Link>
-            <Link href="/users/my-hospital">
-              <RoundedButton lg img bgColor="rgb(108, 113, 240)">
-                <Hospital width={30} height={30} fill={theme.color.mint} />
-                내 병원 관리하기
-              </RoundedButton>
-            </Link>
-          </ButtonBox>
-          <AccountBtnBox>
-            <Link href="/users/profile/edit">
-              <div>
-                <Setting />
-                계정 설정
-              </div>
-            </Link>
-          </AccountBtnBox>
+          <FadeInMotionDiv
+            animate={{ opacity: [0, 1, 1], y: [200, 200, 0], transition: { duration: 3, ease: "easeInOut", times: [0, .6, 1]} }}
+          >
+            <ToryBox>
+              <ToryMotion>
+                <ToryPurpleAnim segmentIndex={toryMotionIdx} width={340} />
+              </ToryMotion>
+              <TextBox>
+                <p>    
+                  <Accent>
+                    <strong>{user ? user?.name : "OOO"}님, </strong>
+                  </Accent>
+                  {randomText}
+                </p>
+                <p>어떤 서비스를 이용하실 건가요?</p>
+              </TextBox>
+            </ToryBox>
+          </FadeInMotionDiv>
+          <FadeInMotionDiv
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1, transition: { duration: 1, ease: "easeOut", delay: 2.6 } }}
+          >
+            <WriteBox>
+              <Link href="users/records/write">
+                <div>
+                  <CircleButton bgColor="rgba(83, 89, 233)" >
+                    <Mic width={50} height={50} />
+                  </CircleButton>
+                  <BodyText>건강 관리를 위해 매일매일 잊지말고 기록해요!</BodyText>
+                </div>
+                <Accent fontSize="24px">오늘 기록하기</Accent>
+              </Link>
+            </WriteBox>
+            <ButtonBox>
+              <Link href="/users/records">
+                <RoundedButton lg img bgColor="rgb(108, 113, 240)">
+                  <Record width={30} height={30} fill={theme.color.mint} />
+                  기록 확인하기
+                </RoundedButton>
+              </Link>
+              <Link href="/users/my-hospital">
+                <RoundedButton lg img bgColor="rgb(108, 113, 240)">
+                  <Hospital width={30} height={30} fill={theme.color.mint} />
+                  내 병원 관리하기
+                </RoundedButton>
+              </Link>
+            </ButtonBox>
+            <AccountBtnBox>
+              <Link href="/users/profile/edit">
+                <div>
+                  <Setting />
+                  계정 설정
+                </div>
+              </Link>
+            </AccountBtnBox>
+          </FadeInMotionDiv>
         </Col>
       </FlexContainer>
-    </FadeInMotionWrap>
-
   );
 };
 export default Home;
 
-const FadeInMotionWrap = styled(motion.div)`
-  height:100%;
+const FadeInMotionDiv = styled(motion.div)`
+  height: 100%;
 `;
 
 const RoundedButton = styled(RoundedDefaultButton)`
@@ -142,8 +149,9 @@ const BtnIcon = styled.div`
 `;
 const AccountBtnBox = styled.div`
   position: relative;
+  width: 100px;
   font-weight: 500;
-  margin-top: 120px;
+  margin: 120px auto 0;
 
   > a {
     position: relative;
