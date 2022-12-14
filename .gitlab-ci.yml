@@ -46,4 +46,4 @@ deploy:
     - docker-compose up -d --build
     - docker image prune -f
     - docker images
-    - clear-docker-cache
+    - clear-docker-cache space
