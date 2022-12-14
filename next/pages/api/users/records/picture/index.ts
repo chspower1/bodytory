@@ -4,6 +4,8 @@ import withHandler from "@utils/server/withHandler";
 import { withApiSession } from "@utils/server/withSession";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { user } = req.session;
+  if (user?.id === 35) return res.status(204).end();
   if (req.method === "POST") {
     const { url, recordId }: { url: string; recordId: string } = req.body;
     if (!(url && recordId)) return res.status(404).end();
