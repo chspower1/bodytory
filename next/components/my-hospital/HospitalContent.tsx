@@ -1,3 +1,4 @@
+import me from "@api/users/me";
 import { RectangleDefaultButton, RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 import useHospital from "@hooks/useHospital";
 import { Box } from "@styles/Common";
@@ -316,6 +317,9 @@ const HospitalInforContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  ${media.mobile} {
+    display: block;
+  }
 `;
 
 const HospitalPlaceBox = styled.div<{ add?: boolean }>`
