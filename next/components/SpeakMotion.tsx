@@ -29,7 +29,19 @@ const MotionBox = styled.div<{ right?: boolean }>`
   &.active {
     opacity: 1;
   }
-  ${media.mobile}{
 
+  ${media.custom(1280)}{
+    width: 600px;
+    height: 600px;
+    ${({ right }) => (right ? `right: -300px` : `left: -300px`)};
+  }
+
+  ${media.mobile}{
+    width: 500px;
+    height: 500px;
+    ${({ right }) => (right ? `display: none` : `left: 50%`)};
+    top: auto;
+    bottom: -250px;
+    transform: translate(-50%, 0);
   }
 `;
