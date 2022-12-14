@@ -86,7 +86,10 @@ const mapPathToSeo: MapPathToSeo = {
   },
 
   //ETC
-  "/landing": { title: "병원", description: "홈 화면 입니다." },
+  "/landing": {
+    title: "환영해요",
+    description: "바디토리에 오신 것을 환영합니다! 회원가입을 하고 바디토리와 함께 내 건강을 챙겨봐요!",
+  },
 };
 
 Object.entries(KoreanPosition).forEach(([key, value]) => {
