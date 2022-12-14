@@ -41,7 +41,7 @@ const foundUser = async (email: string, token: string) => {
   return foundUser;
 };
 
-async function handler(req: NextApiRequest, res: NextApiResponse) {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { email, token }: HelpForm = req.body;
   if (!email) {
     return res.status(400).end();
@@ -68,6 +68,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       res.status(403).send(errorMessage);
     }
   }
-}
+};
 
 export default withApiSession(withHandler({ methods: ["POST"], handler, isPrivate: false }));

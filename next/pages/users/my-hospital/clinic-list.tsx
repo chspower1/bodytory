@@ -4,10 +4,11 @@ import { theme } from "@styles/theme";
 import { DescriptionBox, Pragraph } from "./";
 import React, { useState } from "react";
 import styled from "styled-components";
-import tory from "@src/assets/icons/tory.png";
 import {  useRouter } from "next/router";
 import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 import ToryPurpleAnim from "@components/lotties/ToryPurpleAnim";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
+import { GetServerSidePropsContext } from "next";
 
 const ClinicList = () => {
   const router = useRouter();
@@ -21,7 +22,7 @@ const ClinicList = () => {
         <PageHeadBox>
           <PageHead>
             <ToriBox>
-              <ToryPurpleAnim segmentIndex={0} width={260} />
+              <ToryPurpleAnim segmentIndex={0} />
             </ToriBox>
             <DescriptionBox>
               <Pragraph>
@@ -43,7 +44,11 @@ const ClinicList = () => {
 };
 
 export default ClinicList;
-
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});
 const ClinicListWrap = styled.div`
   height: 100%;
   display:flex;

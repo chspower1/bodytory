@@ -5,8 +5,8 @@ import { Accent, BodyText, Col, FlexContainer, Row } from "@styles/Common";
 import Mic from "@src/assets/icons/mic.svg";
 import Record from "@src/assets/icons/record.svg";
 import Hospital from "@src/assets/icons/hospital.svg";
-import Setting from "@src/assets/icons/setting.svg";
-import { theme } from "@styles/theme";
+import Setting from "@src/assets/icons/icon_setting.png";
+import { media, theme } from "@styles/theme";
 import { ToryText } from "./users/records/write/add";
 import ToryPurpleAnim from "@components/lotties/ToryPurpleAnim";
 import { CircleDefaultButton, RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
@@ -14,6 +14,8 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 const ramdomIntroText = ["건강한 하루에요!", "오늘도 반가워요!", "날씨가 추우니 건강에 유의하세요!", "오늘도 즐거운 하루에요!", "행복한 하루에요!"];
+import { GetServerSideProps, GetServerSidePropsContext } from "next";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
 
 const Home = () => {
   const { user } = useUser();
@@ -36,7 +38,7 @@ const Home = () => {
           >
             <ToryBox>
               <ToryMotion>
-                <ToryPurpleAnim segmentIndex={toryMotionIdx} width={340} />
+                <ToryPurpleAnim segmentIndex={toryMotionIdx} />
               </ToryMotion>
               <TextBox>
                 <p>    
@@ -81,7 +83,7 @@ const Home = () => {
             <AccountBtnBox>
               <Link href="/users/profile/edit">
                 <div>
-                  <Setting />
+                  <i />
                   계정 설정
                 </div>
               </Link>
@@ -92,6 +94,11 @@ const Home = () => {
   );
 };
 export default Home;
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});
 
 const FadeInMotionDiv = styled(motion.div)`
   height: 100%;
@@ -101,8 +108,8 @@ const RoundedButton = styled(RoundedDefaultButton)`
   width: 400px;
 `;
 const CircleButton = styled(CircleDefaultButton)`
-  width 80px;
-  height 80px;
+  width: 80px;
+  height: 80px;
 `;
 
 const ToryBox = styled(Row)`
@@ -118,7 +125,8 @@ const WriteBox = styled.div`
     align-items: center;
     justify-content: space-between;
     flex-direction: column;
-    width: 860px;
+    width: 100%;
+    max-width: 860px;
     height: 280px;
     padding: 30px;
     background-color: rgb(217, 222, 255);
@@ -135,6 +143,9 @@ const WriteBox = styled.div`
       background-color: rgb(210, 216, 255);
     }
   }
+
+
+  
 `;
 const ButtonBox = styled(Row)`
   width: 100%;
@@ -162,7 +173,10 @@ const AccountBtnBox = styled.div`
       position: relative;
       z-index: 5;
 
-      svg {
+      i {
+        width: 20px;
+        height: 20px;
+        background: url(${Setting.src}) no-repeat 50% 50%/contain;
         margin-right: 10px;
       }
     }
@@ -191,6 +205,11 @@ const TextBox = styled(ToryText)`
   margin-bottom: 0;
   text-align: left;
   padding-left: 170px;
+
+  ${media.custom(1280)} {
+    padding-left: 140px;
+  }
+
 `;
 
 const ToryMotion = styled.div`
@@ -198,4 +217,13 @@ const ToryMotion = styled.div`
   top: 50%;
   left: 0;
   transform: translate(-50%, -60%);
+  width: 340px;
+  height: 340px;
+  overflow: hidden;
+
+  ${media.custom(1280)} {
+    width: 300px;
+    height: 300px;
+  }
+
 `;

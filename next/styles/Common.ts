@@ -82,6 +82,10 @@ export const ToryText = styled(WhiteText)<{ color?: string }>`
   strong {
     font-weight: 700;
   }
+
+  ${media.custom(1280)} {
+    font-size: ${props => (props.fontSize ? props.fontSize : "30px")};
+  }
 `;
 export const BlackToryText = styled(ToryText)`
   color: ${({ theme }) => theme.color.text};

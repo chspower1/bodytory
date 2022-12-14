@@ -8,7 +8,7 @@ const SpeakMotion = ({ right, listening }: { right?: boolean; listening: boolean
 
   return (
     <MotionBox right={right} className={listening ? "active": ""}>
-      <ListeningAnim width={700} segmentIndex={speakMotionIdx} play={listening} />
+      <ListeningAnim segmentIndex={speakMotionIdx} play={listening} />
     </MotionBox>
   );
 };

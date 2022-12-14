@@ -59,11 +59,11 @@ const SpeakAnim = ({ segmentIndex, width, delay, play }: LottieAnimProps) => {
 
   }, [ready, segmentIndex, speaking, play]);
 
-  return <LottieElem ref={lottieRef} width={width} />;
+  return <LottieElem ref={lottieRef} />;
 };
 
-const LottieElem = styled.div<{ width: number }>`
-  width: ${({ width }) => width}px;
+const LottieElem = styled.div`
+  width: 100%;
 `;
 
 export default SpeakAnim;

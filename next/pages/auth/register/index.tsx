@@ -8,6 +8,8 @@ import Header from "@components/header/Header";
 import ToryWhiteAnim from "@components/lotties/ToryWhiteAnim";
 import { motion } from "framer-motion";
 import styled from "styled-components";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
+import { GetServerSidePropsContext, NextPage } from "next";
 
 export interface RegisterForm {
   agree: boolean;
@@ -48,7 +50,7 @@ interface RegisterQueryProps {
   gender: Gender;
   type: UserType;
 }
-function RegisterPage() {
+const RegisterPage: NextPage = () => {
   const router = useRouter();
   const [user, setUser] = useState<RegisterForm | undefined>();
   const [page, setPage] = useState(1);
@@ -87,12 +89,17 @@ function RegisterPage() {
       </ToryMotion>
     </>
   );
-}
+};
+
+export default RegisterPage;
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});
 
 const ToryMotion = styled(motion.div)`
   position: fixed;
   left: 0px;
   bottom: 80px;
 `;
-
-export default RegisterPage;

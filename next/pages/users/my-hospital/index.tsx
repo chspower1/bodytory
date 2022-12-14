@@ -12,6 +12,8 @@ import { Hospital, MedicalDepartment } from "@prisma/client";
 import MyHospitalList from "@components/my-hospital/MyHospitalList";
 import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 import ToryPurpleAnim from "@components/lotties/ToryPurpleAnim";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
+import { GetServerSidePropsContext } from "next";
 
 export interface MyHospitalResponse {
   hospital: MyHospital;
@@ -41,7 +43,7 @@ const MyHospitalPage = () => {
       <MainInnerContainer>
         <DescriptionBox>
           <ToryMotion>
-            <ToryPurpleAnim segmentIndex={0} width={260} />
+            <ToryPurpleAnim segmentIndex={0} />
           </ToryMotion>
           <Pragraph>
             <HighlightText>{user.name}님</HighlightText>의 기록을 공유받고 있는 병원 목록이에요
@@ -75,7 +77,11 @@ const AddHospitalButton = styled(RoundedDefaultButton)`
     }
   }
 `;
-
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});
 export const MainContainer = styled.div`
   height: 100%;
   display: flex;
@@ -151,9 +157,9 @@ const ToryMotion = styled.div`
   position: absolute;
   top: 50%;
   left: 0;
-  transform: translate(0, -50%);
-  width: 120px;
-  height: 120px;
+  transform: translate(-25%, -60%);
+  width: 260px;
+  height: 260px;
   margin-right: 30px;
   ${media.mobile} {
     top: -10px;

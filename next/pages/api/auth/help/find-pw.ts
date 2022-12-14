@@ -32,7 +32,7 @@ const checkToken = async (accountId: string, token: string) => {
   if (findToken.count <= 0) throw new Error("인증번호를 확인해주세요");
 };
 
-async function handler(req: NextApiRequest, res: NextApiResponse) {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { token, accountId }: HelpForm = req.body;
   if (!accountId) return res.status(400).end();
 
@@ -57,6 +57,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       res.status(403).send(errorMessage);
     }
   }
-}
+};
 
 export default withApiSession(withHandler({ methods: ["POST"], handler, isPrivate: false }));

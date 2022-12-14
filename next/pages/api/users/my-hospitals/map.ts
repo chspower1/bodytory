@@ -74,7 +74,7 @@ const getHospitals = async ({
   });
   return hospitals;
 };
-async function handler(req: NextApiRequest, res: NextApiResponse) {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { user } = req.session;
   if (!user) return res.status(400).end();
 
@@ -111,6 +111,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       return res.status(200).json(hospitals);
     } else return res.status(401).end();
   }
-}
+};
 
 export default withApiSession(withHandler({ methods: ["GET", "POST"], handler, isPrivate: false }));

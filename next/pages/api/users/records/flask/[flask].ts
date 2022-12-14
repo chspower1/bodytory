@@ -4,11 +4,11 @@ import withHandler from "@utils/server/withHandler";
 import { withApiSession } from "@utils/server/withSession";
 import axios from "axios";
 
-async function handler(req: NextApiRequest, res: NextApiResponse) {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { flask } = req.query;
   if (!flask) return res.status(401).send("api 주소가 잘못되었습니다");
   if (flask === "threeMonth") return await threeMonthRecordsKeywords(req, res);
-}
+};
 
 async function threeMonthRecordsKeywords(req: NextApiRequest, res: NextApiResponse) {
   const { user } = req.session;

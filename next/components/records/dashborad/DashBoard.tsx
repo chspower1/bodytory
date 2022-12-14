@@ -4,7 +4,7 @@ import DashBoardStatistics from "./DashBoardStatistics";
 import ToryRecommend from "../ToryRecommend";
 import useUser from "@hooks/useUser";
 import customApi from "@utils/client/customApi";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { AI_RESULT_READ } from "constant/queryKeys";
 import { KoreanPosition } from "types/write";
 import { Position } from "@prisma/client";
@@ -12,7 +12,6 @@ import ChartAnim from "@components/lotties/ChartAnim";
 import MicIcon from "@src/assets/icons/mic.svg";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import ToryPurpleAnim from "@components/lotties/ToryPurpleAnim";
 import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 import ToryWhiteAnim from "@components/lotties/ToryWhiteAnim";
 
@@ -41,7 +40,7 @@ function DashBoard() {
           <>
             <ToryTextBox>
               <ToryMotion>
-                <ToryWhiteAnim segmentIndex={toryMotionIdx} width={180} />
+                <ToryWhiteAnim segmentIndex={toryMotionIdx} />
               </ToryMotion>
               <ToryText26White>
                 <>
@@ -125,6 +124,8 @@ const ToryMotion = styled.div`
   top: 50%;
   left: 0;
   transform: translate(-15%, -60%);
+  width: 180px;
+  height: 180px;
 `;
 
 const ToryText26White = styled(ToryText26)`

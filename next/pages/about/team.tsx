@@ -6,12 +6,14 @@ import Jung from "@src/assets/images/team/Jung.png";
 import Oh from "@src/assets/images/team/Oh.png";
 import Jo from "@src/assets/images/team/Cho.png";
 import Image from "next/image";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
+import { GetServerSidePropsContext } from "next";
 import SohiAnim from "@components/lotties/SohiAnim";
 import { MouseEvent, useEffect, useRef, useState } from "react";
 import HosungAnim from "@components/lotties/HosungAnim";
-import KyeongwonAnim from "@components/lotties/KyeongWon";
 import DahyunAnim from "@components/lotties/DahyunAnim";
 import RyongAnim from "@components/lotties/RyongAnim";
+import KyeongwonAnim from "@components/lotties/Kyeongwon";
 const Team = () => {
 
   const [isHover, setIsHover] = useState<boolean>();
@@ -42,7 +44,7 @@ const Team = () => {
       <TeamContainer>
         <HoSung onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} ref={hosungRef} >
           <Profile>
-            <HosungAnim segmentIndex={0} width={300} play={isHover && hoverWho === hosungRef.current ? true : false} />
+            <HosungAnim segmentIndex={0} play={isHover && hoverWho === hosungRef.current ? true : false} />
           </Profile>
           <DescriptionContainer>
             <Name>
@@ -58,7 +60,7 @@ const Team = () => {
         </HoSung>
         <KyeongWon onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} ref={kyeongwonRef} >
          <Profile>
-          <KyeongwonAnim segmentIndex={0} width={300} play={isHover && hoverWho === kyeongwonRef.current ? true : false} />
+          <KyeongwonAnim segmentIndex={0} play={isHover && hoverWho === kyeongwonRef.current ? true : false} />
           </Profile>
           <DescriptionContainer>
             <Name>
@@ -73,7 +75,7 @@ const Team = () => {
         </KyeongWon>
         <DaHyen onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} ref={dahyunRef} >
           <Profile>
-            <DahyunAnim segmentIndex={0} width={300} play={isHover && hoverWho === dahyunRef.current ? true : false} />
+            <DahyunAnim segmentIndex={0} play={isHover && hoverWho === dahyunRef.current ? true : false} />
           </Profile>
           <DescriptionContainer>
             <Name>
@@ -89,7 +91,7 @@ const Team = () => {
         </DaHyen>
         <SoHee onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} ref={sohiRef} >
          <Profile>
-            <SohiAnim segmentIndex={0} width={300} play={isHover && hoverWho === sohiRef.current ? true : false} />
+            <SohiAnim segmentIndex={0} play={isHover && hoverWho === sohiRef.current ? true : false} />
           </Profile>
           <DescriptionContainer>
             <Name>
@@ -105,7 +107,7 @@ const Team = () => {
         </SoHee>
         <DongRyong onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} ref={ryongRef} >
           <Profile>
-            <RyongAnim segmentIndex={0} width={300} play={isHover && hoverWho === ryongRef.current ? true : false} />
+            <RyongAnim segmentIndex={0} play={isHover && hoverWho === ryongRef.current ? true : false} />
           </Profile>
           <DescriptionContainer>
             <Name>
@@ -220,3 +222,8 @@ const DaHyen = styled(HoSung)``;
 const SoHee = styled(HoSung)``;
 
 export default Team;
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});

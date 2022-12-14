@@ -3,14 +3,16 @@ import ToryPurpleAnim from "@components/lotties/ToryPurpleAnim";
 import { PositionTextBox } from "@components/records/BodyPartChecker";
 import { Position } from "@prisma/client";
 import { FlexContainer } from "@styles/Common";
-import { theme } from "@styles/theme";
+import { media, theme } from "@styles/theme";
 import { motion } from "framer-motion";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
+import { GetServerSidePropsContext, NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { KoreanPosition } from "types/write";
 
-const AddPage = () => {
+const AddPage: NextPage = () => {
   const router = useRouter();
   const position = router.query.position as Position;
 
@@ -29,7 +31,7 @@ const AddPage = () => {
         animate={{ opacity: 1, transition: { duration: 1, ease: "easeOut", delay: .3 } }}
       >
         <ToryMotion>
-          <ToryPurpleAnim segmentIndex={toryMotionIdx} width={360} />
+          <ToryPurpleAnim segmentIndex={toryMotionIdx} />
         </ToryMotion>
         <ToryText>
           <PositionTextBox>{KoreanPosition[position]}</PositionTextBox>에 대한 기록을 완료했어요.
@@ -54,7 +56,11 @@ export default AddPage;
 
 const FadeInMotionDiv = styled(motion.div)`
 `;
-
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});
 const RoundButton = styled(RoundedDefaultButton)`
   padding: 21px 50px;
 `;
@@ -65,6 +71,11 @@ export const ToryText = styled.div`
   line-height: 1.8;
   text-align: center;
   margin-bottom: 100px;
+
+  ${media.custom(1280)} {
+    font-size: 30px;
+  }
+
 `;
 
 const ButtonBox = styled.div`

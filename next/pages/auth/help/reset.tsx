@@ -1,6 +1,6 @@
 import Input from "@components/layout/input/Input";
 
-import { NextPage } from "next";
+import { GetServerSidePropsContext, NextPage } from "next";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
@@ -16,6 +16,7 @@ import { checkEmptyObj } from "@utils/client/checkEmptyObj";
 import styled from "styled-components";
 import { FlexContainer, InnerContainer } from "@styles/Common";
 import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
 
 interface ResetForm {
   password: string;
@@ -148,7 +149,11 @@ const Reset: NextPage = () => {
   );
 };
 export default Reset;
-
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});
 const Container = styled(FlexContainer)``;
 
 const Seperation = styled.div`
