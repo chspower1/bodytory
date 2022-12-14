@@ -85,7 +85,7 @@ const LoginPage: NextPage = () => {
   console.log(Testcard.src);
   return (
     <FlexContainer>
-      <TestButton onClick={() => setIsOnTestBox(cur => !cur)}>테스트 아이디 보기</TestButton>
+      <TestButton onClick={() => setIsOnTestBox(cur => !cur)}>테스트 아이디 {isOnTestBox ? "접기" : "보기"}</TestButton>
       <AnimatePresence>
         {isOnTestBox && (
           <TestBox
@@ -147,8 +147,8 @@ const LoginPage: NextPage = () => {
         </LoginFindBox>
         <SocialLoginBox>
           <div className="soscialInnerBox">
-            <NaverLoginBtn  mutate={mutate} kind="login" />
-            <KakaoLoginBtn  mutate={mutate} kind="login" />
+            <NaverLoginBtn mutate={mutate} kind="login" />
+            <KakaoLoginBtn mutate={mutate} kind="login" />
           </div>
         </SocialLoginBox>
         <RegisterLinkBox>
@@ -169,6 +169,7 @@ export const getServerSideProps = withGetServerSideProps(async (context: GetServ
 });
 
 const TestBox = styled(motion.div)`
+  z-index: 10000;
   width: 514px;
   height: 300px;
   background: url(${Testcard.src});
@@ -177,6 +178,7 @@ const TestBox = styled(motion.div)`
   top: 70px;
 `;
 const TestButton = styled.div`
+  z-index: 10000;
   position: absolute;
   left: 20px;
   top: 20px;
@@ -216,7 +218,7 @@ const LoginFindBox = styled(Row)`
   a {
     margin: 0 12px;
     width: 82px;
-    text-align:right;
+    text-align: right;
     span {
       font-size: 15px;
     }
@@ -250,7 +252,6 @@ const SocialLoginBox = styled(Row)`
       column-gap: 10px;
     }
   }
-
 `;
 
 const RegisterLinkBox = styled(Row)`
