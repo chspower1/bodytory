@@ -51,6 +51,7 @@
    <img src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=Next.js&logoColor=white"/>
    <img src="https://img.shields.io/badge/Flask-555555?style=flat-square&logo=Flask&logoColor=white"/>
    <img src="https://img.shields.io/badge/IronSession-DB7093?style=flat-square&logoColor=white"/>
+   <img src="https://img.shields.io/badge/NodeMailer-black?style=flat-square&logo=Recoil&logoColor=white"/>
   <br/>
   <br/>
   <!-- 데이터베이스 -->
@@ -77,7 +78,7 @@
 <!-- <details> -->
 <summary>기술 스택</summary>
 
-## <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=Next.js&logoColor=white"/>
+<img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=Next.js&logoColor=white"/>
 
 - SSR + CSR
 
@@ -91,7 +92,7 @@
 - NextJS의 개발환경
   - API router,Page router,middleware,Image,document 등 NextJS에서 제공하는 기능들은 개발자에게 편리한 개발환경을 제공하기에 NextJS를 채택하였습니다.
 
-## <img src="https://img.shields.io/badge/Typescript-3178C6?style=for-the-badge&logo=Typescript&logoColor=white"/>
+<img src="https://img.shields.io/badge/Typescript-3178C6?style=for-the-badge&logo=Typescript&logoColor=white"/>
 
 - Javascript의 한계
   - Javascript는 타입에 제약이 없어 의도치 않은 문제점을 발생시킬 수 있습니다.  
@@ -102,7 +103,7 @@
 
 ## Front-End
 
- <img src="https://img.shields.io/badge/ReactQuery-FF4154?style=for-the-badge&logo=ReactQuery&logoColor=white"/>
+<img src="https://img.shields.io/badge/ReactQuery-FF4154?style=for-the-badge&logo=ReactQuery&logoColor=white"/>
 
 - 보다 편한 비동기 처리
   - Api 호출을 하는 일련의 과정을 Tanstack-Query에서 제공하는 hook을 통해 편리하게 사용할 수 있습니다.
@@ -123,12 +124,12 @@
   - React-Hook-Form에서 제공하는 hook은 간편하게 form을 관리할 수 있게 해줍니다.  
     valitate,error,value 등을 useForm hook에서 제공하는 옵션들로 모두 관리 할 수 있는 강력함을 가졌습니다.
 
-- Recoil
+<img src="https://img.shields.io/badge/Recoil-black?style=for-the-badge&logo=Recoil&logoColor=white"/>
 
 - 간편한 전역 상태 관리
   - Context Api나 Redux에 비해 보일러플레이트가 훨씬 간소화 되어있고 React에서 제공하는 hooks의 형태를 띄고 있어 상태 수정 및 접근이 용이합니다.
 
- <img src="https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=Axios&logoColor=white"/>
+<img src="https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=Axios&logoColor=white"/>
 
 - 일괄적인 예외 처리
   - Intercepter를 통해 response,request에 대한 일괄적인 예외처리가 가능합니다.
@@ -137,53 +138,62 @@
 
 ## Style
 
-<img src="https://img.shields.io/badge/styledcomponents-DB7093?style=for-the-badge&logo=styled-components&logoColor=white"/>
-  - 효율적인 재사용
-    - 한번 선언으로 여러 곳에서 재사용이 가능하며, 필요의 경우 상속을 통해 부가적으로 수정하는 것 또한 가능합니다.
-  - 조건부 스타일
-    - props를 통해 javascript를 이용한 조건부 스타일링은 styled-components의 강력한 기능 중 하나입니다.
-  - 전역 스타일 관리, Theme
-    - Theme을 통해 일괄적인 스타일 수정이 가능합니다.
-- ## Framer-Motion
-  - 강력하고 간편한 애니메이션
-    - Framer-motion을 이용하면 기존 css와 Javascript로 구현하기 어려운 애니메이션을 아주 간단하게 구현이 가능합니다.  
-      언마운트되는 컴포넌트도 AnimatePresence를 통해 간단하게 애니메이션을 구현 할 수 있으며, layoutkey를 통해 컴포넌트간에 이어지는 애니메이션도 쉽게 구현이 가능합니다.
-- ## Swiper
-  - 간편하게 완성도 높은 슬라이더를 구현 할 수 있습니다.
+  <img src="https://img.shields.io/badge/styledcomponents-DB7093?style=for-the-badge&logo=styled-components&logoColor=white"/>
+
+- 효율적인 재사용
+  - 한번 선언으로 여러 곳에서 재사용이 가능하며, 필요의 경우 상속을 통해 부가적으로 수정하는 것 또한 가능합니다.
+- 조건부 스타일
+  - props를 통해 javascript를 이용한 조건부 스타일링은 styled-components의 강력한 기능 중 하나입니다.
+- 전역 스타일 관리, Theme
+
+  - Theme을 통해 일괄적인 스타일 수정이 가능합니다.
+
+<img src="https://img.shields.io/badge/Framer-0055FF?style=for-the-badge&logo=Framer&logoColor=white"/>
+
+- 강력하고 간편한 애니메이션
+
+  - Framer-motion을 이용하면 기존 css와 Javascript로 구현하기 어려운 애니메이션을 아주 간단하게 구현이 가능합니다.  
+    언마운트되는 컴포넌트도 AnimatePresence를 통해 간단하게 애니메이션을 구현 할 수 있으며, layoutkey를 통해 컴포넌트간에 이어지는 애니메이션도 쉽게 구현이 가능합니다.
+
+<img src="https://img.shields.io/badge/Swiper-0055FF?style=for-the-badge&logo=Swiper&logoColor=white"/>
+
+- 간편하게 완성도 높은 슬라이더를 구현 할 수 있습니다.
 
 ## Back-End
 
-- ## Nodemailer
+<img src="https://img.shields.io/badge/NodeMailer-black?style=for-the-badge&logo=Recoil&logoColor=white"/>
 
-  - 인증메일을 보내는 용도로 사용했으며, 간단한 사용법으로 메일 전송이 가능합니다
+- 인증메일을 보내는 용도로 사용했으며, 간단한 사용법으로 메일 전송이 가능합니다
 
-- ## Iron-Session
+<img src="https://img.shields.io/badge/Iron Session-teal?style=for-the-badge&logo=Recoil&logoColor=white"/>
 
-  - 로우레벨 코드
+- 로우레벨 코드
 
-    - 비교적 간단한 코드로 회원인증 구현이 가능합니다.
+  - 비교적 간단한 코드로 회원인증 구현이 가능합니다.
 
-  - Serverless환경에서의 회원인증
-    - JWT와 다르게 iron-session은 payload를 암호화해서 전달해주기 때문에 유저의 민감한 정보를 식별자로 사용하는 것도 가능합니다.  
-      이는 유저의 정보를 서버에 저장하지 않더라도 회원인증 가능하게 해주고, serverless환경인 바디토리 프로젝트에 아주 좋은 회원인증 방식이라 판단했습니다.
+- Serverless환경에서의 회원인증
 
-- ## Flask
+  - JWT와 다르게 iron-session은 payload를 암호화해서 전달해주기 때문에 유저의 민감한 정보를 식별자로 사용하는 것도 가능합니다.  
+    이는 유저의 정보를 서버에 저장하지 않더라도 회원인증 가능하게 해주고, serverless환경인 바디토리 프로젝트에 아주 좋은 회원인증 방식이라 판단했습니다.
 
-  - 파이썬 환경에서 모델을 불러와 결과을 예측하는 것이 쉽기 때문에 이를 기반으로 하는 프레임워크인 Flask를 사용했습니다
-  - 자체적으로 학습시킨 모델들을 불러와 요청에 따른 예측값을 반환하는 용도로 사용중입니다.
+<img src="https://img.shields.io/badge/Flask-555555?style=for-the-badge&logo=Flask&logoColor=white"/>
+
+- 파이썬 환경에서 모델을 불러와 결과을 예측하는 것이 쉽기 때문에 이를 기반으로 하는 프레임워크인 Flask를 사용했습니다
+- 자체적으로 학습시킨 모델들을 불러와 요청에 따른 예측값을 반환하는 용도로 사용중입니다.
 
 ## DB
 
-- ## Planet Scale
+<img src="https://img.shields.io/badge/PlanetScale-000000?style=for-the-badge&logo=PlanetScale&logoColor=white"/>
 
-  - Cloud MySQL
-    - 바디토리는 데이터 간의 종속성이 짙어서 관계형DB를 사용할 필요가 있었습니다.
-      Planet Scale은 엄밀히 말하면 MySQL은 아니지만 MySQL과 거의 동일한 환경으로 작업할 수 있습니다.
-      무엇보다 Cloud에 Serverless로 DB를 구축할 수 있고,무료인 Planet Scale을 DB로 채택하였습니다.
-  - CLI
-    - CLI를 통해 데이터베이스 만들기부터 데이터 조작에 이르기까지 플래닛스케일 인스턴스의 거의 모든 부분을 제어할 수 있는 점은 개발생산성을 높여줍니다.
+- Cloud MySQL
+  - 바디토리는 데이터 간의 종속성이 짙어서 관계형DB를 사용할 필요가 있었습니다.
+    Planet Scale은 엄밀히 말하면 MySQL은 아니지만 MySQL과 거의 동일한 환경으로 작업할 수 있습니다.
+    무엇보다 Cloud에 Serverless로 DB를 구축할 수 있고,무료인 Planet Scale을 DB로 채택하였습니다.
+- CLI
 
-- ## Prisma
+  - CLI를 통해 데이터베이스 만들기부터 데이터 조작에 이르기까지 플래닛스케일 인스턴스의 거의 모든 부분을 제어할 수 있는 점은 개발생산성을 높여줍니다.
+
+ <img src="https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=Prisma&logoColor=white"/>
   - Planet Scale과 찰떡궁합
     - Prisma는 Planet Scale과 아주 좋은 시너지 효과를 창출합니다.
       Planet Scale만으로는 ForeignKey를 지원하지 않지만 Prisma를 사용하면 구현이 가능합니다.
@@ -203,17 +213,19 @@
 
 ## CI/CD
 
-- ## Docker
+<img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=Docker&logoColor=white"/>
 
-  - 배포환경과 동일한 환경에서의 테스트가 가능하고, 이후 생성된 이미지를 기반으로 배포하는 것 또한 수월합니다.  
-    => 멀티스테이지 빌드를 통해 이미지 크기 절감의 효과 또한 챙겼습니다
+- 배포환경과 동일한 환경에서의 테스트가 가능하고, 이후 생성된 이미지를 기반으로 배포하는 것 또한 수월합니다.  
+  => 멀티스테이지 빌드를 통해 이미지 크기 절감의 효과 또한 챙겼습니다
 
-- ## GitlabRunner
-  - 자동배포를 위해 사용 중 입니다.
+<img src="https://img.shields.io/badge/GitLab Runner-FC6D26?style=for-the-badge&logo=GitLab&logoColor=white"/>
+
+- 자동배포를 위해 사용 중 입니다.
 
 ## 인공지능
 
-- ## Word2Vec
-  - 복잡한 레이어 구성 절차 없이 인자값들을 통해 쉽게 원하는 방향으로 학습시킬 수 있어서 채택했습니다
+<img src="https://img.shields.io/badge/Word2Vec-FC6D26?style=for-the-badge&logoColor=white"/>
+
+- 복잡한 레이어 구성 절차 없이 인자값들을 통해 쉽게 원하는 방향으로 학습시킬 수 있어서 채택했습니다
 
 </details>
