@@ -149,9 +149,8 @@ const MainInput = styled(motion.input)<{
   ${props =>
     props.$light &&
     css`
-      &[type="password"] {
-      }
       background: rgba(217, 222, 255, 1);
+      color: #232323;
       &[type="password"] {
         color: #9497c1;
       }

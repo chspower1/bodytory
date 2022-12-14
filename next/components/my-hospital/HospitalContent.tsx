@@ -316,9 +316,6 @@ const HospitalInforContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  ${media.custom(1440)} {
-    display: block;
-  }
 `;
 
 const HospitalPlaceBox = styled.div<{ add?: boolean }>`
@@ -351,7 +348,7 @@ export const HospitalStatusBox = styled.div`
   ${media.custom(1366)} {
     position: absolute;
     right: -70px;
-    width: 110px;
+    width: auto;
     top: 15px;
   }
 `;
