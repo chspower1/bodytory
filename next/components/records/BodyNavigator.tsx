@@ -80,6 +80,17 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage, isH
         </MobileFrontBackButton>
         </>
       ) : (
+        <>
+        <MobileFrontBackButton onClick={() => setCurrentPosition(prev => prev === "back" ? "front" : "back")}>
+          {currentPos !== "face" || (
+              <FrontBackButton
+                bgColor={currentPos === "face" ? "rgb(188, 197, 255)" : undefined}
+                onClick={() => setCurrentPosition("front")}
+              >
+                몸
+              </FrontBackButton>
+            )}
+        </MobileFrontBackButton>
         <ButtonsBox>
           {currentPos !== "face" || (
             <FrontBackButton
@@ -90,6 +101,7 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage, isH
             </FrontBackButton>
           )}
         </ButtonsBox>
+        </>
       )}
 
       <PathBox>
@@ -392,14 +404,15 @@ const CustomContainer = styled.div<{ isWritePage: boolean }>`
   display: flex;
   padding: 50px 0;
   z-index: 6;
+  height:100%;
   ${({ isWritePage }) =>
     isWritePage && css`
-          background-color: #ebecfc;
-          box-shadow: 8px 8px 18px rgba(174, 178, 228, 0.25);
-          border-radius: 30px;
-          ${media.custom(1633)}{
-            border-radius: 0 30px 30px 0;
-          }
+    background-color: #ebecfc;
+    box-shadow: 8px 8px 18px rgba(174, 178, 228, 0.25);
+    border-radius: 30px;
+    ${media.custom(1633)}{
+      border-radius: 0 30px 30px 0;
+    }
   `}
 `;
 
