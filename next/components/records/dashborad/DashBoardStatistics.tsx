@@ -25,21 +25,21 @@ function DashBoardStatistics() {
 
   const [mostKeyword, setMostKeyword] = useState<string>();
   const [keywordChartData, setKeywordChartData] = useState<string[]>();
-  const [noKeyword, setNoKeyword] = useState<boolean>(false);
+  // const [noKeyword, setNoKeyword] = useState<boolean>(false);
 
   const dashboardGetApi = customApi(`/api/users/records/dashboard/threeMonth`);
   const dashboardQuery = useQuery<any>([BODYPART_CHARTDATA_READ], dashboardGetApi.getApi);
 
   const flaskGetApi = customApi(`/api/users/records/flask/threeMonth`);
-  const flaskQuery = useQuery<any>([KEYWORDS_CHARTDATA_READ], flaskGetApi.getApi, {
-    onError(data) {
-      setNoKeyword(true); // 증상이 2개 이하일 때는 아예 에러가 남
-    },
-  });
+  const flaskQuery = useQuery<any>([KEYWORDS_CHARTDATA_READ], flaskGetApi.getApi);
+
+  console.log(flaskQuery.data);
+
+  console.log("dashboardQuery",dashboardQuery.data)
 
   useEffect(() => {
     // 가장 기록이 많은 부위 찾기
-    if (dashboardQuery.data) {
+    if (dashboardQuery.data && dashboardQuery.data.length !== 0) {
       let maxLength = 0;
       let maxPart: string[] = [];
       let maxIdx: number[] = [];
@@ -72,28 +72,31 @@ function DashBoardStatistics() {
       <FlexContainer>
         <ChartBox>
           {mostPart && (
-            <p>
-              가장 많은 기록을 남긴 부위는{" "}
-              <strong>
-                {mostPart?.length > 1
-                  ? `${KoreanPosition[mostPart[0] as Position]} 외 ${mostPart.length - 1}곳`
-                  : KoreanPosition[mostPart[0] as Position]}
-              </strong>{" "}
-              입니다
-            </p>
+            <>
+              <p>
+                가장 많은 기록을 남긴 부위는{" "}
+                <strong>
+                  {mostPart?.length > 1
+                    ? `${KoreanPosition[mostPart[0] as Position]} 외 ${mostPart.length - 1}곳`
+                    : KoreanPosition[mostPart[0] as Position]}
+                </strong>{" "}
+                입니다
+              </p>
+              <MostBodyPart
+                chartData={bodyPartChartData ? bodyPartChartData : null}
+                mostPartIdx={mostPartIdx ? mostPartIdx : null}
+              />
+            </>
           )}
-          <MostBodyPart
-            chartData={bodyPartChartData ? bodyPartChartData : null}
-            mostPartIdx={mostPartIdx ? mostPartIdx : null}
-          />
         </ChartBox>
         <ChartBox>
-          {keywordChartData?.length === 0 || noKeyword ? (
+          {keywordChartData?.length === 0 && (
             <NoKeywordChart>
               <LoadingAnim />
               <p>기록이 더 많아지면 키워드를 분석할 수 있어요!</p>
             </NoKeywordChart>
-          ) : (
+          )}
+          {keywordChartData?.length !== 0 && (
             <>
               <p>
                 가장 많이 기록된 키워드는 <strong>{mostKeyword}</strong> 입니다
@@ -123,7 +126,7 @@ const FlexContainer = styled.div`
 
 const ChartBox = styled.div`
   width: calc(50% - 20px);
-  min-height: 460px;
+  min-height: 480px;
   background: ${({ theme }) => theme.color.white};
   border-radius: 40px;
   padding: 30px;

@@ -5,8 +5,11 @@ import { useEffect, useState } from "react";
 import { bodyPartType } from "types/bodyParts";
 import { useSetRecoilState } from "recoil";
 import { currentBodyPosition } from "atoms/atoms";
+import { motion } from "framer-motion";
+import { GetServerSidePropsContext, NextPage } from "next";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
 
-export default function RecordPage() {
+const RecordPage: NextPage = () => {
   const [selectedBodyPart, setSelectedBodyPart] = useState<bodyPartType>(null);
   const setCurrentPosition = useSetRecoilState(currentBodyPosition);
 
@@ -16,13 +19,39 @@ export default function RecordPage() {
 
   return (
     <RecordWrap>
-      <DashBoard />
-      <SelectPart selectedBodyPart={selectedBodyPart} setSelectedBodyPart={setSelectedBodyPart} />
+      <DashBoardArea
+        initial={{ opacity: 0, x: -40 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.6, type: "tween", ease: "easeOut" }}
+      >
+        <DashBoard />
+      </DashBoardArea>
+      <SelectPartArea
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, type: "tween", ease: "easeOut", delay: 0.4 }}
+      >
+        <SelectPart selectedBodyPart={selectedBodyPart} setSelectedBodyPart={setSelectedBodyPart} />
+      </SelectPartArea>
     </RecordWrap>
   );
-}
+};
+export default RecordPage;
 
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});
 const RecordWrap = styled.div`
   display: flex;
   height: 100%;
+`;
+
+const DashBoardArea = styled(motion.div)`
+  width: 62.5%;
+`;
+
+const SelectPartArea = styled(motion.div)`
+  width: 37.5%;
 `;

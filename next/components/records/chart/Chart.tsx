@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { RoundButton } from "@components/layout/buttons/Button";
 import ChartTimeline from "./ChartTimeline";
 import ChartKeyword from "./ChartKeyword";
 import { KoreanPosition } from "types/write";
@@ -11,6 +10,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { CHART_RECOMMEND_READ } from "constant/queryKeys";
 import { useEffect } from "react";
 import ToryRecommend from "../ToryRecommend";
+import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 
 interface ChartRecommendResponse {
   mostThreeDepartment?: string[];
@@ -40,9 +40,9 @@ function Chart() {
               <strong>{KoreanPosition[position]}</strong> 건강기록
             </Title>
             <Link href={`/users/records/write/${position}`}>
-              <RoundButton size="md" bgColor="rgb(244,245,255)" textColor="rgb(83,89,233)">
+              <RoundedDefaultButton bgColor="rgb(244,245,255)" color="rgb(83,89,233)">
                 기록 추가하기
-              </RoundButton>
+              </RoundedDefaultButton>
             </Link>
           </TitleBox>
           <ToryRecommend mostThreeDepartment={data?.mostThreeDepartment} inChart={true} />
@@ -56,7 +56,7 @@ function Chart() {
 
 export const ChartWrap = styled.div`
   position: relative;
-  width: 62.5%;
+  width: 100%;
   height: 100%;
   background: ${({ theme }) => theme.color.darkBg};
 `;

@@ -1,10 +1,11 @@
-import { theme } from "@styles/theme";
-import React, { ReactNode, useEffect, useRef, useState } from "react";
+import { media, theme } from "@styles/theme";
+import React, { ReactNode } from "react";
 import ReactDOM from "react-dom";
-import styled, { css, keyframes } from "styled-components";
-import { RoundButton } from "../layout/buttons/Button";
-import { AnimatePresence, motion } from "framer-motion";
+import styled, { css } from "styled-components";
+import { AnimatePresence } from "framer-motion";
 import { Dim, ModalContainer, ModalWrapper } from "@styles/ModalStyled";
+import usePortal from "@hooks/usePortal";
+import { ModalButton } from "./RecordModal";
 
 interface ModalProps {
   show: boolean;
@@ -31,13 +32,8 @@ function Modal({
   title = "알림",
   agreeType = false,
   terms = false,
-  width = "600px",
-  height = "350px",
 }: ModalProps) {
-  const [isBrowser, setIsBrowser] = useState(false);
-  useEffect(() => {
-    setIsBrowser(true);
-  }, []);
+  const Portal = usePortal();
   const modalContent = (
     <AnimatePresence>
       {show && (
@@ -49,13 +45,13 @@ function Modal({
             </ModalTitle>
             <ModalContent bgColor={terms}>{children}</ModalContent>
             <ConfirmBtnBox>
-              <RoundButton size="sm" onClick={activeFunction}>
+              <ModalButton sm onClick={activeFunction}>
                 {agreeType ? `동의합니다` : !closingComment ? "네" : "확인"}
-              </RoundButton>
+              </ModalButton>
               {!closingComment && (
-                <RoundButton size="sm" bgColor={`rgba(188, 197, 255, 1)`} onClick={onClose}>
+                <ModalButton sm bgColor="rgb(188, 197, 255)" onClick={onClose}>
                   {agreeType ? `동의하지 않습니다` : "아니요"}
-                </RoundButton>
+                </ModalButton>
               )}
             </ConfirmBtnBox>
           </ModalBox>
@@ -64,19 +60,14 @@ function Modal({
     </AnimatePresence>
   );
 
-  return isBrowser ? ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement) : null;
+  return Portal({ children: modalContent });
 }
 
 const ConfirmBtnBox = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 30px;
-  button {
-    display: inline-block;
-    margin: 0 10px;
-    width: auto;
-    padding: 0 30px;
-  }
+  gap: 40px;
 `;
 
 const ModalBox = styled(ModalContainer)`
@@ -84,6 +75,9 @@ const ModalBox = styled(ModalContainer)`
   padding: 20px;
   border-radius: 10px;
   text-align: center;
+  ${media.custom(730)}{
+    width: 90%;
+  }
 `;
 
 const ModalTitle = styled.div`

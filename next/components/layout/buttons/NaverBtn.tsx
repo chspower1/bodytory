@@ -1,16 +1,14 @@
-import customApi from "utils/client/customApi";
-import { UseMutateFunction, useMutation } from "@tanstack/react-query";
+import { UseMutateFunction } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ButtonSize, RoundButton, SocialButton } from "./Button";
+import { SocialButton } from "./SocialButton";
 
 export interface SocialBtnProps {
   mutate: UseMutateFunction<any, any, any, unknown>;
-  size: ButtonSize;
   kind: "login" | "register";
 }
 // https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js
-const NaverLoginBtn = ({ mutate, size, kind }: SocialBtnProps) => {
+const NaverLoginBtn = ({ mutate, kind }: SocialBtnProps) => {
   const naverRef = useRef<any>(null);
   const router = useRouter();
   const [comment, _] = useState(kind === "login" ? "로그인" : "회원가입");
@@ -78,12 +76,7 @@ const NaverLoginBtn = ({ mutate, size, kind }: SocialBtnProps) => {
   }, []);
   return (
     <div>
-      <SocialButton
-        onClick={handleNaverLogin}
-        social="naver"
-        size={size}
-        bgColor={kind === "login" ? "rgb(75, 80, 211)" : "rgb(61, 66, 191)"}
-      >
+      <SocialButton onClick={handleNaverLogin} social="naver" sm={kind === "login"}>
         네이버로 {comment}
       </SocialButton>
       <button ref={naverRef} id="naverIdLogin" style={{ display: "none" }} />

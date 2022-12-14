@@ -1,3 +1,4 @@
+import { media } from "@styles/theme";
 import { motion } from "framer-motion";
 import React from "react";
 import styled from "styled-components";
@@ -28,8 +29,8 @@ const MessageBox = ({ children, isErrorsMessage, currentComment }: MessageProps)
   return (
     <MessageContainer
       key={isErrorsMessage}
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" } }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 , transition: { duration: 0.7, ease: "easeOut" } }}
       className="messageBox"
     >
       {children ? children : errorMessageText()}
@@ -50,8 +51,9 @@ const MessageContainer = styled(motion.div)`
   justify-content: center;
   align-items: center;
   height: 166px;
-  // @media (max-width : 570px){
-  //   font-size: 5.9649vw;
-  //   height:29.1228vw;
-  // }
+  word-break:keep-all;
+  ${media.mobile}{
+    font-size: 24px;
+    height:136px;
+  }
 `;

@@ -1,4 +1,3 @@
-import { RoundButton } from "@components/layout/buttons/Button";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { bodyPartType } from "types/bodyParts";
@@ -11,6 +10,9 @@ import { Position } from "@prisma/client";
 import { useRecoilState } from "recoil";
 import { currentBodyPosition } from "atoms/atoms";
 import { motion } from "framer-motion";
+import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
+import rotateIcon from "@src/assets/icons/rotateIcon.png";
+import { media } from "@styles/theme";
 
 export interface SelectBodyPartProps {
   selectedBodyPart: bodyPartType;
@@ -56,42 +58,36 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage, isH
   }, [currentPosition]);
 
   return (
-    <CustomContainer
-      initial={{ x: 500 }}
-      animate={{ x: 0 }}
-      transition={{ duration: 0.7, type: "tween", ease: "easeOut" }}
-      isWritePage={isWritePage}
-    >
+    <CustomContainer isWritePage={isWritePage}>
       {currentPos !== "face" ? (
+        <>
         <ButtonsBox>
-          <RoundButton
-            width="90px"
-            height="50px"
+          <FrontBackButton
             onClick={() => setCurrentPosition("front")}
             bgColor={currentPos !== "front" ? "rgb(188, 197, 255)" : undefined}
           >
             앞
-          </RoundButton>
-          <RoundButton
-            width="90px"
-            height="50px"
+          </FrontBackButton>
+          <FrontBackButton
             onClick={() => setCurrentPosition("back")}
             bgColor={currentPos !== "back" ? "rgb(188, 197, 255)" : undefined}
           >
             뒤
-          </RoundButton>
+          </FrontBackButton>
         </ButtonsBox>
+        <MobileFrontBackButton onClick={() => setCurrentPosition(prev => prev === "back" ? "front" : "back")}>
+          <div className="rotateImgBg" />
+        </MobileFrontBackButton>
+        </>
       ) : (
         <ButtonsBox>
           {currentPos !== "face" || (
-            <RoundButton
-              width="90px"
-              height="50px"
+            <FrontBackButton
               bgColor={currentPos === "face" ? "rgb(188, 197, 255)" : undefined}
               onClick={() => setCurrentPosition("front")}
             >
               몸
-            </RoundButton>
+            </FrontBackButton>
           )}
         </ButtonsBox>
       )}
@@ -364,26 +360,47 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage, isH
 BodyNavigator.defaultProps = {
   isWritePage: true,
 };
+
+const FrontBackButton = styled(RoundedDefaultButton)`
+  padding: 16px 40px;
+
+`;
+const MobileFrontBackButton = styled.div`
+  display:none;
+  .rotateImgBg{
+    width: 50px;
+    height: 50px;
+    background: url(${rotateIcon.src}) no-repeat center center;
+    background-size:  contain;
+  }
+  ${media.custom(1366)}{
+    display:block;
+    position: absolute;
+    right: 10%;
+    top: 30px;
+    z-index: 6;
+  }
+`
+
 const Overlay = styled.div`
   width: 100%;
   height: 100%;
   position: absolute;
 `;
-const CustomContainer = styled(motion.div)<{ isWritePage: boolean }>`
+const CustomContainer = styled.div<{ isWritePage: boolean }>`
   position: relative;
   display: flex;
-  aspect-ratio: 1/1.2;
-
+  padding: 50px 0;
+  z-index: 6;
   ${({ isWritePage }) =>
-    isWritePage
-      ? css`
-          aspect-ratio: 1/1;
-          width: 50%;
+    isWritePage && css`
           background-color: #ebecfc;
           box-shadow: 8px 8px 18px rgba(174, 178, 228, 0.25);
           border-radius: 30px;
-        `
-      : css``}
+          ${media.custom(1633)}{
+            border-radius: 0 30px 30px 0;
+          }
+  `}
 `;
 
 const PathBox = styled.div<{ isViewMode?: boolean }>`
@@ -399,6 +416,9 @@ const PathBox = styled.div<{ isViewMode?: boolean }>`
       pointer-events: none;
       width: 85%;
     `}
+  ${media.custom(1366)}{
+    min-width: 300px;
+  }
 `;
 
 const ButtonsBox = styled.div`
@@ -408,6 +428,9 @@ const ButtonsBox = styled.div`
   width: 100%;
   padding: 18px;
   bottom: 0;
+  ${media.custom(1366)}{
+    display:none;
+  }
 `;
 
 const HoverPath = styled.path<{ isChecked: boolean; isHover: boolean }>`

@@ -1,19 +1,14 @@
+import { RectangleDefaultButton, RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 import useHospital from "@hooks/useHospital";
-import { Hospital, MedicalDepartment } from "@prisma/client";
 import { Box } from "@styles/Common";
-import { theme } from "@styles/theme";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import customApi from "@utils/client/customApi";
+import { media, theme } from "@styles/theme";
 import sliceName from "@utils/client/sliceHospitalName";
 import { currentHospitalIdx } from "atoms/atoms";
-import { HOSPITALS } from "constant/queryKeys";
 import { useRouter } from "next/router";
-import type { MyHospital, MyHospitalResponse } from "pages/users/my-hospital";
-import { useEffect, useState } from "react";
+import type { MyHospital } from "pages/users/my-hospital";
+import { useState } from "react";
 import { useSetRecoilState } from "recoil";
 import styled, { css } from "styled-components";
-import { isNoSubstitutionTemplateLiteral } from "typescript";
-import { ChangeToHoverColor, RectangleButton, RoundButton } from "../layout/buttons/Button";
 import DeleteBtn from "../layout/buttons/DeleteBtn";
 import Modal from "../modals/Modal";
 import MyHospitalModal from "../modals/MyHospitalModal";
@@ -23,9 +18,10 @@ interface HospitalContentProps {
   add: boolean;
   idx: number;
   shared: boolean;
+  setShowAlertModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) => {
+const HospitalContent = ({ hospital, add, idx, shared, setShowAlertModal }: HospitalContentProps) => {
   const router = useRouter();
   const [onShare, setOnShare] = useState<boolean>(shared);
   const setHospitalCurrentIdx = useSetRecoilState(currentHospitalIdx);
@@ -44,10 +40,6 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
     router.push("/users/my-hospital/clinic-list");
     setHospitalCurrentIdx(idx);
   };
-  // console.log(hospital.name, shared, onShare);
-  // useEffect(() => {
-  //   setOnShare(shared);
-  // }, [shared]);
   return (
     <HospitalInfor add={add}>
       <HospitalInforContainer>
@@ -77,30 +69,23 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
             </SpaceText>
           </HospitalPlaceBox>
           {!add && (
-            <RectangleButton
-              size="md"
-              fontSize="16px"
-              width="120px"
-              bgColor={`rgba(75, 80, 211, 1)`}
-              textColor={theme.color.white}
-              onClick={handleClickGoClinicList}
-            >
+            <ShowMedicalDetailButton bgColor={`rgba(75, 80, 211, 1)`} onClick={handleClickGoClinicList}>
               진료내역 보기
-            </RectangleButton>
+            </ShowMedicalDetailButton>
           )}
         </HospitalInforBox>
         {add ? (
           <AddButtonBox>
-            <RectangleButton
-              nonSubmit
-              size="md"
-              bgColor={onConnected ? theme.color.error : theme.color.darkBg}
+            <RectangleDefaultButton
+              type="button"
+              color={onConnected ? "#3d42bf" : "white"}
+              bgColor={onConnected ? "rgb(197,205,251)" : theme.color.darkBg}
               onClick={() => {
                 setShowModal(true);
               }}
             >
               {onConnected ? "삭제" : "추가"}
-            </RectangleButton>
+            </RectangleDefaultButton>
             {onConnected && <span>내 병원</span>}
           </AddButtonBox>
         ) : (
@@ -108,14 +93,24 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
             <ShareStatus weight="200" size="15px" add={add} status={onShare}>
               {onShare ? "기록 공유 중" : "기록 공유 중지"}
             </ShareStatus>
-            <ShareButton status={onShare} onClick={() => handleClickShare(hospital.id, setOnShare)}>
+            <RoundedDefaultButton
+              sm
+              bgColor={onShare ? "rgb(128,133,251)" : theme.color.mintBtn}
+              onClick={() => handleClickShare(hospital.id, setOnShare)}
+            >
               {onShare ? "공유 중지" : "공유 시작"}
-            </ShareButton>
+            </RoundedDefaultButton>
           </HospitalStatusBox>
         )}
         {add || (
           <DeleteBtnBox>
-            <DeleteBtn mutate={deleteHospitalMutate} id={hospital.id} backgroundColor="rgb(100, 106, 235)" isCircle />
+            <DeleteBtn
+              mutate={deleteHospitalMutate}
+              setShowAlertModal={setShowAlertModal}
+              id={hospital.id}
+              backgroundColor="rgb(100, 106, 235)"
+              isCircle
+            />
           </DeleteBtnBox>
         )}
       </HospitalInforContainer>
@@ -129,6 +124,7 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
           onConnected
             ? () => {
                 handleClickDeleteHospital(hospital.id, setOnConnected);
+                setShowAlertModal(true);
               }
             : () => {
                 handleClickAddHospital(hospital.id, setOnConnected);
@@ -156,18 +152,13 @@ const HospitalContent = ({ hospital, add, idx, shared }: HospitalContentProps) =
 
 export default HospitalContent;
 
-const ShareButton = styled.button<{ status: boolean }>`
-  width: auto;
+const ShowMedicalDetailButton = styled(RectangleDefaultButton)`
+  width: 120px;
   font-size: 16px;
-  padding: 12px 25px;
-
-  transition: background-color 0.5s ease;
-  &:hover {
-    background-color: ${props => ChangeToHoverColor(props.status ? "rgb(128,133,251)" : "rgb(18, 212, 201)")};
+  ${media.mobile} {
+    font-size: 12px;
+    width: 80px;
   }
-  background-color: ${prop => (prop.status ? "rgb(128,133,251)" : theme.color.mintBtn)};
-  border-radius: 50px;
-  color: white;
 `;
 
 const AddButtonBox = styled.div`
@@ -176,22 +167,41 @@ const AddButtonBox = styled.div`
 
   span {
     position: absolute;
-    left: -70px;
+    left: -60px;
     top: 50%;
     transform: translateY(-50%);
     font-size: 16px;
     font-weight: 600;
     color: ${({ theme }) => theme.color.input};
   }
+  ${media.custom(1440)} {
+    position: absolute;
+    top: 18px;
+    right: 20px;
+    font-size: 14px;
+    span {
+      font-size: 14px;
+    }
+  }
+  ${media.mobile} {
+    > button {
+      width: 50px;
+      padding: 8px 0;
+      font-size: 14px;
+    }
+  }
 `;
 
-const DeleteBtnBox = styled.div`
+export const DeleteBtnBox = styled.div`
   position: absolute;
   right: 30px;
   top: 50%;
   transform: translateY(-50%);
   width: 40px;
   height: 40px;
+  ${media.custom(1366)} {
+    top: 76%;
+  }
 `;
 
 const Text = styled.span<{ size?: string; weight?: string; add?: boolean }>`
@@ -209,6 +219,15 @@ const NameText = styled(Text)`
   font-weight: 600;
   overflow: hidden;
   text-overflow: ellipsis;
+  :hover {
+    text-decoration: underline;
+  }
+  ${media.mobile} {
+    font-size: 14px;
+    display: block;
+    min-width: 100px;
+    width: 50%;
+  }
 `;
 
 const SpaceText = styled(Text)<{ add: boolean }>`
@@ -222,9 +241,21 @@ const SpaceText = styled(Text)<{ add: boolean }>`
       text-overflow: ellipsis;
     `}
   cursor: pointer;
+  :hover {
+    text-decoration: underline;
+  }
+  ${media.mobile} {
+    font-size: 14px;
+    min-width: 150px;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
 `;
 export const ShareStatus = styled(Text)<{ status: boolean }>`
   padding-left: 20px;
+  position: relative;
   &::after {
     transition: background-color 0.4s ease;
     content: "";
@@ -235,6 +266,14 @@ export const ShareStatus = styled(Text)<{ status: boolean }>`
     border-radius: 50%;
     top: 25%;
     left: 0;
+  }
+  ${media.custom(1366)} {
+    text-indent: -9999px;
+    margin-right: 10px;
+    &::after {
+      potision: absolute;
+      left: 10px;
+    }
   }
 `;
 const HospitalInforBox = styled.div`
@@ -247,24 +286,27 @@ const HospitalInforBox = styled.div`
       text-decoration: underline;
     }
   }
+  ${media.pc} {
+    margin-right: 40px;
+    flex-direction: column;
+    row-gap: 15px;
+  }
 `;
 
 const HospitalInfor = styled.li<{ add: boolean }>`
   display: inline-block;
   position: relative;
-  padding: 0 40px;
-  width: 100%;
-  height: 80px;
+  padding: 20px 40px;
+  width: 98%;
   background-color: ${prop => (prop.add ? "rgb(225,227,255)" : "rgb(100,106,235)")};
   transition: all 0.4s ease;
   border-radius: 20px;
-  &:hover {
-    width: 101%;
-    box-shadow: ${props => props.theme.boxShadow.normal};
-    background-color: ${prop => (prop.add ? "rgb(217, 219, 255)" : "#575dd4")};
-  }
   & + & {
     margin-top: 20px;
+  }
+  ${media.mobile} {
+    width: 100%;
+    padding: 20px;
   }
 `;
 
@@ -280,21 +322,35 @@ const HospitalPlaceBox = styled.div<{ add?: boolean }>`
   display: flex;
   align-items: center;
   width: ${props => (props.add ? "500px" : "270px")};
+  ${media.mobile} {
+    display: block;
+    width: 100%;
+  }
 `;
 
 const HospitalDescriptionBox = styled.div<{ add?: boolean }>`
   display: flex;
   align-items: center;
   width: ${props => (props.add ? "400px" : "270px")};
+  ${media.mobile} {
+    display: block;
+    width: 100%;
+  }
 `;
 
 export const HospitalStatusBox = styled.div`
   flex-shrink: 0;
   display: flex;
   align-items: center;
-  width: 250px;
+  width: 280px;
   margin-right: 90px;
   justify-content: space-between;
+  ${media.custom(1366)} {
+    position: absolute;
+    right: -70px;
+    width: auto;
+    top: 15px;
+  }
 `;
 
 const Department = styled(Box)`
@@ -304,4 +360,7 @@ const Department = styled(Box)`
   border-radius: 5px;
   height: 32px;
   margin-left: 20px;
+  ${media.custom(1440)} {
+    display: none;
+  }
 `;

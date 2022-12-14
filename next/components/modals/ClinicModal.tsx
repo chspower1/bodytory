@@ -1,11 +1,11 @@
 import { Position, RecordType } from "@prisma/client";
 import { changeDate } from "@utils/client/changeDate";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import ReactDOM from "react-dom";
-import { RoundButton } from "../layout/buttons/Button";
-import { AnimatePresence, motion } from "framer-motion";
-import { ModalContainer, ModalWrapper } from "@styles/ModalStyled";
+import { AnimatePresence } from "framer-motion";
+import { Dim, ModalContainer, ModalWrapper } from "@styles/ModalStyled";
+import usePortal from "@hooks/usePortal";
+import { ModalButton } from "./RecordModal";
 
 interface ClinicModalProps {
   id?: number;
@@ -32,10 +32,8 @@ const ClinicModal = ({
   show = false,
   onClose,
 }: ClinicModalProps) => {
-  const [isBrowser, setIsBrowser] = useState(false);
-  useEffect(() => {
-    setIsBrowser(true);
-  }, []);
+  const Portal = usePortal();
+
   const modalContent = (
     <AnimatePresence>
       {show && (
@@ -68,38 +66,21 @@ const ClinicModal = ({
                   </div>
                 </li>
               </ul>
-              <RoundButton size="sm" nonSubmit onClick={onClose}>
-                닫기
-              </RoundButton>
+              <div>
+                <ModalButton sm onClick={onClose} bgColor="rgb(197,205,251)" color="rgb(93,107,178)">
+                  닫기
+                </ModalButton>
+              </div>
             </ModalContent>
           </ModalContainer>
         </ModalWrapper>
       )}
     </AnimatePresence>
   );
-  return isBrowser ? ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement) : null;
+  return Portal({ children: modalContent });
 };
 
 export default ClinicModal;
-
-const Dim = styled.div`
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.2);
-  z-index: 2;
-`;
-
-const Modal = styled.div`
-  position: relative;
-  z-index: 3;
-  width: 860px;
-  border-radius: 40px;
-  margin: auto;
-  overflow: hidden;
-`;
 
 const ModalHead = styled.div`
   padding: 20px 60px;
@@ -123,10 +104,10 @@ const ModalHead = styled.div`
 const ModalContent = styled.div`
   background: ${({ theme }) => theme.color.white};
   padding: 60px 80px 40px;
-  button {
-    width: 100px;
-    margin: 50px auto 0;
-    background: rgba(188, 197, 255, 1);
+  > div {
+    display: flex;
+    justify-content: center;
+    margin: 50px 0 0;
   }
   ul {
     li {

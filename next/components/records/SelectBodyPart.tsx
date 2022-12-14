@@ -39,7 +39,7 @@ function SelectPart({ selectedBodyPart, setSelectedBodyPart }: SelectBodyPartPro
 
 export const SelectPartWarp = styled.div`
   position: relative;
-  width: 37.5%;
+  width: 100%;
   height: 100%;
 `;
 

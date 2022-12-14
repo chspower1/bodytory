@@ -1,15 +1,15 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useState } from "react";
-import { ButtonSize, SocialButton } from "./Button";
+import { SocialButton } from "./SocialButton";
 
-const OriginLoginBtn = ({ size, kind }: { size: ButtonSize; kind: "login" | "register" }) => {
+const OriginLoginBtn = ({ kind }: { kind: "login" | "register" }) => {
+  const { push } = useRouter();
   const [comment, _] = useState(kind === "login" ? "로그인" : "회원가입");
   return (
-    <Link href="/auth/register">
-      <SocialButton social="origin" size={size} bgColor={kind === "login" ? "rgb(75, 80, 211)" : "rgb(61, 66, 191)"}>
-        일반 {comment}
-      </SocialButton>
-    </Link>
+    <SocialButton social="origin" onClick={() => push("/auth/register")}>
+      일반 {comment}
+    </SocialButton>
   );
 };
 export default OriginLoginBtn;

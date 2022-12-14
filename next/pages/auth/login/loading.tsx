@@ -1,13 +1,13 @@
 import NaverLoginBtn from "@components/layout/buttons/NaverBtn";
-import { useMutation, useQueries, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
 import { USER_LOGIN, USE_USER } from "constant/queryKeys";
 import { useRouter } from "next/router";
-import React, { useEffect, useRef } from "react";
-import styled, { keyframes } from "styled-components";
-import { useSetRecoilState } from "recoil";
-import Header from "@components/header/Header";
+import React from "react";
+import styled from "styled-components";
 import LoadingDot from "@components/LoadingDot";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
+import { GetServerSidePropsContext, NextPage } from "next";
 
 const LoadingBox = styled.div`
   width: 100%;
@@ -24,7 +24,7 @@ const ButtonBox = styled.div`
   display: none;
 `;
 
-const Loading = () => {
+const Loading: NextPage = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const { postApi } = customApi("/api/auth/login");
@@ -52,10 +52,14 @@ const Loading = () => {
         <LoadingDot />
       </div>
       <ButtonBox>
-        <NaverLoginBtn mutate={mutate} size={"sm"} kind={"login"} />
+        <NaverLoginBtn mutate={mutate} kind={"login"} />
       </ButtonBox>
     </LoadingBox>
   );
 };
-
 export default Loading;
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});

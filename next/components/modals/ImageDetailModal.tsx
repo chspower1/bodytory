@@ -1,13 +1,12 @@
-import { RoundButton } from "@components/layout/buttons/Button";
-import { WhiteBoldText, WhiteText } from "@styles/Common";
+import { WhiteText } from "@styles/Common";
 import { Dim, ModalWrapper, MODAL_VARIANTS } from "@styles/ModalStyled";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import ReactDOM from "react-dom";
 import styled, { css } from "styled-components";
 import Next from "@src/assets/icons/right_bracket.svg";
 import Previus from "@src/assets/icons/left_bracket.svg";
+import usePortal from "@hooks/usePortal";
 interface ImageDetailModalProps {
   show: number;
   onClose: () => void;
@@ -20,10 +19,8 @@ interface ImageDetailModalProps {
 }
 
 const ImageDetailModal = ({ show, onClose, url, index, imagesLength, setShow }: ImageDetailModalProps) => {
-  const [isBrowser, setIsBrowser] = useState(false);
-  useEffect(() => {
-    setIsBrowser(true);
-  }, []);
+  const Portal = usePortal();
+
   const modalContent = (
     <AnimatePresence>
       {show === index && (
@@ -63,7 +60,7 @@ const ImageDetailModal = ({ show, onClose, url, index, imagesLength, setShow }: 
       )}
     </AnimatePresence>
   );
-  return isBrowser ? ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement) : null;
+  return Portal({ children: modalContent });
 };
 export default ImageDetailModal;
 const ModalContainer = styled(motion.div).attrs({

@@ -1,28 +1,19 @@
-import { ChangeToHoverColor, RectangleButton, RoundButton } from "@components/layout/buttons/Button";
 import { Dim, ModalContainer, ModalWrapper } from "@styles/ModalStyled";
 import { AnimatePresence } from "framer-motion";
-import ReactDOM from "react-dom";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import styled from "styled-components";
 import type { MyHospital } from "pages/users/my-hospital";
-import hospital from "@api/hospital";
-import { theme } from "@styles/theme";
-import { useEffect, useState } from "react";
-import { ShareStatus } from "@components/my-hospital/HospitalContent";
-import useHospital from "@hooks/useHospital";
+import usePortal from "@hooks/usePortal";
+import Link from "next/link";
+import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 interface MyHospitalModalProps {
   show?: boolean;
   hospitals?: MyHospital;
-  activeFunction?: () => void;
   onClose?: () => void;
 }
 
-const MyHospitalModal = ({ show, hospitals, activeFunction, onClose }: MyHospitalModalProps) => {
-  const { handleClickShare } = useHospital();
-  const [isBrowser, setIsBrowser] = useState(false);
-  useEffect(() => {
-    setIsBrowser(true);
-  }, []);
+const MyHospitalModal = ({ show, hospitals, onClose }: MyHospitalModalProps) => {
+  const Portal = usePortal();
   const modalContent = (
     <AnimatePresence>
       {show && (
@@ -41,17 +32,21 @@ const MyHospitalModal = ({ show, hospitals, activeFunction, onClose }: MyHospita
                 <DetailBox>
                   <Title>홈페이지</Title>
                   <Text>
-                    <a href={String(hospitals?.homepage)} target="blank">
-                      {hospitals?.homepage}
-                    </a>
+                    {hospitals?.homepage ? (
+                      <Link href={String(hospitals?.homepage)} target="blank">
+                        {hospitals?.homepage}
+                      </Link>
+                    ) : (
+                      "-"
+                    )}
                   </Text>
                 </DetailBox>
-                <DepartmentListBox>
+                <DetailBox>
                   <Title>진료과목</Title>
                   <DepartmentLists>
                     {hospitals?.medicalDepartments.map(elem => elem.medicalDepartment?.department).join(",")}
                   </DepartmentLists>
-                </DepartmentListBox>
+                </DetailBox>
               </ContentBox>
               <Map
                 center={{ lat: Number(hospitals?.y), lng: Number(hospitals?.x) }}
@@ -59,7 +54,7 @@ const MyHospitalModal = ({ show, hospitals, activeFunction, onClose }: MyHospita
                 level={5}
               >
                 <MapMarker
-                  position={{ lat: Number(hospitals?.y), lng: Number(hospitals?.x) }}
+                  position={{ lat: Number(hospitals?.y) + 0.001, lng: Number(hospitals?.x) }}
                   image={{
                     src: "https://imagedelivery.net/AbuMCvvnFZBtmCKKJV_e6Q/ba695e48-c89f-4e8d-febb-10018a877600/avatar", // 마커이미지의 주소입니다
                     size: {
@@ -77,23 +72,16 @@ const MyHospitalModal = ({ show, hospitals, activeFunction, onClose }: MyHospita
               </Map>
             </ContentContainer>
             <CloseBox>
-              <RoundButton
-                size="custom"
-                width="150px"
-                height="40px"
-                textColor="rgb(93,107,178)"
-                bgColor="rgb(197,205,251)"
-                onClick={onClose}
-              >
+              <RoundedDefaultButton sm color="rgb(93,107,178)" bgColor="rgb(197,205,251)" onClick={onClose}>
                 닫기
-              </RoundButton>
+              </RoundedDefaultButton>
             </CloseBox>
           </ModalBox>
         </ModalWrapper>
       )}
     </AnimatePresence>
   );
-  return isBrowser ? ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement) : null;
+  return Portal({ children: modalContent });
 };
 
 export default MyHospitalModal;
@@ -109,13 +97,6 @@ const ModalBox = styled(ModalContainer)`
   text-align: center;
 `;
 
-const ShareStatusBox = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 70px;
-  background-color: ${theme.color.lightBg};
-`;
 
 const ModalTitle = styled.div`
   padding: 20px;
@@ -140,9 +121,10 @@ const ContentContainer = styled.div`
 const ContentBox = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
-  width: 400px;
+  width: 440px;
   height: 100%;
+  padding-right: 20px;
+  overflow-y: scroll;
 `;
 
 const DetailBox = styled.div`
@@ -151,12 +133,19 @@ const DetailBox = styled.div`
   justify-content: space-between;
   text-align: left;
   height: 70px;
+  & + & {
+    margin-top: 40px;
+  }
 `;
 
 const Title = styled.span`
   color: #5359e9;
 `;
-const Text = styled.span``;
+const Text = styled.span`
+  a:hover {
+    text-decoration: underline;
+  }
+`;
 
 const CloseBox = styled.div`
   display: flex;
@@ -166,12 +155,7 @@ const CloseBox = styled.div`
   padding: 20px;
 `;
 
-const DepartmentListBox = styled(DetailBox)`
-  height: 100px;
-`;
-
 const DepartmentLists = styled.div`
   max-height: 100px;
-  overflow-y: scroll;
   word-break: keep-all;
 `;

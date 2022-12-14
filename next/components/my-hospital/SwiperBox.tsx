@@ -1,8 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import styled from "styled-components";
 import { Pagination } from "swiper";
-import { RectangleButton } from "../layout/buttons/Button";
 import ClinicModal from "../modals/ClinicModal";
 import customApi from "@utils/client/customApi";
 import { useQuery } from "@tanstack/react-query";
@@ -10,9 +9,9 @@ import { Record } from "@prisma/client";
 import { changeDate } from "@utils/client/changeDate";
 import { Row } from "@styles/Common";
 import sliceName from "@utils/client/sliceHospitalName";
-import { useRouter } from "next/router";
 import { useRecoilValue } from "recoil";
 import { currentHospitalIdx } from "atoms/atoms";
+import { RectangleDefaultButton } from "@components/layout/buttons/DefaultButtons";
 
 import "swiper/css";
 import "swiper/css/pagination";
@@ -67,14 +66,11 @@ const SwiperBox = ({
                     <ClinicItem key={`${obj.userId} + ${obj.id} + ${Date.now()}`}>
                       <ClinicDate>{changeDate(obj.createAt)}</ClinicDate>
                       <ClinicDetailButtonBox>
-                        <RectangleButton
-                          width="90px"
-                          nonSubmit
-                          fontSize="16px"
+                        <RectangleDefaultButton
                           onClick={handleClickModalOpen(obj, hospital.name)}
                         >
                           진료내역
-                        </RectangleButton>
+                        </RectangleDefaultButton>
                       </ClinicDetailButtonBox>
                     </ClinicItem>
                   ))
@@ -87,7 +83,7 @@ const SwiperBox = ({
             </SlideItemInnerBox>
           </SwiperSlideItem>
         ))}
-      {currentContent && <ClinicModal {...currentContent} show={isModalOpen} onClose={() => setIsModalOpen(false)} />}
+      {currentContent &&  <ClinicModal {...currentContent} show={isModalOpen} onClose={() => setIsModalOpen(false)} />}
     </SwiperWrap>
   );
 };
@@ -95,30 +91,29 @@ const SwiperBox = ({
 export default SwiperBox;
 
 const SwiperWrap = styled(Swiper)`
-  padding: 30px 0 40px;
+  padding: 30px 0 50px;
   .swiper-pagination {
-    position: absolute;
+    position: abosolute;
     z-index: 10;
+    width: 100%;
+    max-width: 1920px;
     height: 8px;
     top: auto;
-    bottom: 10px;
+    bottom: 2px;
     left: 50%;
     transform: translateX(-50%);
-    width: 60%;
-    border-radius: 10px;
     overflow: hidden;
-    background: rgba(49, 54, 167, 0.15);
+    background: #D0EEF7;
     span {
-      background: rgba(188, 197, 255, 1);
+      background: #12D4C9;
     }
   }
 `;
 const SwiperSlideItem = styled(SwiperSlide)`
   width: 760px;
-  height: 500px;
+  height: 520px;
   opacity: 0.5;
   transition: opacity 0.6s;
-  padding: 0 50px;
   &.swiper-slide-active {
     opacity: 1;
     > div {
@@ -143,7 +138,7 @@ const ItemHeader = styled.div`
   display: flex;
   align-items: center;
   flex-shrink: 0;
-  padding: 30px 50px;
+  padding: 20px 50px;
   background: ${({ theme }) => theme.color.darkBg};
   color: ${({ theme }) => theme.color.white};
 `;
@@ -151,14 +146,14 @@ const ItemHeader = styled.div`
 const HospitalName = styled.div`
   max-width: 50%;
   font-size: 22px;
-  margin-right: 20px;
+  margin-right: 30px;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
   flex-shrink: 0;
 `;
 const HospitalAddress = styled.div`
-  font-size: 18px;
+  font-size: 16px;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
@@ -166,9 +161,10 @@ const HospitalAddress = styled.div`
 `;
 const ClinicListBox = styled.div`
   height: 100%;
-  padding: 30px 40px;
-  background: ${({ theme }) => theme.color.lightBg};
-  overflow-y: scroll;
+  padding: 30px;
+  background: #D9DEFF;
+  overflow-y: auto;
+
   &::-webkit-scrollbar {
     width: 20px;
   }
@@ -189,7 +185,7 @@ const ClinicItem = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 20px;
+  padding: 15px 20px;
   background: rgba(188, 197, 255, 1);
   border-radius: 10px;
   & + & {

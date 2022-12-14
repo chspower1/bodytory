@@ -1,3 +1,4 @@
+import { media } from "@styles/theme";
 import React from "react";
 import { FieldError, UseFormRegisterReturn } from "react-hook-form";
 import styled from "styled-components";
@@ -14,8 +15,8 @@ export interface RadioProps {
 
 function RadioInput({ label, name, register, error, value }: RadioProps) {
   return (
-    <InputBox className={`${error ? "error" : ""}`}>
-      <Input id={name} type="radio" value={value} {...register} />
+    <InputBox className={`${error ? "error" : ""}`} >
+      <Input id={name} type="radio" value={value} {...register} autoComplete="off" />
       <Label htmlFor={name}>{label}</Label>
     </InputBox>
   );
@@ -35,6 +36,11 @@ const InputBox = styled.div`
   user-select: none;
   &.error {
     border: 2px solid ${({ theme }) => theme.color.error};
+  }
+  ${media.mobile}{
+    width: 50px;
+    height: 50px;
+    font-size: 14px;
   }
 `;
 const Input = styled.input`
@@ -57,5 +63,4 @@ const Label = styled.label`
   cursor: pointer;
   color: rgba(255, 255, 255, 0.5);
 
-  /* font-size: 100px; */
 `;

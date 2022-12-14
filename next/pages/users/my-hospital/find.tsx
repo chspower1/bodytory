@@ -1,31 +1,17 @@
-import { RoundButton } from "@components/layout/buttons/Button";
-import HospitalList from "@components/my-hospital/MyHospitalList";
-import Input from "@components/layout/input/Input";
 import { theme } from "@styles/theme";
-import { useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useState } from "react";
 import styled from "styled-components";
-import {
-  ButtonBox,
-  DescriptionBox,
-  ImageIcon,
-  MainContainer,
-  MainInnerContainer,
-  MyHospital,
-  MyHospitalResponse,
-  Pragraph,
-} from ".";
+import { ButtonBox, DescriptionBox, MainContainer, MainInnerContainer, Pragraph } from ".";
 import MapIcon from "@src/assets/icons/mapIcon.svg";
 import List from "@src/assets/icons/list.svg";
-import useIO from "@hooks/useIO";
-import useCoords from "@hooks/useCoords";
-import { AnimatePresence } from "framer-motion";
 import { BackButton } from "@styles/Common";
 import Link from "next/link";
 import SearchHospitalList from "@components/search/SearchHospitalList";
 import SearchHospitalMap from "@components/search/SearchHospitalMap";
+import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
+import ToryPurpleAnim from "@components/lotties/ToryPurpleAnim";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
+import { GetServerSidePropsContext } from "next";
 
 type PageCategory = "search" | "map";
 const FindHospital = () => {
@@ -40,32 +26,48 @@ const FindHospital = () => {
       </Link>
       <MainInnerContainer>
         <DescriptionBox>
+          <ToryMotion>
+            <ToryPurpleAnim segmentIndex={0} />
+          </ToryMotion>
           <Pragraph>
-            추가할 병원을 검색해주세요
-            <br />
-            지도에서 내 주변 병원도 확인할 수 있어요
+            {pageCategory === "search" && (
+              <>
+                추가할 병원을 검색해주세요
+                <br />
+                지도에서 내 주변 병원도 확인할 수 있어요
+              </>
+            )}
+            {pageCategory === "map" && (
+              <>
+                지도에서 내 주변 병원을 찾아보세요
+                <br />
+                병원 이름을 직접 검색해서 찾는 방법도 있어요
+              </>
+            )}
           </Pragraph>
         </DescriptionBox>
-        <ButtonBox>
-          <RoundButton
-            size="md"
+        <ButtonBox
+            isMap={pageCategory === "search"}
+        >
+          <SearchModeTogleButton
+            img
             bgColor={theme.color.mintBtn}
-            nonSubmit
+            type="button"
             onClick={() => setPageCategory(prev => (prev === "search" ? "map" : "search"))}
           >
             {pageCategory === "search" && (
               <>
-                <MapIcon width={30} height={30} style={{ marginBottom: "6px" }} />
+                <MapIcon width={26} height={26} />
                 &nbsp;&nbsp; 지도에서 병원 찾기
               </>
             )}
             {pageCategory === "map" && (
               <>
-                <List width={30} height={30} />
+                <List width={26} height={26} />
                 &nbsp;&nbsp; 리스트로 병원 찾기
               </>
             )}
-          </RoundButton>
+          </SearchModeTogleButton>
         </ButtonBox>
 
         {pageCategory === "search" && <SearchHospitalList />}
@@ -76,6 +78,14 @@ const FindHospital = () => {
 };
 
 export default FindHospital;
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});
+const SearchModeTogleButton = styled(RoundedDefaultButton)`
+  padding: 12px 50px;
+`;
 
 const ErrorMessage = styled.div`
   position: absolute;
@@ -85,4 +95,13 @@ const ErrorMessage = styled.div`
 
 const DescriptionContainer = styled.div`
   width: 100%;
+`;
+
+const ToryMotion = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translate(-20%, -60%);
+  width: 260px;
+  height: 260px;
 `;

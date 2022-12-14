@@ -5,22 +5,20 @@ import { useMutation } from "@tanstack/react-query";
 import { USER_CHANGE_PASSWORD } from "constant/queryKeys";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import useUser from "@hooks/useUser";
 import { FlexContainer, InnerContainer } from "@styles/Common";
-import styled from "styled-components";
-import { theme } from "@styles/theme";
-import { RoundButton } from "@components/layout/buttons/Button";
+import styled, { css } from "styled-components";
+import { media, theme } from "@styles/theme";
 import Naver from "@src/assets/icons/naver.svg";
 import Kakao from "@src/assets/icons/kakao.svg";
 import Origin from "@src/assets/icons/origin.svg";
-import Image from "next/image";
 import getAmericanAge from "@utils/client/getAmericanAge";
-import { useRecoilValue } from "recoil";
-import { User } from "@prisma/client";
-import { RegisterForm } from "pages/auth/register";
 import { PASSWORD_REGEX } from "constant/regex";
+import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
+import { GetServerSidePropsContext } from "next";
 
 interface PasswordType {
   oldPassword: string;
@@ -28,11 +26,12 @@ interface PasswordType {
   newPasswordConfirm: string;
 }
 
-export default function Edit() {
+const UserPage = () => {
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
   const [errorModal, setErrorModal] = useState(false);
   const [closingComment, setClosingComment] = useState(false);
+  const [isFade, setIsFade] = useState(false);
   const { user } = useUser();
   const americanAge = getAmericanAge(String(user?.birth!));
 
@@ -81,16 +80,16 @@ export default function Edit() {
       router.replace("/");
     }
   };
+
   useEffect(() => {
-    document.body.style.backgroundColor = theme.color.lightBg;
-    return () => {
-      document.body.style.backgroundColor = theme.color.darkBg;
-    };
+    setTimeout(() => {
+      setIsFade(true);
+    }, 200);
   }, []);
 
   return (
     <Container>
-      <InContainer>
+      <InContainer isFade={isFade}>
         <div>
           <SeperationBox>
             <Name>{user?.name}</Name>
@@ -118,39 +117,40 @@ export default function Edit() {
                 name="oldPassword"
                 type="password"
                 register={register("oldPassword", { required: "현재 비밀번호를 입력해주세요" })}
-                placeholder="현재 비밀번호를 입력해주세요."
+                placeholder={user?.type === "origin" ? "현재 비밀번호를 입력해주세요" : "변경할 수 없습니다"}
                 error={errors.oldPassword?.message}
                 align="left"
                 disabled={user?.type !== "origin"}
+                motion={false}
               />
               <Input
                 $light
                 name="newPassword"
                 type="password"
                 register={register("newPassword", { required: "새로운 비밀번호를 입력해주세요" })}
-                placeholder="새로운 비밀번호를 입력해주세요."
+                placeholder={user?.type === "origin" ? "새로운 비밀번호를 입력해주세요" : "변경할 수 없습니다"}
                 error={errors.newPassword?.message}
                 align="left"
                 disabled={user?.type !== "origin"}
-                delay={0.3}
+                motion={false}
               />
               <Input
                 $light
                 name="newPasswordConfirm"
                 type="password"
                 register={register("newPasswordConfirm", { required: "새로운 비밀번호확인을 입력해주세요" })}
-                placeholder="새로운 비밀번호확인을 입력해주세요."
+                placeholder={user?.type === "origin" ? "새로운 비밀번호확인을 입력해주세요" : "변경할 수 없습니다"}
                 error={errors.newPasswordConfirm?.message}
                 align="left"
                 disabled={user?.type !== "origin"}
-                delay={0.6}
+                motion={false}
               />
             </SeperationBox>
-            <SeperationBox style={{ display: "flex", justifyContent: "center" }}>
-              <RoundButton size="md" bgColor={theme.color.mintBtn} disabled={user?.type !== "origin"}>
-                비밀번호 변경하기
-              </RoundButton>
-            </SeperationBox>
+            {user?.type === "origin" && (
+              <SeperationBox style={{ display: "flex", justifyContent: "center" }}>
+                <EditButton bgColor={theme.color.mintBtn}>비밀번호 변경하기</EditButton>
+              </SeperationBox>
+            )}
           </form>
           <Modal
             onClose={() => setShowModal(false)}
@@ -185,9 +185,19 @@ export default function Edit() {
       </InContainer>
     </Container>
   );
-}
+};
+export default UserPage;
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});
+export const EditButton = styled(RoundedDefaultButton)`
+  font-size: 18px;
+  padding: 16px 50px;
+`;
 
-const InContainer = styled(InnerContainer)`
+const InContainer = styled(InnerContainer)<{ isFade: boolean }>`
   height: 830px;
   display: flex;
   flex-direction: column;
@@ -209,6 +219,13 @@ const InContainer = styled(InnerContainer)`
       }
     }
   }
+  opacity: 0;
+  transition: opacity 0.8s;
+  ${({ isFade }) =>
+    isFade &&
+    css`
+      opacity: 1;
+    `}
 `;
 
 const Name = styled.h1`
@@ -238,9 +255,39 @@ const EmailInputBox = styled(SeperationBox)`
   clear: both;
   display: flex;
   justify-content: center;
+  ${media.mobile} {
+    > div{
+      height: 62px; 
+      input{
+        font-size: 18px;
+      }
+    }
+  }
 `;
 
 const WithdrawBox = styled.div`
-  display: flex;
-  justify-content: center;
+  margin: 0 auto;
+  position: relative;
+  a {
+    position: relative;
+    z-index: 2;
+  }
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to top, rgba(217, 222, 255, 1) 40%, transparent 40%);
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  &:hover {
+    &:before {
+      opacity: 1;
+    }
+  }
 `;

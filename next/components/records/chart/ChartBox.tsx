@@ -1,22 +1,17 @@
 import styled, { css } from "styled-components";
 import { changeDate } from "@utils/client/changeDate";
 import RecordModal, { RecordWithImage } from "@components/modals/RecordModal";
-import {
-  AI_RESULT_READ,
-  BODYPART_CHARTDATA_READ,
-  KEYWORDS_CHARTDATA_READ,
-  RECORDS_DELETE,
-  RECORDS_READ,
-} from "constant/queryKeys";
+import { RECORDS_DELETE, RECORDS_READ } from "constant/queryKeys";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { RecordWithImageAndHospital } from "./ChartTimeline";
 import uploadImage from "@utils/client/uploadImage";
 import DeleteBtn from "@components/layout/buttons/DeleteBtn";
 import { AnimatePresence } from "framer-motion";
-import { Subject } from "@components/modals/ClinicModal";
 import IconAddImage from "@src/assets/icons/icon_addImage.png";
 import customApi from "@utils/client/customApi";
+import SplitTextByKeyword from "./SplitTextByKeyword";
+import { DeleteBtnBox } from "@components/my-hospital/HospitalContent";
 
 interface ChartBoxProps {
   index: number;
@@ -24,18 +19,23 @@ interface ChartBoxProps {
   clickedKeyword: string | null;
   patientId: number | null;
   position: string;
+  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ChartBox = ({ index, record, clickedKeyword, patientId, position }: ChartBoxProps) => {
+const ChartBox = ({ index, record, clickedKeyword, patientId, position, setShowModal }: ChartBoxProps) => {
   const queryClient = useQueryClient();
   const { deleteApi } = customApi(`/api/users/records`);
+  const { deleteApi: deleteHospitalRecordApi } = customApi(`/api/hospital/records`);
   const { postApi } = customApi("/api/users/records/picture");
   const { mutate } = useMutation([RECORDS_DELETE], deleteApi, {
     onSuccess() {
+      console.log("hji");
+      queryClient.invalidateQueries();
+    },
+  });
+  const { mutate: deleteMutate } = useMutation(["removeHospitalRecode"], deleteHospitalRecordApi, {
+    onSuccess() {
       queryClient.invalidateQueries([RECORDS_READ, position]);
-      queryClient.invalidateQueries([AI_RESULT_READ]);
-      queryClient.invalidateQueries([BODYPART_CHARTDATA_READ]);
-      queryClient.invalidateQueries([KEYWORDS_CHARTDATA_READ]);
     },
   });
 
@@ -59,19 +59,20 @@ const ChartBox = ({ index, record, clickedKeyword, patientId, position }: ChartB
           <Content>
             <Description cursorType={"pointer"}>
               <Text onClick={() => handleRecordModal(record)}>
-                {clickedKeyword && record.description.includes(clickedKeyword) ? (
-                  <>
-                    {record.description.split(clickedKeyword).map((text, idx, arr) =>
-                      idx === arr.length - 1 ? (
-                        <span>{text}</span>
-                      ) : (
-                        <span>
-                          {text}
-                          <span className="keyword-mark">{clickedKeyword}</span>
-                        </span>
-                      ),
-                    )}
-                  </>
+                {record.description.includes("\n") ? (
+                  record.description
+                    .split("\n")
+                    .map((ele, idx) => (
+                      <p key={`${ele} + ${idx} + ${Date.now()}`}>
+                        {clickedKeyword && ele.includes(clickedKeyword) ? (
+                          <SplitTextByKeyword text={ele} clickedKeyword={clickedKeyword} />
+                        ) : (
+                          ele
+                        )}
+                      </p>
+                    ))
+                ) : clickedKeyword && record.description.includes(clickedKeyword) ? (
+                  <SplitTextByKeyword text={record.description} clickedKeyword={clickedKeyword} />
                 ) : (
                   record.description
                 )}
@@ -91,7 +92,7 @@ const ChartBox = ({ index, record, clickedKeyword, patientId, position }: ChartB
                 )}
               </ImageBox>
             </Description>
-            {!Boolean(patientId) && <DeleteBtn id={record.id} mutate={mutate} />}
+            {!Boolean(patientId) && <DeleteBtn id={record.id} mutate={mutate} setShowAlertModal={setShowModal} />}
           </Content>
           <AnimatePresence>
             {showRecordModal === record.id && (
@@ -102,28 +103,63 @@ const ChartBox = ({ index, record, clickedKeyword, patientId, position }: ChartB
       ) : (
         <Content>
           <Description cursorType={"auto"}>
-            <HospitalName>{record.hospital?.name}</HospitalName>
+            <HospitalName>
+              {record.hospital?.name}
+              {Boolean(patientId) && (
+                <DeleteBtnBox>
+                  <DeleteBtn
+                    isdowntext={1}
+                    mutate={deleteMutate}
+                    setShowAlertModal={setShowModal}
+                    id={record.id}
+                    backgroundColor="rgb(100, 106, 235)"
+                    isCircle
+                  />
+                </DeleteBtnBox>
+              )}
+            </HospitalName>
             <ResultTable>
               <TableRow>
                 <Subject>진단 결과</Subject>
-                <p>{record.diagnosis}</p>
+                <div>
+                  {clickedKeyword && record.diagnosis?.includes(clickedKeyword) ? (
+                    <SplitTextByKeyword text={record.diagnosis} clickedKeyword={clickedKeyword} />
+                  ) : (
+                    record.diagnosis
+                  )}
+                </div>
               </TableRow>
               <TableRow>
                 <Subject>처방 내용</Subject>
-                <p>{record.prescription}</p>
+                <div>
+                  {clickedKeyword && record.prescription?.includes(clickedKeyword) ? (
+                    <SplitTextByKeyword text={record.prescription} clickedKeyword={clickedKeyword} />
+                  ) : (
+                    record.prescription
+                  )}
+                </div>
               </TableRow>
               <TableRow>
                 <Subject>상세 소견</Subject>
-                <p>
-                  {record.description.includes("\n")
-                    ? record.description.split("\n").map((ele, idx) => (
-                        <React.Fragment key={`${ele} + ${idx} + ${Date.now()}`}>
-                          {ele}
-                          <br />
-                        </React.Fragment>
+                <div>
+                  {record.description.includes("\n") ? (
+                    record.description
+                      .split("\n")
+                      .map((ele, idx) => (
+                        <p key={`${ele} + ${idx} + ${Date.now()}`}>
+                          {clickedKeyword && ele.includes(clickedKeyword) ? (
+                            <SplitTextByKeyword text={ele} clickedKeyword={clickedKeyword} />
+                          ) : (
+                            ele
+                          )}
+                        </p>
                       ))
-                    : record.description}
-                </p>
+                  ) : clickedKeyword && record.description.includes(clickedKeyword) ? (
+                    <SplitTextByKeyword text={record.description} clickedKeyword={clickedKeyword} />
+                  ) : (
+                    record.description
+                  )}
+                </div>
               </TableRow>
             </ResultTable>
           </Description>
@@ -192,15 +228,15 @@ const Description = styled.div<{ cursorType: string }>`
   border-radius: 20px;
   overflow: hidden;
   cursor: ${({ cursorType }) => cursorType};
+
+  .keyword-mark {
+    background: linear-gradient(to top, rgba(18, 212, 201, 0.4) 50%, transparent 50%);
+  }
 `;
 
 const Text = styled.div`
   min-height: 140px;
   padding: 20px 200px 20px 30px;
-
-  .keyword-mark {
-    background: linear-gradient(to top, rgba(18, 212, 201, 0.4) 50%, transparent 50%);
-  }
 `;
 
 const ImageBox = styled.div<{ isHospital: boolean }>`
@@ -260,6 +296,7 @@ const UploadImageButton = styled.button`
 `;
 
 const HospitalName = styled.div`
+  position: relative;
   background: #4b50d3;
   color: ${({ theme }) => theme.color.white};
   font-weight: 500;
@@ -270,6 +307,15 @@ const ResultTable = styled.div`
   padding: 30px 40px;
 `;
 
+const Subject = styled.div`
+  flex-shrink: 0;
+  font-weight: 600;
+  margin-right: 60px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+`;
+
 const TableRow = styled.div`
   display: flex;
 
@@ -277,7 +323,7 @@ const TableRow = styled.div`
     margin-top: 15px;
   }
 
-  div + p {
+  ${Subject} + div {
     width: 100%;
     padding: 10px 0;
     border-radius: 5px;

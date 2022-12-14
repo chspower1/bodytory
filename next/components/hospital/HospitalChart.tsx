@@ -1,4 +1,4 @@
-import { RoundButton } from "@components/layout/buttons/Button";
+import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 import HospitalModal from "@components/modals/HospitalModal";
 import { ChartContainer, ChartWrap, ScrollContainer } from "@components/records/chart/Chart";
 import ChartTimeline from "@components/records/chart/ChartTimeline";
@@ -7,12 +7,10 @@ import { Row } from "@styles/Common";
 import { useQuery } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
 import { currentPatientInfo } from "atoms/atoms";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { bodyPartType } from "types/bodyParts";
 import { KoreanPosition } from "types/write";
 
 const HospitalChart = () => {
@@ -47,14 +45,13 @@ const HospitalChart = () => {
               부위
             </PositionBox>
             {position && (
-              <RoundButton
-                size="md"
+              <RoundedDefaultButton
                 bgColor="rgb(244,245,255)"
-                textColor="rgb(83,89,233)"
+                color="rgb(83,89,233)"
                 onClick={() => setHospitalShowModal(true)}
               >
                 진료내역 작성
-              </RoundButton>
+              </RoundedDefaultButton>
             )}
           </PositionRecordsWriteBox>
           <ChartTimeline />

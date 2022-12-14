@@ -32,6 +32,13 @@ model User {
   hospitals                   HospitalToUser[]
 }
 
+model TestAccountCount {
+  id       Int      @id @default(autoincrement())
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+  count    Int      @default(0)
+}
+
 model RecommendDepartment {
   id        Int      @id
   position  Position
@@ -145,7 +152,7 @@ model HospitalToUser {
   userId     Int
   shared     Boolean  @default(true)
   hospital   Hospital @relation(fields: [hospitalId], references: [id])
-  user       User     @relation(fields: [userId], references: [id])
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([hospitalId])
   @@index([userId])

@@ -1,6 +1,6 @@
 import Input from "@components/layout/input/Input";
 
-import { NextPage } from "next";
+import { GetServerSidePropsContext, NextPage } from "next";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
@@ -9,15 +9,15 @@ import customApi from "utils/client/customApi";
 import { useMutation } from "@tanstack/react-query";
 import { HelpForm } from "./find-pw";
 import { HELP_FIND_ID } from "constant/queryKeys";
-import useReset from "@hooks/useReset";
-import { RoundButton } from "@components/layout/buttons/Button";
-import { theme } from "@styles/theme";
+
+import { media, theme } from "@styles/theme";
 import { EMAIL_REGEX } from "constant/regex";
 import ButtonInInput from "@components/layout/input/ButtonInInput";
 import MessageBox from "@components/MessageBox";
 import styled from "styled-components";
 import { FlexContainer, InnerContainer, Row } from "@styles/Common";
-import Header from "@components/header/Header";
+import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
 
 const HelpFindId: NextPage = () => {
   const router = useRouter();
@@ -90,15 +90,15 @@ const HelpFindId: NextPage = () => {
                       required: true,
                       validate: value => EMAIL_REGEX.test(value!) || "이메일 형식에 맞지 않습니다",
                     })}
-                    placeholder="toritori2022@naver.com"
+                    placeholder="bodytory2022@naver.com"
                     error={helpErrors.email}
                   />
                 </Seperation>
               )}
               <Seperation>
-                <RoundButton size="lg" nonSubmit onClick={handleClickFindId}>
+                <RoundedDefaultButton lg type="button" onClick={handleClickFindId}>
                   {isToken ? "인증메일 다시 보내기" : "아이디 찾기"}
-                </RoundButton>
+                </RoundedDefaultButton>
               </Seperation>
               {isToken && (
                 <Seperation>
@@ -126,11 +126,9 @@ const HelpFindId: NextPage = () => {
                 </p>
               </MessageBox>
               <div className="linkButton">
-                <Link href="/auth/login">
-                  <RoundButton size="lg" bgColor={theme.color.mintBtn}>
-                    로그인하러 가기
-                  </RoundButton>
-                </Link>
+                <RoundedDefaultButton lg bgColor={theme.color.mintBtn} onClick={()=> router.push("/auth/login")}>
+                  로그인하러 가기
+                </RoundedDefaultButton>
               </div>
             </div>
           </FinalCommentBox>
@@ -140,9 +138,16 @@ const HelpFindId: NextPage = () => {
   );
 };
 export default HelpFindId;
-
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});
 export const FindForm = styled.form`
   margin-top: 100px;
+  ${media.mobile}{
+    margin-top: 50px;
+  }
 `;
 
 export const Seperation = styled(Row)`
@@ -152,6 +157,12 @@ export const Seperation = styled(Row)`
     > button,
     > div {
       margin-top: 30px;
+    }
+    ${media.mobile}{
+      > button,
+      > div {
+        margin-top: 20px;
+      }
     }
   }
 `;
@@ -172,9 +183,19 @@ export const FinalCommentBox = styled.div`
     .linkButton {
       display: flex;
       justify-content: center;
-      a {
-        display: inline-block;
+    }
+  }
+  ${media.mobile}{
+    .innerBox {
+      .messageBox {
+        font-size: 20px;
+        height:136px;
+        margin-bottom: 80px;
+        strong {
+          margin: 0 10px;
+        }
       }
     }
   }
 `;
+  

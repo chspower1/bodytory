@@ -3,12 +3,13 @@ import { withApiSession } from "@utils/server/withSession";
 import { NextApiRequest, NextApiResponse } from "next";
 import bcrypt from "bcrypt";
 import client from "utils/server/client";
-import { passwordCompare, passwordEncryption } from "utils/server/passwordHelper";
+import { passwordEncryption } from "utils/server/passwordHelper";
 
-async function handler(req: NextApiRequest, res: NextApiResponse) {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { password, newPassword } = req.body;
   const { user } = req.session;
   if (!user) return res.status(401).send("회원 정보를 확인해주세요");
+  if (user?.id === 35) return res.status(204).end();
   const foundUser = await client.user.findFirst({
     where: {
       id: user.id,
@@ -33,7 +34,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       return res.status(204).end();
     }
   }
-}
+};
 export default withApiSession(
   withHandler({
     methods: ["PUT"],

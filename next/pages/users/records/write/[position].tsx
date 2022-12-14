@@ -1,4 +1,3 @@
-import { CircleButton, RectangleButton, RoundButton } from "@components/layout/buttons/Button";
 import { Position } from "@prisma/client";
 import { BackButton, BlackToryText, BodyText, Box, Col, FlexContainer, WhiteWrapper } from "@styles/Common";
 import { theme } from "@styles/theme";
@@ -10,7 +9,6 @@ import { useEffect, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
 import { PositionTextBox, TextBox, ToryBox } from "@components/records/BodyPartChecker";
-import ToryIcon from "@components/ToryIcon";
 import SpeakMotion from "@components/SpeakMotion";
 import useAudio from "@hooks/useAudio";
 import {
@@ -22,13 +20,15 @@ import {
 } from "constant/queryKeys";
 import { AxiosError } from "axios";
 import { motion } from "framer-motion";
-import Link from "next/link";
-import pencil from "@src/assets/icons/pencil.svg";
 import mic from "@src/assets/icons/mic.svg";
 import check from "@src/assets/icons/check.png";
 import refresh from "@src/assets/icons/refresh.png";
 import { useForm } from "react-hook-form";
 import Modal from "@components/modals/Modal";
+import ToryPurpleAnim from "@components/lotties/ToryPurpleAnim";
+import { CircleDefaultButton } from "@components/layout/buttons/DefaultButtons";
+import { GetServerSidePropsContext, NextPage } from "next";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
 
 interface WriteRecordRequest {
   position: string;
@@ -38,10 +38,9 @@ interface WriteForm {
   description: string;
 }
 type RecordStatus = "initial" | "finish" | "listening" | "loading" | "error";
-const PositionPage = () => {
+const PositionPage: NextPage = () => {
   const router = useRouter();
   const position = router.query.position as Position;
-  const [isEditMode, setIsEditMode] = useState(true);
   const {
     getValues,
     register,
@@ -50,7 +49,6 @@ const PositionPage = () => {
     watch,
     clearErrors,
   } = useForm<WriteForm>();
-  const [onHoverRefreshBtn, setOnHoverRefreshBtn] = useState(false);
   const [listening, setListening] = useState(false);
   const [error, setError] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -64,7 +62,7 @@ const PositionPage = () => {
       queryClient.invalidateQueries([AI_RESULT_READ]);
       queryClient.invalidateQueries([BODYPART_CHARTDATA_READ]);
       queryClient.invalidateQueries([KEYWORDS_CHARTDATA_READ]);
-      router.push({
+      router.replace({
         pathname: "/users/records/write/add",
         query: { position },
       });
@@ -96,6 +94,11 @@ const PositionPage = () => {
     }
   };
 
+  const reset = () => {
+    setValue("description", "");
+    setRecordStatus("initial");
+  };
+
   const endRecord = async () => {
     setRecordStatus("loading");
     offRecAudio();
@@ -104,7 +107,7 @@ const PositionPage = () => {
     if (recordStatus === "finish") {
       if (description.length < 2) return setError(true);
       mutate({ position: router.query.position as string, description });
-      router.push(
+      router.replace(
         {
           pathname: "/users/records/write/analysis",
           query: { position: position },
@@ -117,7 +120,6 @@ const PositionPage = () => {
   };
   const handleClickEditMode = () => {
     setError(false);
-    setOnHoverRefreshBtn(false);
     if (!(recordStatus === "finish")) {
       setValue("description", "");
     }
@@ -130,7 +132,6 @@ const PositionPage = () => {
       if (audioRecognized) {
         setRecordStatus("finish");
         setValue("description", audioRecognized);
-        setOnHoverRefreshBtn(false);
       }
     }
   }, [audioRecognized, aiError]);
@@ -156,82 +157,63 @@ const PositionPage = () => {
         <span>부위 선택</span>
       </BackButton>
       <SpeakMotion listening={listening} />
-      <FlexContainer>
-        <Col>
-          <ToryBox>
-            <ToryIcon />
-          </ToryBox>
-          <TextBox>
-            <BlackToryText>
-              <PositionTextBox>{KoreanPosition[position]}</PositionTextBox>에 어떤 증상이 있나요?
-            </BlackToryText>
-          </TextBox>
-          <VoiceBox>
-            <GuideMessage>마이크 사용이 어렵다면 아래 입력창에 직접 입력할 수 있어요!</GuideMessage>
-            <MemoBox>
-              <MemoInput
-                type="text"
-                disabled={!isEditMode || recordStatus === "listening"}
-                onClick={handleClickEditMode}
-                placeholder={recordMessage}
-                {...register("description", {
-                  required: "증상을 입력해주세요",
-                })}
-              />
-              {recordStatus === "finish" && (
-                <RefreshBtnBox>
-                  <CircleButton
-                    nonSubmit
-                    onClick={startRecord}
-                    bgColor={theme.color.mintBtn}
-                    width="46px"
-                    height="46px"
-                    boxShadow={false}
-                  >
-                    <Image
-                      src={refresh}
-                      width={30}
-                      height={30}
-                      alt="다시 녹음"
-                      onMouseEnter={() => setOnHoverRefreshBtn(true)}
-                      onMouseLeave={() => setOnHoverRefreshBtn(false)}
-                    />
-                  </CircleButton>
-                  {onHoverRefreshBtn && <RefreshText>다시 녹음하기</RefreshText>}
-                </RefreshBtnBox>
-              )}
-            </MemoBox>
+      <FadeInMotionDiv
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1, transition: { duration: 1, ease: "easeOut", delay: .3 } }}
+      >
+        <FlexContainer>
+          <Col>
+            <ToryBox>
+              <ToryPurpleAnim segmentIndex={0} />
+            </ToryBox>
+            <TextBox>
+              <BlackToryText>
+                <PositionTextBox>{KoreanPosition[position]}</PositionTextBox>에 어떤 증상이 있나요?
+              </BlackToryText>
+            </TextBox>
+            <VoiceBox>
+              <GuideMessage>마이크 사용이 어렵다면 아래 입력창에 직접 입력할 수 있어요</GuideMessage>
+              <MemoBox>
+                <MemoInput
+                  type="text"
+                  disabled={recordStatus === "listening" || recordStatus === "loading"}
+                  onClick={handleClickEditMode}
+                  placeholder={recordMessage}
+                  {...register("description", {
+                    required: "증상을 입력해주세요",
+                  })}
+                />
+                {recordStatus === "finish" && (
+                  <RefreshBtnBox>
+                    <CircleButton type="button" onClick={reset} bgColor={theme.color.mintBtn}>
+                      <Image src={refresh} width={30} height={30} alt="다시 녹음" />
+                    </CircleButton>
+                    <RefreshText>새로고침</RefreshText>
+                  </RefreshBtnBox>
+                )}
+              </MemoBox>
 
-            <CircleButton
-              width="100px"
-              height="100px"
-              bgColor={
-                listening
-                  ? theme.color.error
-                  : isEditMode && getValues("description")
-                  ? theme.color.darkBg
-                  : recordStatus === "initial"
-                  ? theme.color.darkBg
-                  : theme.color.disabled
-              }
-              onClick={() => {
-                recordStatus === "initial" && startRecord();
-                recordStatus === "listening" && endRecord();
-                recordStatus === "finish" && hadleClickCreateRecord(watch("description"));
-                recordStatus === "error" && startRecord();
-              }}
-              boxShadow={false}
-            >
-              {recordStatus === "initial" && <Mic />}
-              {recordStatus === "listening" && <Rectangle />}
-              {recordStatus === "loading" && "loading"}
-              {recordStatus === "finish" && <Image src={check} width={55} height={55} alt="제출" />}
-              {recordStatus === "error" && <Mic />}
-            </CircleButton>
-          </VoiceBox>
-          <BodyText>{buttonGuideMessage}</BodyText>
-        </Col>
-      </FlexContainer>
+              <CircleDefaultButton
+                disable={watch("description") && watch("description")?.length < 2 ? true : false}
+                bgColor={listening ? theme.color.error : theme.color.darkBg}
+                onClick={() => {
+                  recordStatus === "initial" && startRecord();
+                  recordStatus === "listening" && endRecord();
+                  recordStatus === "finish" && hadleClickCreateRecord(watch("description"));
+                  recordStatus === "error" && startRecord();
+                }}
+              >
+                {recordStatus === "initial" && <Mic />}
+                {recordStatus === "listening" && <Rectangle />}
+                {recordStatus === "loading" && "loading"}
+                {recordStatus === "finish" && <Image src={check} width={55} height={55} alt="제출" />}
+                {recordStatus === "error" && <Mic />}
+              </CircleDefaultButton>
+            </VoiceBox>
+            <BodyText>{buttonGuideMessage}</BodyText>
+          </Col>
+        </FlexContainer>
+      </FadeInMotionDiv>
       <SpeakMotion right listening={listening} />
       <Modal
         title={"녹음에 실패했습니다"}
@@ -248,9 +230,22 @@ const PositionPage = () => {
 
 export default PositionPage;
 
+const FadeInMotionDiv = styled(motion.div)`
+  height: 100%;
+`;
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});
+const CircleButton = styled(CircleDefaultButton)`
+  width: 46px;
+  height: 46px;
+`;
+
 const VoiceBox = styled.div`
   > button {
-    margin: 60px auto 30px;
+    margin: 120px auto 24px;
   }
 `;
 const Rectangle = styled.div`
@@ -266,12 +261,18 @@ const RefreshBtnBox = styled(Box)`
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  right: -60px;
+  right: -150px;
+  width: 130px;
+  justify-content: start;
+  button:hover + div {
+    display: block;
+  }
 `;
-const RefreshText = styled.div`
-  position: absolute;
-  right: -110px;
+const RefreshText = styled(motion.div)`
+  display: none;
   color: ${({ theme }) => theme.color.mintBtn};
+  margin-left: 20px;
+  font-weight: 500;
 `;
 const MemoInput = styled.input<{ disabled: boolean }>`
   display: flex;
@@ -292,12 +293,6 @@ const MemoInput = styled.input<{ disabled: boolean }>`
   &:hover {
     box-shadow: 0px 0px 0px 3px ${({ theme }) => theme.color.mintBtn};
   }
-  :-webkit-autofill,
-  :-webkit-autofill:hover,
-  :-webkit-autofill:focus,
-  :-webkit-autofill:active {
-    -webkit-text-fill-color: ${({ theme }) => theme.color.mintBtn} !important;
-  }
   ::placeholder {
     color: ${theme.color.mintBtn};
   }
@@ -312,7 +307,7 @@ const GuideMessage = styled.div`
   width: 100%;
   text-align: center;
   color: ${({ theme }) => theme.color.darkBg};
-  font-size: 18px;
+  font-size: 16px;
   margin-bottom: 20px;
 `;
 

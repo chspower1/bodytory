@@ -4,21 +4,23 @@ import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import customApi from "utils/client/customApi";
 import { USER_WITHDRAW } from "constant/queryKeys";
-import { useRecoilState } from "recoil";
 import Modal from "@components/modals/Modal";
 import { BackButton, FlexContainer } from "@styles/Common";
 import MessageBox from "@components/MessageBox";
 import Input from "@components/layout/input/Input";
-import { RectangleButton } from "@components/layout/buttons/Button";
 import styled from "styled-components";
 import { PASSWORD_REGEX } from "constant/regex";
 import useUser from "@hooks/useUser";
+import { EditButton } from "pages/users";
+import { GetServerSidePropsContext, NextPage } from "next";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
+import { media } from "@styles/theme";
 
 export interface WithdrawType {
   password: string;
 }
 
-export default function Withdraw() {
+const Withdraw: NextPage = () => {
   const router = useRouter();
   const { user } = useUser();
   const [userType, setUserType] = useState("");
@@ -61,7 +63,7 @@ export default function Withdraw() {
     } else {
       setShowModal(false);
       await LogoutApi({});
-      router.replace("/");
+      router.replace("/auth/login");
     }
   };
   useEffect(() => {
@@ -94,13 +96,13 @@ export default function Withdraw() {
                   PASSWORD_REGEX.test(value) || "비밀번호는 6자리 이상\n영문 대소문자, 숫자를 조합해서 입력해주세요",
               },
             })}
-            placeholder="●●●●●●"
+            placeholder="••••••"
             error={errors.password}
             motion={false}
           />
         )}
         <ButtonBox>
-          <RectangleButton>탈퇴하기</RectangleButton>
+          <WithdrawButton>탈퇴하기</WithdrawButton>
         </ButtonBox>
       </Form>
       <Modal
@@ -121,7 +123,16 @@ export default function Withdraw() {
       </Modal>
     </FlexContainer>
   );
-}
+};
+
+export default Withdraw;
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});
+
+const WithdrawButton = styled(EditButton)``;
 
 const Form = styled.form`
   .messageBox {
@@ -129,10 +140,17 @@ const Form = styled.form`
     margin-bottom: 100px;
     font-size: 40px;
   }
+  ${media.mobile}{
+    .messageBox {
+      margin-bottom: 50px;
+      font-size: 25px;
+    }
+  }
 `;
 
 const ButtonBox = styled.div`
   margin-top: 50px;
+  display: flex;
   button {
     margin: 0 auto;
   }

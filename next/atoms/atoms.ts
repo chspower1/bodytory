@@ -4,7 +4,13 @@ import { HospitalName } from "pages/hospital";
 import { atom } from "recoil";
 import { recoilPersist } from "recoil-persist";
 
+const sessionStorage = typeof window !== "undefined" ? window.sessionStorage : undefined;
+
 const { persistAtom } = recoilPersist();
+const { persistAtom: sessionPersistAtom } = recoilPersist({
+  key: "sessionStorageKey",
+  storage: sessionStorage,
+});
 
 export const loggedInHospital = atom<HospitalName | null>({
   key: "loggedInHospitalKey",
@@ -35,4 +41,15 @@ export const currentPatientInfo = atom<{ name: string; id: number | null }>({
     id: null,
   },
   effects_UNSTABLE: [persistAtom],
+});
+
+export const isFirstUser = atom<boolean>({
+  key: "isFirstUserKey",
+  default: true,
+  effects_UNSTABLE: [sessionPersistAtom],
+});
+
+export const accountIdForFindPasswordAtom = atom<string>({
+  key: "accountIdForFindPassword",
+  default: "",
 });

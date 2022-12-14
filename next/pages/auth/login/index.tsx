@@ -1,39 +1,34 @@
 import Input from "@components/layout/input/Input";
-
-import { NextPage } from "next";
+import { GetServerSidePropsContext, NextPage } from "next";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { ResponseType } from "@utils/server/withHandler";
 import Link from "next/link";
 import customApi from "utils/client/customApi";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import Modal from "@components/modals/Modal";
 import NaverLoginBtn from "@components/layout/buttons/NaverBtn";
 import KakaoLoginBtn from "@components/layout/buttons/KakaoBtn";
 import { USER_LOGIN, USE_USER } from "constant/queryKeys";
-import { RoundButton } from "@components/layout/buttons/Button";
-import Image from "next/image";
-import naver from "@src/assets/icons/naver.svg";
 import {
-  Box,
-  Col,
   InnerContainer,
   FlexContainer,
   Row,
-  ToryText,
   WhiteBoldText,
   WhiteText,
-  Wrapper,
+  Box,
+  Col,
+  ToryText,
+  BodyText,
 } from "@styles/Common";
-import { theme } from "@styles/theme";
-import { checkEmptyObj } from "@utils/client/checkEmptyObj";
-import { watch } from "fs";
+import { media, theme } from "@styles/theme";
 import styled from "styled-components";
 import MessageBox from "@components/MessageBox";
 import { ACCOUNT_ID_REGEX, PASSWORD_REGEX } from "constant/regex";
-import Header from "@components/header/Header";
-
+import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
+import Testcard from "@public/static/test_card.png";
+import Image from "next/image";
+import { AnimatePresence, motion } from "framer-motion";
 export interface LoginForm {
   accountId: string;
   password: string;
@@ -45,7 +40,7 @@ const LoginPage: NextPage = () => {
   const { postApi } = customApi("/api/auth/login");
   const [isError, setIsError] = useState(false);
   const [isCompletion, setIsCompletion] = useState(false);
-
+  const [isOnTestBox, setIsOnTestBox] = useState(false);
   const { mutate } = useMutation([USER_LOGIN], postApi, {
     onError(error: any) {
       setIsError(true);
@@ -61,7 +56,6 @@ const LoginPage: NextPage = () => {
         );
       } else {
         queryClient.refetchQueries([USE_USER]);
-        // setCurrentUser(data);
         return router.push("/");
       }
     },
@@ -88,8 +82,20 @@ const LoginPage: NextPage = () => {
     }
     setIsError(false);
   }, [watch("accountId"), watch("password"), isErrorsMessage]);
+  console.log(Testcard.src);
   return (
     <FlexContainer>
+      <TestButton onClick={() => setIsOnTestBox(cur => !cur)}>테스트 아이디 {isOnTestBox ? "접기" : "보기"}</TestButton>
+      <AnimatePresence>
+        {isOnTestBox && (
+          <TestBox
+            initial={{ opacity: 0, y: -30 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+          />
+        )}
+      </AnimatePresence>
       <InnerContainer>
         <MessageBox isErrorsMessage={isErrorsMessage}>
           {isErrorsMessage === undefined &&
@@ -103,8 +109,7 @@ const LoginPage: NextPage = () => {
                 register={register("accountId", {
                   required: "아이디를 입력해주세요",
                   validate: {
-                    checkAccountId: value =>
-                      ACCOUNT_ID_REGEX.test(value) || "아이디는 6자리 이상\n영문 대소문자, 숫자를 입력해주세요",
+                    checkAccountId: value => ACCOUNT_ID_REGEX.test(value) || "아이디는 6글자 이상 입력해주세요",
                   },
                 })}
                 placeholder="아이디를 입력해주세요"
@@ -121,21 +126,14 @@ const LoginPage: NextPage = () => {
                       "비밀번호는 6자리 이상\n영문 대소문자, 숫자를 조합해서 입력해주세요",
                   },
                 })}
-                placeholder="●●●●●●"
+                placeholder="••••••"
                 error={errors.password || isError}
                 delay={0.3}
               />
-              {/* <Input
-            name="autoLogin"
-            label="자동로그인"
-            type="checkbox"
-            register={register("autoLogin")}
-            errorMessage={errors.password?.message}
-          /> */}
             </LoginInputAreaBox>
-            <RoundButton size="lg" bgColor={theme.color.mintBtn} disable={!isCompletion}>
+            <RoundedDefaultButton lg disable={!isCompletion} bgColor={theme.color.mintBtn}>
               로그인
-            </RoundButton>
+            </RoundedDefaultButton>
           </LoginFormInnerBox>
         </LoginForm>
         <LoginFindBox>
@@ -149,26 +147,51 @@ const LoginPage: NextPage = () => {
         </LoginFindBox>
         <SocialLoginBox>
           <div className="soscialInnerBox">
-            <NaverLoginBtn size="sm" mutate={mutate} kind="login" />
-            <KakaoLoginBtn size="sm" mutate={mutate} kind="login" />
+            <NaverLoginBtn mutate={mutate} kind="login" />
+            <KakaoLoginBtn mutate={mutate} kind="login" />
           </div>
         </SocialLoginBox>
         <RegisterLinkBox>
-          <WhiteText>아직 회원이 아니신가요?</WhiteText>
+          아직 회원이 아니신가요?
           <Link href="/auth/register/choice">
             <WhiteBoldText>회원가입</WhiteBoldText>
           </Link>
         </RegisterLinkBox>
-        {/* <button onClick={() => setShowModal(true)}>Open Modal</button> */}
-        {/* <Modal onClose={() => setShowModal(false)} activeFunction={} show={showModal} title={"임시 타이틀"}>
-        children으로 주는거라 태그 사이에 쓰면 됩니다.
-      </Modal> */}
       </InnerContainer>
     </FlexContainer>
   );
 };
 export default LoginPage;
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});
 
+const TestBox = styled(motion.div)`
+  z-index: 10000;
+  width: 514px;
+  height: 300px;
+  background: url(${Testcard.src});
+  position: absolute;
+  left: 20px;
+  top: 70px;
+`;
+const TestButton = styled.div`
+  z-index: 10000;
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  cursor: pointer;
+  padding: 10px 20px;
+  background-color: ${props => props.theme.color.mintBtn};
+  border-radius: 10px;
+  color: white;
+  transition: all 0.3s ease;
+  &:hover {
+    background-color: ${props => props.theme.color.mint};
+  }
+`;
 export const ToryTextBox = styled.div`
   text-align: center;
   padding: 50px 0 65px;
@@ -182,6 +205,9 @@ const LoginForm = styled.form`
 `;
 export const LoginInputAreaBox = styled.div`
   margin-bottom: 40px;
+  ${media.mobile} {
+    margin-bottom: 20px;
+  }
 `;
 const LoginFormInnerBox = styled.div`
   display: inline-block;
@@ -191,6 +217,8 @@ const LoginFindBox = styled(Row)`
   margin: 0 0 70px;
   a {
     margin: 0 12px;
+    width: 82px;
+    text-align: right;
     span {
       font-size: 15px;
     }
@@ -199,27 +227,41 @@ const LoginFindBox = styled(Row)`
     color: #fff;
     user-select: none;
   }
+  ${media.mobile} {
+    margin: 0 0 30px;
+    a {
+      margin: 0 10px;
+      width: 71px;
+      span {
+        font-size: 13px;
+      }
+    }
+    i {
+      font-size: 16px;
+    }
+  }
 `;
 const SocialLoginBox = styled(Row)`
   margin: 0 0 30px;
   .soscialInnerBox {
     display: flex;
-    > div,
-    > button {
-      margin: 0 20px;
-      div {
-        font-size: 16px;
-      }
+    column-gap: 30px;
+  }
+  ${media.mobile} {
+    .soscialInnerBox {
+      column-gap: 10px;
     }
   }
 `;
 
 const RegisterLinkBox = styled(Row)`
   padding: 20px 0;
-  > span {
-    font-size: 15px;
-  }
+  font-size: 15px;
+  color: #fff;
   a {
     margin: 0 0 0 10px;
+  }
+  ${media.mobile} {
+    font-size: 13px;
   }
 `;

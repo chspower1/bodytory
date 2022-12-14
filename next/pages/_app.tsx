@@ -1,5 +1,5 @@
 import type { AppProps } from "next/app";
-import { QueryClient, QueryClientProvider, QueryErrorResetBoundary } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Layout from "@components/layout/Layout";
 import GlobalStyled from "@styles/GlobalStyled";
@@ -8,6 +8,10 @@ import { theme } from "@styles/theme";
 import { ThemeProvider } from "styled-components";
 import { RecoilRoot } from "recoil";
 import "@public/static/fonts/pretendardvariable.css";
+import CustomSeo from "@components/CustomSeo";
+interface PageCommonProps {
+  pagePath: string;
+}
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -31,17 +35,15 @@ declare global {
   }
 }
 export default function App({ Component, pageProps }: AppProps) {
+  const { seoData } = pageProps;
   return (
     <>
-      <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>바디토리</title>
-      </Head>
       <QueryClientProvider client={queryClient}>
         <RecoilRoot>
           <ThemeProvider theme={theme}>
             <GlobalStyled />
             <Layout>
+              <CustomSeo seoData={seoData} />
               <Component {...pageProps} />
             </Layout>
           </ThemeProvider>

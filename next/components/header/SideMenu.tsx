@@ -1,6 +1,6 @@
 import { Col, Row } from "@styles/Common";
 import Link from "next/link";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import settingIcon from "@src/assets/icons/settingIcon.png";
 import HamburgerMenuButton from "./HamburgerMenuButton";
@@ -8,11 +8,9 @@ import { useRouter } from "next/router";
 import LogoutBtn from "@components/layout/buttons/LogoutBtn";
 import toriLink from "@src/assets/icons/toriLink.png";
 import menuLogo from "@src/assets/icons/menuLogo.png";
-import useUser from "@hooks/useUser";
 
 const SideMenu = () => {
   const router = useRouter();
-  const dimRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [menuList, _] = useState([
@@ -31,6 +29,10 @@ const SideMenu = () => {
     {
       subject: "내 병원 관리하기",
       link: "/users/my-hospital",
+    },
+    {
+      subject: "병원 검색하기",
+      link: "/users/my-hospital/find",
     },
   ]);
 
@@ -64,8 +66,10 @@ const SideMenu = () => {
                 </Link>
                 <div className="goEdit">
                   <Link href="/users/profile/edit">
-                    <i />
-                    계정 설정
+                    <span>
+                      <i />
+                      계정 설정
+                    </span>
                   </Link>
                 </div>
                 <Nav>
@@ -169,11 +173,39 @@ const InnerBox = styled(Col)`
 
 const ContentsBox = styled.div`
   width: 100%;
+
   .goEdit {
     text-align: right;
+
     a {
+      position: relative;
       display: inline-flex;
       align-items: center;
+
+      span {
+        position: relative;
+        z-index: 5;
+      }
+
+      &:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(to top, rgba(217, 222, 255, 0.5) 40%, transparent 40%);
+        z-index: 1;
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+
+      &:hover {
+        &:before {
+          opacity: 1;
+        }
+      }
+
       i {
         width: 22px;
         height: 22px;
@@ -191,7 +223,7 @@ const ButtonBox = styled.div`
 `;
 
 const Nav = styled.nav`
-  padding-top: 100px;
+  padding-top: 80px;
   ul {
     margin-left: 36px;
     li {
@@ -204,11 +236,11 @@ const Nav = styled.nav`
         margin: 0 0 10px 10px;
       }
       & + li {
-        margin-top: 50px;
+        margin-top: 30px;
       }
       a {
         position: relative;
-        font-size: 32px;
+        font-size: 30px;
         font-weight: bolder;
         padding-bottom: 10px;
         letter-spacing: -2px;

@@ -1,9 +1,9 @@
-import { theme } from "@styles/theme";
+import { media, theme } from "@styles/theme";
 import { motion } from "framer-motion";
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { FieldValues, UseFormSetValue } from "react-hook-form";
 import styled from "styled-components";
-import { RoundButton } from "../buttons/Button";
+import { RoundedDefaultButton } from "../buttons/DefaultButtons";
 import { InputProps } from "./Input";
 
 interface ButtonInInputProps<T extends FieldValues = any> extends InputProps {
@@ -16,6 +16,7 @@ interface ButtonInInputProps<T extends FieldValues = any> extends InputProps {
   setIsToken?: Dispatch<SetStateAction<boolean>>;
   isAuthenticationColumn?: boolean;
   isCertified?: boolean;
+  isRegister?: boolean;
 }
 
 const ButtonInInput = ({
@@ -35,6 +36,7 @@ const ButtonInInput = ({
   isAuthenticationColumn,
   isCertified,
   value,
+  isRegister,
 }: ButtonInInputProps) => {
   const handleClickResetBtn = () => {
     setIsToken!(false);
@@ -44,7 +46,11 @@ const ButtonInInput = ({
   };
 
   return (
-    <InputBox className={`${error ? "error" : ""} ${isAuthenticationColumn ? "authenticationColumn" : ""}`}>
+    <InputBox
+      className={`${error ? "error" : ""} ${isAuthenticationColumn ? "authenticationColumn" : ""} ${
+        isRegister ? "register" : ""
+      }`}
+    >
       <Input
         id={name}
         className={isAuthenticationColumn && error ? "error" : ""}
@@ -53,30 +59,31 @@ const ButtonInInput = ({
         value={value}
         placeholder={placeholder}
         disabled={disabled}
+        autoComplete="off"
       />
       <div>
         {!name?.includes("token") ? (
           isToken ? (
             !isCertified && (
-              <RoundButton size="sm" onClick={handleClickResetBtn} nonSubmit={nonSubmit}>
+              <RoundedDefaultButton sm onClick={handleClickResetBtn} type={nonSubmit ? "button" : "submit"}>
                 {`${changeButtonValue} `}재설정
-              </RoundButton>
+              </RoundedDefaultButton>
             )
           ) : (
-            <RoundButton size="sm" onClick={activeFn} nonSubmit={nonSubmit}>
+            <RoundedDefaultButton sm onClick={activeFn} type={nonSubmit ? "button" : "submit"}>
               {buttonValue}
-            </RoundButton>
+            </RoundedDefaultButton>
           )
         ) : (
-          <RoundButton
-            size="sm"
+          <RoundedDefaultButton
+            sm
             onClick={activeFn}
-            nonSubmit={nonSubmit}
+            type={nonSubmit ? "button" : "submit"}
             bgColor={theme.color.lightBg}
-            textColor={theme.color.darkBg}
+            color={theme.color.darkBg}
           >
             {buttonValue}
-          </RoundButton>
+          </RoundedDefaultButton>
         )}
       </div>
     </InputBox>
@@ -87,7 +94,9 @@ export default ButtonInInput;
 
 const InputBox = styled(motion.div)`
   width: 500px;
+  height: 62px;
   margin: 0 auto;
+  padding-right: 10px;
   transition: border 0.3s ease;
   border: 2px solid transparent;
   background-color: ${({ theme }) => theme.color.input};
@@ -108,9 +117,18 @@ const InputBox = styled(motion.div)`
   & + & {
     margin-top: 10px;
   }
+  ${media.mobile} {
+    width: 79.8611vw;
+    min-width: 287px;
+    height: 50px; 
+    font-size: 14px;
+  }
   &.authenticationColumn {
     margin: 0 auto;
-    background-color: #00000000;
+    background-color: transparent;
+    &:not(.register) {
+      justify-content: center;
+    }
     input {
       width: 190px;
       height: 50px;
@@ -128,11 +146,22 @@ const InputBox = styled(motion.div)`
       letter-spacing: -1px;
       margin-left: 20px;
     }
+    ${media.mobile} {
+      justify-content: center;
+      input{
+        width: 100px;
+        height: 40px;
+      }
+      button{
+        margin-left: 10px;
+      }
+    }
   }
+
 `;
 const Input = styled.input`
   width: 100%;
-  height: 62px;
+  height: 100%;
   text-align: center;
   background: transparent;
   border: 0;
@@ -145,11 +174,5 @@ const Input = styled.input`
   }
   &.error {
     border: 2px solid ${({ theme }) => theme.color.error};
-  }
-  &:-webkit-autofill,
-  &:-webkit-autofill:hover,
-  &:-webkit-autofill:focus,
-  &:-webkit-autofill:active {
-    -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
   }
 `;

@@ -1,4 +1,3 @@
-import { RoundButton } from "@components/layout/buttons/Button";
 import styled, { css } from "styled-components";
 import IconHospital from "@src/assets/icons/icon_hospital.png";
 import IconWarning from "@src/assets/icons/icon_warning.png";
@@ -7,6 +6,7 @@ import ArroundMapModal from "@components/modals/map/ArroundMapModal";
 import LocationPinIcon from "@src/assets/icons/location_pin.svg";
 import useCoords from "@hooks/useCoords";
 import { AnimatePresence } from "framer-motion";
+import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 
 interface ToryRecommendProps {
   mostThreeDepartment?: string[];
@@ -35,10 +35,10 @@ function ToryRecommend({ mostThreeDepartment, inChart }: ToryRecommendProps) {
             </Text>
           </RecommendText>
           {mostThreeDepartment && mostThreeDepartment.length > 0 && (
-            <RoundButton size="custom" height="50px" padding="0 30px" onClick={() => setShowModal(true)}>
+            <RoundedDefaultButton img onClick={() => setShowModal(true)}>
               <LocationPinIcon width={26} height={26} style={{ marginRight: "10px" }} />
               <span>내 주변 해당 병원 찾기</span>
-            </RoundButton>
+            </RoundedDefaultButton>
           )}
         </ToryRecommendBox>
         <Warning>
@@ -46,16 +46,13 @@ function ToryRecommend({ mostThreeDepartment, inChart }: ToryRecommendProps) {
           가까운 의료기관을 내원해주세요
         </Warning>
       </ToryRecommendContainer>
-      <AnimatePresence>
-        {showModal && (
-          <ArroundMapModal
-            latitude={latitude}
-            longitude={longitude}
-            onClose={() => setShowModal(false)}
-            mostThreeDepartment={mostThreeDepartment}
-          />
-        )}
-      </AnimatePresence>
+      <ArroundMapModal
+        show={showModal}
+        latitude={latitude}
+        longitude={longitude}
+        onClose={() => setShowModal(false)}
+        mostThreeDepartment={mostThreeDepartment}
+      />
     </>
   );
 }

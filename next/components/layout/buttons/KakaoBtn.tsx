@@ -1,12 +1,9 @@
 import { kakaoInit } from "utils/client/kakaoInit";
-import customApi from "utils/client/customApi";
-import { UseMutateFunction, useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { ButtonSize, SocialButton } from "./Button";
+import { useState } from "react";
+import { SocialButton } from "./SocialButton";
 import { SocialBtnProps } from "./NaverBtn";
 
-const KakaoLoginBtn = ({ mutate, size, kind }: SocialBtnProps) => {
+const KakaoLoginBtn = ({ mutate, kind }: SocialBtnProps) => {
   const kakaoLogin = async () => {
     // 카카오 초기화
     const kakao = kakaoInit();
@@ -29,22 +26,15 @@ const KakaoLoginBtn = ({ mutate, size, kind }: SocialBtnProps) => {
               gender: res.kakao_account.gender,
             });
           },
-          fail: (error: any) => {
-          },
+          fail: (error: any) => {},
         });
       },
-      fail: (error: any) => {
-      },
+      fail: (error: any) => {},
     });
   };
   const [comment, _] = useState(kind === "login" ? "로그인" : "회원가입");
   return (
-    <SocialButton
-      social="kakao"
-      onClick={kakaoLogin}
-      size={size}
-      bgColor={kind === "login" ? "rgb(75, 80, 211)" : "rgb(61, 66, 191)"}
-    >
+    <SocialButton social="kakao" onClick={kakaoLogin} sm={kind === "login"}>
       카카오로 {comment}
     </SocialButton>
   );

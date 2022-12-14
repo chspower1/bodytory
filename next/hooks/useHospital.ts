@@ -1,5 +1,3 @@
-import { RectangleButton } from "@components/layout/buttons/Button";
-import { theme } from "@styles/theme";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
 import { HOSPITALS } from "constant/queryKeys";
@@ -19,12 +17,12 @@ const useHospital = () => {
       refreshHospitalCache();
     },
   });
-  const { mutate: deleteHospitalMutate } = useMutation(["addHospitalKey"], deleteApi, {
+  const { mutate: deleteHospitalMutate } = useMutation(["removeHospitalKey"], deleteApi, {
     onSuccess() {
       refreshHospitalCache();
     },
   });
-  const { mutate: sharedHospitalMutate } = useMutation(["addHospitalKey"], putApi, {
+  const { mutate: sharedHospitalMutate } = useMutation(["sharedHospitalKey"], putApi, {
     onSuccess() {
       refreshHospitalCache();
     },

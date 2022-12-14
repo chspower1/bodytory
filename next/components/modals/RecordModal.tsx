@@ -1,25 +1,24 @@
-import { RoundButton } from "@components/layout/buttons/Button";
 import ManageImage from "@components/ManageImage";
 import { RecordWithImageAndHospital } from "@components/records/chart/ChartTimeline";
 import { Record, RecordImage } from "@prisma/client";
-import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
 import {
   AI_RESULT_READ,
   BODYPART_CHARTDATA_READ,
+  CHART_RECOMMEND_READ,
   KEYWORDS_CHARTDATA_READ,
   RECORDS_DELETE,
   RECORDS_READ,
   RECORDS_UPDATE,
 } from "constant/queryKeys";
-import React, { useEffect, useState } from "react";
-import { SubmitHandler, useController, useForm } from "react-hook-form";
-import { useRecoilValue } from "recoil";
-import styled, { css, keyframes } from "styled-components";
-import ReactDOM from "react-dom";
-import { AnimatePresence, motion } from "framer-motion";
+import React, { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import styled, { css } from "styled-components";
 import { ModalContainer, ModalWrapper, Dim } from "@styles/ModalStyled";
 import { changeDate } from "@utils/client/changeDate";
+import usePortal from "@hooks/usePortal";
+import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 export interface RecordWithImage extends Record {
   images: RecordImage[];
 }
@@ -33,8 +32,8 @@ interface RecordModalProps {
   onClose: () => void;
 }
 const RecordModal = ({ onClose, record, isHospital }: RecordModalProps) => {
-  const [isBrowser, setIsBrowser] = useState(false);
   const { putApi, deleteApi } = customApi("/api/users/records");
+  const Portal = usePortal();
 
   const queryClient = useQueryClient();
 
@@ -44,6 +43,7 @@ const RecordModal = ({ onClose, record, isHospital }: RecordModalProps) => {
       queryClient.invalidateQueries([AI_RESULT_READ]);
       queryClient.invalidateQueries([BODYPART_CHARTDATA_READ]);
       queryClient.invalidateQueries([KEYWORDS_CHARTDATA_READ]);
+      queryClient.invalidateQueries([CHART_RECOMMEND_READ]);
       onClose();
     },
   });
@@ -54,6 +54,7 @@ const RecordModal = ({ onClose, record, isHospital }: RecordModalProps) => {
       queryClient.invalidateQueries([AI_RESULT_READ]);
       queryClient.invalidateQueries([BODYPART_CHARTDATA_READ]);
       queryClient.invalidateQueries([KEYWORDS_CHARTDATA_READ]);
+      queryClient.invalidateQueries([CHART_RECOMMEND_READ]);
     },
   });
 
@@ -78,8 +79,6 @@ const RecordModal = ({ onClose, record, isHospital }: RecordModalProps) => {
   const {
     register,
     handleSubmit,
-    setError,
-    watch,
     formState: { errors },
   } = useForm<RecordUpdateType>({
     reValidateMode: "onSubmit",
@@ -92,10 +91,6 @@ const RecordModal = ({ onClose, record, isHospital }: RecordModalProps) => {
       setShowMsg(false);
     }, 1400);
   };
-
-  useEffect(() => {
-    setIsBrowser(true);
-  }, []);
 
   const modalContent = (
     <ModalWrapper>
@@ -116,17 +111,14 @@ const RecordModal = ({ onClose, record, isHospital }: RecordModalProps) => {
                   </svg>
                   <span>삭제하시겠습니까?</span>
                 </CircleDeleteButton>
-                <RoundButton
+                <ModalButton
                   onClick={onClose}
-                  size="custom"
+                  sm
                   bgColor="rgb(198,205,250)"
-                  textColor="#5D6BB2"
-                  boxShadow={false}
-                  height="40px"
-                  padding="0 40px"
+                  color="#5D6BB2"
                 >
                   닫기
-                </RoundButton>
+                </ModalButton>
               </ButtonBox>
             )}
             <Time byUser={record!.type === "user"}>{changeDate(record!.createAt)}</Time>
@@ -141,9 +133,11 @@ const RecordModal = ({ onClose, record, isHospital }: RecordModalProps) => {
                 value={textArea}
               />
               {isHospital || (
-                <RoundButton size="sm" bgColor="rgb(83,89,233)" boxShadow={false}>
-                  수정하기
-                </RoundButton>
+                <div className="buttonBox">
+                  <ModalButton sm bgColor="rgb(83,89,233)" >
+                    수정하기
+                  </ModalButton>
+                </div>
               )}
               {showMsg && <SuccessMsg>수정이 완료되었습니다!</SuccessMsg>}
               {errors.updateWrite && <ErrorMsg>{errors.updateWrite.message}</ErrorMsg>}
@@ -152,37 +146,29 @@ const RecordModal = ({ onClose, record, isHospital }: RecordModalProps) => {
           </RecordDetailContainer>
           {isHospital && (
             <HospitalModalCloseButtonBox>
-              <RoundButton
+              <ModalButton
                 onClick={onClose}
-                size="custom"
+                sm
                 bgColor="rgb(198,205,250)"
-                textColor="#5D6BB2"
-                boxShadow={false}
-                height="40px"
-                padding="0 40px"
+                color="#5D6BB2"
               >
                 닫기
-              </RoundButton>
+              </ModalButton>
             </HospitalModalCloseButtonBox>
           )}
         </ScrollContainer>
       </ModalContainer>
     </ModalWrapper>
   );
-  return isBrowser ? ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement) : null;
+  return Portal({ children: modalContent });
 };
 
 export default RecordModal;
 
-const Modal = styled.div`
-  position: relative;
-  z-index: 3;
-  width: 800px;
-  height: 780px;
-  border-radius: 40px;
-  margin: auto;
-  overflow: hidden;
-  background: ${({ theme }) => theme.color.white};
+
+export const ModalButton = styled(RoundedDefaultButton)`
+  width: auto;
+  padding: 12px 30px;
 `;
 
 const ScrollContainer = styled.div`
@@ -241,7 +227,10 @@ const Time = styled.div<{ byUser: boolean }>`
 const EditTextBox = styled.form`
   position: relative;
   margin-bottom: 40px;
-
+  > div.buttonBox{
+    display:flex;
+    justify-content:center;
+  }
   & > * {
     margin: 0 auto 5px;
   }
@@ -255,6 +244,7 @@ const TextArea = styled.textarea`
   width: 100%;
   min-height: 140px;
   padding: 20px 30px;
+  line-height: 1.6;
 
   &:focus {
     outline: 2px solid #8c9af3;
