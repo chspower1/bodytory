@@ -1,5 +1,5 @@
 import { Box } from "@styles/Common";
-import { theme } from "@styles/theme";
+import { media, theme } from "@styles/theme";
 import { MyHospitalResponse } from "pages/users/my-hospital";
 import React, { LegacyRef, MouseEvent, useState } from "react";
 import styled from "styled-components";
@@ -66,20 +66,34 @@ const InnerContainer = styled(Box)<{ add: boolean }>`
   &::-webkit-scrollbar-track {
     margin: 30px 0 0;
   }
+  ${media.mobile} {
+    width: 100%;
+  }
 `;
 
 const HospitalContainer = styled.div<{ add: boolean }>`
-  width: 1600px;
+  max-width: 1600px;
+  width: 100%;
   height: 600px;
   background-color: ${prop => (prop.add ? "#f2f3ff" : "#d9deff")};
   border-radius: 40px;
   padding: 0 30px 30px;
+  ${media.mobile} {
+    width: 100%;
+    height: calc(100% - 300px);
+    padding: 10px;
+  }
 `;
 
 const HospitalLists = styled.ul`
-  width: 1500px;
+  max-width: 1500px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  ${media.mobile} {
+    width: 100%;
+    align-items: start;
+  }
 `;

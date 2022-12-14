@@ -1,22 +1,17 @@
-import lottie, { AnimationItem, AnimationSegment, LottiePlayer } from "lottie-web";
+import { AnimationItem, AnimationSegment, LottiePlayer } from "lottie-web";
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
+import { LottieAnimProps } from "types/lottieProps";
 
-interface ToryAnimProps {
-  listeningMotionIdx: number;
-  width: number;
-}
-
-const ListeningAnim = ({ listeningMotionIdx, width }: ToryAnimProps) => {
+const KyeongwonAnim = ({ segmentIndex, width, delay, play }: LottieAnimProps) => {
   const [ready, setReady] = useState<boolean>(false);
-  const [listening, setListening] = useState<AnimationItem>();
+  const [kyeongwon, setKyeongwon] = useState<AnimationItem>();
   const [lottie, setLottie] = useState<LottiePlayer | null>(null);
 
   const lottieRef = useRef<any>();
 
   const frameSegments: AnimationSegment[] = [
     [0, 119],
-    [120, 179],
   ];
 
   useEffect(() => {
@@ -25,18 +20,25 @@ const ListeningAnim = ({ listeningMotionIdx, width }: ToryAnimProps) => {
 
   useEffect(() => {
     if (lottie && lottieRef.current) {
-      setListening(
+      setKyeongwon(
         lottie.loadAnimation({
           container: lottieRef.current,
           renderer: "svg",
-          loop: true,
+          loop: false,
           autoplay: false,
-          path: "/static/lottie/listening.json",
+          path: "/static/lottie/kyeongwon.json",
+          initialSegment: frameSegments[segmentIndex]
         }),
       );
     }
 
-    setReady(true);
+    if (delay) {
+      setTimeout(() => {
+        setReady(true);
+      }, delay);
+    } else {
+      setReady(true);
+    }
 
     return () => {
       lottie && lottie.destroy();
@@ -44,12 +46,13 @@ const ListeningAnim = ({ listeningMotionIdx, width }: ToryAnimProps) => {
   }, [lottie]);
 
   useEffect(() => {
-    if (listening) {
-      listening.playSegments(frameSegments[listeningMotionIdx], true);
+    if (kyeongwon && ready) {
+      if(play) {
+        kyeongwon.playSegments(frameSegments[0], false);
+      }
     }
 
-    console.log(listeningMotionIdx);
-  }, [ready, listeningMotionIdx, listening]);
+  }, [ready, kyeongwon, play]);
 
   return <LottieElem ref={lottieRef} width={width} />;
 };
@@ -58,4 +61,4 @@ const LottieElem = styled.div<{ width: number }>`
   width: ${({ width }) => width}px;
 `;
 
-export default ListeningAnim;
+export default KyeongwonAnim;

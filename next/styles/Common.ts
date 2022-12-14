@@ -10,7 +10,8 @@ export const Wrapper = styled.div<{ bgColor?: string }>`
   overflow: hidden;
   background-color: ${props => props.bgColor};
   ${media.tablet}{
-    overflow-y:scroll;
+    overflow-y:auto;
+    overflow-y:auto;
   }
 `;
 
@@ -18,8 +19,8 @@ export const Container = styled(motion.div)`
   width: 100%;
   max-width: 1600px;
   margin: 0 auto;
-  ${media.tablet}{
-    padding: 0 30px;
+  ${media.custom(770)}{
+    padding: 0 20px;
   }
 `;
 export const WhiteWrapper = styled(Wrapper)`
@@ -36,6 +37,9 @@ export const InnerContainer = styled.div`
   margin: auto;
   height: 800px;
   padding-top: 70px;
+  @media (max-height: 800px){
+    height: 100%;
+  }
 `;
 
 export const Box = styled(motion.div)<{ height?: string; width?: string }>`
@@ -62,6 +66,9 @@ export const WhiteText = styled.span<{ fontSize?: string }>`
   strong {
     font-weight: 700;
   }
+  ${media.mobile}{
+    font-size: ${({ fontSize }) => fontSize || "16px"};
+  }
 `;
 export const BodyText = styled(WhiteText)`
   color: ${({ theme }) => theme.color.text};
@@ -75,6 +82,13 @@ export const ToryText = styled(WhiteText)<{ color?: string }>`
   strong {
     font-weight: 700;
   }
+
+  ${media.custom(1280)} {
+    font-size: ${props => (props.fontSize ? props.fontSize : "30px")};
+  }
+
+
+
 `;
 export const BlackToryText = styled(ToryText)`
   color: ${({ theme }) => theme.color.text};

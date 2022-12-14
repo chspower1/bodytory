@@ -13,7 +13,7 @@ import RadioInput from "@components/layout/input/RadioInput";
 import ButtonInInput from "@components/layout/input/ButtonInInput";
 import CheckBoxInput from "@components/layout/input/CheckBoxInput";
 import { Box, FlexContainer, InnerContainer, Row } from "@styles/Common";
-import { theme } from "@styles/theme";
+import { media, theme } from "@styles/theme";
 import { Form, FormContents, PrevNextButtonBox } from "./FirstPage";
 import { BIRTH_REGEX, EMAIL_REGEX, KR_EN_REGEX, ONLY_KR_REGEX } from "constant/regex";
 import { createErrors } from "@utils/client/createErrors";
@@ -296,7 +296,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
             </motion.div>
             {!user?.isCertified ? (
               isToken && (
-                <CheckTokenBox>
+                <CheckTokenBox className="checkTokenBox">
                   <ButtonInInput
                     name="token"
                     placeholder="인증번호"
@@ -317,7 +317,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
               <CheckBoxInput label="인증 완료되었습니다" name="completion" checked disabled />
             )}
           </ThirdPageFormContents>
-          <PrevNextButtonBox>
+          <PrevSuccessButtonBox>
             <PreviousButton sm type="button" bgColor="rgb(75, 80, 211)" onClick={handleClickPrevPage}>
               이전 단계
             </PreviousButton>
@@ -330,7 +330,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                 ? "회원가입 완료"
                 : "정보를 모두 입력해주세요"}
             </SubmitButton>
-          </PrevNextButtonBox>
+          </PrevSuccessButtonBox>
         </Form>
       </InnerContainer>
     </FlexContainer>
@@ -339,33 +339,69 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
 
 export default ThirdPage;
 
+const PrevSuccessButtonBox = styled(PrevNextButtonBox)`
+${media.custom(770)}{
+  gap: 30px;
+}
+  ${media.mobile}{
+    gap: 20px;
+  }
+`
+
 const PreviousButton = styled(RoundedDefaultButton)`
   width: 160px;
   height: 60px;
   font-size: 18px;
+  ${media.mobile}{
+    width: 60px;
+    height: 60px;
+    font-size: 12px;
+  }
 `;
 
 const SubmitButton = styled(RoundedDefaultButton)`
   width: 360px;
   height: 60px;
   font-size: 18px;
+  ${media.mobile}{
+    width: 240px;
+    height: 60px;
+    font-size: 14px;
+  }
 `;
 
 const GenderBox = styled(Box)`
   gap: 26px;
   width: 220px;
   justify-content: flex-end;
+  ${media.mobile}{
+    justify-content: center;
+    margin: 20px auto 0;
+  }
 `;
 
 const ThirdPageFormContents = styled(FormContents)`
   > div + div {
     margin-top: 30px;
   }
+  ${media.mobile}{
+    > div + div {
+      margin-top: 20px;
+    }
+    .checkTokenBox{
+      margin-top: 10px;
+    }
+  }
 `;
 
 const SpaceBetweenRowBox = styled(Row)`
   width: 500px;
   margin: 0 auto;
+  ${media.mobile} {
+    min-width: 287px;
+    width: 79.8611vw;
+    display:block;
+  }
 `;
 
 const CheckTokenBox = styled.div`

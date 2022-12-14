@@ -1,5 +1,6 @@
+import { media } from "@styles/theme";
 import styled, { css } from "styled-components";
-import { ChangeToHoverColor } from "./Button";
+import { ChangeToHoverColor } from "./SocialButton";
 
 export const RoundedDefaultButton = styled.button<{
   lg?: boolean;
@@ -17,6 +18,7 @@ export const RoundedDefaultButton = styled.button<{
   background: ${({ bgColor }) => bgColor || "rgb(61, 66, 191)"};
   color: ${({ color }) => color || "rgb(255, 255, 255)"};
   transition: background 0.35s ease;
+  box-shadow: 8px 8px 24px rgb(49, 54, 167, 0.2);
   img,
   svg {
     margin-right: 15px;
@@ -35,10 +37,18 @@ export const RoundedDefaultButton = styled.button<{
   ${({ lg }) =>
     lg &&
     css`
-      width: 500px;
+      max-width: 500px;
+      width: 100%;
       padding: 20px 0;
       border-radius: 60px;
       font-size: 20px;
+      ${media.custom(1366)} {
+      }
+      ${media.mobile} {
+        font-size: 16px;
+        padding: 15px 0;
+        border-radius: 40px;
+      }
     `}
   ${({ sm }) =>
     sm &&
@@ -47,6 +57,11 @@ export const RoundedDefaultButton = styled.button<{
       font-size: 16px;
       border-radius: 40px;
       padding: 12px 0;
+      ${media.mobile} {
+        font-size: 12px;
+        padding: 10px 0;
+        width: 90px;
+      }
     `}
   ${({ disable, theme }) =>
     disable &&
@@ -76,8 +91,14 @@ export const CircleDefaultButton = styled.button<{
   background: ${({ bgColor }) => bgColor || "rgb(61, 66, 191)"};
   color: ${({ color }) => color || "rgb(255, 255, 255)"};
   transition: background 0.35s ease;
+  box-shadow: 8px 8px 24px rgb(49, 54, 167, 0.2);
   :hover {
     background: ${({ bgColor }) => ChangeToHoverColor(bgColor || "rgb(61, 66, 191)")};
+  }
+  ${media.mobile}{
+    width: 80px;
+    height: 80px;
+    font-size: 14px;
   }
   ${({ lg }) =>
     lg &&
@@ -85,12 +106,18 @@ export const CircleDefaultButton = styled.button<{
       width: 140px;
       height: 140px;
       font-size: 26px;
+      ${media.mobile}{
+        width: 100px;
+        height: 100px;
+        font-size: 20px;
+      }
     `}
   ${({ sm }) =>
     sm &&
     css`
       width: 62px;
       height: 62px;
+      font-size: 16px;
     `}
   ${({ disable, theme }) =>
     disable &&
@@ -108,20 +135,28 @@ export const RectangleDefaultButton = styled.button<{ sm?: boolean; bgColor?: st
   text-align: center;
   padding: 10px 0;
   color: #fff;
-  font-size: 18px;
+  font-size: 16px;
   border-radius: 5px;
   text-weight: 500;
   background: ${({ bgColor }) => bgColor || "rgb(61, 66, 191)"};
   color: ${({ color }) => color || "rgb(255, 255, 255)"};
   transition: background 0.35s ease;
+  box-shadow: 8px 8px 24px rgb(49, 54, 167, 0.2);
   :hover {
     background: ${({ bgColor }) => ChangeToHoverColor(bgColor || "rgb(61, 66, 191)")};
+  }
+  ${media.mobile}{
+    width: 70px;
+
   }
   ${({ sm }) =>
     sm &&
     css`
       padding: 7px 0;
       font-size: 14px;
-      font-weight: 500;
+      ${media.mobile}{
+        padding: 7px 0;
+        font-size: 12px;
+      }
     `}
 `;

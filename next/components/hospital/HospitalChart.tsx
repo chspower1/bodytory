@@ -1,4 +1,4 @@
-import { RoundButton } from "@components/layout/buttons/Button";
+import { RoundButton } from "@components/layout/buttons/SocialButton";
 import HospitalModal from "@components/modals/HospitalModal";
 import { ChartContainer, ChartWrap, ScrollContainer } from "@components/records/chart/Chart";
 import ChartTimeline from "@components/records/chart/ChartTimeline";

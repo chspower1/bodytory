@@ -5,9 +5,11 @@ import { GetServerSidePropsContext, NextPage } from "next";
 import Link from "next/link";
 import { FinalCommentBox } from "../help/find-id";
 import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
+import { useRouter } from "next/router";
 import withGetServerSideProps from "@utils/client/withGetServerSideProps";
 
 const SuccessPage: NextPage = () => {
+  const router = useRouter();
   return (
     <FlexContainer>
       <InnerContainer>
@@ -18,11 +20,9 @@ const SuccessPage: NextPage = () => {
               <p>바디토리를 시작해볼까요?</p>
             </MessageBox>
             <div className="linkButton">
-              <Link href="/">
-                <RoundedDefaultButton lg bgColor={theme.color.mintBtn}>
-                  바디토리 시작하기
-                </RoundedDefaultButton>
-              </Link>
+              <RoundedDefaultButton lg bgColor={theme.color.mintBtn} onClick={()=> router.push("/")}>
+                바디토리 시작하기
+              </RoundedDefaultButton>
             </div>
           </div>
         </FinalCommentBox>

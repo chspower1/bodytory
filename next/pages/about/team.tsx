@@ -8,14 +8,43 @@ import Jo from "@src/assets/images/team/Cho.png";
 import Image from "next/image";
 import withGetServerSideProps from "@utils/client/withGetServerSideProps";
 import { GetServerSidePropsContext } from "next";
+import SohiAnim from "@components/lotties/SohiAnim";
+import { MouseEvent, useEffect, useRef, useState } from "react";
+import HosungAnim from "@components/lotties/HosungAnim";
+import KyeongwonAnim from "@components/lotties/KyeongWon";
+import DahyunAnim from "@components/lotties/DahyunAnim";
+import RyongAnim from "@components/lotties/RyongAnim";
 const Team = () => {
+
+  const [isHover, setIsHover] = useState<boolean>();
+  const [hoverWho, setHoverWho] = useState<EventTarget | null>();
+  const hosungRef = useRef<HTMLDivElement>(null);
+  const kyeongwonRef = useRef<HTMLDivElement>(null);
+  const dahyunRef = useRef<HTMLDivElement>(null);
+  const sohiRef = useRef<HTMLDivElement>(null);
+  const ryongRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseEnter = (e: MouseEvent<HTMLDivElement>) => {
+    setIsHover(true);
+    setHoverWho(e.currentTarget);
+  };
+
+  const handleMouseLeave = (e: MouseEvent<HTMLDivElement>) => {
+    setIsHover(false);
+    setHoverWho(null);
+  };
+
+  useEffect(() => {
+    console.log(isHover, hoverWho, hoverWho === sohiRef.current);
+  }, [isHover]);
+
   return (
     <Container>
       <Header />
       <TeamContainer>
-        <HoSung>
+        <HoSung onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} ref={hosungRef} >
           <Profile>
-            <Image src={Jo} width={300} height={300} alt="KyeongWon"></Image>
+            <HosungAnim segmentIndex={0} width={300} play={isHover && hoverWho === hosungRef.current ? true : false} />
           </Profile>
           <DescriptionContainer>
             <Name>
@@ -29,9 +58,9 @@ const Team = () => {
             <Description>fdsfdsfasdfdas</Description>
           </DescriptionContainer>
         </HoSung>
-        <KyeongWon>
-          <Profile>
-            <Image src={Kim} fill alt="KyeongWon"></Image>
+        <KyeongWon onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} ref={kyeongwonRef} >
+         <Profile>
+          <KyeongwonAnim segmentIndex={0} width={300} play={isHover && hoverWho === kyeongwonRef.current ? true : false} />
           </Profile>
           <DescriptionContainer>
             <Name>
@@ -44,9 +73,9 @@ const Team = () => {
             <Description>프로젝트 하는 동안 많을 걸 배웠네요 이제 ... 취업합시다 ...</Description>
           </DescriptionContainer>
         </KyeongWon>
-        <DaHyen>
+        <DaHyen onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} ref={dahyunRef} >
           <Profile>
-            <Image src={Oh} fill alt="KyeongWon"></Image>
+            <DahyunAnim segmentIndex={0} width={300} play={isHover && hoverWho === dahyunRef.current ? true : false} />
           </Profile>
           <DescriptionContainer>
             <Name>
@@ -60,9 +89,9 @@ const Team = () => {
             <Description>AI 너무 어렵네요 ㅋㅋ</Description>
           </DescriptionContainer>
         </DaHyen>
-        <SoHee>
-          <Profile>
-            <Image src={Jung} fill alt="SoHee"></Image>
+        <SoHee onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} ref={sohiRef} >
+         <Profile>
+            <SohiAnim segmentIndex={0} width={300} play={isHover && hoverWho === sohiRef.current ? true : false} />
           </Profile>
           <DescriptionContainer>
             <Name>
@@ -76,9 +105,9 @@ const Team = () => {
             <Description>토리엄마입니다. 우리 토리 이쁘게 봐주세요~*^^*</Description>
           </DescriptionContainer>
         </SoHee>
-        <DongRyong>
+        <DongRyong onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} ref={ryongRef} >
           <Profile>
-            <Image src={Han} fill alt="DongRyong"></Image>
+            <RyongAnim segmentIndex={0} width={300} play={isHover && hoverWho === ryongRef.current ? true : false} />
           </Profile>
           <DescriptionContainer>
             <Name>
@@ -96,6 +125,15 @@ const Team = () => {
   );
 };
 
+const Container = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: ${({ theme }) => theme.color.darkBg };
+`;
+
 const TeamContainer = styled.div`
   width: 1750px;
   height: 620px;
@@ -108,52 +146,42 @@ const Bedge = styled.div<{ backgroundColor: string }>`
   width: auto;
   line-height: 30px;
   padding: 0 10px;
-  border-radius: 8px;
+  border-radius: 6px;
   color: white;
   font-weight: 700;
-  font-size: 15px;
+  font-size: 14px;
   display: inline-block;
-  & + & {
-    margin-left: 10px;
-  }
-`;
 
-const Container = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  & + & {
+    margin-left: 5px;
+  }
 `;
 
 const DescriptionContainer = styled.div`
   width: 100%;
   height: 300px;
   background-color: rgb(107, 112, 236);
-  border-radius: 35px;
-  padding: 130px 20px 20px 20px;
+  padding: 30px;
   z-index: 10;
-  transform: translateY(-150px);
-  transition: transform 0.5s, height 0.5s;
   overflow: hidden;
   position: relative;
+  transition: background .4s;
 `;
+
 const Profile = styled.div`
   width: 300px;
   height: 300px;
-  border-radius: 30px;
   overflow: hidden;
-  transform: translateY(150px);
-  transition: transform 0.5s;
   z-index: 11;
   position: relative;
+  background: #fff;
 `;
+
 const Description = styled.div`
   width: 100%;
   height: 150px;
-  margin-top: 10px;
+  margin-top: 30px;
   padding: 10px;
-  font-size: 22px;
   word-break: keep-all;
   color: white;
 `;
@@ -165,27 +193,29 @@ const BedgeBox = styled.div`
 const Name = styled.div`
   color: white;
   font-size: 22px;
+  font-weight: 700;
 `;
 
 const Position = styled.span`
   font-size: 16px;
+  font-weight: 400;
   color: white;
-  margin-left: 20px;
+  margin-left: 14px;
 `;
 
 const HoSung = styled.div`
   width: 300px;
   height: 600px;
+  box-shadow: 8px 8px 24px 0px #3136A733;
+  transition: transform .4s;
+  border-radius: 30px;
+  overflow: hidden;
+
   &:hover {
-    > div:first-child {
-      transform: translateY(0);
-    }
-    > div:nth-child(2) {
-      transform: translateY(-100px);
-      height: 400px;
-    }
+    transform: scale(1.06);
   }
 `;
+
 const DongRyong = styled(HoSung)``;
 const KyeongWon = styled(HoSung)``;
 const DaHyen = styled(HoSung)``;

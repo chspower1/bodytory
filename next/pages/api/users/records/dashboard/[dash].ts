@@ -137,9 +137,9 @@ async function threeMonthFn(req: NextApiRequest, res: NextApiResponse) {
       return result.push({ position: elem[0], hospitalLength: elem[1] });
     }
 
-    result.forEach(record => {
+    result.map(record => {
       if (record.position === elem[0]) {
-        record["userLength"] = elem[1];
+        record["hospitalLength"] = elem[1];
       }
     });
   });

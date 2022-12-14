@@ -1,7 +1,7 @@
 import { RectangleDefaultButton, RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 import useHospital from "@hooks/useHospital";
 import { Box } from "@styles/Common";
-import { theme } from "@styles/theme";
+import { media, theme } from "@styles/theme";
 import sliceName from "@utils/client/sliceHospitalName";
 import { currentHospitalIdx } from "atoms/atoms";
 import { useRouter } from "next/router";
@@ -155,6 +155,10 @@ export default HospitalContent;
 const ShowMedicalDetailButton = styled(RectangleDefaultButton)`
   width: 120px;
   font-size: 16px;
+  ${media.mobile} {
+    font-size: 12px;
+    width: 80px;
+  }
 `;
 
 const AddButtonBox = styled.div`
@@ -163,12 +167,28 @@ const AddButtonBox = styled.div`
 
   span {
     position: absolute;
-    left: -70px;
+    left: -60px;
     top: 50%;
     transform: translateY(-50%);
     font-size: 16px;
     font-weight: 600;
     color: ${({ theme }) => theme.color.input};
+  }
+  ${media.custom(1440)} {
+    position: absolute;
+    top: 18px;
+    right: 20px;
+    font-size: 14px;
+    span {
+      font-size: 14px;
+    }
+  }
+  ${media.mobile} {
+    > button {
+      width: 50px;
+      padding: 8px 0;
+      font-size: 14px;
+    }
   }
 `;
 
@@ -179,6 +199,9 @@ export const DeleteBtnBox = styled.div`
   transform: translateY(-50%);
   width: 40px;
   height: 40px;
+  ${media.custom(1366)} {
+    top: 76%;
+  }
 `;
 
 const Text = styled.span<{ size?: string; weight?: string; add?: boolean }>`
@@ -199,6 +222,12 @@ const NameText = styled(Text)`
   :hover {
     text-decoration: underline;
   }
+  ${media.mobile} {
+    font-size: 14px;
+    display: block;
+    min-width: 100px;
+    width: 50%;
+  }
 `;
 
 const SpaceText = styled(Text)<{ add: boolean }>`
@@ -215,9 +244,18 @@ const SpaceText = styled(Text)<{ add: boolean }>`
   :hover {
     text-decoration: underline;
   }
+  ${media.mobile} {
+    font-size: 14px;
+    min-width: 150px;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
 `;
 export const ShareStatus = styled(Text)<{ status: boolean }>`
   padding-left: 20px;
+  position: relative;
   &::after {
     transition: background-color 0.4s ease;
     content: "";
@@ -228,6 +266,14 @@ export const ShareStatus = styled(Text)<{ status: boolean }>`
     border-radius: 50%;
     top: 25%;
     left: 0;
+  }
+  ${media.custom(1366)} {
+    text-indent: -9999px;
+    margin-right: 10px;
+    &::after {
+      potision: absolute;
+      left: 10px;
+    }
   }
 `;
 const HospitalInforBox = styled.div`
@@ -240,19 +286,27 @@ const HospitalInforBox = styled.div`
       text-decoration: underline;
     }
   }
+  ${media.pc} {
+    margin-right: 40px;
+    flex-direction: column;
+    row-gap: 15px;
+  }
 `;
 
 const HospitalInfor = styled.li<{ add: boolean }>`
   display: inline-block;
   position: relative;
-  padding: 0 40px;
-  width: 100%;
-  height: 80px;
+  padding: 20px 40px;
+  width: 98%;
   background-color: ${prop => (prop.add ? "rgb(225,227,255)" : "rgb(100,106,235)")};
   transition: all 0.4s ease;
   border-radius: 20px;
   & + & {
     margin-top: 20px;
+  }
+  ${media.mobile} {
+    width: 100%;
+    padding: 20px;
   }
 `;
 
@@ -262,18 +316,29 @@ const HospitalInforContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  ${media.custom(1440)} {
+    display: block;
+  }
 `;
 
 const HospitalPlaceBox = styled.div<{ add?: boolean }>`
   display: flex;
   align-items: center;
   width: ${props => (props.add ? "500px" : "270px")};
+  ${media.mobile} {
+    display: block;
+    width: 100%;
+  }
 `;
 
 const HospitalDescriptionBox = styled.div<{ add?: boolean }>`
   display: flex;
   align-items: center;
   width: ${props => (props.add ? "400px" : "270px")};
+  ${media.mobile} {
+    display: block;
+    width: 100%;
+  }
 `;
 
 export const HospitalStatusBox = styled.div`
@@ -283,6 +348,12 @@ export const HospitalStatusBox = styled.div`
   width: 280px;
   margin-right: 90px;
   justify-content: space-between;
+  ${media.custom(1366)} {
+    position: absolute;
+    right: -70px;
+    width: 110px;
+    top: 15px;
+  }
 `;
 
 const Department = styled(Box)`
@@ -292,4 +363,7 @@ const Department = styled(Box)`
   border-radius: 5px;
   height: 32px;
   margin-left: 20px;
+  ${media.custom(1440)} {
+    display: none;
+  }
 `;

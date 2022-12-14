@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { RoundButton } from "@components/layout/buttons/Button";
 import ChartTimeline from "./ChartTimeline";
 import ChartKeyword from "./ChartKeyword";
 import { KoreanPosition } from "types/write";
@@ -41,7 +40,7 @@ function Chart() {
               <strong>{KoreanPosition[position]}</strong> 건강기록
             </Title>
             <Link href={`/users/records/write/${position}`}>
-              <RoundedDefaultButton  bgColor="rgb(244,245,255)" color="rgb(83,89,233)">
+              <RoundedDefaultButton bgColor="rgb(244,245,255)" color="rgb(83,89,233)">
                 기록 추가하기
               </RoundedDefaultButton>
             </Link>

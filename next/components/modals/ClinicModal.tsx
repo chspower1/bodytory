@@ -2,7 +2,6 @@ import { Position, RecordType } from "@prisma/client";
 import { changeDate } from "@utils/client/changeDate";
 import React from "react";
 import styled from "styled-components";
-import { RoundButton } from "../layout/buttons/Button";
 import { AnimatePresence } from "framer-motion";
 import { Dim, ModalContainer, ModalWrapper } from "@styles/ModalStyled";
 import usePortal from "@hooks/usePortal";
@@ -68,7 +67,7 @@ const ClinicModal = ({
                 </li>
               </ul>
               <div>
-                <ModalButton sm onClick={onClose} bgColor='rgb(197,205,251)' color="rgb(93,107,178)">
+                <ModalButton sm onClick={onClose} bgColor="rgb(197,205,251)" color="rgb(93,107,178)">
                   닫기
                 </ModalButton>
               </div>
@@ -105,9 +104,9 @@ const ModalHead = styled.div`
 const ModalContent = styled.div`
   background: ${({ theme }) => theme.color.white};
   padding: 60px 80px 40px;
-  > div{
-    display:flex;
-    justify-content:center;
+  > div {
+    display: flex;
+    justify-content: center;
     margin: 50px 0 0;
   }
   ul {

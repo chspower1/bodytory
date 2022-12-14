@@ -51,8 +51,9 @@ const MessageContainer = styled(motion.div)`
   justify-content: center;
   align-items: center;
   height: 166px;
+  word-break:keep-all;
   ${media.mobile}{
-    font-size: 5.9649vw;
-    height:29.1228vw;
+    font-size: 24px;
+    height:136px;
   }
 `;

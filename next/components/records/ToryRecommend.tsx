@@ -1,4 +1,3 @@
-import { RoundButton } from "@components/layout/buttons/Button";
 import styled, { css } from "styled-components";
 import IconHospital from "@src/assets/icons/icon_hospital.png";
 import IconWarning from "@src/assets/icons/icon_warning.png";

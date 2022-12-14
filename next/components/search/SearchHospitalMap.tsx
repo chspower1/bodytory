@@ -12,7 +12,7 @@ const SearchHospitalMap = () => {
   const { latitude, longitude } = useCoords();
 
   return latitude && longitude ? (
-    <ShadowSearchContainer style={{ alignItems: "flex-end" }}>
+    <ShadowSearchContainer>
       <ArroundMap width="1500px" height="600px" longitude={longitude} latitude={latitude} departmentList={Object.values(MEDICALDEPARTMENT)} isAll={true} />
     </ShadowSearchContainer>
   ) : (
@@ -21,8 +21,9 @@ const SearchHospitalMap = () => {
 };
 
 const ShadowSearchContainer = styled(SearchContainer)`
+  max-width: 1500px;
   height: 600px;
-  margin-bottom: 200px;
+  margin: 0 auto 0;
   border-radius: 20px;
   box-shadow: 8px 8px 24px 0px rgba(49, 54, 167, 0.2);
 `;

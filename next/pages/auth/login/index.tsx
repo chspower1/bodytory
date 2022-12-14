@@ -1,5 +1,4 @@
 import Input from "@components/layout/input/Input";
-
 import { GetServerSidePropsContext, NextPage } from "next";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
@@ -11,7 +10,7 @@ import NaverLoginBtn from "@components/layout/buttons/NaverBtn";
 import KakaoLoginBtn from "@components/layout/buttons/KakaoBtn";
 import { USER_LOGIN, USE_USER } from "constant/queryKeys";
 import { InnerContainer, FlexContainer, Row, WhiteBoldText, WhiteText } from "@styles/Common";
-import { theme } from "@styles/theme";
+import { media, theme } from "@styles/theme";
 import styled from "styled-components";
 import MessageBox from "@components/MessageBox";
 import { ACCOUNT_ID_REGEX, PASSWORD_REGEX } from "constant/regex";
@@ -124,12 +123,12 @@ const LoginPage: NextPage = () => {
         </LoginFindBox>
         <SocialLoginBox>
           <div className="soscialInnerBox">
-            <NaverLoginBtn size="sm" mutate={mutate} kind="login" />
-            <KakaoLoginBtn size="sm" mutate={mutate} kind="login" />
+            <NaverLoginBtn  mutate={mutate} kind="login" />
+            <KakaoLoginBtn  mutate={mutate} kind="login" />
           </div>
         </SocialLoginBox>
         <RegisterLinkBox>
-          <WhiteText>아직 회원이 아니신가요?</WhiteText>
+          아직 회원이 아니신가요?
           <Link href="/auth/register/choice">
             <WhiteBoldText>회원가입</WhiteBoldText>
           </Link>
@@ -157,6 +156,9 @@ const LoginForm = styled.form`
 `;
 export const LoginInputAreaBox = styled.div`
   margin-bottom: 40px;
+  ${media.mobile} {
+    margin-bottom: 20px;
+  }
 `;
 const LoginFormInnerBox = styled.div`
   display: inline-block;
@@ -166,6 +168,8 @@ const LoginFindBox = styled(Row)`
   margin: 0 0 70px;
   a {
     margin: 0 12px;
+    width: 82px;
+    text-align:right;
     span {
       font-size: 15px;
     }
@@ -174,27 +178,42 @@ const LoginFindBox = styled(Row)`
     color: #fff;
     user-select: none;
   }
+  ${media.mobile} {
+    margin: 0 0 30px;
+    a {
+      margin: 0 10px;
+      width: 71px;
+      span {
+        font-size: 13px;
+      }
+    }
+    i {
+      font-size: 16px;
+    }
+  }
 `;
 const SocialLoginBox = styled(Row)`
   margin: 0 0 30px;
   .soscialInnerBox {
     display: flex;
-    > div,
-    > button {
-      margin: 0 20px;
-      div {
-        font-size: 16px;
-      }
+    column-gap: 30px;
+  }
+  ${media.mobile} {
+    .soscialInnerBox {
+      column-gap: 10px;
     }
   }
+
 `;
 
 const RegisterLinkBox = styled(Row)`
   padding: 20px 0;
-  > span {
-    font-size: 15px;
-  }
+  font-size: 15px;
+  color: #fff;
   a {
     margin: 0 0 0 10px;
+  }
+  ${media.mobile} {
+    font-size: 13px;
   }
 `;

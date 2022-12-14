@@ -1,16 +1,11 @@
 import { AnimationItem, AnimationSegment, LottiePlayer } from "lottie-web";
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
+import { LottieAnimProps } from "types/lottieProps";
 
-interface ToryAnimProps {
-  toryMotionIdx: number;
-  width: number;
-  delay?: number;
-}
-
-const ToryWhiteAnim = ({ toryMotionIdx, width, delay }: ToryAnimProps) => {
+const ToryWhiteAnim = ({ segmentIndex, delay }: LottieAnimProps) => {
   const [ready, setReady] = useState<boolean>(false);
-  const [ToryWhite, setToryWhite] = useState<AnimationItem>();
+  const [toryWhite, setToryWhite] = useState<AnimationItem>();
   const [lottie, setLottie] = useState<LottiePlayer | null>(null);
 
   const lottieRef = useRef<any>();
@@ -37,7 +32,8 @@ const ToryWhiteAnim = ({ toryMotionIdx, width, delay }: ToryAnimProps) => {
           loop: true,
           autoplay: false,
           path: "/static/lottie/tory_white.json",
-        }),
+          initialSegment: frameSegments[segmentIndex]
+        })
       );
     }
 
@@ -55,18 +51,16 @@ const ToryWhiteAnim = ({ toryMotionIdx, width, delay }: ToryAnimProps) => {
   }, [lottie]);
 
   useEffect(() => {
-    if (ToryWhite) {
-      ToryWhite.playSegments(frameSegments[toryMotionIdx], true);
+    if (toryWhite && ready) {
+      toryWhite.playSegments(frameSegments[segmentIndex], true);
     }
+  }, [ready, segmentIndex, toryWhite]);
 
-    console.log(toryMotionIdx);
-  }, [ready, toryMotionIdx, ToryWhite]);
-
-  return <LottieElem ref={lottieRef} width={width} />;
+  return <LottieElem ref={lottieRef} />;
 };
 
-const LottieElem = styled.div<{ width: number }>`
-  width: ${({ width }) => width}px;
+const LottieElem = styled.div`
+  width: 100%;
 `;
 
 export default ToryWhiteAnim;

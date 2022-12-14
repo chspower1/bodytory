@@ -11,7 +11,7 @@ const Header = () => {
   const router = useRouter();
   const { user, isFetching } = useUser();
 
-  return isFetching ? null : !user ? (
+  return (isFetching || router.pathname.includes("/landing")) ? null : !user ? (
     <HeaderWrap>
       <HeaderContainer>
         <HeaderInnerBox>
@@ -118,8 +118,14 @@ const HeaderUl = styled.ul`
   }
   ${media.mobile} {
     width: 210px;
+    justify-content: flex-end;
     li {
       font-size: 14px;
+      margin: 0 14px;
+      &:last-child{
+        width: 43px;
+        text-align:center;
+      }
     }
   }
 `;

@@ -1,10 +1,8 @@
-import { ChangeToHoverColor, RectangleButton, RoundButton } from "@components/layout/buttons/Button";
 import { Dim, ModalContainer, ModalWrapper } from "@styles/ModalStyled";
 import { AnimatePresence } from "framer-motion";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import styled from "styled-components";
 import type { MyHospital } from "pages/users/my-hospital";
-import { theme } from "@styles/theme";
 import usePortal from "@hooks/usePortal";
 import Link from "next/link";
 import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
@@ -14,7 +12,7 @@ interface MyHospitalModalProps {
   onClose?: () => void;
 }
 
-const MyHospitalModal = ({ show, hospitals,  onClose }: MyHospitalModalProps) => {
+const MyHospitalModal = ({ show, hospitals, onClose }: MyHospitalModalProps) => {
   const Portal = usePortal();
   const modalContent = (
     <AnimatePresence>
@@ -34,11 +32,13 @@ const MyHospitalModal = ({ show, hospitals,  onClose }: MyHospitalModalProps) =>
                 <DetailBox>
                   <Title>홈페이지</Title>
                   <Text>
-                    {hospitals?.homepage ?
-                    <Link href={String(hospitals?.homepage)} target="blank">
-                      {hospitals?.homepage}
-                    </Link>
-                    : "-"}
+                    {hospitals?.homepage ? (
+                      <Link href={String(hospitals?.homepage)} target="blank">
+                        {hospitals?.homepage}
+                      </Link>
+                    ) : (
+                      "-"
+                    )}
                   </Text>
                 </DetailBox>
                 <DetailBox>
@@ -72,12 +72,7 @@ const MyHospitalModal = ({ show, hospitals,  onClose }: MyHospitalModalProps) =>
               </Map>
             </ContentContainer>
             <CloseBox>
-              <RoundedDefaultButton
-                sm
-                color="rgb(93,107,178)"
-                bgColor="rgb(197,205,251)"
-                onClick={onClose}
-              >
+              <RoundedDefaultButton sm color="rgb(93,107,178)" bgColor="rgb(197,205,251)" onClick={onClose}>
                 닫기
               </RoundedDefaultButton>
             </CloseBox>
@@ -86,7 +81,7 @@ const MyHospitalModal = ({ show, hospitals,  onClose }: MyHospitalModalProps) =>
       )}
     </AnimatePresence>
   );
-return Portal({ children: modalContent });
+  return Portal({ children: modalContent });
 };
 
 export default MyHospitalModal;
@@ -102,13 +97,6 @@ const ModalBox = styled(ModalContainer)`
   text-align: center;
 `;
 
-const ShareStatusBox = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 70px;
-  background-color: ${theme.color.lightBg};
-`;
 
 const ModalTitle = styled.div`
   padding: 20px;
@@ -154,7 +142,7 @@ const Title = styled.span`
   color: #5359e9;
 `;
 const Text = styled.span`
-  a:hover{
+  a:hover {
     text-decoration: underline;
   }
 `;

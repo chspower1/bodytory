@@ -85,7 +85,7 @@ const RegisterPage: NextPage = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1, transition: { duration: 0.6, ease: "easeOut", delay: 0.2 } }}
       >
-        <ToryWhiteAnim toryMotionIdx={0} width={480} />
+        {/* <ToryWhiteAnim toryMotionIdx={0} width={480} /> */}
       </ToryMotion>
     </>
   );

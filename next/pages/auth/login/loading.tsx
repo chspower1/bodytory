@@ -52,7 +52,7 @@ const Loading: NextPage = () => {
         <LoadingDot />
       </div>
       <ButtonBox>
-        <NaverLoginBtn mutate={mutate} size={"sm"} kind={"login"} />
+        <NaverLoginBtn mutate={mutate} kind={"login"} />
       </ButtonBox>
     </LoadingBox>
   );

@@ -1,4 +1,3 @@
-import { CircleButton } from "@components/layout/buttons/Button";
 import EventMarkerContainer from "@components/map/Maker";
 import MapDetailModal from "@components/modals/map/MapDetailModal";
 import { Box, Container, ToryText } from "@styles/Common";
@@ -45,7 +44,6 @@ interface SearchHospitalRequest {
 type AroundMapHospitalsResponse = AroundMapHospital[];
 
 const ArroundMap = ({ width, height, latitude, longitude, departmentList, isAll }: ArroundMapProps) => {
-
   const { department, DepartmentSelect } = useDepartmentSelect(departmentList ? departmentList : [], isAll);
 
   const [clickIndex, setClickIndex] = useState(-1);
@@ -122,23 +120,21 @@ const ArroundMap = ({ width, height, latitude, longitude, departmentList, isAll 
           <MoveToMeBtn onClick={handleClickReset}>
             <i />
           </MoveToMeBtn>
-          {
-            centerChange && (
-              <SearchHereBtn
-                onClick={() => {
-                  mutate({
-                    minLatitude: mapRef.current?.getBounds().getSouthWest().getLat()!,
-                    minLongitude: mapRef.current?.getBounds().getSouthWest().getLng()!,
-                    maxLatitude: mapRef.current?.getBounds().getNorthEast().getLat()!,
-                    maxLongitude: mapRef.current?.getBounds().getNorthEast().getLng()!,
-                  });
-                  setCenterChange(false);
-                }}
-              >
-                <MagnifierIcon width={20} height={20} fill="white" /> 현 지도에서 병원 검색
-              </SearchHereBtn>
-            )
-          }
+          {centerChange && (
+            <SearchHereBtn
+              onClick={() => {
+                mutate({
+                  minLatitude: mapRef.current?.getBounds().getSouthWest().getLat()!,
+                  minLongitude: mapRef.current?.getBounds().getSouthWest().getLng()!,
+                  maxLatitude: mapRef.current?.getBounds().getNorthEast().getLat()!,
+                  maxLongitude: mapRef.current?.getBounds().getNorthEast().getLng()!,
+                });
+                setCenterChange(false);
+              }}
+            >
+              <MagnifierIcon width={20} height={20} fill="white" /> 현 지도에서 병원 검색
+            </SearchHereBtn>
+          )}
           <Map
             center={{
               lat: coords.latitude!,
@@ -205,17 +201,14 @@ const ControlBox = styled(Box)`
   top: 20px;
   right: 20px;
   z-index: 5;
-  background: rgba(255,255,255, .5);
+  background: rgba(255, 255, 255, 0.5);
   padding: 10px 15px;
   border-radius: 10px;
   box-shadow: 8px 8px 24px rgb(49 54 167 / 20%);
+  transition: background .3s;
 
-  select {
-    border-radius: 20px;
-
-    option {
-      border: 0;
-    }
+  &:hover {
+    background: rgba(255,255,255, .9);
   }
 `;
 
@@ -230,7 +223,7 @@ const MoveToMeBtn = styled.button`
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background: ${({ theme }) => theme.color.error } url(${UserIcon.src}) no-repeat 50% 50%/ 60%;
+  background: ${({ theme }) => theme.color.error} url(${UserIcon.src}) no-repeat 50% 50%/ 60%;
   z-index: 5;
   box-shadow: 8px 8px 24px rgb(49 54 167 / 40%);
 
@@ -240,16 +233,16 @@ const MoveToMeBtn = styled.button`
     top: 50%;
     left: 0px;
     width: 80px;
-    transform: translate(-100%, -50%); 
+    transform: translate(-100%, -50%);
     font-size: 14px;
     font-weight: 500;
-    background: rgba(74, 82, 92, .9);
-    color: ${({ theme }) => theme.color.white };
+    background: rgba(74, 82, 92, 0.9);
+    color: ${({ theme }) => theme.color.white};
     padding: 10px;
     border-radius: 30px;
     opacity: 0;
     pointer-events: none;
-    transition: left .4s, opacity .4s;
+    transition: left 0.4s, opacity 0.4s;
   }
 
   &:hover {
@@ -265,23 +258,23 @@ const SearchHereBtn = styled.button`
   bottom: 20px;
   left: 50%;
   transform: translate(-50%, 0);
-  background: #6268FB;
+  background: #6268fb;
   font-size: 16px;
-  color: ${({ theme }) => theme.color.white };
+  color: ${({ theme }) => theme.color.white};
   display: flex;
   align-items: center;
   padding: 14px 20px;
   border-radius: 50px;
   z-index: 5;
   box-shadow: 8px 8px 24px rgb(49 54 167 / 40%);
-  transition: background .3s;
+  transition: background 0.3s;
 
   svg {
     margin-right: 14px;
   }
 
   &:hover {
-    background: #4B50D3;
+    background: #4b50d3;
   }
 `;
 

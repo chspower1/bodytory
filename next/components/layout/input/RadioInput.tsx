@@ -1,3 +1,4 @@
+import { media } from "@styles/theme";
 import React from "react";
 import { FieldError, UseFormRegisterReturn } from "react-hook-form";
 import styled from "styled-components";
@@ -36,6 +37,11 @@ const InputBox = styled.div`
   &.error {
     border: 2px solid ${({ theme }) => theme.color.error};
   }
+  ${media.mobile}{
+    width: 50px;
+    height: 50px;
+    font-size: 14px;
+  }
 `;
 const Input = styled.input`
   position: absolute;
@@ -57,5 +63,4 @@ const Label = styled.label`
   cursor: pointer;
   color: rgba(255, 255, 255, 0.5);
 
-  /* font-size: 100px; */
 `;

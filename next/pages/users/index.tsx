@@ -10,7 +10,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import useUser from "@hooks/useUser";
 import { FlexContainer, InnerContainer } from "@styles/Common";
 import styled, { css } from "styled-components";
-import { theme } from "@styles/theme";
+import { media, theme } from "@styles/theme";
 import Naver from "@src/assets/icons/naver.svg";
 import Kakao from "@src/assets/icons/kakao.svg";
 import Origin from "@src/assets/icons/origin.svg";
@@ -255,6 +255,14 @@ const EmailInputBox = styled(SeperationBox)`
   clear: both;
   display: flex;
   justify-content: center;
+  ${media.mobile} {
+    > div{
+      height: 62px; 
+      input{
+        font-size: 18px;
+      }
+    }
+  }
 `;
 
 const WithdrawBox = styled.div`

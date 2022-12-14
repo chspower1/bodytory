@@ -1,12 +1,10 @@
-import { theme } from "@styles/theme";
-import React, { ReactNode, useEffect, useRef, useState } from "react";
+import { media, theme } from "@styles/theme";
+import React, { ReactNode } from "react";
 import ReactDOM from "react-dom";
-import styled, { css, keyframes } from "styled-components";
-import { RoundButton } from "../layout/buttons/Button";
-import { AnimatePresence, motion } from "framer-motion";
+import styled, { css } from "styled-components";
+import { AnimatePresence } from "framer-motion";
 import { Dim, ModalContainer, ModalWrapper } from "@styles/ModalStyled";
 import usePortal from "@hooks/usePortal";
-import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 import { ModalButton } from "./RecordModal";
 
 interface ModalProps {
@@ -34,7 +32,6 @@ function Modal({
   title = "알림",
   agreeType = false,
   terms = false,
-
 }: ModalProps) {
   const Portal = usePortal();
   const modalContent = (
@@ -70,7 +67,7 @@ const ConfirmBtnBox = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 30px;
-  gap : 40px;
+  gap: 40px;
 `;
 
 const ModalBox = styled(ModalContainer)`
@@ -78,6 +75,9 @@ const ModalBox = styled(ModalContainer)`
   padding: 20px;
   border-radius: 10px;
   text-align: center;
+  ${media.custom(730)}{
+    width: 90%;
+  }
 `;
 
 const ModalTitle = styled.div`

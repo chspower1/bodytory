@@ -1,7 +1,7 @@
 import useIO from "@hooks/useIO";
 import { Hospital } from "@prisma/client";
 import { Container, FlexContainer } from "@styles/Common";
-import { theme } from "@styles/theme";
+import { media, theme } from "@styles/theme";
 import { MutationCache, QueryCache, useQuery, useQueryClient } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
 import axios from "axios";
@@ -9,7 +9,6 @@ import { MyHospital, MyHospitalResponse } from "pages/users/my-hospital";
 import { LegacyRef, MouseEvent, useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import styled, { css } from "styled-components";
-import { RoundButton } from "../layout/buttons/Button";
 import HospitalContent from "../my-hospital/HospitalContent";
 import Input from "../layout/input/Input";
 import ListSkeleton from "../skeletonUI/ListSkeleton";
@@ -41,7 +40,7 @@ const SearchHospitalList = () => {
   const { data, isLoading, refetch, isFetching } = useQuery<SearchHospitalListResponse>(
     ["hospitals", searchWord, page],
     getApi,
-    { enabled: Boolean(searchWord) && !hasLastPage },
+    { enabled: searchWord !== "" && !hasLastPage },
   );
 
   const onValid = useCallback(async (searchForm: SearchForm) => {
@@ -56,6 +55,9 @@ const SearchHospitalList = () => {
   };
   const { setTarget } = useIO(hasLastPage, ioCallback);
 
+  useEffect(() => {
+    console.log(hasLastPage);
+  }, [hasLastPage]);
   useEffect(() => {
     refetch();
   }, [page]);
@@ -129,14 +131,26 @@ export default SearchHospitalList;
 const SearchButton = styled(RoundedDefaultButton)`
   height: 60px;
   padding: 0 50px;
+  ${media.custom(1440)} {
+    width: 100px;
+    font-size: 16px;
+    padding: 5px;
+    margin-left: 20px;
+  }
+  ${media.mobile} {
+    position: absolute;
+    right: 10px;
+    height: 40px;
+    width: 50px;
+    font-size: 14px;
+    border-radius: 10px;
+  }
 `;
 
-export const SearchContainer = styled(FlexContainer)`
+export const SearchContainer = styled.div`
   position: relative;
-  width: 1500px;
-  height: 800px;
-  flex-direction: column;
-  justify-content: flex-start;
+  max-width: 1600px;
+  width: 100%;
 `;
 const NoneMessage = styled.div`
   text-align: center;
@@ -146,6 +160,7 @@ const NoneMessage = styled.div`
   transform: translateY(-50%) translateX(-50%);
   font-size: 30px;
   color: ${theme.color.darkBg};
+  word-break: keep-all;
 `;
 const SearchForm = styled.form`
   display: flex;
@@ -161,6 +176,12 @@ const SearchBox = styled.div`
   align-items: center;
   width: 60%;
   margin: 0 auto;
+  ${media.custom(1440)} {
+    width: 80%;
+  }
+  ${media.mobile} {
+    width: 90%;
+  }
 `;
 const InnerContainer = styled.div<{ add: boolean }>`
   width: 100%;
@@ -169,25 +190,38 @@ const InnerContainer = styled.div<{ add: boolean }>`
   padding: 30px 0 0;
   position: relative;
   &::-webkit-scrollbar-track {
-    margin: 30px 0;
+    margin: 30px 0 0;
+  }
+  ${media.mobile} {
+    width: 100%;
+    height: 100%;
+    padding: 10px;
   }
 `;
 
 const HospitalContainer = styled.div<{ add: boolean }>`
-  width: 1600px;
+  width: 100%;
   height: 540px;
   background-color: ${prop => (prop.add ? "#f2f3ff" : "#d9deff")};
   border-radius: 40px;
   padding: 0 30px 0;
-  margin-top: 20px;
+  margin-top: 10px;
   background: rgba(231, 232, 255, 0.5);
   transition: background 0.3s;
+  ${media.custom(1440)} {
+    width: 100%;
+    padding: 10px;
+  }
 `;
 
 const HospitalLists = styled.ul`
-  width: 1500px;
+  max-width: 1500px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: 0 auto;
+  ${media.custom(1440)} {
+    width: auto;
+  }
 `;
