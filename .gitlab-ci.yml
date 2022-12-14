@@ -43,7 +43,7 @@ deploy:
     - echo -e "\nNEXT_PUBLIC_IMG_URL="$NEXT_IMG >> .env
     - cp .env /builds/ai_track/class05/ai_project/team01/team01/next
   script:
-    - clear-docker-cache 
     - docker-compose up -d --build
     - docker image prune -f
     - docker images
+    - clear-docker-cache 
