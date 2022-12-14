@@ -6,8 +6,10 @@ import { bodyPartType } from "../../../../types/bodyParts";
 import { useSetRecoilState } from "recoil";
 import { currentBodyPosition } from "atoms/atoms";
 import { motion } from "framer-motion";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
+import { GetServerSidePropsContext, NextPage } from "next";
 
-export default function WritePage() {
+const WritePage: NextPage = () => {
   const [selectedBodyPart, setSelectedBodyPart] = useState<bodyPartType>(null);
   const setCurrentPosition = useSetRecoilState(currentBodyPosition);
 
@@ -17,24 +19,33 @@ export default function WritePage() {
 
   return (
     <RecordContainer>
-      <BodyPartCheckerArea 
+      <BodyPartCheckerArea
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 1, type: "tween", ease: "easeOut"}}
+        transition={{ duration: 1, type: "tween", ease: "easeOut" }}
       >
         <BodyPartChecker selectedBodyPart={selectedBodyPart} />
       </BodyPartCheckerArea>
       <BodyNavigatorArea
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 1, type: "tween", ease: "easeOut", delay: .4 }}
+        transition={{ duration: 1, type: "tween", ease: "easeOut", delay: 0.4 }}
       >
-        <BodyNavigator selectedBodyPart={selectedBodyPart} setSelectedBodyPart={setSelectedBodyPart} isWritePage={true} />
+        <BodyNavigator
+          selectedBodyPart={selectedBodyPart}
+          setSelectedBodyPart={setSelectedBodyPart}
+          isWritePage={true}
+        />
       </BodyNavigatorArea>
     </RecordContainer>
   );
-}
-
+};
+export default WritePage;
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});
 const RecordContainer = styled.div`
   padding: 50px;
   width: 100vw;

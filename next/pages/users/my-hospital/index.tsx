@@ -12,6 +12,8 @@ import { Hospital, MedicalDepartment } from "@prisma/client";
 import MyHospitalList from "@components/my-hospital/MyHospitalList";
 import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 import ToryPurpleAnim from "@components/lotties/ToryPurpleAnim";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
+import { GetServerSidePropsContext } from "next";
 
 export interface MyHospitalResponse {
   hospital: MyHospital;
@@ -62,7 +64,11 @@ const MyHospitalPage = () => {
 };
 
 export default MyHospitalPage;
-
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});
 export const MainContainer = styled.div`
   height: 100%;
   display: flex;

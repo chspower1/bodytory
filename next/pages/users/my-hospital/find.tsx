@@ -9,6 +9,8 @@ import Link from "next/link";
 import SearchHospitalList from "@components/search/SearchHospitalList";
 import SearchHospitalMap from "@components/search/SearchHospitalMap";
 import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
+import { GetServerSidePropsContext } from "next";
 
 type PageCategory = "search" | "map";
 const FindHospital = () => {
@@ -59,7 +61,11 @@ const FindHospital = () => {
 };
 
 export default FindHospital;
-
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});
 const SearchModeTogleButton = styled(RoundedDefaultButton)`
   padding: 12px 50px;
 `;

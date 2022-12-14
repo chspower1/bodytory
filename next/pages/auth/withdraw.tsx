@@ -11,7 +11,7 @@ import Input from "@components/layout/input/Input";
 import styled from "styled-components";
 import { PASSWORD_REGEX } from "constant/regex";
 import useUser from "@hooks/useUser";
-import { EditButton } from "pages/users/profile/edit";
+import { EditButton } from "pages/users";
 import { GetServerSidePropsContext, NextPage } from "next";
 import withGetServerSideProps from "@utils/client/withGetServerSideProps";
 

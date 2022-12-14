@@ -28,6 +28,8 @@ import { useForm } from "react-hook-form";
 import Modal from "@components/modals/Modal";
 import ToryPurpleAnim from "@components/lotties/ToryPurpleAnim";
 import { CircleDefaultButton } from "@components/layout/buttons/DefaultButtons";
+import { GetServerSidePropsContext, NextPage } from "next";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
 
 interface WriteRecordRequest {
   position: string;
@@ -37,7 +39,7 @@ interface WriteForm {
   description: string;
 }
 type RecordStatus = "initial" | "finish" | "listening" | "loading" | "error";
-const PositionPage = () => {
+const PositionPage: NextPage = () => {
   const router = useRouter();
   const position = router.query.position as Position;
   const {
@@ -223,7 +225,11 @@ const PositionPage = () => {
 };
 
 export default PositionPage;
-
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});
 const CircleButton = styled(CircleDefaultButton)`
   width: 46px;
   height: 46px;

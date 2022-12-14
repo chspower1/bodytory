@@ -3,11 +3,13 @@ import { PositionTextBox } from "@components/records/BodyPartChecker";
 import { Position } from "@prisma/client";
 import { FlexContainer } from "@styles/Common";
 import { theme } from "@styles/theme";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
+import { GetServerSidePropsContext, NextPage } from "next";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import { KoreanPosition } from "types/write";
 
-const AddPage = () => {
+const AddPage: NextPage = () => {
   const router = useRouter();
   const position = router.query.position as Position;
   return (
@@ -33,7 +35,11 @@ const AddPage = () => {
   );
 };
 export default AddPage;
-
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});
 const RoundButton = styled(RoundedDefaultButton)`
   padding: 21px 50px;
 `;
