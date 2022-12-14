@@ -71,11 +71,19 @@ const RecordContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  ${media.custom(1280)} {
+    padding: 50px 20px;
+  }
 `;
 
 const BodyPartCheckerArea = styled(motion.div)`
   width: 55%;
   max-width: 1200px;
+
+  ${media.custom(1280)} {
+    width: 100%;
+  }
 `;
 
 const MobBodyNavigatorArea = styled.div<{ isSelect: boolean }>`
@@ -87,14 +95,18 @@ const MobBodyNavigatorArea = styled.div<{ isSelect: boolean }>`
   bottom: 0;
   height: 90%;
   width: 88%;
+  border-bottom: none;
+  border-radius: 30px 30px 0 0;
   transform: translate(-50%, 100%);
   transition: transform 0.8s;
+
+
   ${({ isSelect }) =>
     isSelect &&
     css`
       transform: translate(-50%, 0%);
     `}
-  ${media.custom(1366)} {
+  ${media.custom(1280)} {
     display: block;
   }
 `;
@@ -102,7 +114,7 @@ const MobBodyNavigatorArea = styled.div<{ isSelect: boolean }>`
 const BodyNavigatorArea = styled(motion.div)`
   width: 45%;
   max-width: 820px;
-  ${media.custom(1366)} {
+  ${media.custom(1280)} {
     display: none;
   }
 `;
@@ -114,10 +126,10 @@ const EnterNavigatorButton = styled.button<{ isSelect: boolean }>`
   transform: translateX(-50%);
   width: 80px;
   height: 80px;
-  background-color: ${({ theme }) => theme.color.darkBg};
+  background-color: ${({ theme }) => theme.color.mintBtn};
   border-radius: 50%;
   z-index: 5;
-  box-shadow: 8px 8px 18px rgba(3, 231, 203, 0.25);
+  box-shadow: 0 -4px 10px 5px rgba(115, 240, 233, 0.3);
   justify-content:center;
   i{
     width:30px;
@@ -127,7 +139,7 @@ const EnterNavigatorButton = styled.button<{ isSelect: boolean }>`
     transform: rotate(-90deg);
     margin-top: 5px;
   }
-  ${media.custom(1366)} {
+  ${media.custom(1280)} {
     display:flex;
     ${({ isSelect }) =>
       isSelect &&

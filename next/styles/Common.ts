@@ -10,8 +10,7 @@ export const Wrapper = styled.div<{ bgColor?: string }>`
   overflow: hidden;
   background-color: ${props => props.bgColor};
   ${media.tablet} {
-    overflow-y: auto;
-    overflow-y: auto;
+    // overflow-y: auto;
   }
 `;
 
@@ -119,6 +118,7 @@ export const BackButton = styled.button`
   background: #5155ba url(${IconArrowLeft.src}) no-repeat 10px 50%/26px;
   overflow: hidden;
   transition: width 0.4s;
+  z-index: 10;
 
   span {
     display: block;

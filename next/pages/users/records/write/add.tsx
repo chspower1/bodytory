@@ -88,12 +88,6 @@ export const ToryText = styled.div`
   ${media.custom(1280)} {
     font-size: 30px;
   }
-  ${media.custom(980)} {
-    font-size: 22px;
-  }
-  ${media.mobile} {
-    font-size: 18px;
-  }
 
   ${media.tablet} {
     font-size: 26px;
