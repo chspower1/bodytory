@@ -72,19 +72,22 @@ const InnerContainer = styled(Box)<{ add: boolean }>`
 `;
 
 const HospitalContainer = styled.div<{ add: boolean }>`
-  width: 1600px;
+  max-width: 1600px;
+  width: 100%;
   height: 600px;
   background-color: ${prop => (prop.add ? "#f2f3ff" : "#d9deff")};
   border-radius: 40px;
   padding: 0 30px 30px;
   ${media.mobile} {
     width: 100%;
+    height: calc(100% - 300px);
     padding: 10px;
   }
 `;
 
 const HospitalLists = styled.ul`
-  width: 1500px;
+  max-width: 1500px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -155,6 +155,10 @@ export default HospitalContent;
 const ShowMedicalDetailButton = styled(RectangleDefaultButton)`
   width: 120px;
   font-size: 16px;
+  ${media.mobile} {
+    font-size: 12px;
+    width: 80px;
+  }
 `;
 
 const AddButtonBox = styled.div`
@@ -170,6 +174,11 @@ const AddButtonBox = styled.div`
     font-weight: 600;
     color: ${({ theme }) => theme.color.input};
   }
+  ${media.mobile} {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+  }
 `;
 
 export const DeleteBtnBox = styled.div`
@@ -179,8 +188,8 @@ export const DeleteBtnBox = styled.div`
   transform: translateY(-50%);
   width: 40px;
   height: 40px;
-  ${media.mobile} {
-    top: 78%;
+  ${media.custom(1366)} {
+    top: 76%;
   }
 `;
 
@@ -204,8 +213,9 @@ const NameText = styled(Text)`
   }
   ${media.mobile} {
     font-size: 14px;
-    mix-width: 100px;
-    width: 80%;
+    display: block;
+    min-width: 100px;
+    width: 50%;
   }
 `;
 
@@ -241,7 +251,7 @@ export const ShareStatus = styled(Text)<{ status: boolean }>`
     top: 25%;
     left: 0;
   }
-  ${media.mobile} {
+  ${media.custom(1366)} {
     text-indent: -9999px;
     margin-right: 10px;
     &::after {
@@ -264,6 +274,8 @@ const HospitalInforBox = styled.div`
     margin-right: 40px;
     flex-direction: column;
     row-gap: 15px;
+  }
+  ${media.mobile} {
   }
 `;
 
@@ -290,6 +302,9 @@ const HospitalInforContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  ${media.mobile} {
+    display: block;
+  }
 `;
 
 const HospitalPlaceBox = styled.div<{ add?: boolean }>`
@@ -302,6 +317,10 @@ const HospitalDescriptionBox = styled.div<{ add?: boolean }>`
   display: flex;
   align-items: center;
   width: ${props => (props.add ? "400px" : "270px")};
+  ${media.mobile} {
+    display: block;
+    width: 100%;
+  }
 `;
 
 export const HospitalStatusBox = styled.div`
@@ -311,11 +330,11 @@ export const HospitalStatusBox = styled.div`
   width: 280px;
   margin-right: 90px;
   justify-content: space-between;
-  ${media.mobile} {
+  ${media.custom(1366)} {
     position: absolute;
     right: -70px;
-    width: 130px;
-    top: 10px;
+    width: 110px;
+    top: 15px;
   }
 `;
 
@@ -326,4 +345,8 @@ const Department = styled(Box)`
   border-radius: 5px;
   height: 32px;
   margin-left: 20px;
+  ${media.mobile} {
+    width: 150px;
+    margin-left: 0;
+  }
 `;

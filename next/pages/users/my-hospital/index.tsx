@@ -45,7 +45,7 @@ const MyHospitalPage = () => {
           </ToryMotion>
           <Pragraph>
             <HighlightText>{user.name}님</HighlightText>의 기록을 공유받고 있는 병원 목록이에요
-            <br /> 병원을 클릭하면 해당 병원에서의 진료내역을 확인할 수 있어요
+            <br /> 진료내역도 확인할 수 있어요
           </Pragraph>
         </DescriptionBox>
         <ButtonBox>
@@ -64,6 +64,16 @@ const MyHospitalPage = () => {
 export default MyHospitalPage;
 const AddHospitalButton = styled(RoundedDefaultButton)`
   padding: 15px 50px;
+  ${media.mobile} {
+    width: 200px;
+    padding: 10px;
+    font-size: 12px;
+    svg,
+    img {
+      width: 15px;
+      height: 15px;
+    }
+  }
 `;
 
 export const MainContainer = styled.div`
@@ -75,6 +85,12 @@ export const MainContainer = styled.div`
 export const MainInnerContainer = styled.div`
   width: 1600px;
   margin: auto;
+  ${media.custom(1440)} {
+    padding: 0 100px;
+  }
+  ${media.tablet} {
+    padding: 20px;
+  }
   ${media.mobile} {
     width: 100%;
     height: 100%;
@@ -87,8 +103,21 @@ export const Pragraph = styled.p`
   strong {
     font-weight: 700;
   }
+  ${media.custom(1130)} {
+    width: auto;
+    display: block;
+    max-height: 150px;
+    font-size: 20px;
+  }
+  ${media.tablet} {
+    font-size: 18px;
+  }
   ${media.mobile} {
     font-size: 11px;
+    width: auto;
+    display: block;
+    position: absolute;
+    left: 0;
   }
 `;
 export const HighlightText = styled.span`
@@ -103,8 +132,8 @@ export const DescriptionBox = styled.div`
   height: 200px;
   text-align: left;
   padding: 50px 50px 50px 180px;
-  ${media.mobile} {
-    padding: 80px 50px 50px 130px;
+  ${media.tablet} {
+    padding: 80px 50px 50px;
   }
 `;
 
@@ -128,4 +157,8 @@ const ToryMotion = styled.div`
   width: 120px;
   height: 120px;
   margin-right: 30px;
+  ${media.mobile} {
+    top: -10px;
+    left: -80px;
+  }
 `;

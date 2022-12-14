@@ -59,8 +59,8 @@ export const RoundedDefaultButton = styled.button<{
       padding: 12px 0;
       ${media.mobile} {
         font-size: 12px;
-        padding: 8px 0;
-        width: 80px;
+        padding: 10px 0;
+        width: 90px;
       }
     `}
   ${({ disable, theme }) =>

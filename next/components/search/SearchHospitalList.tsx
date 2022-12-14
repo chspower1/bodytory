@@ -1,7 +1,7 @@
 import useIO from "@hooks/useIO";
 import { Hospital } from "@prisma/client";
 import { Container, FlexContainer } from "@styles/Common";
-import { theme } from "@styles/theme";
+import { media, theme } from "@styles/theme";
 import { MutationCache, QueryCache, useQuery, useQueryClient } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
 import axios from "axios";
@@ -40,7 +40,7 @@ const SearchHospitalList = () => {
   const { data, isLoading, refetch, isFetching } = useQuery<SearchHospitalListResponse>(
     ["hospitals", searchWord, page],
     getApi,
-    { enabled: Boolean(searchWord) && !hasLastPage },
+    { enabled: searchWord !== "" && !hasLastPage },
   );
 
   const onValid = useCallback(async (searchForm: SearchForm) => {
@@ -55,6 +55,9 @@ const SearchHospitalList = () => {
   };
   const { setTarget } = useIO(hasLastPage, ioCallback);
 
+  useEffect(() => {
+    console.log(hasLastPage);
+  }, [hasLastPage]);
   useEffect(() => {
     refetch();
   }, [page]);
@@ -166,7 +169,12 @@ const InnerContainer = styled.div<{ add: boolean }>`
   padding: 30px 0 0;
   position: relative;
   &::-webkit-scrollbar-track {
-    margin: 30px 0;
+    margin: 30px 0 0;
+  }
+  ${media.mobile} {
+    width: 100%;
+    height: 100%;
+    padding: 10px;
   }
 `;
 
@@ -187,4 +195,8 @@ const HospitalLists = styled.ul`
   flex-direction: column;
   align-items: center;
   margin: 0 auto;
+  ${media.mobile} {
+    width: 100%;
+    align-items: start;
+  }
 `;
