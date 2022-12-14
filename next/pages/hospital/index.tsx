@@ -10,8 +10,8 @@ import { currentPatientInfo, loggedInHospital } from "atoms/atoms";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 import { useRouter } from "next/router";
-import { DescriptionBox, Pragraph } from "pages/users/my-hospital";
-import { ToriBox, ToryIcon } from "pages/users/my-hospital/clinic-list";
+import { DescriptionBox, HighlightText, Pragraph } from "pages/users/my-hospital";
+import { ToriBox } from "pages/users/my-hospital/clinic-list";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRecoilValue, useSetRecoilState } from "recoil";
@@ -93,12 +93,12 @@ const HospitalHomePage = () => {
       <HospitalContainer>
         <PageHead>
           <ToriBox>
-            <ToryIcon />
+            {/* <ToryIcon /> */}
           </ToriBox>
           <DescriptionBox>
-            <Pragraph>{format(new Date(), "yyyy년 MM월 dd일", { locale: ko })}</Pragraph>
+            <Pragraph><strong>{format(new Date(), "yyyy년 MM월 dd일", { locale: ko })}</strong></Pragraph>
             <Pragraph>
-              <strong>{currentHospital}</strong> 환자 목록이에요
+              오늘 <HighlightText>{currentHospital}</HighlightText>에 내원예정인 환자 목록이에요
             </Pragraph>
           </DescriptionBox>
         </PageHead>
@@ -186,7 +186,6 @@ const HospitalWrapper = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
-  background: #fff;
 `;
 
 const PageHead = styled(Container)`
@@ -214,6 +213,7 @@ const ListCol = styled.div`
   display: flex;
   align-items: center;
   font-size: 15px;
+  color: #888DBB;
   justify-content: space-between;
   > div:first-child {
     flex-shrink: 0;
@@ -236,7 +236,7 @@ const ListLi = styled.li`
   align-items: center;
   font-size: 16px;
   justify-content: space-between;
-  background: ${({ theme }) => theme.color.lightBg};
+  background: #E1E4FF;
   border-radius: 10px;
   > div:first-child {
     flex-shrink: 0;

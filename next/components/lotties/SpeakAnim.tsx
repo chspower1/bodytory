@@ -1,15 +1,11 @@
-import lottie, { AnimationItem, AnimationSegment, LottiePlayer } from "lottie-web";
+import { AnimationItem, AnimationSegment, LottiePlayer } from "lottie-web";
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
+import { LottieAnimProps } from "types/lottieProps";
 
-interface ToryAnimProps {
-  listeningMotionIdx: number;
-  width: number;
-}
-
-const ListeningAnim = ({ listeningMotionIdx, width }: ToryAnimProps) => {
+const SpeakAnim = ({ segmentIndex, width, delay, play }: LottieAnimProps) => {
   const [ready, setReady] = useState<boolean>(false);
-  const [listening, setListening] = useState<AnimationItem>();
+  const [speaking, setSpeaking] = useState<AnimationItem>();
   const [lottie, setLottie] = useState<LottiePlayer | null>(null);
 
   const lottieRef = useRef<any>();
@@ -25,18 +21,25 @@ const ListeningAnim = ({ listeningMotionIdx, width }: ToryAnimProps) => {
 
   useEffect(() => {
     if (lottie && lottieRef.current) {
-      setListening(
+      setSpeaking(
         lottie.loadAnimation({
           container: lottieRef.current,
           renderer: "svg",
           loop: true,
           autoplay: false,
-          path: "/static/lottie/listening.json",
+          path: "/static/lottie/speaking.json",
+          initialSegment: frameSegments[segmentIndex]
         }),
       );
     }
 
-    setReady(true);
+    if (delay) {
+      setTimeout(() => {
+        setReady(true);
+      }, delay);
+    } else {
+      setReady(true);
+    }
 
     return () => {
       lottie && lottie.destroy();
@@ -44,12 +47,17 @@ const ListeningAnim = ({ listeningMotionIdx, width }: ToryAnimProps) => {
   }, [lottie]);
 
   useEffect(() => {
-    if (listening) {
-      listening.playSegments(frameSegments[listeningMotionIdx], true);
+    if (speaking && ready) {
+      if(play) {
+        speaking.setSpeed(1.4);
+        speaking.playSegments(frameSegments[1], false);
+      } else {
+        speaking.pause();
+      }
+
     }
 
-    console.log(listeningMotionIdx);
-  }, [ready, listeningMotionIdx, listening]);
+  }, [ready, segmentIndex, speaking, play]);
 
   return <LottieElem ref={lottieRef} width={width} />;
 };
@@ -58,4 +66,4 @@ const LottieElem = styled.div<{ width: number }>`
   width: ${({ width }) => width}px;
 `;
 
-export default ListeningAnim;
+export default SpeakAnim;
