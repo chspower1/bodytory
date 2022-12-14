@@ -33,7 +33,7 @@ export default function LendingPage() {
       setTimeout(() => {
         setIsFrist(true);
         setToryMotionIdx(5);
-      }, 2700);
+      }, 2200);
     }, 2700);
     return () => {
       clearTimeout(timer);
