@@ -5,7 +5,7 @@ import { withApiSession } from "@utils/server/withSession";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { user } = req.session;
-  if (!user) return res.status(200).send("유저 정보가 없습니다");
+  if (!user) return res.status(404).send("유저 정보가 없습니다");
   const foundUser = await client.user.findFirst({
     where: {
       id: user?.id,
