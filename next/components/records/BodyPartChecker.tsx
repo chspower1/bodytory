@@ -100,6 +100,9 @@ export const ToryBox = styled(Box)`
 
 export const TextBox = styled(Box)`
   margin-bottom: 90px;
+  ${media.mobile}{
+    margin-bottom: 50px;
+  }
 `;
 export const CreateBtnBox = styled(BtnBox)`
   height: 60px;

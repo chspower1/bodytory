@@ -19,6 +19,7 @@ import { ModalContainer, ModalWrapper, Dim } from "@styles/ModalStyled";
 import { changeDate } from "@utils/client/changeDate";
 import usePortal from "@hooks/usePortal";
 import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
+import { media } from "@styles/theme";
 export interface RecordWithImage extends Record {
   images: RecordImage[];
 }
@@ -30,8 +31,9 @@ interface RecordModalProps {
   record: RecordWithImageAndHospital;
   isHospital: boolean;
   onClose: () => void;
+  setShowAlertModal: React.Dispatch<React.SetStateAction<boolean>>
 }
-const RecordModal = ({ onClose, record, isHospital }: RecordModalProps) => {
+const RecordModal = ({ onClose, record, isHospital, setShowAlertModal }: RecordModalProps) => {
   const { putApi, deleteApi } = customApi("/api/users/records");
   const Portal = usePortal();
 
@@ -64,6 +66,7 @@ const RecordModal = ({ onClose, record, isHospital }: RecordModalProps) => {
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>, recordId: number) => {
     if (confirmDelete !== -1) {
       deleteMutate.mutate({ id: confirmDelete });
+      setShowAlertModal(true);
     } else {
       setConfirmDelete(recordId);
     }
@@ -174,27 +177,13 @@ export const ModalButton = styled(RoundedDefaultButton)`
 const ScrollContainer = styled.div`
   width: 100%;
   height: 100%;
-  overflow-y: auto;
-
-  &::-webkit-scrollbar {
-    width: 30px;
-  }
-  &::-webkit-scrollbar-thumb {
-    width: 10px;
-    background-color: #4449c2;
-    background-clip: content-box;
-    border: 10px solid transparent;
-    border-radius: 20px;
-  }
-  &::-webkit-scrollbar-thumb:hover {
-    background-color: #363cbf;
-    background-clip: content-box;
-    border: 10px solid transparent;
-  }
 `;
 
 const RecordDetailContainer = styled.div`
   padding: 30px 40px 60px 70px;
+  ${media.tablet}{
+    padding: 30px 20px 30px 30px;
+  }
 `;
 
 const Time = styled.div<{ byUser: boolean }>`
@@ -222,6 +211,13 @@ const Time = styled.div<{ byUser: boolean }>`
             background: #03e7cb;
           `}
   }
+  ${media.mobile}{
+    font-size: 14px;
+    &:after {
+      top: calc(8px + 6px);
+      left: calc(-10px - 8px);
+    }
+  }
 `;
 
 const EditTextBox = styled.form`
@@ -248,6 +244,10 @@ const TextArea = styled.textarea`
 
   &:focus {
     outline: 2px solid #8c9af3;
+  }
+  ${media.mobile}{
+    font-size: 14px;
+    padding: 15px 20px;
   }
 `;
 
@@ -322,6 +322,14 @@ const CircleDeleteButton = styled.button<{ recordId: number }>`
       opacity: 1;
       z-index: 1;
       transform: translate(-105%, -50%);
+    }
+  }
+  ${media.mobile}{
+    width: 30px;
+    height: 30px;
+    svg {
+      width: 16px;
+      height: 16px;
     }
   }
 `;

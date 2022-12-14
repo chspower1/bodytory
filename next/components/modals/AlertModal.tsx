@@ -1,5 +1,6 @@
 import CheckBoxInput from "@components/layout/input/CheckBoxInput";
 import usePortal from "@hooks/usePortal";
+import { media } from "@styles/theme";
 import { AnimatePresence, motion } from "framer-motion";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
@@ -65,4 +66,9 @@ const ModalWrapper = styled(motion.div)`
   border-radius: 10px;
   box-shadow: 0px  0px 24px rgba(49, 54, 167, 0.2);
   background: #fff;
+  ${media.mobile}{
+    width: 360px;
+    height: 60px;
+    z-index: 2200;
+  }
 `;
