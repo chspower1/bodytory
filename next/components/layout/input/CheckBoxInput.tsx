@@ -81,14 +81,14 @@ const InputBox = styled.div`
         height: 30px;
         margin-right: 15px;
       }
-      ${media.mobile}{
-        label {
-          font-size: 18px;
-          i {
-            width: 25px;
-            height: 25px;
-            margin-right: 10px;
-          }
+    }
+    ${media.mobile}{
+      label {
+        font-size: 20px;
+        i {
+          width: 20px;
+          height: 20px;
+          margin-right: 12px;
         }
       }
     }

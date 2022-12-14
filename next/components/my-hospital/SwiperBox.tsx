@@ -94,7 +94,7 @@ const SwiperWrap = styled(Swiper)`
   .swiper-pagination {
     position: abosolute;
     z-index: 10;
-    width: 100%;
+    width: 100vw;
     max-width: 1920px;
     height: 8px;
     top: auto;
@@ -109,7 +109,7 @@ const SwiperWrap = styled(Swiper)`
   }
 `;
 const SwiperSlideItem = styled(SwiperSlide)`
-  width: 760px;
+  max-width: 760px;
   height: 520px;
   opacity: 0.5;
   transition: opacity 0.6s;
@@ -119,12 +119,16 @@ const SwiperSlideItem = styled(SwiperSlide)`
       transform: scale(1);
     }
   }
-  ${media.tablet} {
-    width: 460px;
-    height: ;
+  ${media.custom(980)} {
+    width: 600px;
+  }
+  ${media.custom(770)} {
+    width: 500px;
+    height: 420px;
   }
   ${media.mobile} {
-    width: 280px;
+    width: 340px;
+    height: 300px;
   }
 `;
 
@@ -147,9 +151,8 @@ const ItemHeader = styled.div`
   padding: 20px 50px;
   background: ${({ theme }) => theme.color.darkBg};
   color: ${({ theme }) => theme.color.white};
-  ${media.tablet} {
-    display: block;
-    padding: 10px 20px;
+  ${media.mobile} {
+    padding: 20px 25px;
   }
 `;
 
@@ -176,11 +179,12 @@ const HospitalAddress = styled.div`
   white-space: nowrap;
   width: 100%;
   ${media.tablet} {
-    font-size: 18px;
+    font-size: 16px;
   }
   ${media.mobile} {
-    font-size: 14px;
+    font-size: 12px;
   }
+
 `;
 const ClinicListBox = styled.div`
   height: 100%;
@@ -219,7 +223,6 @@ const ClinicItem = styled.div`
   }
   ${media.mobile} {
     flex-direction: column;
-    padding: 5px;
   }
 `;
 
@@ -227,8 +230,8 @@ const ClinicDate = styled.div`
   width: 100%;
   font-size: 16px;
   ${media.mobile} {
-    font-size: 14px;
-    margin-bottom: 10px;
+    font-size: 12px;
+    text-align:center;
   }
 `;
 

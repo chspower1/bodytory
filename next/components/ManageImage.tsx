@@ -14,6 +14,7 @@ import IconAddImage from "@src/assets/icons/icon_addImage.png";
 import Delete from "@src/assets/icons/delete.png";
 import ImageDetailModal from "./modals/ImageDetailModal";
 import customApi from "@utils/client/customApi";
+import { media } from "@styles/theme";
 
 const ManageImage = ({
   recordId,
@@ -188,6 +189,11 @@ const UploadImageButton = styled.button`
   font-weight: 500;
   color: #fff;
   cursor: pointer;
+  ${media.mobile}{
+    padding: 0 15px 0 40px;
+    background: #8085fa url(${IconAddImage.src}) no-repeat 15px 55%/20px;
+    font-size: 14px;
+  }
 `;
 
 const NoImage = styled.div`
@@ -200,4 +206,7 @@ const NoImage = styled.div`
   align-items: center;
   font-size: 16px;
   color: #a9a9a9;
+  ${media.mobile}{
+    font-size: 14px;
+  }
 `;

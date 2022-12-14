@@ -1,3 +1,4 @@
+import { media } from "@styles/theme";
 import React, { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import ListeningAnim from "./lotties/SpeakAnim";
@@ -24,8 +25,11 @@ const MotionBox = styled.div<{ right?: boolean }>`
   transform: translateY(-50%);
   opacity: 0;
   transition: opacity .3s;
-
+  z-index: 1;
   &.active {
     opacity: 1;
+  }
+  ${media.mobile}{
+
   }
 `;

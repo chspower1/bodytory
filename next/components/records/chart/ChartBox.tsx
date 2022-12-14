@@ -96,7 +96,7 @@ const ChartBox = ({ index, record, clickedKeyword, patientId, position, setShowM
           </Content>
           <AnimatePresence>
             {showRecordModal === record.id && (
-              <RecordModal record={record} isHospital={Boolean(patientId)} onClose={() => setShowRecordModal(-1)} />
+              <RecordModal record={record} isHospital={Boolean(patientId)} onClose={() => setShowRecordModal(-1)} setShowAlertModal={setShowModal} />
             )}
           </AnimatePresence>
         </>

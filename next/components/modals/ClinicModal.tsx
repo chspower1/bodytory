@@ -6,6 +6,7 @@ import { AnimatePresence } from "framer-motion";
 import { Dim, ModalContainer, ModalWrapper } from "@styles/ModalStyled";
 import usePortal from "@hooks/usePortal";
 import { ModalButton } from "./RecordModal";
+import { media } from "@styles/theme";
 
 interface ClinicModalProps {
   id?: number;
@@ -85,6 +86,7 @@ export default ClinicModal;
 const ModalHead = styled.div`
   padding: 20px 60px;
   display: flex;
+  flex-wrap:wrap;
   align-items: center;
   justify-content: space-between;
   background: ${({ theme }) => theme.color.darkBg};
@@ -98,6 +100,25 @@ const ModalHead = styled.div`
     span {
       margin-right: 14px;
       font-weight: 600;
+    }
+  }
+  ${media.custom(815)}{
+    padding: 20px 40px;
+    h3 {
+      font-size: 18px;
+    }
+    p {
+      font-size: 14px;
+      span {
+        margin-right: 12px;
+      }
+    }
+  }
+  ${media.custom(440)}{
+    p {
+      span {
+        display:block;
+      }
     }
   }
 `;
@@ -125,6 +146,24 @@ const ModalContent = styled.div`
       }
     }
   }
+  ${media.custom(815)}{
+    padding: 30px 30px 20px;
+    > div {
+      display: flex;
+      justify-content: center;
+      margin: 30px 0 0;
+    }
+    ul {
+      li {
+        div + div {
+          max-height: 100px;
+          overflow-y: scroll;
+          padding: 5px 20px;
+          font-size: 14px;
+        }
+      }
+    }
+  }
 `;
 export const Subject = styled.div`
   flex-shrink: 0;
@@ -133,4 +172,10 @@ export const Subject = styled.div`
   height: 48px;
   display: flex;
   align-items: center;
+  ${media.custom(815)}{
+    height: 30px;
+    margin-right: 30px;
+    font-size: 14px;
+
+  }
 `;

@@ -58,7 +58,8 @@ export const ModalContainer = styled(motion.div).attrs({
   flex?: boolean;
 }>`
   z-index: 2000;
-  width: ${props => (props.width ? props.width : "650px")};
+  max-width: ${props => (props.width ? props.width : "650px")};
+  width: 90%;
   height: ${props => (props.height ? props.height : "350px")};
   min-width: 360px;
   background-color: white;
