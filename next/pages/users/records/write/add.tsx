@@ -61,6 +61,7 @@ export const getServerSideProps = withGetServerSideProps(async (context: GetServ
     props: {},
   };
 });
+
 const RoundButton = styled(RoundedDefaultButton)`
   padding: 21px 50px;
 `;
@@ -74,6 +75,14 @@ export const ToryText = styled.div`
 
   ${media.custom(1280)} {
     font-size: 30px;
+  }
+
+  ${media.tablet} {
+    font-size: 26px;
+  }
+
+  ${media.mobile} {
+    font-size: 22px;
   }
 
 `;
