@@ -71,6 +71,11 @@ export const RoundedDefaultButton = styled.button<{
         background: ${ChangeToHoverColor(theme.color.disabled)};
       }
     `}
+
+  ${media.mobile} {
+    font-size: 14px;
+    padding: 12px 30px;
+  }
 `;
 
 export const CircleDefaultButton = styled.button<{

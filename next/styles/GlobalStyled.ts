@@ -1,5 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 import { reset } from "styled-reset";
+import { media } from "./theme";
 
 const GlobalStyled = createGlobalStyle`
 ${reset}
@@ -41,7 +42,6 @@ ${reset}
   a:link {
     color: inherit;
     text-decoration: none;
-    background-color: transparent;
   }
   
   button,
@@ -108,7 +108,6 @@ ${reset}
     max-width: 100%;
   }
 
-
   ::-webkit-scrollbar {
     width: 10px;
   }
@@ -123,6 +122,7 @@ ${reset}
     background-color: "#e2e6ff";
   }
 
+
   .blind {
     overflow: hidden;
     border: 0;
@@ -131,6 +131,13 @@ ${reset}
     clip: rect(1px, 1px, 1px, 1px);
     clip-path: inset(50%);
     display: inline-block;
+  }
+
+  
+  ${media.mobile} {
+    ::-webkit-scrollbar {
+      display: none;
+    }
   }
 
 `;

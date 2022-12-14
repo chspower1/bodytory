@@ -185,6 +185,7 @@ const WriteBox = styled.div`
     border-radius: 40px;
     font-weight: 700;
     transition: background 0.3s;
+    text-align: center;
 
     > div {
       margin-bottom: 40px;
@@ -238,6 +239,10 @@ const WriteBox = styled.div`
     > a {
       padding: 20px;
       border-radius: 25px;
+
+      strong {
+        font-size: 18px;
+      }
 
       button {
         width: 54px;
