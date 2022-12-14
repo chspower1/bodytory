@@ -1,7 +1,7 @@
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { KoreanPosition } from "types/write";
 interface MapPathToSeo {
-  [key: string]: { title: string; description: string };
+  [key: string]: { title: string | undefined; description: string | undefined };
 }
 const mapPathToSeo: MapPathToSeo = {
   "/": { title: "홈", description: "바디토리에 오신것을 환영해요! 오늘 나의 몸상태를 꼼꼼히 기록해보세요!" },
@@ -14,6 +14,14 @@ const mapPathToSeo: MapPathToSeo = {
   // auth
   "/auth/login": {
     title: "로그인",
+    description: "바디토리에 오신것을 환영합니다! 로그인하시고 나의 몸상태를 기록해보세요!",
+  },
+  "/auth/login/loading": {
+    title: "로딩 중",
+    description: "로딩 중이에요!",
+  },
+  "/auth/logout": {
+    title: "로그아웃",
     description: "바디토리에 오신것을 환영합니다! 로그인하시고 나의 몸상태를 기록해보세요!",
   },
   "/auth/register": {
@@ -29,6 +37,14 @@ const mapPathToSeo: MapPathToSeo = {
     description: "바디토리 회원이 되신걸 축하드려요! 바디토리와 함께 나의 몸상태를 꼼꼼히 기록해봐요!",
   },
   "/auth/help": {
+    title: "계정관리",
+    description: "아이디 혹은 비밀번호를 잊으셨나요? 바디토리가 같이 찾을 수 있게 도와드릴게요.",
+  },
+  "/auth/help/find-id": {
+    title: "계정관리",
+    description: "아이디 혹은 비밀번호를 잊으셨나요? 바디토리가 같이 찾을 수 있게 도와드릴게요.",
+  },
+  "/auth/help/find-pw": {
     title: "계정관리",
     description: "아이디 혹은 비밀번호를 잊으셨나요? 바디토리가 같이 찾을 수 있게 도와드릴게요.",
   },
@@ -92,6 +108,7 @@ Object.entries(KoreanPosition).forEach(([key, value]) => {
 const withGetServerSideProps = (getServerSideProps: GetServerSideProps) => {
   return async (context: GetServerSidePropsContext) => {
     const pagePath = context.resolvedUrl;
+    console.log(pagePath);
     return await getServerSideProps(context).then((res: { [key: string]: any }) => {
       return {
         ...res,

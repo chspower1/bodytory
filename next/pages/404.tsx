@@ -6,8 +6,10 @@ import { CircleButton } from "@components/layout/buttons/Button";
 import { theme } from "@styles/theme";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { GetServerSidePropsContext, NextPage } from "next";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
 
-const NotFoundPage = () => {
+const NotFoundPage: NextPage = () => {
   return (
     <FlexContainer>
       <ContentBox>
@@ -29,7 +31,11 @@ const NotFoundPage = () => {
 };
 
 export default NotFoundPage;
-
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});
 const ContentBox = styled.div`
   display: flex;
   align-items: center;

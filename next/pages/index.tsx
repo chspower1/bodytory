@@ -69,7 +69,7 @@ const Home = () => {
             </Link>
           </ButtonBox>
           <AccountBtnBox>
-            <Link href="/users/profile/edit">
+            <Link href="/users">
               <div>
                 <Setting />
                 계정 설정
