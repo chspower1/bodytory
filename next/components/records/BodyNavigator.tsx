@@ -11,6 +11,8 @@ import { useRecoilState } from "recoil";
 import { currentBodyPosition } from "atoms/atoms";
 import { motion } from "framer-motion";
 import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
+import rotateIcon from "@src/assets/icons/rotateIcon.png";
+import { media } from "@styles/theme";
 
 export interface SelectBodyPartProps {
   selectedBodyPart: bodyPartType;
@@ -58,6 +60,7 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage, isH
   return (
     <CustomContainer isWritePage={isWritePage}>
       {currentPos !== "face" ? (
+        <>
         <ButtonsBox>
           <FrontBackButton
             onClick={() => setCurrentPosition("front")}
@@ -72,6 +75,10 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage, isH
             뒤
           </FrontBackButton>
         </ButtonsBox>
+        <MobileFrontBackButton onClick={() => setCurrentPosition(prev => prev === "back" ? "front" : "back")}>
+          <div className="rotateImgBg" />
+        </MobileFrontBackButton>
+        </>
       ) : (
         <ButtonsBox>
           {currentPos !== "face" || (
@@ -356,7 +363,24 @@ BodyNavigator.defaultProps = {
 
 const FrontBackButton = styled(RoundedDefaultButton)`
   padding: 16px 40px;
+
 `;
+const MobileFrontBackButton = styled.div`
+  display:none;
+  .rotateImgBg{
+    width: 50px;
+    height: 50px;
+    background: url(${rotateIcon.src}) no-repeat center center;
+    background-size:  contain;
+  }
+  ${media.custom(1366)}{
+    display:block;
+    position: absolute;
+    right: 10%;
+    top: 30px;
+    z-index: 6;
+  }
+`
 
 const Overlay = styled.div`
   width: 100%;
@@ -366,18 +390,17 @@ const Overlay = styled.div`
 const CustomContainer = styled.div<{ isWritePage: boolean }>`
   position: relative;
   display: flex;
-  aspect-ratio: 1/1.2;
-
+  padding: 50px 0;
+  z-index: 6;
   ${({ isWritePage }) =>
-    isWritePage
-      ? css`
-          aspect-ratio: 1/1;
-          // width: 50%;
+    isWritePage && css`
           background-color: #ebecfc;
           box-shadow: 8px 8px 18px rgba(174, 178, 228, 0.25);
           border-radius: 30px;
-        `
-      : css``}
+          ${media.custom(1633)}{
+            border-radius: 0 30px 30px 0;
+          }
+  `}
 `;
 
 const PathBox = styled.div<{ isViewMode?: boolean }>`
@@ -393,6 +416,9 @@ const PathBox = styled.div<{ isViewMode?: boolean }>`
       pointer-events: none;
       width: 85%;
     `}
+  ${media.custom(1366)}{
+    min-width: 300px;
+  }
 `;
 
 const ButtonsBox = styled.div`
@@ -402,6 +428,9 @@ const ButtonsBox = styled.div`
   width: 100%;
   padding: 18px;
   bottom: 0;
+  ${media.custom(1366)}{
+    display:none;
+  }
 `;
 
 const HoverPath = styled.path<{ isChecked: boolean; isHover: boolean }>`

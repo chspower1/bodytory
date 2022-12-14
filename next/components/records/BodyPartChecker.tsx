@@ -8,12 +8,14 @@ import { useRouter } from "next/router";
 import styled from "styled-components";
 import { bodyPartType } from "types/bodyParts";
 import { KoreanPosition } from "types/write";
+import { Dispatch, SetStateAction } from "react";
 
 interface SelectBodyPartProps {
   selectedBodyPart: bodyPartType;
+  setIsSelect: Dispatch<SetStateAction<boolean>>;
 }
 
-const BodyPartChecker = ({ selectedBodyPart }: SelectBodyPartProps) => {
+const BodyPartChecker = ({ selectedBodyPart, setIsSelect }: SelectBodyPartProps) => {
   const router = useRouter();
 
   return (
@@ -40,7 +42,7 @@ const BodyPartChecker = ({ selectedBodyPart }: SelectBodyPartProps) => {
           )}
         </TextBox>
         <CreateBtnBox>
-          {selectedBodyPart && (
+          {selectedBodyPart ? (
             <BtnBox variants={BTN_VARIANTS} initial="initial" animate="animate" exit="exit">
               <RoundedDefaultButton
                 bgColor="rgb(83, 89, 233)"
@@ -49,7 +51,17 @@ const BodyPartChecker = ({ selectedBodyPart }: SelectBodyPartProps) => {
                 네, 기록할게요!
               </RoundedDefaultButton>
             </BtnBox>
-          )}
+          )
+          :
+          <BtnBox variants={BTN_VARIANTS} initial="initial" animate="animate" exit="exit">
+              <RoundedDefaultButton
+                bgColor="rgb(83, 89, 233)"
+                onClick={() => setIsSelect(true)}
+              >
+                부위 선택하기
+              </RoundedDefaultButton>
+            </BtnBox>
+        }
         </CreateBtnBox>
       </ContentBox>
     </FlexContainer>

@@ -40,7 +40,7 @@ function DashBoardStatistics() {
 
   console.log(flaskQuery.data);
 
-
+  console.log("dashboardQuery",dashboardQuery.data)
 
   useEffect(() => {
     // 가장 기록이 많은 부위 찾기
