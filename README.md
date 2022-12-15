@@ -49,7 +49,6 @@
 
 ## <img src="./next/public/static/readme/tory/tory_purple.png" height="25px"> **소개**
 
-
 ### 이런 경험 한번씩 있으신가요?
 
 - 몸이 아픈데 **어떤 진료과**에 가야 하는지 햇갈리시나요?
@@ -62,7 +61,7 @@
 
 ## <img src="./next/public/static/readme/service.svg" height="25px"> 바디토리 주요 서비스
 
-### 📝 **간편한 증상 기록**
+#### 📝 **간편한 증상 기록**
 
 <div>-------이미지첨부------</div>
 
@@ -70,9 +69,8 @@
 - 단순히 글로 서술하기 힘든 증상의 경우, 추후에 **사진 자료 첨부** 가능
 - 부족하거나 잘못된 증상 **기록의 수정/삭제** 기능 지원
   <br/>
-  <br/>
 
-### <img src="./next/public/static/readme/ai.svg" width="20px"/> **다양한 AI 서비스**
+#### <img src="./next/public/static/readme/ai.svg" width="20px"/> **다양한 AI 서비스**
 
 <div>-------이미지첨부------</div>
 
@@ -80,18 +78,16 @@
 - 전반적인 기록들을 토대로 사용자가 **어떤 키워드를 자주 사용**했는지 보여줌
 - ETRI, 과학기술정보통신부에서 제공하는 AI를 기반으로 **정확도 높은 음성 인식** 기능 구현
   <br/>
-  <br/>
 
-### 🔎 **병원 검색**
+#### 🔎 **병원 검색**
 
 <div>-------이미지첨부------</div>
 
 - **지도**에서 사용자의 위치정보를 기반으로 **주변 병원들을 검색**하는 기능 제공
 - 위치 기반 검색 외에도 **병원명으로 검색하는 기능** 또한 제공중
   <br/>
-  <br/>
 
-### 📨 **병원에 기록 공유**
+#### 📨 **병원에 기록 공유**
 
 <div>-------이미지첨부------</div>
 
@@ -101,7 +97,6 @@
   <br/>
 
 ## <img src="./next/public/static/readme/skills.svg" width="23px"/> 기술 스택
-
 
 ### **Common**
 
@@ -499,7 +494,6 @@ CI/CD 기술 스택 자세히 보기
 
 ## <img src="./next/public/static/readme/data.svg" height="20px"> 데이터 구조
 
-
 <img src="./next/prisma/ERD_result.svg">
 <details>
   <summary>
@@ -682,7 +676,6 @@ hospital
 <br/>
 
 ## 📂 폴더구조
-
 
 ### Next.js
 
