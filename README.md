@@ -7,9 +7,9 @@
 <a href="https://kdt-ai5-team01.elicecoding.com/">바디토리 체험하기!</a>
 </p>
 <p align="center">
-바디토리는 전국 모든 병원들과 연결되있다는 가정하에<br/>     
-국민들의 사회권 개선과 국민건강 증진을 희망하는 바람에서 만들어진<br/>
-가상의 프로젝트입니다.
+<b>바디토리</b>는 전국 모든 병원들과 연결되있다는 <b>가정</b>하에<br/>     
+국민들의 <b>사회권 개선</b>과 <b>국민건강 증진</b>을 희망하는 바람에서 만들어진<br/>
+<b>가상의 프로젝트</b>입니다.
 </p>
 
 ## ![bodytory version](https://img.shields.io/badge/bodytory-v1.0-brightgreen.svg)
