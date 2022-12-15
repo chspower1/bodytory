@@ -70,9 +70,8 @@ const DepartmentSelectBox = styled.select`
   font-weight: 500;
   cursor: pointer;
   ${media.mobile} {
-    width: 180px;
+    width: 190px;
     font-size: 14px;
     padding: 8px 30px 8px 20px;
   }
-  
 `;
