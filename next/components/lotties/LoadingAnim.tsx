@@ -21,10 +21,6 @@ const LoadingAnim = () => {
       });
       loading.setSpeed(0.8);
     }
-
-    return () => {
-      lottie && lottie.destroy();
-    };
   }, [lottie]);
 
   return <LoadingElem ref={loadingRef} />;
