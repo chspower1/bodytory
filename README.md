@@ -52,6 +52,8 @@
 
 ## <img src="./next/public/static/readme/tory/tory_purple.png" height="25px"> **소개**
 
+---
+
 ### 이런 경험 한번씩 있으신가요?
 
 - 몸이 아픈데 **어떤 진료과**에 가야 하는지 햇갈리시나요?
@@ -691,7 +693,7 @@ hospital
 
 <details>
   <summary>
-  pages 폴더 구조 보기
+  📂pages
   </summary>
 
 📦pages  
@@ -784,7 +786,7 @@ hospital
 
 <details>
   <summary>
-  components 폴더 구조 보기
+  📂components
   </summary>
 
 📦components  
@@ -894,7 +896,7 @@ hospital
 
 <details>
   <summary>
-  hooks 폴더 구조 보기
+  📂hooks
   </summary>
      
   📦hooks     
@@ -911,7 +913,7 @@ hospital
 
 <details>
   <summary>
-  atoms 폴더 구조 보기
+  📂atoms
   </summary>
      
   📦atoms  
@@ -921,7 +923,7 @@ hospital
 
 <details>
   <summary>
-  prisma 폴더 구조 보기
+  📂prisma
   </summary>
      
   📦prisma  
@@ -933,7 +935,7 @@ hospital
 
 <details>
   <summary>
-  utils 폴더 구조 보기
+  📂utils
   </summary>
      
   📦utils  
@@ -965,7 +967,7 @@ hospital
 
 <details>
   <summary>
-  flask 폴더 구조 보기
+  📂flask
   </summary>
      
   📦flask  
