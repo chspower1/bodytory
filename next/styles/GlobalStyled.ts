@@ -78,7 +78,6 @@ ${reset}
     -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  background: url("/static/icon/select_arrow.png") no-repeat 97% 50%/15px auto;
   background-color: white;
   
   }
