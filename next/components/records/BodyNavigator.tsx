@@ -81,7 +81,7 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage, isH
         </>
       ) : (
         <>
-        <MobileFrontBackButton onClick={() => setCurrentPosition(prev => prev === "back" ? "front" : "back")}>
+        <MobileFrontBackButton>
           {currentPos !== "face" || (
               <FrontBackButton
                 bgColor={currentPos === "face" ? "rgb(188, 197, 255)" : undefined}
@@ -463,7 +463,7 @@ const HoverPath = styled.path<{ isChecked: boolean; isHover: boolean }>`
     isChecked
       ? css`
           fill: rgb(3, 231, 203);
-          pointer-events: none;
+          // pointer-events: none;
         `
       : isHover
       ? css`

@@ -29,6 +29,7 @@ import ToryPurpleAnim from "@components/lotties/ToryPurpleAnim";
 import { CircleDefaultButton } from "@components/layout/buttons/DefaultButtons";
 import { GetServerSidePropsContext, NextPage } from "next";
 import withGetServerSideProps from "@utils/client/withGetServerSideProps";
+import LoadingAnim from "@components/lotties/LoadingAnim";
 
 interface WriteRecordRequest {
   position: string;
@@ -198,7 +199,7 @@ const PositionPage: NextPage = () => {
 
               <CircleDefaultButton
                 disable={watch("description") && watch("description")?.length < 2 ? true : false}
-                bgColor={listening ? theme.color.error : theme.color.darkBg}
+                bgColor={(recordStatus === "loading") ? theme.color.white : listening ? theme.color.error : theme.color.darkBg}
                 onClick={() => {
                   recordStatus === "initial" && startRecord();
                   recordStatus === "listening" && endRecord();
@@ -208,7 +209,7 @@ const PositionPage: NextPage = () => {
               >
                 {recordStatus === "initial" && <Mic />}
                 {recordStatus === "listening" && <Rectangle />}
-                {recordStatus === "loading" && "loading"}
+                {recordStatus === "loading" && <LoadingAnim />}
                 {recordStatus === "finish" && <Image src={check} width={55} height={55} alt="제출" />}
                 {recordStatus === "error" && <Mic />}
               </CircleDefaultButton>
