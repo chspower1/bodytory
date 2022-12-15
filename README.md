@@ -1,5 +1,6 @@
 # BODYTORY
 
+<link rel="stylesheet" href="github-markdown.css">
 <style type='text/css'>
   [class*="box"] { display: flex; gap:10px; }
   [class*="col"] { display: flex; flex-direction: column; align-items:center; }
