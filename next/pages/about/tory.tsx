@@ -29,7 +29,6 @@ const Tory = () => {
         onLeaveBack: () => {
           hide(elem);
         },
-        markers: true,
       });
     });
   }, []);
