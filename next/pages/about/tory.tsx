@@ -14,10 +14,10 @@ import { useEffect } from "react";
 import { animateFrom, hide } from "@utils/client/animateFrom";
 import { useRouter } from "next/router";
 
-gsap.registerPlugin(ScrollTrigger);
 const Tory = () => {
   const router = useRouter();
   useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
     gsap.utils.toArray(".gs_reveal").forEach(function (elem: any) {
       console.log(elem);
       ScrollTrigger.create({
@@ -29,7 +29,6 @@ const Tory = () => {
         onLeaveBack: () => {
           hide(elem);
         },
-        markers: true,
       });
     });
   }, []);
