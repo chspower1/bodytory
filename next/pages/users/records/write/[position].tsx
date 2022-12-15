@@ -293,7 +293,11 @@ const RefreshBtnBox = styled(Box)`
   button:hover + div {
     display: block;
   }
-
+  ${media.custom(1000)}{
+    button:hover + div {
+      display: none;
+    }
+  }
   ${media.mobile}{
     width: auto;
     right: 10px;
