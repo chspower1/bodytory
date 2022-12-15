@@ -1,13 +1,29 @@
-<img src="./next/public/bodytory_banner.png" width="400px">
-
 # BODYTORY
 
-몸이 아픈데 <strong>어떤 진료과</strong>에 가야 하는지 햇갈리시나요?  
-병원에 갔는데 <strong>증상이 명확하게 떠오르지 않아서</strong> 애먹은적이 있으신가요?  
-예전에 진료받았던 내용이 <strong>기억나지 않아서</strong> 아쉬웠던 적이 있으신가요?  
-그렇다면 바디토리(Bodytory)에서 각종 증상들을 부위별로 기록하고, 진료과를 추천받아보세요!
+<p align="center">
+<img src="./next/public/bodytory_banner.png" width="400px">
+</p>
+<p align="center">
+<a href="https://kdt-ai5-team01.elicecoding.com/">바디토리 체험하기!</a>
+<>
 
-### **간편한 증상 기록**
+## ![bodytory version](https://img.shields.io/badge/bodytory-v1.0-brightgreen.svg)
+
+---
+
+## <img src="./next/public/static/tory/tory_purple.png" height="25px"> **소개**
+
+### 이런 경험 한번씩 있으신가요?
+
+- 몸이 아픈데 **어떤 진료과**에 가야 하는지 햇갈리시나요?
+- 병원에 갔는데 **증상이 명확하게 떠오르지 않아서** 애먹은적이 있으신가요?
+- 예전에 진료받았던 내용이 **기억나지 않아서** 아쉬웠던 적이 있으신가요?
+
+그렇다면 **바디토리**(Bodytory)에서 **각종 증상**들을 부위별로 **기록하고**, **진료과**를 **추천**받아보세요!
+
+## 바디토리 주요 서비스
+
+### 📝 **간편한 증상 기록**
 
 <div>-------이미지첨부------</div>
 
@@ -27,7 +43,7 @@
   <br/>
   <br/>
 
-### **병원 검색**
+### 🔎 **병원 검색**
 
 <div>-------이미지첨부------</div>
 
@@ -36,7 +52,7 @@
   <br/>
   <br/>
 
-### **병원에 기록 공유**
+### 📨 **병원에 기록 공유**
 
 <div>-------이미지첨부------</div>
 
