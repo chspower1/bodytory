@@ -75,12 +75,11 @@ const ConfirmBtnBox = styled.div`
 
 const ModalBox = styled(ModalContainer)`
   background: #fff;
+  width: auto;
   padding: 20px;
   border-radius: 10px;
   text-align: center;
-  ${media.custom(730)}{
-    width: 90%;
-  }
+
   ${media.mobile}{
     padding: 15px;
   }
