@@ -678,3 +678,260 @@ hospital
 ```
 
 </details>
+
+## 폴더구조
+
+### Next.js
+
+- pages  
+  📦pages  
+  ┣ 📂about  
+  ┃ ┣ 📜team.tsx  
+  ┃ ┗ 📜tory.tsx  
+  ┣ 📂api  
+  ┃ ┣ 📂auth  
+  ┃ ┃ ┣ 📂help  
+  ┃ ┃ ┃ ┣ 📜find-id.ts  
+  ┃ ┃ ┃ ┣ 📜find-pw.ts  
+  ┃ ┃ ┃ ┗ 📜reset.ts  
+  ┃ ┃ ┣ 📂register  
+  ┃ ┃ ┃ ┣ 📂check  
+  ┃ ┃ ┃ ┃ ┣ 📜email.ts  
+  ┃ ┃ ┃ ┃ ┗ 📜id.ts  
+  ┃ ┃ ┃ ┗ 📜index.ts  
+  ┃ ┃ ┣ 📜login.ts  
+  ┃ ┃ ┣ 📜logout.ts  
+  ┃ ┃ ┗ 📜withdraw.ts  
+  ┃ ┣ 📂hospital  
+  ┃ ┃ ┣ 📂[patientId]  
+  ┃ ┃ ┃ ┣ 📜index.ts  
+  ┃ ┃ ┃ ┗ 📜[position].ts  
+  ┃ ┃ ┣ 📜index.ts  
+  ┃ ┃ ┣ 📜login.ts  
+  ┃ ┃ ┗ 📜records.ts  
+  ┃ ┗ 📂users  
+  ┃ ┃ ┣ 📂my-hospitals  
+  ┃ ┃ ┃ ┣ 📜clinic-list.ts  
+  ┃ ┃ ┃ ┣ 📜find.ts  
+  ┃ ┃ ┃ ┣ 📜index.ts  
+  ┃ ┃ ┃ ┗ 📜map.ts  
+  ┃ ┃ ┣ 📂records  
+  ┃ ┃ ┃ ┣ 📂chart  
+  ┃ ┃ ┃ ┃ ┗ 📜[position].ts  
+  ┃ ┃ ┃ ┣ 📂dashboard  
+  ┃ ┃ ┃ ┃ ┗ 📜[dash].ts  
+  ┃ ┃ ┃ ┣ 📂flask  
+  ┃ ┃ ┃ ┃ ┗ 📜[flask].ts  
+  ┃ ┃ ┃ ┣ 📂picture  
+  ┃ ┃ ┃ ┃ ┣ 📜get-url.ts  
+  ┃ ┃ ┃ ┃ ┗ 📜index.ts  
+  ┃ ┃ ┃ ┣ 📜index.ts  
+  ┃ ┃ ┃ ┣ 📜openApi.ts  
+  ┃ ┃ ┃ ┗ 📜[position].ts  
+  ┃ ┃ ┣ 📜edit.ts  
+  ┃ ┃ ┗ 📜me.ts  
+  ┣ 📂auth  
+  ┃ ┣ 📂help  
+  ┃ ┃ ┣ 📜find-id.tsx  
+  ┃ ┃ ┣ 📜find-pw.tsx  
+  ┃ ┃ ┗ 📜reset.tsx  
+  ┃ ┣ 📂login  
+  ┃ ┃ ┣ 📜index.tsx  
+  ┃ ┃ ┗ 📜loading.tsx  
+  ┃ ┣ 📂register  
+  ┃ ┃ ┣ 📜choice.tsx  
+  ┃ ┃ ┣ 📜index.tsx  
+  ┃ ┃ ┗ 📜success.tsx  
+  ┃ ┗ 📜withdraw.tsx  
+  ┣ 📂hospital  
+  ┃ ┣ 📂chart  
+  ┃ ┃ ┣ 📜index.tsx  
+  ┃ ┃ ┗ 📜[position].tsx  
+  ┃ ┣ 📜index.tsx  
+  ┃ ┗ 📜login.tsx  
+  ┣ 📂users  
+  ┃ ┣ 📂my-hospital  
+  ┃ ┃ ┣ 📜clinic-list.tsx  
+  ┃ ┃ ┣ 📜find.tsx  
+  ┃ ┃ ┗ 📜index.tsx  
+  ┃ ┣ 📂records  
+  ┃ ┃ ┣ 📂chart  
+  ┃ ┃ ┃ ┗ 📜[position].tsx  
+  ┃ ┃ ┣ 📂write  
+  ┃ ┃ ┃ ┣ 📜add.tsx  
+  ┃ ┃ ┃ ┣ 📜analysis.tsx  
+  ┃ ┃ ┃ ┣ 📜index.tsx  
+  ┃ ┃ ┃ ┗ 📜[position].tsx  
+  ┃ ┃ ┗ 📜index.tsx  
+  ┃ ┗ 📜index.tsx  
+  ┣ 📜404.tsx  
+  ┣ 📜index.tsx  
+  ┣ 📜landing.tsx  
+  ┣ 📜_app.tsx  
+  ┗ 📜_document.tsx
+- components  
+  📦components  
+   ┣ 📂header  
+   ┃ ┣ 📜HamburgerMenuButton.tsx  
+   ┃ ┣ 📜Header.tsx  
+   ┃ ┣ 📜HospitalHeader.tsx  
+   ┃ ┗ 📜SideMenu.tsx  
+   ┣ 📂hospital  
+   ┃ ┣ 📜HospitalChart.tsx  
+   ┃ ┗ 📜HospitalSelectPart.tsx  
+   ┣ 📂icons  
+   ┃ ┗ 📜pencil.tsx  
+   ┣ 📂layout  
+   ┃ ┣ 📂buttons  
+   ┃ ┃ ┣ 📜DefaultButtons.ts  
+   ┃ ┃ ┣ 📜DeleteBtn.tsx  
+   ┃ ┃ ┣ 📜KakaoBtn.tsx  
+   ┃ ┃ ┣ 📜LogoutBtn.tsx  
+   ┃ ┃ ┣ 📜NaverBtn.tsx  
+   ┃ ┃ ┣ 📜OriginBtn.tsx  
+   ┃ ┃ ┗ 📜SocialButton.tsx  
+   ┃ ┣ 📂input  
+   ┃ ┃ ┣ 📜ButtonInInput.tsx  
+   ┃ ┃ ┣ 📜CheckBoxInput.tsx  
+   ┃ ┃ ┣ 📜Input.tsx  
+   ┃ ┃ ┣ 📜RadioInput.tsx  
+   ┃ ┃ ┗ 📜Textarea.tsx  
+   ┃ ┗ 📜Layout.tsx  
+   ┣ 📂lotties  
+   ┃ ┣ 📜ChartAnim.tsx  
+   ┃ ┣ 📜DahyunAnim.tsx  
+   ┃ ┣ 📜HosungAnim.tsx  
+   ┃ ┣ 📜Kyeongwon.tsx  
+   ┃ ┣ 📜LoadingAnim.tsx  
+   ┃ ┣ 📜RyongAnim.tsx  
+   ┃ ┣ 📜SohiAnim.tsx  
+   ┃ ┣ 📜SpeakAnim.tsx  
+   ┃ ┣ 📜ToryPurpleAnim.tsx  
+   ┃ ┗ 📜ToryWhiteAnim.tsx  
+   ┣ 📂map  
+   ┃ ┣ 📜ArroundMap.tsx  
+   ┃ ┗ 📜Maker.tsx  
+   ┣ 📂modals  
+   ┃ ┣ 📂map  
+   ┃ ┃ ┣ 📜ArroundMapModal.tsx  
+   ┃ ┃ ┗ 📜MapDetailModal.tsx  
+   ┃ ┣ 📜AlertModal.tsx  
+   ┃ ┣ 📜ClinicModal.tsx  
+   ┃ ┣ 📜HospitalModal.tsx  
+   ┃ ┣ 📜ImageDetailModal.tsx  
+   ┃ ┣ 📜Modal.tsx  
+   ┃ ┣ 📜MyHospitalModal.tsx  
+   ┃ ┗ 📜RecordModal.tsx  
+   ┣ 📂my-hospital  
+   ┃ ┣ 📜HospitalContent.tsx  
+   ┃ ┣ 📜MyHospitalList.tsx  
+   ┃ ┗ 📜SwiperBox.tsx  
+   ┣ 📂records  
+   ┃ ┣ 📂chart  
+   ┃ ┃ ┣ 📜Chart.tsx  
+   ┃ ┃ ┣ 📜ChartBox.tsx  
+   ┃ ┃ ┣ 📜ChartKeyword.tsx  
+   ┃ ┃ ┣ 📜ChartTimeline.tsx  
+   ┃ ┃ ┗ 📜SplitTextByKeyword.tsx  
+   ┃ ┣ 📂dashborad  
+   ┃ ┃ ┣ 📜DashBoard.tsx  
+   ┃ ┃ ┣ 📜DashBoardStatistics.tsx  
+   ┃ ┃ ┣ 📜MostBodyPart.tsx  
+   ┃ ┃ ┗ 📜MostKeyword.tsx  
+   ┃ ┣ 📂svg  
+   ┃ ┃ ┣ 📜OutlineBack.tsx  
+   ┃ ┃ ┣ 📜OutlineFace.tsx  
+   ┃ ┃ ┣ 📜OutlineFront.tsx  
+   ┃ ┃ ┣ 📜PartAreaBack.ts  
+   ┃ ┃ ┣ 📜PartAreaFace.ts  
+   ┃ ┃ ┣ 📜PartAreaFront.ts  
+   ┃ ┃ ┗ 📜svgMapping.ts  
+   ┃ ┣ 📂write  
+   ┃ ┃ ┣ 📜Confirm.tsx  
+   ┃ ┃ ┗ 📜Select.tsx  
+   ┃ ┣ 📜BodyNavigator.tsx  
+   ┃ ┣ 📜BodyPartChecker.tsx  
+   ┃ ┣ 📜SelectBodyPart.tsx  
+   ┃ ┗ 📜ToryRecommend.tsx  
+   ┣ 📂register  
+   ┃ ┣ 📜FirstPage.tsx  
+   ┃ ┣ 📜PersonalInformation.tsx  
+   ┃ ┣ 📜SecondPage.tsx  
+   ┃ ┣ 📜ThirdPage.tsx  
+   ┃ ┗ 📜UseOfService.tsx  
+   ┣ 📂search  
+   ┃ ┣ 📜SearchHospitalList.tsx  
+   ┃ ┗ 📜SearchHospitalMap.tsx  
+   ┣ 📂skeletonUI  
+   ┃ ┣ 📜ListSkeleton.tsx  
+   ┃ ┣ 📜RecordSkeleton.tsx  
+   ┃ ┗ 📜SkeletonUI.tsx  
+   ┣ 📜CustomSeo.tsx  
+   ┣ 📜LoadingDot.tsx  
+   ┣ 📜ManageImage.tsx  
+   ┣ 📜MessageBox.tsx  
+   ┣ 📜SpeakMotion.tsx  
+   ┗ 📜ToryIcon.tsx
+- hooks  
+  📦hooks  
+  ┣ 📜useAudio.tsx  
+  ┣ 📜useCoords.ts  
+  ┣ 📜useDepartmentSelect.tsx  
+  ┣ 📜useHospital.ts  
+  ┣ 📜useIO.tsx  
+  ┣ 📜usePortal.tsx  
+  ┣ 📜useReset.tsx  
+  ┗ 📜useUser.ts
+- atoms  
+  📦atoms  
+  ┗ 📜atoms.ts
+- prisma  
+  📦prisma  
+  ┣ 📜ERD_result.svg  
+  ┣ 📜schema.prisma  
+  ┗ 📜seed.ts
+- utils  
+  📦utils  
+  ┣ 📂client  
+  ┃ ┣ 📜animateFrom.ts  
+  ┃ ┣ 📜changeDate.ts  
+  ┃ ┣ 📜checkEmptyObj.ts  
+  ┃ ┣ 📜createErrors.ts  
+  ┃ ┣ 📜customApi.ts  
+  ┃ ┣ 📜getAmericanAge.ts  
+  ┃ ┣ 📜kakaoInit.ts  
+  ┃ ┣ 📜leapYearCheck.ts  
+  ┃ ┣ 📜payload.ts  
+  ┃ ┣ 📜sliceHospitalName.ts  
+  ┃ ┣ 📜uploadImage.ts  
+  ┃ ┗ 📜withGetServerSideProps.ts  
+  ┗ 📂server  
+  ┃ ┣ 📜client.ts  
+  ┃ ┣ 📜createToken.ts  
+  ┃ ┣ 📜email.ts  
+  ┃ ┣ 📜passwordHelper.ts  
+  ┃ ┣ 📜sendMail.ts  
+  ┃ ┣ 📜withHandler.ts  
+  ┃ ┗ 📜withSession.ts
+
+### Flask
+
+📦flask  
+┣ 📂.idea  
+┃ ┣ 📂inspectionProfiles  
+┃ ┃ ┣ 📜profiles_settings.xml  
+┃ ┃ ┗ 📜Project_Default.xml  
+┃ ┣ 📜.gitignore  
+┃ ┣ 📜flask.iml  
+┃ ┣ 📜misc.xml  
+┃ ┣ 📜modules.xml  
+┃ ┗ 📜vcs.xml  
+┣ 📂**pycache**  
+┃ ┗ 📜app.cpython-310.pyc  
+┣ 📜.dockerignore  
+┣ 📜Dockerfile  
+┣ 📜kor_w2v_final  
+┣ 📜main.py  
+┣ 📜README.md  
+┣ 📜requirements.txt  
+┗ 📜w2v_query_data_final.csv
