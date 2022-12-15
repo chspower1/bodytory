@@ -113,17 +113,24 @@ const MainInput = styled(motion.input)<{
   $white?: boolean;
 }>`
   &[type="password"] {
+    letter-spacing: 3.2px;
+    font-size: 30px;
+    font-weight: 700;
     &::placeholder {
-      letter-spacing: 7.2px;
-      font-size: 40px;
+      letter-spacing: 3.2px;
+      font-size: 30px;
+      ${({align}) => align === "left" && css`
+        position: absolute;
+        left:30px;
+        top:50%;
+        transform: translateY(-50%);
+        font-weight: 500;
+      `}
     }
     &:disabled {
       background: rgb(107, 114, 142);
       cursor: not-allowed;
     }
-    letter-spacing: 7.2px;
-    font-family: Vandana;
-    font-size: 36px;
   }
   display:block;
   width:100%;

@@ -80,7 +80,7 @@ const Home = () => {
             </Link>
           </ButtonBox>
           <AccountBtnBox>
-            <Link href="/users/profile/edit">
+            <Link href="/users">
               <div>
                 <i />
                 계정 설정

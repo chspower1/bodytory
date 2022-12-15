@@ -75,7 +75,7 @@ const Withdraw: NextPage = () => {
 
   return (
     <FlexContainer>
-      <BackButton onClick={() => router.push("/users/profile/edit")}>
+      <BackButton onClick={() => router.push("/users")}>
         <span>계정 설정</span>
       </BackButton>
       <Form onSubmit={handleSubmit(onValid)}>
@@ -132,13 +132,15 @@ export const getServerSideProps = withGetServerSideProps(async (context: GetServ
   };
 });
 
-const WithdrawButton = styled(EditButton)``;
+const WithdrawButton = styled(EditButton)`
+
+`;
 
 const Form = styled.form`
   .messageBox {
     color: #232323;
     margin-bottom: 100px;
-    font-size: 40px;
+    font-size: 38px;
   }
   ${media.mobile}{
     .messageBox {

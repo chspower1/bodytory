@@ -66,7 +66,7 @@ const SideMenu = () => {
                   </LogoBox>
                 </Link>
                 <div className="goEdit">
-                  <Link href="/users/profile/edit" onClick={handleClickCloseMenu}>
+                  <Link href="/users" onClick={handleClickCloseMenu}>
                     <span>
                       <i />
                       계정 설정
