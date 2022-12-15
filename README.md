@@ -1,4 +1,4 @@
-<img src="public/bodytory_banner.png" width="400px">
+<img src="./next/public/bodytory_banner.png" width="400px">
 
 # BODYTORY
 
