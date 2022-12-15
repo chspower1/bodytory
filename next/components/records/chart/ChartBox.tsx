@@ -12,6 +12,7 @@ import IconAddImage from "@src/assets/icons/icon_addImage.png";
 import customApi from "@utils/client/customApi";
 import SplitTextByKeyword from "./SplitTextByKeyword";
 import { DeleteBtnBox } from "@components/my-hospital/HospitalContent";
+import { media } from "@styles/theme";
 
 interface ChartBoxProps {
   index: number;
@@ -59,23 +60,25 @@ const ChartBox = ({ index, record, clickedKeyword, patientId, position, setShowM
           <Content>
             <Description cursorType={"pointer"}>
               <Text onClick={() => handleRecordModal(record)}>
-                {record.description.includes("\n") ? (
-                  record.description
-                    .split("\n")
-                    .map((ele, idx) => (
-                      <p key={`${ele} + ${idx} + ${Date.now()}`}>
-                        {clickedKeyword && ele.includes(clickedKeyword) ? (
-                          <SplitTextByKeyword text={ele} clickedKeyword={clickedKeyword} />
-                        ) : (
-                          ele
-                        )}
-                      </p>
-                    ))
-                ) : clickedKeyword && record.description.includes(clickedKeyword) ? (
-                  <SplitTextByKeyword text={record.description} clickedKeyword={clickedKeyword} />
-                ) : (
-                  record.description
-                )}
+                <div>
+                  {record.description.includes("\n") ? (
+                    record.description
+                      .split("\n")
+                      .map((ele, idx) => (
+                        <p key={`${ele} + ${idx} + ${Date.now()}`}>
+                          {clickedKeyword && ele.includes(clickedKeyword) ? (
+                            <SplitTextByKeyword text={ele} clickedKeyword={clickedKeyword} />
+                          ) : (
+                            ele
+                          )}
+                        </p>
+                      ))
+                  ) : clickedKeyword && record.description.includes(clickedKeyword) ? (
+                    <SplitTextByKeyword text={record.description} clickedKeyword={clickedKeyword} />
+                  ) : (
+                    record.description
+                  )}
+                </div>
               </Text>
               <ImageBox isHospital={Boolean(patientId)}>
                 {record.images.length ? (
@@ -216,10 +219,18 @@ const Time = styled.div<{ byUser: boolean }>`
             background: #03e7cb;
           `}
   }
+
+  ${media.tablet} {
+    font-size: 14px;
+  }
 `;
 
 const Content = styled.div`
   position: relative;
+
+  ${media.tablet} {
+    font-size: 16px;
+  }
 `;
 
 const Description = styled.div<{ cursorType: string }>`
@@ -237,6 +248,10 @@ const Description = styled.div<{ cursorType: string }>`
 const Text = styled.div`
   min-height: 140px;
   padding: 20px 200px 20px 30px;
+
+  ${media.mobile} {
+    padding: 15px 150px 15px 20px;
+  }
 `;
 
 const ImageBox = styled.div<{ isHospital: boolean }>`
@@ -248,11 +263,19 @@ const ImageBox = styled.div<{ isHospital: boolean }>`
   height: 80px;
   border-radius: 15px;
   overflow: hidden;
+
+  ${media.mobile} {
+    right: 60px;
+    width: 70px;
+    height: 70px;
+  }
+
   ${({ isHospital }) =>
     isHospital &&
     css`
       right: 50px;
     `}
+
 `;
 
 const Thumbnail = styled.div`

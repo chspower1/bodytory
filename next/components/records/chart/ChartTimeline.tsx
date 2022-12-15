@@ -14,6 +14,7 @@ import { currentPatientInfo, selectedKeyword } from "atoms/atoms";
 import RecordSkeleton from "@components/skeletonUI/RecordSkeleton";
 import ChartBox from "./ChartBox";
 import AlertModal from "@components/modals/AlertModal";
+import { media } from "@styles/theme";
 
 export interface RecordWithImageAndHospital extends Record {
   images: RecordImage[];
@@ -111,7 +112,7 @@ const ChartTimeline = () => {
               />
               <label htmlFor="user">
                 <i />
-                증상기록 모아보기
+                증상기록<span>모아보기</span>
               </label>
             </div>
             <div>
@@ -125,7 +126,7 @@ const ChartTimeline = () => {
               />
               <label htmlFor="hospital">
                 <i />
-                병원기록 모아보기
+                병원기록 <span>모아보기</span>
               </label>
             </div>
           </Filter>
@@ -168,6 +169,10 @@ const TimelineContainer = styled.div`
   background: #f4f5ff;
   padding: 30px 40px;
   border-radius: 40px;
+
+  ${media.tablet} {
+    padding: 30px 25px;
+  }
 `;
 
 const Filter = styled.div`
@@ -187,6 +192,10 @@ const Filter = styled.div`
     color: #b2b5cc;
     cursor: pointer;
     transition: color 0.2s;
+
+    span {
+      margin-left: .3em;
+    }
 
     i {
       display: block;
@@ -218,6 +227,23 @@ const Filter = styled.div`
       i {
         background-image: url(${checkedIcon.src});
       }
+    }
+  }
+
+  ${media.tablet} {
+    label { 
+      font-size: 14px;
+
+      i {
+        width: 14px;
+        height: 14px;
+      }
+    }
+  }
+
+  ${media.mobile} {
+    span {
+      display: none;
     }
   }
 `;

@@ -90,10 +90,10 @@ export const MobBodyNavigatorArea = styled.div<{ isSelect: boolean }>`
   display: none;
   width: 45%;
   max-width: 820px;
-  position: absolute;
+  position: fixed;
   left: 50%;
   bottom: 0;
-  height: 90%;
+  height: 90vh;
   width: 88%;
   border-bottom: none;
   border-radius: 30px 30px 0 0;
