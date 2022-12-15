@@ -51,52 +51,15 @@
  <!-- 프론트엔드 -->
   <!-- <img src="https://img.shields.io/badge/FrontEnd-5359E9?style=for-the-badge"/>
   <br/> -->
-  <h3><strong>Front-End</strong></h3>
+  <h3><strong>Common</strong></h3>
   <img src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=Next.js&logoColor=white"/>
   <img src="https://img.shields.io/badge/Typescript-3178C6?style=flat-square&logo=Typescript&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Recoil-black?style=flat-square&logo=Recoil&logoColor=white"/>
-  <img src="https://img.shields.io/badge/React Query-FF4154?style=flat-square&logo=ReactQuery&logoColor=white"/>
-  <img src="https://img.shields.io/badge/React Hook Form-EC5990?style=flat-square&logo=ReactHookForm&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Axios-5A29E4?style=flat-square&logo=Axios&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Styled Components-DB7093?style=flat-square&logo=styled-components&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Framer-0055FF?style=flat-square&logo=Framer&logoColor=white"/>
+  <details>
+  <summary>
+  공통 기술 스택 자세히 보기
+  </summary>
   <br/>
-  <br/>
-  <!-- 백엔드 -->
- <h3><strong>Back-End</strong></h3>
-   <img src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=Next.js&logoColor=white"/>
-   <img src="https://img.shields.io/badge/Flask-555555?style=flat-square&logo=Flask&logoColor=white"/>
-   <img src="https://img.shields.io/badge/Iron Session-DB7093?style=flat-square&logoColor=white"/>
-   <img src="https://img.shields.io/badge/NodeMailer-black?style=flat-square&logo=Recoil&logoColor=white"/>
-  <br/>
-  <br/>
-  <!-- <img src="https://img.shields.io/badge/DataBase-39A182?style=for-the-badge"/>
-  <br/> -->
-   <h3><strong>DataBase</strong></h3>
-   <img src="https://img.shields.io/badge/Planet Scale-000000?style=flat-square&logo=PlanetScale&logoColor=white"/>
-    <img src="https://img.shields.io/badge/Cloudflare-F38020?style=flat-square&logo=Cloudflare&logoColor=white"/>
-    <img src="https://img.shields.io/badge/Prisma-2D3748?style=flat-square&logo=Prisma&logoColor=white"/>
-     <br/>
-      <br/>
-     <!-- CI/CD -->
-  <!-- <img src="https://img.shields.io/badge/CI/CD-3178C6?style=for-the-badge"/>
-  <br/> -->
-<h3><strong>CI / CD</strong></h3>
-  <img src="https://img.shields.io/badge/Git-F05032?style=flat-square&logo=Git&logoColor=white"/>
-  <img src="https://img.shields.io/badge/GitLab-FC6D26?style=flat-square&logo=GitLab&logoColor=white"/>
-  <img src="https://img.shields.io/badge/GitLab Runner-FC6D26?style=flat-square&logo=GitLab&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=Docker&logoColor=white"/>
- 
-</div>
-<br/>
-<br/>
-
----
-
-<br/>
-<br/>
-
-<img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=Next.js&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=Next.js&logoColor=white"/>
 
 <details>
   <summary>SSR + CSR</summary>
@@ -133,15 +96,27 @@
   <summary>최고의 개발 환경</summary>
 
 - Typescript는 Javascript의 정적버전 언어입니다.동적타입 언어인 Javascript가 가진 단점을 명확한 타입 지정으로 보완이 가능하며,  
-이는 자동완성,타입유추 등 개발자에게 보다 나은 개발환경을 제공해줍니다.
-</details>
-<br/>
+  이는 자동완성,타입유추 등 개발자에게 보다 나은 개발환경을 제공해줍니다.
+  </details>
+  <br/>
+    </details>
+    <br/>
+    <br/>
+    <h3><strong>Front-End</strong></h3>
+    <img src="https://img.shields.io/badge/Recoil-black?style=flat-square&logo=Recoil&logoColor=white"/>
+    <img src="https://img.shields.io/badge/React Query-FF4154?style=flat-square&logo=ReactQuery&logoColor=white"/>
+    <img src="https://img.shields.io/badge/React Hook Form-EC5990?style=flat-square&logo=ReactHookForm&logoColor=white"/>
+    <img src="https://img.shields.io/badge/Axios-5A29E4?style=flat-square&logo=Axios&logoColor=white"/>
+    <img src="https://img.shields.io/badge/Styled Components-DB7093?style=flat-square&logo=styled-components&logoColor=white"/>
+    <img src="https://img.shields.io/badge/Framer-0055FF?style=flat-square&logo=Framer&logoColor=white"/>
 
-## **Front-End**
-
-<img src="https://img.shields.io/badge/React Query-FF4154?style=for-the-badge&logo=ReactQuery&logoColor=white"/>
-<details>
-  <summary>보다 편한 비동기 처리</summary>
+    <details>
+    <summary>
+    Front-End 기술 스택 자세히 보기
+    </summary>
+    <img src="https://img.shields.io/badge/React Query-FF4154?style=for-the-badge&logo=ReactQuery&logoColor=white"/>
+  <details>
+    <summary>보다 편한 비동기 처리</summary>
 
 - Api 호출을 하는 일련의 과정을 Tanstack-Query에서 제공하는 hook을 통해 편리하게 사용할 수 있습니다.
   </details>
@@ -158,9 +133,9 @@
 <details>
 <summary>강력한 비동기 상태관리</summary>
 
-- Tanstack-Query에서 제공하는 hook 옵션들은 강력한 비동기 상태관리를 가능하게 합니다.
+- Tanstack-Query에서 제공하는 hook 옵션들은 강력한 비동기 상태관리를 가능하게 합니다.  
 Suspense에서 관리하는 3가지 상태(pendding,ready,errored)를 react-query에서 직접적으로 접근하여  
-isLoading,isFetching,isError,onSuccess,onSettled 등의 옵션으로 간편하게 관리 할 수 있게 해주며,
+isLoading,isFetching,isError,onSuccess,onSettled 등의 옵션으로 간편하게 관리 할 수 있게 해주며,  
 이러한 옵션들은 api 호출 시 발생되는 복잡한 다중 이벤트 처리에도 강력한 힘을 발휘합니다.  
 또한 전역으로 설정하여 일괄적으로 조건부 처리 또한 가능합니다.
 </details>
@@ -202,61 +177,19 @@ isLoading,isFetching,isError,onSuccess,onSettled 등의 옵션으로 간편하�
 - axios는 자체적으로 response,requset 데이터를 parsing해주어서 fetch보다 간편하게 사용이 가능합니다.
 
 </details>
-<br/>
-
-## **Back-End**
-
-<img src="https://img.shields.io/badge/NodeMailer-black?style=for-the-badge&logo=Recoil&logoColor=white"/>
-
-<details>
-    <summary>
-메일 전송 솔루션
-    </summary>
-
-- Node.js 환경에서 대표적인 메일전송 솔루션이며,
-간단한 사용법으로 메일 전송이 가능합니다.  
-저희 프로젝트에서는 인증메일을 보내는 용도로 사용했습니다.
-
-  </details>
-<br/>
-<img src="https://img.shields.io/badge/Iron Session-teal?style=for-the-badge&logo=Recoil&logoColor=white"/>
-
-<details>
-    <summary>
-로우레벨 코드로 구현 가능
-    </summary>
-
-- 다른 회원인증 방식에 비해 비교적 간단한 코드로 회원인증 구현이 가능합니다.
-
- </details>
-
-<details>
-    <summary>
-Serverless환경에서의 회원인증
-    </summary>
-
-- JWT와 다르게 iron-session은 payload를 암호화해서 전달해주기 때문에 유저의 민감한 정보를 식별자로 사용하는 것도 가능합니다.  
- 이는 유저의 정보를 서버에 저장하지 않더라도 회원인증 가능하게 해주고, serverless환경인 바디토리 프로젝트에 아주 좋은 회원인증 방식이라 판단했습니다.
-</details>
-<br/>
-<img src="https://img.shields.io/badge/Flask-555555?style=for-the-badge&logo=Flask&logoColor=white"/>
-
-<details>
-    <summary>
-가벼운 선택
-    </summary>
-
-- 파이썬 환경에서 모델을 불러와 결과을 예측하는 것이 수월하기 때문에 파이썬 기반인 백엔드 서버를 구축해야 했습니다.
-  비교적 간단한 api를 구현하면 됐기 때문에 Django보다 가볍고 간단하게 구현할 수 있는 Flask를 선택했습니다.
 
 </details>
-
-- 자체적으로 학습시킨 모델들을 불러와 요청에 따른 예측값을 반환하는 용도로 사용중입니다.
   <br/>
+  <br/>
+  <h3><strong>Style</strong></h3>
 
-## **Style**
-
-  <img src="https://img.shields.io/badge/Styled Components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Styled Components-DB7093?style=flat-square&logo=styled-components&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Framer-0055FF?style=flat-square&logo=Framer&logoColor=white"/>
+<details>
+   <summary>
+   Style 기술 스택 자세히 보기
+   </summary>
+   <img src="https://img.shields.io/badge/Styled Components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white"/>
 
 <details>
   <summary>
@@ -306,10 +239,79 @@ Serverless환경에서의 회원인증
 
   </details>
 <br/>
+   </details>
+  <!-- 백엔드 -->
+ <h3><strong>Back-End</strong></h3>
+   <img src="https://img.shields.io/badge/Flask-555555?style=flat-square&logo=Flask&logoColor=white"/>
+    <img src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=Python&logoColor=white"/>
+   <img src="https://img.shields.io/badge/Iron Session-DB7093?style=flat-square&logoColor=white"/>
+   <img src="https://img.shields.io/badge/NodeMailer-black?style=flat-square&logo=Recoil&logoColor=white"/>
+   <details>
+   <summary>
+   Back-End 기술 스택 자세히 보기
+   </summary>
+<img src="https://img.shields.io/badge/NodeMailer-black?style=for-the-badge&logo=Recoil&logoColor=white"/>
 
-## **DB**
+<details>
+    <summary>
+메일 전송 솔루션
+    </summary>
 
+- Node.js 환경에서 대표적인 메일전송 솔루션이며,
+간단한 사용법으로 메일 전송이 가능합니다.  
+저희 프로젝트에서는 인증메일을 보내는 용도로 사용했습니다.
+
+  </details>
 <br/>
+<img src="https://img.shields.io/badge/Iron Session-teal?style=for-the-badge&logo=Recoil&logoColor=white"/>
+
+<details>
+    <summary>
+로우레벨 코드로 구현 가능
+    </summary>
+
+- 다른 회원인증 방식에 비해 비교적 간단한 코드로 회원인증 구현이 가능합니다.
+
+ </details>
+
+<details>
+    <summary>
+Serverless환경에서의 회원인증
+    </summary>
+
+- JWT와 다르게 iron-session은 payload를 암호화해서 전달해주기 때문에 유저의 민감한 정보를 식별자로 사용하는 것도 가능합니다.  
+ 이는 유저의 정보를 서버에 저장하지 않더라도 회원인증 가능하게 해주고, serverless환경인 바디토리 프로젝트에 아주 좋은 회원인증 방식이라 판단했습니다.
+</details>
+<br/>
+<img src="https://img.shields.io/badge/Flask-555555?style=for-the-badge&logo=Flask&logoColor=white"/>
+
+<details>
+    <summary>
+가벼운 선택
+    </summary>
+
+- 파이썬 환경에서 모델을 불러와 결과을 예측하는 것이 수월하기 때문에 파이썬 기반인 백엔드 서버를 구축해야 했습니다.
+  비교적 간단한 api를 구현하면 됐기 때문에 Django보다 가볍고 간단하게 구현할 수 있는 Flask를 선택했습니다.
+
+</details>
+
+- 자체적으로 학습시킨 모델들을 불러와 요청에 따른 예측값을 반환하는 용도로 사용중입니다.
+<br/>
+
+   </details>
+  <br/>
+  <br/>
+  <!-- <img src="https://img.shields.io/badge/DataBase-39A182?style=for-the-badge"/>
+  <br/> -->
+   <h3><strong>DataBase</strong></h3>
+   <img src="https://img.shields.io/badge/Planet Scale-000000?style=flat-square&logo=PlanetScale&logoColor=white"/>
+    <img src="https://img.shields.io/badge/Cloudflare-F38020?style=flat-square&logo=Cloudflare&logoColor=white"/>
+    <img src="https://img.shields.io/badge/Prisma-2D3748?style=flat-square&logo=Prisma&logoColor=white"/>
+    <details>
+    <summary>
+    DB 기술 스택 자세히 보기
+    </summary>
+    <br/>
 <img src="https://img.shields.io/badge/Planet Scale-000000?style=for-the-badge&logo=PlanetScale&logoColor=white"/>
 
 <details>
@@ -391,6 +393,30 @@ Typescript와의 호환
 - CloudFlare는 이미지를 직접 Post요청으로 업로드하는 방식을 사용함으로서 간편한 이미지 업로드 구현이 가능합니다.
 </details>
 <br/>
+    </details>
+     <br/>
+      <br/>
+     <!-- CI/CD -->
+  <!-- <img src="https://img.shields.io/badge/CI/CD-3178C6?style=for-the-badge"/>
+  <br/> -->
+<h3><strong>CI / CD</strong></h3>
+  <img src="https://img.shields.io/badge/Git-F05032?style=flat-square&logo=Git&logoColor=white"/>
+  <img src="https://img.shields.io/badge/GitLab-FC6D26?style=flat-square&logo=GitLab&logoColor=white"/>
+  <img src="https://img.shields.io/badge/GitLab Runner-FC6D26?style=flat-square&logo=GitLab&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=Docker&logoColor=white"/>
+
+</div>
+<br/>
+<br/>
+
+---
+
+<br/>
+<br/>
+
+## **Style**
+
+## **DB**
 
 ## **CI/CD**
 
