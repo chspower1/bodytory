@@ -495,3 +495,186 @@ CI/CD 기술 스택 자세히 보기
 
 - 복잡한 레이어 구성 절차 없이 인자값들을 통해 쉽게 원하는 방향으로 학습시킬 수 있어서 채택했습니다
 </details>
+<br/>
+<br/>
+
+## 데이터 구조
+
+<img src="./next/prisma/ERD_result.svg">
+<details>
+  <summary>
+  데이터 스키마 자세히 확인하기
+  </summary>
+
+```prisma
+model User {
+id                          Int                   @id @default(autoincrement())
+createAt                    DateTime              @default(now())
+email                       String
+gender                      Gender
+name                        String
+password                    String
+phone                       String?
+updateAt                    DateTime              @updatedAt
+type                        UserType              @default(origin)
+birth                       String                @default("1993-10-23")
+accountId                   String                @unique
+recommendMedicalDepartments RecommendDepartment[]
+Certification               Certification[]
+records                     Record[]
+hospitals                   HospitalToUser[]
+}
+
+
+model RecommendDepartment {
+id        Int      @id
+position  Position
+recommend String
+userId    Int?
+User      User?    @relation(fields: [userId], references: [id])
+
+@@index([userId])
+}
+
+model Certification {
+id       Int      @id @default(autoincrement())
+createAt DateTime @default(now())
+updateAt DateTime @updatedAt
+number   String
+userId   Int?
+email    String?
+user     User?    @relation(fields: [userId], references: [id])
+
+@@index([userId])
+}
+
+model Record {
+id                   Int           @id @default(autoincrement())
+createAt             DateTime      @default(now())
+updateAt             DateTime      @updatedAt
+type                 RecordType
+position             Position
+description          String
+userId               Int
+diagnosis            String?
+prescription         String?
+hospitalId           Int?
+recommendDepartments String?
+user                 User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+hospital             Hospital?     @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
+images               RecordImage[]
+
+@@index([userId])
+@@index([hospitalId])
+}
+
+model RecordImage {
+id       Int      @id @default(autoincrement())
+createAt DateTime @default(now())
+updateAt DateTime @updatedAt
+recordId Int
+url      String
+record   Record   @relation(fields: [recordId], references: [id], onDelete: Cascade)
+
+@@index([recordId])
+}
+
+model MedicalDepartment {
+id         Int                           @id
+department String
+hospitals  HospitalMedicalToDepartment[]
+}
+
+model Hospital {
+id                 Int                           @id @default(autoincrement())
+createAt           DateTime                      @default(now())
+updateAt           DateTime                      @updatedAt
+password           String                        @default("123456")
+name               String
+area               String
+address            String
+city               String
+class              String
+homepage           String?
+x                  Float?
+y                  Float?
+records            Record[]
+medicalDepartments HospitalMedicalToDepartment[]
+users              HospitalToUser[]
+
+@@fulltext([name])
+}
+
+
+
+model HospitalMedicalToDepartment {
+id                  Int                @id @default(autoincrement())
+medicalDepartmentId Int?
+hospitalId          Int?
+medicalDepartment   MedicalDepartment? @relation(fields: [medicalDepartmentId], references: [id], onDelete: Cascade)
+hospital            Hospital?          @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
+
+@@index([medicalDepartmentId])
+@@index([hospitalId])
+}
+
+model HospitalToUser {
+id         Int      @id @default(autoincrement())
+hospitalId Int
+userId     Int
+shared     Boolean  @default(true)
+hospital   Hospital @relation(fields: [hospitalId], references: [id])
+user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+@@index([hospitalId])
+@@index([userId])
+}
+
+enum Gender {
+male
+female
+}
+
+enum UserType {
+naver
+kakao
+origin
+}
+
+enum Position {
+head
+forehead
+eyes
+nose
+mouth
+cheek
+chin
+ears
+back
+waist
+hip
+neck
+chest
+stomach
+pelvis
+sexOrgan
+shoulder
+upperArm
+albow
+forearm
+wrist
+hand
+thigh
+knee
+calf
+ankle
+foot
+}
+
+enum RecordType {
+user
+hospital
+}
+```
+
+</details>
