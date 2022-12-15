@@ -379,13 +379,15 @@ const FrontBackButton = styled(RoundedDefaultButton)`
 `;
 const MobileFrontBackButton = styled.div`
   display:none;
+
   .rotateImgBg{
     width: 50px;
     height: 50px;
     background: url(${rotateIcon.src}) no-repeat center center;
     background-size:  contain;
+    cursor: pointer;
   }
-  ${media.custom(1366)}{
+  ${media.custom(1280)}{
     display:block;
     position: absolute;
     right: 10%;
@@ -410,10 +412,12 @@ const CustomContainer = styled.div<{ isWritePage: boolean }>`
     background-color: #ebecfc;
     box-shadow: 8px 8px 18px rgba(174, 178, 228, 0.25);
     border-radius: 30px;
-    ${media.custom(1633)}{
-      border-radius: 0 30px 30px 0;
-    }
   `}
+
+  ${media.custom(1280)}{
+    background-color: #fff;
+    border-radius: 30px 30px 0 0;
+  }
 `;
 
 const PathBox = styled.div<{ isViewMode?: boolean }>`
@@ -429,8 +433,13 @@ const PathBox = styled.div<{ isViewMode?: boolean }>`
       pointer-events: none;
       width: 85%;
     `}
-  ${media.custom(1366)}{
+  ${media.custom(1280)}{
     min-width: 300px;
+    width: 60%;
+  }
+
+  @media (max-width: 1280px) and (min-aspect-ratio: 1/1) {
+    width: 20%;
   }
 `;
 
@@ -441,7 +450,7 @@ const ButtonsBox = styled.div`
   width: 100%;
   padding: 18px;
   bottom: 0;
-  ${media.custom(1366)}{
+  ${media.custom(1280)}{
     display:none;
   }
 `;

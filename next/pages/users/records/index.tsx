@@ -8,14 +8,25 @@ import { currentBodyPosition } from "atoms/atoms";
 import { motion } from "framer-motion";
 import { GetServerSidePropsContext, NextPage } from "next";
 import withGetServerSideProps from "@utils/client/withGetServerSideProps";
+import { EnterNavigatorButton, MobBodyNavigatorArea } from "./write";
+import BodyNavigator from "@components/records/BodyNavigator";
+import { media } from "@styles/theme";
 
 const RecordPage: NextPage = () => {
   const [selectedBodyPart, setSelectedBodyPart] = useState<bodyPartType>(null);
   const setCurrentPosition = useSetRecoilState(currentBodyPosition);
 
+  const [isSelect, setIsSelect] = useState(false);
+
   useEffect(() => {
     setCurrentPosition("front");
   }, []);
+
+  useEffect(() => {
+    if (selectedBodyPart) {
+      setIsSelect(false);
+    }
+  }, [selectedBodyPart]);
 
   return (
     <RecordWrap>
@@ -33,6 +44,16 @@ const RecordPage: NextPage = () => {
       >
         <SelectPart selectedBodyPart={selectedBodyPart} setSelectedBodyPart={setSelectedBodyPart} />
       </SelectPartArea>
+      <MobBodyNavigatorArea isSelect={isSelect}>
+        <BodyNavigator
+          selectedBodyPart={selectedBodyPart}
+          setSelectedBodyPart={setSelectedBodyPart}
+          isWritePage={false}
+        />
+        <EnterNavigatorButton isSelect={isSelect} onClick={() => setIsSelect(prev => !prev)} >
+          <i/>
+        </EnterNavigatorButton>
+      </MobBodyNavigatorArea>
     </RecordWrap>
   );
 };
@@ -50,8 +71,16 @@ const RecordWrap = styled.div`
 
 const DashBoardArea = styled(motion.div)`
   width: 62.5%;
+
+  ${media.custom(1280)} {
+    width: 100%;
+  }
 `;
 
 const SelectPartArea = styled(motion.div)`
   width: 37.5%;
+
+  ${media.custom(1280)} {
+    display: none;
+  }
 `;
