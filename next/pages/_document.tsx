@@ -1,6 +1,6 @@
 import Document, { DocumentContext, DocumentInitialProps, Head, Html, Main, NextScript } from "next/document";
 import { ServerStyleSheet } from "styled-components";
-
+import or_image from "@public/og_image.png";
 export default class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext): Promise<DocumentInitialProps> {
     const sheet = new ServerStyleSheet();
@@ -31,7 +31,7 @@ export default class MyDocument extends Document {
       <Html>
         <Head>
           <link rel="canonical" href="https://kdt-ai5-team01.elicecoding.com/" />
-
+          <meta property="og:image" content="/public/og_image.png" />
           <script src="https://developers.kakao.com/sdk/js/kakao.js" async />
           <script
             src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_KEY}&libraries=services,clusterer&autoload=false`}

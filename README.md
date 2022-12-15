@@ -16,9 +16,6 @@
 
 ## <img src="./next/public/static/readme/team.svg" height="25px"> **바디토리 멤버**
 
----
-
-<!-- <img src="./next/public/static/readme/team/team.gif"> -->
 <table>
   <tr>
     <td align="center"><a href="https://github.com/chspower1"><img src="./next/public/static/readme/team/hosung.gif" width="100px;" alt="호성"/><br /><sub><b>조호성</b></sub></a><br />
@@ -59,10 +56,12 @@
 - 예전에 진료받았던 내용이 **기억나지 않아서** 아쉬웠던 적이 있으신가요?
 
 그렇다면 **바디토리**(Bodytory)에서 **각종 증상**들을 부위별로 **기록하고**, **진료과**를 **추천**받아보세요!
+<br/>
+<br/>
 
-## 바디토리 주요 서비스
+## <img src="./next/public/static/readme/service.svg" height="25px"> 바디토리 주요 서비스
 
-### 📝 **간편한 증상 기록**
+#### 📝 **간편한 증상 기록**
 
 <div>-------이미지첨부------</div>
 
@@ -70,9 +69,8 @@
 - 단순히 글로 서술하기 힘든 증상의 경우, 추후에 **사진 자료 첨부** 가능
 - 부족하거나 잘못된 증상 **기록의 수정/삭제** 기능 지원
   <br/>
-  <br/>
 
-### <img src="./next/public/static/readme/ai.svg" width="20px"/> **다양한 AI 서비스**
+#### <img src="./next/public/static/readme/ai.svg" width="20px"/> **다양한 AI 서비스**
 
 <div>-------이미지첨부------</div>
 
@@ -80,18 +78,16 @@
 - 전반적인 기록들을 토대로 사용자가 **어떤 키워드를 자주 사용**했는지 보여줌
 - ETRI, 과학기술정보통신부에서 제공하는 AI를 기반으로 **정확도 높은 음성 인식** 기능 구현
   <br/>
-  <br/>
 
-### 🔎 **병원 검색**
+#### 🔎 **병원 검색**
 
 <div>-------이미지첨부------</div>
 
 - **지도**에서 사용자의 위치정보를 기반으로 **주변 병원들을 검색**하는 기능 제공
 - 위치 기반 검색 외에도 **병원명으로 검색하는 기능** 또한 제공중
   <br/>
-  <br/>
 
-### 📨 **병원에 기록 공유**
+#### 📨 **병원에 기록 공유**
 
 <div>-------이미지첨부------</div>
 
@@ -100,9 +96,7 @@
   <br/>
   <br/>
 
-## 기술 스택
-
----
+## <img src="./next/public/static/readme/skills.svg" width="23px"/> 기술 스택
 
 ### **Common**
 
@@ -450,7 +444,7 @@ Typescript와의 호환
     </details>
      <br/>
 
-### **CI / CD**
+### **CI/CD**
 
   <img src="https://img.shields.io/badge/Git-F05032?style=flat-square&logo=Git&logoColor=white"/>
   <img src="https://img.shields.io/badge/GitLab-FC6D26?style=flat-square&logo=GitLab&logoColor=white"/>
@@ -498,9 +492,7 @@ CI/CD 기술 스택 자세히 보기
 <br/>
 <br/>
 
-## 데이터 구조
-
----
+## <img src="./next/public/static/readme/data.svg" height="20px"> 데이터 구조
 
 <img src="./next/prisma/ERD_result.svg">
 <details>
@@ -683,15 +675,13 @@ hospital
 <br/>
 <br/>
 
-## 폴더구조
-
----
+## 📂 폴더구조
 
 ### Next.js
 
 <details>
   <summary>
-  pages 폴더 구조 보기
+  📂pages
   </summary>
 
 📦pages  
@@ -784,7 +774,7 @@ hospital
 
 <details>
   <summary>
-  components 폴더 구조 보기
+  📂components
   </summary>
 
 📦components  
@@ -894,7 +884,7 @@ hospital
 
 <details>
   <summary>
-  hooks 폴더 구조 보기
+  📂hooks
   </summary>
      
   📦hooks     
@@ -911,7 +901,7 @@ hospital
 
 <details>
   <summary>
-  atoms 폴더 구조 보기
+  📂atoms
   </summary>
      
   📦atoms  
@@ -921,7 +911,7 @@ hospital
 
 <details>
   <summary>
-  prisma 폴더 구조 보기
+  📂prisma
   </summary>
      
   📦prisma  
@@ -933,7 +923,7 @@ hospital
 
 <details>
   <summary>
-  utils 폴더 구조 보기
+  📂utils
   </summary>
      
   📦utils  
@@ -965,7 +955,7 @@ hospital
 
 <details>
   <summary>
-  flask 폴더 구조 보기
+  📂flask
   </summary>
      
   📦flask  
