@@ -93,7 +93,7 @@ const SideMenu = () => {
             <Footer>
               <FooterUl>
                 <li>
-                  <Link href="about/bodytory">바디토리 소개</Link>
+                  <Link href="/about/bodytory">바디토리 소개</Link>
                 </li>
                 <li>
                   <Link href="/about/team">팀 소개</Link>

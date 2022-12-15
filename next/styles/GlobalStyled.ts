@@ -12,7 +12,7 @@ ${reset}
 
   html,
   body {
-    background: ${props => props.theme.color.darkBg};
+    // background: ${props => props.theme.color.darkBg};
     font-optical-sizing: auto;
     font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
     font-size: ${props => props.theme.font.size.bodyText};
@@ -110,6 +110,7 @@ ${reset}
 
   ::-webkit-scrollbar {
     width: 10px;
+    background-color: "#e2e6ff";
   }
 
   ::-webkit-scrollbar-thumb {
