@@ -11,37 +11,8 @@
 
 ---
 
-## 바디토리를 만든 사람들
-
-  <img src="./next/public/static/team/hosung.gif" width="100px" class="border"/>
-  <div>조호성</div>
-   <img src="https://img.shields.io/badge/FrontEnd-386ED7?style=flat-square&logoColor=white"/>
-  <img src="https://img.shields.io/badge/BackEnd-EA5E5E?style=flat-square&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Motion-63BA71?style=flat-square&logoColor=white"/>
-
-  <img src="./next/public/static/team/sohi.gif" width="100px" class="border"/>
-  <div>정소희</div>
-   <img src="https://img.shields.io/badge/FrontEnd-386ED7?style=flat-square&logoColor=white"/>
-  <img src="https://img.shields.io/badge/AI-4698A4?style=flat-square&logoColor=white"/>
-  <img src="https://img.shields.io/badge/PM-B0A85A?style=flat-square&logoColor=white"/>
-
-  <img src="./next/public/static/team/gyungwon.gif" width="100px" class="border"/>
-  <div>김경원</div>
-  <img src="https://img.shields.io/badge/FrontEnd-386ED7?style=flat-square&logoColor=white"/>
-  <img src="https://img.shields.io/badge/BackEnd-EA5E5E?style=flat-square&logoColor=white"/>
-
-  <img src="./next/public/static/team/ryong.gif" width="100px" class="border"/>
-  <div>한동룡</div>
-  <img src="https://img.shields.io/badge/FrontEnd-386ED7?style=flat-square&logoColor=white"/>
-  <img src="https://img.shields.io/badge/BackEnd-EA5E5E?style=flat-square&logoColor=white"/>
-
-  <img src="./next/public/static/team/dahyun.gif" width="100px" class="border"/>
-  <div>오다현</div>
-  <img src="https://img.shields.io/badge/FrontEnd-386ED7?style=flat-square&logoColor=white"/>
-  <img src="https://img.shields.io/badge/AI-4698A4?style=flat-square&logoColor=white"/>
-  <img src="https://img.shields.io/badge/DevOps-BE78BF?style=flat-square&logoColor=white"/>
-
-<br/>
+<summary>바디토리를 만든 사람들</summary>
+<img src="./next/public/static/team/team.gif">
 
 ## <img src="./next/public/static/tory/tory_purple.png" height="25px"> **소개**
 
