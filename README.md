@@ -57,49 +57,40 @@
   <summary>
   공통 기술 스택 자세히 보기
   </summary>
-  <br/>
 
-<img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=Next.js&logoColor=white"/>
+- <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=Next.js&logoColor=white"/>
 
-<details>
-
-<summary>SSR + CSR</summary>
-
-- Pre-Render가 빠르고 SEO가 최적화 되는 SSR의 장점과 상호작용이 효율적이고 잦은 데이터 변경환경에 유리한 CSR의 장점, 두 가지 장점 모두 살릴 수 있어 NextJS는 저희팀에게 좋은 선택지였습니다.
-
-</details>
-
-<details>
-     <summary>풀스택</summary>
-
-- 팀원 모두 프론트엔드에 주력인 멤버였습니다.  
-  시간이 비교적 짧은 현재 프로젝트에서 Next는 저희팀에게 프론트엔드,백엔드를 빠르고,효율적으로 구축할 수 있는 매력적인 프레임 워크였기에 채택하게 되었습니다.
-
-</details>
-
-<details>
-  <summary>NextJS의 개발환경</summary>
-
-- API router,Page router,middleware,Image,document 등 NextJS에서 제공하는 기능들은 개발자에게 편리한 개발환경을 제공하기에 NextJS를 채택하였습니다.
-
-</details>
-<br/>
-<img src="https://img.shields.io/badge/Typescript-3178C6?style=for-the-badge&logo=Typescript&logoColor=white"/>
-
-<details>
-  <summary> Javascript의 한계</summary>
-  
-  - Javascript는 타입에 제약이 없어 의도치 않은 문제점을 발생시킬 수 있습니다.  
-    이러한 문제점은 디버깅을 쉽게 하지 못하게 되고 결국 개발생산성을 저하시키는 요인이 됩니다.
-</details>
-
-<details>
-  <summary>최고의 개발 환경</summary>
-
-- Typescript는 Javascript의 정적버전 언어입니다.동적타입 언어인 Javascript가 가진 단점을 명확한 타입 지정으로 보완이 가능하며,  
- 이는 자동완성,타입유추 등 개발자에게 보다 나은 개발환경을 제공해줍니다.
-   </details>
+  - <details>
+      <summary>SSR + CSR</summary>
+        Pre-Render가 빠르고 SEO가 최적화 되는 SSR의 장점과 상호작용이 효율적이고 잦은 데이터 변경환경에 유리한 CSR의 장점, 두 가지 장점 모두 살릴 수 있어 NextJS는 저희팀에게 좋은 선택지였습니다.
     </details>
+
+  - <details>
+      <summary>풀스택</summary>
+      팀원 모두 프론트엔드에 주력인 멤버였습니다.  
+      시간이 비교적 짧은 현재 프로젝트에서 Next는 저희팀에게 프론트엔드,백엔드를 빠르고,효율적으로 구축할 수 있는 매력적인 프레임 워크였기에 채택하게 되었습니다.
+    </details>
+
+  - <details>
+        <summary>NextJS의 개발환경</summary>
+        API router,Page router,middleware,Image,document 등 NextJS에서 제공하는 기능들은 개발자에게 편리한 개발환경을 제공하기에 NextJS를 채택하였습니다.
+    </details>
+
+- <img src="https://img.shields.io/badge/Typescript-3178C6?style=for-the-badge&logo=Typescript&logoColor=white"/>
+
+  - <details>
+      <summary> Javascript의 한계</summary>
+      Javascript는 타입에 제약이 없어 의도치 않은 문제점을 발생시킬 수 있습니다.  
+        이러한 문제점은 디버깅을 쉽게 하지 못하게 되고 결국 개발생산성을 저하시키는 요인이 됩니다.
+    </details>
+
+  - <details>
+      <summary>최고의 개발 환경</summary>
+      Typescript는 Javascript의 정적버전 언어입니다.동적타입 언어인 Javascript가 가진 단점을 명확한 타입 지정으로 보완이 가능하며,  
+     이는 자동완성,타입유추 등 개발자에게 보다 나은 개발환경을 제공해줍니다.
+    </details>
+
+</details>
 <br/>
 
 ### **Front-End**
