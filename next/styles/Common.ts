@@ -12,7 +12,7 @@ export const Wrapper = styled.div<{ bgColor?: string; isScroll?: boolean }>`
     !isScroll &&
     css`
       height: 100vh;
-      min-height: 768px;
+      // min-height: 768px;
     `}
 `;
 

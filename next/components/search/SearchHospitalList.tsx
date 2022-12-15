@@ -136,7 +136,7 @@ const SearchButton = styled(RoundedDefaultButton)`
     height: auto;
     font-size: 16px;
     border-radius: 6px;
-    flex-shrink:0;
+    flex-shrink: 0;
   }
   ${media.custom(1100)} {
     position: absolute;
@@ -156,8 +156,12 @@ const SearchButton = styled(RoundedDefaultButton)`
 export const SearchContainer = styled.div`
   position: relative;
   max-width: 1600px;
+  max-height: 610px;
   width: 100%;
-  height: calc(100% - 335px);
+  height: 100%;
+  ${media.mobile} {
+    height: calc(100% - 350px);
+  }
 `;
 
 const NoneMessage = styled.div`
@@ -169,13 +173,13 @@ const NoneMessage = styled.div`
   font-size: 30px;
   color: ${theme.color.darkBg};
   word-break: keep-all;
-  ${media.custom(1366)}{
+  ${media.custom(1366)} {
     font-size: 26px;
   }
-  ${media.tablet}{
+  ${media.tablet} {
     font-size: 24px;
   }
-  ${media.mobile}{
+  ${media.mobile} {
     font-size: 20px;
   }
 `;
@@ -185,9 +189,9 @@ const SearchForm = styled.form`
   align-items: center;
   width: 100%;
   position: relative;
-  > div{
-    input{
-      ${media.custom(1100)}{
+  > div {
+    input {
+      ${media.custom(1100)} {
         padding: 0 100px 0 30px;
       }
       ${media.mobile} {
@@ -197,12 +201,12 @@ const SearchForm = styled.form`
   }
   ${media.custom(1440)} {
     justify-content: center;
-    > div{
+    > div {
       margin: 0 30px 0 0;
     }
   }
   ${media.custom(1100)} {
-    > div{
+    > div {
       width: 100%;
       margin: 0 auto;
     }
