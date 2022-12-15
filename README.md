@@ -14,9 +14,9 @@
 
 ## ![bodytory version](https://img.shields.io/badge/bodytory-v1.0-brightgreen.svg)
 
----
-
 ## <img src="./next/public/static/readme/team.svg" height="25px"> **바디토리 멤버**
+
+---
 
 <!-- <img src="./next/public/static/readme/team/team.gif"> -->
 <table>
@@ -97,12 +97,12 @@
 
 - 서비스와 **연계된 병원들** 중 원하는 병원을 선택해 **자신의 증상 기록들을 공유** 가능
 - 병원에서 사용자의 기록을 보고 **간단한 진료내역을 작성 및 사용자에게 제공** 가능함
-
----
+  <br/>
+  <br/>
 
 ## 기술 스택
 
- <!-- 프론트엔드 -->
+---
 
 ### **Common**
 
@@ -494,4 +494,498 @@ CI/CD 기술 스택 자세히 보기
   </summary>
 
 - 복잡한 레이어 구성 절차 없이 인자값들을 통해 쉽게 원하는 방향으로 학습시킬 수 있어서 채택했습니다
+</details>
+<br/>
+<br/>
+
+## 데이터 구조
+
+---
+
+<img src="./next/prisma/ERD_result.svg">
+<details>
+  <summary>
+  데이터 스키마 자세히 확인하기
+  </summary>
+
+```prisma
+model User {
+id                          Int                   @id @default(autoincrement())
+createAt                    DateTime              @default(now())
+email                       String
+gender                      Gender
+name                        String
+password                    String
+phone                       String?
+updateAt                    DateTime              @updatedAt
+type                        UserType              @default(origin)
+birth                       String                @default("1993-10-23")
+accountId                   String                @unique
+recommendMedicalDepartments RecommendDepartment[]
+Certification               Certification[]
+records                     Record[]
+hospitals                   HospitalToUser[]
+}
+
+
+model RecommendDepartment {
+id        Int      @id
+position  Position
+recommend String
+userId    Int?
+User      User?    @relation(fields: [userId], references: [id])
+
+@@index([userId])
+}
+
+model Certification {
+id       Int      @id @default(autoincrement())
+createAt DateTime @default(now())
+updateAt DateTime @updatedAt
+number   String
+userId   Int?
+email    String?
+user     User?    @relation(fields: [userId], references: [id])
+
+@@index([userId])
+}
+
+model Record {
+id                   Int           @id @default(autoincrement())
+createAt             DateTime      @default(now())
+updateAt             DateTime      @updatedAt
+type                 RecordType
+position             Position
+description          String
+userId               Int
+diagnosis            String?
+prescription         String?
+hospitalId           Int?
+recommendDepartments String?
+user                 User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+hospital             Hospital?     @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
+images               RecordImage[]
+
+@@index([userId])
+@@index([hospitalId])
+}
+
+model RecordImage {
+id       Int      @id @default(autoincrement())
+createAt DateTime @default(now())
+updateAt DateTime @updatedAt
+recordId Int
+url      String
+record   Record   @relation(fields: [recordId], references: [id], onDelete: Cascade)
+
+@@index([recordId])
+}
+
+model MedicalDepartment {
+id         Int                           @id
+department String
+hospitals  HospitalMedicalToDepartment[]
+}
+
+model Hospital {
+id                 Int                           @id @default(autoincrement())
+createAt           DateTime                      @default(now())
+updateAt           DateTime                      @updatedAt
+password           String                        @default("123456")
+name               String
+area               String
+address            String
+city               String
+class              String
+homepage           String?
+x                  Float?
+y                  Float?
+records            Record[]
+medicalDepartments HospitalMedicalToDepartment[]
+users              HospitalToUser[]
+
+@@fulltext([name])
+}
+
+
+
+model HospitalMedicalToDepartment {
+id                  Int                @id @default(autoincrement())
+medicalDepartmentId Int?
+hospitalId          Int?
+medicalDepartment   MedicalDepartment? @relation(fields: [medicalDepartmentId], references: [id], onDelete: Cascade)
+hospital            Hospital?          @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
+
+@@index([medicalDepartmentId])
+@@index([hospitalId])
+}
+
+model HospitalToUser {
+id         Int      @id @default(autoincrement())
+hospitalId Int
+userId     Int
+shared     Boolean  @default(true)
+hospital   Hospital @relation(fields: [hospitalId], references: [id])
+user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+@@index([hospitalId])
+@@index([userId])
+}
+
+enum Gender {
+male
+female
+}
+
+enum UserType {
+naver
+kakao
+origin
+}
+
+enum Position {
+head
+forehead
+eyes
+nose
+mouth
+cheek
+chin
+ears
+back
+waist
+hip
+neck
+chest
+stomach
+pelvis
+sexOrgan
+shoulder
+upperArm
+albow
+forearm
+wrist
+hand
+thigh
+knee
+calf
+ankle
+foot
+}
+
+enum RecordType {
+user
+hospital
+}
+```
+
+</details>
+<br/>
+<br/>
+
+## 폴더구조
+
+---
+
+### Next.js
+
+<details>
+  <summary>
+  pages 폴더 구조 보기
+  </summary>
+
+📦pages  
+ ┣ 📂about  
+ ┃ ┣ 📜team.tsx  
+ ┃ ┗ 📜tory.tsx  
+ ┣ 📂api  
+ ┃ ┣ 📂auth  
+ ┃ ┃ ┣ 📂help  
+ ┃ ┃ ┃ ┣ 📜find-id.ts  
+ ┃ ┃ ┃ ┣ 📜find-pw.ts  
+ ┃ ┃ ┃ ┗ 📜reset.ts  
+ ┃ ┃ ┣ 📂register  
+ ┃ ┃ ┃ ┣ 📂check  
+ ┃ ┃ ┃ ┃ ┣ 📜email.ts  
+ ┃ ┃ ┃ ┃ ┗ 📜id.ts  
+ ┃ ┃ ┃ ┗ 📜index.ts  
+ ┃ ┃ ┣ 📜login.ts  
+ ┃ ┃ ┣ 📜logout.ts  
+ ┃ ┃ ┗ 📜withdraw.ts  
+ ┃ ┣ 📂hospital  
+ ┃ ┃ ┣ 📂[patientId]  
+ ┃ ┃ ┃ ┣ 📜index.ts  
+ ┃ ┃ ┃ ┗ 📜[position].ts  
+ ┃ ┃ ┣ 📜index.ts  
+ ┃ ┃ ┣ 📜login.ts  
+ ┃ ┃ ┗ 📜records.ts  
+ ┃ ┗ 📂users  
+ ┃ ┃ ┣ 📂my-hospitals  
+ ┃ ┃ ┃ ┣ 📜clinic-list.ts  
+ ┃ ┃ ┃ ┣ 📜find.ts  
+ ┃ ┃ ┃ ┣ 📜index.ts  
+ ┃ ┃ ┃ ┗ 📜map.ts  
+ ┃ ┃ ┣ 📂records  
+ ┃ ┃ ┃ ┣ 📂chart  
+ ┃ ┃ ┃ ┃ ┗ 📜[position].ts  
+ ┃ ┃ ┃ ┣ 📂dashboard  
+ ┃ ┃ ┃ ┃ ┗ 📜[dash].ts  
+ ┃ ┃ ┃ ┣ 📂flask  
+ ┃ ┃ ┃ ┃ ┗ 📜[flask].ts  
+ ┃ ┃ ┃ ┣ 📂picture  
+ ┃ ┃ ┃ ┃ ┣ 📜get-url.ts  
+ ┃ ┃ ┃ ┃ ┗ 📜index.ts  
+ ┃ ┃ ┃ ┣ 📜index.ts  
+ ┃ ┃ ┃ ┣ 📜openApi.ts  
+ ┃ ┃ ┃ ┗ 📜[position].ts  
+ ┃ ┃ ┣ 📜edit.ts  
+ ┃ ┃ ┗ 📜me.ts  
+ ┣ 📂auth  
+ ┃ ┣ 📂help  
+ ┃ ┃ ┣ 📜find-id.tsx  
+ ┃ ┃ ┣ 📜find-pw.tsx  
+ ┃ ┃ ┗ 📜reset.tsx  
+ ┃ ┣ 📂login  
+ ┃ ┃ ┣ 📜index.tsx  
+ ┃ ┃ ┗ 📜loading.tsx  
+ ┃ ┣ 📂register  
+ ┃ ┃ ┣ 📜choice.tsx  
+ ┃ ┃ ┣ 📜index.tsx  
+ ┃ ┃ ┗ 📜success.tsx  
+ ┃ ┗ 📜withdraw.tsx  
+ ┣ 📂hospital  
+ ┃ ┣ 📂chart  
+ ┃ ┃ ┣ 📜index.tsx  
+ ┃ ┃ ┗ 📜[position].tsx  
+ ┃ ┣ 📜index.tsx  
+ ┃ ┗ 📜login.tsx  
+ ┣ 📂users  
+ ┃ ┣ 📂my-hospital  
+ ┃ ┃ ┣ 📜clinic-list.tsx  
+ ┃ ┃ ┣ 📜find.tsx  
+ ┃ ┃ ┗ 📜index.tsx  
+ ┃ ┣ 📂records  
+ ┃ ┃ ┣ 📂chart  
+ ┃ ┃ ┃ ┗ 📜[position].tsx  
+ ┃ ┃ ┣ 📂write  
+ ┃ ┃ ┃ ┣ 📜add.tsx  
+ ┃ ┃ ┃ ┣ 📜analysis.tsx  
+ ┃ ┃ ┃ ┣ 📜index.tsx  
+ ┃ ┃ ┃ ┗ 📜[position].tsx  
+ ┃ ┃ ┗ 📜index.tsx  
+ ┃ ┗ 📜index.tsx  
+ ┣ 📜404.tsx  
+ ┣ 📜index.tsx  
+ ┣ 📜landing.tsx  
+ ┣ 📜_app.tsx  
+ ┗ 📜_document.tsx
+
+</details>
+
+<details>
+  <summary>
+  components 폴더 구조 보기
+  </summary>
+
+📦components  
+ ┣ 📂header  
+ ┃ ┣ 📜HamburgerMenuButton.tsx  
+ ┃ ┣ 📜Header.tsx  
+ ┃ ┣ 📜HospitalHeader.tsx  
+ ┃ ┗ 📜SideMenu.tsx  
+ ┣ 📂hospital  
+ ┃ ┣ 📜HospitalChart.tsx  
+ ┃ ┗ 📜HospitalSelectPart.tsx  
+ ┣ 📂icons  
+ ┃ ┗ 📜pencil.tsx  
+ ┣ 📂layout  
+ ┃ ┣ 📂buttons  
+ ┃ ┃ ┣ 📜DefaultButtons.ts  
+ ┃ ┃ ┣ 📜DeleteBtn.tsx  
+ ┃ ┃ ┣ 📜KakaoBtn.tsx  
+ ┃ ┃ ┣ 📜LogoutBtn.tsx  
+ ┃ ┃ ┣ 📜NaverBtn.tsx  
+ ┃ ┃ ┣ 📜OriginBtn.tsx  
+ ┃ ┃ ┗ 📜SocialButton.tsx  
+ ┃ ┣ 📂input  
+ ┃ ┃ ┣ 📜ButtonInInput.tsx  
+ ┃ ┃ ┣ 📜CheckBoxInput.tsx  
+ ┃ ┃ ┣ 📜Input.tsx  
+ ┃ ┃ ┣ 📜RadioInput.tsx  
+ ┃ ┃ ┗ 📜Textarea.tsx  
+ ┃ ┗ 📜Layout.tsx  
+ ┣ 📂lotties  
+ ┃ ┣ 📜ChartAnim.tsx  
+ ┃ ┣ 📜DahyunAnim.tsx  
+ ┃ ┣ 📜HosungAnim.tsx  
+ ┃ ┣ 📜Kyeongwon.tsx  
+ ┃ ┣ 📜LoadingAnim.tsx  
+ ┃ ┣ 📜RyongAnim.tsx  
+ ┃ ┣ 📜SohiAnim.tsx  
+ ┃ ┣ 📜SpeakAnim.tsx  
+ ┃ ┣ 📜ToryPurpleAnim.tsx  
+ ┃ ┗ 📜ToryWhiteAnim.tsx  
+ ┣ 📂map  
+ ┃ ┣ 📜ArroundMap.tsx  
+ ┃ ┗ 📜Maker.tsx  
+ ┣ 📂modals  
+ ┃ ┣ 📂map  
+ ┃ ┃ ┣ 📜ArroundMapModal.tsx  
+ ┃ ┃ ┗ 📜MapDetailModal.tsx  
+ ┃ ┣ 📜AlertModal.tsx  
+ ┃ ┣ 📜ClinicModal.tsx  
+ ┃ ┣ 📜HospitalModal.tsx  
+ ┃ ┣ 📜ImageDetailModal.tsx  
+ ┃ ┣ 📜Modal.tsx  
+ ┃ ┣ 📜MyHospitalModal.tsx  
+ ┃ ┗ 📜RecordModal.tsx  
+ ┣ 📂my-hospital  
+ ┃ ┣ 📜HospitalContent.tsx  
+ ┃ ┣ 📜MyHospitalList.tsx  
+ ┃ ┗ 📜SwiperBox.tsx  
+ ┣ 📂records  
+ ┃ ┣ 📂chart  
+ ┃ ┃ ┣ 📜Chart.tsx  
+ ┃ ┃ ┣ 📜ChartBox.tsx  
+ ┃ ┃ ┣ 📜ChartKeyword.tsx  
+ ┃ ┃ ┣ 📜ChartTimeline.tsx  
+ ┃ ┃ ┗ 📜SplitTextByKeyword.tsx  
+ ┃ ┣ 📂dashborad  
+ ┃ ┃ ┣ 📜DashBoard.tsx  
+ ┃ ┃ ┣ 📜DashBoardStatistics.tsx  
+ ┃ ┃ ┣ 📜MostBodyPart.tsx  
+ ┃ ┃ ┗ 📜MostKeyword.tsx  
+ ┃ ┣ 📂svg  
+ ┃ ┃ ┣ 📜OutlineBack.tsx  
+ ┃ ┃ ┣ 📜OutlineFace.tsx  
+ ┃ ┃ ┣ 📜OutlineFront.tsx  
+ ┃ ┃ ┣ 📜PartAreaBack.ts  
+ ┃ ┃ ┣ 📜PartAreaFace.ts  
+ ┃ ┃ ┣ 📜PartAreaFront.ts  
+ ┃ ┃ ┗ 📜svgMapping.ts  
+ ┃ ┣ 📂write  
+ ┃ ┃ ┣ 📜Confirm.tsx  
+ ┃ ┃ ┗ 📜Select.tsx  
+ ┃ ┣ 📜BodyNavigator.tsx  
+ ┃ ┣ 📜BodyPartChecker.tsx  
+ ┃ ┣ 📜SelectBodyPart.tsx  
+ ┃ ┗ 📜ToryRecommend.tsx  
+ ┣ 📂register  
+ ┃ ┣ 📜FirstPage.tsx  
+ ┃ ┣ 📜PersonalInformation.tsx  
+ ┃ ┣ 📜SecondPage.tsx  
+ ┃ ┣ 📜ThirdPage.tsx  
+ ┃ ┗ 📜UseOfService.tsx  
+ ┣ 📂search  
+ ┃ ┣ 📜SearchHospitalList.tsx  
+ ┃ ┗ 📜SearchHospitalMap.tsx  
+ ┣ 📂skeletonUI  
+ ┃ ┣ 📜ListSkeleton.tsx  
+ ┃ ┣ 📜RecordSkeleton.tsx  
+ ┃ ┗ 📜SkeletonUI.tsx  
+ ┣ 📜CustomSeo.tsx  
+ ┣ 📜LoadingDot.tsx  
+ ┣ 📜ManageImage.tsx  
+ ┣ 📜MessageBox.tsx  
+ ┣ 📜SpeakMotion.tsx  
+ ┗ 📜ToryIcon.tsx
+
+</details>
+
+<details>
+  <summary>
+  hooks 폴더 구조 보기
+  </summary>
+     
+  📦hooks     
+  ┣ 📜useAudio.tsx      
+  ┣ 📜useCoords.ts      
+  ┣ 📜useDepartmentSelect.tsx     
+  ┣ 📜useHospital.ts      
+  ┣ 📜useIO.tsx     
+  ┣ 📜usePortal.tsx     
+  ┣ 📜useReset.tsx      
+  ┗ 📜useUser.ts    
+  
+</details>
+
+<details>
+  <summary>
+  atoms 폴더 구조 보기
+  </summary>
+     
+  📦atoms  
+  ┗ 📜atoms.ts   
+  
+</details>
+
+<details>
+  <summary>
+  prisma 폴더 구조 보기
+  </summary>
+     
+  📦prisma  
+  ┣ 📜ERD_result.svg  
+  ┣ 📜schema.prisma  
+  ┗ 📜seed.ts  
+  
+</details>
+
+<details>
+  <summary>
+  utils 폴더 구조 보기
+  </summary>
+     
+  📦utils  
+  ┣ 📂client  
+  ┃ ┣ 📜animateFrom.ts  
+  ┃ ┣ 📜changeDate.ts  
+  ┃ ┣ 📜checkEmptyObj.ts  
+  ┃ ┣ 📜createErrors.ts  
+  ┃ ┣ 📜customApi.ts  
+  ┃ ┣ 📜getAmericanAge.ts  
+  ┃ ┣ 📜kakaoInit.ts  
+  ┃ ┣ 📜leapYearCheck.ts  
+  ┃ ┣ 📜payload.ts  
+  ┃ ┣ 📜sliceHospitalName.ts  
+  ┃ ┣ 📜uploadImage.ts  
+  ┃ ┗ 📜withGetServerSideProps.ts  
+  ┗ 📂server  
+  ┃ ┣ 📜client.ts  
+  ┃ ┣ 📜createToken.ts  
+  ┃ ┣ 📜email.ts  
+  ┃ ┣ 📜passwordHelper.ts  
+  ┃ ┣ 📜sendMail.ts  
+  ┃ ┣ 📜withHandler.ts  
+  ┃ ┗ 📜withSession.ts 
+  
+</details>
+
+### Flask
+
+<details>
+  <summary>
+  flask 폴더 구조 보기
+  </summary>
+     
+  📦flask  
+  ┣ 📂.idea  
+  ┃ ┣ 📂inspectionProfiles  
+  ┃ ┃ ┣ 📜profiles_settings.xml  
+  ┃ ┃ ┗ 📜Project_Default.xml  
+  ┃ ┣ 📜.gitignore  
+  ┃ ┣ 📜flask.iml  
+  ┃ ┣ 📜misc.xml  
+  ┃ ┣ 📜modules.xml  
+  ┃ ┗ 📜vcs.xml  
+  ┣ 📂**pycache**  
+  ┃ ┗ 📜app.cpython-310.pyc  
+  ┣ 📜.dockerignore  
+  ┣ 📜Dockerfile  
+  ┣ 📜kor_w2v_final  
+  ┣ 📜main.py  
+  ┣ 📜README.md  
+  ┣ 📜requirements.txt  
+  ┗ 📜w2v_query_data_final.csv
+  
 </details>

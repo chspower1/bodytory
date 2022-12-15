@@ -465,7 +465,7 @@ const HoverPath = styled.path<{ isChecked: boolean; isHover: boolean }>`
     isChecked
       ? css`
           fill: rgb(3, 231, 203);
-          pointer-events: none;
+          // pointer-events: none;
         `
       : isHover
       ? css`

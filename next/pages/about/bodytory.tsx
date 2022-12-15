@@ -61,7 +61,7 @@ const Tory = () => {
       <SecondSection>
         <RecordConfirmIntro>
           <ImageLeftBox className="gs_reveal gs_reveal_fromLeft delay600">
-            <Image src={recordConfirm} alt="mic"></Image>
+            <Image src={recordConfirm} width={1000} alt="mic"></Image>
           </ImageLeftBox>
           <TextContainer className="gs_reveal gs_reveal_fromBottom">
             <TextBox>
@@ -80,7 +80,7 @@ const Tory = () => {
             </NormalText>
           </TextBox>
           <ImageRightBox className="gs_reveal gs_reveal_fromRight delay600">
-            <Image src={recordList} alt="mic"></Image>
+            <Image src={recordList} width={1000} alt="mic"></Image>
           </ImageRightBox>
         </RecordChartIntro>
         <RecordRecomendIntro>
@@ -91,8 +91,8 @@ const Tory = () => {
               나에게 적합한 진료과목과 내 근처 병원을 추천해줘요!
             </NormalText>
           </CenterTextBox>
-          <div className="gs_reveal gs_reveal_fromBottom delay800">
-            <Image src={recordRecomend} alt="mic"></Image>
+          <div className="gs_reveal gs_reveal_fromBottom delay600">
+            <Image src={recordRecomend} width={1000} alt="mic"></Image>
           </div>
         </RecordRecomendIntro>
       </SecondSection>
@@ -110,12 +110,12 @@ const Tory = () => {
             </TextBox>
           </TextContainer>
           <div className="gs_reveal gs_reveal_fromRight delay600">
-            <Image src={map} alt="mic"></Image>
+            <Image src={map} width={1000} alt="mic"></Image>
           </div>
         </ManageHospitalIntro>
         <ManageShareIntro>
           <ImageLeftBox className="gs_reveal gs_reveal_fromLeft delay600">
-            <Image src={share} alt="mic"></Image>
+            <Image src={share} width={1000} alt="mic"></Image>
           </ImageLeftBox>
           <TextBox className="gs_reveal gs_reveal_fromBottom">
             <NormalText>
@@ -132,7 +132,7 @@ const Tory = () => {
             </NormalText>
           </TextBox>
           <ImageRightBox className="gs_reveal gs_reveal_fromRight delay600">
-            <Image src={medicalRecord} alt="mic"></Image>
+            <Image src={medicalRecord} width={1000} alt="mic"></Image>
           </ImageRightBox>
         </MedicalRecordIntro>
         <StartTory>
@@ -158,7 +158,7 @@ const Container = styled.div`
 `;
 const FirstSection = styled.section`
   background-color: #f2f3ff;
-  padding: 200px;
+  padding: 0 20%;
   & > div {
     margin-bottom: 200px;
   }
@@ -179,7 +179,7 @@ const RecordIntro = styled.div`
 `;
 const SecondSection = styled.section`
   background-color: #e7e8ff;
-  padding: 200px;
+  padding: 0 20%;
   & > div {
     margin-bottom: 200px;
   }
@@ -208,7 +208,7 @@ const RecordRecomendIntro = styled.div`
 `;
 const ThirdSection = styled.section`
   background-color: #f2f3ff;
-  padding: 200px;
+  padding: 0 20%;
   & > div {
     margin-bottom: 200px;
   }
@@ -219,6 +219,7 @@ const ManageHospitalIntro = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-shrink: 0;
 `;
 const ManageShareIntro = styled.div`
   width: 100%;
@@ -246,6 +247,7 @@ const StartTory = styled.div`
 
 const ImageLeftBox = styled.div`
   position: relative;
+  flex-shrink: 0;
   left: -200px;
 `;
 const ImageRightBox = styled.div`
