@@ -1,18 +1,5 @@
 # BODYTORY
 
-<link rel="stylesheet" href="github-markdown.css">
-<style type='text/css'>
-  [class*="box"] { display: flex; gap:10px; }
-  [class*="col"] { display: flex; flex-direction: column; align-items:center; }
-  [class*="border"] { border-radius:5px; }
-  [class*="label"]{border-radius:3px; width:85px; display:flex; justify-content:center; align-items:center; margin-bottom:5px; }
-  [class*="front"] { background-color:#386ED7; }
-  [class*="back"] { background-color:#EA5E5E; }
-  [class*="ai"] { background-color:#4698A4; }
-  [class*="motion"] { background-color:#63BA71; }
-  [class*="dev"] { background-color:#BE78BF; }
-  [class*="pm"] { background-color:#B0A85A; }
-</style>
 <p align="center">
 <img src="./next/public/bodytory_banner.png" width="400px">
 </p>
@@ -26,42 +13,33 @@
 
 ## 바디토리를 만든 사람들
 
-<div class="box">
-<div class="col">
   <img src="./next/public/static/team/hosung.gif" width="100px" class="border"/>
   <div>조호성</div>
-  <div class="front label">FrontEnd</div>
-  <div class="back label">BackEnd</div>
-  <div class="motion label">Motion</div>
-</div>
- 
- <div class="col">
+   <img src="https://img.shields.io/badge/FrontEnd-386ED7?style=flat-square&logoColor=white"/>
+  <img src="https://img.shields.io/badge/BackEnd-EA5E5E?style=flat-square&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Motion-63BA71?style=flat-square&logoColor=white"/>
+
   <img src="./next/public/static/team/sohi.gif" width="100px" class="border"/>
   <div>정소희</div>
-   <div class="front label">FrontEnd</div>
-  <div class="ai label">AI</div>
-  <div class="pm label">PM</div>
-</div>
-<div class="col">
+   <img src="https://img.shields.io/badge/FrontEnd-386ED7?style=flat-square&logoColor=white"/>
+  <img src="https://img.shields.io/badge/AI-4698A4?style=flat-square&logoColor=white"/>
+  <img src="https://img.shields.io/badge/PM-B0A85A?style=flat-square&logoColor=white"/>
+
   <img src="./next/public/static/team/gyungwon.gif" width="100px" class="border"/>
   <div>김경원</div>
-  <div class="front label">FrontEnd</div>
-  <div class="back label">BackEnd</div>
-</div>
-<div class="col">
+  <img src="https://img.shields.io/badge/FrontEnd-386ED7?style=flat-square&logoColor=white"/>
+  <img src="https://img.shields.io/badge/BackEnd-EA5E5E?style=flat-square&logoColor=white"/>
+
   <img src="./next/public/static/team/ryong.gif" width="100px" class="border"/>
   <div>한동룡</div>
-  <div class="front label">FrontEnd</div>
-  <div class="back label">BackEnd</div>
-</div>
-<div class="col">
+  <img src="https://img.shields.io/badge/FrontEnd-386ED7?style=flat-square&logoColor=white"/>
+  <img src="https://img.shields.io/badge/BackEnd-EA5E5E?style=flat-square&logoColor=white"/>
+
   <img src="./next/public/static/team/dahyun.gif" width="100px" class="border"/>
   <div>오다현</div>
-  <div class="front label">FrontEnd</div>
-  <div class="ai label">AI</div>
-  <div class="dev label">DevOps</div>
-</div>
-</div>
+  <img src="https://img.shields.io/badge/FrontEnd-386ED7?style=flat-square&logoColor=white"/>
+  <img src="https://img.shields.io/badge/AI-4698A4?style=flat-square&logoColor=white"/>
+  <img src="https://img.shields.io/badge/DevOps-BE78BF?style=flat-square&logoColor=white"/>
 
 <br/>
 
