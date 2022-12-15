@@ -68,6 +68,9 @@ const ConfirmBtnBox = styled.div`
   justify-content: center;
   margin-top: 30px;
   gap: 40px;
+  ${media.mobile}{
+    gap: 20px;
+  }
 `;
 
 const ModalBox = styled(ModalContainer)`
@@ -78,12 +81,18 @@ const ModalBox = styled(ModalContainer)`
   ${media.custom(730)}{
     width: 90%;
   }
+  ${media.mobile}{
+    padding: 15px;
+  }
 `;
 
 const ModalTitle = styled.div`
   padding: 20px 0;
   font-size: 20px;
   font-weight: 700;
+  ${media.mobile}{
+    font-size: 18px;
+  }
 `;
 const ModalContent = styled.div<{ bgColor: boolean }>`
   font-size: 18px;
@@ -103,6 +112,9 @@ const ModalContent = styled.div<{ bgColor: boolean }>`
       background: ${theme.color.lightBg};
       padding: 10px;
     `}
+  ${media.mobile}{
+    font-size: 16px;
+  }
 `;
 
 export default Modal;
