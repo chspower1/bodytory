@@ -15,6 +15,7 @@ import { EditButton } from "pages/users";
 import { GetServerSidePropsContext, NextPage } from "next";
 import withGetServerSideProps from "@utils/client/withGetServerSideProps";
 import { media } from "@styles/theme";
+import ToryPurpleAnim from "@components/lotties/ToryPurpleAnim";
 
 export interface WithdrawType {
   password: string;
@@ -74,11 +75,14 @@ const Withdraw: NextPage = () => {
   const isErrorsMessage = errors.password?.message;
 
   return (
-    <FlexContainer>
+    <WithdrawContainer>
       <BackButton onClick={() => router.push("/users")}>
         <span>계정 설정</span>
       </BackButton>
       <Form onSubmit={handleSubmit(onValid)}>
+        <ToryMotion>
+          <ToryPurpleAnim segmentIndex={3} />
+        </ToryMotion>
         <MessageBox
           isErrorsMessage={isErrorsMessage}
           currentComment={`${
@@ -121,7 +125,7 @@ const Withdraw: NextPage = () => {
           </>
         )}
       </Modal>
-    </FlexContainer>
+    </WithdrawContainer>
   );
 };
 
@@ -133,18 +137,25 @@ export const getServerSideProps = withGetServerSideProps(async (context: GetServ
 });
 
 const WithdrawButton = styled(EditButton)`
+`;
 
+const WithdrawContainer = styled(FlexContainer)`
+  ${media.mobile}{
+    align-items: flex start;
+  }
 `;
 
 const Form = styled.form`
+  padding: 40px 0 180px;
+
   .messageBox {
     color: #232323;
-    margin-bottom: 100px;
-    font-size: 38px;
+    margin-bottom: 30px;
+    font-size: 36px;
   }
   ${media.mobile}{
     .messageBox {
-      margin-bottom: 50px;
+      margin: 0 0 50px;
       font-size: 25px;
     }
   }
@@ -155,5 +166,18 @@ const ButtonBox = styled.div`
   display: flex;
   button {
     margin: 0 auto;
+  }
+`;
+
+
+const ToryMotion = styled.div`
+  transform: translate(0, -10%);
+  width: 360px;
+  height: 360px;
+  margin: 0 auto;
+
+  ${media.mobile}{
+    width: 260px;
+    height: 260px;
   }
 `;
