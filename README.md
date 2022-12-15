@@ -109,7 +109,7 @@
      <summary>풀스택</summary>
 
 - 팀원 모두 프론트엔드에 주력인 멤버였습니다.  
-  시간이 짧은 프로젝트에서 Next는 저희팀에게 프론트엔드,백엔드를 빠르고,효율적으로 구축할 수 있는 최고의 프레임 워크였기에 채택하게 되었습니다.
+  시간이 비교적 짧은 현재 프로젝트에서 Next는 저희팀에게 프론트엔드,백엔드를 빠르고,효율적으로 구축할 수 있는 매력적인 프레임 워크였기에 채택하게 되었습니다.
 
 </details>
 
@@ -132,7 +132,8 @@
 <details>
   <summary>최고의 개발 환경</summary>
 
-- Typescript는 Javascript의 정적버전 언어입니다.동적타입 언어인 Javascript가 가진 단점을 명확한 타입 지정으로 보완이 가능하며, 이는 자동완성,타입유추 등 개발자에게 보다 나은 개발환경을 제공해줍니다.
+- Typescript는 Javascript의 정적버전 언어입니다.동적타입 언어인 Javascript가 가진 단점을 명확한 타입 지정으로 보완이 가능하며,  
+이는 자동완성,타입유추 등 개발자에게 보다 나은 개발환경을 제공해줍니다.
 </details>
 <br/>
 
@@ -157,10 +158,11 @@
 <details>
 <summary>강력한 비동기 상태관리</summary>
 
-- Tanstack-Query에서 제공하는 hook 옵션들은 강력한 비동기 상태관리를 가능하게 합니다.  
- 전역으로 설정하여 일괄적으로 조건부 처리 또한 가능하며,  
- api 호출 시 발생되는 복잡한 이벤트 처리에도 강력한 힘을 발휘합니다.  
- // Suspense에서 관리하는 3가지 상태를 react-query에서 직접적으로 접근할 수 있게 해준다.
+- Tanstack-Query에서 제공하는 hook 옵션들은 강력한 비동기 상태관리를 가능하게 합니다.
+Suspense에서 관리하는 3가지 상태(pendding,ready,errored)를 react-query에서 직접적으로 접근하여  
+isLoading,isFetching,isError,onSuccess,onSettled 등의 옵션으로 간편하게 관리 할 수 있게 해주며,
+이러한 옵션들은 api 호출 시 발생되는 복잡한 다중 이벤트 처리에도 강력한 힘을 발휘합니다.  
+또한 전역으로 설정하여 일괄적으로 조건부 처리 또한 가능합니다.
 </details>
 <br/>
 <img src="https://img.shields.io/badge/React Hook Form-EC5990?style=for-the-badge&logo=ReactHookForm&logoColor=white"/>
@@ -177,7 +179,8 @@
 <details>
 <summary>간편한 전역 상태 관리</summary>
 
-- Context Api나 Redux에 비해 보일러플레이트가 훨씬 간소화 되어있고 React에서 제공하는 hooks의 형태를 띄고 있어 상태 수정 및 접근이 용이합니다.
+- Context Api나 Redux에 비해 보일러플레이트가 훨씬 간소화 되어있고  
+  React에서 제공하는 hooks의 형태를 띄고 있어 상태 수정 및 접근이 용이합니다.
 
 </details>
 <br/>
@@ -188,7 +191,7 @@
 일괄적인 예외 처리
 </summary>
 
-- Intercepter를 통해 response,request에 대한 일괄적인 예외처리가 가능합니다.
+- Intercepter를 통해 response,request에 접근하여 일괄적인 예외처리가 가능합니다.
   </details>
 
 <details>
@@ -210,7 +213,9 @@
 메일 전송 솔루션
     </summary>
 
-- 인증메일을 보내는 용도로 사용했으며, 간단한 사용법으로 메일 전송이 가능합니다
+- Node.js 환경에서 대표적인 메일전송 솔루션이며,
+간단한 사용법으로 메일 전송이 가능합니다.  
+저희 프로젝트에서는 인증메일을 보내는 용도로 사용했습니다.
 
   </details>
 <br/>
@@ -218,10 +223,10 @@
 
 <details>
     <summary>
-로우레벨 코드
+로우레벨 코드로 구현 가능
     </summary>
 
-- 비교적 간단한 코드로 회원인증 구현이 가능합니다.
+- 다른 회원인증 방식에 비해 비교적 간단한 코드로 회원인증 구현이 가능합니다.
 
  </details>
 
@@ -236,7 +241,16 @@ Serverless환경에서의 회원인증
 <br/>
 <img src="https://img.shields.io/badge/Flask-555555?style=for-the-badge&logo=Flask&logoColor=white"/>
 
-- 파이썬 환경에서 모델을 불러와 결과을 예측하는 것이 쉽기 때문에 이를 기반으로 하는 프레임워크인 Flask를 사용했습니다
+<details>
+    <summary>
+가벼운 선택
+    </summary>
+
+- 파이썬 환경에서 모델을 불러와 결과을 예측하는 것이 수월하기 때문에 파이썬 기반인 백엔드 서버를 구축해야 했습니다.
+  비교적 간단한 api를 구현하면 됐기 때문에 Django보다 가볍고 간단하게 구현할 수 있는 Flask를 선택했습니다.
+
+</details>
+
 - 자체적으로 학습시킨 모델들을 불러와 요청에 따른 예측값을 반환하는 용도로 사용중입니다.
   <br/>
 
