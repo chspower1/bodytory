@@ -8,21 +8,8 @@ import styled from "styled-components";
 import LoadingDot from "@components/LoadingDot";
 import withGetServerSideProps from "@utils/client/withGetServerSideProps";
 import { GetServerSidePropsContext, NextPage } from "next";
-
-const LoadingBox = styled.div`
-  width: 100%;
-  height: 100%;
-  font-size: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  font-weight: bolder;
-`;
-
-const ButtonBox = styled.div`
-  display: none;
-`;
+import { AnalysisWrapper, Tory } from "pages/users/records/write/analysis";
+import { Col, FlexContainer, ToryText } from "@styles/Common";
 
 const Loading: NextPage = () => {
   const queryClient = useQueryClient();
@@ -46,15 +33,20 @@ const Loading: NextPage = () => {
     },
   });
   return (
-    <LoadingBox>
-      <div>
-        유저 정보 조회중입니다
-        <LoadingDot />
-      </div>
+    <AnalysisWrapper>
+      <FlexContainer>
+        <Col>
+          <ToryText color="#FFF">
+            유저정보 조회중입니다
+            <LoadingDot />
+          </ToryText>
+          <Tory />
+        </Col>
+      </FlexContainer>
       <ButtonBox>
         <NaverLoginBtn mutate={mutate} kind={"login"} />
       </ButtonBox>
-    </LoadingBox>
+    </AnalysisWrapper>
   );
 };
 export default Loading;
@@ -63,3 +55,7 @@ export const getServerSideProps = withGetServerSideProps(async (context: GetServ
     props: {},
   };
 });
+
+const ButtonBox = styled.div`
+  display: none;
+`;

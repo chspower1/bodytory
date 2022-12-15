@@ -20,9 +20,6 @@ const Header = () => {
               <Link href="/about/bodytory">서비스 소개</Link>
             </li>
             <li>
-              <Link href="/about/team">팀 소개</Link>
-            </li>
-            <li>
               {router.asPath.includes("login") ? (
                 <Link href="/auth/register/choice" title="회원가입">
                   회원가입
