@@ -48,7 +48,9 @@
 ## 기술 스택
 
  <!-- 프론트엔드 -->
-  <h3><strong>Common</strong></h3>
+
+### **Common**
+
   <img src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=Next.js&logoColor=white"/>
   <img src="https://img.shields.io/badge/Typescript-3178C6?style=flat-square&logo=Typescript&logoColor=white"/>
   <details>
@@ -56,10 +58,12 @@
   공통 기술 스택 자세히 보기
   </summary>
   <br/>
-  <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=Next.js&logoColor=white"/>
+
+<img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=Next.js&logoColor=white"/>
 
 <details>
-  <summary>SSR + CSR</summary>
+
+<summary>SSR + CSR</summary>
 
 - Pre-Render가 빠르고 SEO가 최적화 되는 SSR의 장점과 상호작용이 효율적이고 잦은 데이터 변경환경에 유리한 CSR의 장점, 두 가지 장점 모두 살릴 수 있어 NextJS는 저희팀에게 좋은 선택지였습니다.
 
@@ -93,26 +97,27 @@
   <summary>최고의 개발 환경</summary>
 
 - Typescript는 Javascript의 정적버전 언어입니다.동적타입 언어인 Javascript가 가진 단점을 명확한 타입 지정으로 보완이 가능하며,  
-   이는 자동완성,타입유추 등 개발자에게 보다 나은 개발환경을 제공해줍니다.
+ 이는 자동완성,타입유추 등 개발자에게 보다 나은 개발환경을 제공해줍니다.
    </details>
-   <br/>
-     </details>
-     <br/>
-     <br/>
-  <!-- 프론트엔드 -->
-     <h3><strong>Front-End</strong></h3>
-     <img src="https://img.shields.io/badge/Recoil-black?style=flat-square&logo=Recoil&logoColor=white"/>
-     <img src="https://img.shields.io/badge/React Query-FF4154?style=flat-square&logo=ReactQuery&logoColor=white"/>
-     <img src="https://img.shields.io/badge/React Hook Form-EC5990?style=flat-square&logo=ReactHookForm&logoColor=white"/>
-     <img src="https://img.shields.io/badge/Axios-5A29E4?style=flat-square&logo=Axios&logoColor=white"/>
-     <img src="https://img.shields.io/badge/Styled Components-DB7093?style=flat-square&logo=styled-components&logoColor=white"/>
-     <img src="https://img.shields.io/badge/Framer-0055FF?style=flat-square&logo=Framer&logoColor=white"/>
+    </details>
+<br/>
 
-     <details>
+### **Front-End**
+
+  <img src="https://img.shields.io/badge/Recoil-black?style=flat-square&logo=Recoil&logoColor=white"/>
+  <img src="https://img.shields.io/badge/React Query-FF4154?style=flat-square&logo=ReactQuery&logoColor=white"/>
+  <img src="https://img.shields.io/badge/React Hook Form-EC5990?style=flat-square&logo=ReactHookForm&logoColor=white"/>
+ <img src="https://img.shields.io/badge/Axios-5A29E4?style=flat-square&logo=Axios&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Styled Components-DB7093?style=flat-square&logo=styled-components&logoColor=white"/>
+   <img src="https://img.shields.io/badge/Framer-0055FF?style=flat-square&logo=Framer&logoColor=white"/>
+
+   <details>
      <summary>
      Front-End 기술 스택 자세히 보기
      </summary>
+     <br/>
      <img src="https://img.shields.io/badge/React Query-FF4154?style=for-the-badge&logo=ReactQuery&logoColor=white"/>
+
    <details>
      <summary>보다 편한 비동기 처리</summary>
 
@@ -177,72 +182,10 @@ isLoading,isFetching,isError,onSuccess,onSettled 등의 옵션으로 간편하�
 </details>
 
 </details>
-  <br/>
-  <br/>
-  <!-- 스타일 -->
-  <h3><strong>Style</strong></h3>
-
-  <img src="https://img.shields.io/badge/Styled Components-DB7093?style=flat-square&logo=styled-components&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Framer-0055FF?style=flat-square&logo=Framer&logoColor=white"/>
-<details>
-   <summary>
-   Style 기술 스택 자세히 보기
-   </summary>
-   <img src="https://img.shields.io/badge/Styled Components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white"/>
-
-<details>
-  <summary>
-효율적인 재사용
-  </summary>
-
-- 한번 선언으로 여러 곳에서 재사용이 가능하며, 필요의 경우 상속을 통해 부가적으로 수정하는 것 또한 가능합니다.
-  </details>
-
-   <details>
-      <summary>
-      조건부 스타일
-      </summary>
-
-  - props를 통해 javascript를 이용한 조건부 스타일링은 styled-components의 강력한 기능 중 하나입니다.
-    </details>
-
-    <details>
-    <summary>
-     전역 스타일 관리, Theme
-    </summary>
-
-- Theme을 통해 일괄적인 스타일 수정이 가능합니다.
-
-  </details>
-
 <br/>
-<img src="https://img.shields.io/badge/Framer-0055FF?style=for-the-badge&logo=Framer&logoColor=white"/>
 
-<details>
-    <summary>
-강력하고 간편한 애니메이션
-    </summary>
+### **Back-End**
 
-- Framer-motion을 이용하면 기존 css와 Javascript로 구현하기 어려운 애니메이션을 아주 간단하게 구현이 가능합니다.  
- 언마운트되는 컴포넌트도 AnimatePresence를 통해 손쉽게 복잡한 애니메이션을 구현 할 수 있으며, layoutKey를 통해 컴포넌트간에 이어지는 애니메이션도 쉽게 구현이 가능합니다.
-
-  </details>
-<br/>
-<img src="https://img.shields.io/badge/Swiper-0055FF?style=for-the-badge&logo=Swiper&logoColor=white"/>
-
-<details>
-    <summary>
-손쉬운 슬라이더 구현
-    </summary>
-
-- 간편하게 완성도 높은 슬라이더를 구현 할 수 있습니다.
-
-  </details>
-<br/>
-   </details>
-   
-  <!-- 백엔드 -->
- <h3><strong>Back-End</strong></h3>
    <img src="https://img.shields.io/badge/Flask-555555?style=flat-square&logo=Flask&logoColor=white"/>
     <img src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=Python&logoColor=white"/>
    <img src="https://img.shields.io/badge/Iron Session-DB7093?style=flat-square&logoColor=white"/>
@@ -251,6 +194,7 @@ isLoading,isFetching,isError,onSuccess,onSettled 등의 옵션으로 간편하�
    <summary>
    Back-End 기술 스택 자세히 보기
    </summary>
+   <br/>
 <img src="https://img.shields.io/badge/NodeMailer-black?style=for-the-badge&logo=Recoil&logoColor=white"/>
 
 <details>
@@ -301,10 +245,73 @@ Serverless환경에서의 회원인증
 
    </details>
   <br/>
-  <br/>
-  <!-- <img src="https://img.shields.io/badge/DataBase-39A182?style=for-the-badge"/>
-  <br/> -->
-   <h3><strong>DataBase</strong></h3>
+
+### **Styled**
+
+  <img src="https://img.shields.io/badge/Styled Components-DB7093?style=flat-square&logo=styled-components&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Framer-0055FF?style=flat-square&logo=Framer&logoColor=white"/>
+<details>
+   <summary>
+   Style 기술 스택 자세히 보기
+   </summary>
+   <br/>
+   <img src="https://img.shields.io/badge/Styled Components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white"/>
+
+<details>
+  <summary>
+효율적인 재사용
+  </summary>
+
+- 한번 선언으로 여러 곳에서 재사용이 가능하며, 필요의 경우 상속을 통해 부가적으로 수정하는 것 또한 가능합니다.
+  </details>
+
+   <details>
+      <summary>
+      조건부 스타일
+      </summary>
+
+  - props를 통해 javascript를 이용한 조건부 스타일링은 styled-components의 강력한 기능 중 하나입니다.
+    </details>
+
+    <details>
+    <summary>
+     전역 스타일 관리, Theme
+    </summary>
+
+- Theme을 통해 일괄적인 스타일 수정이 가능합니다.
+
+  </details>
+
+<br/>
+<img src="https://img.shields.io/badge/Framer-0055FF?style=for-the-badge&logo=Framer&logoColor=white"/>
+
+<details>
+    <summary>
+강력하고 간편한 애니메이션
+    </summary>
+
+- Framer-motion을 이용하면 기존 css와 Javascript로 구현하기 어려운 애니메이션을 아주 간단하게 구현이 가능합니다.  
+ 언마운트되는 컴포넌트도 AnimatePresence를 통해 손쉽게 복잡한 애니메이션을 구현 할 수 있으며, layoutKey를 통해 컴포넌트간에 이어지는 애니메이션도 쉽게 구현이 가능합니다.
+
+  </details>
+<br/>
+<img src="https://img.shields.io/badge/Swiper-0055FF?style=for-the-badge&logo=Swiper&logoColor=white"/>
+
+<details>
+    <summary>
+손쉬운 슬라이더 구현
+    </summary>
+
+- 간편하게 완성도 높은 슬라이더를 구현 할 수 있습니다.
+
+  </details>
+   </details>
+<br/>
+   
+  <!-- 백엔드 -->
+
+### **DataBase**
+
    <img src="https://img.shields.io/badge/Planet Scale-000000?style=flat-square&logo=PlanetScale&logoColor=white"/>
     <img src="https://img.shields.io/badge/Cloudflare-F38020?style=flat-square&logo=Cloudflare&logoColor=white"/>
     <img src="https://img.shields.io/badge/Prisma-2D3748?style=flat-square&logo=Prisma&logoColor=white"/>
@@ -396,30 +403,17 @@ Typescript와의 호환
 <br/>
     </details>
      <br/>
-      <br/>
-     <!-- CI/CD -->
-  <!-- <img src="https://img.shields.io/badge/CI/CD-3178C6?style=for-the-badge"/>
-  <br/> -->
-<h3><strong>CI / CD</strong></h3>
+
+### **CI / CD**
+
   <img src="https://img.shields.io/badge/Git-F05032?style=flat-square&logo=Git&logoColor=white"/>
   <img src="https://img.shields.io/badge/GitLab-FC6D26?style=flat-square&logo=GitLab&logoColor=white"/>
   <img src="https://img.shields.io/badge/GitLab Runner-FC6D26?style=flat-square&logo=GitLab&logoColor=white"/>
   <img src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=Docker&logoColor=white"/>
-
-<br/>
-<br/>
-
----
-
-<br/>
-<br/>
-
-## **Style**
-
-## **DB**
-
-## **CI/CD**
-
+<details>
+<summary>
+CI/CD 기술 스택 자세히 보기
+</summary>
 <br/>
 <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=Docker&logoColor=white"/>
 
@@ -441,11 +435,11 @@ Typescript와의 호환
 
 - 바디토리 프로젝트는 Gitlab Runner를 통해 main 브렌치에 push할 시 자동으로 배포가 되게끔 설정했습니다.
 </details>
+</details>
 <br/>
 
-## **AI**
+### **AI**
 
-<br/>
 <img src="https://img.shields.io/badge/Word2Vec-FC6D26?style=for-the-badge&logoColor=white"/>
 
 <details>
