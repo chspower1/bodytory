@@ -1,5 +1,17 @@
 # BODYTORY
 
+<style type='text/css'>
+  [class*="box"] { display: flex; gap:10px; }
+  [class*="col"] { display: flex; flex-direction: column; align-items:center; }
+  [class*="border"] { border-radius:5px; }
+  [class*="label"]{border-radius:3px; width:85px; display:flex; justify-content:center; align-items:center; margin-bottom:5px; }
+  [class*="front"] { background-color:#386ED7; }
+  [class*="back"] { background-color:#EA5E5E; }
+  [class*="ai"] { background-color:#4698A4; }
+  [class*="motion"] { background-color:#63BA71; }
+  [class*="dev"] { background-color:#BE78BF; }
+  [class*="pm"] { background-color:#B0A85A; }
+</style>
 <p align="center">
 <img src="./next/public/bodytory_banner.png" width="400px">
 </p>
@@ -10,6 +22,47 @@
 ## ![bodytory version](https://img.shields.io/badge/bodytory-v1.0-brightgreen.svg)
 
 ---
+
+## 바디토리를 만든 사람들
+
+<div class="box">
+<div class="col">
+  <img src="./next/public/static/team/hosung.gif" width="100px" class="border"/>
+  <div>조호성</div>
+  <div class="front label">FrontEnd</div>
+  <div class="back label">BackEnd</div>
+  <div class="motion label">Motion</div>
+</div>
+ 
+ <div class="col">
+  <img src="./next/public/static/team/sohi.gif" width="100px" class="border"/>
+  <div>정소희</div>
+   <div class="front label">FrontEnd</div>
+  <div class="ai label">AI</div>
+  <div class="pm label">PM</div>
+</div>
+<div class="col">
+  <img src="./next/public/static/team/gyungwon.gif" width="100px" class="border"/>
+  <div>김경원</div>
+  <div class="front label">FrontEnd</div>
+  <div class="back label">BackEnd</div>
+</div>
+<div class="col">
+  <img src="./next/public/static/team/ryong.gif" width="100px" class="border"/>
+  <div>한동룡</div>
+  <div class="front label">FrontEnd</div>
+  <div class="back label">BackEnd</div>
+</div>
+<div class="col">
+  <img src="./next/public/static/team/dahyun.gif" width="100px" class="border"/>
+  <div>오다현</div>
+  <div class="front label">FrontEnd</div>
+  <div class="ai label">AI</div>
+  <div class="dev label">DevOps</div>
+</div>
+</div>
+
+<br/>
 
 ## <img src="./next/public/static/tory/tory_purple.png" height="25px"> **소개**
 
@@ -37,9 +90,9 @@
 
 <div>-------이미지첨부------</div>
 
-- 증상 기록들을 분석하여 어떤 진료과에 가야 하는지를 사용자에게 추천
-- 전반적인 기록들을 토대로 사용자가 어떤 키워드를 자주 사용했는지 보여줌
-- ETRI, 과학기술정보통신부에서 제공하는 AI를 기반으로 정확도 높은 음성 인식 기능 구현
+- 증상 기록들을 분석하여 **어떤 진료과에 가야 하는지**를 사용자에게 추천
+- 전반적인 기록들을 토대로 사용자가 **어떤 키워드를 자주 사용**했는지 보여줌
+- ETRI, 과학기술정보통신부에서 제공하는 AI를 기반으로 **정확도 높은 음성 인식** 기능 구현
   <br/>
   <br/>
 
