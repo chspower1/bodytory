@@ -61,8 +61,21 @@ export const getServerSideProps = withGetServerSideProps(async (context: GetServ
     props: {},
   };
 });
+
 const RoundButton = styled(RoundedDefaultButton)`
   padding: 21px 50px;
+  ${media.custom(1280)} {
+    padding: 18px 40px;
+    font-size: 18px;
+  }
+  ${media.custom(980)} {
+    padding: 18px 28px;
+    font-size: 15px;
+  }
+  ${media.mobile} {
+    padding: 15px 18px;
+    font-size: 12px;
+  }
 `;
 
 export const ToryText = styled.div`
@@ -76,14 +89,28 @@ export const ToryText = styled.div`
     font-size: 30px;
   }
 
+  ${media.tablet} {
+    font-size: 26px;
+  }
+
+  ${media.mobile} {
+    font-size: 22px;
+  }
+
 `;
 
 const ButtonBox = styled.div`
   display: flex;
   padding: 0 0 200px;
-
+  justify-content:center;
   > button {
     margin: 0 30px;
+    ${media.custom(664)} {
+      margin: 0 20px;
+    }
+    ${media.mobile} {
+      margin: 0 5px;
+    }
   }
 `;
 

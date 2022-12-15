@@ -1,3 +1,4 @@
+import { media } from "@styles/theme";
 import { UseMutateFunction } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
@@ -113,6 +114,16 @@ const DeleteButton = styled.button<{ bgColor?: string; isCircle?: boolean }>`
       transform: translate(-50%, 5px);
     }
   }
+
+  ${media.mobile} {
+    width: 34px;
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
   ${({ isCircle }) =>
     isCircle &&
     css`

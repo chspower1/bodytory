@@ -1,3 +1,4 @@
+import { media } from "@styles/theme";
 import React, { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import ListeningAnim from "./lotties/SpeakAnim";
@@ -24,8 +25,23 @@ const MotionBox = styled.div<{ right?: boolean }>`
   transform: translateY(-50%);
   opacity: 0;
   transition: opacity .3s;
-
+  z-index: 1;
   &.active {
     opacity: 1;
+  }
+
+  ${media.custom(1280)}{
+    width: 600px;
+    height: 600px;
+    ${({ right }) => (right ? `right: -300px` : `left: -300px`)};
+  }
+
+  ${media.mobile}{
+    width: 500px;
+    height: 500px;
+    ${({ right }) => (right ? `display: none` : `left: 50%`)};
+    top: auto;
+    bottom: -250px;
+    transform: translate(-50%, 0);
   }
 `;

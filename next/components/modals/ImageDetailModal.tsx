@@ -7,6 +7,7 @@ import styled, { css } from "styled-components";
 import Next from "@src/assets/icons/right_bracket.svg";
 import Previus from "@src/assets/icons/left_bracket.svg";
 import usePortal from "@hooks/usePortal";
+import { media } from "@styles/theme";
 interface ImageDetailModalProps {
   show: number;
   onClose: () => void;
@@ -76,7 +77,7 @@ const ModalContainer = styled(motion.div).attrs({
   z-index: 2000;
   width: ${props => (props.width ? props.width : "650px")};
   height: ${props => (props.height ? props.height : "350px")};
-  min-width: 400px;
+  min-width: 360px;
   background-color: white;
   border-radius: 30px;
   margin: auto;
@@ -92,16 +93,27 @@ const ModalContainer = styled(motion.div).attrs({
 const ImageBox = styled.div`
   position: relative;
   padding: 350px;
+  ${media.mobile}{
+    padding: 160px;
+  }
 `;
 const NextBtn = styled.button`
   position: absolute;
   right: -100px;
   color: white;
+    ${media.mobile}{
+    left: 60px;
+    bottom: -48px;
+  }
 `;
 const PreviusBtn = styled.button`
   position: absolute;
   left: -100px;
   color: white;
+  ${media.mobile}{
+    right: 60px;
+    bottom: -48px;
+  }
 `;
 const CurrentPage = styled(WhiteText)`
   position: absolute;

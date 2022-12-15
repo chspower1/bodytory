@@ -8,6 +8,7 @@ import styled from "styled-components";
 import { bodyPartType } from "types/bodyParts";
 import { KoreanPosition } from "types/write";
 import { Dispatch, SetStateAction } from "react";
+import { media } from "@styles/theme";
 
 interface SelectBodyPartProps {
   selectedBodyPart: bodyPartType;
@@ -21,7 +22,9 @@ const BodyPartChecker = ({ selectedBodyPart, setIsSelect }: SelectBodyPartProps)
     <FlexContainer>
       <ContentBox>
         <ToryBox>
-          <ToryPurpleAnim segmentIndex={0} />
+          <ToryMotion>
+            <ToryPurpleAnim segmentIndex={0} />
+          </ToryMotion>
         </ToryBox>
         <TextBox>
           {!selectedBodyPart ? (
@@ -52,14 +55,14 @@ const BodyPartChecker = ({ selectedBodyPart, setIsSelect }: SelectBodyPartProps)
             </BtnBox>
           )
           :
-          <BtnBox variants={BTN_VARIANTS} initial="initial" animate="animate" exit="exit">
+          <MobBtnBox variants={BTN_VARIANTS} initial="initial" animate="animate" exit="exit">
               <RoundedDefaultButton
                 bgColor="rgb(83, 89, 233)"
                 onClick={() => setIsSelect(true)}
               >
                 부위 선택하기
               </RoundedDefaultButton>
-            </BtnBox>
+            </MobBtnBox>
         }
         </CreateBtnBox>
       </ContentBox>
@@ -68,6 +71,13 @@ const BodyPartChecker = ({ selectedBodyPart, setIsSelect }: SelectBodyPartProps)
 };
 
 export default BodyPartChecker;
+
+const MobBtnBox = styled(BtnBox)`
+  display:none;
+  ${media.custom(1280)}{
+    display:flex;
+  }
+`
 
 export const PositionTextBox = styled(motion.span)`
   border-radius: 10px;
@@ -84,14 +94,28 @@ const ContentBox = styled.div`
 `;
 
 export const ToryBox = styled(Box)`
+`;
+
+const ToryMotion = styled.div`
   width: 360px;
   height: 360px;
-  margin: 0 auto;
   transform: translate(0, -10%);
+  margin: 0 auto;
+
+  ${media.mobile}{
+    width: 280px;
+    height: 280px;
+  }
 `;
 
 export const TextBox = styled(Box)`
   margin-bottom: 90px;
+  text-align: center;
+  word-break: keep-all;
+  
+  ${media.mobile}{
+    margin-bottom: 50px;
+  }
 `;
 export const CreateBtnBox = styled(BtnBox)`
   height: 60px;

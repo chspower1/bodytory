@@ -195,6 +195,10 @@ export const getServerSideProps = withGetServerSideProps(async (context: GetServ
 export const EditButton = styled(RoundedDefaultButton)`
   font-size: 18px;
   padding: 16px 50px;
+  ${media.mobile}{
+    font-size: 16px;
+    padding: 14px 40px;
+  }
 `;
 
 const InContainer = styled(InnerContainer)<{ isFade: boolean }>`

@@ -8,6 +8,7 @@ import useUser from "@hooks/useUser";
 import usePortal from "@hooks/usePortal";
 import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 import { ToryBox } from "@components/records/BodyPartChecker";
+import { media } from "@styles/theme";
 
 interface ArroundMapMaodalProps {
   onClose: () => void;
@@ -26,14 +27,15 @@ const ArroundMapModal: NextPage<ArroundMapMaodalProps> = ({ onClose, mostThreeDe
         show && (
           <ModalWrapper>
             <Dim onClick={onClose} />
-            <ModalContainer flex width="1500px" height="800px">
-              <ToryBox>
+            <ModalContainer flex width="1500px" height="auto">
+              <ToryTextBox>
                 <ToryText26>
                   현재 <strong>{user?.name}님</strong>의 위치를 기준으로 주변 <strong>{mostThreeDepartment?.join(", ")}</strong>들을 찾았어요!
                 </ToryText26>
-              </ToryBox>
-    
-              <ArroundMap width="1500px" height="600px" longitude={longitude} latitude={latitude} departmentList={mostThreeDepartment} />
+              </ToryTextBox>
+              <MapBox>
+                <ArroundMap  longitude={longitude} latitude={latitude} departmentList={mostThreeDepartment} />
+              </MapBox>
               <ButtonBox>
                 <RoundedDefaultButton sm onClick={onClose}>
                   닫기
@@ -51,7 +53,29 @@ const ArroundMapModal: NextPage<ArroundMapMaodalProps> = ({ onClose, mostThreeDe
 };
 export default ArroundMapModal;
 
+const ToryTextBox = styled(ToryBox)`
+  padding: 20px;
+  text-align:center;
+  word-break:keep-all;
+  ${ToryText26}{
+    ${media.custom(1100)}{
+      font-size: 20px;
+    }
+    ${media.custom(870)}{
+      font-size: 18px;
+    }
+  }
+`
+
+const MapBox = styled.div`
+  width: 90%;
+  max-height: 600px;
+  height: 50vh;
+  min-height: 300px;
+`
+
 const ButtonBox = styled.div`
+  padding: 20px 0;
   button {
     margin: 0 auto;
   }

@@ -1,25 +1,26 @@
 import { motion } from "framer-motion";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import IconArrowLeft from "@src/assets/icons/icon_arrow_left.png";
 import { media } from "./theme";
 
-export const Wrapper = styled.div<{ bgColor?: string }>`
+export const Wrapper = styled.div<{ bgColor?: string; isScroll?: boolean }>`
   position: relative;
-  height: 100vh;
   width: 100%;
   overflow: hidden;
   background-color: ${props => props.bgColor};
-  ${media.tablet}{
-    overflow-y:auto;
-    overflow-y:auto;
-  }
+  ${({ isScroll }) =>
+    !isScroll &&
+    css`
+      height: 100vh;
+      min-height: 768px;
+    `}
 `;
 
 export const Container = styled(motion.div)`
   width: 100%;
   max-width: 1600px;
   margin: 0 auto;
-  ${media.custom(770)}{
+  ${media.custom(770)} {
     padding: 0 20px;
   }
 `;
@@ -37,7 +38,7 @@ export const InnerContainer = styled.div`
   margin: auto;
   height: 800px;
   padding-top: 70px;
-  @media (max-height: 800px){
+  @media (max-height: 800px) {
     height: 100%;
   }
 `;
@@ -66,8 +67,9 @@ export const WhiteText = styled.span<{ fontSize?: string }>`
   strong {
     font-weight: 700;
   }
-  ${media.mobile}{
-    font-size: ${({ fontSize }) => fontSize || "16px"};
+
+  ${media.mobile} {
+    font-size: ${({ fontSize }) => fontSize || "14px"};
   }
 `;
 export const BodyText = styled(WhiteText)`
@@ -86,9 +88,12 @@ export const ToryText = styled(WhiteText)<{ color?: string }>`
   ${media.custom(1280)} {
     font-size: ${props => (props.fontSize ? props.fontSize : "30px")};
   }
-
-
-
+  ${media.tablet} {
+    font-size: ${props => (props.fontSize ? props.fontSize : "26px")};
+  }
+  ${media.mobile} {
+    font-size: ${props => (props.fontSize ? props.fontSize : "22px")};
+  }
 `;
 export const BlackToryText = styled(ToryText)`
   color: ${({ theme }) => theme.color.text};
@@ -96,6 +101,16 @@ export const BlackToryText = styled(ToryText)`
 
 export const ToryText26 = styled(ToryText)`
   font-size: 26px;
+
+  ${media.custom(1280)} {
+    font-size: 24px;
+  }
+  ${media.tablet} {
+    font-size: 22px;
+  }
+  ${media.mobile} {
+    font-size: 20px;
+  }
 `;
 
 export const Accent = styled(ToryText)`
@@ -115,6 +130,7 @@ export const BackButton = styled.button`
   background: #5155ba url(${IconArrowLeft.src}) no-repeat 10px 50%/26px;
   overflow: hidden;
   transition: width 0.4s;
+  z-index: 10;
 
   span {
     display: block;
@@ -134,12 +150,15 @@ export const BackButton = styled.button`
       opacity: 1;
     }
   }
-  ${media.tablet}{
+  ${media.tablet} {
     width: 40px;
     height: 40px;
     background: #5155ba url(${IconArrowLeft.src}) no-repeat 10px 50%/18px;
     span {
       font-size: 14px;
     }
+  }
+  ${media.mobile} {
+    display: none;
   }
 `;

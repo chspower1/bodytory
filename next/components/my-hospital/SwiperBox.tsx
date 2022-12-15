@@ -15,6 +15,7 @@ import { RectangleDefaultButton } from "@components/layout/buttons/DefaultButton
 
 import "swiper/css";
 import "swiper/css/pagination";
+import { media } from "@styles/theme";
 
 const SwiperBox = ({
   setCurrentHospitalName,
@@ -66,9 +67,7 @@ const SwiperBox = ({
                     <ClinicItem key={`${obj.userId} + ${obj.id} + ${Date.now()}`}>
                       <ClinicDate>{changeDate(obj.createAt)}</ClinicDate>
                       <ClinicDetailButtonBox>
-                        <RectangleDefaultButton
-                          onClick={handleClickModalOpen(obj, hospital.name)}
-                        >
+                        <RectangleDefaultButton sm onClick={handleClickModalOpen(obj, hospital.name)}>
                           진료내역
                         </RectangleDefaultButton>
                       </ClinicDetailButtonBox>
@@ -83,7 +82,7 @@ const SwiperBox = ({
             </SlideItemInnerBox>
           </SwiperSlideItem>
         ))}
-      {currentContent &&  <ClinicModal {...currentContent} show={isModalOpen} onClose={() => setIsModalOpen(false)} />}
+      {currentContent && <ClinicModal {...currentContent} show={isModalOpen} onClose={() => setIsModalOpen(false)} />}
     </SwiperWrap>
   );
 };
@@ -95,7 +94,7 @@ const SwiperWrap = styled(Swiper)`
   .swiper-pagination {
     position: abosolute;
     z-index: 10;
-    width: 100%;
+    width: 100vw;
     max-width: 1920px;
     height: 8px;
     top: auto;
@@ -103,14 +102,14 @@ const SwiperWrap = styled(Swiper)`
     left: 50%;
     transform: translateX(-50%);
     overflow: hidden;
-    background: #D0EEF7;
+    background: #d0eef7;
     span {
-      background: #12D4C9;
+      background: #12d4c9;
     }
   }
 `;
 const SwiperSlideItem = styled(SwiperSlide)`
-  width: 760px;
+  max-width: 760px;
   height: 520px;
   opacity: 0.5;
   transition: opacity 0.6s;
@@ -119,6 +118,17 @@ const SwiperSlideItem = styled(SwiperSlide)`
     > div {
       transform: scale(1);
     }
+  }
+  ${media.custom(980)} {
+    width: 600px;
+  }
+  ${media.custom(770)} {
+    width: 500px;
+    height: 420px;
+  }
+  ${media.mobile} {
+    width: 340px;
+    height: 300px;
   }
 `;
 
@@ -141,6 +151,9 @@ const ItemHeader = styled.div`
   padding: 20px 50px;
   background: ${({ theme }) => theme.color.darkBg};
   color: ${({ theme }) => theme.color.white};
+  ${media.mobile} {
+    padding: 20px 25px;
+  }
 `;
 
 const HospitalName = styled.div`
@@ -151,6 +164,13 @@ const HospitalName = styled.div`
   overflow: hidden;
   white-space: nowrap;
   flex-shrink: 0;
+  ${media.tablet} {
+    max-width: 100%;
+    font-size: 18px;
+  }
+  ${media.mobile} {
+    font-size: 14px;
+  }
 `;
 const HospitalAddress = styled.div`
   font-size: 16px;
@@ -158,11 +178,18 @@ const HospitalAddress = styled.div`
   overflow: hidden;
   white-space: nowrap;
   width: 100%;
+  ${media.tablet} {
+    font-size: 16px;
+  }
+  ${media.mobile} {
+    font-size: 12px;
+  }
+
 `;
 const ClinicListBox = styled.div`
   height: 100%;
   padding: 30px;
-  background: #D9DEFF;
+  background: #d9deff;
   overflow-y: auto;
 
   &::-webkit-scrollbar {
@@ -178,6 +205,9 @@ const ClinicListBox = styled.div`
     background: transparent;
     margin: 10px 0 20px;
   }
+  ${media.mobile} {
+    padding: 10px;
+  }
 `;
 
 const ClinicItem = styled.div`
@@ -191,11 +221,18 @@ const ClinicItem = styled.div`
   & + & {
     margin-top: 10px;
   }
+  ${media.mobile} {
+    flex-direction: column;
+  }
 `;
 
 const ClinicDate = styled.div`
   width: 100%;
   font-size: 16px;
+  ${media.mobile} {
+    font-size: 12px;
+    text-align:center;
+  }
 `;
 
 const ClinicDetailButtonBox = styled.div``;

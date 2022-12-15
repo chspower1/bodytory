@@ -1,6 +1,6 @@
 import { Position } from "@prisma/client";
 import { BackButton, BlackToryText, BodyText, Box, Col, FlexContainer, WhiteWrapper } from "@styles/Common";
-import { theme } from "@styles/theme";
+import { media, theme } from "@styles/theme";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import styled from "styled-components";
@@ -161,10 +161,12 @@ const PositionPage: NextPage = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1, transition: { duration: 1, ease: "easeOut", delay: .3 } }}
       >
-        <FlexContainer>
+        <CustomCotainer>
           <Col>
             <ToryBox>
-              <ToryPurpleAnim segmentIndex={0} />
+              <ToryMotion>
+                <ToryPurpleAnim segmentIndex={0} />
+              </ToryMotion>
             </ToryBox>
             <TextBox>
               <BlackToryText>
@@ -182,6 +184,7 @@ const PositionPage: NextPage = () => {
                   {...register("description", {
                     required: "증상을 입력해주세요",
                   })}
+                  autoComplete="off"
                 />
                 {recordStatus === "finish" && (
                   <RefreshBtnBox>
@@ -212,7 +215,7 @@ const PositionPage: NextPage = () => {
             </VoiceBox>
             <BodyText>{buttonGuideMessage}</BodyText>
           </Col>
-        </FlexContainer>
+        </CustomCotainer>
       </FadeInMotionDiv>
       <SpeakMotion right listening={listening} />
       <Modal
@@ -230,14 +233,24 @@ const PositionPage: NextPage = () => {
 
 export default PositionPage;
 
-const FadeInMotionDiv = styled(motion.div)`
-  height: 100%;
-`;
 export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
   return {
     props: {},
   };
 });
+
+const FadeInMotionDiv = styled(motion.div)`
+  position:relative;
+  z-index: 3;
+  height: 100%;
+`;
+
+const CustomCotainer = styled(FlexContainer)`
+  ${media.mobile}{
+    display: block;
+  }
+`;
+
 const CircleButton = styled(CircleDefaultButton)`
   width: 46px;
   height: 46px;
@@ -246,6 +259,18 @@ const CircleButton = styled(CircleDefaultButton)`
 const VoiceBox = styled.div`
   > button {
     margin: 120px auto 24px;
+  }
+
+  ${media.mobile}{
+    width: 100%;
+
+    > button {
+      margin: 100px auto 24px;
+      svg,img{
+        width: 40px;
+        height: 40px;
+      }
+    }
   }
 `;
 const Rectangle = styled.div`
@@ -267,6 +292,16 @@ const RefreshBtnBox = styled(Box)`
   button:hover + div {
     display: block;
   }
+
+  ${media.mobile}{
+    width: auto;
+    right: 10px;
+
+    button {
+      width: 40px;
+      height: 40px;
+    }
+  }
 `;
 const RefreshText = styled(motion.div)`
   display: none;
@@ -275,16 +310,12 @@ const RefreshText = styled(motion.div)`
   font-weight: 500;
 `;
 const MemoInput = styled.input<{ disabled: boolean }>`
-  display: flex;
-  justify-content: center;
-  align-items: center;
   width: 640px;
-  max-width: 1000px;
   padding: 20px;
   background-color: rgb(209, 239, 247);
   color: ${({ theme }) => theme.color.mintBtn};
   font-size: 22px;
-  transition: all 0.3s ease-out;
+  transition: box-shadow 0.3s ease-out;
   cursor: pointer;
   border-radius: 5px;
   position: relative;
@@ -295,6 +326,16 @@ const MemoInput = styled.input<{ disabled: boolean }>`
   }
   ::placeholder {
     color: ${theme.color.mintBtn};
+  }
+  ${media.custom(770)}{
+    width: 460px;
+    font-size: 18px;
+  }
+  ${media.mobile}{
+    width: 100%;
+    font-size: 16px;
+    margin: 0 auto;
+    display:block;
   }
 `;
 const ErrorMessage = styled(Box)`
@@ -309,6 +350,9 @@ const GuideMessage = styled.div`
   color: ${({ theme }) => theme.color.darkBg};
   font-size: 16px;
   margin-bottom: 20px;
+  ${media.mobile}{
+    font-size: 13px;
+  }
 `;
 
 const Mic = styled(mic)`
@@ -316,5 +360,22 @@ const Mic = styled(mic)`
   height: 55%;
   &:hover {
     fill: red;
+  }
+`;
+
+const ToryMotion = styled.div`
+  width: 360px;
+  height: 360px;
+  transform: translate(0, -10%);
+  margin: 0 auto;
+
+  ${media.custom(1280)}{
+    width: 320px;
+    height: 320px;
+  }
+
+  ${media.mobile}{
+    width: 280px;
+    height: 280px;
   }
 `;

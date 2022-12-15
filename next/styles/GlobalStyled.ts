@@ -1,5 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 import { reset } from "styled-reset";
+import { media } from "./theme";
 
 const GlobalStyled = createGlobalStyle`
 ${reset}
@@ -41,7 +42,6 @@ ${reset}
   a:link {
     color: inherit;
     text-decoration: none;
-    background-color: transparent;
   }
   
   button,
@@ -108,20 +108,20 @@ ${reset}
     max-width: 100%;
   }
 
-
   ::-webkit-scrollbar {
-    width: 10px;
+    // width: 10px;
   }
 
-  ::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background-color: rgb(188, 197, 255);
-  }
+  // ::-webkit-scrollbar-thumb {
+  //   border-radius: 10px;
+  //   background-color: rgb(188, 197, 255);
+  // }
   
-  ::-webkit-scrollbar-track {
-    border-radius: 10px;
-    background-color: "#e2e6ff";
-  }
+  // ::-webkit-scrollbar-track {
+  //   border-radius: 10px;
+  //   background-color: "#e2e6ff";
+  // }
+
 
   .blind {
     overflow: hidden;
@@ -133,6 +133,32 @@ ${reset}
     display: inline-block;
   }
 
+  
+  ${media.tablet} {
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .gs_reveal {
+    opacity: 0;
+  }
+  
+  .gs_reveal_fromBottom {
+    transform: translate(0, 40px);
+  }
+  
+  .gs_reveal_fromTop {
+    transform: translate(0, -40px);
+  }
+  
+  .gs_reveal_fromRight {
+    transform: translate(60px, 0);
+  }
+  
+  .gs_reveal_fromLeft {
+    transform: translate(-60px, 0);
+  }
 `;
 
 export default GlobalStyled;

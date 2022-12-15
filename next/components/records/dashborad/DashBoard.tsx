@@ -14,6 +14,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 import ToryWhiteAnim from "@components/lotties/ToryWhiteAnim";
+import { media } from "@styles/theme";
 
 interface AMonthResponse {
   mostInAMonth: Position[];
@@ -108,28 +109,58 @@ const DashBoardContainer = styled.div`
   height: 100%;
   margin: 0 auto;
   padding: 30px 60px;
+
+  ${media.custom(1520)} {
+    padding: 30px;
+  }
+
+  ${media.mobile} {
+    padding: 30px 20px 0;
+  }
 `;
 
 const ToryTextBox = styled.div`
   position: relative;
   display: flex;
   align-items: center;
-  height: 110px;
   margin-bottom: 20px;
-  padding-left: 140px;
+  padding: 32px 0px 32px 140px;
+  word-break: keep-all;
+
+  ${media.custom(1280)} {
+    padding: 22px 0px 22px 120px;
+  }
+
+  ${media.mobile} {
+    padding: 90px 0 0;
+    justify-content: center;
+    text-align: center;
+  }
 `;
 
 const ToryMotion = styled.div`
   position: absolute;
   top: 50%;
   left: 0;
-  transform: translate(-15%, -60%);
-  width: 180px;
-  height: 180px;
+  transform: translate(-15%, -65%);
+  width: 170px;
+  height: 170px;
+
+  ${media.custom(1280)} {
+    width: 150px;
+    height: 150px;
+  }
+
+  ${media.mobile} {
+    width: 120px;
+    height: 120px;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -36%);
+  }
 `;
 
 const ToryText26White = styled(ToryText26)`
-  // 토리텍스트 추후 정리필요
   color: ${({ theme }) => theme.color.white};
 `;
 

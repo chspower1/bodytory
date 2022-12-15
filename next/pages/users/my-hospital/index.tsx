@@ -89,18 +89,18 @@ export const MainContainer = styled.div`
 `;
 
 export const MainInnerContainer = styled.div`
-  width: 1600px;
+  max-width: 1600px;
+  width: 100%;
+  height: 100%;
   margin: auto;
   ${media.custom(1440)} {
-    padding: 0 100px;
+    padding: 0 50px;
   }
   ${media.tablet} {
     padding: 20px;
   }
   ${media.mobile} {
-    width: 100%;
-    height: 100%;
-    padding: 10px;
+    padding: 0;
   }
 `;
 
@@ -109,27 +109,33 @@ export const Pragraph = styled.p`
   strong {
     font-weight: 700;
   }
-  ${media.custom(1130)} {
-    width: auto;
+  ${media.custom(1366)} {
     display: block;
-    max-height: 150px;
-    font-size: 20px;
+    position: absolute;
+    left: 150px;
+    font-size: 22px;
   }
   ${media.tablet} {
+    display: block;
+    position: absolute;
+    left: 150px;
     font-size: 18px;
   }
   ${media.mobile} {
-    font-size: 11px;
+    font-size: 14px;
     width: auto;
     display: block;
     position: absolute;
-    left: 0;
+    left: 10px;
   }
 `;
 export const HighlightText = styled.span`
   color: rgb(83, 89, 233);
   font-size: 32px;
   font-weight: 700;
+  ${media.mobile} {
+    font-size: 28px;
+  }
 `;
 
 export const DescriptionBox = styled.div`
@@ -151,8 +157,6 @@ export const ButtonBox = styled.div<{ isMap?: boolean }>`
   display: flex;
   justify-content: center;
   padding: ${({ isMap }) => (isMap ? ` 0 0 30px` : ` 0 0 42px`)};
-  ${media.mobile} {
-  }
 `;
 
 const ToryMotion = styled.div`
@@ -164,7 +168,9 @@ const ToryMotion = styled.div`
   height: 260px;
   margin-right: 30px;
   ${media.mobile} {
-    top: -10px;
-    left: -80px;
+    width: 100px;
+    height: 100px;
+    top: 30px;
+    left: 10px;
   }
 `;

@@ -1,14 +1,30 @@
+import BodyNavigator from "@components/records/BodyNavigator";
 import Chart from "@components/records/chart/Chart";
 import SelectPart from "@components/records/SelectBodyPart";
+import { Position } from "@prisma/client";
+import { media } from "@styles/theme";
 import withGetServerSideProps from "@utils/client/withGetServerSideProps";
 import { motion } from "framer-motion";
 import { GetServerSidePropsContext, NextPage } from "next";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { bodyPartType } from "types/bodyParts";
+import { EnterNavigatorButton, MobBodyNavigatorArea } from "../write";
 
 const ChartPage: NextPage = () => {
   const [selectedBodyPart, setSelectedBodyPart] = useState<bodyPartType>(null);
+
+  const [isSelect, setIsSelect] = useState(false);
+
+  const { query } = useRouter();
+  const position = query.position as Position;
+
+  useEffect(() => {
+    if (position) {
+      setIsSelect(false);
+    }
+  }, [position]);
 
   return (
     <RecordWrap>
@@ -26,6 +42,16 @@ const ChartPage: NextPage = () => {
       >
         <Chart />
       </ChartArea>
+      <MobBodyNavigatorArea isSelect={isSelect}>
+        <BodyNavigator
+          selectedBodyPart={selectedBodyPart}
+          setSelectedBodyPart={setSelectedBodyPart}
+          isWritePage={false}
+        />
+        <EnterNavigatorButton isSelect={isSelect} onClick={() => setIsSelect(prev => !prev)} >
+          <i/>
+        </EnterNavigatorButton>
+      </MobBodyNavigatorArea>
     </RecordWrap>
   );
 };
@@ -42,8 +68,16 @@ export const RecordWrap = styled.div`
 
 const SelectPartArea = styled(motion.div)`
   width: 37.5%;
+
+  ${media.custom(1280)} {
+    display: none;
+  }
 `;
 
 const ChartArea = styled(motion.div)`
   width: 62.5%;
+
+  ${media.custom(1280)} {
+    width: 100%;
+  }
 `;

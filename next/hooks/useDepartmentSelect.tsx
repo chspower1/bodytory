@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import ArrowIcon from "@src/assets/icons/icon_select_arrow.png";
+import { media } from "@styles/theme";
 
 interface DepartmentSelectForm {
   department: string;
@@ -35,7 +36,6 @@ const useDepartmentSelect = (departments: string[], isAll?: boolean) => {
           ))}
         </DepartmentSelectBox>
       </SelectWrap>
-
     ) : null;
   };
   return { department, DepartmentSelect };
@@ -54,17 +54,25 @@ const SelectWrap = styled.div`
     transform: translate(0, -50%);
     width: 10px;
     height: 10px;
-    background: url(${ArrowIcon.src}) no-repeat 50% 50% /contain;
+    background: url(${ArrowIcon.src}) no-repeat 50% 50% / contain;
     z-index: 5;
+  }
+  ${media.mobile} {
   }
 `;
 
 const DepartmentSelectBox = styled.select`
-  border: 2px solid #5359E9;
+  border: 2px solid #5359e9;
   padding: 10px 35px 10px 20px;
   border-radius: 20px;
   width: 210px;
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
+  ${media.mobile} {
+    width: 100px;
+    font-size: 14px;
+    padding: 8px 30px 8px 20px;
+  }
+  
 `;

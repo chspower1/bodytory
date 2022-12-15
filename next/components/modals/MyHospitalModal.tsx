@@ -6,6 +6,7 @@ import type { MyHospital } from "pages/users/my-hospital";
 import usePortal from "@hooks/usePortal";
 import Link from "next/link";
 import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
+import { media } from "@styles/theme";
 interface MyHospitalModalProps {
   show?: boolean;
   hospitals?: MyHospital;
@@ -48,9 +49,8 @@ const MyHospitalModal = ({ show, hospitals, onClose }: MyHospitalModalProps) => 
                   </DepartmentLists>
                 </DetailBox>
               </ContentBox>
-              <Map
+              <MapStyle
                 center={{ lat: Number(hospitals?.y), lng: Number(hospitals?.x) }}
-                style={{ width: "320px", height: "320px", borderRadius: "30px" }}
                 level={5}
               >
                 <MapMarker
@@ -69,7 +69,7 @@ const MyHospitalModal = ({ show, hospitals, onClose }: MyHospitalModalProps) => 
                     },
                   }}
                 />
-              </Map>
+              </MapStyle>
             </ContentContainer>
             <CloseBox>
               <RoundedDefaultButton sm color="rgb(93,107,178)" bgColor="rgb(197,205,251)" onClick={onClose}>
@@ -86,9 +86,24 @@ const MyHospitalModal = ({ show, hospitals, onClose }: MyHospitalModalProps) => 
 
 export default MyHospitalModal;
 
+const MapStyle= styled(Map)`
+  width:320px;
+  height:320px;
+  border-radius: 30px;
+  margin: 0 auto;
+  ${media.custom(970)}{
+    width: 100%;
+    margin: 10px auto 0;
+    border-radius: 10px;
+  }
+`
+
 const HospitalName = styled.h3`
   margin-left: 30px;
   color: white;
+  ${media.mobile}{
+    margin-left: 10px;
+  }
 `;
 
 const ModalBox = styled(ModalContainer)`
@@ -106,6 +121,9 @@ const ModalTitle = styled.div`
   background-color: #363cbf;
   display: flex;
   justify-content: space-between;
+  ${media.mobile}{
+    font-size: 18px;
+  }
 `;
 
 const ContentContainer = styled.div`
@@ -116,6 +134,13 @@ const ContentContainer = styled.div`
   height: 400px;
   display: flex;
   padding: 30px 40px 30px 50px;
+  ${media.custom(970)}{
+    display:block;
+    overflow-y:scroll;
+  }
+  ${media.mobile}{
+    padding: 20px 15px 20px 25px;
+  }
 `;
 
 const ContentBox = styled.div`
@@ -125,6 +150,12 @@ const ContentBox = styled.div`
   height: 100%;
   padding-right: 20px;
   overflow-y: scroll;
+  ${media.custom(970)}{
+    overflow-y: visible;
+    margin: 0 auto;
+    height: auto;
+    width: 100%;
+  }
 `;
 
 const DetailBox = styled.div`
@@ -135,6 +166,15 @@ const DetailBox = styled.div`
   height: 70px;
   & + & {
     margin-top: 40px;
+  }
+  ${media.custom(970)}{
+    height: auto;
+  }
+  ${media.mobile}{
+    font-size: 15px;
+    & + & {
+      margin-top: 20px;
+    }
   }
 `;
 
@@ -158,4 +198,7 @@ const CloseBox = styled.div`
 const DepartmentLists = styled.div`
   max-height: 100px;
   word-break: keep-all;
+  ${media.custom(970)}{
+    max-height: none;
+  }
 `;

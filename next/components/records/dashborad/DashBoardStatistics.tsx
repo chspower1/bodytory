@@ -9,6 +9,7 @@ import styled from "styled-components";
 import { KoreanPosition } from "types/write";
 import MostBodyPart from "./MostBodyPart";
 import MostKeyword from "./MostKeyword";
+import { media } from "@styles/theme";
 
 interface ThreeMonthResponse {
   position: Position;
@@ -69,48 +70,72 @@ function DashBoardStatistics() {
   return user ? (
     <StatisticsContainer>
       <Title>최근 3개월 동안 {user?.name}님의 건강상태를 분석했어요</Title>
-      <FlexContainer>
-        <ChartBox>
-          {mostPart && (
-            <>
-              <p>
-                가장 많은 기록을 남긴 부위는{" "}
-                <strong>
-                  {mostPart?.length > 1
-                    ? `${KoreanPosition[mostPart[0] as Position]} 외 ${mostPart.length - 1}곳`
-                    : KoreanPosition[mostPart[0] as Position]}
-                </strong>{" "}
-                입니다
-              </p>
-              <MostBodyPart
-                chartData={bodyPartChartData ? bodyPartChartData : null}
-                mostPartIdx={mostPartIdx ? mostPartIdx : null}
-              />
-            </>
-          )}
-        </ChartBox>
-        <ChartBox>
-          {keywordChartData?.length === 0 && (
-            <NoKeywordChart>
-              <LoadingAnim />
-              <p>기록이 더 많아지면 키워드를 분석할 수 있어요!</p>
-            </NoKeywordChart>
-          )}
-          {keywordChartData?.length !== 0 && (
-            <>
-              <p>
-                가장 많이 기록된 키워드는 <strong>{mostKeyword}</strong> 입니다
-              </p>
-              <MostKeyword chartData={keywordChartData ? keywordChartData : null} />
-            </>
-          )}
-        </ChartBox>
-      </FlexContainer>
+      <HorizontalScrollContainer>
+        <FlexContainer>
+          <ChartBox>
+            {mostPart && (
+              <>
+                <p>
+                  가장 많은 기록을 남긴 부위는{" "}
+                  <strong>
+                    {mostPart?.length > 1
+                      ? `${KoreanPosition[mostPart[0] as Position]} 외 ${mostPart.length - 1}곳`
+                      : KoreanPosition[mostPart[0] as Position]}
+                  </strong>{" "}
+                  입니다
+                </p>
+                <MostBodyPart
+                  chartData={bodyPartChartData ? bodyPartChartData : null}
+                  mostPartIdx={mostPartIdx ? mostPartIdx : null}
+                />
+              </>
+            )}
+          </ChartBox>
+          <ChartBox>
+            {
+              keywordChartData?.length === 0 && (
+                <NoKeywordChart>
+                  <LoadingAnim />
+                  <p>기록이 더 많아지면 키워드를 분석할 수 있어요!</p>
+                </NoKeywordChart>
+              )
+            }
+            {
+              keywordChartData?.length !== 0 && (
+                <>
+                  <p>
+                    가장 많이 기록된 키워드는 <strong>{mostKeyword}</strong> 입니다
+                  </p>
+                  <MostKeyword chartData={keywordChartData ? keywordChartData : null} />
+                </>
+              )
+            }
+          </ChartBox>
+        </FlexContainer>
+      </HorizontalScrollContainer>
     </StatisticsContainer>
   ) : null;
 }
 
-const StatisticsContainer = styled.div``;
+const StatisticsContainer = styled.div`
+`;
+
+const HorizontalScrollContainer = styled.div`
+  width: 100%;
+
+  ${media.mobile} {
+    overflow-x: scroll;
+    padding: 0 20px 20px 0;
+  }
+`;
+
+const FlexContainer = styled.div`
+  display: flex;
+
+  ${media.mobile} {
+    width: calc(180% + 20px);
+  }
+`;
 
 const Title = styled.p`
   padding: 0 25px;
@@ -118,15 +143,26 @@ const Title = styled.p`
   font-size: 22px;
   font-weight: 700;
   color: ${({ theme }) => theme.color.white};
+
+  ${media.custom(1280)} {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+
+  ${media.tablet} {
+    font-size: 18px;
+  }
+
+  ${media.mobile} {
+    font-size: 15px;
+    padding: 0 15px;
+  }
 `;
 
-const FlexContainer = styled.div`
-  display: flex;
-`;
 
 const ChartBox = styled.div`
   width: calc(50% - 20px);
-  min-height: 480px;
+  height: 480px;
   background: ${({ theme }) => theme.color.white};
   border-radius: 40px;
   padding: 30px;
@@ -148,6 +184,30 @@ const ChartBox = styled.div`
       padding: 0 1px 2px;
       background: linear-gradient(to top, rgba(18, 212, 201, 0.4) 40%, transparent 40%);
     }
+  }
+
+  ${media.custom(1440)} {
+    width: calc(50% - 10px);
+    height: 440px;
+
+    & + & {
+      margin-left: 20px;
+    }
+  }
+
+  ${media.tablet} {
+    padding: 20px;
+    height: 400px;
+
+    p {
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+  }
+
+  ${media.tablet} {
+    height: auto;
+    aspect-ratio: 1 / 1;
   }
 `;
 
