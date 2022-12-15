@@ -134,7 +134,7 @@ ${reset}
   }
 
   
-  ${media.mobile} {
+  ${media.tablet} {
     ::-webkit-scrollbar {
       display: none;
     }

@@ -1,10 +1,12 @@
 import BodyNavigator from "@components/records/BodyNavigator";
 import Chart from "@components/records/chart/Chart";
 import SelectPart from "@components/records/SelectBodyPart";
+import { Position } from "@prisma/client";
 import { media } from "@styles/theme";
 import withGetServerSideProps from "@utils/client/withGetServerSideProps";
 import { motion } from "framer-motion";
 import { GetServerSidePropsContext, NextPage } from "next";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { bodyPartType } from "types/bodyParts";
@@ -15,11 +17,14 @@ const ChartPage: NextPage = () => {
 
   const [isSelect, setIsSelect] = useState(false);
 
+  const { query } = useRouter();
+  const position = query.position as Position;
+
   useEffect(() => {
-    if (selectedBodyPart) {
+    if (position) {
       setIsSelect(false);
     }
-  }, [selectedBodyPart]);
+  }, [position]);
 
   return (
     <RecordWrap>

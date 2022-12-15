@@ -8,13 +8,11 @@ export const Wrapper = styled.div<{ bgColor?: string; isScroll: boolean }>`
   width: 100%;
   overflow: hidden;
   background-color: ${props => props.bgColor};
-  ${media.tablet} {
-    // overflow-y: auto;
-  }
   ${({ isScroll }) =>
     !isScroll &&
     css`
       height: 100vh;
+      min-height: 768px;
     `}
 `;
 
@@ -103,6 +101,16 @@ export const BlackToryText = styled(ToryText)`
 
 export const ToryText26 = styled(ToryText)`
   font-size: 26px;
+
+  ${media.custom(1280)} {
+    font-size: 24px;
+  }
+  ${media.tablet} {
+    font-size: 22px;
+  }
+  ${media.mobile} {
+    font-size: 20px;
+  }
 `;
 
 export const Accent = styled(ToryText)`

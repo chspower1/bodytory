@@ -11,6 +11,7 @@ import { CHART_RECOMMEND_READ } from "constant/queryKeys";
 import { useEffect } from "react";
 import ToryRecommend from "../ToryRecommend";
 import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
+import { media } from "@styles/theme";
 
 interface ChartRecommendResponse {
   mostThreeDepartment?: string[];
@@ -40,9 +41,9 @@ function Chart() {
               <strong>{KoreanPosition[position]}</strong> 건강기록
             </Title>
             <Link href={`/users/records/write/${position}`}>
-              <RoundedDefaultButton bgColor="rgb(244,245,255)" color="rgb(83,89,233)">
+              <AddButton bgColor="rgb(244,245,255)" color="rgb(83,89,233)">
                 기록 추가하기
-              </RoundedDefaultButton>
+              </AddButton>
             </Link>
           </TitleBox>
           <ToryRecommend mostThreeDepartment={data?.mostThreeDepartment} inChart={true} />
@@ -81,21 +82,40 @@ export const ScrollContainer = styled.div`
     background-clip: content-box;
     border: 10px solid transparent;
   }
+
+  ${media.tablet} {
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
 `;
 
 export const ChartContainer = styled.div`
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 30px 30px 20px 40px;
+  padding: 30px 20px 20px 40px;
+
+  ${media.custom(1520)} {
+    padding: 30px;
+  }
+
+  ${media.mobile} {
+    padding: 30px 20px 0;
+  }
 `;
 
 const TitleBox = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
   padding: 0 70px 0 25px;
   margin-bottom: 30px;
+
+  ${media.mobile} {
+    padding: 0 55px 0 15px;
+    margin-bottom: 15px;
+  }
 `;
 
 const Title = styled.h2`
@@ -104,6 +124,26 @@ const Title = styled.h2`
 
   strong {
     font-weight: 700;
+  }
+
+  ${media.tablet} {
+    font-size: 32px;
+  }
+
+  ${media.tablet} {
+    font-size: 26px;
+  }
+`;
+
+const AddButton = styled(RoundedDefaultButton)`
+  ${media.tablet} {
+    font-size: 16px;
+    padding: 14px 40px;
+  }
+
+  ${media.mobile} {
+    font-size: 13px;
+    padding: 8px 16px;
   }
 `;
 

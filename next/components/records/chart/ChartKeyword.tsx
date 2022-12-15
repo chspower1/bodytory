@@ -2,6 +2,7 @@ import { selectedKeyword } from "atoms/atoms";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import CloseIcon from "@src/assets/icons/x.png";
+import { media } from "@styles/theme";
 
 interface KeywordsProps {
   keywords?: string[];
@@ -28,7 +29,7 @@ function ChartKeyword({ keywords }: KeywordsProps) {
           </Keywords>
         </>
       ) : (
-        <strong>기록이 충분히 쌓이면 키워드를 분석해드릴게요!</strong>
+        <p>기록이 충분히 쌓이면 키워드를 분석해드릴게요!</p>
       )}
     </KeywordContainer>
   );
@@ -38,22 +39,45 @@ const KeywordContainer = styled.div`
   display: flex;
   align-items: center;
   padding: 0 25px;
+  width: 100%;
   min-height: 48px;
   margin-bottom: 10px;
 
   strong {
-    min-width: 150px;
+    width: 8em;
     color: ${({ theme }) => theme.color.white};
     font-weight: 700;
     margin-right: 20px;
   }
+
+  p {
+    color: ${({ theme }) => theme.color.white};
+    font-weight: 700;
+    margin-right: 20px;
+  }
+
+  ${media.custom(1440)} {
+    font-size: 16px;
+  }
 `;
 
 const Keywords = styled.div`
+  width: calc(100% - 9em);
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap; 
+  overflow-x: auto;
+
+  &::-webkit-scrollbar {
+    display: block;
+    height: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #4449c2;
+  }
 
   span {
+    flex: 0 0 auto;
     display: flex;
     align-items: center;
     position: relative;
