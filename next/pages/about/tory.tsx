@@ -5,14 +5,13 @@ import recordList from "@public/static/recordList.png";
 import recordRecomend from "@public/static/recordRecomend.png";
 import map from "@public/static/map.png";
 import share from "@public/static/share.png";
-import medicalRecord from "@public/static/MedicalRecord.png";
+import medicalRecord from "@public/static/medicalRecord.png";
 import Image from "next/image";
 import { RectangleDefaultButton, RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { useEffect } from "react";
 import { animateFrom, hide } from "@utils/client/animateFrom";
-import Link from "next/link";
 import { useRouter } from "next/router";
 
 gsap.registerPlugin(ScrollTrigger);
