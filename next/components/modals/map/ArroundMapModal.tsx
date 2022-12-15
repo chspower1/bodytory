@@ -68,10 +68,14 @@ const ToryTextBox = styled(ToryBox)`
 `
 
 const MapBox = styled.div`
-  width: 90%;
+  width: 100%;
   max-height: 600px;
-  height: 50vh;
+  height: 80vh;
   min-height: 300px;
+
+  ${media.custom(870)}{
+    height: 60vh;
+  }
 `
 
 const ButtonBox = styled.div`

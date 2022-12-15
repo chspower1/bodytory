@@ -124,29 +124,14 @@ const ArroundMap = ({ width, height, latitude, longitude, departmentList, isAll 
           {centerChange && (
             <SearchHereBtn
               onClick={() => {
+                mutate({
+                  minLatitude: mapRef.current?.getBounds().getSouthWest().getLat()!,
+                  minLongitude: mapRef.current?.getBounds().getSouthWest().getLng()!,
+                  maxLatitude: mapRef.current?.getBounds().getNorthEast().getLat()!,
+                  maxLongitude: mapRef.current?.getBounds().getNorthEast().getLng()!,
+                });
+                setCenterChange(false);
                 setClickIndex(-1);
-                mutate({
-                  minLatitude: mapRef.current?.getBounds().getSouthWest().getLat()!,
-                  minLongitude: mapRef.current?.getBounds().getSouthWest().getLng()!,
-                  maxLatitude: mapRef.current?.getBounds().getNorthEast().getLat()!,
-                  maxLongitude: mapRef.current?.getBounds().getNorthEast().getLng()!,
-                });
-                setCenterChange(false);
-              }}
-            >
-              <MagnifierIcon width={20} height={20} fill="white" /> 현 지도에서 병원 검색
-            </SearchHereBtn>
-          )}
-          {centerChange && (
-            <SearchHereBtn
-              onClick={() => {
-                mutate({
-                  minLatitude: mapRef.current?.getBounds().getSouthWest().getLat()!,
-                  minLongitude: mapRef.current?.getBounds().getSouthWest().getLng()!,
-                  maxLatitude: mapRef.current?.getBounds().getNorthEast().getLat()!,
-                  maxLongitude: mapRef.current?.getBounds().getNorthEast().getLng()!,
-                });
-                setCenterChange(false);
               }}
             >
               <MagnifierIcon width={20} height={20} fill="white" /> 현 지도에서 검색
@@ -207,7 +192,6 @@ const MapContainer = styled(Container)`
   width: 100%;
   height: 100%;
   background-color: ${props => props.theme.color.weekPurple};
-  border-radius: 20px;
   overflow: hidden;
   position: relative;
   padding: 0;

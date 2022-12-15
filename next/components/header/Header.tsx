@@ -17,7 +17,10 @@ const Header = () => {
         <HeaderInnerBox>
           <HeaderUl>
             <li>
-              <Link href="/">서비스 소개</Link>
+              <Link href="/about/bodytory">서비스 소개</Link>
+            </li>
+            <li>
+              <Link href="/about/team">팀 소개</Link>
             </li>
             <li>
               {router.asPath.includes("login") ? (
@@ -101,7 +104,8 @@ const HeaderLogoBox = styled.div`
 `;
 const HeaderUl = styled.ul`
   display: flex;
-  width: 270px;
+  width: 100%;
+  justify-content: flex-end;
   align-items: center;
   li {
     margin: 0 28px;
