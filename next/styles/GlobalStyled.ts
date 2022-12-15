@@ -109,18 +109,18 @@ ${reset}
   }
 
   ::-webkit-scrollbar {
-    width: 10px;
+    // width: 10px;
   }
 
-  ::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background-color: rgb(188, 197, 255);
-  }
+  // ::-webkit-scrollbar-thumb {
+  //   border-radius: 10px;
+  //   background-color: rgb(188, 197, 255);
+  // }
   
-  ::-webkit-scrollbar-track {
-    border-radius: 10px;
-    background-color: "#e2e6ff";
-  }
+  // ::-webkit-scrollbar-track {
+  //   border-radius: 10px;
+  //   background-color: "#e2e6ff";
+  // }
 
 
   .blind {
@@ -140,6 +140,25 @@ ${reset}
     }
   }
 
+  .gs_reveal {
+    opacity: 0;
+  }
+  
+  .gs_reveal_fromBottom {
+    transform: translate(0, 40px);
+  }
+  
+  .gs_reveal_fromTop {
+    transform: translate(0, -40px);
+  }
+  
+  .gs_reveal_fromRight {
+    transform: translate(60px, 0);
+  }
+  
+  .gs_reveal_fromLeft {
+    transform: translate(-60px, 0);
+  }
 `;
 
 export default GlobalStyled;
