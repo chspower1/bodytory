@@ -100,7 +100,7 @@
   <br/>
   <br/>
 
-## 기술 스택
+## <img src="./next/public/static/readme/skills.svg" width="23px"/> 기술 스택
 
 ---
 
@@ -498,7 +498,7 @@ CI/CD 기술 스택 자세히 보기
 <br/>
 <br/>
 
-## 데이터 구조
+## <img src="./next/public/static/readme/data.svg" height="20px"> 데이터 구조
 
 ---
 
@@ -683,7 +683,7 @@ hospital
 <br/>
 <br/>
 
-## 폴더구조
+## 📂 폴더구조
 
 ---
 
