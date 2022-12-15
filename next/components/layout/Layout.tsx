@@ -20,6 +20,7 @@ const Layout = ({ children }: LayoutProps) => {
       setBgColor("rgb(83, 89, 233)");
     else setBgColor("rgb(242, 243, 255)");
     if (router.pathname.includes("tory")) setIsScroll(true);
+    if (!router.pathname.includes("tory")) setIsScroll(false);
   }, [router]);
   return (
     <Wrapper bgColor={bgColor} isScroll={isScroll}>

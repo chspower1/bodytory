@@ -12,9 +12,12 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { useEffect } from "react";
 import { animateFrom, hide } from "@utils/client/animateFrom";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 gsap.registerPlugin(ScrollTrigger);
 const Tory = () => {
+  const router = useRouter();
   useEffect(() => {
     gsap.utils.toArray(".gs_reveal").forEach(function (elem: any) {
       console.log(elem);
@@ -42,7 +45,7 @@ const Tory = () => {
             <NormalText>는 이용자님의 건강관리를 위한 인공지능 헬스케어 서비스입니다</NormalText>
           </TextBox>
         </ServiceIntro>
-        <RecordIntro className="gs_reveal gs_reveal_fromRight">
+        <RecordIntro>
           <TextContainer>
             <TextBox>
               <HighlightText>오늘 기록하기</HighlightText>
@@ -58,9 +61,11 @@ const Tory = () => {
         </RecordIntro>
       </FirstSection>
       <SecondSection>
-        <RecordConfirmIntro className="gs_reveal gs_reveal_fromRight">
-          <Image src={recordConfirm} alt="mic"></Image>
-          <TextContainer>
+        <RecordConfirmIntro>
+          <ImageLeftBox className="gs_reveal gs_reveal_fromLeft delay600">
+            <Image src={recordConfirm} alt="mic"></Image>
+          </ImageLeftBox>
+          <TextContainer className="gs_reveal gs_reveal_fromBottom">
             <TextBox>
               <HighlightText>기록 확인하기</HighlightText>
             </TextBox>
@@ -69,29 +74,33 @@ const Tory = () => {
             </TextBox>
           </TextContainer>
         </RecordConfirmIntro>
-        <RecordChartIntro className="gs_reveal gs_reveal_fromRight">
-          <TextBox>
+        <RecordChartIntro>
+          <TextBox className="gs_reveal gs_reveal_fromBottom">
             <NormalText>
               기록된 증상들은 깔끔하게 정리하고 분류해서
               <br /> 한눈에 보기 쉬운 증상차트를 제공해요
             </NormalText>
           </TextBox>
-          <Image src={recordList} alt="mic"></Image>
+          <ImageRightBox className="gs_reveal gs_reveal_fromRight delay600">
+            <Image src={recordList} alt="mic"></Image>
+          </ImageRightBox>
         </RecordChartIntro>
         <RecordRecomendIntro>
-          <CenterTextBox>
+          <CenterTextBox className="gs_reveal gs_reveal_fromBottom">
             <NormalText>
               A.I 토리가 기록된 증상을 분석하여
               <br />
               나에게 적합한 진료과목과 내 근처 병원을 추천해줘요!
             </NormalText>
           </CenterTextBox>
-          <Image src={recordRecomend} alt="mic"></Image>
+          <div className="gs_reveal gs_reveal_fromBottom delay800">
+            <Image src={recordRecomend} alt="mic"></Image>
+          </div>
         </RecordRecomendIntro>
       </SecondSection>
       <ThirdSection>
         <ManageHospitalIntro>
-          <TextContainer>
+          <TextContainer className="gs_reveal gs_reveal_fromBottom">
             <TextBox>
               <HighlightText>내 병원 관리하기</HighlightText>
             </TextBox>
@@ -102,11 +111,15 @@ const Tory = () => {
               </NormalText>
             </TextBox>
           </TextContainer>
-          <Image src={map} alt="mic"></Image>
+          <div className="gs_reveal gs_reveal_fromRight delay600">
+            <Image src={map} alt="mic"></Image>
+          </div>
         </ManageHospitalIntro>
         <ManageShareIntro>
-          <Image src={share} alt="mic"></Image>
-          <TextBox>
+          <ImageLeftBox className="gs_reveal gs_reveal_fromLeft delay600">
+            <Image src={share} alt="mic"></Image>
+          </ImageLeftBox>
+          <TextBox className="gs_reveal gs_reveal_fromBottom">
             <NormalText>
               언제든지 증상기록 공유를 해제하거나 시작할 수 있고
               <br /> 새로운 병원을 등록할 수도 있어요
@@ -114,19 +127,26 @@ const Tory = () => {
           </TextBox>
         </ManageShareIntro>
         <MedicalRecordIntro>
-          <TextBox>
+          <TextBox className="gs_reveal gs_reveal_fromBottom">
             <NormalText>
               바디토리에 등록된 병원에서 진료를 받았다면
               <br /> 진료 기록을 한눈에 확인할 수 있어요
             </NormalText>
           </TextBox>
-          <Image src={medicalRecord} alt="mic"></Image>
+          <ImageRightBox className="gs_reveal gs_reveal_fromRight delay600">
+            <Image src={medicalRecord} alt="mic"></Image>
+          </ImageRightBox>
         </MedicalRecordIntro>
         <StartTory>
-          <TextBox>
+          <TextBox className="gs_reveal gs_reveal_fromBottom">
             <LargeText>바디토리를 시작해볼까요?</LargeText>
           </TextBox>
-          <RoundedDefaultButton lg bgColor="rgb(17,212,202)">
+          <RoundedDefaultButton
+            lg
+            bgColor="rgb(17,212,202)"
+            className="gs_reveal gs_reveal_fromBottom delay400"
+            onClick={() => router.push("/")}
+          >
             네, 좋아요!
           </RoundedDefaultButton>
         </StartTory>
@@ -225,6 +245,15 @@ const StartTory = styled.div`
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
+`;
+
+const ImageLeftBox = styled.div`
+  position: relative;
+  left: -200px;
+`;
+const ImageRightBox = styled.div`
+  position: relative;
+  right: -200px;
 `;
 
 const TextBox = styled.div``;

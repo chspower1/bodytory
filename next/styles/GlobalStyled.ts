@@ -112,15 +112,15 @@ ${reset}
     // width: 10px;
   }
 
-  ::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background-color: rgb(188, 197, 255);
-  }
+  // ::-webkit-scrollbar-thumb {
+  //   border-radius: 10px;
+  //   background-color: rgb(188, 197, 255);
+  // }
   
-  ::-webkit-scrollbar-track {
-    border-radius: 10px;
-    background-color: "#e2e6ff";
-  }
+  // ::-webkit-scrollbar-track {
+  //   border-radius: 10px;
+  //   background-color: "#e2e6ff";
+  // }
 
 
   .blind {

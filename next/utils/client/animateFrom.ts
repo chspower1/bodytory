@@ -8,15 +8,15 @@ export function animateFrom(elem: any) {
   // 페이드인 방향
   if (elem.classList.contains("gs_reveal_fromTop")) {
     x = 0;
-    y = -40;
+    y = -300;
   } else if (elem.classList.contains("gs_reveal_fromBottom")) {
     x = 0;
-    y = 40;
+    y = 300;
   } else if (elem.classList.contains("gs_reveal_fromLeft")) {
-    x = -60;
+    x = -400;
     y = 0;
   } else if (elem.classList.contains("gs_reveal_fromRight")) {
-    x = 60;
+    x = 400;
     y = 0;
   }
 
