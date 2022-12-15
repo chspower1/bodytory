@@ -1,5 +1,6 @@
 import { Wrapper } from "@styles/Common";
 import { useRouter } from "next/router";
+import Tory from "pages/about/tory";
 import { useEffect, useState } from "react";
 import Header from "../header/Header";
 import HospitalHeader from "../header/HospitalHeader";
@@ -10,6 +11,7 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
   const router = useRouter();
   const [bgColor, setBgColor] = useState("rgb(242, 243, 255)");
+  const [isScroll, setIsScroll] = useState(false);
   useEffect(() => {
     if (
       (router.pathname.includes("/auth") && !router.pathname.includes("/withdraw")) ||
@@ -17,10 +19,11 @@ const Layout = ({ children }: LayoutProps) => {
     )
       setBgColor("rgb(83, 89, 233)");
     else setBgColor("rgb(242, 243, 255)");
+    if (router.pathname.includes("tory")) setIsScroll(true);
   }, [router]);
   return (
-    <Wrapper bgColor={bgColor}>
-      {router.pathname.includes("/lending") ? null : router.pathname.includes("/hospital") ? (
+    <Wrapper bgColor={bgColor} isScroll={isScroll}>
+      {router.pathname.includes("/landing") ? null : router.pathname.includes("/hospital") ? (
         <HospitalHeader />
       ) : (
         <Header />

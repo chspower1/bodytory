@@ -1,11 +1,10 @@
 import { motion } from "framer-motion";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import IconArrowLeft from "@src/assets/icons/icon_arrow_left.png";
 import { media } from "./theme";
 
-export const Wrapper = styled.div<{ bgColor?: string }>`
+export const Wrapper = styled.div<{ bgColor?: string; isScroll: boolean }>`
   position: relative;
-  height: 100vh;
   width: 100%;
   overflow: hidden;
   background-color: ${props => props.bgColor};
@@ -13,6 +12,11 @@ export const Wrapper = styled.div<{ bgColor?: string }>`
     overflow-y: auto;
     overflow-y: auto;
   }
+  ${({ isScroll }) =>
+    !isScroll &&
+    css`
+      height: 100vh;
+    `}
 `;
 
 export const Container = styled(motion.div)`

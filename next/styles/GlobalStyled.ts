@@ -109,7 +109,7 @@ ${reset}
   }
 
   ::-webkit-scrollbar {
-    width: 10px;
+    // width: 10px;
   }
 
   ::-webkit-scrollbar-thumb {
@@ -140,6 +140,25 @@ ${reset}
     }
   }
 
+  .gs_reveal {
+    opacity: 0;
+  }
+  
+  .gs_reveal_fromBottom {
+    transform: translate(0, 40px);
+  }
+  
+  .gs_reveal_fromTop {
+    transform: translate(0, -40px);
+  }
+  
+  .gs_reveal_fromRight {
+    transform: translate(60px, 0);
+  }
+  
+  .gs_reveal_fromLeft {
+    transform: translate(-60px, 0);
+  }
 `;
 
 export default GlobalStyled;
