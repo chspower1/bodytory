@@ -1,6 +1,5 @@
 import { Wrapper } from "@styles/Common";
 import { useRouter } from "next/router";
-import Tory from "pages/about/tory";
 import { useEffect, useState } from "react";
 import Header from "../header/Header";
 import HospitalHeader from "../header/HospitalHeader";
@@ -19,8 +18,8 @@ const Layout = ({ children }: LayoutProps) => {
     )
       setBgColor("rgb(83, 89, 233)");
     else setBgColor("rgb(242, 243, 255)");
-    if (router.pathname.includes("tory")) setIsScroll(true);
-    if (!router.pathname.includes("tory")) setIsScroll(false);
+    if (router.pathname.includes("bodytory")) setIsScroll(true);
+    if (!router.pathname.includes("bodytory")) setIsScroll(false);
   }, [router]);
   return (
     <Wrapper bgColor={bgColor} isScroll={isScroll}>

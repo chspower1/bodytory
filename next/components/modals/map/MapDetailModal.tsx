@@ -77,14 +77,15 @@ const MapDetailModal = ({ clickIndex, setClickIndex, index, hospital }: MapDetai
                 <Image src={web} alt="사진" />
                 {hospital.homepage ? (
                   <Link href={hospital.homepage} target="_blank" title={hospital.homepage}>
-                    {hospital.name} 홈페이지 바로가기
+                    {hospital.homepage}
                   </Link>
                 ) : (
-                  <BodyText>홈페이지가 없습니다.</BodyText>
+                  <BodyText>-</BodyText>
                 )}
               </HomepageBox>
             </ContentBox>
             <RoundButton
+              sm
               bgColor={isConnected ? theme.color.error : "rgb(18, 212, 201)"}
               onClick={() => setShowModal(true)}
             >
@@ -135,23 +136,25 @@ const RoundButton = styled(RoundedDefaultButton)`
   width :88px;
   height :40px;
   fontSize :16px;
+  box-shadow: none;
 `
 
 const InfoWindowBox = styled(Col)`
+  position: relative;
   background-color: white;
   border: none;
   border-radius: 20px;
-  width: 650px;
-  height: 274px;
+  width: 560px;
+  height: 300px;
   justify-content: space-between;
   position: relative;
   box-shadow: ${props => props.theme.boxShadow.normal};
-  padding-bottom: 10px;
-
-  /* transform: translateY(-170px); */
+  padding: 80px 0 20px;
 `;
 const TopArea = styled(Row)`
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
   border-radius: 20px 20px 0px 0px;
   background-color: #363cbf;
   width: 100%;

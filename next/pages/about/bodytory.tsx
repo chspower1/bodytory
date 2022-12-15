@@ -155,7 +155,6 @@ const Tory = () => {
 
 const Container = styled.div`
   height: 100%;
-  overflow-y: scroll;
 `;
 const FirstSection = styled.section`
   background-color: #f2f3ff;
