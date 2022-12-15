@@ -16,9 +16,6 @@
 
 ## <img src="./next/public/static/readme/team.svg" height="25px"> **바디토리 멤버**
 
----
-
-<!-- <img src="./next/public/static/readme/team/team.gif"> -->
 <table>
   <tr>
     <td align="center"><a href="https://github.com/chspower1"><img src="./next/public/static/readme/team/hosung.gif" width="100px;" alt="호성"/><br /><sub><b>조호성</b></sub></a><br />
@@ -52,7 +49,6 @@
 
 ## <img src="./next/public/static/readme/tory/tory_purple.png" height="25px"> **소개**
 
----
 
 ### 이런 경험 한번씩 있으신가요?
 
@@ -61,8 +57,10 @@
 - 예전에 진료받았던 내용이 **기억나지 않아서** 아쉬웠던 적이 있으신가요?
 
 그렇다면 **바디토리**(Bodytory)에서 **각종 증상**들을 부위별로 **기록하고**, **진료과**를 **추천**받아보세요!
+<br/>
+<br/>
 
-## 바디토리 주요 서비스
+## <img src="./next/public/static/readme/service.svg" height="25px"> 바디토리 주요 서비스
 
 ### 📝 **간편한 증상 기록**
 
@@ -104,7 +102,6 @@
 
 ## <img src="./next/public/static/readme/skills.svg" width="23px"/> 기술 스택
 
----
 
 ### **Common**
 
@@ -452,7 +449,7 @@ Typescript와의 호환
     </details>
      <br/>
 
-### **CI / CD**
+### **CI/CD**
 
   <img src="https://img.shields.io/badge/Git-F05032?style=flat-square&logo=Git&logoColor=white"/>
   <img src="https://img.shields.io/badge/GitLab-FC6D26?style=flat-square&logo=GitLab&logoColor=white"/>
@@ -502,7 +499,6 @@ CI/CD 기술 스택 자세히 보기
 
 ## <img src="./next/public/static/readme/data.svg" height="20px"> 데이터 구조
 
----
 
 <img src="./next/prisma/ERD_result.svg">
 <details>
@@ -687,7 +683,6 @@ hospital
 
 ## 📂 폴더구조
 
----
 
 ### Next.js
 
