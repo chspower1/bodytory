@@ -33,7 +33,7 @@ const Withdraw: NextPage = () => {
     onError(error: any, variables, context) {
       setShowModal(false);
 
-      setError("password", { message: `${error.data}` });
+      setError("password", { message: `비밀번호가 틀렸어요!` });
     },
     onSuccess: data => {
       setClosingComment(true);

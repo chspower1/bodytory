@@ -139,11 +139,9 @@ const Reset: NextPage = () => {
                 <p>새로운 비밀번호로 로그인해주세요</p>
               </MessageBox>
               <div className="linkButton">
-                <Link href="/auth/login">
-                  <RoundedDefaultButton lg bgColor={theme.color.mintBtn} onClick={() => router.push("/auth/login")}>
-                    로그인하러 가기
-                  </RoundedDefaultButton>
-                </Link>
+                <RoundedDefaultButton lg bgColor={theme.color.mintBtn} onClick={() => router.push("/auth/login")}>
+                  로그인하러 가기
+                </RoundedDefaultButton>
               </div>
             </div>
           </FinalCommentBox>
