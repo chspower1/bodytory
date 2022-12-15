@@ -60,13 +60,13 @@ const SideMenu = () => {
           <SideMenuBox>
             <InnerBox>
               <ContentsBox>
-                <Link href="/">
+                <Link href="/" onClick={handleClickCloseMenu}>
                   <LogoBox>
                     <div className="logoBg"></div>
                   </LogoBox>
                 </Link>
                 <div className="goEdit">
-                  <Link href="/users/profile/edit">
+                  <Link href="/users/profile/edit" onClick={handleClickCloseMenu}>
                     <span>
                       <i />
                       계정 설정

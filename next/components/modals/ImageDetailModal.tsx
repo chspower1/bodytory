@@ -94,18 +94,26 @@ const ImageBox = styled.div`
   position: relative;
   padding: 350px;
   ${media.mobile}{
-    padding: 150px;
+    padding: 160px;
   }
 `;
 const NextBtn = styled.button`
   position: absolute;
   right: -100px;
   color: white;
+    ${media.mobile}{
+    left: 60px;
+    bottom: -48px;
+  }
 `;
 const PreviusBtn = styled.button`
   position: absolute;
   left: -100px;
   color: white;
+  ${media.mobile}{
+    right: 60px;
+    bottom: -48px;
+  }
 `;
 const CurrentPage = styled(WhiteText)`
   position: absolute;
