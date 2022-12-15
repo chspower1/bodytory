@@ -32,7 +32,7 @@ export default class MyDocument extends Document {
           <link rel="canonical" href="https://kdt-ai5-team01.elicecoding.com/" />
           <meta
             property="og:image"
-            content="https://imagedelivery.net/AbuMCvvnFZBtmCKKJV_e6Q/3103f60d-b28b-4425-d047-927327e5fb00/avatar"
+            content="https://imagedelivery.net/AbuMCvvnFZBtmCKKJV_e6Q/3103f60d-b28b-4425-d047-927327e5fb00/public"
           />
           <script src="https://developers.kakao.com/sdk/js/kakao.js" async />
           <script
