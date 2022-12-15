@@ -11,10 +11,13 @@
 
 ---
 
-<summary>바디토리를 만든 사람들</summary>
-<img src="./next/public/static/team/team.gif">
+## <img src="./next/public/static/readme/team.svg" height="25px"> **바디토리 멤버**
 
-## <img src="./next/public/static/tory/tory_purple.png" height="25px"> **소개**
+<img src="./next/public/static/readme/team/team.gif">
+
+<br/>
+
+## <img src="./next/public/static/readme/tory/tory_purple.png" height="25px"> **소개**
 
 ### 이런 경험 한번씩 있으신가요?
 
@@ -36,7 +39,7 @@
   <br/>
   <br/>
 
-### **다양한 AI 서비스**
+### <img src="./next/public/static/readme/ai.svg" width="20px"/> **다양한 AI 서비스**
 
 <div>-------이미지첨부------</div>
 
@@ -450,7 +453,7 @@ CI/CD 기술 스택 자세히 보기
 
 ### **AI**
 
-<img src="https://img.shields.io/badge/Word2Vec-FC6D26?style=for-the-badge&logoColor=white"/>
+<img src="https://img.shields.io/badge/Word2Vec-FC6D26?style=flat-square&logoColor=white"/>
 
 <details>
   <summary>
