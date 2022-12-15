@@ -174,7 +174,7 @@ export const FinalCommentBox = styled.div`
     .messageBox {
       font-size: 36px;
       color: #fff;
-      margin-bottom: 80px;
+      margin-bottom: 40px;
       strong {
         border-bottom: 2px solid #fff;
         margin: 0 30px;
@@ -190,7 +190,7 @@ export const FinalCommentBox = styled.div`
       .messageBox {
         font-size: 20px;
         height:136px;
-        margin-bottom: 80px;
+        margin-bottom: 20px;
         strong {
           margin: 0 10px;
         }
