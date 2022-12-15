@@ -93,7 +93,7 @@ const SideMenu = () => {
             <Footer>
               <FooterUl>
                 <li>
-                  <Link href="about/bodytory">바디토리 소개</Link>
+                  <Link href="/about/tory">바디토리 소개</Link>
                 </li>
                 <li>
                   <Link href="/about/team">팀 소개</Link>
@@ -126,7 +126,7 @@ const LogoBox = styled.div`
     background: url(${menuLogo.src}) no-repeat center center/contain;
   }
 
-  ${media.custom(1280)}{
+  ${media.custom(1280)} {
     .logoBg {
       width: 170px;
     }
@@ -138,7 +138,6 @@ const LogoBox = styled.div`
       height: 50px;
     }
   }
-
 `;
 
 const Dim = styled.div<{ isOpen: boolean }>`
@@ -190,7 +189,6 @@ const InnerBox = styled(Col)`
   ${media.mobile} {
     padding: 20px 30px 30px;
   }
-
 `;
 
 const ContentsBox = styled.div`
@@ -218,7 +216,7 @@ const ContentsBox = styled.div`
         left: 0;
         right: 0;
         bottom: 0;
-        background: linear-gradient(to top, rgba(61,66,191, .5) 40%, transparent 40%);
+        background: linear-gradient(to top, rgba(61, 66, 191, 0.5) 40%, transparent 40%);
         z-index: 1;
         opacity: 0;
         transition: opacity 0.3s;
@@ -244,7 +242,7 @@ const ContentsBox = styled.div`
   ${media.mobile} {
     .goEdit {
       font-size: 16px;
-      
+
       a {
         i {
           width: 18px;
