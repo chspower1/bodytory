@@ -180,7 +180,7 @@ const ArroundMap = ({ width, height, latitude, longitude, departmentList, isAll 
           </Maps>
         </>
       ) : (
-        <NotAccessMessage>위치정보 없음</NotAccessMessage>
+        <NotAccessMessage>위치를 파악할 수 없어요!<br />위치 엑세스를 허용해주세요</NotAccessMessage>
       )}
     </MapContainer>
   );
@@ -195,6 +195,9 @@ const MapContainer = styled(Container)`
   overflow: hidden;
   position: relative;
   padding: 0;
+  ${media.mobile}{
+    border-radius: 0;
+  }
 `;
 
 const Maps = styled(Map)`
@@ -206,6 +209,9 @@ const Maps = styled(Map)`
   overflow: hidden;
   position: relative;
   padding: 0;
+  ${media.mobile}{
+    border-radius: 0;
+  }
 `;
 
 const ControlBox = styled(Box)`
@@ -296,12 +302,21 @@ const SearchHereBtn = styled.button`
   ${media.mobile} {
     img,
     svg {
-      width: 15px;
-      height: 15px;
+      width: 12px;
+      height: 12px;
+      margin-right:5px;
     }
     font-size: 12px;
-    padding: 10px;
+    padding: 12px 24px;
   }
 `;
 
-const NotAccessMessage = styled(ToryText)``;
+export const NotAccessMessage = styled(ToryText)`
+  width:100%;
+  height:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+
+`;

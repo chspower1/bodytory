@@ -132,18 +132,24 @@ const SearchButton = styled(RoundedDefaultButton)`
   height: 60px;
   padding: 0 50px;
   ${media.custom(1440)} {
-    width: 100px;
+    padding: 18px 28px;
+    height: auto;
     font-size: 16px;
-    padding: 5px;
-    margin-left: 20px;
+    border-radius: 6px;
+    flex-shrink:0;
+  }
+  ${media.custom(1100)} {
+    position: absolute;
+    width: auto;
+    height: auto;
+    right: 2%;
+    padding: 12px 24px;
+    margin-left: 0;
   }
   ${media.mobile} {
-    position: absolute;
-    right: 10px;
-    height: 40px;
-    width: 50px;
+    padding: 8px 20px;
     font-size: 14px;
-    border-radius: 10px;
+    right: 8%;
   }
 `;
 
@@ -163,6 +169,15 @@ const NoneMessage = styled.div`
   font-size: 30px;
   color: ${theme.color.darkBg};
   word-break: keep-all;
+  ${media.custom(1366)}{
+    font-size: 26px;
+  }
+  ${media.tablet}{
+    font-size: 24px;
+  }
+  ${media.mobile}{
+    font-size: 20px;
+  }
 `;
 const SearchForm = styled.form`
   display: flex;
@@ -170,6 +185,28 @@ const SearchForm = styled.form`
   align-items: center;
   width: 100%;
   position: relative;
+  > div{
+    input{
+      ${media.custom(1100)}{
+        padding: 0 100px 0 30px;
+      }
+      ${media.mobile} {
+        padding: 0 80px 0 20px;
+      }
+    }
+  }
+  ${media.custom(1440)} {
+    justify-content: center;
+    > div{
+      margin: 0 30px 0 0;
+    }
+  }
+  ${media.custom(1100)} {
+    > div{
+      width: 100%;
+      margin: 0 auto;
+    }
+  }
 `;
 
 const SearchBox = styled.div`
@@ -179,7 +216,7 @@ const SearchBox = styled.div`
   width: 60%;
   margin: 0 auto;
   ${media.custom(1440)} {
-    width: 80%;
+    width: 90%;
   }
   ${media.mobile} {
     width: 90%;
@@ -210,9 +247,11 @@ const HospitalContainer = styled.div<{ add: boolean }>`
   transition: background 0.3s;
   ${media.custom(1440)} {
     padding: 10px;
+    border-radius: 20px;
   }
   ${media.mobile} {
     padding: 10px;
+    border-radius: 0px;
   }
 `;
 

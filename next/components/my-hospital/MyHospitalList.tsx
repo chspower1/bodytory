@@ -68,6 +68,7 @@ const InnerContainer = styled(Box)<{ add: boolean }>`
   }
   ${media.mobile} {
     width: 100%;
+    padding: 20px 0 0;
   }
 `;
 
@@ -81,7 +82,8 @@ const HospitalContainer = styled.div<{ add: boolean }>`
   ${media.mobile} {
     width: 100%;
     height: calc(100% - 300px);
-    padding: 10px;
+    padding: 10px 10px 0;
+    border-radius: 0;
   }
 `;
 

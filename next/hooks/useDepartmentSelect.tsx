@@ -71,5 +71,8 @@ const DepartmentSelectBox = styled.select`
   cursor: pointer;
   ${media.mobile} {
     width: 100px;
+    font-size: 14px;
+    padding: 8px 30px 8px 20px;
   }
+  
 `;

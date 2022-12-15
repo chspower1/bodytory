@@ -94,13 +94,13 @@ export const MainInnerContainer = styled.div`
   height: 100%;
   margin: auto;
   ${media.custom(1440)} {
-    padding: 0 100px;
+    padding: 0 50px;
   }
   ${media.tablet} {
     padding: 20px;
   }
   ${media.mobile} {
-    padding: 10px;
+    padding: 0;
   }
 `;
 

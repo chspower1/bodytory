@@ -266,6 +266,10 @@ const VoiceBox = styled.div`
 
     > button {
       margin: 100px auto 24px;
+      svg,img{
+        width: 40px;
+        height: 40px;
+      }
     }
   }
 `;
