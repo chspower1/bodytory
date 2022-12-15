@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 import IconArrowLeft from "@src/assets/icons/icon_arrow_left.png";
 import { media } from "./theme";
 
-export const Wrapper = styled.div<{ bgColor?: string; isScroll: boolean }>`
+export const Wrapper = styled.div<{ bgColor?: string; isScroll?: boolean }>`
   position: relative;
   width: 100%;
   overflow: hidden;
