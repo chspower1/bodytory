@@ -183,7 +183,7 @@ const Tory = () => {
         <RoundedDefaultButton
           bgColor="rgb(17,212,202)"
           className="gs_reveal gs_reveal_fromBottom delay400"
-          onClick={() => router.push("/")}
+          onClick={() => router.push("/auth/login")}
         >
           네, 좋아요!
         </RoundedDefaultButton>
