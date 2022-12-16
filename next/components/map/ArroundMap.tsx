@@ -74,7 +74,7 @@ const ArroundMap = ({ width, height, latitude, longitude, departmentList, isAll 
       return data?.filter(
         hospital =>
           hospital.medicalDepartments.filter(
-            medicalDepartment => medicalDepartment.medicalDepartment.department === department,
+            medicalDepartment => medicalDepartment.medicalDepartment?.department === department,
           ).length > 0,
       );
     },
@@ -181,7 +181,11 @@ const ArroundMap = ({ width, height, latitude, longitude, departmentList, isAll 
           </Maps>
         </>
       ) : (
-        <NotAccessMessage>위치를 파악할 수 없어요!<br />위치 엑세스를 허용해주세요</NotAccessMessage>
+        <NotAccessMessage>
+          위치를 파악할 수 없어요!
+          <br />
+          위치 엑세스를 허용해주세요
+        </NotAccessMessage>
       )}
     </MapContainer>
   );
@@ -195,7 +199,7 @@ const MapContainer = styled(Container)`
   overflow: hidden;
   position: relative;
   padding: 0;
-  ${media.mobile}{
+  ${media.mobile} {
     border-radius: 0;
   }
 `;
@@ -209,7 +213,7 @@ const Maps = styled(Map)`
   overflow: hidden;
   position: relative;
   padding: 0;
-  ${media.mobile}{
+  ${media.mobile} {
     border-radius: 0;
   }
 `;
@@ -304,7 +308,7 @@ const SearchHereBtn = styled.button`
     svg {
       width: 12px;
       height: 12px;
-      margin-right:5px;
+      margin-right: 5px;
     }
     font-size: 12px;
     padding: 12px 24px;
@@ -312,11 +316,10 @@ const SearchHereBtn = styled.button`
 `;
 
 export const NotAccessMessage = styled(ToryText)`
-  width:100%;
-  height:100%;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 `;

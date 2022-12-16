@@ -128,16 +128,16 @@ const MapDetailModal = ({ clickIndex, setClickIndex, index, hospital }: MapDetai
 };
 export default MapDetailModal;
 
-const CircleButton  = styled(CircleDefaultButton)`
+const CircleButton = styled(CircleDefaultButton)`
   width: 30px;
   height: 30px;
-`
+`;
 const RoundButton = styled(RoundedDefaultButton)`
-  width :88px;
-  height :40px;
-  fontSize :16px;
+  width: 88px;
+  height: 40px;
+  font-size: 16px;
   box-shadow: none;
-`
+`;
 
 const InfoWindowBox = styled(Col)`
   position: relative;
