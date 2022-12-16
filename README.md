@@ -12,7 +12,7 @@
 <b>가상의 프로젝트</b>입니다.
 </p>
 </div>
-## ![bodytory version](https://img.shields.io/badge/bodytory-v1.0-brightgreen.svg)
+![bodytory version](https://img.shields.io/badge/bodytory-v1.0-brightgreen.svg)
 
 ## <img src="./next/public/static/readme/team.svg" height="25px"> **바디토리 멤버**
 
