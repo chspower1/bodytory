@@ -1,5 +1,5 @@
 # BODYTORY
-
+<div align='center'>
 <p align="center">
 <img src="./next/public/bodytory_banner.png" width="400px" margin="0 auto">
 </p>
@@ -11,7 +11,7 @@
 국민들의 <b>사회권 개선</b>과 <b>국민건강 증진을 희망하는 바람</b>에서 만들어진<br/>
 <b>가상의 프로젝트</b>입니다.
 </p>
-
+</div>
 ## ![bodytory version](https://img.shields.io/badge/bodytory-v1.0-brightgreen.svg)
 
 ## <img src="./next/public/static/readme/team.svg" height="25px"> **바디토리 멤버**
