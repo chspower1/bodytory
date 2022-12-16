@@ -8,4 +8,8 @@ const HospitalChartHomePage: NextPage = () => {
 };
 
 export default HospitalChartHomePage;
-
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});

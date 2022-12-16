@@ -7,9 +7,9 @@ export async function middleware(req: NextRequest) {
     cookieName: "userSession",
     password: process.env.COOKIE_PASSWORD!,
   });
-/*   if (req.url.includes("/users/records/write/add") || req.url.includes("/users/records/write/analysis")) {
+  if (req.url.includes("/users/records/write/add") || req.url.includes("/users/records/write/analysis")) {
     if (!req.nextUrl.search.includes("position")) return NextResponse.redirect(new URL("/", req.url));
-  } */
+  }
 
   if (
     !session.user &&
