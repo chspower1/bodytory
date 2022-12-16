@@ -12,7 +12,7 @@ import x from "@src/assets/icons/x.png";
 import { AroundMapHospital } from "@components/map/ArroundMap";
 import Image from "next/image";
 import Link from "next/link";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import { Dispatch, SetStateAction, useState } from "react";
 import Modal from "../Modal";
 import useHospital from "@hooks/useHospital";

@@ -9,7 +9,6 @@ import { useRouter } from "next/router";
 import { Position } from "@prisma/client";
 import { useRecoilState } from "recoil";
 import { currentBodyPosition } from "atoms/atoms";
-import { motion } from "framer-motion";
 import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 import rotateIcon from "@src/assets/icons/rotateIcon.png";
 import { media } from "@styles/theme";

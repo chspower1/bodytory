@@ -2,7 +2,7 @@ import { WhiteText } from "@styles/Common";
 import { Dim, ModalWrapper, MODAL_VARIANTS } from "@styles/ModalStyled";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import styled, { css } from "styled-components";
 import Next from "@src/assets/icons/right_bracket.svg";
 import Previus from "@src/assets/icons/left_bracket.svg";

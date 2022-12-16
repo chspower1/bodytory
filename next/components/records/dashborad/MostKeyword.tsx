@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { ResponsiveContainer, Treemap } from "recharts";
-import styled from "styled-components";
 
 const COLORS = [
   "#12D4C9",
