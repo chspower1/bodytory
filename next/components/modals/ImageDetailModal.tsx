@@ -101,8 +101,9 @@ const NextBtn = styled.button`
   position: absolute;
   right: -100px;
   color: white;
-    ${media.mobile}{
-    left: 60px;
+    ${media.custom(950)}{
+    width: 30px;
+    right: 260px;
     bottom: -48px;
   }
 `;
@@ -110,8 +111,9 @@ const PreviusBtn = styled.button`
   position: absolute;
   left: -100px;
   color: white;
-  ${media.mobile}{
-    right: 60px;
+  ${media.custom(950)}{
+    width: 30px;
+    left: 260px;
     bottom: -48px;
   }
 `;
