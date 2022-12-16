@@ -1,14 +1,11 @@
 import useIO from "@hooks/useIO";
-import { Hospital } from "@prisma/client";
-import { Container, FlexContainer } from "@styles/Common";
 import { media, theme } from "@styles/theme";
-import { MutationCache, QueryCache, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
-import axios from "axios";
-import { MyHospital, MyHospitalResponse } from "pages/users/my-hospital";
-import { LegacyRef, MouseEvent, useCallback, useEffect, useRef, useState } from "react";
+import { MyHospital } from "pages/users/my-hospital";
+import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import HospitalContent from "../my-hospital/HospitalContent";
 import Input from "../layout/input/Input";
 import ListSkeleton from "../skeletonUI/ListSkeleton";
@@ -55,9 +52,7 @@ const SearchHospitalList = () => {
   };
   const { setTarget } = useIO(hasLastPage, ioCallback);
 
-  useEffect(() => {
-    console.log(hasLastPage);
-  }, [hasLastPage]);
+  useEffect(() => {}, [hasLastPage]);
   useEffect(() => {
     refetch();
   }, [page]);

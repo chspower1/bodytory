@@ -15,13 +15,6 @@ interface MostBodyPartChartProps {
   mostPartIdx: number[] | null;
 }
 
-interface PieChartData {
-  name: Position;
-  value: number;
-  user: number;
-  hospital: number;
-}
-
 const renderActiveShape = (props: any) => {
   const { cx, cy, innerRadius, outerRadius, startAngle, endAngle, payload } = props;
 
@@ -97,7 +90,6 @@ const MostBodyPart = ({ chartData, mostPartIdx }: MostBodyPartChartProps) => {
         </PieChart>
       </ResponsiveContainer>
     </ChartInnerBox>
-
   );
 };
 

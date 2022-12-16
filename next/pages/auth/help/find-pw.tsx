@@ -1,5 +1,4 @@
 import Input from "@components/layout/input/Input";
-
 import { GetServerSidePropsContext, NextPage } from "next";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
@@ -8,7 +7,7 @@ import customApi from "utils/client/customApi";
 import { useMutation } from "@tanstack/react-query";
 import { UserType } from "@prisma/client";
 import { HELP_FIND_PASSWORD } from "constant/queryKeys";
-import { ACCOUNT_ID_REGEX, EMAIL_REGEX, PASSWORD_REGEX } from "constant/regex";
+import { ACCOUNT_ID_REGEX } from "constant/regex";
 import MessageBox from "@components/MessageBox";
 import ButtonInInput from "@components/layout/input/ButtonInInput";
 import styled from "styled-components";

@@ -12,7 +12,6 @@ ${reset}
 
   html,
   body {
-    // background: ${props => props.theme.color.darkBg};
     font-optical-sizing: auto;
     font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
     font-size: ${props => props.theme.font.size.bodyText};
@@ -21,12 +20,6 @@ ${reset}
     font-stretch: normal;
     line-height: 1.6;
     color: ${props => props.theme.color.text};
-  }
-
-  // 현재는 pc용 웹서비스 (모바일 반응형 X)
-  body {
-    /* min-width: 1460px; */
-    // overflow-y: scroll;
   }
 
   a {

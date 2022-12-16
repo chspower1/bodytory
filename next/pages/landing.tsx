@@ -41,7 +41,6 @@ const LandingPage = () => {
       clearTimeout(timer);
     };
   }, []);
-  console.log(skipIcon)
   return (
     <FlexContainer>
       <LendingRoot flex={isFirst}>
@@ -107,7 +106,7 @@ const LendingRoot = styled.div<{ flex: boolean }>`
       display: flex;
       align-items: center;
       gap: 60px;
-      ${media.custom(1111)}{
+      ${media.custom(1111)} {
         gap: 0;
       }
     `}
@@ -118,15 +117,15 @@ const ToriMessage = styled(motion.h2)`
   margin: 80px 0 0;
   color: #fff;
   text-align: center;
-  ${media.mobile}{
-    font-size:30px;
-    word-break:keep-all;
+  ${media.mobile} {
+    font-size: 30px;
+    word-break: keep-all;
   }
 `;
 
 const QuestionBox = styled(motion.div)`
   padding-right: 160px;
-  flex-shrink:0;
+  flex-shrink: 0;
   ${ToriMessage} {
     margin: 0 0 100px;
   }
@@ -136,26 +135,25 @@ const QuestionBox = styled(motion.div)`
     justify-content: space-around;
     margin-bottom: 60px;
   }
-  ${media.custom(970)}{
+  ${media.custom(970)} {
     padding-right: 0;
     .btnBox {
       padding-top: 300px;
     }
   }
-  ${media.mobile}{
+  ${media.mobile} {
     .btnBox {
       justify-content: center;
       padding-top: 220px;
     }
   }
-  
 `;
 
 const SelectButton = styled(CircleDefaultButton)`
   width: 120px;
   height: 120px;
   font-size: 20px;
-  ${media.mobile}{
+  ${media.mobile} {
     width: 80px;
     height: 80px;
     font-size: 16px;
@@ -174,8 +172,8 @@ const SkipBox = styled(motion.div)`
     height: 15px;
     margin: -2px 0 0 10px;
   }
-  ${media.mobile}{
-    .imgBox{
+  ${media.mobile} {
+    .imgBox {
       width: 10px;
       height: 10px;
       margin: 0 0 0 5px;
@@ -187,7 +185,7 @@ const SkipButton = styled(RoundedDefaultButton)`
   padding: 18px 40px;
 `;
 
-const ToryMotion = styled(motion.div)<{isFirst:boolean;}>`
+const ToryMotion = styled(motion.div)<{ isFirst: boolean }>`
   transform: translate(0, -50px);
   width: 480px;
   height: 480px;
@@ -196,7 +194,9 @@ const ToryMotion = styled(motion.div)<{isFirst:boolean;}>`
     height: 400px;
     margin: 0 auto;
     
-    ${({isFirst}) => isFirst && css`
+    ${({ isFirst }) =>
+      isFirst &&
+      css`
       position: absolute;
       left: 50%;
       top:32%;

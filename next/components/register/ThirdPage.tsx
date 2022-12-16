@@ -101,7 +101,6 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       if (watch("email") && !EMAIL_REGEX.test(watch("email")))
         return setError("email", { message: "이메일 형식에 맞지 않습니다" });
       if (isToken && !watch("token")) return setError("token", { message: "인증번호를 입력해주세요" });
-      // if (errors.email?.type === "checkCertificate") {
       const data = await checkEmailApi(isTokenInData);
       if (isToken && !watch("token")) {
         return setError("token", { type: "custom", message: "$$$" });
@@ -111,7 +110,6 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
         clearErrors();
       }
       setIsToken(true);
-      // }
     } catch (err: any) {
       if (isToken) {
         return setError("token", { type: "custom", message: `이메일에서 인증번호 확인 후\n입력해주세요!` });
@@ -159,7 +157,6 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     if (user?.isCertified) {
       setIsToken(true);
     }
-    // else setError("email", { type: "checkCertificate", message: "이메일 인증을 완료해주세요!" });
     createErrors<ThirdRegisterForm>({
       user: user!,
       checkList: ["name", "birth", "gender", "email"],
@@ -176,7 +173,6 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       setCurrentComment("마지막 단계에요!\n이용자님의 이름, 생일, 성별, 이메일을 알려주세요");
     }
   }, [isToken]);
-  console.log(errors);
   return (
     <FlexContainer>
       <InnerContainer>
@@ -340,19 +336,19 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
 export default ThirdPage;
 
 const PrevSuccessButtonBox = styled(PrevNextButtonBox)`
-${media.custom(770)}{
-  gap: 30px;
-}
-  ${media.mobile}{
+  ${media.custom(770)} {
+    gap: 30px;
+  }
+  ${media.mobile} {
     gap: 20px;
   }
-`
+`;
 
 const PreviousButton = styled(RoundedDefaultButton)`
   width: 160px;
   height: 60px;
   font-size: 18px;
-  ${media.mobile}{
+  ${media.mobile} {
     width: 60px;
     height: 60px;
     font-size: 12px;
@@ -363,7 +359,7 @@ const SubmitButton = styled(RoundedDefaultButton)`
   width: 360px;
   height: 60px;
   font-size: 18px;
-  ${media.mobile}{
+  ${media.mobile} {
     width: 240px;
     height: 60px;
     font-size: 14px;
@@ -374,7 +370,7 @@ const GenderBox = styled(Box)`
   gap: 26px;
   width: 220px;
   justify-content: flex-end;
-  ${media.mobile}{
+  ${media.mobile} {
     justify-content: center;
     margin: 20px auto 0;
   }
@@ -384,11 +380,11 @@ const ThirdPageFormContents = styled(FormContents)`
   > div + div {
     margin-top: 30px;
   }
-  ${media.mobile}{
+  ${media.mobile} {
     > div + div {
       margin-top: 20px;
     }
-    .checkTokenBox{
+    .checkTokenBox {
       margin-top: 10px;
     }
   }
@@ -400,7 +396,7 @@ const SpaceBetweenRowBox = styled(Row)`
   ${media.mobile} {
     min-width: 287px;
     width: 79.8611vw;
-    display:block;
+    display: block;
   }
 `;
 

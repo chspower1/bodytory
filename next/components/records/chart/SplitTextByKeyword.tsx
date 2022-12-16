@@ -1,11 +1,9 @@
-
 interface SplitTextProps {
-  text: string,
-  clickedKeyword: string
+  text: string;
+  clickedKeyword: string;
 }
 
 const SplitTextByKeyword = ({ text, clickedKeyword }: SplitTextProps) => {
-
   return (
     <>
       {text.split(clickedKeyword).map((splitText, idx, arr) =>
@@ -19,9 +17,7 @@ const SplitTextByKeyword = ({ text, clickedKeyword }: SplitTextProps) => {
         ),
       )}
     </>
-  )
-
-
-}
+  );
+};
 
 export default SplitTextByKeyword;

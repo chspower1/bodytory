@@ -26,9 +26,7 @@ const uploadImage = async (id: number, mutate: UseMutateFunction<any, unknown, a
         } = await (await fetch(uploadURL, { method: "POST", body: formData })).json();
         mutate({ recordId: id, url: `${process.env.NEXT_PUBLIC_IMG_URL}/${cloudId}/public` });
       });
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   });
 };
 

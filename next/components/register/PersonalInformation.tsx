@@ -316,14 +316,14 @@ export default PersonalInformation;
 
 export const Article = styled.article`
   max-width: 600px;
-  width:100%;
+  width: 100%;
   height: 400px;
   overflow-y: scroll;
   padding: 30px 50px;
   font-weight: 500;
   font-size: 14px;
   text-align: left;
-  ${media.mobile}{
+  ${media.mobile} {
     height: 200px;
     padding: 20px;
   }

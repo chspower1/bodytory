@@ -2,7 +2,6 @@ import { BodyText, Box, Col, Row, WhiteBoldText } from "@styles/Common";
 import { CustomOverlayMap } from "react-kakao-maps-sdk";
 import styled from "styled-components";
 import { media, theme } from "@styles/theme";
-
 import kakaomap from "@src/assets/icons/map/kakao_map.png";
 import pin from "@src/assets/icons/map/pin.png";
 import web from "@src/assets/icons/map/web.png";
@@ -13,7 +12,7 @@ import x from "@src/assets/icons/x.png";
 import { AroundMapHospital } from "@components/map/ArroundMap";
 import Image from "next/image";
 import Link from "next/link";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import { Dispatch, SetStateAction, useState } from "react";
 import Modal from "../Modal";
 import useHospital from "@hooks/useHospital";
@@ -68,9 +67,6 @@ const MapDetailModal = ({ clickIndex, setClickIndex, index, hospital }: MapDetai
               <DepartmentBox>
                 <Image src={cross} alt="사진" />
                 <BodyText title={`${hospital.medicalDepartments.map(i => i.medicalDepartment.department)}`}>
-                  {/* {hospital.medicalDepartments?.map(({ medicalDepartment }, index) => (
-                <span key={index}>{medicalDepartment.department}</span>
-              ))} */}
                   {`${hospital.medicalDepartments[0].medicalDepartment.department} 외 ${hospital.medicalDepartments.length}개`}
                 </BodyText>
               </DepartmentBox>
@@ -129,15 +125,15 @@ const MapDetailModal = ({ clickIndex, setClickIndex, index, hospital }: MapDetai
 };
 export default MapDetailModal;
 
-const KakaoMapIconBox= styled(Box)`
-  ${BodyText}{
-    display:none;
+const KakaoMapIconBox = styled(Box)`
+  ${BodyText} {
+    display: none;
     ${media.custom(620)} {
-      display:block;
+      display: block;
       margin: 0 10px 0 0;
     }
   }
-`
+`;
 
 const CircleButton = styled(CircleDefaultButton)`
   width: 30px;
@@ -175,7 +171,6 @@ const InfoWindowBox = styled(Col)`
     width: 320px;
     height: 270px;
   }
-
 `;
 const TopArea = styled(Row)`
   position: absolute;
@@ -189,7 +184,7 @@ const TopArea = styled(Row)`
   padding-left: 30px;
 
   ${media.custom(620)} {
-  height: 60px;
+    height: 60px;
     > img {
       width: 22px;
       height: 22px;
@@ -205,8 +200,8 @@ const TopArea = styled(Row)`
 const Name = styled(WhiteBoldText)`
   margin-left: 20px;
   ${media.custom(620)} {
-    width:80%;
-    overflow:hidden;
+    width: 80%;
+    overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
     margin-left: 10px;
@@ -222,7 +217,6 @@ const ContentBox = styled(Col)`
   height: 120px;
   margin-top: 10px;
   justify-content: space-between;
-
 `;
 const AddressText = styled(BodyText)`
   max-width: 80%;
@@ -234,13 +228,11 @@ const AdressBox = styled(Box)`
   gap: 10px;
   justify-content: flex-start;
   width: 100%;
-  ${KakaoMapIconBox}{
-
+  ${KakaoMapIconBox} {
   }
   ${media.custom(620)} {
-    
-    ${AddressText}{
-      display:none;
+    ${AddressText} {
+      display: none;
     }
   }
 `;
@@ -252,18 +244,6 @@ const HomepageBox = styled(AdressBox)`
   }
 `;
 const DepartmentBox = styled(AdressBox)``;
-const MapContainer = styled(motion.div)`
-  display: flex;
-  align-items: center;
-  z-index: 2000;
-  background-color: white;
-  width: 1450px;
-  height: 760px;
-  flex-direction: column;
-  border-radius: 30px;
-  justify-content: space-evenly;
-  margin: auto;
-`;
 const Tail = styled(Image)`
   position: absolute;
   bottom: -37px;

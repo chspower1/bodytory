@@ -37,9 +37,7 @@ const EventMarkerContainer = ({ hospital, index, handleClickMarker }: EventMarke
           setIsVisible(false);
         }}
         onClick={() => handleClickMarker({ index, longitude: hospital.x, latitude: hospital.y })}
-      >
-        {/* {isVisible && <HoverBox>{hospital.name}</HoverBox>} */}
-      </MapMarker>
+      ></MapMarker>
 
       {isVisible && (
         <CustomOverlayMap position={{ lat: hospital.y! + 0.0002, lng: hospital.x! }}>

@@ -1,20 +1,26 @@
 import styled from "styled-components";
 import Link from "next/link";
 import useUser from "@hooks/useUser";
-import { Accent, BodyText, Col, FlexContainer, Row } from "@styles/Common";
+import { Accent, BodyText, FlexContainer, Row } from "@styles/Common";
 import Mic from "@src/assets/icons/mic.svg";
 import Record from "@src/assets/icons/icon_record.png";
 import Hospital from "@src/assets/icons/icon_hospital_small.png";
 import Setting from "@src/assets/icons/icon_setting.png";
-import { media, theme } from "@styles/theme";
+import { media } from "@styles/theme";
 import { ToryText } from "./users/records/write/add";
 import ToryPurpleAnim from "@components/lotties/ToryPurpleAnim";
 import { CircleDefaultButton, RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
-const ramdomIntroText = ["건강한 하루에요!", "오늘도 반가워요!", "날씨가 추우니 건강에 유의하세요!", "오늘도 즐거운 하루에요!", "행복한 하루에요!"];
-import { GetServerSideProps, GetServerSidePropsContext } from "next";
+const ramdomIntroText = [
+  "건강한 하루에요!",
+  "오늘도 반가워요!",
+  "날씨가 추우니 건강에 유의하세요!",
+  "오늘도 즐거운 하루에요!",
+  "행복한 하루에요!",
+];
+import { GetServerSidePropsContext } from "next";
 import withGetServerSideProps from "@utils/client/withGetServerSideProps";
 
 const Home = () => {
@@ -31,64 +37,67 @@ const Home = () => {
   }, []);
 
   return (
-      <MainContainer>
-        <FadeInMotionDiv
-          animate={{ opacity: [0, 1, 1], y: [200, 200, 0], transition: { duration: 3, ease: "easeInOut", times: [0, .6, 1]} }}
-        >
-          <ToryBox>
-            <ToryMotion>
-              <ToryPurpleAnim segmentIndex={toryMotionIdx} />
-            </ToryMotion>
-            <TextBox>
-              <p>    
-                <Accent>
-                  <strong>{user ? user?.name : "OOO"}님, </strong>
-                </Accent>
-                {randomText}
-              </p>
-              <p>어떤 서비스를 이용하실 건가요?</p>
-            </TextBox>
-          </ToryBox>
-        </FadeInMotionDiv>
-        <FadeInMotionDivFull
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1, transition: { duration: 1, ease: "easeOut", delay: 2.6 } }}
-        >
-          <WriteBox>
-            <Link href="users/records/write">
-              <div>
-                <CircleButton bgColor="rgba(83, 89, 233)" >
-                  <Mic />
-                </CircleButton>
-                <BodyText>건강 관리를 위해 매일매일 잊지말고 기록해요!</BodyText>
-              </div>
-              <strong>오늘 기록하기</strong>
-            </Link>
-          </WriteBox>
-          <ButtonBox>
-            <Link href="/users/records">
-              <RoundedButton lg img bgColor="rgb(108, 113, 240)">
-                <i className="record-icon" />
-                기록 확인하기
-              </RoundedButton>
-            </Link>
-            <Link href="/users/my-hospital">
-              <RoundedButton lg img bgColor="rgb(108, 113, 240)">
-                <i className="hospital-icon" />
-                내 병원 관리하기
-              </RoundedButton>
-            </Link>
-          </ButtonBox>
-          <AccountBtnBox>
-            <Link href="/users">
-              <div>
-                <i />
-                계정 설정
-              </div>
-            </Link>
-          </AccountBtnBox>
-        </FadeInMotionDivFull>
-      </MainContainer>
+    <MainContainer>
+      <FadeInMotionDiv
+        animate={{
+          opacity: [0, 1, 1],
+          y: [200, 200, 0],
+          transition: { duration: 3, ease: "easeInOut", times: [0, 0.6, 1] },
+        }}
+      >
+        <ToryBox>
+          <ToryMotion>
+            <ToryPurpleAnim segmentIndex={toryMotionIdx} />
+          </ToryMotion>
+          <TextBox>
+            <p>
+              <Accent>
+                <strong>{user ? user?.name : "OOO"}님, </strong>
+              </Accent>
+              {randomText}
+            </p>
+            <p>어떤 서비스를 이용하실 건가요?</p>
+          </TextBox>
+        </ToryBox>
+      </FadeInMotionDiv>
+      <FadeInMotionDivFull
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1, transition: { duration: 1, ease: "easeOut", delay: 2.6 } }}
+      >
+        <WriteBox>
+          <Link href="users/records/write">
+            <div>
+              <CircleButton bgColor="rgba(83, 89, 233)">
+                <Mic />
+              </CircleButton>
+              <BodyText>건강 관리를 위해 매일매일 잊지말고 기록해요!</BodyText>
+            </div>
+            <strong>오늘 기록하기</strong>
+          </Link>
+        </WriteBox>
+        <ButtonBox>
+          <Link href="/users/records">
+            <RoundedButton lg img bgColor="rgb(108, 113, 240)">
+              <i className="record-icon" />
+              기록 확인하기
+            </RoundedButton>
+          </Link>
+          <Link href="/users/my-hospital">
+            <RoundedButton lg img bgColor="rgb(108, 113, 240)">
+              <i className="hospital-icon" />내 병원 관리하기
+            </RoundedButton>
+          </Link>
+        </ButtonBox>
+        <AccountBtnBox>
+          <Link href="/users">
+            <div>
+              <i />
+              계정 설정
+            </div>
+          </Link>
+        </AccountBtnBox>
+      </FadeInMotionDivFull>
+    </MainContainer>
   );
 };
 export default Home;
@@ -113,16 +122,15 @@ const MainContainer = styled(FlexContainer)`
   ${media.mobile} {
     justify-content: flex-start;
   }
-
 `;
 
 const RoundedButton = styled(RoundedDefaultButton)`
   width: 100%;
 
-  i { 
+  i {
     width: 28px;
     height: 28px;
-    background: no-repeat 50% 50%/contain;
+    background: no-repeat 50% 50% / contain;
     margin-right: 10px;
 
     &.record-icon {
@@ -143,8 +151,6 @@ const RoundedButton = styled(RoundedDefaultButton)`
     padding: 12px 0;
     font-size: 16px;
   }
-
-
 `;
 
 const CircleButton = styled(CircleDefaultButton)`
@@ -166,7 +172,6 @@ const ToryBox = styled(Row)`
     flex-direction: column;
     margin: 0 0 30px;
   }
-
 `;
 
 const WriteBox = styled.div`
@@ -199,7 +204,7 @@ const WriteBox = styled.div`
     button {
       margin: 0 auto 20px;
 
-      svg { 
+      svg {
         width: 65%;
         height: 65%;
       }
@@ -209,7 +214,6 @@ const WriteBox = styled.div`
       background-color: rgb(210, 216, 255);
     }
   }
-
 
   ${media.custom(1280)} {
     margin-bottom: 40px;
@@ -232,10 +236,9 @@ const WriteBox = styled.div`
     }
   }
 
-
   ${media.mobile} {
     margin-bottom: 20px;
-    
+
     > a {
       padding: 20px;
       border-radius: 25px;
@@ -250,8 +253,6 @@ const WriteBox = styled.div`
       }
     }
   }
-
-  
 `;
 const ButtonBox = styled(Row)`
   width: 100%;
@@ -274,15 +275,12 @@ const ButtonBox = styled(Row)`
     a {
       width: 100%;
     }
-  
+
     a + a {
       margin-left: 0;
       margin-top: 15px;
     }
-  
   }
-
-
 `;
 
 const AccountBtnBox = styled.div`
@@ -303,7 +301,7 @@ const AccountBtnBox = styled.div`
       i {
         width: 1.2em;
         height: 1.2em;
-        background: url(${Setting.src}) no-repeat 50% 50%/contain;
+        background: url(${Setting.src}) no-repeat 50% 50% / contain;
         margin-right: 10px;
       }
     }
@@ -328,7 +326,6 @@ const AccountBtnBox = styled.div`
     }
   }
 
-
   ${media.custom(1280)} {
     margin: 80px auto 20px;
   }
@@ -336,8 +333,6 @@ const AccountBtnBox = styled.div`
   ${media.mobile} {
     font-size: 14px;
   }
-
-
 `;
 const TextBox = styled(ToryText)`
   margin-bottom: 0;
@@ -356,7 +351,6 @@ const TextBox = styled(ToryText)`
     padding-left: 0;
     text-align: center;
   }
-
 `;
 
 const ToryMotion = styled.div`
@@ -381,10 +375,9 @@ const ToryMotion = styled.div`
 
   ${media.mobile} {
     position: static;
-    transform: translate(0,0);
+    transform: translate(0, 0);
     width: 200px;
     height: 200px;
     margin-bottom: 20px;
   }
-
 `;

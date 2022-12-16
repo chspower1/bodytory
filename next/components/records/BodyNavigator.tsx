@@ -9,7 +9,6 @@ import { useRouter } from "next/router";
 import { Position } from "@prisma/client";
 import { useRecoilState } from "recoil";
 import { currentBodyPosition } from "atoms/atoms";
-import { motion } from "framer-motion";
 import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 import rotateIcon from "@src/assets/icons/rotateIcon.png";
 import { media } from "@styles/theme";
@@ -61,28 +60,28 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage, isH
     <CustomContainer isWritePage={isWritePage}>
       {currentPos !== "face" ? (
         <>
-        <ButtonsBox>
-          <FrontBackButton
-            onClick={() => setCurrentPosition("front")}
-            bgColor={currentPos !== "front" ? "rgb(188, 197, 255)" : undefined}
-          >
-            앞
-          </FrontBackButton>
-          <FrontBackButton
-            onClick={() => setCurrentPosition("back")}
-            bgColor={currentPos !== "back" ? "rgb(188, 197, 255)" : undefined}
-          >
-            뒤
-          </FrontBackButton>
-        </ButtonsBox>
-        <MobileFrontBackButton onClick={() => setCurrentPosition(prev => prev === "back" ? "front" : "back")}>
-          <div className="rotateImgBg" />
-        </MobileFrontBackButton>
+          <ButtonsBox>
+            <FrontBackButton
+              onClick={() => setCurrentPosition("front")}
+              bgColor={currentPos !== "front" ? "rgb(188, 197, 255)" : undefined}
+            >
+              앞
+            </FrontBackButton>
+            <FrontBackButton
+              onClick={() => setCurrentPosition("back")}
+              bgColor={currentPos !== "back" ? "rgb(188, 197, 255)" : undefined}
+            >
+              뒤
+            </FrontBackButton>
+          </ButtonsBox>
+          <MobileFrontBackButton onClick={() => setCurrentPosition(prev => (prev === "back" ? "front" : "back"))}>
+            <div className="rotateImgBg" />
+          </MobileFrontBackButton>
         </>
       ) : (
         <>
-        <MobileFrontBackButton>
-          {currentPos !== "face" || (
+          <MobileFrontBackButton>
+            {currentPos !== "face" || (
               <FrontBackButton
                 bgColor={currentPos === "face" ? "rgb(188, 197, 255)" : undefined}
                 onClick={() => setCurrentPosition("front")}
@@ -90,17 +89,17 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage, isH
                 몸
               </FrontBackButton>
             )}
-        </MobileFrontBackButton>
-        <ButtonsBox>
-          {currentPos !== "face" || (
-            <FrontBackButton
-              bgColor={currentPos === "face" ? "rgb(188, 197, 255)" : undefined}
-              onClick={() => setCurrentPosition("front")}
-            >
-              몸
-            </FrontBackButton>
-          )}
-        </ButtonsBox>
+          </MobileFrontBackButton>
+          <ButtonsBox>
+            {currentPos !== "face" || (
+              <FrontBackButton
+                bgColor={currentPos === "face" ? "rgb(188, 197, 255)" : undefined}
+                onClick={() => setCurrentPosition("front")}
+              >
+                몸
+              </FrontBackButton>
+            )}
+          </ButtonsBox>
         </>
       )}
 
@@ -375,49 +374,44 @@ BodyNavigator.defaultProps = {
 
 const FrontBackButton = styled(RoundedDefaultButton)`
   padding: 16px 40px;
-
 `;
 const MobileFrontBackButton = styled.div`
-  display:none;
+  display: none;
 
-  .rotateImgBg{
+  .rotateImgBg {
     width: 50px;
     height: 50px;
     background: url(${rotateIcon.src}) no-repeat center center;
-    background-size:  contain;
+    background-size: contain;
     cursor: pointer;
   }
-  ${media.custom(1280)}{
-    display:block;
+  ${media.custom(1280)} {
+    display: block;
     position: absolute;
     right: 10%;
     top: 30px;
     z-index: 6;
   }
-`
-
-const Overlay = styled.div`
-  width: 100%;
-  height: 100%;
-  position: absolute;
 `;
+
 const CustomContainer = styled.div<{ isWritePage: boolean }>`
   position: relative;
   display: flex;
   padding: 50px 0;
   z-index: 6;
-  width:100%;
-  height:820px;
+  width: 100%;
+  height: 820px;
   ${({ isWritePage }) =>
-    isWritePage && css`
-    aspect-ratio: none;
-    background-color: #ebecfc;
-    box-shadow: 8px 8px 18px rgba(174, 178, 228, 0.25);
-    border-radius: 30px;
-  `}
+    isWritePage &&
+    css`
+      aspect-ratio: none;
+      background-color: #ebecfc;
+      box-shadow: 8px 8px 18px rgba(174, 178, 228, 0.25);
+      border-radius: 30px;
+    `}
 
-  ${media.custom(1280)}{
-    height:100%;
+  ${media.custom(1280)} {
+    height: 100%;
     background-color: #fff;
     border-radius: 30px 30px 0 0;
   }
@@ -436,13 +430,11 @@ const PathBox = styled.div<{ isViewMode?: boolean }>`
       pointer-events: none;
       width: 85%;
     `}
-  ${media.custom(1280)}{
+  ${media.custom(1280)} {
     min-width: 270px;
     max-width: 360px;
     width: 60%;
   }
-
-
 `;
 
 const ButtonsBox = styled.div`
@@ -452,8 +444,8 @@ const ButtonsBox = styled.div`
   width: 100%;
   padding: 18px;
   bottom: 0;
-  ${media.custom(1280)}{
-    display:none;
+  ${media.custom(1280)} {
+    display: none;
   }
 `;
 

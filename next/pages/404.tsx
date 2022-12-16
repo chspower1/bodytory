@@ -1,6 +1,5 @@
 import { FlexContainer } from "@styles/Common";
 import styled from "styled-components";
-import toriQuestionIcon from "@src/assets/icons/toriQuestion.png";
 import { theme } from "@styles/theme";
 import Link from "next/link";
 import { CircleDefaultButton } from "@components/layout/buttons/DefaultButtons";
@@ -9,10 +8,8 @@ import ToryPurpleAnim from "@components/lotties/ToryPurpleAnim";
 import { useEffect, useState } from "react";
 
 const NotFoundPage: NextPage = () => {
-
   const [toryMotionIdx, setToryMotionIdx] = useState<number>(2);
 
-  
   useEffect(() => {
     const timer = setTimeout(() => {
       setToryMotionIdx(5);

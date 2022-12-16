@@ -26,7 +26,7 @@ const SwiperBox = ({
   const [currentContent, setCurrentContent] = useState({});
   const hospitalCurrentIdx = useRecoilValue(currentHospitalIdx);
   const { getApi } = customApi("/api/users/my-hospitals/clinic-list");
-  const { isLoading, data, error } = useQuery(["clinicListKey"], getApi);
+  const { data } = useQuery(["clinicListKey"], getApi);
 
   const handleClickModalOpen = (obj: Record, name: string) => () => {
     setIsModalOpen(true);
@@ -184,7 +184,6 @@ const HospitalAddress = styled.div`
   ${media.mobile} {
     font-size: 12px;
   }
-
 `;
 const ClinicListBox = styled.div`
   height: 100%;
@@ -231,7 +230,7 @@ const ClinicDate = styled.div`
   font-size: 16px;
   ${media.mobile} {
     font-size: 12px;
-    text-align:center;
+    text-align: center;
   }
 `;
 

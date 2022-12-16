@@ -1,14 +1,13 @@
 import { gsap } from "gsap";
 
-export function animateFrom(elem:any, direction?:any) {
+export function animateFrom(elem: any, direction?: any) {
   direction = direction || 1;
-  
+
   let x: number | undefined = 0,
-  y: number | undefined = direction * 100,
-  delayTime: number = 0;
+    y: number | undefined = direction * 100,
+    delayTime: number = 0;
 
-
-  if(elem.classList.contains("gs_reveal_fromLeft")) {
+  if (elem.classList.contains("gs_reveal_fromLeft")) {
     x = -160;
     y = 0;
   } else if (elem.classList.contains("gs_reveal_fromRight")) {
@@ -20,7 +19,7 @@ export function animateFrom(elem:any, direction?:any) {
   } else if (elem.classList.contains("gs_reveal_fromBottom")) {
     x = 0;
     y = 120;
-  } 
+  }
 
   // 지연시간
   if (elem.classList.contains("delay200")) {
@@ -39,17 +38,20 @@ export function animateFrom(elem:any, direction?:any) {
 
   elem.style.transform = "translate(" + x + "px, " + y + "px)";
   elem.style.opacity = "0";
-  gsap.fromTo(elem, {x: x, y: y, autoAlpha: 0}, {
-    duration: 1.25, 
-    x: 0,
-    y: 0, 
-    autoAlpha: 1, 
-    ease: "expo", 
-    overwrite: "auto"
-  });
-  
+  gsap.fromTo(
+    elem,
+    { x: x, y: y, autoAlpha: 0 },
+    {
+      duration: 1.25,
+      x: 0,
+      y: 0,
+      autoAlpha: 1,
+      ease: "expo",
+      overwrite: "auto",
+    },
+  );
 }
 
 export function hide(elem: any) {
-  gsap.set(elem, {autoAlpha: 0});
+  gsap.set(elem, { autoAlpha: 0 });
 }

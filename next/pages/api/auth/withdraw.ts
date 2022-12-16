@@ -1,7 +1,6 @@
 import withHandler from "@utils/server/withHandler";
 import { withApiSession } from "@utils/server/withSession";
 import { NextApiRequest, NextApiResponse } from "next";
-import bcrypt from "bcrypt";
 import client from "utils/server/client";
 import { passwordCompare } from "utils/server/passwordHelper";
 

@@ -27,7 +27,6 @@ async function createRecord(req: NextApiRequest, res: NextApiResponse) {
       },
     },
   );
-  console.dir({ audioRecognized }, { depth: null });
 
   return res.status(200).json(audioRecognized.data?.return_object?.recognized);
 }

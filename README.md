@@ -1,4 +1,5 @@
 # BODYTORY
+
 <div align='center'>
 <p align="center">
 <img src="./next/public/bodytory_banner.png" width="400px" >
@@ -12,6 +13,7 @@
 <b>가상의 프로젝트</b>입니다.
 </p>
 </div>
+
 ![bodytory version](https://img.shields.io/badge/bodytory-v1.0-brightgreen.svg)
 
 ## <img src="./next/public/static/readme/team.svg" height="25px"> **바디토리 멤버**
@@ -75,16 +77,29 @@
   <br/>
 
 ### 토리 디자인
+
 - 토리는 보이스 AI 어시스턴트 컨셉으로 작업했어요!
-- 바디토리의 건강 도우미 토리  
+- 바디토리의 건강 도우미 토리 디자인  
   <img src="./next/public/static/readme/tory/tory_white.png" width="100px">
   <img src="./next/public/static/readme/tory/tory_purple.png" width="100px">
   <br/>
+- 토리 모션 디자인
+
+  <img src="https://imagedelivery.net/AbuMCvvnFZBtmCKKJV_e6Q/2a3b7493-acdc-48e4-6095-dcc15004cc00/avatar" width="100px">
+  <img src="https://imagedelivery.net/AbuMCvvnFZBtmCKKJV_e6Q/a5965dbe-bdd7-440a-4438-5c16e4a8c700/avatar" width="100px">
+  <img src="https://imagedelivery.net/AbuMCvvnFZBtmCKKJV_e6Q/cb4a7241-4e25-4753-f0f2-ada0f0b5c100/avatar" width="100px">
+  <img src="https://imagedelivery.net/AbuMCvvnFZBtmCKKJV_e6Q/640d7840-8768-4b85-7635-b950f34c3f00/avatar" width="100px">
+  <img src="https://imagedelivery.net/AbuMCvvnFZBtmCKKJV_e6Q/ed7fb5ff-4829-419e-9824-3407ae143700/avatar" width="100px">
+
   <br/>
+  <br/>
+
 ### 와이어프레임 및 디자인
+
 <a href="https://www.figma.com/file/nQIqKRwVVivqMpS2AuUDzV/%EB%94%94%EC%9E%90%EC%9D%B8?node-id=0%3A1&t=FeMMNwxwFTh0duCw-0">피그마 보러가기</a>
-  <br/>
-  <br/>
+<br/>
+<br/>
+
 ## <img src="./next/public/static/readme/service.svg" height="25px"> 바디토리 주요 서비스
 
 #### 📝 **간편한 증상 기록**
@@ -118,16 +133,18 @@
 <div>-------이미지첨부------</div>
 
 - 서비스와 **연계된 병원들** 중 원하는 병원을 선택해 **자신의 증상 기록들을 공유** 또는 **중지** 할 수 있어요!
-- 병원에서 사용자의 기록을 보고 **사용자**에게  **간단한 진단 및 처방내역**을 남겨줄 수 있어요
+- 병원에서 사용자의 기록을 보고 **사용자**에게 **간단한 진단 및 처방내역**을 남겨줄 수 있어요
   <br/>
   <br/>
 
 ## 바디토리 서비스 확장성
- - 병원과 **연계**한다면 **고위험군 환자**에 대해 **지속적인 증상 체크 및 관리**를 가능하게 할 거에요!
- - 이용자가 본인의 데이터 활용에 동의한다면 **의학 데이터로 활용**을 가능하게 할 거에요!
- - 코로나 이후로 증가된 비대면 진료에서 **진료 자료로써 활용**을 가능하게 할 거에요!
+
+- 병원과 **연계**한다면 **고위험군 환자**에 대해 **지속적인 증상 체크 및 관리**를 가능하게 할 거에요!
+- 이용자가 본인의 데이터 활용에 동의한다면 **의학 데이터로 활용**을 가능하게 할 거에요!
+- 코로나 이후로 증가된 비대면 진료에서 **진료 자료로써 활용**을 가능하게 할 거에요!
   <br/>
   <br/>
+
 ## <img src="./next/public/static/readme/skills.svg" width="23px"/> 기술 스택
 
 ### **Common**
@@ -524,6 +541,12 @@ CI/CD 기술 스택 자세히 보기
 <br/>
 <br/>
 
+## <img src="./next/public/static/readme/gear.png" height="20px"> 시스템 아키텍쳐
+
+---이미지 첨부---
+<br/>
+<br/>
+
 ## <img src="./next/public/static/readme/data.svg" height="20px"> 데이터 구조
 
 <img src="./next/prisma/ERD_result.svg">
@@ -704,6 +727,14 @@ hospital
 ```
 
 </details>
+<br/>
+<br/>
+
+## API 문서
+
+<a href="https://documenter.getpostman.com/view/22413094/2s8YzXvffw">
+API 문서 보러 가기
+</a>
 <br/>
 <br/>
 

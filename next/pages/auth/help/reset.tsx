@@ -1,10 +1,8 @@
 import Input from "@components/layout/input/Input";
-
 import { GetServerSidePropsContext, NextPage } from "next";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import Link from "next/link";
 import customApi from "utils/client/customApi";
 import { useMutation } from "@tanstack/react-query";
 import { HELP_FIND_PASSWORD } from "constant/queryKeys";
@@ -60,7 +58,6 @@ const Reset: NextPage = () => {
   const isErrorsMessage = errors.password?.message || errors.passwordConfirm?.message;
 
   useEffect(() => {
-    console.log(accountIdForFindPassword);
     if (!accountIdForFindPassword) {
       router.push("/auth/login");
     }

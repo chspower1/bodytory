@@ -3,7 +3,6 @@ import Input from "@components/layout/input/Input";
 import Modal from "@components/modals/Modal";
 import { SearchForm } from "@components/search/SearchHospitalList";
 import { Container } from "@styles/Common";
-import { theme } from "@styles/theme";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
 import { currentPatientInfo, loggedInHospital } from "atoms/atoms";
@@ -46,7 +45,7 @@ const HospitalHomePage: NextPage = () => {
   const [currentHospital, setCurrentHospital] = useState("");
   const [currentData, setCurrentData] = useState<HospitalPatients[]>();
   const setPatientInfo = useSetRecoilState(currentPatientInfo);
-  const { isLoading, data, error } = useQuery(["currentHospitalKey"], getApi);
+  const { data } = useQuery(["currentHospitalKey"], getApi);
   const { mutate } = useMutation(["removePatientKey"], deleteApi);
   const [showdeleteModal, setShowDeleteModal] = useState(false);
   const [currentPatient, setCurrentPatient] = useState(-1);
@@ -94,11 +93,11 @@ const HospitalHomePage: NextPage = () => {
     <HospitalWrapper>
       <HospitalContainer>
         <PageHead>
-          <ToriBox>
-            {/* <ToryIcon /> */}
-          </ToriBox>
+          <ToriBox></ToriBox>
           <DescriptionBox>
-            <Pragraph><strong>{format(new Date(), "yyyy년 MM월 dd일", { locale: ko })}</strong></Pragraph>
+            <Pragraph>
+              <strong>{format(new Date(), "yyyy년 MM월 dd일", { locale: ko })}</strong>
+            </Pragraph>
             <Pragraph>
               오늘 <HighlightText>{currentHospital}</HighlightText>에 내원예정인 환자 목록이에요
             </Pragraph>
@@ -220,7 +219,7 @@ const ListCol = styled.div`
   display: flex;
   align-items: center;
   font-size: 15px;
-  color: #888DBB;
+  color: #888dbb;
   justify-content: space-between;
   > div:first-child {
     flex-shrink: 0;
@@ -243,7 +242,7 @@ const ListLi = styled.li`
   align-items: center;
   font-size: 16px;
   justify-content: space-between;
-  background: #E1E4FF;
+  background: #e1e4ff;
   border-radius: 10px;
   > div:first-child {
     flex-shrink: 0;

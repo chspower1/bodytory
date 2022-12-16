@@ -4,7 +4,7 @@ import { Box, Container, ToryText } from "@styles/Common";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { CustomOverlayMap, Map, MapMarker } from "react-kakao-maps-sdk";
+import { Map, MapMarker } from "react-kakao-maps-sdk";
 import styled from "styled-components";
 import MagnifierIcon from "@src/assets/icons/magnifier.svg";
 import MarkerMe from "@src/assets/icons/marker_me.png";
@@ -18,8 +18,6 @@ interface Coords {
   longitude: number | null;
 }
 type ArroundMapProps = Coords & {
-  width?: string;
-  height?: string;
   departmentList?: string[];
   isAll?: boolean;
 };
@@ -44,7 +42,7 @@ interface SearchHospitalRequest {
 }
 type AroundMapHospitalsResponse = AroundMapHospital[];
 
-const ArroundMap = ({ width, height, latitude, longitude, departmentList, isAll }: ArroundMapProps) => {
+const ArroundMap = ({ latitude, longitude, departmentList, isAll }: ArroundMapProps) => {
   const { department, DepartmentSelect } = useDepartmentSelect(departmentList ? departmentList : [], isAll);
 
   const [clickIndex, setClickIndex] = useState(-1);
@@ -106,7 +104,6 @@ const ArroundMap = ({ width, height, latitude, longitude, departmentList, isAll 
   };
 
   useEffect(() => {
-    console.log(allHospitals);
     if (!allHospitals) setAllHospitals(initialHospitals);
     if (department === "all") setFilteredHospitals(allHospitals);
     else setFilteredHospitals(filterHospitals(allHospitals));
@@ -144,10 +141,6 @@ const ArroundMap = ({ width, height, latitude, longitude, departmentList, isAll 
               lng: coords.longitude!,
             }}
             isPanto={true}
-            // style={{
-            //   width: 1500,
-            //   height: 600,
-            // }}
             onCreate={(map: kakao.maps.Map | undefined) => (mapRef.current = map)}
             level={3}
             onCenterChanged={() => !centerChange && setCenterChange(true)}

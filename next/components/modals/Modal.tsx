@@ -1,6 +1,5 @@
-import { media, theme } from "@styles/theme";
+import { media } from "@styles/theme";
 import React, { ReactNode } from "react";
-import ReactDOM from "react-dom";
 import styled, { css } from "styled-components";
 import { AnimatePresence } from "framer-motion";
 import { Dim, ModalContainer, ModalWrapper } from "@styles/ModalStyled";
@@ -68,7 +67,7 @@ const ConfirmBtnBox = styled.div`
   justify-content: center;
   margin-top: 30px;
   gap: 40px;
-  ${media.mobile}{
+  ${media.mobile} {
     gap: 20px;
   }
 `;
@@ -80,7 +79,7 @@ const ModalBox = styled(ModalContainer)`
   border-radius: 10px;
   text-align: center;
 
-  ${media.mobile}{
+  ${media.mobile} {
     padding: 15px;
   }
 `;
@@ -89,7 +88,7 @@ const ModalTitle = styled.div`
   padding: 20px 0;
   font-size: 20px;
   font-weight: 700;
-  ${media.mobile}{
+  ${media.mobile} {
     font-size: 18px;
   }
 `;
@@ -111,7 +110,7 @@ const ModalContent = styled.div<{ bgColor: boolean }>`
       background: ${theme.color.lightBg};
       padding: 10px;
     `}
-  ${media.mobile}{
+  ${media.mobile} {
     font-size: 16px;
   }
 `;

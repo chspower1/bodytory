@@ -3,15 +3,11 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Layout from "@components/layout/Layout";
 import GlobalStyled from "@styles/GlobalStyled";
-import Head from "next/head";
 import { theme } from "@styles/theme";
 import { ThemeProvider } from "styled-components";
 import { RecoilRoot } from "recoil";
 import "@public/static/fonts/pretendardvariable.css";
 import CustomSeo from "@components/CustomSeo";
-interface PageCommonProps {
-  pagePath: string;
-}
 
 const queryClient = new QueryClient({
   defaultOptions: {
