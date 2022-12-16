@@ -30,18 +30,6 @@ const ImageDetailModal = ({ show, onClose, url, index, imagesLength, setShow }: 
           <ModalContainer flex width="0px" height="0px">
             <ImageBox>
               <Image src={url} fill alt="사진" objectFit="scale-down" />
-              {/* <BtnBox>
-                <RoundButton
-                  size="sm"
-                  nonSubmit
-                  onClick={() => {
-                    console.log(show);
-                    onClose();
-                  }}
-                >
-                  닫기
-                </RoundButton>
-              </BtnBox> */}
               <CurrentPage>
                 {index + 1} / {imagesLength}
               </CurrentPage>
@@ -93,7 +81,7 @@ const ModalContainer = styled(motion.div).attrs({
 const ImageBox = styled.div`
   position: relative;
   padding: 350px;
-  ${media.mobile}{
+  ${media.mobile} {
     padding: 160px;
   }
 `;
@@ -101,12 +89,12 @@ const NextBtn = styled.button`
   position: absolute;
   right: -100px;
   color: white;
-    ${media.custom(950)}{
+  ${media.custom(950)} {
     width: 30px;
     right: 260px;
     bottom: -48px;
   }
-  ${media.mobile}{
+  ${media.mobile} {
     right: 60px;
   }
 `;
@@ -114,14 +102,13 @@ const PreviusBtn = styled.button`
   position: absolute;
   left: -100px;
   color: white;
-  ${media.custom(950)}{
+  ${media.custom(950)} {
     width: 30px;
     left: 260px;
     bottom: -48px;
   }
-  ${media.mobile}{
+  ${media.mobile} {
     left: 60px;
-
   }
 `;
 const CurrentPage = styled(WhiteText)`

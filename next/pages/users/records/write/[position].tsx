@@ -43,15 +43,12 @@ const PositionPage: NextPage = () => {
   const router = useRouter();
   const position = router.query.position as Position;
   const {
-    getValues,
     register,
     setValue,
     formState: { errors },
     watch,
-    clearErrors,
   } = useForm<WriteForm>();
   const [listening, setListening] = useState(false);
-  const [error, setError] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [recordStatus, setRecordStatus] = useState<RecordStatus>("initial");
   const { offRecAudio, onRecAudio, audioRecognized, error: aiError } = useAudio();
@@ -86,10 +83,8 @@ const PositionPage: NextPage = () => {
   const startRecord = async () => {
     try {
       await onRecAudio();
-      setError(false);
       setRecordStatus("listening");
     } catch {
-      setError(true);
       setRecordStatus("initial");
       setShowModal(true);
     }
@@ -106,7 +101,7 @@ const PositionPage: NextPage = () => {
   };
   const hadleClickCreateRecord = (description: string) => {
     if (recordStatus === "finish") {
-      if (description.length < 2) return setError(true);
+      if (description.length < 2) return;
       mutate({ position: router.query.position as string, description });
       router.replace(
         {
@@ -115,12 +110,9 @@ const PositionPage: NextPage = () => {
         },
         "/users/records/write/analysis",
       );
-    } else {
-      setError(true);
     }
   };
   const handleClickEditMode = () => {
-    setError(false);
     if (!(recordStatus === "finish")) {
       setValue("description", "");
     }
@@ -138,7 +130,6 @@ const PositionPage: NextPage = () => {
   }, [audioRecognized, aiError]);
 
   useEffect(() => {
-    console.log(recordStatus);
     if (recordStatus === "listening") setListening(true);
     else setListening(false);
   }, [recordStatus]);
@@ -160,7 +151,7 @@ const PositionPage: NextPage = () => {
       <SpeakMotion listening={listening} />
       <FadeInMotionDiv
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1, transition: { duration: 1, ease: "easeOut", delay: .3 } }}
+        animate={{ opacity: 1, transition: { duration: 1, ease: "easeOut", delay: 0.3 } }}
       >
         <CustomCotainer>
           <Col>
@@ -199,7 +190,9 @@ const PositionPage: NextPage = () => {
 
               <CircleDefaultButton
                 disable={watch("description") && watch("description")?.length < 2 ? true : false}
-                bgColor={(recordStatus === "loading") ? theme.color.white : listening ? theme.color.error : theme.color.darkBg}
+                bgColor={
+                  recordStatus === "loading" ? theme.color.white : listening ? theme.color.error : theme.color.darkBg
+                }
                 onClick={() => {
                   recordStatus === "initial" && startRecord();
                   recordStatus === "listening" && endRecord();
@@ -241,13 +234,13 @@ export const getServerSideProps = withGetServerSideProps(async (context: GetServ
 });
 
 const FadeInMotionDiv = styled(motion.div)`
-  position:relative;
+  position: relative;
   z-index: 3;
   height: 100%;
 `;
 
 const CustomCotainer = styled(FlexContainer)`
-  ${media.mobile}{
+  ${media.mobile} {
     display: block;
   }
 `;
@@ -262,12 +255,13 @@ const VoiceBox = styled.div`
     margin: 120px auto 24px;
   }
 
-  ${media.mobile}{
+  ${media.mobile} {
     width: 100%;
 
     > button {
       margin: 100px auto 24px;
-      svg,img{
+      svg,
+      img {
         width: 40px;
         height: 40px;
       }
@@ -293,12 +287,12 @@ const RefreshBtnBox = styled(Box)`
   button:hover + div {
     display: block;
   }
-  ${media.custom(1000)}{
+  ${media.custom(1000)} {
     button:hover + div {
       display: none;
     }
   }
-  ${media.mobile}{
+  ${media.mobile} {
     width: auto;
     right: 10px;
 
@@ -332,30 +326,25 @@ const MemoInput = styled.input<{ disabled: boolean }>`
   ::placeholder {
     color: ${theme.color.mintBtn};
   }
-  ${media.custom(770)}{
+  ${media.custom(770)} {
     width: 460px;
     font-size: 18px;
   }
-  ${media.mobile}{
+  ${media.mobile} {
     width: 100%;
     font-size: 16px;
     margin: 0 auto;
-    display:block;
+    display: block;
   }
 `;
-const ErrorMessage = styled(Box)`
-  position: absolute;
-  color: ${({ theme }) => theme.color.error};
-  margin-top: 120px;
-  font-size: 18px;
-`;
+
 const GuideMessage = styled.div`
   width: 100%;
   text-align: center;
   color: ${({ theme }) => theme.color.darkBg};
   font-size: 16px;
   margin-bottom: 20px;
-  ${media.mobile}{
+  ${media.mobile} {
     font-size: 13px;
   }
 `;
@@ -374,12 +363,12 @@ const ToryMotion = styled.div`
   transform: translate(0, -10%);
   margin: 0 auto;
 
-  ${media.custom(1280)}{
+  ${media.custom(1280)} {
     width: 320px;
     height: 320px;
   }
 
-  ${media.mobile}{
+  ${media.mobile} {
     width: 280px;
     height: 280px;
   }

@@ -6,8 +6,7 @@ import { SetStateAction, useCallback, useState } from "react";
 const useHospital = () => {
   const queryClient = useQueryClient();
   const [showModal, setShowModal] = useState(false);
-  const [onConnected, setOnConnected] = useState(false);
-  const { getApi, postApi, putApi, deleteApi } = customApi("/api/users/my-hospitals");
+  const { postApi, putApi, deleteApi } = customApi("/api/users/my-hospitals");
   const refreshHospitalCache = () => {
     queryClient.invalidateQueries(["isMyHospital"]);
     queryClient.invalidateQueries([HOSPITALS]);

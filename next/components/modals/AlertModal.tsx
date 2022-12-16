@@ -2,8 +2,7 @@ import CheckBoxInput from "@components/layout/input/CheckBoxInput";
 import usePortal from "@hooks/usePortal";
 import { media } from "@styles/theme";
 import { AnimatePresence, motion } from "framer-motion";
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import ReactDOM from "react-dom";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 
 interface AlertModalProps {
@@ -27,11 +26,11 @@ const AlertModal = ({ show, onClose }: AlertModalProps) => {
       {show && (
         <ModalWrapper
           onClick={onClose}
-          initial={{x: `-50%`, y: -130, opacity: 0}}
+          initial={{ x: `-50%`, y: -130, opacity: 0 }}
           animate={{
             x: `-50%`,
             y: 30,
-            opacity: 1, 
+            opacity: 1,
             transition: {
               duration: 0.8,
             },
@@ -39,7 +38,7 @@ const AlertModal = ({ show, onClose }: AlertModalProps) => {
           exit={{
             x: `-50%`,
             y: -130,
-            opacity: 0, 
+            opacity: 0,
             transition: {
               duration: 0.8,
             },
@@ -64,9 +63,9 @@ const ModalWrapper = styled(motion.div)`
   height: 100px;
   z-index: 1900;
   border-radius: 10px;
-  box-shadow: 0px  0px 24px rgba(49, 54, 167, 0.2);
+  box-shadow: 0px 0px 24px rgba(49, 54, 167, 0.2);
   background: #fff;
-  ${media.mobile}{
+  ${media.mobile} {
     width: 360px;
     height: 60px;
     z-index: 2200;

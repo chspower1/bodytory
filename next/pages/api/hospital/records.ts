@@ -34,7 +34,6 @@ async function createRecord(req: NextApiRequest, res: NextApiResponse) {
 }
 async function removeRecord(req: NextApiRequest, res: NextApiResponse) {
   const { id } = req.body;
-  console.log(id);
   if (!id) return res.status(401).send("recordId를 확인해주세요");
   await client.record.delete({
     where: {

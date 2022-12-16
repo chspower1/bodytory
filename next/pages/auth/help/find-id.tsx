@@ -1,15 +1,12 @@
 import Input from "@components/layout/input/Input";
-
 import { GetServerSidePropsContext, NextPage } from "next";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import Link from "next/link";
 import customApi from "utils/client/customApi";
 import { useMutation } from "@tanstack/react-query";
 import { HelpForm } from "./find-pw";
 import { HELP_FIND_ID } from "constant/queryKeys";
-
 import { media, theme } from "@styles/theme";
 import { EMAIL_REGEX } from "constant/regex";
 import ButtonInInput from "@components/layout/input/ButtonInInput";
@@ -126,7 +123,7 @@ const HelpFindId: NextPage = () => {
                 </p>
               </MessageBox>
               <div className="linkButton">
-                <RoundedDefaultButton lg bgColor={theme.color.mintBtn} onClick={()=> router.push("/auth/login")}>
+                <RoundedDefaultButton lg bgColor={theme.color.mintBtn} onClick={() => router.push("/auth/login")}>
                   로그인하러 가기
                 </RoundedDefaultButton>
               </div>
@@ -145,7 +142,7 @@ export const getServerSideProps = withGetServerSideProps(async (context: GetServ
 });
 export const FindForm = styled.form`
   margin-top: 100px;
-  ${media.mobile}{
+  ${media.mobile} {
     margin-top: 50px;
   }
 `;
@@ -158,7 +155,7 @@ export const Seperation = styled(Row)`
     > div {
       margin-top: 30px;
     }
-    ${media.mobile}{
+    ${media.mobile} {
       > button,
       > div {
         margin-top: 20px;
@@ -185,11 +182,11 @@ export const FinalCommentBox = styled.div`
       justify-content: center;
     }
   }
-  ${media.mobile}{
+  ${media.mobile} {
     .innerBox {
       .messageBox {
         font-size: 20px;
-        height:136px;
+        height: 136px;
         margin-bottom: 20px;
         strong {
           margin: 0 10px;
@@ -198,4 +195,3 @@ export const FinalCommentBox = styled.div`
     }
   }
 `;
-  

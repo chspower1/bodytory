@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import Image from "next/image";
 import recordConfirm from "@src/assets/images/about/recordConfirm.png";
 import recordList from "@src/assets/images/about/recordList.png";
 import recordRecomend from "@src/assets/images/about/recordRecomend.png";
@@ -29,16 +28,21 @@ const Tory = () => {
     gsap.registerPlugin(ScrollTrigger);
 
     gsap.utils.toArray(".gs_reveal").forEach(function (elem: any) {
-      hide(elem); 
+      hide(elem);
 
       ScrollTrigger.create({
         trigger: elem,
-        onEnter: function() { animateFrom(elem) }, 
-        onEnterBack: function() { animateFrom(elem, -1) },
-        onLeave: function() { hide(elem) }
+        onEnter: function () {
+          animateFrom(elem);
+        },
+        onEnterBack: function () {
+          animateFrom(elem, -1);
+        },
+        onLeave: function () {
+          hide(elem);
+        },
       });
     });
-
 
     const timer = setTimeout(() => {
       setToriComment("는 이용자님의 건강관리를 위한 인공지능 헬스케어 서비스입니다");
@@ -46,10 +50,7 @@ const Tory = () => {
     return () => {
       clearTimeout(timer);
     };
-
   }, []);
-
-
 
   return (
     <>
@@ -85,7 +86,7 @@ const Tory = () => {
             </TextContainer>
             <SpeakMotion className="gs_reveal">
               <MicIcon>
-                <Mic/>
+                <Mic />
               </MicIcon>
               <SpeakAnim segmentIndex={0} play={true} />
             </SpeakMotion>
@@ -208,8 +209,7 @@ const TextContainer = styled.div`
   padding: 0 50px;
 `;
 
-const TextBox = styled.div`
-`;
+const TextBox = styled.div``;
 
 const NormalText = styled.span`
   font-size: 30px;
@@ -260,7 +260,6 @@ const ImageRightBox = styled.div`
     }
   }
 `;
-
 
 const FirstSection = styled.section`
   background-color: #f2f3ff;
@@ -357,7 +356,6 @@ const StartToryMotion = styled.div`
   height: 400px;
 `;
 
-
 const ToriMessage = styled(motion.div)`
   font-size: 42px;
 
@@ -397,7 +395,7 @@ const MicIcon = styled.div`
   transform: translate(-50%, -50%);
   width: 100px;
   height: 100px;
-  background: ${({theme}) => theme.color.darkBg};
+  background: ${({ theme }) => theme.color.darkBg};
   border-radius: 50%;
   z-index: 5;
 
@@ -407,7 +405,6 @@ const MicIcon = styled.div`
     margin: 0 auto;
   }
 `;
-
 
 export default Tory;
 

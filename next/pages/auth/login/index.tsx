@@ -9,17 +9,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import NaverLoginBtn from "@components/layout/buttons/NaverBtn";
 import KakaoLoginBtn from "@components/layout/buttons/KakaoBtn";
 import { USER_LOGIN, USE_USER } from "constant/queryKeys";
-import {
-  InnerContainer,
-  FlexContainer,
-  Row,
-  WhiteBoldText,
-  WhiteText,
-  Box,
-  Col,
-  ToryText,
-  BodyText,
-} from "@styles/Common";
+import { InnerContainer, FlexContainer, Row, WhiteBoldText, WhiteText } from "@styles/Common";
 import { media, theme } from "@styles/theme";
 import styled from "styled-components";
 import MessageBox from "@components/MessageBox";
@@ -27,7 +17,6 @@ import { ACCOUNT_ID_REGEX, PASSWORD_REGEX } from "constant/regex";
 import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 import withGetServerSideProps from "@utils/client/withGetServerSideProps";
 import Testcard from "@public/static/test_card.png";
-import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 export interface LoginForm {
   accountId: string;
@@ -64,7 +53,6 @@ const LoginPage: NextPage = () => {
     register,
     handleSubmit,
     watch,
-    setError,
     formState: { errors },
   } = useForm<LoginForm>({ mode: "onChange" });
 
@@ -82,7 +70,6 @@ const LoginPage: NextPage = () => {
     }
     setIsError(false);
   }, [watch("accountId"), watch("password"), isErrorsMessage]);
-  console.log(Testcard.src);
   return (
     <FlexContainer>
       <TestButton onClick={() => setIsOnTestBox(cur => !cur)}>테스트 아이디 {isOnTestBox ? "접기" : "보기"}</TestButton>

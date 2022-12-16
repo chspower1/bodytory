@@ -30,7 +30,6 @@ const ChartBox = ({ index, record, clickedKeyword, patientId, position, setShowM
   const { postApi } = customApi("/api/users/records/picture");
   const { mutate } = useMutation([RECORDS_DELETE], deleteApi, {
     onSuccess() {
-      console.log("hji");
       queryClient.invalidateQueries();
     },
   });
@@ -99,7 +98,12 @@ const ChartBox = ({ index, record, clickedKeyword, patientId, position, setShowM
           </Content>
           <AnimatePresence>
             {showRecordModal === record.id && (
-              <RecordModal record={record} isHospital={Boolean(patientId)} onClose={() => setShowRecordModal(-1)} setShowAlertModal={setShowModal} />
+              <RecordModal
+                record={record}
+                isHospital={Boolean(patientId)}
+                onClose={() => setShowRecordModal(-1)}
+                setShowAlertModal={setShowModal}
+              />
             )}
           </AnimatePresence>
         </>
@@ -275,7 +279,6 @@ const ImageBox = styled.div<{ isHospital: boolean }>`
     css`
       right: 50px;
     `}
-
 `;
 
 const Thumbnail = styled.div`

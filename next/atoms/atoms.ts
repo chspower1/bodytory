@@ -1,5 +1,3 @@
-import { Position, Record, RecordImage, User } from "@prisma/client";
-import { RegisterForm } from "pages/auth/register";
 import { HospitalName } from "pages/hospital";
 import { atom } from "recoil";
 import { recoilPersist } from "recoil-persist";

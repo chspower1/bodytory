@@ -26,17 +26,12 @@ function DashBoardStatistics() {
 
   const [mostKeyword, setMostKeyword] = useState<string>();
   const [keywordChartData, setKeywordChartData] = useState<string[]>();
-  // const [noKeyword, setNoKeyword] = useState<boolean>(false);
 
   const dashboardGetApi = customApi(`/api/users/records/dashboard/threeMonth`);
   const dashboardQuery = useQuery<any>([BODYPART_CHARTDATA_READ], dashboardGetApi.getApi);
 
   const flaskGetApi = customApi(`/api/users/records/flask/threeMonth`);
   const flaskQuery = useQuery<any>([KEYWORDS_CHARTDATA_READ], flaskGetApi.getApi);
-
-  console.log(flaskQuery.data);
-
-  console.log("dashboardQuery",dashboardQuery.data)
 
   useEffect(() => {
     // 가장 기록이 많은 부위 찾기
@@ -92,24 +87,20 @@ function DashBoardStatistics() {
             )}
           </ChartBox>
           <ChartBox>
-            {
-              keywordChartData?.length === 0 && (
-                <NoKeywordChart>
-                  <LoadingAnim />
-                  <p>기록이 더 많아지면 키워드를 분석할 수 있어요!</p>
-                </NoKeywordChart>
-              )
-            }
-            {
-              keywordChartData?.length !== 0 && (
-                <>
-                  <p>
-                    가장 많이 기록된 키워드는 <strong>{mostKeyword}</strong> 입니다
-                  </p>
-                  <MostKeyword chartData={keywordChartData ? keywordChartData : null} />
-                </>
-              )
-            }
+            {keywordChartData?.length === 0 && (
+              <NoKeywordChart>
+                <LoadingAnim />
+                <p>기록이 더 많아지면 키워드를 분석할 수 있어요!</p>
+              </NoKeywordChart>
+            )}
+            {keywordChartData?.length !== 0 && (
+              <>
+                <p>
+                  가장 많이 기록된 키워드는 <strong>{mostKeyword}</strong> 입니다
+                </p>
+                <MostKeyword chartData={keywordChartData ? keywordChartData : null} />
+              </>
+            )}
           </ChartBox>
         </FlexContainer>
       </HorizontalScrollContainer>
@@ -117,8 +108,7 @@ function DashBoardStatistics() {
   ) : null;
 }
 
-const StatisticsContainer = styled.div`
-`;
+const StatisticsContainer = styled.div``;
 
 const HorizontalScrollContainer = styled.div`
   width: 100%;
@@ -158,7 +148,6 @@ const Title = styled.p`
     padding: 0 15px;
   }
 `;
-
 
 const ChartBox = styled.div`
   width: calc(50% - 20px);

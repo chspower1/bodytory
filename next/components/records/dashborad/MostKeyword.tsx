@@ -79,6 +79,4 @@ const MostKeyword = ({ chartData }: any) => {
   );
 };
 
-const TreemapBox = styled.div``;
-
 export default MostKeyword;

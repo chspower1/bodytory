@@ -25,7 +25,6 @@ const ToryPurpleAnim = ({ segmentIndex, delay }: LottieAnimProps) => {
 
   useEffect(() => {
     if (lottie && lottieRef.current) {
-      console.log("setToryPurple");
       setToryPurple(
         lottie.loadAnimation({
           container: lottieRef.current,
@@ -33,8 +32,8 @@ const ToryPurpleAnim = ({ segmentIndex, delay }: LottieAnimProps) => {
           loop: true,
           autoplay: false,
           path: "/static/lottie/tory_purple.json",
-          initialSegment: frameSegments[segmentIndex]
-        })
+          initialSegment: frameSegments[segmentIndex],
+        }),
       );
     }
 

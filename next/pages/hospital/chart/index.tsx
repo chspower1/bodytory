@@ -1,6 +1,6 @@
 import withGetServerSideProps from "@utils/client/withGetServerSideProps";
 import { GetServerSidePropsContext, NextPage } from "next";
-import React, { useState } from "react";
+import React from "react";
 import HospitalChartPositionPage from "./[position]";
 
 const HospitalChartHomePage: NextPage = () => {

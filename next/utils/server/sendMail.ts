@@ -7,7 +7,6 @@ const sendMail = (email: string, payload: string, subject: string) => {
     from: process.env.MAIL_ID,
     to: email,
     subject: "바디토리에서 인증번호가 왔어요!",
-    // text: `인증코드 : ${payload}`,
     html: `
     <div style="width: 100%; height: 100%; display: flex;" >
       <div style="flex-shrink:0; position:relative; margin: auto; width: 1000px; height: 454px;box-sizing: content-box; ">

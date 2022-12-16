@@ -44,10 +44,7 @@ const Withdraw: NextPage = () => {
   const {
     register,
     handleSubmit,
-    watch,
-    setValue,
     setError,
-    clearErrors,
     formState: { errors },
   } = useForm<WithdrawType>({ mode: "onChange" });
 
@@ -63,7 +60,7 @@ const Withdraw: NextPage = () => {
       mutate({ password: currentPassword, type: userType });
     } else {
       setShowModal(false);
-      localStorage.removeItem("recoil-persist")
+      localStorage.removeItem("recoil-persist");
       await LogoutApi({});
       router.replace("/auth/login");
     }
@@ -137,11 +134,10 @@ export const getServerSideProps = withGetServerSideProps(async (context: GetServ
   };
 });
 
-const WithdrawButton = styled(EditButton)`
-`;
+const WithdrawButton = styled(EditButton)``;
 
 const WithdrawContainer = styled(FlexContainer)`
-  ${media.mobile}{
+  ${media.mobile} {
     align-items: flex start;
   }
 `;
@@ -154,7 +150,7 @@ const Form = styled.form`
     margin-bottom: 30px;
     font-size: 36px;
   }
-  ${media.mobile}{
+  ${media.mobile} {
     .messageBox {
       margin: 0 0 50px;
       font-size: 25px;
@@ -170,14 +166,13 @@ const ButtonBox = styled.div`
   }
 `;
 
-
 const ToryMotion = styled.div`
   transform: translate(0, -10%);
   width: 360px;
   height: 360px;
   margin: 0 auto;
 
-  ${media.mobile}{
+  ${media.mobile} {
     width: 260px;
     height: 260px;
   }

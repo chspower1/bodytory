@@ -1,7 +1,7 @@
 import { Box } from "@styles/Common";
 import { media, theme } from "@styles/theme";
 import { MyHospitalResponse } from "pages/users/my-hospital";
-import React, { LegacyRef, MouseEvent, useState } from "react";
+import React, { LegacyRef, useState } from "react";
 import styled from "styled-components";
 import HospitalContent from "./HospitalContent";
 import ListSkeleton from "../skeletonUI/ListSkeleton";
@@ -19,7 +19,7 @@ const MyHospitalList = ({ hospitals, add, isLoading }: MyHospitalListProps) => {
 
   return (
     <HospitalContainer add={add}>
-      <InnerContainer add={add}>
+      <InnerContainer>
         {isLoading && <ListSkeleton backgroundColor="rgb(100,106,235)" />}
         {!isLoading && hospitals && (
           <HospitalLists>
@@ -56,7 +56,7 @@ const NoneMessage = styled.div`
   color: ${theme.color.darkBg};
 `;
 
-const InnerContainer = styled(Box)<{ add: boolean }>`
+const InnerContainer = styled(Box)`
   width: 100%;
   height: 100%;
   overflow-y: scroll;

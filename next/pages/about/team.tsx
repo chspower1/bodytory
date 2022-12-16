@@ -1,11 +1,5 @@
 import Header from "@components/header/Header";
 import styled from "styled-components";
-import Han from "@src/assets/images/team/Han.png";
-import Kim from "@src/assets/images/team/Kim.png";
-import Jung from "@src/assets/images/team/Jung.png";
-import Oh from "@src/assets/images/team/Oh.png";
-import Jo from "@src/assets/images/team/Cho.png";
-import Image from "next/image";
 import withGetServerSideProps from "@utils/client/withGetServerSideProps";
 import { GetServerSidePropsContext } from "next";
 import SohiAnim from "@components/lotties/SohiAnim";
@@ -15,7 +9,6 @@ import DahyunAnim from "@components/lotties/DahyunAnim";
 import RyongAnim from "@components/lotties/RyongAnim";
 import KyeongwonAnim from "@components/lotties/Kyeongwon";
 const Team = () => {
-
   const [isHover, setIsHover] = useState<boolean>();
   const [hoverWho, setHoverWho] = useState<EventTarget | null>();
   const hosungRef = useRef<HTMLDivElement>(null);
@@ -34,15 +27,11 @@ const Team = () => {
     setHoverWho(null);
   };
 
-  useEffect(() => {
-    console.log(isHover, hoverWho, hoverWho === sohiRef.current);
-  }, [isHover]);
-
   return (
     <Container>
       <Header />
       <TeamContainer>
-        <HoSung onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} ref={hosungRef} >
+        <HoSung onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} ref={hosungRef}>
           <Profile>
             <HosungAnim segmentIndex={0} play={isHover && hoverWho === hosungRef.current ? true : false} />
           </Profile>
@@ -58,9 +47,9 @@ const Team = () => {
             <Description>fdsfdsfasdfdas</Description>
           </DescriptionContainer>
         </HoSung>
-        <KyeongWon onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} ref={kyeongwonRef} >
-         <Profile>
-          <KyeongwonAnim segmentIndex={0} play={isHover && hoverWho === kyeongwonRef.current ? true : false} />
+        <KyeongWon onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} ref={kyeongwonRef}>
+          <Profile>
+            <KyeongwonAnim segmentIndex={0} play={isHover && hoverWho === kyeongwonRef.current ? true : false} />
           </Profile>
           <DescriptionContainer>
             <Name>
@@ -73,7 +62,7 @@ const Team = () => {
             <Description>프로젝트 하는 동안 많을 걸 배웠네요 이제 ... 취업합시다 ...</Description>
           </DescriptionContainer>
         </KyeongWon>
-        <DaHyen onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} ref={dahyunRef} >
+        <DaHyen onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} ref={dahyunRef}>
           <Profile>
             <DahyunAnim segmentIndex={0} play={isHover && hoverWho === dahyunRef.current ? true : false} />
           </Profile>
@@ -89,8 +78,8 @@ const Team = () => {
             <Description>AI 너무 어렵네요 ㅋㅋ</Description>
           </DescriptionContainer>
         </DaHyen>
-        <SoHee onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} ref={sohiRef} >
-         <Profile>
+        <SoHee onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} ref={sohiRef}>
+          <Profile>
             <SohiAnim segmentIndex={0} play={isHover && hoverWho === sohiRef.current ? true : false} />
           </Profile>
           <DescriptionContainer>
@@ -105,7 +94,7 @@ const Team = () => {
             <Description>토리엄마입니다. 우리 토리 이쁘게 봐주세요~*^^*</Description>
           </DescriptionContainer>
         </SoHee>
-        <DongRyong onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} ref={ryongRef} >
+        <DongRyong onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} ref={ryongRef}>
           <Profile>
             <RyongAnim segmentIndex={0} play={isHover && hoverWho === ryongRef.current ? true : false} />
           </Profile>
@@ -131,7 +120,7 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: ${({ theme }) => theme.color.darkBg };
+  background: ${({ theme }) => theme.color.darkBg};
 `;
 
 const TeamContainer = styled.div`
@@ -165,7 +154,7 @@ const DescriptionContainer = styled.div`
   z-index: 10;
   overflow: hidden;
   position: relative;
-  transition: background .4s;
+  transition: background 0.4s;
 `;
 
 const Profile = styled.div`
@@ -206,8 +195,8 @@ const Position = styled.span`
 const HoSung = styled.div`
   width: 300px;
   height: 600px;
-  box-shadow: 8px 8px 24px 0px #3136A733;
-  transition: transform .4s;
+  box-shadow: 8px 8px 24px 0px #3136a733;
+  transition: transform 0.4s;
   border-radius: 30px;
   overflow: hidden;
 

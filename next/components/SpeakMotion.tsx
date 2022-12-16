@@ -1,14 +1,13 @@
 import { media } from "@styles/theme";
-import React, { useEffect, useState } from "react";
-import styled, { keyframes } from "styled-components";
+import React, { useState } from "react";
+import styled from "styled-components";
 import ListeningAnim from "./lotties/SpeakAnim";
 
 const SpeakMotion = ({ right, listening }: { right?: boolean; listening: boolean }) => {
-
   const [speakMotionIdx, setSpeakMotionIdx] = useState<number>(0);
 
   return (
-    <MotionBox right={right} className={listening ? "active": ""}>
+    <MotionBox right={right} className={listening ? "active" : ""}>
       <ListeningAnim segmentIndex={speakMotionIdx} play={listening} />
     </MotionBox>
   );
@@ -24,19 +23,19 @@ const MotionBox = styled.div<{ right?: boolean }>`
   top: 50%;
   transform: translateY(-50%);
   opacity: 0;
-  transition: opacity .3s;
+  transition: opacity 0.3s;
   z-index: 1;
   &.active {
     opacity: 1;
   }
 
-  ${media.custom(1280)}{
+  ${media.custom(1280)} {
     width: 600px;
     height: 600px;
     ${({ right }) => (right ? `right: -300px` : `left: -300px`)};
   }
 
-  ${media.mobile}{
+  ${media.mobile} {
     width: 500px;
     height: 500px;
     ${({ right }) => (right ? `display: none` : `left: 50%`)};

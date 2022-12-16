@@ -1,6 +1,5 @@
 import BodyNavigator from "@components/records/BodyNavigator";
 import styled from "styled-components";
-
 import { useRouter } from "next/router";
 import { bodyPartType } from "types/bodyParts";
 import { Dispatch, SetStateAction } from "react";

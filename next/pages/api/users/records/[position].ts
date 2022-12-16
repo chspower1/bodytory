@@ -2,7 +2,6 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import client from "utils/server/client";
 import withHandler from "@utils/server/withHandler";
 import { withApiSession } from "@utils/server/withSession";
-import { NextResponse } from "next/server";
 import { Position } from "@prisma/client";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {

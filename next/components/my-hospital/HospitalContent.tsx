@@ -1,4 +1,3 @@
-import me from "@api/users/me";
 import { RectangleDefaultButton, RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 import useHospital from "@hooks/useHospital";
 import { Box } from "@styles/Common";

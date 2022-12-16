@@ -123,16 +123,6 @@ const SearchModeTogleButton = styled(RoundedDefaultButton)`
   }
 `;
 
-const ErrorMessage = styled.div`
-  position: absolute;
-  bottom: -30px;
-  left: 100px;
-`;
-
-const DescriptionContainer = styled.div`
-  width: 100%;
-`;
-
 const ToryMotion = styled.div`
   position: absolute;
   top: 50%;

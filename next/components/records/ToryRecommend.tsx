@@ -5,7 +5,6 @@ import { useState } from "react";
 import ArroundMapModal from "@components/modals/map/ArroundMapModal";
 import LocationPinIcon from "@src/assets/icons/location_pin.svg";
 import useCoords from "@hooks/useCoords";
-import { AnimatePresence } from "framer-motion";
 import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 import { media } from "@styles/theme";
 

@@ -205,7 +205,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
             </CircleDefaultButton>
             <CircleDefaultButton
               bgColor={theme.color.mintBtn}
-              disable={/* !checkEmptyObj(error) */ currentInputIdx !== 4 || Boolean(isErrorsMessage)}
+              disable={currentInputIdx !== 4 || Boolean(isErrorsMessage)}
             >
               다음 단계
             </CircleDefaultButton>
@@ -220,7 +220,7 @@ export default SecondPage;
 
 const ButtonBox = styled(Row)`
   margin-top: 80px;
-  ${media.mobile}{
+  ${media.mobile} {
     margin-top: 30px;
   }
 `;
