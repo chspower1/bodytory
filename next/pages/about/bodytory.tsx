@@ -21,7 +21,7 @@ import { GetServerSidePropsContext } from "next";
 const Tory = () => {
   const router = useRouter();
 
-  const [toriComment, setToriComment] = useState("서비스가 궁금하신가요?");
+  const [toriComment, setToriComment] = useState(" 서비스가 궁금하신가요?");
   const [toryMotionIdx, setToryMotionIdx] = useState<number>(0);
 
   useEffect(() => {
@@ -69,7 +69,7 @@ const Tory = () => {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut", delay: 0.4 } }}
               >
-                <strong>바디토리</strong>
+                <strong>바디토리 </strong>
                 {toriComment}
               </ToriMessage>
             </TextBox>
