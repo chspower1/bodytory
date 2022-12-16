@@ -29,6 +29,7 @@ export async function middleware(req: NextRequest) {
     session.user &&
     (req.url.includes("auth/login") ||
       req.url.includes("/auth/help") ||
+      req.url.includes("/landing") ||
       (req.url.includes("/auth/register") && !req.url.includes("/success")))
   ) {
     return NextResponse.redirect(new URL("/", req.url));
