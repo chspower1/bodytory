@@ -106,6 +106,9 @@ const NextBtn = styled.button`
     right: 260px;
     bottom: -48px;
   }
+  ${media.mobile}{
+    right: 60px;
+  }
 `;
 const PreviusBtn = styled.button`
   position: absolute;
@@ -115,6 +118,10 @@ const PreviusBtn = styled.button`
     width: 30px;
     left: 260px;
     bottom: -48px;
+  }
+  ${media.mobile}{
+    left: 60px;
+
   }
 `;
 const CurrentPage = styled(WhiteText)`
