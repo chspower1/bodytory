@@ -104,7 +104,7 @@
 
 #### 📝 **간편한 증상 기록**
 
-<div>-------이미지첨부------</div>
+<img src="./next/public/static/readme/write.jpg" width="600px">
 
 - 현재 **자신이 겪는 증상**과 관련이 있는 **부위를 선택해 증상을 기록**할 수 있어요!
 - 단순히 말로 설명하기 어려울 때에는 **사진 업로드**를 통해 내 증상을 정확하게 남길 수 있어요!
@@ -543,7 +543,10 @@ CI/CD 기술 스택 자세히 보기
 
 ## <img src="./next/public/static/readme/gear.png" height="20px"> 시스템 아키텍쳐
 
----이미지 첨부---
+<img src="./next/public/static/readme/system01.png" width="500px">
+<img src="./next/public/static/readme/system02.png" width="500px">
+<img src="./next/public/static/readme/system03.png" width="500px">
+<img src="./next/public/static/readme/system04.png" width="500px">
 <br/>
 <br/>
 
