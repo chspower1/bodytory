@@ -276,6 +276,7 @@ const ServiceIntro = styled.div`
   ${TextBox} {
     position: relative;
     width: 70%;
+    max-width: 1000px;
     padding-left: 300px;
     word-break: keep-all;
   }
@@ -329,7 +330,7 @@ const ManageShareIntro = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 100px 0;
+  padding: 50px 0;
 `;
 const MedicalRecordIntro = styled.div`
   width: 100%;
@@ -341,7 +342,7 @@ const MedicalRecordIntro = styled.div`
 
 const StartTory = styled.div`
   width: 100%;
-  padding: 300px 0 100px;
+  padding: 150px 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
