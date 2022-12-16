@@ -97,7 +97,7 @@ const Tory = () => {
         <Container>
           <RecordConfirmIntro>
             <ImageLeftBox className="gs_reveal gs_reveal_fromLeft delay600">
-              <Image src={recordConfirm} width={900} alt="mic"></Image>
+              <Image src={recordConfirm} width={900} alt="건강상태 통계 서비스"></Image>
             </ImageLeftBox>
             <TextContainer className="gs_reveal gs_reveal_fromBottom">
               <TextBox>
@@ -118,7 +118,7 @@ const Tory = () => {
               </TextBox>
             </TextContainer>
             <ImageRightBox className="gs_reveal gs_reveal_fromRight">
-              <Image src={recordList} width={900} alt="mic" className="no-transform"></Image>
+              <Image src={recordList} width={900} alt="증상차트 서비스" className="no-transform"></Image>
             </ImageRightBox>
           </RecordChartIntro>
           <RecordRecomendIntro>
@@ -130,7 +130,7 @@ const Tory = () => {
               </NormalText>
             </CenterTextBox>
             <div className="gs_reveal gs_reveal_fromBottom">
-              <Image src={recordRecomend} width={1200} alt="mic"></Image>
+              <Image src={recordRecomend} width={1200} alt="진료과목 추천 서비스"></Image>
             </div>
           </RecordRecomendIntro>
         </Container>
@@ -150,12 +150,12 @@ const Tory = () => {
               </TextBox>
             </TextContainer>
             <ImageRightBox className="gs_reveal gs_reveal_fromRight">
-              <Image src={map} width={900} alt="mic" className="no-transform"></Image>
+              <Image src={map} width={900} alt="병원연계 서비스" className="no-transform"></Image>
             </ImageRightBox>
           </ManageHospitalIntro>
           <ManageShareIntro>
             <ImageLeftBox className="gs_reveal gs_reveal_fromLeft">
-              <Image src={share} width={800} alt="mic"></Image>
+              <Image src={share} width={800} alt="병원관리 서비스"></Image>
             </ImageLeftBox>
             <TextBox className="gs_reveal gs_reveal_fromBottom">
               <NormalText>
@@ -172,7 +172,7 @@ const Tory = () => {
               </NormalText>
             </TextBox>
             <ImageRightBox className="gs_reveal gs_reveal_fromRight delay600">
-              <Image src={medicalRecord} width={1000} alt="mic" className="no-transform"></Image>
+              <Image src={medicalRecord} width={1000} alt="진료내역 조회 시스템" className="no-transform"></Image>
             </ImageRightBox>
           </MedicalRecordIntro>
         </Container>
