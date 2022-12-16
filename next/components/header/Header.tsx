@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import styled from "styled-components";
 import LogoImg from "@src/assets/icons/Logo.png";
+import LogoPurpleImg from "@src/assets/icons/Logo_purple.png";
 import SideMenu from "./SideMenu";
 import useUser from "@hooks/useUser";
 import { media } from "@styles/theme";
@@ -12,12 +13,12 @@ const Header = () => {
   const { user, isFetching } = useUser();
 
   return isFetching || router.pathname.includes("/landing") ? null : !user ? (
-    <HeaderWrap>
+    <HeaderWrap className={router.pathname.includes("/about/bodytory") ? "purple" : ""}>
       <HeaderContainer>
         <HeaderInnerBox>
           <HeaderUl>
             <li>
-              <Link href="/about/bodytory">서비스 소개</Link>
+              <Link href="/about/bodytory" className={router.pathname === "/about/bodytory" ? "active" : ""}>서비스 소개</Link>
             </li>
             <li>
               {router.asPath.includes("login") ? (
@@ -32,7 +33,7 @@ const Header = () => {
             </li>
           </HeaderUl>
           <HeaderLogoBox>
-            <Link href="/auth/login" title="바디토리">
+            <Link href="/" title="바디토리" className={router.pathname === "/" ? "active" : ""}>
               <span>바디토리</span>
             </Link>
           </HeaderLogoBox>
@@ -46,13 +47,6 @@ const Header = () => {
 
 export default Header;
 
-const HeaderWrap = styled.div`
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  width: 100%;
-  z-index: 2000;
-`;
 const HeaderContainer = styled.div`
   padding: 0 65px;
   ${media.mobile} {
@@ -105,6 +99,8 @@ const HeaderUl = styled.ul`
   justify-content: flex-end;
   align-items: center;
   li {
+    width: 4.2em;
+    text-align: center;
     margin: 0 28px;
     font-size: 18px;
     letter-spacing: -1.5px;
@@ -129,4 +125,32 @@ const HeaderUl = styled.ul`
       }
     }
   }
+`;
+
+const HeaderWrap = styled.div`
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  z-index: 2000;
+
+  &.purple {
+    ${HeaderUl} {
+      li a {
+        color: ${({ theme }) => theme.color.darkBg};
+
+        &.active {
+          padding-bottom: 2px;
+          border-bottom: 2px solid ${({ theme }) => theme.color.darkBg};
+        }
+      }
+    }
+
+    ${HeaderLogoBox} {
+      a {
+        background-image: url(${LogoPurpleImg.src});
+      }
+    }
+  }
+  
 `;

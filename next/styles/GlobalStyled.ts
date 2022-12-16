@@ -140,24 +140,25 @@ ${reset}
     }
   }
 
+
   .gs_reveal {
     opacity: 0;
   }
   
   .gs_reveal_fromBottom {
-    transform: translate(0, 40px);
+    transform: translate(0, 120px);
   }
   
   .gs_reveal_fromTop {
-    transform: translate(0, -40px);
+    transform: translate(0, -120px);
   }
   
   .gs_reveal_fromRight {
-    transform: translate(60px, 0);
+    transform: translate(160px, 0);
   }
   
   .gs_reveal_fromLeft {
-    transform: translate(-60px, 0);
+    transform: translate(-160px, 0);
   }
 `;
 
