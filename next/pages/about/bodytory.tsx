@@ -27,16 +27,15 @@ const Tory = () => {
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
+
     gsap.utils.toArray(".gs_reveal").forEach(function (elem: any) {
+      hide(elem); 
+
       ScrollTrigger.create({
         trigger: elem,
-        start: "60% bottom",
-        onEnter: () => {
-          animateFrom(elem);
-        },
-        onLeaveBack: () => {
-          hide(elem);
-        },
+        onEnter: function() { animateFrom(elem) }, 
+        onEnterBack: function() { animateFrom(elem, -1) },
+        onLeave: function() { hide(elem) }
       });
     });
 
@@ -97,7 +96,7 @@ const Tory = () => {
         <Container>
           <RecordConfirmIntro>
             <ImageLeftBox className="gs_reveal gs_reveal_fromLeft delay600">
-              <Image src={recordConfirm} width={900} alt="건강상태 통계 서비스"></Image>
+              <img src={recordConfirm.src} width={900} alt="건강상태 통계 서비스" />
             </ImageLeftBox>
             <TextContainer className="gs_reveal gs_reveal_fromBottom">
               <TextBox>
@@ -118,7 +117,7 @@ const Tory = () => {
               </TextBox>
             </TextContainer>
             <ImageRightBox className="gs_reveal gs_reveal_fromRight">
-              <Image src={recordList} width={900} alt="증상차트 서비스" className="no-transform"></Image>
+              <img src={recordList.src} width={900} alt="증상차트 서비스" className="no-transform" />
             </ImageRightBox>
           </RecordChartIntro>
           <RecordRecomendIntro>
@@ -130,7 +129,7 @@ const Tory = () => {
               </NormalText>
             </CenterTextBox>
             <div className="gs_reveal gs_reveal_fromBottom">
-              <Image src={recordRecomend} width={1200} alt="진료과목 추천 서비스"></Image>
+              <img src={recordRecomend.src} width={1200} alt="진료과목 추천 서비스" />
             </div>
           </RecordRecomendIntro>
         </Container>
@@ -150,12 +149,12 @@ const Tory = () => {
               </TextBox>
             </TextContainer>
             <ImageRightBox className="gs_reveal gs_reveal_fromRight">
-              <Image src={map} width={900} alt="병원연계 서비스" className="no-transform"></Image>
+              <img src={map.src} width={900} alt="병원연계 서비스" className="no-transform" />
             </ImageRightBox>
           </ManageHospitalIntro>
           <ManageShareIntro>
             <ImageLeftBox className="gs_reveal gs_reveal_fromLeft">
-              <Image src={share} width={800} alt="병원관리 서비스"></Image>
+              <img src={share.src} width={800} alt="병원관리 서비스" />
             </ImageLeftBox>
             <TextBox className="gs_reveal gs_reveal_fromBottom">
               <NormalText>
@@ -172,7 +171,7 @@ const Tory = () => {
               </NormalText>
             </TextBox>
             <ImageRightBox className="gs_reveal gs_reveal_fromRight delay600">
-              <Image src={medicalRecord} width={1000} alt="진료내역 조회 시스템" className="no-transform"></Image>
+              <img src={medicalRecord.src} width={1000} alt="진료내역 조회 시스템" className="no-transform" />
             </ImageRightBox>
           </MedicalRecordIntro>
         </Container>
