@@ -1,27 +1,25 @@
-import Input from "@components/Input";
+import Input from "@components/layout/input/Input";
 import { useForm } from "react-hook-form";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { RegisterForm } from "pages/auth/register";
 import customApi from "utils/client/customApi";
 import { Gender } from "@prisma/client";
 import styled from "styled-components";
-import useReset from "@hooks/useReset";
 import { useMutation } from "@tanstack/react-query";
 import { REGISTER_SIGNUP } from "constant/queryKeys";
 import { useRouter } from "next/router";
 import MessageBox from "@components/MessageBox";
-import RadioInput from "@components/RadioInput";
-import ButtonInInput from "@components/ButtonInInput";
-import CheckBoxInput from "@components/CheckBoxInput";
-import { RoundButton } from "@components/buttons/Button";
-import { Box, Col, Container, FlexContainer, InnerContainer, Row } from "@styles/Common";
-import { theme } from "@styles/theme";
+import RadioInput from "@components/layout/input/RadioInput";
+import ButtonInInput from "@components/layout/input/ButtonInInput";
+import CheckBoxInput from "@components/layout/input/CheckBoxInput";
+import { Box, FlexContainer, InnerContainer, Row } from "@styles/Common";
+import { media, theme } from "@styles/theme";
 import { Form, FormContents, PrevNextButtonBox } from "./FirstPage";
 import { BIRTH_REGEX, EMAIL_REGEX, KR_EN_REGEX, ONLY_KR_REGEX } from "constant/regex";
-import { checkEmptyObj } from "@utils/client/checkEmptyObj";
 import { createErrors } from "@utils/client/createErrors";
-import { useSetRecoilState } from "recoil";
 import { Variants, motion } from "framer-motion";
+import { checkBirth } from "@utils/client/leapYearCheck";
+import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 
 interface ThirdRegisterForm {
   email: string;
@@ -67,7 +65,6 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
   let MINDATE = new Date("1900-01-01 00:00:00");
   let MAXDATE = new Date();
 
-
   const { birth, email, gender, name, phone, type } = user!;
   const router = useRouter();
   const {
@@ -104,7 +101,6 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       if (watch("email") && !EMAIL_REGEX.test(watch("email")))
         return setError("email", { message: "이메일 형식에 맞지 않습니다" });
       if (isToken && !watch("token")) return setError("token", { message: "인증번호를 입력해주세요" });
-      // if (errors.email?.type === "checkCertificate") {
       const data = await checkEmailApi(isTokenInData);
       if (isToken && !watch("token")) {
         return setError("token", { type: "custom", message: "$$$" });
@@ -114,7 +110,6 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
         clearErrors();
       }
       setIsToken(true);
-      // }
     } catch (err: any) {
       if (isToken) {
         return setError("token", { type: "custom", message: `이메일에서 인증번호 확인 후\n입력해주세요!` });
@@ -162,7 +157,6 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
     if (user?.isCertified) {
       setIsToken(true);
     }
-    // else setError("email", { type: "checkCertificate", message: "이메일 인증을 완료해주세요!" });
     createErrors<ThirdRegisterForm>({
       user: user!,
       checkList: ["name", "birth", "gender", "email"],
@@ -179,8 +173,6 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
       setCurrentComment("마지막 단계에요!\n이용자님의 이름, 생일, 성별, 이메일을 알려주세요");
     }
   }, [isToken]);
-
-
   return (
     <FlexContainer>
       <InnerContainer>
@@ -212,16 +204,16 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                   motion={false}
                   width="280px"
                   name="birth"
-                  placeholder="YYYY-MM-DD"
+                  placeholder="YYYYMMDD"
                   register={register("birth", {
                     required: "생일을 입력해주세요",
                     validate: {
-                      regexBirth: value => BIRTH_REGEX.test(value) || `이용자님의 생년월일을 적어주세요!`,
+                      regexBirth: value => BIRTH_REGEX.test(value) || `생년월일을 올바르게 입력해주세요!`,
                       checkBirth: value => {
                         if (value.length === 10) {
                           let currentDate = new Date(value);
-                          if (currentDate <= MINDATE || currentDate >= MAXDATE) {
-                            return `이용자님의 생년월일을 적어주세요!`;
+                          if (currentDate <= MINDATE || currentDate >= MAXDATE || !checkBirth(value)) {
+                            return `생년월일을 올바르게 입력해주세요`;
                           }
                         }
                       },
@@ -276,7 +268,7 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
               <ButtonInInput
                 name="email"
                 disabled={isToken}
-                placeholder="toritori2022@naver.com"
+                placeholder="bodytory2022@naver.com"
                 register={register("email", {
                   required: "앗! 이메일 칸이 비어있어요!",
                   validate: {
@@ -300,37 +292,41 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
             </motion.div>
             {!user?.isCertified ? (
               isToken && (
-                <ButtonInInput
-                  name="token"
-                  placeholder="인증번호"
-                  register={register("token", {
-                    required: "인증번호를 입력해주세요",
-                    validate: { checkToken: value => /^[0-9]+$/.test(value) || "숫자만 입력해주세요" },
-                  })}
-                  activeFn={handleClickCheckEmail}
-                  buttonValue="인증번호 확인"
-                  nonSubmit
-                  isAuthenticationColumn
-                  error={errors.token}
-                />
+                <CheckTokenBox className="checkTokenBox">
+                  <ButtonInInput
+                    name="token"
+                    placeholder="인증번호"
+                    register={register("token", {
+                      required: "인증번호를 입력해주세요",
+                      validate: { checkToken: value => /^[0-9]+$/.test(value) || "숫자만 입력해주세요" },
+                    })}
+                    activeFn={handleClickCheckEmail}
+                    buttonValue="인증번호 확인"
+                    nonSubmit
+                    isAuthenticationColumn
+                    error={errors.token}
+                    isRegister
+                  />
+                </CheckTokenBox>
               )
             ) : (
               <CheckBoxInput label="인증 완료되었습니다" name="completion" checked disabled />
             )}
           </ThirdPageFormContents>
-          <PrevNextButtonBox>
-            <RoundButton nonSubmit size="custom" height="60px" bgColor="rgb(75, 80, 211)" onClick={handleClickPrevPage}>
+          <PrevSuccessButtonBox>
+            <PreviousButton sm type="button" bgColor="rgb(75, 80, 211)" onClick={handleClickPrevPage}>
               이전 단계
-            </RoundButton>
-            <RoundButton
-              size="custom"
-              width="360px"
+            </PreviousButton>
+            <SubmitButton
+              sm
               bgColor={theme.color.mintBtn}
-              disable={!checkEmptyObj(errors) || !user?.isCertified}
+              disable={!watch("name") || !watch("gender") || !watch("birth") || !user?.isCertified}
             >
-              {(!isErrorsMessage && user?.isCertified) ? "회원가입 완료" : "정보를 모두 입력해주세요"}
-            </RoundButton>
-          </PrevNextButtonBox>
+              {watch("name") && watch("gender") && watch("birth") && user?.isCertified
+                ? "회원가입 완료"
+                : "정보를 모두 입력해주세요"}
+            </SubmitButton>
+          </PrevSuccessButtonBox>
         </Form>
       </InnerContainer>
     </FlexContainer>
@@ -339,19 +335,71 @@ const ThirdPage = ({ user, setUser, setPage }: RegisterPageProps) => {
 
 export default ThirdPage;
 
+const PrevSuccessButtonBox = styled(PrevNextButtonBox)`
+  ${media.custom(770)} {
+    gap: 30px;
+  }
+  ${media.mobile} {
+    gap: 20px;
+  }
+`;
+
+const PreviousButton = styled(RoundedDefaultButton)`
+  width: 160px;
+  height: 60px;
+  font-size: 18px;
+  ${media.mobile} {
+    width: 60px;
+    height: 60px;
+    font-size: 12px;
+  }
+`;
+
+const SubmitButton = styled(RoundedDefaultButton)`
+  width: 360px;
+  height: 60px;
+  font-size: 18px;
+  ${media.mobile} {
+    width: 240px;
+    height: 60px;
+    font-size: 14px;
+  }
+`;
+
 const GenderBox = styled(Box)`
   gap: 26px;
   width: 220px;
   justify-content: flex-end;
+  ${media.mobile} {
+    justify-content: center;
+    margin: 20px auto 0;
+  }
 `;
 
 const ThirdPageFormContents = styled(FormContents)`
   > div + div {
     margin-top: 30px;
   }
+  ${media.mobile} {
+    > div + div {
+      margin-top: 20px;
+    }
+    .checkTokenBox {
+      margin-top: 10px;
+    }
+  }
 `;
 
 const SpaceBetweenRowBox = styled(Row)`
   width: 500px;
   margin: 0 auto;
+  ${media.mobile} {
+    min-width: 287px;
+    width: 79.8611vw;
+    display: block;
+  }
+`;
+
+const CheckTokenBox = styled.div`
+  margin-top: 30px;
 `;

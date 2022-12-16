@@ -1,15 +1,11 @@
-import Input from "@components/Input";
-
-import { NextPage } from "next";
+import Input from "@components/layout/input/Input";
+import { GetServerSidePropsContext, NextPage } from "next";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { ResponseType } from "@utils/server/withHandler";
-import Link from "next/link";
 import customApi from "utils/client/customApi";
 import { useMutation } from "@tanstack/react-query";
 import { HELP_FIND_PASSWORD } from "constant/queryKeys";
-import { RoundButton } from "@components/buttons/Button";
 import { PASSWORD_REGEX } from "constant/regex";
 import MessageBox from "@components/MessageBox";
 import { FinalCommentBox } from "./find-id";
@@ -17,7 +13,10 @@ import { theme } from "@styles/theme";
 import { checkEmptyObj } from "@utils/client/checkEmptyObj";
 import styled from "styled-components";
 import { FlexContainer, InnerContainer } from "@styles/Common";
-import Header from "@components/header/Header";
+import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
+import { useRecoilValue } from "recoil";
+import { accountIdForFindPasswordAtom } from "atoms/atoms";
 
 interface ResetForm {
   password: string;
@@ -26,6 +25,7 @@ interface ResetForm {
 
 const Reset: NextPage = () => {
   const router = useRouter();
+  const accountIdForFindPassword = useRecoilValue(accountIdForFindPasswordAtom);
   const { putApi } = customApi("/api/auth/help/reset");
   const [currentComment, setCurrentComment] = useState("인증이 완료되었어요\n새로운 비밀번호를 설정해주세요");
   const [isSuccess, setIsSuccess] = useState(false);
@@ -45,7 +45,7 @@ const Reset: NextPage = () => {
   } = useForm<ResetForm>({ mode: "onChange" });
 
   const onValid = (resetForm: ResetForm) => {
-    mutateAsync({ accountId: router.query.accountId, password: resetForm.password });
+    mutateAsync({ accountId: accountIdForFindPassword, password: resetForm.password });
   };
 
   const checkPassword = () => {
@@ -58,10 +58,10 @@ const Reset: NextPage = () => {
   const isErrorsMessage = errors.password?.message || errors.passwordConfirm?.message;
 
   useEffect(() => {
-    if (router.asPath !== "/auth/help/reset" || !router.query.accountId) {
+    if (!accountIdForFindPassword) {
       router.push("/auth/login");
     }
-  }, [router]);
+  }, [accountIdForFindPassword]);
   return (
     <Container>
       <InnerContainer>
@@ -73,7 +73,7 @@ const Reset: NextPage = () => {
                 <Input
                   name="password"
                   type="password"
-                  placeholder="●●●●●●"
+                  placeholder="••••••"
                   register={register("password", {
                     required: true,
                     validate: {
@@ -105,7 +105,7 @@ const Reset: NextPage = () => {
                     <Input
                       name="passwordConfirm"
                       type="password"
-                      placeholder="●●●●●●"
+                      placeholder="••••••"
                       register={register("passwordConfirm", {
                         required: true,
                         validate: {
@@ -116,13 +116,13 @@ const Reset: NextPage = () => {
                     />
                   </Seperation>
                   <Seperation>
-                    <RoundButton
-                      size="lg"
+                    <RoundedDefaultButton
+                      lg
                       bgColor={theme.color.mintBtn}
                       disable={!checkEmptyObj(errors) || !watch("password") || !watch("passwordConfirm")}
                     >
                       비밀번호 재설정 완료
-                    </RoundButton>
+                    </RoundedDefaultButton>
                   </Seperation>
                 </>
               )}
@@ -136,11 +136,9 @@ const Reset: NextPage = () => {
                 <p>새로운 비밀번호로 로그인해주세요</p>
               </MessageBox>
               <div className="linkButton">
-                <Link href="/auth/login">
-                  <RoundButton size="lg" bgColor={theme.color.mintBtn} onClick={() => router.push("/auth/login")}>
-                    로그인하러 가기
-                  </RoundButton>
-                </Link>
+                <RoundedDefaultButton lg bgColor={theme.color.mintBtn} onClick={() => router.push("/auth/login")}>
+                  로그인하러 가기
+                </RoundedDefaultButton>
               </div>
             </div>
           </FinalCommentBox>
@@ -150,7 +148,11 @@ const Reset: NextPage = () => {
   );
 };
 export default Reset;
-
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});
 const Container = styled(FlexContainer)``;
 
 const Seperation = styled.div`

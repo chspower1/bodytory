@@ -21,7 +21,6 @@ const createEmailCheckToken = async (email: string) => {
     },
   });
   sendMail(email, payload, "이메일 인증");
-  console.log(payload);
 };
 
 const checkEmail = async (email: string, type: UserType) => {
@@ -47,8 +46,7 @@ const checkToken = async (email: string, token: string) => {
 
   if (deleteToken.count <= 0) throw new Error("인증번호를 확인해주세요");
 };
-
-async function handler(req: NextApiRequest, res: NextApiResponse) {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { email, token, type }: HelpForm = req.body;
   if (!email) return res.status(400).end();
   if (!token) {
@@ -71,6 +69,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       res.status(403).send(errorMessage);
     }
   }
-}
+};
 
 export default withApiSession(withHandler({ methods: ["POST"], handler, isPrivate: false }));

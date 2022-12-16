@@ -1,11 +1,10 @@
 import withHandler from "@utils/server/withHandler";
 import { withApiSession } from "@utils/server/withSession";
 import { NextApiRequest, NextApiResponse } from "next";
-import bcrypt from "bcrypt";
 import client from "utils/server/client";
 import { passwordCompare } from "utils/server/passwordHelper";
 
-async function handler(req: NextApiRequest, res: NextApiResponse) {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { password, type } = req.body;
   const { user } = req.session;
 
@@ -47,7 +46,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 
   return res.status(401).send("탈퇴 오류");
-}
+};
 
 export default withApiSession(
   withHandler({

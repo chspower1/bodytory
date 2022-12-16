@@ -1,36 +1,22 @@
-import NaverLoginBtn from "@components/buttons/NaverBtn";
-import { useMutation, useQueries, useQueryClient } from "@tanstack/react-query";
+import NaverLoginBtn from "@components/layout/buttons/NaverBtn";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
 import { USER_LOGIN, USE_USER } from "constant/queryKeys";
 import { useRouter } from "next/router";
-import React, { useEffect, useRef } from "react";
-import styled, { keyframes } from "styled-components";
-import { useSetRecoilState } from "recoil";
-import Header from "@components/header/Header";
+import React from "react";
+import styled from "styled-components";
 import LoadingDot from "@components/LoadingDot";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
+import { GetServerSidePropsContext, NextPage } from "next";
+import { AnalysisWrapper, Tory } from "pages/users/records/write/analysis";
+import { Col, FlexContainer, ToryText } from "@styles/Common";
 
-const LoadingBox = styled.div`
-  width: 100%;
-  height: 100%;
-  font-size: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  font-weight: bolder;
-`;
-
-const ButtonBox = styled.div`
-  display: none;
-`;
-
-const Loading = () => {
+const Loading: NextPage = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const { postApi } = customApi("/api/auth/login");
   const { mutate } = useMutation([USER_LOGIN], postApi, {
-    onError(error: any) {
-    },
+    onError(error: any) {},
     onSuccess(data) {
       if (data.isNew) {
         return router.push(
@@ -47,15 +33,29 @@ const Loading = () => {
     },
   });
   return (
-    <LoadingBox>
-      <div>
-        유저 정보 조회중입니다<LoadingDot/>
-      </div>
+    <AnalysisWrapper>
+      <FlexContainer>
+        <Col>
+          <ToryText color="#FFF">
+            유저정보 조회중입니다
+            <LoadingDot />
+          </ToryText>
+          <Tory />
+        </Col>
+      </FlexContainer>
       <ButtonBox>
-        <NaverLoginBtn mutate={mutate} size={"sm"} kind={"login"} />
+        <NaverLoginBtn mutate={mutate} kind={"login"} />
       </ButtonBox>
-    </LoadingBox>
+    </AnalysisWrapper>
   );
 };
-
 export default Loading;
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});
+
+const ButtonBox = styled.div`
+  display: none;
+`;

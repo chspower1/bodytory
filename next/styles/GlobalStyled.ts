@@ -1,5 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 import { reset } from "styled-reset";
+import { media } from "./theme";
 
 const GlobalStyled = createGlobalStyle`
 ${reset}
@@ -11,7 +12,6 @@ ${reset}
 
   html,
   body {
-    background: ${props => props.theme.color.darkBg};
     font-optical-sizing: auto;
     font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
     font-size: ${props => props.theme.font.size.bodyText};
@@ -20,12 +20,6 @@ ${reset}
     font-stretch: normal;
     line-height: 1.6;
     color: ${props => props.theme.color.text};
-  }
-
-  // 현재는 pc용 웹서비스 (모바일 반응형 X)
-  body {
-    /* min-width: 1460px; */
-    // overflow-y: scroll;
   }
 
   a {
@@ -41,7 +35,6 @@ ${reset}
   a:link {
     color: inherit;
     text-decoration: none;
-    background-color: transparent;
   }
   
   button,
@@ -78,7 +71,6 @@ ${reset}
     -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  background: url("/static/icon/select_arrow.png") no-repeat 97% 50%/15px auto;
   background-color: white;
   
   }
@@ -108,18 +100,9 @@ ${reset}
     max-width: 100%;
   }
 
-  input:-webkit-autofill,
-  input:-webkit-autofill:hover,
-  input:-webkit-autofill:focus,
-  input:-webkit-autofill:active {
-    transition: background-color 5000s ease-in-out 0s;
-    -webkit-transition: background-color 9999s ease-out;
-    -webkit-box-shadow: 0 0 0px 1000px transparent inset,  8px 8px 24px rgba(49, 54, 167, 0.2) !important;
-    -webkit-text-fill-color: #fff !important;
-  }
-
   ::-webkit-scrollbar {
     width: 10px;
+    background-color: "#e2e6ff";
   }
 
   ::-webkit-scrollbar-thumb {
@@ -132,6 +115,7 @@ ${reset}
     background-color: "#e2e6ff";
   }
 
+
   .blind {
     overflow: hidden;
     border: 0;
@@ -142,6 +126,18 @@ ${reset}
     display: inline-block;
   }
 
+  
+  ${media.tablet} {
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .gs_reveal {
+    opacity: 0;
+    visibility: hidden;
+    will-change: transform, opacity;
+  }
 `;
 
 export default GlobalStyled;

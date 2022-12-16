@@ -3,10 +3,8 @@ import client from "utils/server/client";
 import withHandler from "@utils/server/withHandler";
 import { withApiSession } from "@utils/server/withSession";
 import { HelpForm } from "pages/auth/help/find-pw";
-import { getPayload } from "@utils/client/payload";
 import sendMail from "@utils/server/sendMail";
 import { createToken } from "@utils/server/createToken";
-import smtpTransport from "@utils/server/email";
 
 const haveUser = async (email: string) => {
   const user = await client.user.findFirst({
@@ -43,7 +41,8 @@ const foundUser = async (email: string, token: string) => {
   return foundUser;
 };
 
-async function handler(req: NextApiRequest, res: NextApiResponse) {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+
   const { email, token }: HelpForm = req.body;
   if (!email) {
     return res.status(400).end();
@@ -70,6 +69,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       res.status(403).send(errorMessage);
     }
   }
-}
+};
 
 export default withApiSession(withHandler({ methods: ["POST"], handler, isPrivate: false }));

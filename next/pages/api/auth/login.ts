@@ -1,12 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import client from "utils/server/client";
-import withHandler, { ResponseType } from "@utils/server/withHandler";
+import withHandler from "@utils/server/withHandler";
 import { withApiSession } from "@utils/server/withSession";
 import { LoginForm } from "pages/auth/login";
-import bcrypt from "bcrypt";
 import { passwordCompare } from "utils/server/passwordHelper";
 
-async function handler(req: NextApiRequest, res: NextApiResponse) {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { type } = req.body;
 
   try {
@@ -25,10 +24,22 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     const errorMessage = error instanceof Error ? error.message : (<Object>error).toString();
     return res.status(401).send(errorMessage);
   }
-}
+};
 
 async function loginByOrigin(req: NextApiRequest, res: NextApiResponse) {
   const { accountId, password }: LoginForm = req.body;
+  if (accountId === "bodytory123") {
+    await client.testAccountCount.update({
+      where: {
+        id: 1,
+      },
+      data: {
+        count: {
+          increment: 1,
+        },
+      },
+    });
+  }
   let foundUser = await client.user.findFirst({
     where: {
       accountId,

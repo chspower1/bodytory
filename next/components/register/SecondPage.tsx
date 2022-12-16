@@ -1,19 +1,17 @@
-import Input from "@components/Input";
+import Input from "@components/layout/input/Input";
 import { useForm } from "react-hook-form";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { RegisterForm } from "pages/auth/register";
 import customApi from "utils/client/customApi";
-import { CircleButton, RoundButton } from "@components/buttons/Button";
-import { Box, Col, Container, FlexContainer, InnerContainer, Row } from "@styles/Common";
+import { FlexContainer, InnerContainer, Row } from "@styles/Common";
 import MessageBox from "@components/MessageBox";
 import { ACCOUNT_ID_REGEX, PASSWORD_REGEX } from "constant/regex";
 import { PrevNextButtonBox, Form, FormContents } from "./FirstPage";
-import { theme } from "@styles/theme";
-import { checkEmptyObj } from "@utils/client/checkEmptyObj";
-import { createErrors } from "@utils/client/createErrors";
+import { media, theme } from "@styles/theme";
 import styled from "styled-components";
 import { LoginInputAreaBox } from "pages/auth/login";
 import { AnimatePresence } from "framer-motion";
+import { CircleDefaultButton, RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 
 interface SecondRegisterForm {
   accountId: string;
@@ -25,33 +23,6 @@ interface RegisterPageProps {
   setUser: Dispatch<SetStateAction<RegisterForm | undefined>>;
   setPage: Dispatch<SetStateAction<number>>;
 }
-const KoreanName = {
-  accountId: "아이디",
-  password: "비밀번호",
-  passwordConfirm: "비밀번호 확인",
-};
-
-// 안쓸듯
-const SecondRegisterPageErrorMessage = {
-  accountId: {
-    required: "",
-    minLength: "",
-    validate: {
-      checkAccountId: "아이디는 6자리 이상\n영문 대소문자, 숫자를 입력해주세요",
-      checkIsNotDuplicate: "아이디 중복 확인을 해주세요",
-    },
-  },
-  password: {
-    required: "비밀번호를 입력해주세요!",
-    validate: "비밀번호는 6자리 이상\n영문 대소문자, 숫자를 조합해서 입력해주세요",
-  },
-  passwordConfirm: {
-    required: "비밀번호를 다시 한번 입력해주세요!",
-    validate: {
-      checkPassword: "비밀번호가 일치하지 않아요!\n비밀번호를 다시 확인해주세요",
-    },
-  },
-};
 
 const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
   const {
@@ -139,12 +110,11 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
             <LoginInputAreaBox>
               <Input
                 name="accountId"
-                placeholder="toritori2022"
+                placeholder="bodytory2022"
                 register={register("accountId", {
                   required: true,
                   validate: {
-                    checkAccountId: value =>
-                      ACCOUNT_ID_REGEX.test(value) || "아이디는 6자리 이상\n영문 대소문자, 숫자를 입력해주세요",
+                    checkAccountId: value => ACCOUNT_ID_REGEX.test(value) || "아이디는 6글자이상으로 입력해주세요",
                   },
                   onChange() {
                     setUser(prev => ({ ...prev!, isNotDuplicate: false }));
@@ -158,9 +128,9 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
 
               {(!user?.isNotDuplicate || !watch("accountId")) && (
                 <ButtonBox>
-                  <RoundButton
-                    nonSubmit
-                    size="sm"
+                  <RoundedDefaultButton
+                    type="button"
+                    sm
                     bgColor={
                       errors.accountId?.message?.includes("다른아이디") ? theme.color.error : theme.color.mintBtn
                     }
@@ -168,7 +138,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                     onClick={handleClickCheckAccountId}
                   >
                     중복확인
-                  </RoundButton>
+                  </RoundedDefaultButton>
                 </ButtonBox>
               )}
 
@@ -177,7 +147,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                   <Input
                     name="password"
                     type="password"
-                    placeholder="●●●●●●"
+                    placeholder="••••••"
                     register={register("password", {
                       required: true,
                       validate: {
@@ -210,7 +180,7 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
                   <Input
                     type="password"
                     name="passwordConfirm"
-                    placeholder="●●●●●●"
+                    placeholder="••••••"
                     register={register("passwordConfirm", {
                       required: true,
                       validate: {
@@ -224,21 +194,21 @@ const SecondPage = ({ user, setUser, setPage }: RegisterPageProps) => {
             </LoginInputAreaBox>
           </FormContents>
           <PrevNextButtonBox>
-            <CircleButton
-              nonSubmit
+            <CircleDefaultButton
+              type="button"
               bgColor="rgb(75, 80, 211)"
               onClick={() => {
                 pageReset();
               }}
             >
               이전 단계
-            </CircleButton>
-            <CircleButton
+            </CircleDefaultButton>
+            <CircleDefaultButton
               bgColor={theme.color.mintBtn}
-              disable={/* !checkEmptyObj(error) */ currentInputIdx !== 4 || Boolean(isErrorsMessage)}
+              disable={currentInputIdx !== 4 || Boolean(isErrorsMessage)}
             >
               다음 단계
-            </CircleButton>
+            </CircleDefaultButton>
           </PrevNextButtonBox>
         </Form>
       </InnerContainer>
@@ -250,4 +220,7 @@ export default SecondPage;
 
 const ButtonBox = styled(Row)`
   margin-top: 80px;
+  ${media.mobile} {
+    margin-top: 30px;
+  }
 `;

@@ -1,19 +1,17 @@
 import { Col, Row } from "@styles/Common";
 import Link from "next/link";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
-import settingIcon from "@public/static/icon/settingIcon.png";
+import settingIcon from "@src/assets/icons/settingIcon.png";
 import HamburgerMenuButton from "./HamburgerMenuButton";
 import { useRouter } from "next/router";
-import LogoutBtn from "@components/buttons/LogoutBtn";
-import toriLink from "@public/static/icon/toriLink.png";
-import menuLogo from "@public/static/icon/menuLogo.png";
-import useUser from "@hooks/useUser";
-
+import LogoutBtn from "@components/layout/buttons/LogoutBtn";
+import toriLink from "@src/assets/icons/toriLink.png";
+import menuLogo from "@src/assets/icons/menuLogo.png";
+import { media } from "@styles/theme";
 
 const SideMenu = () => {
   const router = useRouter();
-  const dimRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [menuList, _] = useState([
@@ -32,6 +30,10 @@ const SideMenu = () => {
     {
       subject: "내 병원 관리하기",
       link: "/users/my-hospital",
+    },
+    {
+      subject: "병원 검색하기",
+      link: "/users/my-hospital/find",
     },
   ]);
 
@@ -58,15 +60,17 @@ const SideMenu = () => {
           <SideMenuBox>
             <InnerBox>
               <ContentsBox>
-                <Link href="/">
+                <Link href="/" onClick={handleClickCloseMenu}>
                   <LogoBox>
                     <div className="logoBg"></div>
                   </LogoBox>
                 </Link>
                 <div className="goEdit">
-                  <Link href="/users/profile/edit">
-                    <i />
-                    계정 설정
+                  <Link href="/users" onClick={handleClickCloseMenu}>
+                    <span>
+                      <i />
+                      계정 설정
+                    </span>
                   </Link>
                 </div>
                 <Nav>
@@ -89,10 +93,10 @@ const SideMenu = () => {
             <Footer>
               <FooterUl>
                 <li>
-                  <Link href="">바디토리 소개</Link>
+                  <Link href="/about/bodytory">바디토리 소개</Link>
                 </li>
                 <li>
-                  <Link href="">팀 소개</Link>
+                  <Link href="/about/team">팀 소개</Link>
                 </li>
                 <li>© 2022. BODYTORY</li>
               </FooterUl>
@@ -119,7 +123,20 @@ const LogoBox = styled.div`
   .logoBg {
     width: 190px;
     height: 70px;
-    background: url(${menuLogo.src}) no-repeat center center;
+    background: url(${menuLogo.src}) no-repeat center center/contain;
+  }
+
+  ${media.custom(1280)} {
+    .logoBg {
+      width: 170px;
+    }
+  }
+
+  ${media.mobile} {
+    .logoBg {
+      width: 130px;
+      height: 50px;
+    }
   }
 `;
 
@@ -137,23 +154,25 @@ const Dim = styled.div<{ isOpen: boolean }>`
     isOpen &&
     css`
       & + div {
-        right: 0;
+        transform: translate(0, 0);
       }
     `}
 `;
 
 const SideMenuBox = styled.div`
   position: absolute;
-  right: -500px;
+  right: 0;
   bottom: 0;
+  transform: translate(100%, 0);
   z-index: 11;
   display: flex;
-  width: 500px;
+  width: 90%;
+  max-width: 500px;
   height: 97%;
   flex-direction: column;
   background: ${({ theme }) => theme.color.darkBg};
   border-radius: 30px 0 0 30px;
-  transition: right 0.6s;
+  transition: transform 0.6s;
   overflow: hidden;
   color: #fff;
   a {
@@ -166,21 +185,69 @@ const InnerBox = styled(Col)`
   height: 100%;
   padding: 30px 40px 40px;
   justify-content: space-between;
+
+  ${media.mobile} {
+    padding: 20px 30px 30px;
+  }
 `;
 
 const ContentsBox = styled.div`
   width: 100%;
+
   .goEdit {
     text-align: right;
+
     a {
+      position: relative;
       display: inline-flex;
       align-items: center;
+
+      span {
+        position: relative;
+        z-index: 5;
+        display: flex;
+        align-items: center;
+      }
+
+      &:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(to top, rgba(61, 66, 191, 0.5) 40%, transparent 40%);
+        z-index: 1;
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+
+      &:hover {
+        &:before {
+          opacity: 1;
+        }
+      }
+
       i {
-        width: 22px;
-        height: 22px;
+        display: block;
+        width: 20px;
+        height: 20px;
         background: url(${settingIcon.src}) no-repeat center center;
         background-size: cover;
-        margin-right: 10px;
+        margin-right: 6px;
+      }
+    }
+  }
+
+  ${media.mobile} {
+    .goEdit {
+      font-size: 16px;
+
+      a {
+        i {
+          width: 18px;
+          height: 18px;
+        }
       }
     }
   }
@@ -192,7 +259,7 @@ const ButtonBox = styled.div`
 `;
 
 const Nav = styled.nav`
-  padding-top: 100px;
+  padding-top: 80px;
   ul {
     margin-left: 36px;
     li {
@@ -202,14 +269,14 @@ const Nav = styled.nav`
         background: url(${toriLink.src}) no-repeat center center;
         width: 50px;
         height: 50px;
-        margin-bottom: 10px;
+        margin: 0 0 10px 10px;
       }
       & + li {
-        margin-top: 50px;
+        margin-top: 30px;
       }
       a {
         position: relative;
-        font-size: 32px;
+        font-size: 30px;
         font-weight: bolder;
         padding-bottom: 10px;
         letter-spacing: -2px;
@@ -230,12 +297,40 @@ const Nav = styled.nav`
       }
     }
   }
+
+  ${media.custom(1280)} {
+    padding-top: 60px;
+
+    ul {
+      li {
+        & + li {
+          margin-top: 20px;
+        }
+
+        a {
+          font-size: 28px;
+        }
+      }
+    }
+  }
+
+  ${media.mobile} {
+    padding-top: 40px;
+
+    ul {
+      li {
+        a {
+          font-size: 24px;
+        }
+      }
+    }
+  }
 `;
 
 const Footer = styled.div`
   flex-shrink: 0;
   padding: 18px 0;
-  background: #4B50D3;
+  background: #4b50d3;
 `;
 const FooterUl = styled(Row)`
   justify-content: space-between;
@@ -244,5 +339,10 @@ const FooterUl = styled(Row)`
   font-size: 14px;
   li {
     list-style: none;
+  }
+
+  ${media.mobile} {
+    font-size: 12px;
+    margin-left: 20px;
   }
 `;

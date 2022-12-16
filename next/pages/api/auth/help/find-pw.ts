@@ -3,7 +3,6 @@ import client from "utils/server/client";
 import withHandler from "@utils/server/withHandler";
 import { withApiSession } from "@utils/server/withSession";
 import { HelpForm } from "pages/auth/help/find-pw";
-import { getPayload } from "@utils/client/payload";
 import sendMail from "@utils/server/sendMail";
 import { createToken } from "@utils/server/createToken";
 
@@ -33,10 +32,13 @@ const checkToken = async (accountId: string, token: string) => {
   if (findToken.count <= 0) throw new Error("인증번호를 확인해주세요");
 };
 
-async function handler(req: NextApiRequest, res: NextApiResponse) {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { user } = req.session;
   const { token, accountId }: HelpForm = req.body;
   if (!accountId) return res.status(400).end();
-
+  if (user?.id === 35) {
+    return res.status(204).end();
+  }
   if (!token) {
     try {
       const user = await checkId(accountId);
@@ -58,6 +60,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       res.status(403).send(errorMessage);
     }
   }
-}
+};
 
 export default withApiSession(withHandler({ methods: ["POST"], handler, isPrivate: false }));

@@ -1,6 +1,5 @@
 import BodyNavigator from "@components/records/BodyNavigator";
 import styled from "styled-components";
-
 import { useRouter } from "next/router";
 import { bodyPartType } from "types/bodyParts";
 import { Dispatch, SetStateAction } from "react";
@@ -39,7 +38,7 @@ function SelectPart({ selectedBodyPart, setSelectedBodyPart }: SelectBodyPartPro
 
 export const SelectPartWarp = styled.div`
   position: relative;
-  width: 37.5%;
+  width: 100%;
   height: 100%;
 `;
 

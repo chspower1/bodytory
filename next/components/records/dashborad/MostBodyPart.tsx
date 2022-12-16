@@ -1,6 +1,7 @@
 import { Position } from "@prisma/client";
 import { useCallback, useEffect, useState } from "react";
-import { PieChart, Pie, Sector } from "recharts";
+import { PieChart, Pie, Sector, ResponsiveContainer } from "recharts";
+import styled from "styled-components";
 import { KoreanPosition } from "types/write";
 
 interface ThreeMonthResponse {
@@ -12,13 +13,6 @@ interface ThreeMonthResponse {
 interface MostBodyPartChartProps {
   chartData: ThreeMonthResponse[] | null;
   mostPartIdx: number[] | null;
-}
-
-interface PieChartData {
-  name: Position;
-  value: number;
-  user: number;
-  hospital: number;
 }
 
 const renderActiveShape = (props: any) => {
@@ -77,22 +71,32 @@ const MostBodyPart = ({ chartData, mostPartIdx }: MostBodyPartChartProps) => {
   );
 
   return (
-    <PieChart width={360} height={360}>
-      <Pie
-        data={pieChartData}
-        activeIndex={activeIndex}
-        activeShape={renderActiveShape}
-        cx={180}
-        cy={170}
-        innerRadius={130}
-        outerRadius={170}
-        fill="#D9DEFF"
-        paddingAngle={pieChartData && pieChartData.length < 2 ? 0 : 2}
-        dataKey="value"
-        onMouseEnter={onPieEnter}
-      />
-    </PieChart>
+    <ChartInnerBox>
+      <ResponsiveContainer width="100%" height="100%">
+        <PieChart>
+          <Pie
+            data={pieChartData}
+            activeIndex={activeIndex}
+            activeShape={renderActiveShape}
+            cx="50%"
+            cy="50%"
+            innerRadius="74%"
+            outerRadius="100%"
+            fill="#D9DEFF"
+            paddingAngle={pieChartData && pieChartData.length < 2 ? 0 : 2}
+            dataKey="value"
+            onMouseEnter={onPieEnter}
+          />
+        </PieChart>
+      </ResponsiveContainer>
+    </ChartInnerBox>
   );
 };
+
+const ChartInnerBox = styled.div`
+  width: 100%;
+  max-width: 360px;
+  height: 100%;
+`;
 
 export default MostBodyPart;

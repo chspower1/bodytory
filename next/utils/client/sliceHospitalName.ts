@@ -8,16 +8,12 @@ const sliceName = (name: string) => {
     });
   }
 
-  // const resplit = split.join("").split("재단").join("").split("협회").join("").split("본부");
   EXCEOPTION_WORD.forEach(word => {
     sliceResult.forEach(elem => {
       if (elem.includes(word)) {
         sliceResult = seperation(sliceResult, word);
       }
     });
-    // if (sliceResult[0].includes(word)) {
-    //   sliceResult = pipe(sliceResult, word);
-    // }
   });
 
   if (sliceResult.length === 1) return sliceResult;

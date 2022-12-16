@@ -1,13 +1,17 @@
-import { RoundButton } from "@components/buttons/Button";
-import Header from "@components/header/Header";
 import MessageBox from "@components/MessageBox";
-import { Col, FlexContainer, InnerContainer, WhiteText } from "@styles/Common";
-import { theme } from "@styles/theme";
-import { NextPage } from "next";
+import { FlexContainer, InnerContainer } from "@styles/Common";
+import { media, theme } from "@styles/theme";
+import { GetServerSidePropsContext, NextPage } from "next";
 import Link from "next/link";
 import { FinalCommentBox } from "../help/find-id";
+import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
+import { useRouter } from "next/router";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
+import ToryWhiteAnim from "@components/lotties/ToryWhiteAnim";
+import styled from "styled-components";
 
 const SuccessPage: NextPage = () => {
+  const router = useRouter();
   return (
     <FlexContainer>
       <InnerContainer>
@@ -18,12 +22,13 @@ const SuccessPage: NextPage = () => {
               <p>바디토리를 시작해볼까요?</p>
             </MessageBox>
             <div className="linkButton">
-              <Link href="/">
-                <RoundButton size="lg" bgColor={theme.color.mintBtn}>
-                  바디토리 시작하기
-                </RoundButton>
-              </Link>
+              <RoundedDefaultButton lg bgColor={theme.color.mintBtn} onClick={()=> router.push("/")}>
+                바디토리 시작하기
+              </RoundedDefaultButton>
             </div>
+            <ToryMotion>
+              <ToryWhiteAnim segmentIndex={4} />
+            </ToryMotion>
           </div>
         </FinalCommentBox>
       </InnerContainer>
@@ -31,3 +36,18 @@ const SuccessPage: NextPage = () => {
   );
 };
 export default SuccessPage;
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});
+
+const ToryMotion = styled.div`
+  width: 420px;
+  height: 420px;
+
+  ${media.mobile}{
+    width: 280px;
+    height: 280px;
+  }
+`;

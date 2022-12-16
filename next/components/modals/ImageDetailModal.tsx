@@ -1,13 +1,13 @@
-import { RoundButton } from "@components/buttons/Button";
-import { WhiteBoldText, WhiteText } from "@styles/Common";
+import { WhiteText } from "@styles/Common";
 import { Dim, ModalWrapper, MODAL_VARIANTS } from "@styles/ModalStyled";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import ReactDOM from "react-dom";
+import { Dispatch, SetStateAction } from "react";
 import styled, { css } from "styled-components";
-import Next from "/public/static/icon/right_bracket.svg";
-import Previus from "/public/static/icon/left_bracket.svg";
+import Next from "@src/assets/icons/right_bracket.svg";
+import Previus from "@src/assets/icons/left_bracket.svg";
+import usePortal from "@hooks/usePortal";
+import { media } from "@styles/theme";
 interface ImageDetailModalProps {
   show: number;
   onClose: () => void;
@@ -20,10 +20,8 @@ interface ImageDetailModalProps {
 }
 
 const ImageDetailModal = ({ show, onClose, url, index, imagesLength, setShow }: ImageDetailModalProps) => {
-  const [isBrowser, setIsBrowser] = useState(false);
-  useEffect(() => {
-    setIsBrowser(true);
-  }, []);
+  const Portal = usePortal();
+
   const modalContent = (
     <AnimatePresence>
       {show === index && (
@@ -32,18 +30,6 @@ const ImageDetailModal = ({ show, onClose, url, index, imagesLength, setShow }: 
           <ModalContainer flex width="0px" height="0px">
             <ImageBox>
               <Image src={url} fill alt="사진" objectFit="scale-down" />
-              {/* <BtnBox>
-                <RoundButton
-                  size="sm"
-                  nonSubmit
-                  onClick={() => {
-                    console.log(show);
-                    onClose();
-                  }}
-                >
-                  닫기
-                </RoundButton>
-              </BtnBox> */}
               <CurrentPage>
                 {index + 1} / {imagesLength}
               </CurrentPage>
@@ -63,7 +49,7 @@ const ImageDetailModal = ({ show, onClose, url, index, imagesLength, setShow }: 
       )}
     </AnimatePresence>
   );
-  return  isBrowser ? ReactDOM.createPortal(modalContent, document.getElementById("modal-root") as HTMLElement) : null;
+  return Portal({ children: modalContent });
 };
 export default ImageDetailModal;
 const ModalContainer = styled(motion.div).attrs({
@@ -79,7 +65,7 @@ const ModalContainer = styled(motion.div).attrs({
   z-index: 2000;
   width: ${props => (props.width ? props.width : "650px")};
   height: ${props => (props.height ? props.height : "350px")};
-  min-width: 400px;
+  min-width: 360px;
   background-color: white;
   border-radius: 30px;
   margin: auto;
@@ -95,16 +81,35 @@ const ModalContainer = styled(motion.div).attrs({
 const ImageBox = styled.div`
   position: relative;
   padding: 350px;
+  ${media.mobile} {
+    padding: 160px;
+  }
 `;
 const NextBtn = styled.button`
   position: absolute;
   right: -100px;
   color: white;
+  ${media.custom(950)} {
+    width: 30px;
+    right: 260px;
+    bottom: -48px;
+  }
+  ${media.mobile} {
+    right: 60px;
+  }
 `;
 const PreviusBtn = styled.button`
   position: absolute;
   left: -100px;
   color: white;
+  ${media.custom(950)} {
+    width: 30px;
+    left: 260px;
+    bottom: -48px;
+  }
+  ${media.mobile} {
+    left: 60px;
+  }
 `;
 const CurrentPage = styled(WhiteText)`
   position: absolute;

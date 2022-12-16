@@ -1,4 +1,3 @@
-import { RoundButton } from "@components/buttons/Button";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { bodyPartType } from "types/bodyParts";
@@ -10,7 +9,9 @@ import { useRouter } from "next/router";
 import { Position } from "@prisma/client";
 import { useRecoilState } from "recoil";
 import { currentBodyPosition } from "atoms/atoms";
-import { motion } from "framer-motion";
+import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
+import rotateIcon from "@src/assets/icons/rotateIcon.png";
+import { media } from "@styles/theme";
 
 export interface SelectBodyPartProps {
   selectedBodyPart: bodyPartType;
@@ -52,49 +53,54 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage, isH
   const [currentPos, setCurrentPos] = useState("");
 
   useEffect(() => {
-    if(currentPosition) setCurrentPos(currentPosition);
+    if (currentPosition) setCurrentPos(currentPosition);
   }, [currentPosition]);
 
-
   return (
-    <CustomContainer
-      initial={{ x: 500 }}
-      animate={{ x: 0 }}
-      transition={{ duration: 0.7, type: "tween", ease: "easeOut" }}
-      isWritePage={isWritePage}
-    >
+    <CustomContainer isWritePage={isWritePage}>
       {currentPos !== "face" ? (
-        <ButtonsBox>
-          <RoundButton
-            width="90px"
-            height="50px"
-            onClick={() => setCurrentPosition("front")}
-            bgColor={currentPos !== "front" ? "rgb(188, 197, 255)" : undefined}
-          >
-            앞
-          </RoundButton>
-          <RoundButton
-            width="90px"
-            height="50px"
-            onClick={() => setCurrentPosition("back")}
-            bgColor={currentPos !== "back" ? "rgb(188, 197, 255)" : undefined}
-          >
-            뒤
-          </RoundButton>
-        </ButtonsBox>
-      ) : (
-        <ButtonsBox>
-          {currentPos !== "face" || (
-            <RoundButton
-              width="90px"
-              height="50px"
-              bgColor={currentPos === "face" ? "rgb(188, 197, 255)" : undefined}
+        <>
+          <ButtonsBox>
+            <FrontBackButton
               onClick={() => setCurrentPosition("front")}
+              bgColor={currentPos !== "front" ? "rgb(188, 197, 255)" : undefined}
             >
-              몸
-            </RoundButton>
-          )}
-        </ButtonsBox>
+              앞
+            </FrontBackButton>
+            <FrontBackButton
+              onClick={() => setCurrentPosition("back")}
+              bgColor={currentPos !== "back" ? "rgb(188, 197, 255)" : undefined}
+            >
+              뒤
+            </FrontBackButton>
+          </ButtonsBox>
+          <MobileFrontBackButton onClick={() => setCurrentPosition(prev => (prev === "back" ? "front" : "back"))}>
+            <div className="rotateImgBg" />
+          </MobileFrontBackButton>
+        </>
+      ) : (
+        <>
+          <MobileFrontBackButton>
+            {currentPos !== "face" || (
+              <FrontBackButton
+                bgColor={currentPos === "face" ? "rgb(188, 197, 255)" : undefined}
+                onClick={() => setCurrentPosition("front")}
+              >
+                몸
+              </FrontBackButton>
+            )}
+          </MobileFrontBackButton>
+          <ButtonsBox>
+            {currentPos !== "face" || (
+              <FrontBackButton
+                bgColor={currentPos === "face" ? "rgb(188, 197, 255)" : undefined}
+                onClick={() => setCurrentPosition("front")}
+              >
+                몸
+              </FrontBackButton>
+            )}
+          </ButtonsBox>
+        </>
       )}
 
       <PathBox>
@@ -112,10 +118,14 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage, isH
                             setSelectedBodyPart(part);
                           } else {
                             setCurrentPosition("front");
-                            router.push(isHospital ? {
-                              pathname: `/hospital/chart`,
-                              query:{ position: part}
-                            } :`/users/records/chart/${part}`);
+                            router.push(
+                              isHospital
+                                ? {
+                                    pathname: `/hospital/chart`,
+                                    query: { position: part },
+                                  }
+                                : `/users/records/chart/${part}`,
+                            );
                           }
                         }}
                         isHover={hoveredPart === part}
@@ -130,10 +140,14 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage, isH
                             setSelectedBodyPart(part);
                           } else {
                             setCurrentPosition("front");
-                            router.push(isHospital ? {
-                              pathname: `/hospital/chart`,
-                              query:{ position: part}
-                            } :`/users/records/chart/${part}`);
+                            router.push(
+                              isHospital
+                                ? {
+                                    pathname: `/hospital/chart`,
+                                    query: { position: part },
+                                  }
+                                : `/users/records/chart/${part}`,
+                            );
                           }
                         }}
                         isHover={hoveredPart === part}
@@ -152,10 +166,16 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage, isH
                         if (part === "head") {
                           setCurrentPosition("face");
                         } else {
-                          isWritePage ? setSelectedBodyPart(part) : router.push(isHospital ? {
-                            pathname: `/hospital/chart`,
-                            query:{ position: part}
-                          } :`/users/records/chart/${part}`);
+                          isWritePage
+                            ? setSelectedBodyPart(part)
+                            : router.push(
+                                isHospital
+                                  ? {
+                                      pathname: `/hospital/chart`,
+                                      query: { position: part },
+                                    }
+                                  : `/users/records/chart/${part}`,
+                              );
                         }
                       }}
                       isHover={hoveredPart === part}
@@ -185,10 +205,14 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage, isH
                             setSelectedBodyPart(part);
                           } else {
                             setCurrentPosition("back");
-                            router.push(isHospital ? {
-                              pathname: `/hospital/chart`,
-                              query:{ position: part}
-                            } :`/users/records/chart/${part}`);
+                            router.push(
+                              isHospital
+                                ? {
+                                    pathname: `/hospital/chart`,
+                                    query: { position: part },
+                                  }
+                                : `/users/records/chart/${part}`,
+                            );
                           }
                         }}
                         isHover={hoveredPart === part}
@@ -203,10 +227,14 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage, isH
                             setSelectedBodyPart(part);
                           } else {
                             setCurrentPosition("back");
-                            router.push(isHospital ? {
-                              pathname: `/hospital/chart`,
-                              query:{ position: part}
-                            } :`/users/records/chart/${part}`);
+                            router.push(
+                              isHospital
+                                ? {
+                                    pathname: `/hospital/chart`,
+                                    query: { position: part },
+                                  }
+                                : `/users/records/chart/${part}`,
+                            );
                           }
                         }}
                         isHover={hoveredPart === part}
@@ -225,10 +253,16 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage, isH
                         if (part === "head") {
                           setCurrentPosition("face");
                         } else {
-                          isWritePage ? setSelectedBodyPart(part) : router.push(isHospital ? {
-                            pathname: `/hospital/chart`,
-                            query:{ position: part}
-                          } :`/users/records/chart/${part}`);
+                          isWritePage
+                            ? setSelectedBodyPart(part)
+                            : router.push(
+                                isHospital
+                                  ? {
+                                      pathname: `/hospital/chart`,
+                                      query: { position: part },
+                                    }
+                                  : `/users/records/chart/${part}`,
+                              );
                         }
                       }}
                       isHover={hoveredPart === part}
@@ -258,10 +292,14 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage, isH
                             setSelectedBodyPart(part);
                           } else {
                             setCurrentPosition("face");
-                            router.push(isHospital ? {
-                              pathname: `/hospital/chart`,
-                              query:{ position: part}
-                            } :`/users/records/chart/${part}`);
+                            router.push(
+                              isHospital
+                                ? {
+                                    pathname: `/hospital/chart`,
+                                    query: { position: part },
+                                  }
+                                : `/users/records/chart/${part}`,
+                            );
                           }
                         }}
                         isHover={hoveredPart === part}
@@ -276,10 +314,14 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage, isH
                             setSelectedBodyPart(part);
                           } else {
                             setCurrentPosition("face");
-                            router.push(isHospital ? {
-                              pathname: `/hospital/chart`,
-                              query:{ position: part}
-                            } :`/users/records/chart/${part}`);
+                            router.push(
+                              isHospital
+                                ? {
+                                    pathname: `/hospital/chart`,
+                                    query: { position: part },
+                                  }
+                                : `/users/records/chart/${part}`,
+                            );
                           }
                         }}
                         isHover={hoveredPart === part}
@@ -299,10 +341,14 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage, isH
                           setSelectedBodyPart(part);
                         } else {
                           setCurrentPosition("face");
-                          router.push(isHospital ? {
-                            pathname: `/hospital/chart`,
-                            query:{ position: part}
-                          } :`/users/records/chart/${part}`);
+                          router.push(
+                            isHospital
+                              ? {
+                                  pathname: `/hospital/chart`,
+                                  query: { position: part },
+                                }
+                              : `/users/records/chart/${part}`,
+                          );
                         }
                       }}
                       isHover={hoveredPart === part}
@@ -325,26 +371,50 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage, isH
 BodyNavigator.defaultProps = {
   isWritePage: true,
 };
-const Overlay = styled.div`
-  width: 100%;
-  height: 100%;
-  position: absolute;
+
+const FrontBackButton = styled(RoundedDefaultButton)`
+  padding: 16px 40px;
 `;
-const CustomContainer = styled(motion.div)<{ isWritePage: boolean }>`
+const MobileFrontBackButton = styled.div`
+  display: none;
+
+  .rotateImgBg {
+    width: 50px;
+    height: 50px;
+    background: url(${rotateIcon.src}) no-repeat center center;
+    background-size: contain;
+    cursor: pointer;
+  }
+  ${media.custom(1280)} {
+    display: block;
+    position: absolute;
+    right: 10%;
+    top: 30px;
+    z-index: 6;
+  }
+`;
+
+const CustomContainer = styled.div<{ isWritePage: boolean }>`
   position: relative;
   display: flex;
-  aspect-ratio: 1/1.2;
-
+  padding: 50px 0;
+  z-index: 6;
+  width: 100%;
+  height: 820px;
   ${({ isWritePage }) =>
-    isWritePage
-      ? css`
-          aspect-ratio: 1/1;
-          width: 50%;
-          background-color: #ebecfc;
-          box-shadow: 8px 8px 18px rgba(174, 178, 228, 0.25);
-          border-radius: 30px;
-        `
-      : css``}
+    isWritePage &&
+    css`
+      aspect-ratio: none;
+      background-color: #ebecfc;
+      box-shadow: 8px 8px 18px rgba(174, 178, 228, 0.25);
+      border-radius: 30px;
+    `}
+
+  ${media.custom(1280)} {
+    height: 100%;
+    background-color: #fff;
+    border-radius: 30px 30px 0 0;
+  }
 `;
 
 const PathBox = styled.div<{ isViewMode?: boolean }>`
@@ -360,6 +430,11 @@ const PathBox = styled.div<{ isViewMode?: boolean }>`
       pointer-events: none;
       width: 85%;
     `}
+  ${media.custom(1280)} {
+    min-width: 270px;
+    max-width: 360px;
+    width: 60%;
+  }
 `;
 
 const ButtonsBox = styled.div`
@@ -369,6 +444,9 @@ const ButtonsBox = styled.div`
   width: 100%;
   padding: 18px;
   bottom: 0;
+  ${media.custom(1280)} {
+    display: none;
+  }
 `;
 
 const HoverPath = styled.path<{ isChecked: boolean; isHover: boolean }>`
@@ -379,7 +457,7 @@ const HoverPath = styled.path<{ isChecked: boolean; isHover: boolean }>`
     isChecked
       ? css`
           fill: rgb(3, 231, 203);
-          pointer-events: none;
+          // pointer-events: none;
         `
       : isHover
       ? css`

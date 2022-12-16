@@ -1,29 +1,30 @@
-import { RoundButton } from "@components/buttons/Button";
-import ToryIcon from "@components/ToryIcon";
+import ToryPurpleAnim from "@components/lotties/ToryPurpleAnim";
+import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
 import { BTN_VARIANTS } from "@styles/ButtonStyled";
-import { Box, BtnBox, Col, FlexContainer, ToryText } from "@styles/Common";
-import { AnimatePresence, motion } from "framer-motion";
+import { Box, BtnBox, FlexContainer, ToryText } from "@styles/Common";
+import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import { bodyPartType } from "types/bodyParts";
 import { KoreanPosition } from "types/write";
+import { Dispatch, SetStateAction } from "react";
+import { media } from "@styles/theme";
 
 interface SelectBodyPartProps {
   selectedBodyPart: bodyPartType;
+  setIsSelect: Dispatch<SetStateAction<boolean>>;
 }
 
-const BodyPartChecker = ({ selectedBodyPart }: SelectBodyPartProps) => {
+const BodyPartChecker = ({ selectedBodyPart, setIsSelect }: SelectBodyPartProps) => {
   const router = useRouter();
 
   return (
-    <FlexContainer
-      initial={{ x: -500 }}
-      animate={{ x: 0 }}
-      transition={{ duration: 0.7, type: "tween", ease: "easeOut" }}
-    >
+    <FlexContainer>
       <ContentBox>
         <ToryBox>
-          <ToryIcon />
+          <ToryMotion>
+            <ToryPurpleAnim segmentIndex={0} />
+          </ToryMotion>
         </ToryBox>
         <TextBox>
           {!selectedBodyPart ? (
@@ -32,8 +33,8 @@ const BodyPartChecker = ({ selectedBodyPart }: SelectBodyPartProps) => {
             <ToryText>
               <PositionTextBox
                 key={KoreanPosition[selectedBodyPart]}
-                initial={{ y: 30, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 transition={{ duration: 0.6 }}
               >
                 {KoreanPosition[selectedBodyPart]}
@@ -43,18 +44,26 @@ const BodyPartChecker = ({ selectedBodyPart }: SelectBodyPartProps) => {
           )}
         </TextBox>
         <CreateBtnBox>
-          {selectedBodyPart && (
+          {selectedBodyPart ? (
             <BtnBox variants={BTN_VARIANTS} initial="initial" animate="animate" exit="exit">
-              <RoundButton
-                width="250px"
-                height="60px"
+              <RoundedDefaultButton
                 bgColor="rgb(83, 89, 233)"
                 onClick={() => router.push(`./write/${selectedBodyPart}`)}
               >
                 네, 기록할게요!
-              </RoundButton>
+              </RoundedDefaultButton>
             </BtnBox>
-          )}
+          )
+          :
+          <MobBtnBox variants={BTN_VARIANTS} initial="initial" animate="animate" exit="exit">
+              <RoundedDefaultButton
+                bgColor="rgb(83, 89, 233)"
+                onClick={() => setIsSelect(true)}
+              >
+                부위 선택하기
+              </RoundedDefaultButton>
+            </MobBtnBox>
+        }
         </CreateBtnBox>
       </ContentBox>
     </FlexContainer>
@@ -62,6 +71,13 @@ const BodyPartChecker = ({ selectedBodyPart }: SelectBodyPartProps) => {
 };
 
 export default BodyPartChecker;
+
+const MobBtnBox = styled(BtnBox)`
+  display:none;
+  ${media.custom(1280)}{
+    display:flex;
+  }
+`
 
 export const PositionTextBox = styled(motion.span)`
   border-radius: 10px;
@@ -74,16 +90,34 @@ export const PositionTextBox = styled(motion.span)`
 
 const ContentBox = styled.div`
   width: 540px;
-`
+  padding-bottom: 170px;
+`;
 
 export const ToryBox = styled(Box)`
-  margin-bottom: 40px;
+`;
+
+const ToryMotion = styled.div`
+  width: 360px;
+  height: 360px;
+  transform: translate(0, -10%);
+  margin: 0 auto;
+
+  ${media.mobile}{
+    width: 280px;
+    height: 280px;
+  }
 `;
 
 export const TextBox = styled(Box)`
   margin-bottom: 90px;
+  text-align: center;
+  word-break: keep-all;
+  
+  ${media.mobile}{
+    margin-bottom: 50px;
+  }
 `;
 export const CreateBtnBox = styled(BtnBox)`
   height: 60px;
-  justify-content:center;
+  justify-content: center;
 `;

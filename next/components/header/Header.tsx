@@ -1,63 +1,55 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import LogoImg from "@public/static/icon/Logo.png";
+import LogoImg from "@src/assets/icons/Logo.png";
+import LogoPurpleImg from "@src/assets/icons/Logo_purple.png";
 import SideMenu from "./SideMenu";
-import { useRecoilValue } from "recoil";
 import useUser from "@hooks/useUser";
+import { media } from "@styles/theme";
 
 const Header = () => {
   const router = useRouter();
-  const {user, isFetching} = useUser();
+  const { user, isFetching } = useUser();
 
-  return isFetching  ? null :  !user ?(
-      (
-      <HeaderWrap>
-        <HeaderContainer>
-          <HeaderInnerBox>
-            <HeaderUl>
-              <li>
-                <Link href="/">서비스 소개</Link>
-              </li>
-              <li>
-                {router.asPath.includes("login") ? (
-                  <Link href="/auth/register/choice" title="회원가입">
-                    회원가입
-                  </Link>
-                ) : (
-                  <Link href="/auth/login" title="로그인">
-                    로그인
-                  </Link>
-                )}
-              </li>
-            </HeaderUl>
-            <HeaderLogoBox>
-              <Link href="/auth/login" title="바디토리">
-                <span>바디토리</span>
-              </Link>
-            </HeaderLogoBox>
-          </HeaderInnerBox>
-        </HeaderContainer>
-      </HeaderWrap>
-    )
+  return isFetching || router.pathname.includes("/landing") ? null : !user ? (
+    <HeaderWrap className={router.pathname.includes("/about/bodytory") ? "purple" : ""}>
+      <HeaderContainer>
+        <HeaderInnerBox>
+          <HeaderUl>
+            <li>
+              <Link href="/about/bodytory" className={router.pathname === "/about/bodytory" ? "active" : ""}>서비스 소개</Link>
+            </li>
+            <li>
+              {router.asPath.includes("login") ? (
+                <Link href="/auth/register/choice" title="회원가입">
+                  회원가입
+                </Link>
+              ) : (
+                <Link href="/auth/login" title="로그인">
+                  로그인
+                </Link>
+              )}
+            </li>
+          </HeaderUl>
+          <HeaderLogoBox>
+            <Link href="/" title="바디토리" className={router.pathname === "/" ? "active" : ""}>
+              <span>바디토리</span>
+            </Link>
+          </HeaderLogoBox>
+        </HeaderInnerBox>
+      </HeaderContainer>
+    </HeaderWrap>
   ) : (
     <SideMenu />
-  )  ;
+  );
 };
 
 export default Header;
 
-const HeaderWrap = styled.div`
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  width: 100%;
-  z-index: 2000;
-`;
 const HeaderContainer = styled.div`
   padding: 0 65px;
-  @media (max-width: 570px){
+  ${media.mobile} {
     padding: 0 20px;
   }
 `;
@@ -66,10 +58,10 @@ const HeaderInnerBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: end;
-  @media (max-width: 1000px){
+  ${media.tablet} {
     justify-content: space-between;
   }
-  // @media (max-width: 570px){
+  //${media.mobile}{
   //   justify-content: space-between;
   // }
 `;
@@ -90,23 +82,25 @@ const HeaderLogoBox = styled.div`
       overflow: hidden;
     }
   }
-  @media (max-width: 1000px){
+  ${media.tablet} {
     margin-left: 0;
     order: 1;
   }
-  @media (max-width: 570px){
-      a {
-        width: 100px;
-        height: 30px;
-      }
+  ${media.mobile} {
+    a {
+      width: 100px;
+      height: 30px;
+    }
   }
 `;
 const HeaderUl = styled.ul`
-  
   display: flex;
-  width: 270px;
+  width: 100%;
+  justify-content: flex-end;
   align-items: center;
   li {
+    width: 4.2em;
+    text-align: center;
     margin: 0 28px;
     font-size: 18px;
     letter-spacing: -1.5px;
@@ -115,14 +109,48 @@ const HeaderUl = styled.ul`
       color: #fff;
     }
   }
-  @media (max-width: 1000px){
+  ${media.tablet} {
     width: 242px;
     order: 2;
   }
-  @media (max-width: 570px){
+  ${media.mobile} {
     width: 210px;
-    li{
+    justify-content: flex-end;
+    li {
       font-size: 14px;
+      margin: 0 14px;
+      &:last-child {
+        width: 43px;
+        text-align: center;
+      }
     }
   }
+`;
+
+const HeaderWrap = styled.div`
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  z-index: 2000;
+
+  &.purple {
+    ${HeaderUl} {
+      li a {
+        color: ${({ theme }) => theme.color.darkBg};
+
+        &.active {
+          padding-bottom: 2px;
+          border-bottom: 2px solid ${({ theme }) => theme.color.darkBg};
+        }
+      }
+    }
+
+    ${HeaderLogoBox} {
+      a {
+        background-image: url(${LogoPurpleImg.src});
+      }
+    }
+  }
+  
 `;

@@ -1,14 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import client from "utils/server/client";
-import withHandler, { ResponseType } from "@utils/server/withHandler";
+import withHandler from "@utils/server/withHandler";
 import { withApiSession } from "@utils/server/withSession";
-import { LoginForm } from "pages/auth/login";
-import smtpTransport from "@utils/server/email";
-import { HelpForm } from "pages/auth/help/find-pw";
-import bcrypt from "bcrypt";
 import { passwordEncryption } from "utils/server/passwordHelper";
 
-async function handler(req: NextApiRequest, res: NextApiResponse) {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { user } = req.session;
+  if (user?.id === 35) {
+    return res.status(204).end();
+  }
   const { email, password, accountId } = req.body;
   const hashedPassword = await passwordEncryption(password);
   const foundUser = await client.user.update({
@@ -25,6 +25,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 
   return res.status(201).end();
-}
+};
 
 export default withApiSession(withHandler({ methods: ["PUT"], handler, isPrivate: false }));

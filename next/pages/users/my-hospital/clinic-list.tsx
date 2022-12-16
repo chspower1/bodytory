@@ -1,29 +1,28 @@
-import { RoundButton } from "@components/buttons/Button";
-import SwiperBox from "@components/SwiperBox";
-import { BackButton, Container, InnerContainer, Row } from "@styles/Common";
+import SwiperBox from "@components/my-hospital/SwiperBox";
+import { BackButton, Container, Row } from "@styles/Common";
 import { theme } from "@styles/theme";
-import { DescriptionBox, HighlightText, Pragraph } from "./";
+import { DescriptionBox, Pragraph } from "./";
 import React, { useState } from "react";
 import styled from "styled-components";
-import tory from "@public/static/icon/tory.png";
-import { useRouter } from "next/router";
-import Link from "next/link";
+import {  useRouter } from "next/router";
+import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
+import ToryPurpleAnim from "@components/lotties/ToryPurpleAnim";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
+import { GetServerSidePropsContext } from "next";
 
 const ClinicList = () => {
-  const rounter = useRouter();
+  const router = useRouter();
   const [currentHospitalName, setCurrentHospitalName] = useState("");
   return (
     <ClinicListWrap>
-      <Link href="/users/my-hospital">
-        <BackButton>
-          <span>병원관리</span>
-        </BackButton>
-      </Link>
+      <BackButton onClick={()=> router.push("/users/my-hospital")}>
+        <span>병원관리</span>
+      </BackButton>
       <ClinicContainer>
         <PageHeadBox>
           <PageHead>
             <ToriBox>
-              <ToryIcon />
+              <ToryPurpleAnim segmentIndex={0} />
             </ToriBox>
             <DescriptionBox>
               <Pragraph>
@@ -33,9 +32,9 @@ const ClinicList = () => {
             </DescriptionBox>
           </PageHead>
           <ButtonBox>
-            <RoundButton nonSubmit bgColor={theme.color.mintBtn} onClick={() => rounter.push("/users/my-hospital")}>
+            <RoundedDefaultButton bgColor={theme.color.mintBtn} onClick={() => router.push("/users/my-hospital")}>
               나의 병원 전체 목록보기
-            </RoundButton>
+            </RoundedDefaultButton>
           </ButtonBox>
         </PageHeadBox>
         <SwiperBox setCurrentHospitalName={setCurrentHospitalName} />
@@ -45,37 +44,40 @@ const ClinicList = () => {
 };
 
 export default ClinicList;
-
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});
 const ClinicListWrap = styled.div`
-  display: flex;
-  flex-direction: column;
   height: 100%;
-  background: #fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 `;
 
-const PageHeadBox = styled(Container)``;
+const PageHeadBox = styled(Container)`
+  margin-top: 30px;
+`;
 
 const ClinicContainer = styled.div`
-  margin: auto 0;
 `;
 
 const PageHead = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
 `;
 
 export const ToriBox = styled.div`
-  flex-shrink: 0;
-  width: 120px;
-  height: 190px;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translate(-20%, -60%);
+  width: 260px;
+  height: 260px;
 `;
 
-export const ToryIcon = styled.div`
-  width: 100%;
-  height: 100%;
-  background: url(${tory.src}) no-repeat center center;
-  background-size: cover;
-`;
 
 const ButtonBox = styled(Row)`
   margin: 20px 0;

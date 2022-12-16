@@ -19,6 +19,5 @@ export const createToken = async (user: User) => {
       },
     },
   });
-  console.log("인증번호 : ", payload);
   return payload;
 };

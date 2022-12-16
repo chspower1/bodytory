@@ -1,19 +1,15 @@
-import Input from "@components/Input";
-import customApi from "utils/client/customApi";
-import { useMutation } from "@tanstack/react-query";
-import client from "utils/server/client";
 import { useRouter } from "next/router";
-import { useForm } from "react-hook-form";
-import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
-import axios from "axios";
-import styled from "styled-components";
+import { useEffect, useState } from "react";
 import { Gender, UserType } from "@prisma/client";
-import { REGISTER_SIGNUP } from "constant/queryKeys";
-import useReset from "@hooks/useReset";
 import FirstPage from "@components/register/FirstPage";
 import ThirdPage from "@components/register/ThirdPage";
 import SecondPage from "@components/register/SecondPage";
 import Header from "@components/header/Header";
+import ToryWhiteAnim from "@components/lotties/ToryWhiteAnim";
+import { motion } from "framer-motion";
+import styled from "styled-components";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
+import { GetServerSidePropsContext, NextPage } from "next";
 
 export interface RegisterForm {
   agree: boolean;
@@ -54,7 +50,7 @@ interface RegisterQueryProps {
   gender: Gender;
   type: UserType;
 }
-function RegisterPage() {
+const RegisterPage: NextPage = () => {
   const router = useRouter();
   const [user, setUser] = useState<RegisterForm | undefined>();
   const [page, setPage] = useState(1);
@@ -85,8 +81,25 @@ function RegisterPage() {
       {page === 1 && <FirstPage user={user} setUser={setUser} setPage={setPage} />}
       {page === 2 && <SecondPage user={user} setUser={setUser} setPage={setPage} />}
       {page === 3 && <ThirdPage user={user} setUser={setUser} setPage={setPage} />}
+      <ToryMotion
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1, transition: { duration: 0.6, ease: "easeOut", delay: 0.2 } }}
+      >
+        {/* <ToryWhiteAnim toryMotionIdx={0} width={480} /> */}
+      </ToryMotion>
     </>
   );
-}
+};
 
 export default RegisterPage;
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});
+
+const ToryMotion = styled(motion.div)`
+  position: fixed;
+  left: 0px;
+  bottom: 80px;
+`;

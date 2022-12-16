@@ -1,7 +1,5 @@
 import Document, { DocumentContext, DocumentInitialProps, Head, Html, Main, NextScript } from "next/document";
-import Script from "next/script";
 import { ServerStyleSheet } from "styled-components";
-
 export default class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext): Promise<DocumentInitialProps> {
     const sheet = new ServerStyleSheet();
@@ -31,7 +29,11 @@ export default class MyDocument extends Document {
     return (
       <Html>
         <Head>
-          {/* <Script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js"  /> */}
+          <link rel="canonical" href="https://kdt-ai5-team01.elicecoding.com/" />
+          <meta
+            property="og:image"
+            content="https://imagedelivery.net/AbuMCvvnFZBtmCKKJV_e6Q/3103f60d-b28b-4425-d047-927327e5fb00/public"
+          />
           <script src="https://developers.kakao.com/sdk/js/kakao.js" async />
           <script
             src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_KEY}&libraries=services,clusterer&autoload=false`}

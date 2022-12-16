@@ -1,32 +1,24 @@
 import type { AppProps } from "next/app";
-import { QueryClient, QueryClientProvider, QueryErrorResetBoundary } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import Layout from "@components/Layout";
-import { Suspense } from "react";
-import { ErrorBoundary } from "react-error-boundary";
+import Layout from "@components/layout/Layout";
 import GlobalStyled from "@styles/GlobalStyled";
-import Head from "next/head";
 import { theme } from "@styles/theme";
 import { ThemeProvider } from "styled-components";
-import Header from "@components/header/Header";
 import { RecoilRoot } from "recoil";
 import "@public/static/fonts/pretendardvariable.css";
-import "regenerator-runtime/runtime";
+import CustomSeo from "@components/CustomSeo";
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       retry: false,
-      // useErrorBoundary: true,
-      // suspense: true,
       staleTime: 1000 * 60 * 5,
       cacheTime: 1000 * 60 * 5,
     },
     mutations: {
       retry: false,
       cacheTime: 1000 * 60 * 5,
-
-      // useErrorBoundary: true,
       onError(error: any) {},
     },
   },
@@ -39,24 +31,18 @@ declare global {
   }
 }
 export default function App({ Component, pageProps }: AppProps) {
+  const { seoData } = pageProps;
   return (
     <>
-      <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>바디토리</title>
-      </Head>
       <QueryClientProvider client={queryClient}>
         <RecoilRoot>
-          {/* <ErrorBoundary fallback={<div>에러</div>}>
-            <Suspense fallback={<div>로딩중</div>}> */}
           <ThemeProvider theme={theme}>
             <GlobalStyled />
             <Layout>
+              <CustomSeo seoData={seoData} />
               <Component {...pageProps} />
             </Layout>
           </ThemeProvider>
-          {/* </Suspense>
-          </ErrorBoundary> */}
         </RecoilRoot>
         <ReactQueryDevtools />
       </QueryClientProvider>

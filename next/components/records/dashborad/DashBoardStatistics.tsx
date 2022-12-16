@@ -1,6 +1,6 @@
 import useUser from "@hooks/useUser";
 import { Position } from "@prisma/client";
-import LoadingAnim from "@src/lotties/LoadingAnim";
+import LoadingAnim from "@components/lotties/LoadingAnim";
 import { useQuery } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
 import { BODYPART_CHARTDATA_READ, KEYWORDS_CHARTDATA_READ } from "constant/queryKeys";
@@ -9,6 +9,7 @@ import styled from "styled-components";
 import { KoreanPosition } from "types/write";
 import MostBodyPart from "./MostBodyPart";
 import MostKeyword from "./MostKeyword";
+import { media } from "@styles/theme";
 
 interface ThreeMonthResponse {
   position: Position;
@@ -17,7 +18,7 @@ interface ThreeMonthResponse {
 }
 
 function DashBoardStatistics() {
-  const {user} = useUser();
+  const { user } = useUser();
 
   const [mostPart, setMostPart] = useState<string[]>();
   const [mostPartIdx, setMostPartIdx] = useState<number[]>();
@@ -25,21 +26,16 @@ function DashBoardStatistics() {
 
   const [mostKeyword, setMostKeyword] = useState<string>();
   const [keywordChartData, setKeywordChartData] = useState<string[]>();
-  const [noKeyword, setNoKeyword] = useState<boolean>(false);
 
   const dashboardGetApi = customApi(`/api/users/records/dashboard/threeMonth`);
   const dashboardQuery = useQuery<any>([BODYPART_CHARTDATA_READ], dashboardGetApi.getApi);
 
   const flaskGetApi = customApi(`/api/users/records/flask/threeMonth`);
-  const flaskQuery = useQuery<any>([KEYWORDS_CHARTDATA_READ], flaskGetApi.getApi, {
-    onError(data) {
-      setNoKeyword(true); // 증상이 2개 이하일 때는 아예 에러가 남
-    },
-  });
+  const flaskQuery = useQuery<any>([KEYWORDS_CHARTDATA_READ], flaskGetApi.getApi);
 
   useEffect(() => {
     // 가장 기록이 많은 부위 찾기
-    if (dashboardQuery.data) {
+    if (dashboardQuery.data && dashboardQuery.data.length !== 0) {
       let maxLength = 0;
       let maxPart: string[] = [];
       let maxIdx: number[] = [];
@@ -69,45 +65,67 @@ function DashBoardStatistics() {
   return user ? (
     <StatisticsContainer>
       <Title>최근 3개월 동안 {user?.name}님의 건강상태를 분석했어요</Title>
-      <FlexContainer>
-        <ChartBox>
-          {mostPart && (
-            <p>
-              가장 많은 기록을 남긴 부위는{" "}
-              <strong>
-                {mostPart?.length > 1
-                  ? `${KoreanPosition[mostPart[0] as Position]} 외 ${mostPart.length - 1}곳`
-                  : KoreanPosition[mostPart[0] as Position]}
-              </strong>{" "}
-              입니다
-            </p>
-          )}
-          <MostBodyPart
-            chartData={bodyPartChartData ? bodyPartChartData : null}
-            mostPartIdx={mostPartIdx ? mostPartIdx : null}
-          />
-        </ChartBox>
-        <ChartBox>
-          {keywordChartData?.length === 0 || noKeyword ? (
-            <NoKeywordChart>
-              <LoadingAnim />
-              <p>기록이 더 많아지면 키워드를 분석할 수 있어요!</p>
-            </NoKeywordChart>
-          ) : (
-            <>
-              <p>
-                가장 많이 기록된 키워드는 <strong>{mostKeyword}</strong> 입니다
-              </p>
-              <MostKeyword chartData={keywordChartData ? keywordChartData : null} />
-            </>
-          )}
-        </ChartBox>
-      </FlexContainer>
+      <HorizontalScrollContainer>
+        <FlexContainer>
+          <ChartBox>
+            {mostPart && (
+              <>
+                <p>
+                  가장 많은 기록을 남긴 부위는{" "}
+                  <strong>
+                    {mostPart?.length > 1
+                      ? `${KoreanPosition[mostPart[0] as Position]} 외 ${mostPart.length - 1}곳`
+                      : KoreanPosition[mostPart[0] as Position]}
+                  </strong>{" "}
+                  입니다
+                </p>
+                <MostBodyPart
+                  chartData={bodyPartChartData ? bodyPartChartData : null}
+                  mostPartIdx={mostPartIdx ? mostPartIdx : null}
+                />
+              </>
+            )}
+          </ChartBox>
+          <ChartBox>
+            {keywordChartData?.length === 0 && (
+              <NoKeywordChart>
+                <LoadingAnim />
+                <p>기록이 더 많아지면 키워드를 분석할 수 있어요!</p>
+              </NoKeywordChart>
+            )}
+            {keywordChartData?.length !== 0 && (
+              <>
+                <p>
+                  가장 많이 기록된 키워드는 <strong>{mostKeyword}</strong> 입니다
+                </p>
+                <MostKeyword chartData={keywordChartData ? keywordChartData : null} />
+              </>
+            )}
+          </ChartBox>
+        </FlexContainer>
+      </HorizontalScrollContainer>
     </StatisticsContainer>
   ) : null;
 }
 
 const StatisticsContainer = styled.div``;
+
+const HorizontalScrollContainer = styled.div`
+  width: 100%;
+
+  ${media.mobile} {
+    overflow-x: scroll;
+    padding: 0 20px 20px 0;
+  }
+`;
+
+const FlexContainer = styled.div`
+  display: flex;
+
+  ${media.mobile} {
+    width: calc(180% + 20px);
+  }
+`;
 
 const Title = styled.p`
   padding: 0 25px;
@@ -115,15 +133,25 @@ const Title = styled.p`
   font-size: 22px;
   font-weight: 700;
   color: ${({ theme }) => theme.color.white};
-`;
 
-const FlexContainer = styled.div`
-  display: flex;
+  ${media.custom(1280)} {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+
+  ${media.tablet} {
+    font-size: 18px;
+  }
+
+  ${media.mobile} {
+    font-size: 15px;
+    padding: 0 15px;
+  }
 `;
 
 const ChartBox = styled.div`
   width: calc(50% - 20px);
-  min-height: 460px;
+  height: 480px;
   background: ${({ theme }) => theme.color.white};
   border-radius: 40px;
   padding: 30px;
@@ -145,6 +173,30 @@ const ChartBox = styled.div`
       padding: 0 1px 2px;
       background: linear-gradient(to top, rgba(18, 212, 201, 0.4) 40%, transparent 40%);
     }
+  }
+
+  ${media.custom(1440)} {
+    width: calc(50% - 10px);
+    height: 440px;
+
+    & + & {
+      margin-left: 20px;
+    }
+  }
+
+  ${media.tablet} {
+    padding: 20px;
+    height: 400px;
+
+    p {
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+  }
+
+  ${media.tablet} {
+    height: auto;
+    aspect-ratio: 1 / 1;
   }
 `;
 

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { Treemap } from "recharts";
-import styled from "styled-components";
+import { ResponsiveContainer, Treemap } from "recharts";
 
 const COLORS = [
   "#12D4C9",
@@ -65,7 +64,7 @@ const MostKeyword = ({ chartData }: any) => {
   }, [treeChartData]);
 
   return (
-    <TreemapBox>
+    <ResponsiveContainer width="100%" height="100%">
       <Treemap
         data={randomOrderData}
         width={360}
@@ -73,11 +72,10 @@ const MostKeyword = ({ chartData }: any) => {
         dataKey={"value"}
         stroke={"#fff"}
         content={<CustomKeyword colors={COLORS} />}
+        animationDuration={1000}
       ></Treemap>
-    </TreemapBox>
+    </ResponsiveContainer>
   );
 };
-
-const TreemapBox = styled.div``;
 
 export default MostKeyword;

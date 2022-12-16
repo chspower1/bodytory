@@ -2,13 +2,12 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import client from "utils/server/client";
 import withHandler from "@utils/server/withHandler";
 import { withApiSession } from "@utils/server/withSession";
-import { NextResponse } from "next/server";
 import axios from "axios";
 
-async function handler(req: NextApiRequest, res: NextApiResponse) {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { user } = req.session;
   if (!user) return res.status(401).send("회원 정보를 확인해주세요");
-
+  if (user?.id === 35) return res.status(204).end();
   if (req.method === "POST") return await createRecord(req, res, user);
 
   if (req.method === "GET") return await findRecord(req, res, user);
@@ -16,20 +15,20 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "PUT") return await updateRecord(req, res);
 
   if (req.method === "DELETE") return await deleteRecord(req, res);
-}
+};
 
-async function createRecord(req: NextApiRequest, res: NextApiResponse , user: {id: number;}) {
+async function createRecord(req: NextApiRequest, res: NextApiResponse, user: { id: number }) {
   const { position, description } = req.body;
   if (!user) return res.status(400).end();
-  // const departments = await axios.post(`${process.env.FLASK_API}/api/departments`, {
-  //   sentence: description,
-  // });
+  const departments = await axios.post(`${process.env.FLASK_API}/api/departments`, {
+    sentence: description,
+  });
   await client.record.create({
     data: {
       type: "user",
       position,
       description,
-      // recommendDepartments: departments.data.departments_result as string,
+      recommendDepartments: departments.data.departments_result as string,
       user: {
         connect: {
           id: user.id,
@@ -40,7 +39,7 @@ async function createRecord(req: NextApiRequest, res: NextApiResponse , user: {i
   return res.status(200).end();
 }
 
-async function findRecord(req: NextApiRequest, res: NextApiResponse, user: {id: number;}) {
+async function findRecord(req: NextApiRequest, res: NextApiResponse, user: { id: number }) {
   const data = await client.record.findMany({
     where: {
       userId: user.id,
@@ -63,6 +62,9 @@ async function findRecord(req: NextApiRequest, res: NextApiResponse, user: {id: 
 
 async function updateRecord(req: NextApiRequest, res: NextApiResponse) {
   const { id, position, description } = req.body;
+  const departments = await axios.post(`${process.env.FLASK_API}/api/departments`, {
+    sentence: description,
+  });
   await client.record.update({
     where: {
       id,
@@ -70,6 +72,7 @@ async function updateRecord(req: NextApiRequest, res: NextApiResponse) {
     data: {
       position,
       description,
+      recommendDepartments: departments.data.departments_result as string,
     },
   });
   return res.status(200).end();

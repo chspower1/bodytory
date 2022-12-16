@@ -1,26 +1,39 @@
 import { FlexContainer } from "@styles/Common";
 import styled from "styled-components";
-import { ToryIcon } from "./users/my-hospital/clinic-list";
-import toriQuestionIcon from "@public/static/icon/toriQuestion.png";
-import { CircleButton } from "@components/buttons/Button";
 import { theme } from "@styles/theme";
-import { useRouter } from "next/router";
 import Link from "next/link";
+import { CircleDefaultButton } from "@components/layout/buttons/DefaultButtons";
+import { NextPage } from "next";
+import ToryPurpleAnim from "@components/lotties/ToryPurpleAnim";
+import { useEffect, useState } from "react";
 
-const NotFoundPage = () => {
+const NotFoundPage: NextPage = () => {
+  const [toryMotionIdx, setToryMotionIdx] = useState<number>(2);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setToryMotionIdx(5);
+    }, 2200);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, []);
+
   return (
     <FlexContainer>
       <ContentBox>
         <ToriBox>
-          <ToriErrIcon />
+          <ToryMotion>
+            <ToryPurpleAnim segmentIndex={toryMotionIdx} />
+          </ToryMotion>
         </ToriBox>
         <TextBox>
           <p>요청하신 페이지를 찾지 못했어요</p>
           <p>바디토리로 돌아갈까요?</p>
           <Link href="/">
-            <CircleButton size="sm" bgColor={theme.color.input}>
+            <CircleDefaultButton sm bgColor={theme.color.input}>
               네
-            </CircleButton>
+            </CircleDefaultButton>
           </Link>
         </TextBox>
       </ContentBox>
@@ -36,13 +49,18 @@ const ContentBox = styled.div`
 `;
 
 const ToriBox = styled.div`
+  position: relative;
   flex-shrink: 0;
-  width: 220px;
-  height: 300px;
+  width: 300px;
 `;
 
-const ToriErrIcon = styled(ToryIcon)`
-  background-image: url(${toriQuestionIcon.src});
+const ToryMotion = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  height: 400px;
+  transform: translate(-50%, -70%);
 `;
 
 const TextBox = styled.div`

@@ -1,22 +1,23 @@
-import { RectangleButton, RoundButton } from "@components/buttons/Button";
-import { ShareStatus } from "@components/HospitalContent";
-import Input from "@components/Input";
+import { ShareStatus } from "@components/my-hospital/HospitalContent";
+import Input from "@components/layout/input/Input";
 import Modal from "@components/modals/Modal";
-import { SearchForm } from "@components/SearchHospitalList";
+import { SearchForm } from "@components/search/SearchHospitalList";
 import { Container } from "@styles/Common";
-import { theme } from "@styles/theme";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import customApi from "@utils/client/customApi";
 import { currentPatientInfo, loggedInHospital } from "atoms/atoms";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 import { useRouter } from "next/router";
-import { DescriptionBox, Pragraph } from "pages/users/my-hospital";
-import { ToriBox, ToryIcon } from "pages/users/my-hospital/clinic-list";
+import { DescriptionBox, HighlightText, Pragraph } from "pages/users/my-hospital";
+import { ToriBox } from "pages/users/my-hospital/clinic-list";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
+import { RectangleDefaultButton } from "@components/layout/buttons/DefaultButtons";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
+import { GetServerSidePropsContext, NextPage } from "next";
 
 export interface HospitalName {
   id: number;
@@ -35,7 +36,7 @@ interface HospitalPatients {
   };
 }
 
-const HospitalHomePage = () => {
+const HospitalHomePage: NextPage = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const { getApi } = customApi("/api/hospital");
@@ -44,7 +45,7 @@ const HospitalHomePage = () => {
   const [currentHospital, setCurrentHospital] = useState("");
   const [currentData, setCurrentData] = useState<HospitalPatients[]>();
   const setPatientInfo = useSetRecoilState(currentPatientInfo);
-  const { isLoading, data, error } = useQuery(["currentHospitalKey"], getApi);
+  const { data } = useQuery(["currentHospitalKey"], getApi);
   const { mutate } = useMutation(["removePatientKey"], deleteApi);
   const [showdeleteModal, setShowDeleteModal] = useState(false);
   const [currentPatient, setCurrentPatient] = useState(-1);
@@ -92,13 +93,13 @@ const HospitalHomePage = () => {
     <HospitalWrapper>
       <HospitalContainer>
         <PageHead>
-          <ToriBox>
-            <ToryIcon />
-          </ToriBox>
+          <ToriBox></ToriBox>
           <DescriptionBox>
-            <Pragraph>{format(new Date(), "yyyy년 MM월 dd일", { locale: ko })}</Pragraph>
             <Pragraph>
-              <strong>{currentHospital}</strong> 환자 목록이에요
+              <strong>{format(new Date(), "yyyy년 MM월 dd일", { locale: ko })}</strong>
+            </Pragraph>
+            <Pragraph>
+              오늘 <HighlightText>{currentHospital}</HighlightText>에 내원예정인 환자 목록이에요
             </Pragraph>
           </DescriptionBox>
         </PageHead>
@@ -153,16 +154,14 @@ const HospitalHomePage = () => {
                           {shared ? "기록 공유 중" : "기록 공유 중지"}
                         </RecordShareStatus>
                       </RecordShareBox>
-                      <RectangleButton
-                        fontSize="16px"
-                        width="76px"
+                      <RectangleDefaultButton
                         onClick={() => {
                           setShowDeleteModal(true);
                           setCurrentPatient(user.id);
                         }}
                       >
                         삭제
-                      </RectangleButton>
+                      </RectangleDefaultButton>
                     </SharedBox>
                     <Modal
                       show={showdeleteModal && currentPatient === user.id}
@@ -183,12 +182,16 @@ const HospitalHomePage = () => {
 };
 
 export default HospitalHomePage;
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});
 
 const HospitalWrapper = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
-  background: #fff;
 `;
 
 const PageHead = styled(Container)`
@@ -216,6 +219,7 @@ const ListCol = styled.div`
   display: flex;
   align-items: center;
   font-size: 15px;
+  color: #888dbb;
   justify-content: space-between;
   > div:first-child {
     flex-shrink: 0;
@@ -238,7 +242,7 @@ const ListLi = styled.li`
   align-items: center;
   font-size: 16px;
   justify-content: space-between;
-  background: ${({ theme }) => theme.color.lightBg};
+  background: #e1e4ff;
   border-radius: 10px;
   > div:first-child {
     flex-shrink: 0;

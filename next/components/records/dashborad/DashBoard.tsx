@@ -8,10 +8,13 @@ import { useQuery } from "@tanstack/react-query";
 import { AI_RESULT_READ } from "constant/queryKeys";
 import { KoreanPosition } from "types/write";
 import { Position } from "@prisma/client";
-import ChartAnim from "@src/lotties/ChartAnim";
-import { RoundButton } from "@components/buttons/Button";
-import MicIcon from "@public/static/icon/mic.svg";
+import ChartAnim from "@components/lotties/ChartAnim";
+import MicIcon from "@src/assets/icons/mic.svg";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { RoundedDefaultButton } from "@components/layout/buttons/DefaultButtons";
+import ToryWhiteAnim from "@components/lotties/ToryWhiteAnim";
+import { media } from "@styles/theme";
 
 interface AMonthResponse {
   mostInAMonth: Position[];
@@ -19,56 +22,74 @@ interface AMonthResponse {
 }
 
 function DashBoard() {
-  const {user} = useUser();
+  const { user } = useUser();
   const { getApi } = customApi(`/api/users/records/dashboard/aMonth`);
-  const { isLoading, data } = useQuery<AMonthResponse | undefined>([AI_RESULT_READ], getApi);
+  const { data, isFetching } = useQuery<AMonthResponse | undefined>([AI_RESULT_READ], getApi);
+
+  const [toryMotionIdx, setToryMotionIdx] = useState<number>(2);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setToryMotionIdx(0);
+    }, 2200);
+  }, []);
 
   return user ? (
     <DashBoardWarp>
       <DashBoardContainer>
-        <ToryTextBox>
-          <Tory26 />
-          <ToryText26White>
-            {data ? (
-              data.mostInAMonth.length > 3 ? (
+        {isFetching || (
+          <>
+            <ToryTextBox>
+              <ToryMotion>
+                <ToryWhiteAnim segmentIndex={toryMotionIdx} />
+              </ToryMotion>
+              <ToryText26White>
                 <>
-                  <strong>{user?.name}님</strong>, 최근 한달동안 증상 기록이 많아졌네요.. <br />
-                  토리랑 함께 건강관리에 힘써봐요!
+                  {data &&
+                    data.mostInAMonth.length !== 0 &&
+                    (data.mostInAMonth.length > 3 ? (
+                      <>
+                        <strong>{user?.name}님</strong>, 최근 한달동안 증상 기록이 많아졌네요.. <br />
+                        토리랑 함께 건강관리에 힘써봐요!
+                      </>
+                    ) : (
+                      <>
+                        <strong>{user?.name}님</strong>, 최근 한달간{" "}
+                        <strong>{data.mostInAMonth.map(ele => KoreanPosition[ele]).join(", ")}</strong>에서 증상이 많이
+                        발생하셨네요
+                      </>
+                    ))}
+                  {data && data.mostInAMonth.length === 0 && (
+                    <>
+                      아직 분석할 기록이 없어요.. <br />
+                      <strong>{user?.name}님</strong>의 몸 상태를 알려주시면 토리가 분석해드릴게요!
+                    </>
+                  )}
                 </>
-              ) : (
-                <>
-                  <strong>{user?.name}님</strong>, 최근 한달간{" "}
-                  <strong>{data.mostInAMonth.map(ele => KoreanPosition[ele]).join(", ")}</strong>에서 증상이 많이
-                  발생하셨네요
-                </>
-              )
-            ) : (
+              </ToryText26White>
+            </ToryTextBox>
+            {data && data.mostInAMonth.length !== 0 && (
               <>
-                아직 분석할 기록이 없어요.. <br />
-                <strong>{user?.name}님</strong>의 몸 상태를 알려주시면 토리가 분석해드릴게요!
+                <ToryRecommend mostThreeDepartment={data?.mostThreeDepartment} inChart={false} />
+                <DashBoardStatistics />
               </>
             )}
-          </ToryText26White>
-        </ToryTextBox>
-        {data ? (
-          <>
-            <ToryRecommend mostThreeDepartment={data?.mostThreeDepartment} inChart={false} />
-            <DashBoardStatistics />
-          </>
-        ) : (
-          <>
-            <NoChartContainer>
-              <ChartAnim />
-            </NoChartContainer>
-            <NoChartButtonContainer>
-              <p>오늘부터 매일매일 내 몸을 위한 건강한 기록을 시작해볼까요?</p>
-              <Link href={"/users/records/write"}>
-                <RoundButton>
-                  <SmallMicIcon />
-                  오늘 기록하기
-                </RoundButton>
-              </Link>
-            </NoChartButtonContainer>
+            {data && data.mostInAMonth.length === 0 && (
+              <>
+                <NoChartContainer>
+                  <ChartAnim />
+                </NoChartContainer>
+                <NoChartButtonContainer>
+                  <p>오늘부터 매일매일 내 몸을 위한 건강한 기록을 시작해볼까요?</p>
+                  <Link href={"/users/records/write"}>
+                    <RoundedDefaultButton img>
+                      <SmallMicIcon />
+                      오늘 기록하기
+                    </RoundedDefaultButton>
+                  </Link>
+                </NoChartButtonContainer>
+              </>
+            )}
           </>
         )}
       </DashBoardContainer>
@@ -77,7 +98,7 @@ function DashBoard() {
 }
 
 const DashBoardWarp = styled.div`
-  width: 62.5%;
+  width: 100%;
   height: 100%;
   background: ${({ theme }) => theme.color.darkBg};
 `;
@@ -88,24 +109,58 @@ const DashBoardContainer = styled.div`
   height: 100%;
   margin: 0 auto;
   padding: 30px 60px;
+
+  ${media.custom(1520)} {
+    padding: 30px;
+  }
+
+  ${media.mobile} {
+    padding: 30px 20px 0;
+  }
 `;
 
 const ToryTextBox = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   margin-bottom: 20px;
+  padding: 32px 0px 32px 140px;
+  word-break: keep-all;
+
+  ${media.custom(1280)} {
+    padding: 22px 0px 22px 120px;
+  }
+
+  ${media.mobile} {
+    padding: 90px 0 0;
+    justify-content: center;
+    text-align: center;
+  }
 `;
 
-const Tory26 = styled.div`
-  // 추후 토리로 변경
-  background: #fff;
-  width: 120px;
-  height: 120px;
-  margin-right: 30px;
+const ToryMotion = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translate(-15%, -65%);
+  width: 170px;
+  height: 170px;
+
+  ${media.custom(1280)} {
+    width: 150px;
+    height: 150px;
+  }
+
+  ${media.mobile} {
+    width: 120px;
+    height: 120px;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -36%);
+  }
 `;
 
 const ToryText26White = styled(ToryText26)`
-  // 토리텍스트 추후 정리필요
   color: ${({ theme }) => theme.color.white};
 `;
 

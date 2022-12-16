@@ -1,19 +1,18 @@
-import ChoiceResiterBox from "@components/ChoiceResiterBox";
-import KakaoLoginBtn from "@components/buttons/KakaoBtn";
-import NaverLoginBtn from "@components/buttons/NaverBtn";
+import KakaoLoginBtn from "@components/layout/buttons/KakaoBtn";
+import NaverLoginBtn from "@components/layout/buttons/NaverBtn";
 import customApi from "utils/client/customApi";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { USER_LOGIN, USE_USER } from "constant/queryKeys";
 import { useRouter } from "next/router";
 import React from "react";
-import { SocialButton } from "@components/buttons/Button";
-import OriginLoginBtn from "@components/buttons/OriginBtn";
-import { Box, Col, Container, FlexContainer, InnerContainer, ToryText, WhiteText } from "@styles/Common";
+import OriginLoginBtn from "@components/layout/buttons/OriginBtn";
+import { Box, Col, FlexContainer, InnerContainer } from "@styles/Common";
 import styled from "styled-components";
-import { ToryTextBox } from "../login";
 import MessageBox from "@components/MessageBox";
-import Header from "@components/header/Header";
 import { Variants, motion } from "framer-motion";
+import { media } from "@styles/theme";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
+import { GetServerSidePropsContext, NextPage } from "next";
 
 const CHOICE_VARIANTS: Variants = {
   animate: {
@@ -37,13 +36,12 @@ const TYPE_VARIANTS: Variants = {
     },
   },
 };
-const ChoicePage = () => {
+const ChoicePage: NextPage = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const { postApi } = customApi("/api/auth/login");
   const { mutate } = useMutation([USER_LOGIN], postApi, {
-    onError(error: any) {
-    },
+    onError(error: any) {},
     onSuccess(data) {
       if (data.isNew) {
         return router.push(
@@ -66,13 +64,13 @@ const ChoicePage = () => {
         <ButtonBox>
           <ButtonInnerBox variants={CHOICE_VARIANTS} initial="initial" animate="animate">
             <motion.div variants={TYPE_VARIANTS}>
-              <OriginLoginBtn size="lg" kind="register" />
+              <OriginLoginBtn kind="register" />
             </motion.div>
             <motion.div variants={TYPE_VARIANTS}>
-              <NaverLoginBtn size="lg" mutate={mutate} kind="register" />
+              <NaverLoginBtn  mutate={mutate} kind="register" />
             </motion.div>
             <motion.div variants={TYPE_VARIANTS}>
-              <KakaoLoginBtn size="lg" mutate={mutate} kind="register" />
+              <KakaoLoginBtn  mutate={mutate} kind="register" />
             </motion.div>
           </ButtonInnerBox>
         </ButtonBox>
@@ -82,14 +80,23 @@ const ChoicePage = () => {
 };
 
 export default ChoicePage;
-
-const ChoiceWrapper = styled.div``;
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});
 
 const ButtonBox = styled(Box)`
   margin: 50px 0;
+  ${media.mobile}{
+    margin: 20px 0;
+  }
 `;
 
 const ButtonInnerBox = styled(Col)`
   display: inline-flex;
   gap: 50px;
+  ${media.mobile}{
+    gap: 30px;
+  }
 `;

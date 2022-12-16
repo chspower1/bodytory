@@ -5,7 +5,8 @@ generator client {
 
 generator erd {
   provider = "prisma-erd-generator"
-  output   = "./ERD.png"
+  output   = "./ERD.svg"
+  theme    = "forest"
 }
 
 datasource db {
@@ -30,6 +31,13 @@ model User {
   Certification               Certification[]
   records                     Record[]
   hospitals                   HospitalToUser[]
+}
+
+model TestAccountCount {
+  id       Int      @id @default(autoincrement())
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+  count    Int      @default(0)
 }
 
 model RecommendDepartment {
@@ -145,7 +153,7 @@ model HospitalToUser {
   userId     Int
   shared     Boolean  @default(true)
   hospital   Hospital @relation(fields: [hospitalId], references: [id])
-  user       User     @relation(fields: [userId], references: [id])
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([hospitalId])
   @@index([userId])

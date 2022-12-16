@@ -1,7 +1,5 @@
-import { Dispatch, SetStateAction } from "react";
-
 export type bodyPartType =
-  "head"
+  | "head"
   | "forehead"
   | "eyes"
   | "nose"
@@ -28,8 +26,6 @@ export type bodyPartType =
   | "calf"
   | "ankle"
   | "foot"
-  | null
-;
+  | null;
 
 export type currentBodyPosition = "front" | "back" | "face";
-  

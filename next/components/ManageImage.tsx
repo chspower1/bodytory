@@ -1,6 +1,5 @@
 import { RecordImage } from "@prisma/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteImageApi, uploadImageApi } from "@utils/client/imageApi";
 import uploadImage from "@utils/client/uploadImage";
 import { RECORDS_READ } from "constant/queryKeys";
 import Image from "next/image";
@@ -11,27 +10,30 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Pagination, Navigation, Mousewheel } from "swiper";
 import { useState } from "react";
-import IconAddImage from "@public/static/icon/icon_addImage.png";
+import IconAddImage from "@src/assets/icons/icon_addImage.png";
+import Delete from "@src/assets/icons/delete.png";
 import ImageDetailModal from "./modals/ImageDetailModal";
+import customApi from "@utils/client/customApi";
+import { media } from "@styles/theme";
 
 const ManageImage = ({
   recordId,
   recordImages,
   isHospital,
 }: {
-  recordId: string;
+  recordId: number;
   recordImages: RecordImage[];
   isHospital?: boolean;
 }) => {
   const queryClient = useQueryClient();
-
-  const uploadImageMutation = useMutation(uploadImageApi, {
+  const { postApi, deleteApi } = customApi("/api/users/records/picture");
+  const { mutate: uploadImageMutate } = useMutation(postApi, {
     onSuccess(data) {
       queryClient.invalidateQueries([RECORDS_READ]);
     },
   });
 
-  const deleteImageMutation = useMutation(deleteImageApi, {
+  const { mutate: deleteImageMutate } = useMutation(deleteApi, {
     onSuccess(data) {
       queryClient.invalidateQueries([RECORDS_READ]);
     },
@@ -41,9 +43,7 @@ const ManageImage = ({
   return (
     <div>
       {isHospital || (
-        <UploadImageButton onClick={() => uploadImage(recordId, uploadImageMutation.mutate)}>
-          사진 추가
-        </UploadImageButton>
+        <UploadImageButton onClick={() => uploadImage(recordId, uploadImageMutate)}>사진 추가</UploadImageButton>
       )}
       {recordImages.length !== 0 ? (
         <ImageSlideContainer>
@@ -58,11 +58,11 @@ const ManageImage = ({
             modules={[Pagination, Navigation, Mousewheel]}
             className="mySwiper"
           >
-            {recordImages.map((elem, key) => (
+            {recordImages.map((recordImage, key) => (
               <SwiperSlide key={key}>
                 <ImageBox onMouseEnter={() => setIsHover(key)} onMouseLeave={() => setIsHover(-1)}>
                   <Image
-                    src={elem.url}
+                    src={recordImage.url}
                     alt="증상 이미지"
                     width={300}
                     height={300}
@@ -70,13 +70,13 @@ const ManageImage = ({
                       setShowImageDetailModal(key);
                     }}
                   />
-                  {isHover === key && <DeleteButton onClick={() => deleteImageMutation.mutate(elem.id)}></DeleteButton>}
+                  {isHover === key && <DeleteButton onClick={() => deleteImageMutate({ imageId: recordImage.id })} />}
 
                   <ImageDetailModal
                     show={showImageDetailModal}
                     onClose={() => setShowImageDetailModal(-1)}
                     setShow={setShowImageDetailModal}
-                    url={elem.url}
+                    url={recordImage.url}
                     index={key}
                     imagesLength={recordImages.length}
                   />
@@ -175,7 +175,7 @@ const DeleteButton = styled.button`
   right: 6px;
   width: 30px;
   height: 30px;
-  background: url("/static/icon/delete.png") no-repeat 50% 50%/80%;
+  background: url(${Delete.src}) no-repeat 50% 50%/80%;
 `;
 
 const UploadImageButton = styled.button`
@@ -189,6 +189,11 @@ const UploadImageButton = styled.button`
   font-weight: 500;
   color: #fff;
   cursor: pointer;
+  ${media.mobile}{
+    padding: 0 15px 0 40px;
+    background: #8085fa url(${IconAddImage.src}) no-repeat 15px 55%/20px;
+    font-size: 14px;
+  }
 `;
 
 const NoImage = styled.div`
@@ -201,4 +206,7 @@ const NoImage = styled.div`
   align-items: center;
   font-size: 16px;
   color: #a9a9a9;
+  ${media.mobile}{
+    font-size: 14px;
+  }
 `;

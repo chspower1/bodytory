@@ -4,7 +4,11 @@
  * @param mutate  - mutate 함수
  */
 
-const uploadImage = (id: string, mutate: any) => {
+import { UseMutateFunction } from "@tanstack/react-query";
+import customApi from "./customApi";
+
+const uploadImage = async (id: number, mutate: UseMutateFunction<any, unknown, any, unknown>) => {
+  const { getApi } = customApi("/api/users/records/picture/get-url");
   const input = document.createElement("input");
   input.setAttribute("type", "file");
   input.setAttribute("accept", "image/*");
@@ -13,12 +17,16 @@ const uploadImage = (id: string, mutate: any) => {
 
   input.addEventListener("change", async () => {
     try {
-      const formData = new FormData();
-      formData.append("recordId", id);
-      Array.from(input?.files!).forEach(file => formData.append("image", file));
-      mutate(formData);
-    } catch (err) {
-    }
+      Array.from(input?.files!).forEach(async file => {
+        const formData = new FormData();
+        const { uploadURL } = await getApi();
+        formData.append("file", file);
+        const {
+          result: { id: cloudId },
+        } = await (await fetch(uploadURL, { method: "POST", body: formData })).json();
+        mutate({ recordId: id, url: `${process.env.NEXT_PUBLIC_IMG_URL}/${cloudId}/public` });
+      });
+    } catch (err) {}
   });
 };
 

@@ -4,23 +4,26 @@ import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import customApi from "utils/client/customApi";
 import { USER_WITHDRAW } from "constant/queryKeys";
-import { useRecoilState } from "recoil";
 import Modal from "@components/modals/Modal";
 import { BackButton, FlexContainer } from "@styles/Common";
 import MessageBox from "@components/MessageBox";
-import Input from "@components/Input";
-import { RectangleButton } from "@components/buttons/Button";
+import Input from "@components/layout/input/Input";
 import styled from "styled-components";
 import { PASSWORD_REGEX } from "constant/regex";
 import useUser from "@hooks/useUser";
+import { EditButton } from "pages/users";
+import { GetServerSidePropsContext, NextPage } from "next";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
+import { media } from "@styles/theme";
+import ToryPurpleAnim from "@components/lotties/ToryPurpleAnim";
 
 export interface WithdrawType {
   password: string;
 }
 
-export default function Withdraw() {
+const Withdraw: NextPage = () => {
   const router = useRouter();
-  const {user} = useUser();
+  const { user } = useUser();
   const [userType, setUserType] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [closingComment, setClosingComment] = useState(false);
@@ -31,7 +34,7 @@ export default function Withdraw() {
     onError(error: any, variables, context) {
       setShowModal(false);
 
-      setError("password", { message: `${error.data}` });
+      setError("password", { message: `비밀번호가 틀렸어요!` });
     },
     onSuccess: data => {
       setClosingComment(true);
@@ -41,10 +44,7 @@ export default function Withdraw() {
   const {
     register,
     handleSubmit,
-    watch,
-    setValue,
     setError,
-    clearErrors,
     formState: { errors },
   } = useForm<WithdrawType>({ mode: "onChange" });
 
@@ -60,28 +60,34 @@ export default function Withdraw() {
       mutate({ password: currentPassword, type: userType });
     } else {
       setShowModal(false);
+      localStorage.removeItem("recoil-persist");
       await LogoutApi({});
-      router.replace("/");
+      router.replace("/auth/login");
     }
   };
   useEffect(() => {
     if (user) {
       setUserType(user.type);
-    };
+    }
   }, [user]);
   const isErrorsMessage = errors.password?.message;
 
   return (
-    <FlexContainer>
-      <BackButton onClick={() => router.push("/users/profile/edit")}>
+    <WithdrawContainer>
+      <BackButton onClick={() => router.push("/users")}>
         <span>계정 설정</span>
       </BackButton>
       <Form onSubmit={handleSubmit(onValid)}>
+        <ToryMotion>
+          <ToryPurpleAnim segmentIndex={3} />
+        </ToryMotion>
         <MessageBox
           isErrorsMessage={isErrorsMessage}
-          currentComment={`${userType === "origin" ? `비밀번호를 입력하고 확인을` : `탈퇴하기를`} 누르시면\n회원탈퇴가 진행 됩니다`}
+          currentComment={`${
+            userType === "origin" ? `비밀번호를 입력하고 확인을` : `탈퇴하기를`
+          } 누르시면\n회원탈퇴가 진행 됩니다`}
         ></MessageBox>
-        { userType === "origin" && (
+        {userType === "origin" && (
           <Input
             $light
             type="password"
@@ -92,13 +98,13 @@ export default function Withdraw() {
                   PASSWORD_REGEX.test(value) || "비밀번호는 6자리 이상\n영문 대소문자, 숫자를 조합해서 입력해주세요",
               },
             })}
-            placeholder="●●●●●●"
+            placeholder="••••••"
             error={errors.password}
             motion={false}
           />
         )}
         <ButtonBox>
-          <RectangleButton>탈퇴하기</RectangleButton>
+          <WithdrawButton>탈퇴하기</WithdrawButton>
         </ButtonBox>
       </Form>
       <Modal
@@ -117,21 +123,57 @@ export default function Withdraw() {
           </>
         )}
       </Modal>
-    </FlexContainer>
+    </WithdrawContainer>
   );
-}
+};
+
+export default Withdraw;
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});
+
+const WithdrawButton = styled(EditButton)``;
+
+const WithdrawContainer = styled(FlexContainer)`
+  ${media.mobile} {
+    align-items: flex start;
+  }
+`;
 
 const Form = styled.form`
+  padding: 40px 0 180px;
+
   .messageBox {
     color: #232323;
-    margin-bottom: 100px;
-    font-size: 40px;
+    margin-bottom: 30px;
+    font-size: 36px;
+  }
+  ${media.mobile} {
+    .messageBox {
+      margin: 0 0 50px;
+      font-size: 25px;
+    }
   }
 `;
 
 const ButtonBox = styled.div`
   margin-top: 50px;
+  display: flex;
   button {
     margin: 0 auto;
+  }
+`;
+
+const ToryMotion = styled.div`
+  transform: translate(0, -10%);
+  width: 360px;
+  height: 360px;
+  margin: 0 auto;
+
+  ${media.mobile} {
+    width: 260px;
+    height: 260px;
   }
 `;
