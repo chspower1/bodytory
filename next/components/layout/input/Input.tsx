@@ -113,6 +113,7 @@ const MainInput = styled(motion.input)<{
   $white?: boolean;
 }>`
   &[type="password"] {
+    position:relative;
     letter-spacing: 3.2px;
     font-size: 30px;
     font-weight: 700;
@@ -171,12 +172,12 @@ const MainInput = styled(motion.input)<{
   ${media.mobile} {
     font-size: 14px;
     &[type="password"] {
+      letter-spacing: 3.2px;
+      font-size: 24px;
       &::placeholder {
         letter-spacing: 3.2px;
         font-size: 28px;
       }
-      letter-spacing: 3.2px;
-      font-size: 24px;
     }
   }
 `;

@@ -81,7 +81,7 @@ const BodyNavigator = ({ selectedBodyPart, setSelectedBodyPart, isWritePage, isH
         </>
       ) : (
         <>
-        <MobileFrontBackButton onClick={() => setCurrentPosition(prev => prev === "back" ? "front" : "back")}>
+        <MobileFrontBackButton>
           {currentPos !== "face" || (
               <FrontBackButton
                 bgColor={currentPos === "face" ? "rgb(188, 197, 255)" : undefined}
@@ -406,15 +406,18 @@ const CustomContainer = styled.div<{ isWritePage: boolean }>`
   display: flex;
   padding: 50px 0;
   z-index: 6;
-  height:100%;
+  width:100%;
+  height:820px;
   ${({ isWritePage }) =>
     isWritePage && css`
+    aspect-ratio: none;
     background-color: #ebecfc;
     box-shadow: 8px 8px 18px rgba(174, 178, 228, 0.25);
     border-radius: 30px;
   `}
 
   ${media.custom(1280)}{
+    height:100%;
     background-color: #fff;
     border-radius: 30px 30px 0 0;
   }
@@ -434,13 +437,12 @@ const PathBox = styled.div<{ isViewMode?: boolean }>`
       width: 85%;
     `}
   ${media.custom(1280)}{
-    min-width: 300px;
+    min-width: 270px;
+    max-width: 360px;
     width: 60%;
   }
 
-  @media (max-width: 1280px) and (min-aspect-ratio: 1/1) {
-    width: 20%;
-  }
+
 `;
 
 const ButtonsBox = styled.div`
@@ -463,7 +465,7 @@ const HoverPath = styled.path<{ isChecked: boolean; isHover: boolean }>`
     isChecked
       ? css`
           fill: rgb(3, 231, 203);
-          pointer-events: none;
+          // pointer-events: none;
         `
       : isHover
       ? css`

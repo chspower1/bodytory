@@ -158,10 +158,10 @@ export const SearchContainer = styled.div`
   max-width: 1600px;
   max-height: 610px;
   width: 100%;
-  height: 100%;
-  ${media.mobile} {
-    height: calc(100% - 350px);
-  }
+  height: calc(100% - 350px);
+  // ${media.mobile} {
+  //   height: calc(100% - 350px);
+  // }
 `;
 
 const NoneMessage = styled.div`

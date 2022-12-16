@@ -106,6 +106,7 @@ const ArroundMap = ({ width, height, latitude, longitude, departmentList, isAll 
   };
 
   useEffect(() => {
+    console.log(allHospitals);
     if (!allHospitals) setAllHospitals(initialHospitals);
     if (department === "all") setFilteredHospitals(allHospitals);
     else setFilteredHospitals(filterHospitals(allHospitals));

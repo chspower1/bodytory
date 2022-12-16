@@ -73,7 +73,7 @@ const HospitalModal = ({ show, onClose, name, gender, birth, position, patientId
       {show && (
         <ModalWrapper>
           <Dim onClick={onClose} />
-          <ModalContainer width={isComplete ? "auto" : "800px"} height="auto">
+          <ModalBox width={isComplete ? "auto" : "800px"} height="auto">
             {!isComplete ? (
               <InnerBox>
                 <Form onSubmit={handleSubmit(onValid)}>
@@ -143,7 +143,7 @@ const HospitalModal = ({ show, onClose, name, gender, birth, position, patientId
                 </div>
               </CompelteBox>
             )}
-          </ModalContainer>
+          </ModalBox>
         </ModalWrapper>
       )}
     </AnimatePresence>
@@ -153,6 +153,11 @@ const HospitalModal = ({ show, onClose, name, gender, birth, position, patientId
 };
 
 export default HospitalModal;
+
+
+const ModalBox = styled(ModalContainer)`
+  width: auto;
+`
 
 const InnerBox = styled.div`
   width: 100%;

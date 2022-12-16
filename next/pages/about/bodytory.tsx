@@ -13,6 +13,8 @@ import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { useEffect } from "react";
 import { animateFrom, hide } from "@utils/client/animateFrom";
 import { useRouter } from "next/router";
+import withGetServerSideProps from "@utils/client/withGetServerSideProps";
+import { GetServerSidePropsContext } from "next";
 
 const Tory = () => {
   const router = useRouter();
@@ -290,3 +292,9 @@ const StartButton = styled(RectangleDefaultButton)`
 `;
 
 export default Tory;
+
+export const getServerSideProps = withGetServerSideProps(async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+});

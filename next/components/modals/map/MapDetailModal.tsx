@@ -1,7 +1,7 @@
 import { BodyText, Box, Col, Row, WhiteBoldText } from "@styles/Common";
 import { CustomOverlayMap } from "react-kakao-maps-sdk";
 import styled from "styled-components";
-import { theme } from "@styles/theme";
+import { media, theme } from "@styles/theme";
 
 import kakaomap from "@src/assets/icons/map/kakao_map.png";
 import pin from "@src/assets/icons/map/pin.png";
@@ -58,9 +58,10 @@ const MapDetailModal = ({ clickIndex, setClickIndex, index, hospital }: MapDetai
                   href={`https://map.kakao.com/link/to/${hospital.name},${hospital.y},${hospital.x}`}
                   target="_blank"
                 >
-                  <Box>
+                  <KakaoMapIconBox>
+                    <BodyText>카카오맵으로 이동</BodyText>
                     <Image src={kakaomap} alt="kakao" width={20} height={20} />
-                  </Box>
+                  </KakaoMapIconBox>
                 </Link>
               </AdressBox>
 
@@ -128,15 +129,31 @@ const MapDetailModal = ({ clickIndex, setClickIndex, index, hospital }: MapDetai
 };
 export default MapDetailModal;
 
+const KakaoMapIconBox= styled(Box)`
+  ${BodyText}{
+    display:none;
+    ${media.custom(620)} {
+      display:block;
+      margin: 0 10px 0 0;
+    }
+  }
+`
+
 const CircleButton = styled(CircleDefaultButton)`
   width: 30px;
   height: 30px;
+  ${media.mobile} {
+    width: 28px;
+    height: 28px;
+  }
 `;
 const RoundButton = styled(RoundedDefaultButton)`
   width: 88px;
-  height: 40px;
-  font-size: 16px;
+  fontsize: 16px;
   box-shadow: none;
+  ${media.mobile} {
+    width: 70px;
+  }
 `;
 
 const InfoWindowBox = styled(Col)`
@@ -150,6 +167,15 @@ const InfoWindowBox = styled(Col)`
   position: relative;
   box-shadow: ${props => props.theme.boxShadow.normal};
   padding: 80px 0 20px;
+  ${media.custom(620)} {
+    padding: 70px 0 20px;
+    width: 420px;
+  }
+  ${media.mobile} {
+    width: 320px;
+    height: 270px;
+  }
+
 `;
 const TopArea = styled(Row)`
   position: absolute;
@@ -161,27 +187,64 @@ const TopArea = styled(Row)`
   height: 70px;
   justify-content: flex-start;
   padding-left: 30px;
+
+  ${media.custom(620)} {
+  height: 60px;
+    > img {
+      width: 22px;
+      height: 22px;
+    }
+  }
+  ${media.mobile} {
+    > img {
+      width: 22px;
+      height: 22px;
+    }
+  }
 `;
 const Name = styled(WhiteBoldText)`
   margin-left: 20px;
+  ${media.custom(620)} {
+    width:80%;
+    overflow:hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin-left: 10px;
+    font-size: 16px;
+  }
+  ${media.mobile} {
+    margin-left: 5px;
+    font-size: 14px;
+  }
 `;
 const ContentBox = styled(Col)`
   width: 100%;
   height: 120px;
   margin-top: 10px;
   justify-content: space-between;
-`;
-const AdressBox = styled(Box)`
-  margin-left: 70px;
-  gap: 10px;
-  justify-content: flex-start;
-  width: 100%;
+
 `;
 const AddressText = styled(BodyText)`
   max-width: 80%;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
+const AdressBox = styled(Box)`
+  padding-left: 36px;
+  gap: 10px;
+  justify-content: flex-start;
+  width: 100%;
+  ${KakaoMapIconBox}{
+
+  }
+  ${media.custom(620)} {
+    
+    ${AddressText}{
+      display:none;
+    }
+  }
+`;
+
 const HomepageBox = styled(AdressBox)`
   transition: color 0.3s ease;
   &:hover {

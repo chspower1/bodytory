@@ -109,12 +109,15 @@ Object.entries(KoreanPosition).forEach(([key, value]) => {
     title: `${value!} 기록완료`,
     description: `${value}에 대한 기록을 완료했어요! 더 기록할게 있으시면 "네, 다른 부위도 기록할래요"를 눌러서 추가적으로 기록해보세요!`,
   };
+  mapPathToSeo[`/hospital/chart?position=${key}`] = {
+    title: `${value!} 증상보기`,
+    description: `${value}에 증상을 확인해보세요!`,
+  };
 });
 
 const withGetServerSideProps = (getServerSideProps: GetServerSideProps) => {
   return async (context: GetServerSidePropsContext) => {
     const pagePath = context.resolvedUrl;
-    console.log(pagePath);
     return await getServerSideProps(context).then((res: { [key: string]: any }) => {
       return {
         ...res,

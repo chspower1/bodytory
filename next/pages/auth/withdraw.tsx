@@ -63,6 +63,7 @@ const Withdraw: NextPage = () => {
       mutate({ password: currentPassword, type: userType });
     } else {
       setShowModal(false);
+      localStorage.removeItem("recoil-persist")
       await LogoutApi({});
       router.replace("/auth/login");
     }
