@@ -118,7 +118,6 @@ Object.entries(KoreanPosition).forEach(([key, value]) => {
 const withGetServerSideProps = (getServerSideProps: GetServerSideProps) => {
   return async (context: GetServerSidePropsContext) => {
     const pagePath = context.resolvedUrl;
-    console.log({pagePath});
     return await getServerSideProps(context).then((res: { [key: string]: any }) => {
       return {
         ...res,
