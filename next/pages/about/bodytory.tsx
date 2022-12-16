@@ -341,7 +341,7 @@ const MedicalRecordIntro = styled.div`
 
 const StartTory = styled.div`
   width: 100%;
-  padding: 400px 0 100px;
+  padding: 300px 0 100px;
   display: flex;
   flex-direction: column;
   justify-content: center;
