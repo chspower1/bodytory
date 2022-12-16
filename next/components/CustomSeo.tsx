@@ -18,7 +18,7 @@ const CustomSeo: FC<CustomSeoProps> = ({ seoData }) => {
   } catch {
     return (
       <Head>
-        <title>바디토리 | 404</title>
+        <title>바디토리</title>
         <meta name="description" content={"존재하지 않는 페이지입니다."} />
       </Head>
     );
