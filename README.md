@@ -25,20 +25,20 @@
     <img src="https://img.shields.io/badge/BackEnd-EA5E5E?style=flat-square&logoColor=white"/>
     <img src="https://img.shields.io/badge/Motion-4698A4?style=flat-square&logoColor=white"/>
     </td>
-    <td align="center"><a href="https://github.com/hihisohi"><img src="./next/public/static/readme/team/sohi.gif" width="100px;" alt="소희"/><br /><sub><b>정소희</b></sub></a><br />
+    <td align="center"><a href="https://github.com/hihisohi"><img src="./next/public/static/readme/team/sohi.gif" width="100px" alt="소희"/><br /><sub><b>정소희</b></sub></a><br />
     <img src="https://img.shields.io/badge/FrontEnd-386ED7?style=flat-square&logoColor=white"/>
     <img src="https://img.shields.io/badge/AI-63BA71?style=flat-square&logoColor=white"/>
     <img src="https://img.shields.io/badge/PM-BE78BF?style=flat-square&logoColor=white"/>
     </td>
-    <td align="center"><a href="https://github.com/KimKW1007"><img src="./next/public/static/readme/team/won.gif" width="100px;" alt="경원"/><br /><sub><b>김경원</b></sub></a><br />
+    <td align="center"><a href="https://github.com/KimKW1007"><img src="./next/public/static/readme/team/won.gif" width="100px" alt="경원"/><br /><sub><b>김경원</b></sub></a><br />
     <img src="https://img.shields.io/badge/FrontEnd-386ED7?style=flat-square&logoColor=white"/>
     <img src="https://img.shields.io/badge/BackEnd-EA5E5E?style=flat-square&logoColor=white"/>
     </td>
-    <td align="center"><a href="https://github.com/Ryong-E"><img src="./next/public/static/readme/team/ryong.gif" width="100px;" alt="호성"/><br /><sub><b>한동룡</b></sub></a><br />
+    <td align="center"><a href="https://github.com/Ryong-E"><img src="./next/public/static/readme/team/ryong.gif" width="100px" alt="동룡"/><br /><sub><b>한동룡</b></sub></a><br />
     <img src="https://img.shields.io/badge/FrontEnd-386ED7?style=flat-square&logoColor=white"/>
     <img src="https://img.shields.io/badge/BackEnd-EA5E5E?style=flat-square&logoColor=white"/>
     </td>
-    <td align="center"><a href="https://github.com/Peelsob4d"><img src="./next/public/static/readme/team/hyun.gif" width="100px;" alt="호성"/><br /><sub><b>오다현</b></sub></a><br />
+    <td align="center"><a href="https://github.com/Peelsob4d"><img src="./next/public/static/readme/team/hyun.gif" width="100px" alt="다현"/><br /><sub><b>오다현</b></sub></a><br />
     <img src="https://img.shields.io/badge/FrontEnd-386ED7?style=flat-square&logoColor=white"/>
     <img src="https://img.shields.io/badge/AI-63BA71?style=flat-square&logoColor=white"/>
     <img src="https://img.shields.io/badge/DevOps-B0A85A?style=flat-square&logoColor=white"/>
