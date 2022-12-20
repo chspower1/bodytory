@@ -148,9 +148,10 @@
 ## <img src="./next/public/static/readme/skills.svg" width="23px"/> 기술 스택
 
 ### **Common**
-
-  <img src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=Next.js&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Typescript-3178C6?style=flat-square&logo=Typescript&logoColor=white"/>
+  <div>
+    <img src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=Next.js&logoColor=white"/>
+    <img src="https://img.shields.io/badge/Typescript-3178C6?style=flat-square&logo=Typescript&logoColor=white"/>
+  </div>
   <details>
   <summary>
   공통 기술 스택 자세히 보기
@@ -192,14 +193,14 @@
 <br/>
 
 ### **Front-End**
-
+<div>
   <img src="https://img.shields.io/badge/Recoil-black?style=flat-square&logo=Recoil&logoColor=white"/>
   <img src="https://img.shields.io/badge/React Query-FF4154?style=flat-square&logo=ReactQuery&logoColor=white"/>
   <img src="https://img.shields.io/badge/React Hook Form-EC5990?style=flat-square&logo=ReactHookForm&logoColor=white"/>
  <img src="https://img.shields.io/badge/Axios-5A29E4?style=flat-square&logo=Axios&logoColor=white"/>
   <img src="https://img.shields.io/badge/Styled Components-DB7093?style=flat-square&logo=styled-components&logoColor=white"/>
    <img src="https://img.shields.io/badge/Framer-0055FF?style=flat-square&logo=Framer&logoColor=white"/>
-
+</div>
    <details>
      <summary>
      Front-End 기술 스택 자세히 보기
@@ -274,11 +275,12 @@ isLoading,isFetching,isError,onSuccess,onSettled 등의 옵션으로 간편하�
 <br/>
 
 ### **Back-End**
-
+<div>
    <img src="https://img.shields.io/badge/Flask-555555?style=flat-square&logo=Flask&logoColor=white"/>
     <img src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=Python&logoColor=white"/>
    <img src="https://img.shields.io/badge/Iron Session-DB7093?style=flat-square&logoColor=white"/>
    <img src="https://img.shields.io/badge/NodeMailer-black?style=flat-square&logo=Recoil&logoColor=white"/>
+   </div>
    <details>
    <summary>
    Back-End 기술 스택 자세히 보기
@@ -336,9 +338,10 @@ Serverless환경에서의 회원인증
   <br/>
 
 ### **Styled**
-
+<div>
   <img src="https://img.shields.io/badge/Styled Components-DB7093?style=flat-square&logo=styled-components&logoColor=white"/>
   <img src="https://img.shields.io/badge/Framer-0055FF?style=flat-square&logo=Framer&logoColor=white"/>
+</div>
 <details>
    <summary>
    Style 기술 스택 자세히 보기
@@ -400,10 +403,11 @@ Serverless환경에서의 회원인증
   <!-- 백엔드 -->
 
 ### **DataBase**
-
+<div>
    <img src="https://img.shields.io/badge/Planet Scale-000000?style=flat-square&logo=PlanetScale&logoColor=white"/>
     <img src="https://img.shields.io/badge/Cloudflare-F38020?style=flat-square&logo=Cloudflare&logoColor=white"/>
     <img src="https://img.shields.io/badge/Prisma-2D3748?style=flat-square&logo=Prisma&logoColor=white"/>
+    </div>
     <details>
     <summary>
     DB 기술 스택 자세히 보기
@@ -494,11 +498,12 @@ Typescript와의 호환
      <br/>
 
 ### **CI/CD**
-
+<div>
   <img src="https://img.shields.io/badge/Git-F05032?style=flat-square&logo=Git&logoColor=white"/>
   <img src="https://img.shields.io/badge/GitLab-FC6D26?style=flat-square&logo=GitLab&logoColor=white"/>
   <img src="https://img.shields.io/badge/GitLab Runner-FC6D26?style=flat-square&logo=GitLab&logoColor=white"/>
   <img src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=Docker&logoColor=white"/>
+</div>
 <details>
 <summary>
 CI/CD 기술 스택 자세히 보기
