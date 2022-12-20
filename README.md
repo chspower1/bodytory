@@ -38,7 +38,7 @@
     <img src="https://img.shields.io/badge/FrontEnd-386ED7?style=flat-square&logoColor=white"/>
     <img src="https://img.shields.io/badge/BackEnd-EA5E5E?style=flat-square&logoColor=white"/>
     </td>
-    <td align="center"><a href="https://github.com/Peelsob4d"><img src="./next/public/static/readme/team/hyun.gif" width="100px" alt="다현"/><br /><sub><b>오다현</b></sub></a><br />
+    <td align="center"><a href="https://github.com/Peelsob4d"><img src="https://imagedelivery.net/AbuMCvvnFZBtmCKKJV_e6Q/ecf80d8d-1c7a-4ffb-28b5-c8ae08605700/avatar" width="100px" alt="다현"/><br /><sub><b>오다현</b></sub></a><br />
     <img src="https://img.shields.io/badge/FrontEnd-386ED7?style=flat-square&logoColor=white"/>
     <img src="https://img.shields.io/badge/AI-63BA71?style=flat-square&logoColor=white"/>
     <img src="https://img.shields.io/badge/DevOps-B0A85A?style=flat-square&logoColor=white"/>
