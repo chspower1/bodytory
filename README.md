@@ -20,21 +20,21 @@
 
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/chspower1"><img src="./next/public/static/readme/team/hosung.gif" width="100px" alt="호성"/><br /><sub><b>조호성</b></sub></a><br />
+    <td align="center"><a href="https://github.com/chspower1"><img src="https://imagedelivery.net/AbuMCvvnFZBtmCKKJV_e6Q/92b3dcff-4e2b-4065-3f4b-5aaebe9f3e00/avatar" width="100px" alt="호성"/><br /><sub><b>조호성</b></sub></a><br />
     <img src="https://img.shields.io/badge/FrontEnd-386ED7?style=flat-square&logoColor=white"/>
     <img src="https://img.shields.io/badge/BackEnd-EA5E5E?style=flat-square&logoColor=white"/>
     <img src="https://img.shields.io/badge/Motion-4698A4?style=flat-square&logoColor=white"/>
     </td>
-    <td align="center"><a href="https://github.com/hihisohi"><img src="./next/public/static/readme/team/sohi.gif" width="100px" alt="소희"/><br /><sub><b>정소희</b></sub></a><br />
+    <td align="center"><a href="https://github.com/hihisohi"><img src="https://imagedelivery.net/AbuMCvvnFZBtmCKKJV_e6Q/e52b4fc3-edf8-4425-ba37-adaa47684300/avatar" width="100px" alt="소희"/><br /><sub><b>정소희</b></sub></a><br />
     <img src="https://img.shields.io/badge/FrontEnd-386ED7?style=flat-square&logoColor=white"/>
     <img src="https://img.shields.io/badge/AI-63BA71?style=flat-square&logoColor=white"/>
     <img src="https://img.shields.io/badge/PM-BE78BF?style=flat-square&logoColor=white"/>
     </td>
-    <td align="center"><a href="https://github.com/KimKW1007"><img src="./next/public/static/readme/team/won.gif" width="100px" alt="경원"/><br /><sub><b>김경원</b></sub></a><br />
+    <td align="center"><a href="https://github.com/KimKW1007"><img src="https://imagedelivery.net/AbuMCvvnFZBtmCKKJV_e6Q/f1544a6d-b31a-4cff-72c6-193ab9b79f00/avatar" width="100px" alt="경원"/><br /><sub><b>김경원</b></sub></a><br />
     <img src="https://img.shields.io/badge/FrontEnd-386ED7?style=flat-square&logoColor=white"/>
     <img src="https://img.shields.io/badge/BackEnd-EA5E5E?style=flat-square&logoColor=white"/>
     </td>
-    <td align="center"><a href="https://github.com/Ryong-E"><img src="./next/public/static/readme/team/ryong.gif" width="100px" alt="동룡"/><br /><sub><b>한동룡</b></sub></a><br />
+    <td align="center"><a href="https://github.com/Ryong-E"><img src="https://imagedelivery.net/AbuMCvvnFZBtmCKKJV_e6Q/1654f47d-c0a3-4e0f-858d-f6d71c106d00/avatar" width="100px" alt="동룡"/><br /><sub><b>한동룡</b></sub></a><br />
     <img src="https://img.shields.io/badge/FrontEnd-386ED7?style=flat-square&logoColor=white"/>
     <img src="https://img.shields.io/badge/BackEnd-EA5E5E?style=flat-square&logoColor=white"/>
     </td>
