@@ -20,7 +20,7 @@
 
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/chspower1"><img src="./next/public/static/readme/team/hosung.gif" width="100px;" alt="호성"/><br /><sub><b>조호성</b></sub></a><br />
+    <td align="center"><a href="https://github.com/chspower1"><img src="./next/public/static/readme/team/hosung.gif" width="100px" alt="호성"/><br /><sub><b>조호성</b></sub></a><br />
     <img src="https://img.shields.io/badge/FrontEnd-386ED7?style=flat-square&logoColor=white"/>
     <img src="https://img.shields.io/badge/BackEnd-EA5E5E?style=flat-square&logoColor=white"/>
     <img src="https://img.shields.io/badge/Motion-4698A4?style=flat-square&logoColor=white"/>
